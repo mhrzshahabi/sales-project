@@ -1,0 +1,8 @@
+<DataSource ID="DynamicProperty" Constructor="DynamicProperty" addGlobalId="false" autoIdField="name">
+	<fields>
+		<field name="name" type="string" xmlAttribute="true"/>
+		<field name="dataPath" type="string" xmlAttribute="true"/>
+		<field name="formula" type="UserFormula"/>
+		<field name="textFormula" type="UserSummary"/>
+	</fields>
+</DataSource>

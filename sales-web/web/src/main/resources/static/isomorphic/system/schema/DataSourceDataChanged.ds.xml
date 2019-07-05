@@ -1,0 +1,23 @@
+<DataSource
+		ID="DataSourceDataChanged"
+		serverType="stream"
+>
+	<serverConfig>
+		<transport>jms</transport>
+		<jms>
+			<jndiResourceName>jms/ConnectionFactory</jndiResourceName>
+			<channel>ISC_DataSourceDataChanged</channel>
+		</jms>
+		<messageFormat>json</messageFormat>
+	</serverConfig>
+
+	<fields>
+		<field name="dataSourceName"></field>
+		<field name="operationType"></field>
+		<field name="operationId"></field>
+		<field name="userId"></field>
+		<field name="timestamp"></field>
+		<!-- data is the record as modified -->
+		<field name="data" type="text" length="1000000"></field>
+	</fields>
+</DataSource>

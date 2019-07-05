@@ -1,0 +1,51 @@
+<DataSource ID="ButtonItem" inheritsFrom="CanvasItem" Constructor="ButtonItem">
+	<fields>
+		<field name="baseStyle" type="cssClass"/>
+		<field name="icon" type="string"/>
+		<field name="autoFit" type="boolean"/>
+
+		<field name="buttonConstructor" type="className"/>
+		<field name="buttonProperties" type="Object"/>
+
+		<field name="defaultValue" inapplicable="true"/>
+		<field name="defaultDynamicValue" inapplicable="true"/>
+
+		<field name="readOnlyWhen" inapplicable="true"/>
+		<field name="enableWhen" type="AdvancedCriteria" isRuleCriteria="true" basic="true"/>
+
+		<field name="redrawOnChange" inapplicable="true"/>
+
+		<field name="required" inapplicable="true"/>
+		<field name="validators" inapplicable="true"/>
+		<field name="validateOnChange" inapplicable="true"/>
+
+		<field name="type" inapplicable="true"/>
+
+		<field name="showTitle" inapplicable="true"/>
+		<field name="titleAlign" inapplicable="true"/>
+		<field name="wrapTitle" inapplicable="true"/>
+		<field name="titleStyle" inapplicable="true"/>
+		<field name="titleOrientation" inapplicable="true"/>
+
+		<!-- buttonItem title is hidden by default -->
+		<field name="titleColSpan" basic="false"/>
+
+		<field name="textBoxStyle" inapplicable="true"/>
+		<field name="hintStyle" inapplicable="true"/>
+
+		<!-- both properties must be disabled to hide group -->
+		<field name="formula" inapplicable="true"/>
+		<field name="textFormula" inapplicable="true"/>
+
+		<field name="valueField" inapplicable="true"/>
+		<field name="displayField" inapplicable="true"/>
+
+		<field name="canvas" inapplicable="true"/>
+		<field name="canvasConstructor" inapplicable="true"/>
+		<field name="canvasProperties" inapplicable="true"/>
+
+	</fields>
+	<methods>
+		<method action="event" title="Click" name="click" basic="true"/>
+	</methods>
+</DataSource>

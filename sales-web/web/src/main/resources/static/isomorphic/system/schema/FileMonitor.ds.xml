@@ -1,0 +1,14 @@
+<DataSource
+		ID="FileMonitor"
+>
+	<fields>
+		<field name="eventType"></field>
+		<field name="fileType"></field>
+		<field name="name"></field>
+		<field name="path"></field>
+		<field name="canonicalPath"></field>
+		<field name="length" type="number"></field>
+		<field name="lastModified" type="datetime"></field>
+		<field name="file" type="text" length="100000000"></field>
+	</fields>
+</DataSource>
