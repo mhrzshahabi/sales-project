@@ -1,0 +1,120 @@
+spring:
+  application:
+    name: sales-core
+  profiles:
+    active: dev
+  datasource:
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle10gDialect
+    open-in-view: false
+  main:
+    allow-bean-definition-overriding: true
+  activiti:
+    rest-api-enabled: true
+  jta:
+    atomikos:
+      properties:
+        recovery:
+          forget-orphaned-log-entries-delay:
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: |
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0tmDepdnrsabEaW8sKVQ
+          ZmqxgcKEKIitrxcgkCvLA2RW1WqyNRMiT8rtaikXP/LO0q6vyDR/TxEnsV+toHe9
+          aVU4KskwisXeswusMAccLgz22eq+hQHzgO81xthHNeEAJBdPJ+otkfnFNpkD4f0I
+          XvxDDG32U6CAuGroHdF+1V1+7L/qnY9BnA046NoN6Tif0klUug0jrYPKtoBV1ZyW
+          HB3GomMawlbntqb4LkiP4+4uDKnUFsexn28rauMXSc08UKI/9bmBH8IP4SGALNlm
+          cQEDn1VxLHEjI8YfuQ5mv4wbL/qe3xE3zEECI4vEBeQpeHDTNxCurcHQa1C5q/Cd
+          KwIDAQAB
+          -----END PUBLIC KEY-----
+
+server:
+  servlet:
+    context-path: /
+  port: 9099
+
+nicico:
+  jpa:
+    entity:
+      package: com.nicico.sales.model
+  google:
+    mail:
+      username:
+      password:
+  mail:
+    domain:
+    url:
+    username:
+    password:
+  upload:
+    dir:
+  workflow:
+    update:
+      mode: true
+  bpmn:
+    upload:
+      dir: c:/upload/bpmn/
+
+system:
+  upload:
+    dir: c:/upload
+---
+
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:oracle:thin:@//172.16.180.22:1521/orcl.icico.net.ir
+    username: sales
+    password: sales
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+nicico:
+  security:
+    oauth2:
+      client-id: SalesClientId
+      client-secret: password
+      resource-id: SalesResourceId
+      access-token-uri: http://172.16.180.22/oauth/token
+
+logging:
+  level:
+    com.nicico: debug
+
+---
+
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:oracle:thin:@//172.16.180.22:1521/orcl.icico.net.ir
+    username: sales
+    password: sales
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+
+nicico:
+  security:
+    oauth2:
+      client-id: SalesClientId
+      client-secret: password
+      resource-id: SalesResourceId
+      access-token-uri: http://172.16.180.22/oauth/token
+
+logging:
+  level:
+    com.nicico: info
+

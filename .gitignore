@@ -1,0 +1,15 @@
+*.class
+
+!.mvn/wrapper/maven-wrapper.jar
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+target/
+.settings/
+.project
+.classpath
+*.iml
+.idea
