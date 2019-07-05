@@ -39,6 +39,9 @@
 </form>
 
 <script type="application/javascript">
+
+	<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+
 	/*---------------currentTime---------------*/
 	var secs;
 	var mins;
@@ -69,7 +72,7 @@
 		transformRequest: function (dsRequest) {
 			dsRequest.httpHeaders = {
 				"Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-				"Access-Control-Allow-Origin": "http://localhost:9099"
+				"Access-Control-Allow-Origin": "${restApiUrl}"
 			};
 			return this.Super("transformRequest", arguments);
 		},

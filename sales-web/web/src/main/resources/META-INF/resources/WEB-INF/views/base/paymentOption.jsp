@@ -1,327 +1,330 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-//<script>
-function ListGrid_PaymentOption_refresh() {
-ListGrid_PaymentOption.invalidateCache();
-}
 
-function ListGrid_PaymentOption_edit() {
-var record = ListGrid_PaymentOption.getSelectedRecord();
+<%--<script>--%>
 
-if (record == null || record.id == null) {
-isc.Dialog.create({
-message: "<spring:message code='global.grid.record.not.selected'/>",
-icon: "[SKIN]ask.png",
-title: "<spring:message code='global.message'/>",
-buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-buttonClick: function () {
-this.hide();
-}
-});
-} else {
-DynamicForm_PaymentOption.editRecord(record);
-Window_PaymentOption.show();
-}
-}
+	<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
-function ListGrid_PaymentOption_remove() {
+	function ListGrid_PaymentOption_refresh() {
+		ListGrid_PaymentOption.invalidateCache();
+	}
 
-var record = ListGrid_PaymentOption.getSelectedRecord();
-if (record == null || record.id == null) {
-isc.Dialog.create({
-message: "<spring:message code='global.grid.record.not.selected'/>",
-icon: "[SKIN]ask.png",
-title: "<spring:message code='global.message'/>",
-buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-buttonClick: function () {
-this.hide();
-}
-});
-} else {
-isc.Dialog.create({
-message: "<spring:message code='global.grid.record.remove.ask'/>",
-icon: "[SKIN]ask.png",
-title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-buttons: [isc.Button.create({
-title: "<spring:message
+	function ListGrid_PaymentOption_edit() {
+		var record = ListGrid_PaymentOption.getSelectedRecord();
+
+		if (record == null || record.id == null) {
+			isc.Dialog.create({
+				message: "<spring:message code='global.grid.record.not.selected'/>",
+				icon: "[SKIN]ask.png",
+				title: "<spring:message code='global.message'/>",
+				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+				buttonClick: function () {
+					this.hide();
+				}
+			});
+		} else {
+			DynamicForm_PaymentOption.editRecord(record);
+			Window_PaymentOption.show();
+		}
+	}
+
+	function ListGrid_PaymentOption_remove() {
+
+		var record = ListGrid_PaymentOption.getSelectedRecord();
+		if (record == null || record.id == null) {
+			isc.Dialog.create({
+				message: "<spring:message code='global.grid.record.not.selected'/>",
+				icon: "[SKIN]ask.png",
+				title: "<spring:message code='global.message'/>",
+				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+				buttonClick: function () {
+					this.hide();
+				}
+			});
+		} else {
+			isc.Dialog.create({
+				message: "<spring:message code='global.grid.record.remove.ask'/>",
+				icon: "[SKIN]ask.png",
+				title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+				buttons: [isc.Button.create({
+					title: "<spring:message
 		code='global.yes'/>"
-}), isc.Button.create({title: "<spring:message code='global.no'/>"})],
-buttonClick: function (button, index) {
-this.hide();
-if (index == 0) {
-var paymentOptionId = record.id;
-isc.RPCManager.sendRequest({
-actionURL: "http://localhost:9099/api/paymentOption/" + paymentOptionId,
-httpMethod: "DELETE",
-httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-useSimpleHttp: true,
-contentType: "application/json; charset=utf-8",
-showPrompt: true,
-serverOutputAsString: false,
-callback: function (RpcResponse_o) {
-if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-ListGrid_PaymentOption_refresh();
-isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-} else {
-isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-}
-}
-});
-}
-}
-});
-}
-};
-var Menu_ListGrid_PaymentOption = isc.Menu.create({
-width: 150,
-data: [
-{
-title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
-click: function () {
-DynamicForm_PaymentOption.clearValues();
-Window_PaymentOption.show();
-}
-},
-{
-title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-click: function () {
-}
-},
-{
-title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-click: function () {
-ListGrid_PaymentOption_edit();
-}
-},
-{
-title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-click: function () {
-ListGrid_PaymentOption_remove();
-}
-}
-]
-});
+				}), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+				buttonClick: function (button, index) {
+					this.hide();
+					if (index == 0) {
+						var paymentOptionId = record.id;
+						isc.RPCManager.sendRequest({
+							actionURL: "${restApiUrl}/api/paymentOption/" + paymentOptionId,
+							httpMethod: "DELETE",
+							httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+							useSimpleHttp: true,
+							contentType: "application/json; charset=utf-8",
+							showPrompt: true,
+							serverOutputAsString: false,
+							callback: function (RpcResponse_o) {
+								if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+									ListGrid_PaymentOption_refresh();
+									isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+								} else {
+									isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+								}
+							}
+						});
+					}
+				}
+			});
+		}
+	};
+	var Menu_ListGrid_PaymentOption = isc.Menu.create({
+		width: 150,
+		data: [
+			{
+				title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
+				click: function () {
+					DynamicForm_PaymentOption.clearValues();
+					Window_PaymentOption.show();
+				}
+			},
+			{
+				title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
+				click: function () {
+				}
+			},
+			{
+				title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
+				click: function () {
+					ListGrid_PaymentOption_edit();
+				}
+			},
+			{
+				title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
+				click: function () {
+					ListGrid_PaymentOption_remove();
+				}
+			}
+		]
+	});
 
-var DynamicForm_PaymentOption = isc.DynamicForm.create({
-width: "100%",
-height: "100%",
-setMethod: 'POST',
-align: "center",
-canSubmit: true,
-showInlineErrors: true,
-showErrorText: true,
-showErrorStyle: true,
-errorOrientation: "right",
-titleWidth: "100",
-titleAlign: "right",
-requiredMessage: "<spring:message code='validator.field.is.required'/>.",
-numCols: 1,
-fields:
-[
-{name: "id", hidden: true,},
-{type: "RowSpacerItem"},
-{name: "namePay", title: "<spring:message code='paymentOption.payName'/>", type: 'text', width: "480"},
-{type: "RowSpacerItem"}
-]
-});
+	var DynamicForm_PaymentOption = isc.DynamicForm.create({
+		width: "100%",
+		height: "100%",
+		setMethod: 'POST',
+		align: "center",
+		canSubmit: true,
+		showInlineErrors: true,
+		showErrorText: true,
+		showErrorStyle: true,
+		errorOrientation: "right",
+		titleWidth: "100",
+		titleAlign: "right",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		numCols: 1,
+		fields:
+			[
+				{name: "id", hidden: true,},
+				{type: "RowSpacerItem"},
+				{name: "namePay", title: "<spring:message code='paymentOption.payName'/>", type: 'text', width: "480"},
+				{type: "RowSpacerItem"}
+			]
+	});
 
-var ToolStripButton_PaymentOption_Refresh = isc.ToolStripButton.create({
-icon: "[SKIN]/actions/refresh.png",
-title: "<spring:message code='global.form.refresh'/>",
-click: function () {
-ListGrid_PaymentOption_refresh();
-}
-});
+	var ToolStripButton_PaymentOption_Refresh = isc.ToolStripButton.create({
+		icon: "[SKIN]/actions/refresh.png",
+		title: "<spring:message code='global.form.refresh'/>",
+		click: function () {
+			ListGrid_PaymentOption_refresh();
+		}
+	});
 
-var ToolStripButton_PaymentOption_Add = isc.ToolStripButton.create({
-icon: "[SKIN]/actions/add.png",
-title: "<spring:message code='global.form.new'/>",
-click: function () {
-DynamicForm_PaymentOption.clearValues();
-Window_PaymentOption.show();
-}
-});
+	var ToolStripButton_PaymentOption_Add = isc.ToolStripButton.create({
+		icon: "[SKIN]/actions/add.png",
+		title: "<spring:message code='global.form.new'/>",
+		click: function () {
+			DynamicForm_PaymentOption.clearValues();
+			Window_PaymentOption.show();
+		}
+	});
 
-var ToolStripButton_PaymentOption_Edit = isc.ToolStripButton.create({
-icon: "[SKIN]/actions/edit.png",
-title: "<spring:message code='global.form.edit'/>",
-click: function () {
-ListGrid_PaymentOption_edit();
-}
-});
+	var ToolStripButton_PaymentOption_Edit = isc.ToolStripButton.create({
+		icon: "[SKIN]/actions/edit.png",
+		title: "<spring:message code='global.form.edit'/>",
+		click: function () {
+			ListGrid_PaymentOption_edit();
+		}
+	});
 
-var ToolStripButton_PaymentOption_Remove = isc.ToolStripButton.create({
-icon: "[SKIN]/actions/remove.png",
-title: "<spring:message code='global.form.remove'/>",
-click: function () {
-ListGrid_PaymentOption_remove();
-}
-});
-var ToolStrip_Actions_PaymentOption = isc.ToolStrip.create({
-width: "100%",
-members:
-[
-ToolStripButton_PaymentOption_Refresh,
-ToolStripButton_PaymentOption_Add,
-ToolStripButton_PaymentOption_Edit,
-ToolStripButton_PaymentOption_Remove
-]
-});
+	var ToolStripButton_PaymentOption_Remove = isc.ToolStripButton.create({
+		icon: "[SKIN]/actions/remove.png",
+		title: "<spring:message code='global.form.remove'/>",
+		click: function () {
+			ListGrid_PaymentOption_remove();
+		}
+	});
+	var ToolStrip_Actions_PaymentOption = isc.ToolStrip.create({
+		width: "100%",
+		members:
+			[
+				ToolStripButton_PaymentOption_Refresh,
+				ToolStripButton_PaymentOption_Add,
+				ToolStripButton_PaymentOption_Edit,
+				ToolStripButton_PaymentOption_Remove
+			]
+	});
 
-var HLayout_PaymentOption_Actions = isc.HLayout.create({
-width: "100%",
-members:
-[
-ToolStrip_Actions_PaymentOption
-]
-});
-var RestDataSource_PaymentOption = isc.MyRestDataSource.create({
-fields:
-[
-{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-{name: "namePay", title: "<spring:message code='paymentOption.payName'/>", width: 200},
-],
+	var HLayout_PaymentOption_Actions = isc.HLayout.create({
+		width: "100%",
+		members:
+			[
+				ToolStrip_Actions_PaymentOption
+			]
+	});
+	var RestDataSource_PaymentOption = isc.MyRestDataSource.create({
+		fields:
+			[
+				{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+				{name: "namePay", title: "<spring:message code='paymentOption.payName'/>", width: 200},
+			],
 
-fetchDataURL: "http://localhost:9099/api/paymentOption/spec-list"
+		fetchDataURL: "${restApiUrl}/api/paymentOption/spec-list"
 
-});
-var IButton_PaymentOption_Save = isc.IButton.create({
-top: 260,
-title: "<spring:message code='global.form.save'/>",
-icon: "pieces/16/save.png",
-click: function () {
-DynamicForm_PaymentOption.validate();
-if (DynamicForm_PaymentOption.hasErrors())
-return;
-var data = DynamicForm_PaymentOption.getValues();
-var method = "PUT";
-if (data.id == null)
-method = "POST";
-isc.RPCManager.sendRequest({
-actionURL: "http://localhost:9099/api/paymentOption",
-httpMethod: method,
-httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-useSimpleHttp: true,
-contentType: "application/json; charset=utf-8",
-showPrompt: true,
-data: JSON.stringify(data),
-serverOutputAsString: false,
-callback: function (RpcResponse_o) {
-if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-isc.say("<spring:message code='global.form.request.successful'/>");
-ListGrid_PaymentOption_refresh();
-Window_PaymentOption.close();
-}
-else
-isc.say(RpcResponse_o.data);
-}
-});
-}
-});
+	});
+	var IButton_PaymentOption_Save = isc.IButton.create({
+		top: 260,
+		title: "<spring:message code='global.form.save'/>",
+		icon: "pieces/16/save.png",
+		click: function () {
+			DynamicForm_PaymentOption.validate();
+			if (DynamicForm_PaymentOption.hasErrors())
+				return;
+			var data = DynamicForm_PaymentOption.getValues();
+			var method = "PUT";
+			if (data.id == null)
+				method = "POST";
+			isc.RPCManager.sendRequest({
+				actionURL: "${restApiUrl}/api/paymentOption",
+				httpMethod: method,
+				httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+				useSimpleHttp: true,
+				contentType: "application/json; charset=utf-8",
+				showPrompt: true,
+				data: JSON.stringify(data),
+				serverOutputAsString: false,
+				callback: function (RpcResponse_o) {
+					if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+						isc.say("<spring:message code='global.form.request.successful'/>");
+						ListGrid_PaymentOption_refresh();
+						Window_PaymentOption.close();
+					} else
+						isc.say(RpcResponse_o.data);
+				}
+			});
+		}
+	});
 
-var PaymentOptionCancelBtn = isc.IButton.create({
-layoutMargin: 5,
-membersMargin: 5,
-title: "<spring:message code='global.cancel'/>",
-click: function () {
-Window_PaymentOption.close();
-}
-});
+	var PaymentOptionCancelBtn = isc.IButton.create({
+		layoutMargin: 5,
+		membersMargin: 5,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+			Window_PaymentOption.close();
+		}
+	});
 
-var HLayout_PaymentOption_Save = isc.HLayout.create({
-layoutMargin: 5,
-membersMargin: 5,
-members: [
-IButton_PaymentOption_Save
-]
-});
+	var HLayout_PaymentOption_Save = isc.HLayout.create({
+		layoutMargin: 5,
+		membersMargin: 5,
+		members: [
+			IButton_PaymentOption_Save
+		]
+	});
 
-var HLayout_PaymentOption_IButton = isc.HLayout.create({
-autoDraw: true,
-layoutMargin: 5,
-membersMargin: 5,
-members: [
-HLayout_PaymentOption_Save,
-PaymentOptionCancelBtn
-]
-});
+	var HLayout_PaymentOption_IButton = isc.HLayout.create({
+		autoDraw: true,
+		layoutMargin: 5,
+		membersMargin: 5,
+		members: [
+			HLayout_PaymentOption_Save,
+			PaymentOptionCancelBtn
+		]
+	});
 
-var Window_PaymentOption = isc.Window.create({
-title: "<spring:message code='paymentOption.title'/> ",
-width: 500,
-hight: 100,
-autoSize: true,
-autoCenter: true,
-isModal: true,
-showModalMask: true,
-align: "center",
-autoDraw: false,
-dismissOnEscape: true,
-layoutMargin: 5,
-membersMargin: 5,
-closeClick: function () {
-this.Super("closeClick", arguments)
-},
-items:
-[
-DynamicForm_PaymentOption,
-HLayout_PaymentOption_IButton
+	var Window_PaymentOption = isc.Window.create({
+		title: "<spring:message code='paymentOption.title'/> ",
+		width: 500,
+		hight: 100,
+		autoSize: true,
+		autoCenter: true,
+		isModal: true,
+		showModalMask: true,
+		align: "center",
+		autoDraw: false,
+		dismissOnEscape: true,
+		layoutMargin: 5,
+		membersMargin: 5,
+		closeClick: function () {
+			this.Super("closeClick", arguments)
+		},
+		items:
+			[
+				DynamicForm_PaymentOption,
+				HLayout_PaymentOption_IButton
 
-]
-});
-var ListGrid_PaymentOption = isc.ListGrid.create({
-width: "100%",
-height: "100%",
-dataSource: RestDataSource_PaymentOption,
-contextMenu: Menu_ListGrid_PaymentOption,
-doubleClick: function () {
-ListGrid_PaymentOption_edit();
-}, fields:
-[
-{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-{
-name: "namePay",
-title: "<spring:message code='paymentOption.payName'/>",
-width: "50%",
-align: "center"
-}
-],
-sortField: 0,
-dataPageSize: 50,
-autoFetchData: true,
-showFilterEditor: true,
-filterOnKeypress: true,
-sortFieldAscendingText: "مرتب سازی صعودی",
-sortFieldDescendingText: "مرتب سازی نزولی",
-configureSortText: "تنظیم مرتب سازی",
-autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-filterUsingText: "فیلتر کردن",
-groupByText: "گروه بندی",
-freezeFieldText: "ثابت نگه داشتن",
-startsWithTitle: "tt",
-recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-},
-dataArrived: function (startRow, endRow) {
-}
+			]
+	});
+	var ListGrid_PaymentOption = isc.ListGrid.create({
+		width: "100%",
+		height: "100%",
+		dataSource: RestDataSource_PaymentOption,
+		contextMenu: Menu_ListGrid_PaymentOption,
+		doubleClick: function () {
+			ListGrid_PaymentOption_edit();
+		}, fields:
+			[
+				{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+				{
+					name: "namePay",
+					title: "<spring:message code='paymentOption.payName'/>",
+					width: "50%",
+					align: "center"
+				}
+			],
+		sortField: 0,
+		dataPageSize: 50,
+		autoFetchData: true,
+		showFilterEditor: true,
+		filterOnKeypress: true,
+		sortFieldAscendingText: "مرتب سازی صعودی",
+		sortFieldDescendingText: "مرتب سازی نزولی",
+		configureSortText: "تنظیم مرتب سازی",
+		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
+		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
+		filterUsingText: "فیلتر کردن",
+		groupByText: "گروه بندی",
+		freezeFieldText: "ثابت نگه داشتن",
+		startsWithTitle: "tt",
+		recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+		updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+		},
+		dataArrived: function (startRow, endRow) {
+		}
 
-});
-var HLayout_PaymentOption_Grid = isc.HLayout.create({
-width: "100%",
-height: "100%",
-members: [
-ListGrid_PaymentOption
-]
-});
+	});
+	var HLayout_PaymentOption_Grid = isc.HLayout.create({
+		width: "100%",
+		height: "100%",
+		members: [
+			ListGrid_PaymentOption
+		]
+	});
 
-var VLayout_PaymentOption_Body = isc.VLayout.create({
-width: "100%",
-height: "100%",
-members: [
-HLayout_PaymentOption_Actions, HLayout_PaymentOption_Grid
-]
-});
+	var VLayout_PaymentOption_Body = isc.VLayout.create({
+		width: "100%",
+		height: "100%",
+		members: [
+			HLayout_PaymentOption_Actions, HLayout_PaymentOption_Grid
+		]
+	});
 
 
-//</script>
+	//</script>
