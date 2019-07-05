@@ -1,5 +1,6 @@
 package com.nicico.sales.web.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/tozin")
 public class TozinFormController {
 
+	@Value("${nicico.rest-api.url}")
+	private String restApiUrl;
+
 	@RequestMapping("/showForm")
 	public String showTozin() {
 		return "base/tozin";
@@ -29,7 +33,7 @@ public class TozinFormController {
 		HttpEntity<String> request = new HttpEntity<String>(headers);
 
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> modelMapFromRest = restTemplate.exchange("http://localhost:9099/api/tozin/showTransport2Plants/" + date, HttpMethod.GET, request, String.class);
+		ResponseEntity<String> modelMapFromRest = restTemplate.exchange(restApiUrl + "/api/tozin/showTransport2Plants/" + date, HttpMethod.GET, request, String.class);
 
 		String out = modelMapFromRest.getBody();
 		req.setAttribute("out", out);
