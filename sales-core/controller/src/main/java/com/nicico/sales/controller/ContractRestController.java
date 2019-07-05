@@ -2,13 +2,16 @@ package com.nicico.sales.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.core.dto.search.EOperator;
 import com.nicico.copper.core.dto.search.SearchDTO;
 import com.nicico.copper.core.util.Loggable;
+import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.ContractDTO;
 import com.nicico.sales.iservice.IContractService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +19,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,6 +34,7 @@ public class ContractRestController {
 
 	private final IContractService contractService;
 	private final ObjectMapper objectMapper;
+	private final ReportUtil reportUtil;
 	// ------------------------------s
 
 	@Loggable
@@ -122,5 +130,13 @@ public class ContractRestController {
 	@PreAuthorize("hasAuthority('r_contract')")
 	public ResponseEntity<SearchDTO.SearchRs<ContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(contractService.search(request), HttpStatus.OK);
+	}
+
+	@Loggable
+	@GetMapping(value = {"/print/{type}"})
+	public void print(HttpServletResponse response, @PathVariable String type) throws SQLException, IOException, JRException {
+		Map<String, Object> params = new HashMap<>();
+		params.put(ConstantVARs.REPORT_TYPE, type);
+		reportUtil.export("/reports/Contract.jasper", params, response);
 	}
 }

@@ -1,6 +1,7 @@
 package com.nicico.sales.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,6 +22,9 @@ import org.springframework.web.client.RestTemplate;
 public class BankFormController {
 
     private final OAuth2AuthorizedClientService authorizedClientService;
+
+    @Value("${nicico.rest-api.url}")
+    private String restApiUrl;
 
     @RequestMapping("/showForm")
     public String showBank() {
@@ -47,11 +51,11 @@ public class BankFormController {
         HttpEntity<String> entity = new HttpEntity<String>(headers);
 
         if(type.equals("pdf"))
-            return restTemplate.exchange("http://localhost:9099/api/bank/print/pdf", HttpMethod.GET, entity, byte[].class);
+            return restTemplate.exchange(restApiUrl + "/api/bank/print/pdf", HttpMethod.GET, entity, byte[].class);
         else if(type.equals("excel"))
-            return restTemplate.exchange("http://localhost:9099/api/bank/print/excel", HttpMethod.GET, entity, byte[].class);
+            return restTemplate.exchange(restApiUrl + "/api/bank/print/excel", HttpMethod.GET, entity, byte[].class);
         else if(type.equals("html"))
-            return restTemplate.exchange("http://localhost:9099/api/bank/print/html", HttpMethod.GET, entity, byte[].class);
+            return restTemplate.exchange(restApiUrl + "/api/bank/print/html", HttpMethod.GET, entity, byte[].class);
         else
             return null;
     }
