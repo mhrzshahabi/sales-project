@@ -7,10 +7,6 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-server:
-  servlet:
-    context-path: /
-  port: 10580
 
 nicico:
   oauth2:
@@ -31,7 +27,7 @@ spring:
         registration:
           sso-login:
             provider: sso-provider
-            client-id: SalesClientId
+            client-id: SalesDevClientId
             client-name: Sales
             client-secret: password
             client-authentication-method: basic
@@ -45,6 +41,11 @@ spring:
             jwkSetUri: http://172.16.180.22/.well-known/jwks.json
             user-info-uri: http://172.16.180.22/user/me
             user-name-attribute: username
+
+server:
+  servlet:
+    context-path: /
+  port: 10580
 
 nicico:
   oauth2:
@@ -83,13 +84,18 @@ spring:
             user-info-uri: http://172.16.180.22/user/me
             user-name-attribute: username
 
+server:
+  servlet:
+    context-path: /
+  port: 10588
+
 nicico:
   oauth2:
     token:
       cookie:
-        domain: production.icico.net.ir
+        domain: 172.16.6.142
   rest-api:
-    url: http://production.icico.net.ir:9099
+    url: http://172.16.6.142:9098
 
 logging:
   level:

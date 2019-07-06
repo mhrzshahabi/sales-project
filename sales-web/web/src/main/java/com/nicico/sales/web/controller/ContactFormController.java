@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/contact")
 public class ContactFormController {
 
-	@RequestMapping("/showForm")
-	public String showContact() {
-		return "base/contact";
-	}
+    @RequestMapping("/showForm")
+    public String showContact() {
+        return "base/contact";
+    }
 
-	@RequestMapping("/print/{type}")
-	public void printContact(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
+    @RequestMapping("/print/{type}")
+    public void printContact(HttpServletResponse response, @PathVariable String type) throws Exception {
+    }
 }

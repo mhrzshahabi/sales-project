@@ -38,11 +38,6 @@ security:
           KwIDAQAB
           -----END PUBLIC KEY-----
 
-server:
-  servlet:
-    context-path: /
-  port: 9099
-
 nicico:
   jpa:
     entity:
@@ -81,12 +76,17 @@ spring:
     hibernate:
       ddl-auto: none
 
+server:
+  servlet:
+    context-path: /
+  port: 9099
+
 nicico:
   security:
     oauth2:
-      client-id: SalesClientId
+      client-id: SalesDevClientId
       client-secret: password
-      resource-id: SalesResourceId
+      resource-id: SalesDevResourceId
       access-token-uri: http://172.16.180.22/oauth/token
 
 logging:
@@ -105,6 +105,11 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: none
+
+server:
+  servlet:
+    context-path: /
+  port: 9098
 
 nicico:
   security:

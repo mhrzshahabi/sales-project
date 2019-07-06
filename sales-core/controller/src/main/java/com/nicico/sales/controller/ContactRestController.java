@@ -47,14 +47,14 @@ public class ContactRestController {
 	@PostMapping
 	@PreAuthorize("hasAuthority('c_contact')")
 	public ResponseEntity<ContactDTO.Info> create(@Validated @RequestBody ContactDTO.Create request) {
-		request.setCommercialRole((request.getInspector() != null && request.getInspector().toString().equalsIgnoreCase("true") ? "بازرس , " : "")
-				+ (request.getInsurancer() != null && request.getInsurancer().toString().equalsIgnoreCase("true") ? " بیمه گر ," : "")
-				+ (request.getShipper() != null && request.getShipper().toString().equalsIgnoreCase("true") ? " صاحب کشتی," : "")
-				+ (request.getTransporter() != null && request.getTransporter().toString().equalsIgnoreCase("true") ? " حمل کننده ," : "")
-				+ (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
-				+ (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
-				+ (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
-				+ (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
+		request.setCommercialRole( (request.getInspector()!=null&&request.getInspector().toString().equalsIgnoreCase("true")?"بازرس , ":"")
+				+(request.getInsurancer()!=null && request.getInsurancer().toString().equalsIgnoreCase("true") ?" بیمه گر ,":"")
+				+(request.getShipper()!=null && request.getShipper().toString().equalsIgnoreCase("true") ?" صاحب کشتی,":"")
+				+(request.getTransporter()!=null && request.getTransporter().toString().equalsIgnoreCase("true") ?" حمل کننده ,":"")
+				+(request.getBuyer()!=null && request.getBuyer().toString().equalsIgnoreCase("true") ?" فروشنده ,":"")
+				+(request.getSeller()!=null && request.getSeller().toString().equalsIgnoreCase("true")?" خریدار ,":"")
+				+(request.getAgentSeller()!=null && request.getAgentSeller().toString().equalsIgnoreCase("true")?" نماینده فروشنده ,":"")
+				+(request.getAgentBuyer()!=null && request.getAgentBuyer().toString().equalsIgnoreCase("true")?" نماینده خریدار ,":"")
 		);
 		return new ResponseEntity<>(contactService.create(request), HttpStatus.CREATED);
 	}
@@ -63,14 +63,14 @@ public class ContactRestController {
 	@PutMapping
 	@PreAuthorize("hasAuthority('u_contact')")
 	public ResponseEntity<ContactDTO.Info> update(@RequestBody ContactDTO.Update request) {
-		request.setCommercialRole((request.getInspector() != null && request.getInspector().toString().equalsIgnoreCase("true") ? "بازرس , " : "")
-				+ (request.getInsurancer() != null && request.getInsurancer().toString().equalsIgnoreCase("true") ? " بیمه گر ," : "")
-				+ (request.getShipper() != null && request.getShipper().toString().equalsIgnoreCase("true") ? " صاحب کشتی," : "")
-				+ (request.getTransporter() != null && request.getTransporter().toString().equalsIgnoreCase("true") ? " حمل کننده ," : "")
-				+ (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
-				+ (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
-				+ (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
-				+ (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
+		request.setCommercialRole( (request.getInspector()!=null&&request.getInspector().toString().equalsIgnoreCase("true")?"بازرس , ":"")
+				+(request.getInsurancer()!=null && request.getInsurancer().toString().equalsIgnoreCase("true") ?" بیمه گر ,":"")
+				+(request.getShipper()!=null && request.getShipper().toString().equalsIgnoreCase("true") ?" صاحب کشتی,":"")
+				+(request.getTransporter()!=null && request.getTransporter().toString().equalsIgnoreCase("true") ?" حمل کننده ,":"")
+				+(request.getBuyer()!=null && request.getBuyer().toString().equalsIgnoreCase("true") ?" فروشنده ,":"")
+				+(request.getSeller()!=null && request.getSeller().toString().equalsIgnoreCase("true")?" خریدار ,":"")
+				+(request.getAgentSeller()!=null && request.getAgentSeller().toString().equalsIgnoreCase("true")?" نماینده فروشنده ,":"")
+				+(request.getAgentBuyer()!=null && request.getAgentBuyer().toString().equalsIgnoreCase("true")?" نماینده خریدار ,":"")
 		);
 
 		return new ResponseEntity<>(contactService.update(request.getId(), request), HttpStatus.OK);
@@ -93,7 +93,7 @@ public class ContactRestController {
 	}
 
 	@Loggable
-	@GetMapping({"/spec-list", "/spec-list1", "/spec-list2", "/spec-list3", "/spec-list4"})
+	@GetMapping( {"/spec-list","/spec-list1","/spec-list2","/spec-list3","/spec-list4"})
 	@PreAuthorize("hasAuthority('r_contact')")
 	public ResponseEntity<ContactDTO.ContactSpecRs> list(@RequestParam("_startRow") Integer startRow,
 														 @RequestParam("_endRow") Integer endRow,
