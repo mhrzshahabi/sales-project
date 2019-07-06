@@ -69,9 +69,9 @@ public class MaterialFeature extends Auditable {
 	@Column(name = "PAYMENT_PERCENT")
 	private Double paymentPercent;
 
-	@Column(name = "TC")
-	private Double TC;
+	@Column(name = "TREAT_COST")
+	private Double treatCost;
 
-	@Column(name = "RC")
-	private Double RC;
+	@Column(name = "REFINERY_COST")
+	private Double refineryCost;
 }

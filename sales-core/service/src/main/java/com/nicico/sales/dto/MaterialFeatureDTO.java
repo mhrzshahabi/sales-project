@@ -23,8 +23,8 @@ public class MaterialFeatureDTO {
 	private Double tolorance;
 	private Double payableIfGraterThan;
 	private Double paymentPercent;
-	private Double TC;
-	private Double RC;
+	private Double treatCost;
+	private Double refineryCost;
 
 	@ApiModelProperty(required = true)
 	private Long materialId;

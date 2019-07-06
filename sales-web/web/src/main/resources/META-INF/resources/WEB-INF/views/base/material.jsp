@@ -88,8 +88,8 @@
 				type: 'text',
 				width: 400
 			},
-			{name: "TC", title: "<spring:message code='MaterialFeature.TC'/>", type: 'text', width: 400},
-			{name: "RC", title: "<spring:message code='MaterialFeature.RC'/>", type: 'text', width: 400},
+			{name: "treatCost", title: "<spring:message code='MaterialFeature.TC'/>", type: 'text', width: 400},
+			{name: "refineryCost", title: "<spring:message code='MaterialFeature.RC'/>", type: 'text', width: 400},
 		],
 // ######@@@@###&&@@###
 		fetchDataURL: "${restApiUrl}/api/materialFeature/spec-list"
@@ -706,7 +706,7 @@
 					}]
 				},
 				{
-					name: "TC", title: "<spring:message code='MaterialFeature.TC'/>", type: 'float', width: 400,
+					name: "treatCost", title: "<spring:message code='MaterialFeature.TC'/>", type: 'float', width: 400,
 					validators: [{
 						type: "isFloat",
 						validateOnExit: true,
@@ -715,7 +715,7 @@
 					}]
 				},
 				{
-					name: "RC", title: "<spring:message code='MaterialFeature.RC'/>", type: 'float', width: 400,
+					name: "refineryCost", title: "<spring:message code='MaterialFeature.RC'/>", type: 'float', width: 400,
 					validators: [{
 						type: "isFloat",
 						validateOnExit: true,
@@ -806,8 +806,6 @@
 				return;
 
 			var data = DynamicForm_MaterialFeature.getValues();
-			console.log(data);
-			console.log(JSON.stringify(data));
 // ######@@@@###&&@@###
 			var methodXXXX = "PUT";
 			if (data.id == null) methodXXXX = "POST";
@@ -935,14 +933,14 @@
 					align: "center"
 				},
 				{
-					name: "TC",
+					name: "treatCost",
 					title: "<spring:message code='MaterialFeature.TC'/>",
 					type: 'text',
 					width: "10%",
 					align: "center"
 				},
 				{
-					name: "RC",
+					name: "refineryCost",
 					title: "<spring:message code='MaterialFeature.RC'/>",
 					type: 'text',
 					width: "10%",
