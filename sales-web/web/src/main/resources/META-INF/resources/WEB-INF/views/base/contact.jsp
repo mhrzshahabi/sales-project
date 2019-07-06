@@ -93,7 +93,6 @@
 			{name: "tradeMark"},
 			{name: "commercialRegistration"},
 			{name: "branchName"},
-			<%--{name: "bank.bankName", title: "<spring:message code='contact.bankName'/>"},--%>
 			{name: "countryId", title: "<spring:message code='country.nameFa'/>", type: 'long'},
 			{name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
 			{name: "contactAccounts"}
@@ -215,7 +214,6 @@
 			{name: "lastModifiedDate", hidden: true},
 			{name: "lastModifiedBy", hidden: true},
 			{name: "version", hidden: true},
-			<%--{name: "bankName", hidden: true},--%>
 			{type: "RowSpacerItem"},
 			{
 				name: "code",
@@ -415,16 +413,16 @@
 				name: "phone",
 				title: "<spring:message code='contact.phone'/>",
 				type: 'text',
-				width: 300,
+				width: 500,
 				wrapTitle: false
 			},
-			{name: "mobile", title: "<spring:message code='contact.mobile'/>", width: 300, wrapTitle: false},
-			{name: "fax", title: "<spring:message code='contact.fax'/>", width: 300, wrapTitle: false},
+			{name: "mobile", title: "<spring:message code='contact.mobile'/>", width: 500, wrapTitle: false},
+			{name: "fax", title: "<spring:message code='contact.fax'/>", width: 500, wrapTitle: false},
 			{
 				name: "countryId",
 				title: "<spring:message code='country.nameFa'/>",
 				type: 'long',
-				width: 400,
+				width: 500,
 				editorType: "SelectItem",
 				optionDataSource: RestDataSource_Country,
 				displayField: "nameFa",
@@ -434,12 +432,12 @@
 				pickListProperties: {showFilterEditor: true},
 				pickListFields: [
 					{name: "id", width: 50, align: "center"},
-					{name: "nameFa", width: 150, align: "center"},
+					{name: "nameFa", width: 500, align: "center"},
 				]
 			},
-			{name: "address", title: "<spring:message code='contact.address'/>", width: 300, wrapTitle: false},
-			{name: "webSite", title: "<spring:message code='contact.webSite'/>", width: 300, wrapTitle: false},
-			{name: "email", title: "<spring:message code='contact.email'/>", width: 300, wrapTitle: false},
+			{name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
+			{name: "webSite", title: "<spring:message code='contact.webSite'/>", width: 500, wrapTitle: false},
+			{name: "email", title: "<spring:message code='contact.email'/>", width: 500, wrapTitle: false},
 			{type: "RowSpacerItem"}
 		]
 	});
@@ -554,8 +552,8 @@
 
 	var Window_Contact = isc.Window.create({
 		title: "<spring:message code='contact.title'/>",
-		width: "40%",
-		height: "90%",
+		width: 610,
+		height: 550,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -809,7 +807,7 @@
 
 	var gridVLayout = isc.VLayout.create({
 		width: "100%",
-		height: 300,
+		height: 290,
 		autoDraw: false,
 		border: "0px solid red", layoutMargin: 5,
 		members: [
@@ -818,7 +816,6 @@
 		]
 	});
 
-	// var ContactAccount_ValueManager = isc.ValuesManager.create({});
 
 	var ContactAccount_CreateDynamicForm = isc.DynamicForm.create({
 		width: "100%",
@@ -835,13 +832,13 @@
 		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		fields: [
 			{type: "header", defaultValue: "<spring:message code='contactAccount.title'/>"},
-			{type: "RowSpacerItem"},
+			//{type: "RowSpacerItem"},
 			{name: "id", hidden: true},
 			{name: "contactId", hidden: true},
 			{
 				name: "code",
 				title: "<spring:message code='contactAccount.code'/>",
-				type: 'integer',
+				type: 'integer', width: 300,
 				colSpan: "2",
 				required: true,
 				validators: [{
@@ -873,7 +870,7 @@
 				type: 'text',
 				colSpan: "2", required: true, validators: [{
 					type: "isInteger",
-					validateOnExit: true,
+					validateOnExit: true, width: 300,
 					stopOnError: true,
 					errorMessage: "<spring:message code='global.form.correctType'/>"
 				}]
@@ -881,19 +878,19 @@
 			{
 				name: "bankShaba",
 				title: "<spring:message code='contactAccount.shabaAccount'/>",
-				type: 'text', required: true,
+				type: 'text', required: true, width: 300,
 				colSpan: "2", format: ""
 			},
 			{
 				name: "bankSwift",
 				title: "<spring:message code='contactAccount.bankSwift'/>",
-				type: 'text', required: true,
+				type: 'text', required: true, width: 300,
 				colSpan: "2", format: ""
 			},
 			{
 				name: "accountOwner",
 				title: "<spring:message code='contactAccount.accountOwner'/>",
-				type: 'text',
+				type: 'text', width: 300,
 				colSpan: "2"
 			},
 			{
@@ -910,7 +907,7 @@
 			{
 				name: "isDefault", defaultValue: false,
 				title: "<spring:message code='contactAccount.isDefault'/>",
-				type: "boolean"
+				type: "boolean" , width: 300
 			},
 			{type: "RowSpacerItem"}
 		]
@@ -932,7 +929,7 @@
 
 		fields: [
 			{type: "header", defaultValue: "<spring:message code='contactAccount.title'/>"},
-			{type: "RowSpacerItem"},
+			//{type: "RowSpacerItem"},
 			{name: "id", hidden: true},
 			{name: "contactId", hidden: true},
 			{
@@ -940,7 +937,7 @@
 				title: "<spring:message code='contactAccount.code'/>",
 				type: 'integer',
 				colSpan: "2",
-				required: true,
+				required: true, width: 300,
 				validators: [{
 					type: "isInteger",
 					validateOnExit: true,
@@ -967,7 +964,7 @@
 			{
 				name: "bankAccount",
 				title: "<spring:message code='contactAccount.accountNumber'/>",
-				type: 'text',
+				type: 'text', width: 300,
 				colSpan: "2", required: true, validators: [{
 					type: "isInteger",
 					validateOnExit: true,
@@ -979,20 +976,20 @@
 				name: "bankShaba",
 				title: "<spring:message code='contactAccount.shabaAccount'/>",
 				type: 'text',
-				required: true,
+				required: true, width: 300,
 				colSpan: "2"
 			},
 			{
 				name: "bankSwift",
 				title: "<spring:message code='contactAccount.bankSwift'/>",
 				type: 'text',
-				required: true,
+				required: true, width: 300,
 				colSpan: "2"
 			},
 			{
 				name: "accountOwner",
 				title: "<spring:message code='contactAccount.accountOwner'/>",
-				type: 'text',
+				type: 'text', width: 300,
 				colSpan: "2"
 			},
 			{
@@ -1007,7 +1004,7 @@
 				}
 			},
 			{
-				name: "isDefault", defaultValue: false,
+				name: "isDefault", defaultValue: false, width: 300,
 				title: "<spring:message code='contactAccount.isDefault'/>",
 				type: "boolean"
 			},
@@ -1020,7 +1017,6 @@
 		title: "<spring:message code='global.form.save'/>",
 		icon: "pieces/16/save.png",
 		click: function () {
-// ContactAccount_ValueManager.validate();
 			ContactAccount_CreateDynamicForm.validate();
 			if (ContactAccount_CreateDynamicForm.hasErrors()) {
 				return;
@@ -1063,7 +1059,6 @@
 					actionURL: "${restApiUrl}/api/contactAccount",
 					httpMethod: "PUT",
 					data: JSON.stringify(data),
-// params: {parentId: ListGrid_Contact.getSelectedRecord().id},
 					callback: function (RpcResponse_o) {
 						if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 							ListGrid_ContactAccount.invalidateCache();
@@ -1208,7 +1203,7 @@
 
 	var bodyVLayout = isc.VLayout.create({
 		width: "100%",
-		height: 335,
+		height: 340,
 		border: "0px solid blue",
 		autoDraw: false,
 		layoutMargin: 5,
@@ -1220,7 +1215,7 @@
 	var Window_AccountsContact = isc.Window.create({
 		title: "<spring:message code='contact.accounts'/>",
 		width: 820,
-		height: 720,
+		height: 740,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

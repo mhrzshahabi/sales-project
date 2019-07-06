@@ -59,6 +59,7 @@
 					title: "<spring:message code='incoterms.code'/>",
 					type: 'text',
 					required: true,
+					wrapTitle : false ,
 					width: 500
 				},
 				{
@@ -67,59 +68,67 @@
 					type: 'checkbox',
 					editorType: 'checkbox',
 					required: true,
-					width: 150
+					wrapTitle : false ,
+					width: 500
 				},
 				{
 					name: "carrier",
 					title: "<spring:message code='incoterms.carrier'/>",
 					type: 'checkbox',
 					editorType: 'checkbox',
-					width: 150
+					wrapTitle : false ,
+					width: 500
 				},
 				{
 					name: "alongSideShip",
 					title: "<spring:message code='incoterms.alongSideShip'/>",
 					editorType: 'checkbox',
 					type: 'checkbox',
-					width: 150
+					wrapTitle : false ,
+					width: 500
 				},
 				{
 					name: "arrival",
 					title: "<spring:message code='incoterms.arrival'/>",
 					type: 'checkbox',
 					editorType: 'checkbox',
-					width: 150
+					wrapTitle : false ,
+					width: 500
 				},
 				{
 					name: "onBoard",
 					title: "<spring:message code='incoterms.onBoard'/>",
 					type: 'checkbox',
 					editorType: 'checkbox',
-					width: 150
+					wrapTitle : false ,
+					width: 500
 				},
 				{
 					name: "terminal",
 					title: "<spring:message code='incoterms.terminal'/>",
 					type: 'checkbox',
 					editorType: 'checkbox',
-					width: 150
+					wrapTitle : false ,
+					width: 500
 				},
 				{
 					name: "destination",
 					title: "<spring:message code='incoterms.destination'/>",
 					type: 'checkbox',
 					editorType: 'checkbox',
-					width: 150
+					wrapTitle : false ,
+					width: 500
 				},
 				{
 					name: "warehouse",
 					title: "<spring:message code='incoterms.warehouse'/>",
 					type: 'checkbox',
 					editorType: 'checkbox',
-					width: 150
+					wrapTitle : false ,
+					width: 500
 				},
 				{
-					name: "expenses", title: "<spring:message code='incoterms.expenses'/>", valueMap: {
+					name: "expenses", title: "<spring:message code='incoterms.expenses'/>", width: 500 , wrapTitle : false , valueMap: {
 						"1": "<spring:message code='incoterms.works'/>",
 						"2": "<spring:message code='incoterms.carrier'/>",
 						"3": "<spring:message code='incoterms.alongSideShip'/>",
@@ -131,7 +140,7 @@
 					}
 				},
 				{
-					name: "namedPlace", title: "<spring:message code='incoterms.namedPlace'/>", valueMap: {
+					name: "namedPlace", title: "<spring:message code='incoterms.namedPlace'/>", width: 500 , wrapTitle : false , valueMap: {
 						"1": "<spring:message code='incoterms.works'/>",
 						"2": "<spring:message code='incoterms.carrier'/>",
 						"3": "<spring:message code='incoterms.alongSideShip'/>",
@@ -143,7 +152,7 @@
 					}
 				},
 				{
-					name: "namedPort", title: "<spring:message code='incoterms.namedPort'/>", valueMap: {
+					name: "namedPort", title: "<spring:message code='incoterms.namedPort'/>", width: 500 , wrapTitle : false , valueMap: {
 						"1": "<spring:message code='incoterms.works'/>",
 						"2": "<spring:message code='incoterms.carrier'/>",
 						"3": "<spring:message code='incoterms.alongSideShip'/>",
@@ -168,17 +177,14 @@
 				return;
 			}
 			var data = DynamicForm_Incoterms.getValues();
-// ######@@@@###&&@@###
 			var methodXXXX = "PUT";
 			if (data.id == null) methodXXXX = "POST";
 			isc.RPCManager.sendRequest(
 				Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
 					actionURL: "${restApiUrl}/api/incoterms/",
 					httpMethod: methodXXXX,
 					data: JSON.stringify(data),
 					callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 						if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 							isc.say("<spring:message code='global.form.request.successful'/>");
 							ListGrid_Incoterms_refresh();
@@ -192,8 +198,29 @@
 		}
 	});
 
+	var IncotermsCancelBtn = isc.IButton.create({
+		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+				Window_Incoterms.close();
+		}
+	});
+
+	var HLayout_Incoterms_IButton = isc.HLayout.create({
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: "100%",
+		members: [
+			IButton_Incoterms_Save,
+			IncotermsCancelBtn
+		]
+	});
+
 	var Window_Incoterms = isc.Window.create({
-		title: "<spring:message code='currency.title'/>. ",
+		title: "<spring:message code='incoterms.name'/>. ",
 		width: 580,
 		hight: 500,
 		autoSize: true,
@@ -210,26 +237,7 @@
 		items:
 			[
 				DynamicForm_Incoterms,
-				isc.HLayout.create({
-					width: "100%",
-					members:
-						[
-							IButton_Incoterms_Save,
-							isc.Label.create({
-								width: 5,
-							}),
-							isc.IButton.create({
-								ID: "incotermsEditExitIButton",
-								title: "<spring:message code='global.cancel'/>",
-								width: 100,
-								icon: "pieces/16/icon_delete.png",
-								orientation: "vertical",
-								click: function () {
-									Window_Incoterms.close();
-								}
-							})
-						]
-				})
+				HLayout_Incoterms_IButton
 			]
 	});
 

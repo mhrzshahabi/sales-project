@@ -218,11 +218,9 @@
 		title: "<spring:message code='global.form.save'/>",
 		icon: "pieces/16/save.png",
 		click: function () {
-			/*ValuesManager_GoodsUnit.validate();*/
 			DynamicForm_Country.validate();
 			if (DynamicForm_Country.hasErrors())
 				return;
-
 			var data = DynamicForm_Country.getValues();
 			var method = "PUT";
 			if (data.id == null)
@@ -236,9 +234,7 @@
 				showPrompt: true,
 				serverOutputAsString: false,
 				data: JSON.stringify(data),
-//params: { data:data1},
 				callback: function (resp) {
-
 					if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
 						isc.say("<spring:message code='global.form.request.successful'/>.");
 						ListGrid_Country_refresh();
@@ -249,7 +245,30 @@
 			});
 		}
 	});
-	var Window_Country = isc.Window.create({
+
+	var CountryCancelBtn = isc.IButton.create({
+		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+				Window_Country.close();
+	}
+	});
+
+	var HLayout_Country_IButton = isc.HLayout.create({
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: "100%",
+		members: [
+			IButton_Country_Save,
+			CountryCancelBtn
+		]
+	});
+
+
+var Window_Country = isc.Window.create({
 		title: "<spring:message code='country.title'/> ",
 		width: 580,
 		hight: 500,
@@ -266,26 +285,7 @@
 		items:
 			[
 				DynamicForm_Country,
-				isc.HLayout.create({
-					width: "100%",
-					members:
-						[
-							IButton_Country_Save,
-							isc.Label.create({
-								width: 5,
-							}),
-							isc.IButton.create({
-								ID: "countryEditExitIButton",
-								title: "<spring:message code='global.cancel'/>",
-								width: 100,
-								icon: "pieces/16/icon_delete.png",
-								orientation: "vertical",
-								click: function () {
-									Window_Country.close();
-								}
-							})
-						]
-				})
+				HLayout_Country_IButton
 			]
 	});
 	var ListGrid_Country = isc.ListGrid.create({

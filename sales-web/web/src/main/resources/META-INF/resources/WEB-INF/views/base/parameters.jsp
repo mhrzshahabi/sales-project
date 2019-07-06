@@ -115,7 +115,6 @@
 		setMethod: 'POST',
 		align: "center",
 		canSubmit: true,
-		styleName: "myBoxedGridCell",
 		showInlineErrors: true,
 		showErrorText: true,
 		showErrorStyle: true,
@@ -123,16 +122,16 @@
 		titleWidth: "100",
 		titleAlign: "right",
 		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
-		numCols: 1,
+		numCols: 2,
 		fields:
 			[
 				{name: "id", hidden: true,},
 				{type: "RowSpacerItem"},
-				{name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "500", type: "text"},
-				{name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "500", type: "text"},
+				{name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "100%", type: "text"},
+				{name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "100%", type: "text"},
 				{
-					name: "paramValue", title: "<spring:message
-		code='parameters.paramValue'/>", width: "500", type: "textArea", textAlign: "left"
+					name: "paramValue", title: "<spring:message	code='parameters.paramValue'/>",
+					width: "100%", type: "textArea"
 				},
 				{type: "RowSpacerItem"}
 			]
@@ -222,7 +221,6 @@
 				showPrompt: false,
 				data: JSON.stringify(data),
 				serverOutputAsString: false,
-//params: { data:data1},
 				callback: function (RpcResponse_o) {
 					if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 
@@ -235,7 +233,30 @@
 			});
 		}
 	});
-	var Window_Parameters = isc.Window.create({
+
+	var ParametersCancelBtn = isc.IButton.create({
+		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+				Window_Parameters.close();
+	}
+	});
+
+	var HLayout_Parameters_IButton = isc.HLayout.create({
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: "100%",
+		members: [
+			IButton_Parameters_Save,
+			ParametersCancelBtn
+		]
+});
+
+
+var Window_Parameters = isc.Window.create({
 		title: "<spring:message code='parameters.title'/> ",
 		width: 580,
 		hight: 500,
@@ -252,26 +273,7 @@
 		items:
 			[
 				DynamicForm_Parameters,
-				isc.HLayout.create({
-					width: "100%",
-					members:
-						[
-							IButton_Parameters_Save,
-							isc.Label.create({
-								width: 5,
-							}),
-							isc.IButton.create({
-								ID: "parametersEditExitIButton",
-								title: "<spring:message code='global.cancel'/>",
-								width: 100,
-								icon: "pieces/16/icon_delete.png",
-								orientation: "vertical",
-								click: function () {
-									Window_Parameters.close();
-								}
-							})
-						]
-				})
+				HLayout_Parameters_IButton
 			]
 	});
 	var ListGrid_Parameters = isc.ListGrid.create({
@@ -279,7 +281,6 @@
 		height: "100%",
 		dataSource: RestDataSource_Parameters,
 		contextMenu: Menu_ListGrid_Parameters,
-// baseStyle: "myBoxedGridCell",
 		fields:
 			[
 				{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},

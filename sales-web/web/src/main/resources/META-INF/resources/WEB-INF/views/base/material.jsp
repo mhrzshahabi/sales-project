@@ -15,7 +15,6 @@
 				{name: "unitId", title: "<spring:message code='MaterialFeature.unit'/> "},
 				{name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit'/> "},
 			],
-// ######@@@@###&&@@###
 		fetchDataURL: "${restApiUrl}/api/material/spec-list"
 	});
 
@@ -29,7 +28,6 @@
 				{name: "symbol", title: "<spring:message code='unit.symbol'/>"},
 				{name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
 			],
-// ######@@@@###&&@@###
 		fetchDataURL: "${restApiUrl}/api/unit/spec-list"
 	});
 
@@ -43,7 +41,6 @@
 				{name: "symbol", title: "<spring:message code='rate.symbol'/>"},
 				{name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
 			],
-// ######@@@@###&&@@###
 		fetchDataURL: "${restApiUrl}/api/rate/spec-list"
 	});
 
@@ -57,7 +54,6 @@
 				{name: "symbol", title: "<spring:message code='feature.symbol'/>"},
 				{name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
 			],
-// ######@@@@###&&@@###
 		fetchDataURL: "${restApiUrl}/api/feature/spec-list"
 	});
 
@@ -91,7 +87,6 @@
 			{name: "treatCost", title: "<spring:message code='MaterialFeature.TC'/>", type: 'text', width: 400},
 			{name: "refineryCost", title: "<spring:message code='MaterialFeature.RC'/>", type: 'text', width: 400},
 		],
-// ######@@@@###&&@@###
 		fetchDataURL: "${restApiUrl}/api/materialFeature/spec-list"
 	});
 
@@ -106,16 +101,13 @@
 				return;
 
 			var data = DynamicForm_Material.getValues();
-// ######@@@@###&&@@###
 			var methodXXXX = "PUT";
 			if (data.id == null) methodXXXX = "POST";
 			isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
 					actionURL: "${restApiUrl}/api/material/",
 					httpMethod: methodXXXX,
 					data: JSON.stringify(data),
 					callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 						if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 							isc.say("<spring:message code='global.form.request.successful'/>.");
 							ListGrid_Material_refresh();
@@ -179,13 +171,10 @@
 					this.hide();
 					if (index == 0) {
 						var materialId = record.id;
-// ######@@@@###&&@@###
 						isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
 								actionURL: "${restApiUrl}/api/material/" + materialId,
 								httpMethod: "DELETE",
 								callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 									if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 										ListGrid_Material_refresh();
 										isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -574,13 +563,13 @@
 		fields:
 			[
 				{name: "id", hidden: true,},
-				{name: "materialId", type: "long", hidden: true},
+				{name: "materialId", type: "long", hidden: true , wrapTitle : false},
 				{type: "RowSpacerItem"},
 				{
 					name: "itemRow",
 					title: "<spring:message code='contractItem.itemRow'/>",
 					type: 'integer',
-					required: true,
+					required: true, wrapTitle : false ,
 					width: 400,
 					validators: [{
 						type: "isInteger",
@@ -592,7 +581,7 @@
 				{
 					name: "featureId",
 					title: "<spring:message code='feature.nameFa'/>",
-					type: 'long',
+					type: 'long', wrapTitle : false ,
 					width: 400,
 					editorType: "SelectItem"
 					,
@@ -613,7 +602,7 @@
 				{
 					name: "minValue",
 					title: "<spring:message code='MaterialFeature.minValue'/>",
-					type: 'float',
+					type: 'float', wrapTitle : false ,
 					width: 400,
 					validators: [{
 						type: "isFloat",
@@ -625,7 +614,7 @@
 				{
 					name: "maxValue",
 					title: "<spring:message code='MaterialFeature.maxValue'/>",
-					type: 'float',
+					type: 'float', wrapTitle : false ,
 					width: 400,
 					validators: [{
 						type: "isFloat",
@@ -638,7 +627,7 @@
 				{
 					name: "avgValue",
 					title: "<spring:message code='MaterialFeature.avgValue'/>",
-					type: 'float',
+					type: 'float', wrapTitle : false ,
 					width: 400,
 					validators: [{
 						type: "isFloat",
@@ -650,7 +639,7 @@
 				{
 					name: "tolorance",
 					title: "<spring:message code='MaterialFeature.tolorance'/>",
-					type: 'float',
+					type: 'float', wrapTitle : false ,
 					width: 400,
 					validators: [{
 						type: "isFloat",
@@ -662,7 +651,7 @@
 				{
 					name: "rateId",
 					title: "<spring:message code='rate.nameFa'/>",
-					type: 'long',
+					type: 'long', wrapTitle : false ,
 					width: 400,
 					editorType: "SelectItem"
 					,
@@ -684,7 +673,7 @@
 				{
 					name: "payableIfGraterThan",
 					title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
-					type: 'float',
+					type: 'float', wrapTitle : false ,
 					width: 400,
 					validators: [{
 						type: "isFloat",
@@ -696,7 +685,7 @@
 				{
 					name: "paymentPercent",
 					title: "<spring:message code='MaterialFeature.paymentPercent'/>",
-					type: 'float',
+					type: 'float', wrapTitle : false ,
 					width: 400,
 					validators: [{
 						type: "isFloat",
@@ -706,7 +695,7 @@
 					}]
 				},
 				{
-					name: "treatCost", title: "<spring:message code='MaterialFeature.TC'/>", type: 'float', width: 400,
+					name: "treatCost", title: "<spring:message code='MaterialFeature.TC'/>", type: 'float', width: 400, wrapTitle : false ,
 					validators: [{
 						type: "isFloat",
 						validateOnExit: true,
@@ -715,7 +704,7 @@
 					}]
 				},
 				{
-					name: "refineryCost", title: "<spring:message code='MaterialFeature.RC'/>", type: 'float', width: 400,
+					name: "refineryCost", title: "<spring:message code='MaterialFeature.RC'/>", type: 'float', width: 400, wrapTitle : false ,
 					validators: [{
 						type: "isFloat",
 						validateOnExit: true,
@@ -794,28 +783,22 @@
 			]
 	});
 
-
 	var IButton_MaterialFeature_Save = isc.IButton.create({
 		top: 260,
 		title: "<spring:message code='global.form.save'/>",
 		icon: "pieces/16/save.png",
 		click: function () {
-			/*ValuesManager_GoodsUnit.validate();*/
 			DynamicForm_MaterialFeature.validate();
 			if (DynamicForm_MaterialFeature.hasErrors())
 				return;
-
 			var data = DynamicForm_MaterialFeature.getValues();
-// ######@@@@###&&@@###
 			var methodXXXX = "PUT";
 			if (data.id == null) methodXXXX = "POST";
 			isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
 					actionURL: "${restApiUrl}/api/materialFeature/",
 					httpMethod: methodXXXX,
 					data: JSON.stringify(data),
 					callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 						if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 							isc.say("<spring:message code='global.form.request.successful'/>.");
 							ListGrid_MaterialFeature_refresh();
@@ -827,6 +810,28 @@
 			);
 		}
 	});
+
+	var MaterialFeatureCancelBtn = isc.IButton.create({
+		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+				Window_MaterialFeature.close();
+		}
+	});
+
+	var HLayout_MaterialFeature_IButton = isc.HLayout.create({
+	layoutMargin: 5,
+	membersMargin: 5,
+	width: "100%",
+	members: [
+		IButton_MaterialFeature_Save,
+		MaterialFeatureCancelBtn
+	]
+	});
+
 	var Window_MaterialFeature = isc.Window.create({
 		title: "<spring:message code='MaterialFeature.title'/> ",
 		width: 580,
@@ -843,7 +848,8 @@
 		},
 		items:
 			[
-				DynamicForm_MaterialFeature, IButton_MaterialFeature_Save
+				DynamicForm_MaterialFeature,
+				HLayout_MaterialFeature_IButton
 			]
 	});
 
