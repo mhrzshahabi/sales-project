@@ -58,6 +58,10 @@ public class ShipmentDTO {
 	private Double demurrage;
 	private Double dispatch;
 	private long numberOfBLs;
+	private Double preFreight;
+	private String preFreightCurrency;
+	private Double postFreight;
+	private String postFreightCurrency;
 
 	// ------------------------------
 

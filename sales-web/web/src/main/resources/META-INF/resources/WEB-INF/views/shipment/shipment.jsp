@@ -5,12 +5,31 @@
 <%--<script>--%>
 
 	<% DateUtil dateUtil = new DateUtil();%>
-
+ var dollar={};
 	<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
 	var contractId;
 	var RestDataSource_ContractPerson;
 	var ListGrid_Person_EmailCC;
+	isc.RPCManager.sendRequest({
+		actionURL: "${restApiUrl}/api/currency/list",
+		httpMethod: "GET",
+		httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+		useSimpleHttp: true,
+		contentType: "application/json; charset=utf-8",
+		showPrompt: false,
+		data: "",
+		serverOutputAsString: false,
+		callback: function (RpcResponse_o) {
+			if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+				var data=JSON.parse(RpcResponse_o.data);
+				for (x of data)  {
+					dollar[x.nameEn]=x.nameEn;
+					}
+				} //if rpc
+			} // callback
+	});
+
 	var RestDataSource_Contact = isc.RestDataSource.create({
 		fields:
 			[
@@ -24,8 +43,7 @@
 				{name: "email", title: "<spring:message code='contact.email'/>"},
 				{
 					name: "type", title: "<spring:message code='contact.type'/>", valueMap: {
-						"true": "<spring:message
-		code='contact.type.real'/>", "false": "<spring:message code='contact.type.legal'/>"
+						"true": "<spring:message code='contact.type.real'/>", "false": "<spring:message code='contact.type.legal'/>"
 					}
 				},
 				{name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
@@ -680,7 +698,40 @@
 				name: "freightCurrency",
 				title: "<spring:message code='currency.title'/>",
 				type: 'text',
-				defaultValue: "DOLLAR", valueMap: {"EURO": "EURO", "DOLLAR": "DOLLAR"},
+				defaultValue: "DOLLAR", valueMap: dollar,
+				width: "100%",
+			},
+			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{
+				name: "preFreight", title: "<spring:message code='shipment.preFreight'/>", type: 'float', required: true, width: "100%",
+				validators: [{
+					type: "isFloat",
+					validateOnExit: true,
+					stopOnError: true,
+					errorMessage: "لطفا مقدار عددی وارد نمائید."
+				}]
+			},
+			{
+				name: "preFreightCurrency",
+				title: "<spring:message code='currency.title'/>",
+				type: 'text',
+				defaultValue: "DOLLAR", valueMap: dollar,
+				width: "100%",
+			},
+			{
+				name: "postFreight", title: "<spring:message code='shipment.postFreight'/>", type: 'float', required: true, width: "100%",
+				validators: [{
+					type: "isFloat",
+					validateOnExit: true,
+					stopOnError: true,
+					errorMessage: "لطفا مقدار عددی وارد نمائید."
+				}]
+			},
+			{
+				name: "postFreightCurrency",
+				title: "<spring:message code='currency.title'/>",
+				type: 'text',
+				defaultValue: "DOLLAR", valueMap: dollar,
 				width: "100%",
 			},
 			{

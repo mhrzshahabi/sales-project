@@ -170,6 +170,18 @@ public class Shipment extends Auditable {
 	@Column(name = "FREIGHT_CUR", length = 20)
 	private String freightCurrency;
 
+	@Column(name = "PRE_FREIGHT")
+	private Double preFreight;
+
+	@Column(name = "PRE_REIGHT_CUR", length = 20)
+	private String preFreightCurrency;
+
+	@Column(name = "POST_FREIGHT")
+	private Double postFreight;
+
+	@Column(name = "POST_REIGHT_CUR", length = 20)
+	private String postFreightCurrency;
+
 	@Column(name = "NO_BARREL", length = 100)
 	private String noBarrel;
 
