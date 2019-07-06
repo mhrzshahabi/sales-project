@@ -181,7 +181,7 @@
 				{
 					name: "coreBranch",
 					title: "<spring:message code='bank.coreBranch'/>",
-					width: 200,
+					width: "100%",
 					colSpan: 1,
 					titleColSpan: 1
 					,
@@ -194,7 +194,7 @@
 					name: "countryId",
 					title: "<spring:message code='country.nameFa'/>",
 					type: 'long',
-					width: 200,
+					width: "100%",
 					editorType: "SelectItem"
 					,
 					optionDataSource: RestDataSource_Country,
@@ -279,7 +279,6 @@
 			DynamicForm_Bank.validate();
 			if (DynamicForm_Bank.hasErrors())
 				return;
-
 			var data = DynamicForm_Bank.getValues();
 			var method = "PUT";
 			if (data.id == null)
@@ -293,9 +292,7 @@
 				showPrompt: true,
 				serverOutputAsString: false,
 				data: JSON.stringify(data),
-//params: { data:data1},
 				callback: function (resp) {
-
 					if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
 						isc.say("<spring:message code='global.form.request.successful'/>.");
 						ListGrid_Bank_refresh();
@@ -306,6 +303,28 @@
 			});
 		}
 	});
+
+	var BankCancelBtn = isc.IButton.create({
+		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+				Window_Bank.close();
+	}
+	});
+
+	var HLayout_Bank_IButton = isc.HLayout.create({
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: "100%",
+		members: [
+			IButton_Bank_Save,
+			BankCancelBtn
+		]
+	});
+
 	var Window_Bank = isc.Window.create({
 		title: "<spring:message code='bank.title'/> ",
 		width: 580,
@@ -323,26 +342,7 @@
 		items:
 			[
 				DynamicForm_Bank,
-				isc.HLayout.create({
-					width: "100%",
-					members:
-						[
-							IButton_Bank_Save,
-							isc.Label.create({
-								width: 5,
-							}),
-							isc.IButton.create({
-								ID: "bankEditExitIButton",
-								title: "<spring:message code='global.cancel'/>",
-								width: 100,
-								icon: "pieces/16/icon_delete.png",
-								orientation: "vertical",
-								click: function () {
-									Window_Bank.close();
-								}
-							})
-						]
-				})
+				HLayout_Bank_IButton
 			]
 	});
 	var ListGrid_Bank = isc.ListGrid.create({

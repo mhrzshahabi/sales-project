@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+// <script>
 
 	<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -56,11 +56,6 @@
 			{name: "bankShaba", title: "<spring:message code='contact.bankShaba'/>"},
 			{name: "bankSwift", title: "<spring:message code='contact.bankShaba'/>"},
 			{name: "bankName", title: "<spring:message code='contact.bankName'/>"},
-			<%--{name: "tblBank.id", title:"<spring:message code='global.country'/>", type:'long' , width: 400,editorType: "SelectItem"--%>
-			<%--, optionDataSource:RestDataSource_Country ,displayField:"nameFa"--%>
-			<%--, valueField:"id" ,pickListWidth:"300",pickListheight:"500" ,pickListProperties: {showFilterEditor:true}--%>
-			<%--,pickListFields:[{name:"nameFa",width:150,align:"center"},{name:"code",width:150,align:"center"}] --%>
-			<%--},--%>
 			{
 				name: "status",
 				title: "<spring:message code='contact.status'/>",
@@ -68,16 +63,12 @@
 			},
 			{name: "contactAccounts"}
 		],
-
 		fetchDataURL: "${restApiUrl}/api/contact/spec-list"
-
 	});
-
 
 	var Menu_ListGrid_Person = isc.Menu.create({
 		width: 150,
 		data: [
-
 			{
 				title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
 				click: function () {
@@ -121,7 +112,7 @@
 		titleWidth: "100",
 		titleAlign: "right",
 		requiredMessage: "<spring:message code='validator.field.is.required'/>",
-		numCols: 1,
+		numCols: 2,
 
 		fields: [
 			{name: "id", hidden: true,},
@@ -130,7 +121,7 @@
 				name: "contactId",
 				title: "<spring:message code='contact.name'/>"
 				,
-				width: 500,
+                width: "100%",  wrapTitle : false,
 				editorType: "SelectItem",
 				type: 'long'
 				,
@@ -152,39 +143,42 @@
 			{
 				name: "fullName",
 				title: "<spring:message code='person.fullName'/>",
-				type: 'text',
+				type: 'text',  wrapTitle : false ,
 				required: true,
-				width: 400
+                width: "100%",
 			},
-			{name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 400},
+			{name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text',  width: "100%", wrapTitle : false},
 			{
 				name: "title",
 				title: "<spring:message code='person.title'/>",
-				type: 'text',
-				width: 400,
+				type: 'text', wrapTitle : false ,
+                width: "100%",
 				valueMap: {
 					"MR": "<spring:message code='global.MR'/>",
 					"MIS": "<spring:message code='global.MIS'/>",
 					"MRS": "<spring:message code='global.MRS'/>",
 				}
 			},
-			{name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400},
-			{name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
-			{name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400},
-			{name: "webAddress", title: "<spring:message code='person.webAddress'/>", type: 'text', width: 400},
-			{name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 400},
-			{name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 400},
-			{name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: 400},
-			{name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: 400},
-			{name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: 400},
-			{name: "whatsApp", title: "<spring:message code='person.whatsApp'/>", type: 'text', width: 400},
-			{name: "weChat", title: "<spring:message code='person.weChat'/>", type: 'text', width: 400},
-			{name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: 400},
+			{name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: "100%", wrapTitle : false},
+			{name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "webAddress", title: "<spring:message code='person.webAddress'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text',width: "100%", wrapTitle : false},
+			{name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "whatsApp", title: "<spring:message code='person.whatsApp'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "weChat", title: "<spring:message code='person.weChat'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: "100%", wrapTitle : false},
 		]
 	});
 
 	var IButton_Person_Save = isc.IButton.create({
 		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
 		title: "<spring:message code='global.form.save'/>",
 		icon: "pieces/16/save.png",
 		click: function () {
@@ -206,7 +200,6 @@
 				showPrompt: true,
 				data: JSON.stringify(data),
 				serverOutputAsString: false,
-//params: { data:data1},
 				callback: function (RpcResponse_o) {
 					if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 						isc.say("<spring:message code='global.form.request.successful'/>");
@@ -218,6 +211,27 @@
 				}
 			});
 		}
+	});
+
+	var PersonCancelBtn = isc.IButton.create({
+		top: 260,
+		layoutMargin: 10,
+		membersMargin: 10,
+		width: 120,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+				Window_Person.close();
+		}
+	});
+
+	var HLayout_Person_IButton = isc.HLayout.create({
+		layoutMargin: 10,
+		membersMargin: 10,
+		width: "100%",
+		members: [
+			IButton_Person_Save,
+			PersonCancelBtn
+		]
 	});
 
 	var Window_Person = isc.Window.create({
@@ -237,26 +251,7 @@
 		},
 		items: [
 			DynamicForm_Person,
-			isc.HLayout.create({
-				width: "100%",
-				members:
-					[
-						IButton_Person_Save,
-						isc.Label.create({
-							width: 5,
-						}),
-						isc.IButton.create({
-							ID: "personEditExitIButton",
-							title: "<spring:message code='global.cancel'/>",
-							width: 100,
-							icon: "pieces/16/icon_delete.png",
-							orientation: "vertical",
-							click: function () {
-								Window_Person.close();
-							}
-						})
-					]
-			})
+			HLayout_Person_IButton
 		]
 	});
 

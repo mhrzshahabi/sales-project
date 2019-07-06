@@ -57,13 +57,10 @@
 					this.hide();
 					if (index == 0) {
 						var InstructionId = record.id;
-// ######@@@@###&&@@###
 						isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
 							actionURL: "${restApiUrl}/api/instruction/" + InstructionId,
 							httpMethod: "DELETE",
 							callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 								if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 									ListGrid_Instruction_refresh();
 									isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -214,38 +211,34 @@
 				{name: "disableDate", title: "<spring:message code='instruction.disableDate'/>", width: 400},
 				{name: "runDate", title: "<spring:message code='instruction.runDate'/>", width: 400}
 			],
-// ######@@@@###&&@@###
 		fetchDataURL: "${restApiUrl}/api/instruction/spec-list"
 	});
 
 	var IButton_Instruction_Save = isc.IButton.create({
 		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
 		title: "<spring:message code='global.form.save'/>",
 		icon: "pieces/16/save.png",
 		click: function () {
 			DynamicForm_Instruction.validate();
 			if (DynamicForm_Instruction.hasErrors())
 				return;
-
 			var d = DynamicForm_Instruction.getValue("disableDateDummy");
 			var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
 			DynamicForm_Instruction.setValue("disableDate", datestring);
-
 			var dRun = DynamicForm_Instruction.getValue("runDateDummy");
 			var datestringRun = (dRun.getFullYear() + "/" + ("0" + (dRun.getMonth() + 1)).slice(-2) + "/" + ("0" + dRun.getDate()).slice(-2))
 			DynamicForm_Instruction.setValue("runDate", datestringRun);
-
 			var data = DynamicForm_Instruction.getValues();
-// ######@@@@###&&@@###
 			var methodXXXX = "PUT";
 			if (data.id == null) methodXXXX = "POST";
 			isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
 					actionURL: "${restApiUrl}/api/instruction/",
 					httpMethod: methodXXXX,
 					data: JSON.stringify(data),
 					callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 						if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 							isc.say("<spring:message code='global.form.request.successful'/>");
 							ListGrid_Instruction_refresh();
@@ -257,6 +250,28 @@
 			);
 		}
 	});
+
+	var InstructionCancelBtn = isc.IButton.create({
+		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+			Window_Instruction.close();
+		}
+		});
+
+		var HLayout_Instruction_IButton = isc.HLayout.create({
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: "100%",
+		members: [
+			IButton_Instruction_Save,
+			InstructionCancelBtn
+		]
+	});
+
 	var Window_Instruction = isc.Window.create({
 		title: "<spring:message code='instruction.title'/> ",
 		width: 580,
@@ -274,26 +289,7 @@
 		items:
 			[
 				DynamicForm_Instruction,
-				isc.HLayout.create({
-					width: "100%",
-					members:
-						[
-							IButton_Instruction_Save,
-							isc.Label.create({
-								width: 5,
-							}),
-							isc.IButton.create({
-								ID: "rateEditExitIButton",
-								title: "<spring:message code='global.cancel'/>",
-								width: 100,
-								icon: "pieces/16/icon_delete.png",
-								orientation: "vertical",
-								click: function () {
-									Window_Instruction.close();
-								}
-							})
-						]
-				})
+				HLayout_Instruction_IButton
 			]
 	});
 

@@ -26,35 +26,35 @@ public class GroupsPersonRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_groupsPerson')")
+	//@PreAuthorize("hasAuthority('r_groupsPerson')")
 	public ResponseEntity<GroupsPersonDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(groupsPersonService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_groupsPerson')")
+	//@PreAuthorize("hasAuthority('r_groupsPerson')")
 	public ResponseEntity<List<GroupsPersonDTO.Info>> list() {
 		return new ResponseEntity<>(groupsPersonService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_groupsPerson')")
+	//@PreAuthorize("hasAuthority('c_groupsPerson')")
 	public ResponseEntity<GroupsPersonDTO.Info> create(@Validated @RequestBody GroupsPersonDTO.Create request) {
 		return new ResponseEntity<>(groupsPersonService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_groupsPerson')")
+	//@PreAuthorize("hasAuthority('u_groupsPerson')")
 	public ResponseEntity<GroupsPersonDTO.Info> update(@RequestBody GroupsPersonDTO.Update request) {
 		return new ResponseEntity<>(groupsPersonService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_groupsPerson')")
+	//@PreAuthorize("hasAuthority('d_groupsPerson')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		groupsPersonService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class GroupsPersonRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_groupsPerson')")
+	//@PreAuthorize("hasAuthority('d_groupsPerson')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody GroupsPersonDTO.Delete request) {
 		groupsPersonService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class GroupsPersonRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_groupsPerson')")
+	//@PreAuthorize("hasAuthority('r_groupsPerson')")
 	public ResponseEntity<GroupsPersonDTO.GroupsPersonSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class GroupsPersonRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_groupsPerson')")
+	//@PreAuthorize("hasAuthority('r_groupsPerson')")
 	public ResponseEntity<SearchDTO.SearchRs<GroupsPersonDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(groupsPersonService.search(request), HttpStatus.OK);
 	}

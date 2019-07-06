@@ -144,6 +144,27 @@
 		}
 	});
 
+	var GroupsCancelBtn = isc.IButton.create({
+		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+				Window_Groups.close();
+		}
+		});
+
+		var HLayout_Groups_IButton = isc.HLayout.create({
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: "100%",
+		members: [
+			IButton_Groups_Save,
+			GroupsCancelBtn
+		]
+	});
+
 	var Window_Groups = isc.Window.create({
 		title: "<spring:message code='groups.title'/>. ",
 		width: 580,
@@ -161,26 +182,7 @@
 		},
 		items: [
 			DynamicForm_Groups,
-			isc.HLayout.create({
-				width: "100%",
-				members:
-					[
-						IButton_Groups_Save,
-						isc.Label.create({
-							width: 5,
-						}),
-						isc.IButton.create({
-							ID: "groupsEditExitIButton",
-							title: "<spring:message code='global.cancel'/>",
-							width: 100,
-							icon: "pieces/16/icon_delete.png",
-							orientation: "vertical",
-							click: function () {
-								Window_Groups.close();
-							}
-						})
-					]
-			})
+			HLayout_Groups_IButton
 		]
 	});
 
@@ -341,7 +343,6 @@
 				required: true,
 				width: 400
 			},
-
 		],
 
 		sortField: 0,
@@ -957,6 +958,27 @@
 		}
 	});
 
+	var GroupsPersonCancelBtn = isc.IButton.create({
+		top: 260,
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: 120,
+		title: "<spring:message code='global.cancel'/>",
+		click: function () {
+				Window_GroupsPerson.close();
+		}
+	});
+
+	var HLayout_GroupsPerson_IButton = isc.HLayout.create({
+		layoutMargin: 5,
+		membersMargin: 5,
+		width: "100%",
+		members: [
+			IButton_GroupsPerson_Save,
+			GroupsPersonCancelBtn
+		]
+	});
+
 	var Window_GroupsPerson = isc.Window.create({
 		title: "<spring:message code='groupsPerson.title'/>. ",
 		width: 580,
@@ -975,26 +997,7 @@
 		items:
 			[
 				DynamicForm_GroupsPerson,
-				isc.HLayout.create({
-					width: "100%",
-					members:
-						[
-							IButton_GroupsPerson_Save,
-							isc.Label.create({
-								width: 5,
-							}),
-							isc.IButton.create({
-								ID: "groupPersonEditExitIButton",
-								title: "<spring:message code='global.cancel'/>",
-								width: 100,
-								icon: "pieces/16/icon_delete.png",
-								orientation: "vertical",
-								click: function () {
-									Window_GroupsPerson.close();
-								}
-							})
-						]
-				})
+				HLayout_GroupsPerson_IButton
 			]
 	});
 
@@ -1005,7 +1008,6 @@
 			return;
 		ListGrid_GroupsPerson.fetchData({"tblGroups.id": record.id}, function (dsResponse, data, dsRequest) {
 			ListGrid_GroupsPerson.setData(data);
-
 		}, {operationId: "00"});
 	};
 
@@ -1027,13 +1029,11 @@
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.grid.record.remove.ask.title'/>",
 				buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-					title: "<spring:message
-		code='global.no'/>"
+					title: "<spring:message	code='global.no'/>"
 				})],
 				buttonClick: function (button, index) {
 					this.hide();
 					if (index == 0) {
-
 						var groupsPersonId = record.id;
 						isc.RPCManager.sendRequest({
 							actionURL: "${restApiUrl}/api/groupsPerson/" + groupsPersonId,
