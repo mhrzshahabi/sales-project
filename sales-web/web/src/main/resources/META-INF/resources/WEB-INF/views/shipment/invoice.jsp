@@ -837,7 +837,7 @@
 	});
 	var ListGrid_Invoice = isc.ListGrid.create({
 		width: "100%",
-		height: "100%",
+        height: "100%",
 		dataSource: RestDataSource_Invoice,
 		contextMenu: Menu_ListGrid_Invoice,
 		fields:

@@ -331,7 +331,7 @@
 			{name: "contactId", hidden: true,},
 			{name: "contractId", hidden: true,},
 			{name: "materialId", hidden: true,},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "contractShipmentId",
 				title: "<spring:message	code='contact.name'/>",
@@ -378,7 +378,7 @@
 // cisId,contractNo,fullname,amount,address,plan,sendDate,duration,contactID,materialID,contractID,dischargeID,dischargeAddress
 				}
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "createDateDumy",
 				title: "<spring:message
@@ -407,7 +407,7 @@
 					"December": "December"
 				}
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "loadingLetter", title: "<spring:message
 		code='shipment.loadingLetter'/>", type: 'text', required: true, width: "100%"
@@ -425,12 +425,12 @@
 					errorMessage: "لطفا مقدار عددی وارد نمائید."
 				}]
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "shipmentType", title: "<spring:message
 		code='shipment.shipmentType'/>", type: 'text', width: "100%", valueMap: {"b": "bulk", "c": "container"}
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "noContainer", title: "<spring:message
 		code='shipment.noContainer'/>", type: 'integer', required: false, width: "100%",
@@ -480,7 +480,7 @@
 					errorMessage: "لطفا مقدار عددی وارد نمائید."
 				}]
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "status", title: "<spring:message
 		code='shipment.staus'/>", type: 'text', width: "100%", valueMap: {
@@ -538,7 +538,7 @@
 				required: true,
 				width: "100%"
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "swb", title: "<spring:message
 		code='shipment.SWB'/>", type: 'text', width: "100%", defaultValue: "Yes", valueMap: {"Yes": "Yes", "No": "No"}
@@ -578,7 +578,7 @@
 				required: true,
 				width: "100%"
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "portByLoadingId",
 				title: "<spring:message
@@ -613,7 +613,7 @@
 				,
 				pickListFields: [{name: "port", align: "center"}, {name: "country.nameFa", align: "center"}]
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "consignee",
 				title: "<spring:message code='shipment.consignee'/>",
@@ -662,7 +662,7 @@
 					align: "center"
 				}, {name: "country.nameFa", align: "center"}]
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "vesselName",
 				title: "<spring:message code='shipment.vesselName'/>",
@@ -670,7 +670,7 @@
 				required: true,
 				width: "100%"
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "freight",
 				title: "<spring:message code='shipment.freight'/>",
@@ -701,7 +701,7 @@
 				defaultValue: "DOLLAR", valueMap: dollar,
 				width: "100%",
 			},
-			{type: "Header", defaultValue: "--------------------------------------------------------------"},
+			{type: "Header", defaultValue: "-------------------------------------------------------------------------"},
 			{
 				name: "preFreight", title: "<spring:message code='shipment.preFreight'/>", type: 'float', required: true, width: "100%",
 				validators: [{
