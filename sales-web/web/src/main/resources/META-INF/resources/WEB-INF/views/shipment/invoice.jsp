@@ -423,7 +423,7 @@
 		showErrorText: true,
 		showErrorStyle: true,
 		errorOrientation: "right",
-		titleWidth: "100", margin: '10px',
+		titleWidth: "100", margin: '10px',        wrapTitle: false,
 		titleAlign: "right",
 		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
 		numCols: 4, backgroundImage: "backgrounds/leaves.jpg",
@@ -433,7 +433,7 @@
 				{name: "shipmentId", hidden: true,},
 				{
 					type: "Header",
-					defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+					defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 				},
 				{
 					name: "invoiceType",
@@ -455,11 +455,11 @@
 				},
 				{
 					type: "Header",
-					defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+					defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 				},
 				{
 					name: "invoiceNo", title: "<spring:message
-		code='invoice.invoiceNo'/>", required: true, width: "100%", colSpan: 1, titleColSpan: 1
+		code='invoice.invoiceNo'/>", required: true, width: "100%", colSpan: 1, titleColSpan: 1,wrapTitle:false,
 				},
 				{
 					name: "invoiceDateDumy",
@@ -473,7 +473,7 @@
 				},
 				{
 					type: "Header",
-					defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+					defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 				},
 				{
 					name: "grass",
@@ -535,7 +535,7 @@
 				},
 				{
 					name: "Depreciation", title: "<spring:message
-		code='invoice.Depreciation'/>", type: 'float', required: false, width: "100%",
+		code='invoice.Depreciation'/>", type: 'float', required: false, width: "100%",  wrapTitle: false,titleColSpan : 1,
 					validators: [{
 						type: "isFloat",
 						validateOnExit: true,
@@ -560,7 +560,7 @@
 					name: "beforePaid",
 					title: "<spring:message code='invoice.beforePaid'/>",
 					type: 'float',
-					required: false,
+					required: false,titleColSpan : 1,  wrapTitle: false,
 					width: "100%",
 					validators: [{
 						type: "isFloat",
@@ -590,7 +590,7 @@
 				},
 				{
 					type: "Header",
-					defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - محتوی - - - - - - - - - - - - - - - - - - - - - - - -"
+					defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - محتوی - - - - - - - - - - - - - - - - - - - - - - - - -"
 				},
 				{
 					name: "copperUnitPrice", title: "<spring:message
@@ -814,7 +814,7 @@
 			[
 				DynamicForm_Invoice,
 				isc.HLayout.create({
-					width: "100%",
+					width: "100%", align: "center",  height: "20",
 					members:
 						[
 							IButton_Invoice_Save,

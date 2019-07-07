@@ -987,7 +987,7 @@
 			[
 				DynamicForm_Cost,
 				isc.HLayout.create({
-					width: "100%",
+					width: "100%", align: "center",  height: "20",
 					members:
 						[
 							IButton_Cost_Save,

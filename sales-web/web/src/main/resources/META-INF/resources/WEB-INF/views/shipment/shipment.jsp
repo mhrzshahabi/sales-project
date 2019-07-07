@@ -901,7 +901,7 @@
 				width: "100%",
 				height: "20",
 				layoutMargin: 5,
-				membersMargin: 5,
+				membersMargin: 5, align: "center",  height: "20",
 				members: [
 					IButton_Shipment_Save,
 				]

@@ -145,6 +145,34 @@
             DynamicForm_Contract.setValue("contractDateDumy", new Date(record.contractDate));
             DynamicForm_Contract.setValue("runEndDateDumy", (record.runEndtDate == null ? null : new Date(record.runEndtDate)));
             DynamicForm_Contract.setValue("runStartDateDumy", new Date(record.runStartDate));
+                        if (record.material.descl === 'Copper Concentrate') {
+                            DynamicForm_Contract.getItem("copper").show();
+                            DynamicForm_Contract.getItem("copperTolorance").show();
+                            DynamicForm_Contract.getItem("gold").show();
+                            DynamicForm_Contract.getItem("goldTolorance").show();
+                            DynamicForm_Contract.getItem("silver").show();
+                            DynamicForm_Contract.getItem("silverTolorance").show();
+                            DynamicForm_Contract.getItem("molybdenum").hide();
+                            DynamicForm_Contract.getItem("molybdenumTolorance").hide();
+                        } else if (record.material.descl === 'Molybdenum Oxide') {
+                            DynamicForm_Contract.getItem("copper").hide();
+                            DynamicForm_Contract.getItem("copperTolorance").hide();
+                            DynamicForm_Contract.getItem("gold").hide();
+                            DynamicForm_Contract.getItem("goldTolorance").hide();
+                            DynamicForm_Contract.getItem("silver").hide();
+                            DynamicForm_Contract.getItem("silverTolorance").hide();
+                            DynamicForm_Contract.getItem("molybdenum").show();
+                            DynamicForm_Contract.getItem("molybdenumTolorance").show();
+                        } else {
+                            DynamicForm_Contract.getItem("copper").hide();
+                            DynamicForm_Contract.getItem("copperTolorance").hide();
+                            DynamicForm_Contract.getItem("gold").hide();
+                            DynamicForm_Contract.getItem("goldTolorance").hide();
+                            DynamicForm_Contract.getItem("silver").hide();
+                            DynamicForm_Contract.getItem("silverTolorance").hide();
+                            DynamicForm_Contract.getItem("molybdenum").hide();
+                            DynamicForm_Contract.getItem("molybdenumTolorance").hide();
+                        }
             Window_Contract.animateShow()
         }
     }
@@ -264,6 +292,7 @@
         fields:
             [
                 {name: "id", hidden: true,},
+                {type: "Header",defaultValue:""},
                 {
                     name: "contractNo",
                     colSpan:1,
@@ -330,7 +359,7 @@
                     required: false,
                     width: "100%"
                 },
-                {type: "Header",defaultValue:"ترم    --------------------------------------------------------------"},
+                {type: "Header",defaultValue:"------------------  ترم    ----------------------------------------------------------------"},
                 {
                     name: "incotermsId",
                      colSpan:3,
@@ -351,7 +380,7 @@
                         {name: "code", width: 440, align: "center"}
                     ]
                 },
-                {type: "Header",defaultValue:"محصول  --------------------------------------------------------------"},
+                {type: "Header",defaultValue:"------------------  محصول  --------------------------------------------------------------"},
                 {
                     name: "materialId",
                     colSpan:3,
@@ -431,7 +460,7 @@
                         {name: "nameFA", width: 440, align: "center"}
                     ]
                 },
-                {type: "Header",defaultValue:"محتوی   --------------------------------------------------------------"},
+                {type: "Header",defaultValue:"------------------  محتوی   --------------------------------------------------------------"},
                 {
                     name: "copper",
                     title: "<spring:message code='contract.copper'/>",
@@ -544,7 +573,7 @@
                     }],
                     hidden: true
                 },
-                {type: "Header",defaultValue:"قیمت--------------------------------------------------------------"},
+                {type: "Header",defaultValue:"------------------  قیمت---------------------------------------------------------------"},
                 {
                     name: "premium",
                     title: "<spring:message code='contract.premium'/>",
@@ -617,7 +646,7 @@
                     defaultValue: "DOLLAR", valueMap:{"EURO":"EURO", "DOLLAR":"DOLLAR"},
                     width: "100%"
                 },
-                {type: "Header",defaultValue:"زمان--------------------------------------------------------------"},
+                {type: "Header",defaultValue:"------------------  زمان----------------------------------------------------------------"},
                 {
                     name: "runStartDateDumy",
                     title: "<spring:message code='contract.runStartDate'/>",
@@ -630,6 +659,7 @@
                     type: 'date',
                     width: "100%"
                 },
+                {type: "Header",defaultValue:""}
             ]
     });
 
@@ -742,7 +772,7 @@
     var Window_Contract = isc.Window.create({
         title: "<spring:message code='contract.title'/> ",
         width: 580,
-        hight: 500,
+        height: "*",
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -757,12 +787,12 @@
             [
                 DynamicForm_Contract,
                 isc.HLayout.create({
-                    width: "100%",
+                    width: "100%", align: "center",  height: "20",
                     members:
                         [
                             IButton_Contract_Save,
                             isc.Label.create({
-                                width: 5,
+                                width: 15,
                             }),
                             isc.IButton.create({
                                 ID: "contractEditExitIButton",
@@ -1312,7 +1342,7 @@
             [
                 DynamicForm_ContractShipment,
                 isc.HLayout.create({
-                    width: "100%",
+                    width: "100%", align: "center",  height: "20",
                     members:
                         [
                             IButton_ContractShipment_Save,
