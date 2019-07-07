@@ -5,12 +5,14 @@
 <%--<script>--%>
 
 	<% DateUtil dateUtil = new DateUtil();%>
- var dollar={};
+
 	<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
 	var contractId;
 	var RestDataSource_ContractPerson;
 	var ListGrid_Person_EmailCC;
+
+	var dollar={};
 	isc.RPCManager.sendRequest({
 		actionURL: "${restApiUrl}/api/currency/list",
 		httpMethod: "GET",
@@ -332,8 +334,7 @@
 			{type: "Header", defaultValue: "--------------------------------------------------------------"},
 			{
 				name: "contractShipmentId",
-				title: "<spring:message
-		code='contact.name'/>",
+				title: "<spring:message	code='contact.name'/>",
 				type: 'long',
 				width: "100%",
 				editorType: "SelectItem"
@@ -511,8 +512,7 @@
 			{name: "id", hidden: true,},
 			{type: "Header", defaultValue: ""},
 			{
-				name: "numberOfBLs", title: "<spring:message
-		code='shipment.numberOfBLs'/>", type: 'integer', required: false, width: "100%",
+				name: "numberOfBLs", title: "<spring:message code='shipment.numberOfBLs'/>", type: 'integer', required: false, width: "100%",
 				validators: [{
 					type: "isInteger",
 					validateOnExit: true,
@@ -524,7 +524,7 @@
 				name: "blNumbers",
 				title: "<spring:message code='shipment.blNumbers'/>",
 				type: 'text',
-				width: "300",
+				width: "100%",
 				align: "center",
 			},
 			{name: "blDate", hidden: true,},
@@ -564,7 +564,7 @@
 				name: "switchBl",
 				title: "<spring:message code='shipment.switchBl'/>",
 				type: 'text',
-				width: "300",
+				width: "100%",
 				align: "center",
 			},
 			{name: "swBlDate", hidden: true,},

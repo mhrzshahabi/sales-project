@@ -476,6 +476,15 @@
 			createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
 		}
 	});
+	var currencyButton = isc.IconButton.create({
+		title: "<spring:message code='currency.title'/>",
+		icon: "basicTables/currency.png",
+		largeIcon: "basicTables/currency.png",
+		orientation: "vertical",
+		click: function () {
+			createTab("<spring:message code='currency.title'/>", "<spring:url value="/currency/showForm" />")
+		}
+	});
 	var commercialIncotermsButton = isc.IconButton.create({
 		title: "<spring:message code='commercialIncoterms.title'/>",
 		icon: "basicTables/commercialIncoterms.png",
@@ -597,6 +606,7 @@
 			, featureButton
 			, unitButton
 			, rateButton
+			, currencyButton
 			, exchangeRateButton
 			, LMEButton
 			, commercialIncotermsButton
