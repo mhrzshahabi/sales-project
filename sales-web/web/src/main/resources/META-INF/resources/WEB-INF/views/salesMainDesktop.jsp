@@ -83,9 +83,20 @@
 		useSimpleHttp: true,
 		contentType: "application/json; charset=utf-8",
 		showPrompt: true,
-		serverOutputAsString: false
+		serverOutputAsString: false,
+		willHandleError: false //centralized error handling
 	};
 
+	isc.RPCManager.addClassProperties({
+		handleError: function (response, request) {
+			const httpResponse = JSON.parse(response.httpResponseText);
+			if (httpResponse.error === 'Unauthorized') {
+				isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: 'هشدار'});
+				return;
+			}
+			isc.warn(httpResponse.errors[0].message, {title: 'هشدار'});
+		}
+	});
 
 	isc.RPCManager.allowCrossDomainCalls = true;
 	isc.FileLoader.loadLocale("fa");
