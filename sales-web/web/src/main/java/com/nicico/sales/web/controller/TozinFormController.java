@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @RequestMapping("/tozin")
 public class TozinFormController {
+	private final OAuth2AuthorizedClientService authorizedClientService;
 
 	@Value("${nicico.rest-api.url}")
 	private String restApiUrl;
@@ -47,7 +48,32 @@ public class TozinFormController {
 		return "base/tozinTransport2Plants";
 	}
 
-	@RequestMapping("/print/{type}")
-	public void printTozin(HttpServletResponse response, @PathVariable String type) throws Exception {
+	@RequestMapping("/print/{type}/{date}")
+	public ResponseEntity<?> print(Authentication authentication, @PathVariable String type, @PathVariable String date) {
+		String token = "";
+		if (authentication instanceof OAuth2AuthenticationToken) {
+			OAuth2AuthorizedClient client = authorizedClientService
+					.loadAuthorizedClient(
+							((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
+							authentication.getName());
+			token = client.getAccessToken().getTokenValue();
+		}
+
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "Bearer " + token);
+
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+		if(type.equals("pdf"))
+			return restTemplate.exchange(restApiUrl + "/api/tozin/print/pdf/"+date, HttpMethod.GET, entity, byte[].class);
+		else if(type.equals("excel"))
+			return restTemplate.exchange(restApiUrl + "/api/tozin/print/excel/"+date, HttpMethod.GET, entity, byte[].class);
+		else if(type.equals("html"))
+			return restTemplate.exchange(restApiUrl + "/api/tozin/print/html/"+date, HttpMethod.GET, entity, byte[].class);
+		else
+			return null;
 	}
 }
