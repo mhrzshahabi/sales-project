@@ -3,7 +3,7 @@
 
 <%--<script>--%>
 
-<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
     var RestDataSource_Contract = isc.RestDataSource.create({
         fields:
@@ -145,35 +145,7 @@
             DynamicForm_Contract.setValue("contractDateDumy", new Date(record.contractDate));
             DynamicForm_Contract.setValue("runEndDateDumy", (record.runEndtDate == null ? null : new Date(record.runEndtDate)));
             DynamicForm_Contract.setValue("runStartDateDumy", new Date(record.runStartDate));
-                        if (record.material.descl === 'Copper Concentrate') {
-                            DynamicForm_Contract.getItem("copper").show();
-                            DynamicForm_Contract.getItem("copperTolorance").show();
-                            DynamicForm_Contract.getItem("gold").show();
-                            DynamicForm_Contract.getItem("goldTolorance").show();
-                            DynamicForm_Contract.getItem("silver").show();
-                            DynamicForm_Contract.getItem("silverTolorance").show();
-                            DynamicForm_Contract.getItem("molybdenum").hide();
-                            DynamicForm_Contract.getItem("molybdenumTolorance").hide();
-                        } else if (record.material.descl === 'Molybdenum Oxide') {
-                            DynamicForm_Contract.getItem("copper").hide();
-                            DynamicForm_Contract.getItem("copperTolorance").hide();
-                            DynamicForm_Contract.getItem("gold").hide();
-                            DynamicForm_Contract.getItem("goldTolorance").hide();
-                            DynamicForm_Contract.getItem("silver").hide();
-                            DynamicForm_Contract.getItem("silverTolorance").hide();
-                            DynamicForm_Contract.getItem("molybdenum").show();
-                            DynamicForm_Contract.getItem("molybdenumTolorance").show();
-                        } else {
-                            DynamicForm_Contract.getItem("copper").hide();
-                            DynamicForm_Contract.getItem("copperTolorance").hide();
-                            DynamicForm_Contract.getItem("gold").hide();
-                            DynamicForm_Contract.getItem("goldTolorance").hide();
-                            DynamicForm_Contract.getItem("silver").hide();
-                            DynamicForm_Contract.getItem("silverTolorance").hide();
-                            DynamicForm_Contract.getItem("molybdenum").hide();
-                            DynamicForm_Contract.getItem("molybdenumTolorance").hide();
-                        }
-            Window_Contract.animateShow()
+            Window_Contract.animateShow();
         }
     }
 
@@ -254,18 +226,18 @@
                 }
             },
             {
-               title: "ارسال به Pdf", icon: "icon/pdf.png", click: function () {
-                    "<spring:url value="/contract/print/pdf" var="printUrl"/>"
+                title: "ارسال به Pdf", icon: "icon/pdf.png", click: function () {
+                    "<spring:url value="/contract/print/pdf" var="printUrl"/>";
                     window.open('${printUrl}');
                 }
             }, {
                 title: "ارسال به Excel", icon: "icon/excel.png", click: function () {
-                    "<spring:url value="/contract/print/excel" var="printUrl"/>"
+                    "<spring:url value="/contract/print/excel" var="printUrl"/>";
                     window.open('${printUrl}');
-             }
+                }
             }, {
                 title: "ارسال به Html", icon: "icon/html.jpg", click: function () {
-                    "<spring:url value="/contract/print/html" var="printUrl"/>"
+                    "<spring:url value="/contract/print/html" var="printUrl"/>";
                     window.open('${printUrl}');
                 }
             }
@@ -286,19 +258,19 @@
         wrapTitle: false,
         requiredMessage: "<spring:message code='validator.field.is.required'/>.",
         numCols: 4,
-        backgroundImage:"backgrounds/leaves.jpg",
+        backgroundImage: "backgrounds/leaves.jpg",
         titleWidth: "120",
         titleAlign: "right",
         fields:
             [
                 {name: "id", hidden: true,},
-                {type: "Header",defaultValue:""},
+                {type: "Header", defaultValue: ""},
                 {
                     name: "contractNo",
-                    colSpan:1,
-                    titleColSpan:1,
-                    tabIndex:1,
-                    showHover:true,
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    tabIndex: 1,
+                    showHover: true,
                     title: "<spring:message code='contract.contractNo'/>",
                     type: 'text',
                     required: true,
@@ -306,23 +278,23 @@
                 },
                 {
                     name: "contractDateDumy",
-                    colSpan:1,
-                    titleColSpan:1,
-                    tabIndex:2,
-                    showHover:true,
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    tabIndex: 2,
+                    showHover: true,
                     title: "<spring:message code='contract.contractDate'/>",
                     type: 'date',
                     width: "100%"
                 },
                 {
                     name: "contactId",
-                    colSpan:3,
-                    titleColSpan:1,
-                    tabIndex:3,
-                    showHover:true,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    tabIndex: 3,
+                    showHover: true,
                     title: "<spring:message code='contact.name'/>",
                     type: 'long',
-                    width: "100%" ,
+                    width: "100%",
                     required: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Contact,
@@ -339,10 +311,10 @@
                 },
                 {
                     name: "sideContractNo",
-                    colSpan:1,
-                    titleColSpan:1,
-                    tabIndex:4,
-                    showHover:true,
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    tabIndex: 4,
+                    showHover: true,
                     title: "<spring:message code='contract.sideContractNo'/>",
                     type: 'text',
                     required: false,
@@ -350,25 +322,28 @@
                 },
                 {
                     name: "sideContractDateDumy",
-                    colSpan:1,
-                    titleColSpan:1,
-                    tabIndex:5,
-                    showHover:true,
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    tabIndex: 5,
+                    showHover: true,
                     title: "<spring:message code='contract.sideContractDate'/>",
                     type: 'date',
                     required: false,
                     width: "100%"
                 },
-                {type: "Header",defaultValue:"------------------  ترم    ----------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  ترم    ----------------------------------------------------------------"
+                },
                 {
                     name: "incotermsId",
-                     colSpan:3,
-                    titleColSpan:1,
-                    tabIndex:6,
-                    showHover:true,
-                   title: "<spring:message code='incoterms.name'/>",
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    tabIndex: 6,
+                    showHover: true,
+                    title: "<spring:message code='incoterms.name'/>",
                     type: 'long',
-                    width: "100%" ,numCols: 4,
+                    width: "100%", numCols: 4,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Incoterms,
                     displayField: "code",
@@ -380,16 +355,19 @@
                         {name: "code", width: 440, align: "center"}
                     ]
                 },
-                {type: "Header",defaultValue:"------------------  محصول  --------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  محصول  --------------------------------------------------------------"
+                },
                 {
                     name: "materialId",
-                    colSpan:3,
-                    titleColSpan:1,
-                    tabIndex:7,
-                    showHover:true,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    tabIndex: 7,
+                    showHover: true,
                     title: "<spring:message code='contractItem.material'/>",
                     type: 'long',
-                    width: "100%" ,
+                    width: "100%",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,
                     displayField: "descl",
@@ -436,7 +414,7 @@
                     title: "<spring:message code='contract.amount'/>",
                     type: 'float',
                     required: true,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -448,7 +426,7 @@
                     name: "unitId",
                     title: "<spring:message code='unit.nameFa'/>",
                     type: 'long',
-                    width: "100%" ,
+                    width: "100%",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Unit,
                     displayField: "code",
@@ -460,13 +438,16 @@
                         {name: "nameFA", width: 440, align: "center"}
                     ]
                 },
-                {type: "Header",defaultValue:"------------------  محتوی   --------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  محتوی   --------------------------------------------------------------"
+                },
                 {
                     name: "copper",
                     title: "<spring:message code='contract.copper'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -480,7 +461,7 @@
                     title: "<spring:message code='contract.copperTolorance'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -494,7 +475,7 @@
                     title: "<spring:message code='contract.gold'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -508,7 +489,7 @@
                     title: "<spring:message code='contract.goldTolorance'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -522,7 +503,7 @@
                     title: "<spring:message code='contract.silver'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -536,7 +517,7 @@
                     title: "<spring:message code='contract.silverTolorance'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -550,7 +531,7 @@
                     title: "<spring:message code='contract.molybdenum'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -564,7 +545,7 @@
                     title: "<spring:message code='contract.molybdenumTolorance'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -573,13 +554,16 @@
                     }],
                     hidden: true
                 },
-                {type: "Header",defaultValue:"------------------  قیمت---------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  قیمت---------------------------------------------------------------"
+                },
                 {
                     name: "premium",
                     title: "<spring:message code='contract.premium'/>",
                     type: 'integer',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -592,7 +576,7 @@
                     title: "<spring:message code='contract.discount'/>",
                     type: 'integer',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -605,7 +589,7 @@
                     title: "<spring:message code='contract.TC'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -618,7 +602,7 @@
                     title: "<spring:message code='contract.RC'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -631,7 +615,7 @@
                     title: "<spring:message code='contract.prepaid'/>",
                     type: 'integer',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -643,10 +627,13 @@
                     name: "prepaidCurrency",
                     title: "<spring:message code='contract.prepaidCurrency'/>",
                     type: 'text',
-                    defaultValue: "DOLLAR", valueMap:{"EURO":"EURO", "DOLLAR":"DOLLAR"},
+                    defaultValue: "DOLLAR", valueMap: {"EURO": "EURO", "DOLLAR": "DOLLAR"},
                     width: "100%"
                 },
-                {type: "Header",defaultValue:"------------------  زمان----------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  زمان----------------------------------------------------------------"
+                },
                 {
                     name: "runStartDateDumy",
                     title: "<spring:message code='contract.runStartDate'/>",
@@ -659,7 +646,7 @@
                     type: 'date',
                     width: "100%"
                 },
-                {type: "Header",defaultValue:""}
+                {type: "Header", defaultValue: ""}
             ]
     });
 
@@ -720,7 +707,6 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
             DynamicForm_Contract.validate();
             if (DynamicForm_Contract.hasErrors())
                 return;
@@ -743,30 +729,29 @@
                 DynamicForm_Contract.setValue("runEndtDate", datestringRe);
             }
 
+            if (dre < drs) {
+                isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
+                return;
+            }
+
             var data = DynamicForm_Contract.getValues();
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/contract/",
-                httpMethod: method,
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                showPrompt: true,
-                serverOutputAsString: false,
-                data: JSON.stringify(data),
-                //params: { data:data1},
-                callback: function (resp) {
-
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                        ListGrid_Contract_refresh();
-                        Window_Contract.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            });
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${restApiUrl}/api/contract/",
+                    httpMethod: method,
+                    data: JSON.stringify(data),
+                    callback: function (RpcResponse_o) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_Contract_refresh();
+                            Window_Contract.close();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                })
+            );
         }
     });
     var Window_Contract = isc.Window.create({
@@ -787,7 +772,7 @@
             [
                 DynamicForm_Contract,
                 isc.HLayout.create({
-                    width: "100%", align: "center",  height: "20",
+                    width: "100%", align: "center", height: "20",
                     members:
                         [
                             IButton_Contract_Save,
@@ -1005,7 +990,7 @@
         ListGrid_ContractShipment.fetchData(criteria1, function (dsResponse, data, dsRequest) {
             ListGrid_ContractShipment.setData(data);
         }, {operationId: "00"});
-    };
+    }
 
     function ListGrid_ContractShipment_edit() {
         var record = ListGrid_ContractShipment.getSelectedRecord();
@@ -1021,10 +1006,10 @@
             });
         } else {
             DynamicForm_ContractShipment.editRecord(record);
-            DynamicForm_ContractShipment.setValue("sendDateDummy", new Date(record.sendDate))
+            DynamicForm_ContractShipment.setValue("sendDateDummy", new Date(record.sendDate));
             Window_ContractShipment.animateShow();
         }
-    };
+    }
 
     function ListGrid_ContractShipment_remove() {
 
@@ -1049,32 +1034,27 @@
                     this.hide();
                     if (index == 0) {
                         var ContractShipmentId = record.id;
-                        isc.RPCManager.sendRequest({
-                            // ######@@@@###&&@@### pls correct callback
-                            actionURL: "${restApiUrl}/api/contractShipment/" + ContractShipmentId,
-                            httpMethod: "DELETE",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            //     httpMethod: "POST",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            showPrompt: true,
-                            serverOutputAsString: false,
-                            callback: function (RpcResponse_o) {
-                                // ######@@@@###&&@@###
-                                //     if(RpcResponse_o.data == 'success')
-                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                    ListGrid_ContractShipment_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                // ######@@@@###&&@@### pls correct callback
+                                actionURL: "${restApiUrl}/api/contractShipment/" + ContractShipmentId,
+                                httpMethod: "DELETE",
+                                callback: function (RpcResponse_o) {
+                                    // ######@@@@###&&@@###
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                        ListGrid_ContractShipment_refresh();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
                                 }
-                            }
-                        });
+                            })
+                        );
                     }
                 }
             });
         }
-    };
+    }
+
     var Menu_ListGrid_ContractShipment = isc.Menu.create({
         width: 150,
         data:
@@ -1288,40 +1268,39 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
             DynamicForm_ContractShipment.validate();
             // if (DynamicForm_ContractShipment.hasErrors())
             // return;
             var d = DynamicForm_ContractShipment.getValue("sendDateDummy");
-            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
-            DynamicForm_ContractShipment.setValue("sendDate", datestring)
+            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2));
+            DynamicForm_ContractShipment.setValue("sendDate", datestring);
+
+            var contractDate = DynamicForm_ContractShipment.getValue("contract").contractDate.split("/");
+            if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
+                isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
+                return;
+            }
+
             var data = DynamicForm_ContractShipment.getValues();
             // ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
-            isc.RPCManager.sendRequest({
-                // ######@@@@###&&@@### pls correct callback
-                actionURL: "${restApiUrl}/api/contractShipment/",
-                httpMethod: methodXXXX,
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                //         httpMethod: "POST",
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                showPrompt: false,
-                data: JSON.stringify(data),
-                serverOutputAsString: false,
-                //params: {    data:data1},
-                callback: function (RpcResponse_o) {
-                    // ######@@@@###&&@@###
-                    //         if(RpcResponse_o.data == 'success')
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                        ListGrid_ContractShipment_refresh();
-                        Window_ContractShipment.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            });
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    // ######@@@@###&&@@### pls correct callback
+                    actionURL: "${restApiUrl}/api/contractShipment/",
+                    httpMethod: methodXXXX,
+                    data: JSON.stringify(data),
+                    callback: function (RpcResponse_o) {
+                        // ######@@@@###&&@@###
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_ContractShipment_refresh();
+                            Window_ContractShipment.close();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                })
+            );
         }
     });
     var Window_ContractShipment = isc.Window.create({
@@ -1342,7 +1321,7 @@
             [
                 DynamicForm_ContractShipment,
                 isc.HLayout.create({
-                    width: "100%", align: "center",  height: "20",
+                    width: "100%", align: "center", height: "20",
                     members:
                         [
                             IButton_ContractShipment_Save,
