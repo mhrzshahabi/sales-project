@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface TozinDAO extends JpaRepository<Tozin, Long>, JpaSpecificationExecutor<Tozin> {
 	@Query(value =
-			"select s.namefa snamefa,t.namefa,gdsname, case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,sum(wazn) wazn,sum(tedad) tedad  " +
+			"select s.namefa snamefa,t.namefa,gdsname, case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,nvl(sum(wazn),0) wazn,nvl(sum(tedad),0) tedad  " +
 					"from sales.view_tozin t " +
 					"join sales.tbl_tozin_plant s on s.id=substr(SOURCE_PLANT_ID,1,1) " +
 					"join sales.tbl_tozin_plant t on t.id=target_plant_id " +

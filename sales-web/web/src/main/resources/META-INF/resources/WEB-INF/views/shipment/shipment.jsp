@@ -623,6 +623,11 @@
 			},
 		]
 	});
+var RestDataSource_Contact_optionCriteria= {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "transporter", operator: "equals", value: true}]
+  };
 	var DynamicForm_Shipment2 = isc.DynamicForm.create({
 		width: "100%",
 		height: "100%",
@@ -649,8 +654,8 @@
 				type: 'long',
 				width: "100%",
 				editorType: "SelectItem",
-				optionDataSource: RestDataSource_Contact
-				,
+				optionDataSource: RestDataSource_Contact,
+				optionCriteria : RestDataSource_Contact_optionCriteria,
 				displayField: "nameFA",
 				valueField: "id",
 				pickListWidth: "500",

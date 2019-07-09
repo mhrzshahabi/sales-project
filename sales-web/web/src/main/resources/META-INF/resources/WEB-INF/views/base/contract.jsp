@@ -273,7 +273,12 @@
         ]
     });
 
-    var DynamicForm_Contract = isc.DynamicForm.create({
+var RestDataSource_Contact_optionCriteria= {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "buyer", operator: "equals", value: true}]
+  };
+var DynamicForm_Contract = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         setMethod: 'POST',
@@ -320,12 +325,14 @@
                     titleColSpan:1,
                     tabIndex:3,
                     showHover:true,
+                    autoFetchData:false,
                     title: "<spring:message code='contact.name'/>",
                     type: 'long',
                     width: "100%" ,
                     required: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Contact,
+                    optionCriteria : RestDataSource_Contact_optionCriteria,
                     displayField: "nameFA",
                     valueField: "id",
                     pickListWidth: "500",

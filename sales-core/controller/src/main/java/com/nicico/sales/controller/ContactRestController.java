@@ -95,8 +95,8 @@ public class ContactRestController {
 	@Loggable
 	@GetMapping( {"/spec-list","/spec-list1","/spec-list2","/spec-list3","/spec-list4"})
 	@PreAuthorize("hasAuthority('r_contact')")
-	public ResponseEntity<ContactDTO.ContactSpecRs> list(@RequestParam("_startRow") Integer startRow,
-														 @RequestParam("_endRow") Integer endRow,
+	public ResponseEntity<ContactDTO.ContactSpecRs> list(@RequestParam(value = "_startRow", required = false) Integer startRow,
+														 @RequestParam(value = "_endRow", required = false) Integer endRow,
 														 @RequestParam(value = "_constructor", required = false) String constructor,
 														 @RequestParam(value = "operator", required = false) String operator,
 														 @RequestParam(value = "_sortBy", required = false) String sortBy,
@@ -117,15 +117,19 @@ public class ContactRestController {
 			request.setCriteria(criteriaRq);
 		}
 
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
+		final ContactDTO.SpecRs specResponse = new ContactDTO.SpecRs();
+
+        if (startRow != null && endRow != null) {
+			request.setStartIndex(startRow)
+					.setCount(endRow - startRow);
+
+			specResponse.setStartRow(startRow)
+					.setEndRow(endRow);
+		}
 
 		SearchDTO.SearchRs<ContactDTO.Info> response = contactService.search(request);
 
-		final ContactDTO.SpecRs specResponse = new ContactDTO.SpecRs();
 		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
 				.setTotalRows(response.getTotalCount().intValue());
 
 		final ContactDTO.ContactSpecRs specRs = new ContactDTO.ContactSpecRs();

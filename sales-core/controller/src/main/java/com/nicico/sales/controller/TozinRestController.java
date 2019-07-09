@@ -2,21 +2,28 @@ package com.nicico.sales.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.core.dto.search.EOperator;
 import com.nicico.copper.core.dto.search.SearchDTO;
 import com.nicico.copper.core.util.Loggable;
+import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.TozinDTO;
 import com.nicico.sales.iservice.ITozinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +33,7 @@ public class TozinRestController {
 
 	private final ObjectMapper objectMapper;
 	private final ITozinService tozinService;
+	private final ReportUtil reportUtil;
 
 	// ------------------------------s
 
@@ -147,4 +155,15 @@ public class TozinRestController {
 	public ResponseEntity<SearchDTO.SearchRs<TozinDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(tozinService.search(request), HttpStatus.OK);
 	}
+	//---------------------------------------------------------------
+	@Loggable
+	@GetMapping(value = {"/print/{type}/{date}"})
+	public void print(HttpServletResponse response, @PathVariable String type, @PathVariable("date") String date) throws SQLException, IOException, JRException {
+		String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
+		Map<String, Object> params = new HashMap<>();
+		params.put("dateReport", day);
+		params.put(ConstantVARs.REPORT_TYPE, type);
+		reportUtil.export("/reports/tozin_m1.jasper", params, response);
+	}
+
 }

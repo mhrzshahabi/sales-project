@@ -173,9 +173,11 @@
 				title: "بین مجامع", icon: "pieces/16/refresh.png",
 				click: function () {
 					var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-					ViewLoader_createTozin.setViewURL("<spring:url
-		value="tozin/showTransport2Plants"/>" + "/" + toDay + "?Authorization=Bearer " + "${cookie['access_token'].getValue()}");
-					Window_Tozin_ViewLoader.show();
+					"<spring:url value="/tozin/print/pdf" var="printUrl"/>"
+					window.open('${printUrl}'+'/'+toDay);
+					<%--ViewLoader_createTozin.setViewURL("<spring:url--%>
+		<%--value="tozin/showTransport2Plants"/>" + "/" + toDay + "?Authorization=Bearer " + "${cookie['access_token'].getValue()}");--%>
+					<%--Window_Tozin_ViewLoader.show();--%>
 				}
 			},
 			{

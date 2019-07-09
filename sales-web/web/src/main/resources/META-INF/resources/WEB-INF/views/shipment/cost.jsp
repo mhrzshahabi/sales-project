@@ -447,6 +447,16 @@
 			}
 		]
 	});
+var RestDataSource_Contact_optionCriteria_inspector= {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "inspector", operator: "equals", value: true}]
+  };
+var RestDataSource_Contact_optionCriteria_insurancer= {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "insurancer", operator: "equals", value: true}]
+  };
 
 	var DynamicForm_Cost = isc.DynamicForm.create({
 		width: "100%",
@@ -478,8 +488,8 @@
 					type: 'long',
 					width: "100%",
 					editorType: "SelectItem",
-					optionDataSource: RestDataSource_ContactBySourceInspector
-					,
+					optionDataSource: RestDataSource_ContactBySourceInspector,
+					optionCriteria : RestDataSource_Contact_optionCriteria_inspector,
 					displayField: "nameFA",
 					valueField: "id",
 					pickListWidth: "500",
@@ -516,8 +526,8 @@
 					type: 'long',
 					width: "100%",
 					editorType: "SelectItem",
-					optionDataSource: RestDataSource_ContactByDestinationInspector
-					,
+					optionDataSource: RestDataSource_ContactByDestinationInspector,
+					optionCriteria : RestDataSource_Contact_optionCriteria_inspector,
 					displayField: "nameFA",
 					valueField: "id",
 					pickListWidth: "500",
@@ -672,8 +682,8 @@
 					type: 'long',
 					width: "100%",
 					editorType: "SelectItem",
-					optionDataSource: RestDataSource_ContactByInsurance
-					,
+					optionDataSource: RestDataSource_ContactByInsurance,
+					optionCriteria : RestDataSource_Contact_optionCriteria_insurancer,
 					displayField: "nameFA",
 					valueField: "id",
 					pickListWidth: "500",
