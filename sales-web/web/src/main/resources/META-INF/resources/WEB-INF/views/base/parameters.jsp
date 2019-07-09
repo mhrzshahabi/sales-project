@@ -1,10 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+
+// <script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
+    var RestDataSource_Parameters = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
+                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
+                {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
+            ],
+
+        fetchDataURL: "${restApiUrl}/api/parameters/spec-list"
+    });
     function ListGrid_Parameters_refresh() {
         ListGrid_Parameters.invalidateCache();
     }
@@ -56,39 +68,42 @@
                     if (index == 0) {
                         var parametersId = record.id;
 
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/parameters/" + parametersId,
-                                httpMethod: "DELETE",
-                                callback: function (RpcResponse_o) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                        ListGrid_Parameters_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
+                        isc.RPCManager.sendRequest({
+                            actionURL: "${restApiUrl}/api/parameters/" + parametersId,
+                            httpMethod: "DELETE",
+                            useSimpleHttp: true,
+                            contentType: "application/json; charset=utf-8",
+                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+                            showPrompt: true,
+                            serverOutputAsString: false,
+                            callback: function (RpcResponse_o) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+
+                                    ListGrid_Parameters_refresh();
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
-                            })
-                        );
+                            }
+                        });
                     }
                 }
             });
         }
-    }
-
+    };
     var Menu_ListGrid_Parameters = isc.Menu.create({
         width: 150,
         data: [
             {
                 title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
-                    ListGrid_Parameters_refresh();
+                    DynamicForm_Parameters.clearValues();
+                    Window_Parameters.show();
                 }
             },
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
-                    DynamicForm_Parameters.clearValues();
-                    Window_Parameters.show();
                 }
             },
             {
@@ -124,18 +139,8 @@
             [
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
-                {
-                    name: "paramName",
-                    title: "<spring:message code='parameters.paramName'/>",
-                    width: "100%",
-                    type: "text"
-                },
-                {
-                    name: "paramType",
-                    title: "<spring:message code='parameters.paramType'/>",
-                    width: "100%",
-                    type: "text"
-                },
+                {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "100%", type: "text"},
+                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "100%", type: "text"},
                 {
                     name: "paramValue", title: "<spring:message	code='parameters.paramValue'/>",
                     width: "100%", type: "textArea"
@@ -195,17 +200,6 @@
                 ToolStrip_Actions_Parameters
             ]
     });
-    var RestDataSource_Parameters = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
-                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
-                {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
-            ],
-
-        fetchDataURL: "${restApiUrl}/api/parameters/spec-list"
-    });
     var IButton_Parameters_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -220,20 +214,25 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/parameters",
-                    httpMethod: method,
-                    data: JSON.stringify(data),
-                    callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
-                            ListGrid_Parameters_refresh();
-                            Window_Parameters.close();
-                        } else
-                            isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
+            isc.RPCManager.sendRequest({
+                actionURL: "${restApiUrl}/api/parameters",
+                httpMethod: method,
+                useSimpleHttp: true,
+                contentType: "application/json; charset=utf-8",
+                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+                showPrompt: false,
+                data: JSON.stringify(data),
+                serverOutputAsString: false,
+                callback: function (RpcResponse_o) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+
+                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        ListGrid_Parameters_refresh();
+                        Window_Parameters.close();
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            });
         }
     });
 
