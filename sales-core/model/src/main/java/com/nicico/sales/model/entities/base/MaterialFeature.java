@@ -37,7 +37,7 @@ public class MaterialFeature extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "FEATURE_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_Material_Feature"))
+    @JoinColumn(name = "FEATURE_ID", nullable = false, insertable = false, updatable = false)
     private Feature feature;
 
     @Column(name = "FEATURE_ID", nullable = false)

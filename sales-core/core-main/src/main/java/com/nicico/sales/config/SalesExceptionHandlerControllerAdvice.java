@@ -20,7 +20,7 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
     @Override
     protected Map<String, ErrorResponseDTO.ErrorFieldDTO> getUniqueConstraintErrors() {
         Map<String, ErrorResponseDTO.ErrorFieldDTO> errorCodeMap = new HashMap<>();
-        errorCodeMap.put("fk_material_feature", new ErrorResponseDTO.ErrorFieldDTO().setMessage("برای حذف محصول باید ابتدا محتوی وابسته به آن حذف گردد!"));
+        errorCodeMap.put("fk", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation"));
         return errorCodeMap;
     }
 
