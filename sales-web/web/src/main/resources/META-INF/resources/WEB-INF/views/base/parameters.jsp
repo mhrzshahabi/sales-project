@@ -17,6 +17,7 @@
 
         fetchDataURL: "${restApiUrl}/api/parameters/spec-list"
     });
+
     function ListGrid_Parameters_refresh() {
         ListGrid_Parameters.invalidateCache();
     }
@@ -97,13 +98,14 @@
             {
                 title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
-                    DynamicForm_Parameters.clearValues();
-                    Window_Parameters.show();
+                    ListGrid_Parameters_refresh();
                 }
             },
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
+                    DynamicForm_Parameters.clearValues();
+                    Window_Parameters.show();
                 }
             },
             {
@@ -139,8 +141,18 @@
             [
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
-                {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "100%", type: "text"},
-                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "100%", type: "text"},
+                {
+                    name: "paramName",
+                    title: "<spring:message code='parameters.paramName'/>",
+                    width: "100%",
+                    type: "text"
+                },
+                {
+                    name: "paramType",
+                    title: "<spring:message code='parameters.paramType'/>",
+                    width: "100%",
+                    type: "text"
+                },
                 {
                     name: "paramValue", title: "<spring:message	code='parameters.paramValue'/>",
                     width: "100%", type: "textArea"
