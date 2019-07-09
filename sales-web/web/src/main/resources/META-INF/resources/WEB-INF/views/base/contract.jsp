@@ -278,7 +278,7 @@
 var RestDataSource_Contact_optionCriteria= {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "buyer", operator: "equals", value: true}]
+    criteria: [{fieldName: "seller", operator: "equals", value: true}]
   };
 var DynamicForm_Contract = isc.DynamicForm.create({
         width: "100%",
