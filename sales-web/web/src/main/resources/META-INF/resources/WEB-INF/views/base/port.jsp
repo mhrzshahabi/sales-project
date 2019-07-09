@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-// <script>
+<%--<script>--%>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -108,13 +108,14 @@
             {
                 title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
-                    DynamicForm_Port.clearValues();
-                    Window_Port.show();
+                    ListGrid_Port_refresh();
                 }
             },
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
+                    DynamicForm_Port.clearValues();
+                    Window_Port.show();
                 }
             },
             {
@@ -149,16 +150,37 @@
         fields:
             [
                 {name: "id", hidden: true,},
-                {name: "port", title: "<spring:message code='port.port'/>", width: "100%", colSpan: 1, titleColSpan: 1 , wrapTitle:false},
-                {name: "loa", title: "<spring:message code='port.loa'/>", width: "100%", colSpan: 1, titleColSpan: 1, wrapTitle:false},
-                {name: "beam", title: "<spring:message code='port.beam'/>", width: "100%", colSpan: 1, titleColSpan: 1, wrapTitle:false},
+                {
+                    name: "port",
+                    title: "<spring:message code='port.port'/>",
+                    width: "100%",
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    wrapTitle: false
+                },
+                {
+                    name: "loa",
+                    title: "<spring:message code='port.loa'/>",
+                    width: "100%",
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    wrapTitle: false
+                },
+                {
+                    name: "beam",
+                    title: "<spring:message code='port.beam'/>",
+                    width: "100%",
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    wrapTitle: false
+                },
                 {
                     name: "arrival",
                     title: "<spring:message code='port.arrival'/>",
                     width: "100%",
                     colSpan: 1,
                     titleColSpan: 1
-                    , wrapTitle:false
+                    , wrapTitle: false
                 },
                 {
                     name: "countryId",
@@ -170,8 +192,8 @@
                     titleColSpan: 1
                     ,
                     optionDataSource: RestDataSource_CountryPort,
-                    displayField: "nameFa" ,
-                    wrapTitle:false ,
+                    displayField: "nameFa",
+                    wrapTitle: false,
                     valueField: "id",
                     pickListWidth: "500",
                     pickListheight: "500",

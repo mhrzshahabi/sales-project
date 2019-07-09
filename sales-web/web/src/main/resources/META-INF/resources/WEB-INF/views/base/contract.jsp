@@ -237,6 +237,8 @@
                 title: "<spring:message code='global.form.new'/>",
                 icon: "pieces/16/icon_add.png",
                 click: function () {
+                    DynamicForm_Contract.clearValues();
+                    Window_Contract.animateShow();
                 }
             },
             {
@@ -297,7 +299,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
         fields:
             [
                 {name: "id", hidden: true,},
-                {type: "Header",defaultValue:""},
+                {type: "Header", defaultValue: ""},
                 {
                     name: "contractNo",
                     colSpan:1,
@@ -328,7 +330,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     autoFetchData:false,
                     title: "<spring:message code='contact.name'/>",
                     type: 'long',
-                    width: "100%" ,
+                    width: "100%",
                     required: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Contact,
@@ -346,10 +348,10 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                 },
                 {
                     name: "sideContractNo",
-                    colSpan:1,
-                    titleColSpan:1,
-                    tabIndex:4,
-                    showHover:true,
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    tabIndex: 4,
+                    showHover: true,
                     title: "<spring:message code='contract.sideContractNo'/>",
                     type: 'text',
                     required: false,
@@ -357,25 +359,28 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                 },
                 {
                     name: "sideContractDateDumy",
-                    colSpan:1,
-                    titleColSpan:1,
-                    tabIndex:5,
-                    showHover:true,
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    tabIndex: 5,
+                    showHover: true,
                     title: "<spring:message code='contract.sideContractDate'/>",
                     type: 'date',
                     required: false,
                     width: "100%"
                 },
-                {type: "Header",defaultValue:"------------------  ترم    ----------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  ترم    ----------------------------------------------------------------"
+                },
                 {
                     name: "incotermsId",
-                     colSpan:3,
-                    titleColSpan:1,
-                    tabIndex:6,
-                    showHover:true,
-                   title: "<spring:message code='incoterms.name'/>",
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    tabIndex: 6,
+                    showHover: true,
+                    title: "<spring:message code='incoterms.name'/>",
                     type: 'long',
-                    width: "100%" ,numCols: 4,
+                    width: "100%", numCols: 4,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Incoterms,
                     displayField: "code",
@@ -387,16 +392,19 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                         {name: "code", width: 440, align: "center"}
                     ]
                 },
-                {type: "Header",defaultValue:"------------------  محصول  --------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  محصول  --------------------------------------------------------------"
+                },
                 {
                     name: "materialId",
-                    colSpan:3,
-                    titleColSpan:1,
-                    tabIndex:7,
-                    showHover:true,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    tabIndex: 7,
+                    showHover: true,
                     title: "<spring:message code='contractItem.material'/>",
                     type: 'long',
-                    width: "100%" ,
+                    width: "100%",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,
                     displayField: "descl",
@@ -443,7 +451,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.amount'/>",
                     type: 'float',
                     required: true,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -455,7 +463,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     name: "unitId",
                     title: "<spring:message code='unit.nameFa'/>",
                     type: 'long',
-                    width: "100%" ,
+                    width: "100%",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Unit,
                     displayField: "code",
@@ -467,13 +475,16 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                         {name: "nameFA", width: 440, align: "center"}
                     ]
                 },
-                {type: "Header",defaultValue:"------------------  محتوی   --------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  محتوی   --------------------------------------------------------------"
+                },
                 {
                     name: "copper",
                     title: "<spring:message code='contract.copper'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -487,7 +498,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.copperTolorance'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -501,7 +512,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.gold'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,

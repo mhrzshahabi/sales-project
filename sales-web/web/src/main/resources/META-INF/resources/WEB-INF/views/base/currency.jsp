@@ -3,7 +3,7 @@
 
 <%--<script>--%>
 
-<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
     var RestDataSource_Currency = isc.MyRestDataSource.create({
         fields:
@@ -76,7 +76,7 @@
                             httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
                             showPrompt: true,
                             serverOutputAsString: false,
-                             callback: function (resp) {
+                            callback: function (resp) {
                                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Currency_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -96,13 +96,14 @@
             {
                 title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
-                    DynamicForm_Currency.clearValues();
-                    Window_Currency.show();
+                    ListGrid_Currency_refresh();
                 }
             },
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
+                    DynamicForm_Currency.clearValues();
+                    Window_Currency.show();
                 }
             },
             {
@@ -232,22 +233,22 @@
                 return;
 
             var data = DynamicForm_Currency.getValues();
-            var method="PUT";
-            if (data.id==null)
-                method="POST";
+            var method = "PUT";
+            if (data.id == null)
+                method = "POST";
             isc.RPCManager.sendRequest({
-actionURL: "${restApiUrl}/api/currency/" ,
-httpMethod: method,
-useSimpleHttp: true,
-contentType: "application/json; charset=utf-8",
-httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-showPrompt: true,
-serverOutputAsString: false,
+                actionURL: "${restApiUrl}/api/currency/",
+                httpMethod: method,
+                useSimpleHttp: true,
+                contentType: "application/json; charset=utf-8",
+                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+                showPrompt: true,
+                serverOutputAsString: false,
                 data: JSON.stringify(data),
                 //params: { data:data1},
                 callback: function (resp) {
 
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201){
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_Currency_refresh();
                         Window_Currency.close();
@@ -303,7 +304,7 @@ serverOutputAsString: false,
         contextMenu: Menu_ListGrid_Currency,
         fields:
             [
-               {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: "code", title: "<spring:message code='currency.code'/>", width: "10%", align: "center"},
                 {name: "symbol", title: "<spring:message code='currency.symbol'/>", width: "10%", align: "center"},
                 {name: "nameEn", title: "<spring:message code='currency.nameLatin'/>", width: "10%", align: "center"},
