@@ -201,14 +201,15 @@
                 title: "<spring:message code='global.form.refresh'/>",
                 icon: "pieces/16/refresh.png",
                 click: function () {
-                    DynamicForm_Contract.clearValues();
-                    Window_Contract.animateShow();
+                    ListGrid_Contract_refresh();
                 }
             },
             {
                 title: "<spring:message code='global.form.new'/>",
                 icon: "pieces/16/icon_add.png",
                 click: function () {
+                    DynamicForm_Contract.clearValues();
+                    Window_Contract.animateShow();
                 }
             },
             {
@@ -1062,13 +1063,14 @@
                 {
                     title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                     click: function () {
-                        DynamicForm_ContractShipment.clearValues();
-                        Window_ContractShipment.animateShow();
+                        ListGrid_ContractShipment_refresh();
                     }
                 },
                 {
                     title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                     click: function () {
+                        DynamicForm_ContractShipment.clearValues();
+                        Window_ContractShipment.animateShow();
                     }
                 },
                 {

@@ -3,7 +3,7 @@
 
 <%--<script>--%>
 
-<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
     var RestDataSource_Bank = isc.MyRestDataSource.create({
         fields:
@@ -88,7 +88,7 @@
                             httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
                             showPrompt: true,
                             serverOutputAsString: false,
-                             callback: function (resp) {
+                            callback: function (resp) {
                                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Bank_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -108,13 +108,14 @@
             {
                 title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
-                    DynamicForm_Bank.clearValues();
-                    Window_Bank.show();
+                    ListGrid_Bank_refresh();
                 }
             },
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
+                    DynamicForm_Bank.clearValues();
+                    Window_Bank.show();
                 }
             },
             {
@@ -128,22 +129,22 @@
                 click: function () {
                     ListGrid_Bank_remove();
                 }
-        }, {isSeparator: true},
+            }, {isSeparator: true},
             {
-            title: "ارسال به Pdf", icon: "icon/pdf.png", click: function () {
-                "<spring:url value="/bank/print/pdf" var="printUrl"/>"
-                window.open('${printUrl}');
-            }
-        }, {
-            title: "ارسال به Excel", icon: "icon/excel.png", click: function () {
-                "<spring:url value="/bank/print/excel" var="printUrl"/>"
-                window.open('${printUrl}');
-            }
-        }, {
-            title: "ارسال به Html", icon: "icon/html.jpg", click: function () {
-                "<spring:url value="/bank/print/html" var="printUrl"/>"
-                window.open('${printUrl}');
-            }
+                title: "ارسال به Pdf", icon: "icon/pdf.png", click: function () {
+                    "<spring:url value="/bank/print/pdf" var="printUrl"/>"
+                    window.open('${printUrl}');
+                }
+            }, {
+                title: "ارسال به Excel", icon: "icon/excel.png", click: function () {
+                    "<spring:url value="/bank/print/excel" var="printUrl"/>"
+                    window.open('${printUrl}');
+                }
+            }, {
+                title: "ارسال به Html", icon: "icon/html.jpg", click: function () {
+                    "<spring:url value="/bank/print/html" var="printUrl"/>"
+                    window.open('${printUrl}');
+                }
             }
 
         ]
@@ -298,22 +299,22 @@
                 return;
 
             var data = DynamicForm_Bank.getValues();
-            var method="PUT";
-            if (data.id==null)
-                method="POST";
+            var method = "PUT";
+            if (data.id == null)
+                method = "POST";
             isc.RPCManager.sendRequest({
-actionURL: "${restApiUrl}/api/bank/" ,
-httpMethod: method,
-useSimpleHttp: true,
-contentType: "application/json; charset=utf-8",
-httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-showPrompt: true,
-serverOutputAsString: false,
+                actionURL: "${restApiUrl}/api/bank/",
+                httpMethod: method,
+                useSimpleHttp: true,
+                contentType: "application/json; charset=utf-8",
+                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+                showPrompt: true,
+                serverOutputAsString: false,
                 data: JSON.stringify(data),
                 //params: { data:data1},
                 callback: function (resp) {
 
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201){
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_Bank_refresh();
                         Window_Bank.close();

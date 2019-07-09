@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<script>
+<%--<script>--%>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -81,13 +81,14 @@
             {
                 title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
-                    DynamicForm_Parameters.clearValues();
-                    Window_Parameters.show();
+                    ListGrid_Parameters_refresh();
                 }
             },
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
+                    DynamicForm_Parameters.clearValues();
+                    Window_Parameters.show();
                 }
             },
             {
