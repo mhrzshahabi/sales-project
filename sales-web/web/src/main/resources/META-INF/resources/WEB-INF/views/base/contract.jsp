@@ -761,30 +761,29 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                 DynamicForm_Contract.setValue("runEndtDate", datestringRe);
             }
 
+            if (dre < drs) {
+                isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
+                return;
+            }
+
             var data = DynamicForm_Contract.getValues();
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/contract/",
-                httpMethod: method,
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                showPrompt: true,
-                serverOutputAsString: false,
-                data: JSON.stringify(data),
-                //params: { data:data1},
-                callback: function (resp) {
-
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                        ListGrid_Contract_refresh();
-                        Window_Contract.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            });
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${restApiUrl}/api/contract/",
+                    httpMethod: method,
+                    data: JSON.stringify(data),
+                    callback: function (RpcResponse_o) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_Contract_refresh();
+                            Window_Contract.close();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                })
+            );
         }
     });
     var Window_Contract = isc.Window.create({
@@ -1067,32 +1066,26 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     this.hide();
                     if (index == 0) {
                         var ContractShipmentId = record.id;
-                        isc.RPCManager.sendRequest({
-                            // ######@@@@###&&@@### pls correct callback
-                            actionURL: "${restApiUrl}/api/contractShipment/" + ContractShipmentId,
-                            httpMethod: "DELETE",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            //     httpMethod: "POST",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            showPrompt: true,
-                            serverOutputAsString: false,
-                            callback: function (RpcResponse_o) {
-                                // ######@@@@###&&@@###
-                                //     if(RpcResponse_o.data == 'success')
-                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                    ListGrid_ContractShipment_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                // ######@@@@###&&@@### pls correct callback
+                                actionURL: "${restApiUrl}/api/contractShipment/" + ContractShipmentId,
+                                httpMethod: "DELETE",
+                                callback: function (RpcResponse_o) {
+                                    // ######@@@@###&&@@###
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                        ListGrid_ContractShipment_refresh();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
                                 }
-                            }
-                        });
+                            })
+                        );
                     }
                 }
             });
         }
-    };
+    }
     var Menu_ListGrid_ContractShipment = isc.Menu.create({
         width: 150,
         data:
@@ -1100,13 +1093,14 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                 {
                     title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                     click: function () {
-                        DynamicForm_ContractShipment.clearValues();
-                        Window_ContractShipment.animateShow();
+                        ListGrid_ContractShipment_refresh();
                     }
                 },
                 {
                     title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                     click: function () {
+                        DynamicForm_ContractShipment.clearValues();
+                        Window_ContractShipment.animateShow();
                     }
                 },
                 {
@@ -1313,6 +1307,13 @@ var DynamicForm_Contract = isc.DynamicForm.create({
             var d = DynamicForm_ContractShipment.getValue("sendDateDummy");
             var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
             DynamicForm_ContractShipment.setValue("sendDate", datestring)
+
+            var contractDate = DynamicForm_ContractShipment.getValue("contract").contractDate.split("/");
+            if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
+                isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
+                return;
+            }
+
             var data = DynamicForm_ContractShipment.getValues();
             // ######@@@@###&&@@###
             var methodXXXX = "PUT";

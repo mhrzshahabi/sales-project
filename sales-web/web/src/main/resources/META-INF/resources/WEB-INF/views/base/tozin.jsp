@@ -245,23 +245,23 @@
 					});
 				}
 			},
-			{
-				title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-				click: function () {
-				}
-			},
-			{
-				title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-				click: function () {
-					ListGrid_Tozin_edit();
-				}
-			},
-			{
-				title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-				click: function () {
-					ListGrid_Tozin_remove();
-				}
-			},
+			// {
+            <%--title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",--%>
+            // click: function () {
+            // }
+            // },
+            // {
+            <%--title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",--%>
+            // click: function () {
+            //     ListGrid_Tozin_edit();
+            // }
+            // },
+            // {
+            <%--title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",--%>
+            // click: function () {
+            //     ListGrid_Tozin_remove();
+            // }
+            // },
 			{isSeparator: true},
 			{
 				title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",

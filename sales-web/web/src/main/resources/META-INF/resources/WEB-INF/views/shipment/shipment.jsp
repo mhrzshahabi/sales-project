@@ -890,6 +890,18 @@ var RestDataSource_Contact_optionCriteria= {
 			});
 		}
 	});
+
+	var ShipmentCancelBtn = isc.IButton.create({
+        top: 260,
+        layoutMargin: 5,
+        membersMargin: 5,
+        width: 120,
+        title: "<spring:message code='global.cancel'/>",
+        click: function () {
+            Window_Shipment.close();
+        }
+    });
+
 	var Window_Shipment = isc.Window.create({
 		title: "<spring:message code='Shipment.title'/>. ",
 		width: 600,
@@ -922,6 +934,7 @@ var RestDataSource_Contact_optionCriteria= {
 				membersMargin: 5, align: "center",  height: "20",
 				members: [
 					IButton_Shipment_Save,
+					ShipmentCancelBtn
 				]
 			}),
 

@@ -239,23 +239,23 @@
 					});
 				}
 			},
-			{
-				title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-				click: function () {
-				}
-			},
-			{
-				title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-				click: function () {
-					ListGrid_TozinSales_edit();
-				}
-			},
-			{
-				title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-				click: function () {
-					ListGrid_TozinSales_remove();
-				}
-			},
+			<%--{--%>
+				<%--title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",--%>
+				<%--click: function () {--%>
+				<%--}--%>
+			<%--},--%>
+			<%--{--%>
+				<%--title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",--%>
+				<%--click: function () {--%>
+					<%--ListGrid_TozinSales_edit();--%>
+				<%--}--%>
+			<%--},--%>
+			<%--{--%>
+				<%--title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",--%>
+				<%--click: function () {--%>
+					<%--ListGrid_TozinSales_remove();--%>
+				<%--}--%>
+			<%--},--%>
 			{isSeparator: true},
 			{
 				title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
@@ -415,30 +415,31 @@
 		}
 	});
 
-	var ToolStripButton_TozinSales_Add = isc.ToolStripButton.create({
-		icon: "[SKIN]/actions/add.png",
-		title: "<spring:message code='global.form.new'/>",
-		click: function () {
-			DynamicForm_TozinSales.clearValues();
-			Window_TozinSales.show();
-		}
-	});
+	<%--var ToolStripButton_TozinSales_Add = isc.ToolStripButton.create({--%>
+		<%--icon: "[SKIN]/actions/add.png",--%>
+		<%--title: "<spring:message code='global.form.new'/>",--%>
+		<%--click: function () {--%>
+			<%--DynamicForm_TozinSales.clearValues();--%>
+			<%--Window_TozinSales.show();--%>
+		<%--}--%>
+	<%--});--%>
+<%----%>
+	<%--var ToolStripButton_TozinSales_Edit = isc.ToolStripButton.create({--%>
+		<%--icon: "[SKIN]/actions/edit.png",--%>
+		<%--title: "<spring:message code='global.form.edit'/>",--%>
+		<%--click: function () {--%>
+			<%--ListGrid_TozinSales_edit();--%>
+		<%--}--%>
+	<%--});--%>
+<%----%>
+	<%--var ToolStripButton_TozinSales_Remove = isc.ToolStripButton.create({--%>
+		<%--icon: "[SKIN]/actions/remove.png",--%>
+		<%--title: "<spring:message code='global.form.remove'/>",--%>
+		<%--click: function () {--%>
+     		<%--ListGrid_TozinSales_remove();--%>
+		<%--}--%>
+	<%--});--%>
 
-	var ToolStripButton_TozinSales_Edit = isc.ToolStripButton.create({
-		icon: "[SKIN]/actions/edit.png",
-		title: "<spring:message code='global.form.edit'/>",
-		click: function () {
-			ListGrid_TozinSales_edit();
-		}
-	});
-
-	var ToolStripButton_TozinSales_Remove = isc.ToolStripButton.create({
-		icon: "[SKIN]/actions/remove.png",
-		title: "<spring:message code='global.form.remove'/>",
-		click: function () {
-// ListGrid_TozinSales_remove();
-		}
-	});
 	var ToolStripButton_TozinSales_Sarcheshmeh = isc.ToolStripButton.create({
 		icon: "pieces/16/search.png",
 		title: "مبدا/مقصد سرجشمه",
@@ -575,9 +576,9 @@
 			[
 				DynamicForm_DailyReport_TozinSales, MenuButton_TozinSales,
 				ToolStripButton_TozinSales_Refresh,
-				ToolStripButton_TozinSales_Add,
-				ToolStripButton_TozinSales_Edit,
-				ToolStripButton_TozinSales_Remove,
+				<%--ToolStripButton_TozinSales_Add,--%>
+				<%--ToolStripButton_TozinSales_Edit,--%>
+				<%--ToolStripButton_TozinSales_Remove,--%>
 				ToolStripButton_TozinSales_Print,
 				ToolStripButton_TozinSales_Sarcheshmeh,
 				ToolStripButton_TozinSales_Miduk,
