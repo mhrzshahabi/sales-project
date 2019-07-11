@@ -114,6 +114,37 @@
     Page.setAppImgDir("static/img/");
     var headerLayout;
 
+	isc.ListGrid.addProperties({
+        allowFilterExpressions: true,
+        allowAdvancedCriteria: true,
+// filterOnKeypress: true,
+        sortFieldAscendingText: "مرتب سازی صعودی",
+        sortFieldDescendingText: "مرتب سازی نزولی",
+        configureSortText: "تنظیم مرتب سازی",
+        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
+        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
+        filterUsingText: "فیلتر کردن",
+        groupByText: "گروه بندی",
+        freezeFieldText: "ثابت نگه داشتن",
+		showPrompt: true
+	});
+	isc.ToolStripButton.addProperties({
+		showDownIcon: false,
+		showSelectedIcon: false,
+		showRollOverIcon: false,
+		showMenuOnRollOver:true,
+		disabledCursor: "not-allowed",
+		border: "1px solid lightblue"
+	});
+	isc.ToolStripMenuButton.addProperties({
+		showDownIcon: false,
+		showSelectedIcon: false,
+		showRollOverIcon: false,
+		showMenuOnRollOver:true,
+		disabledCursor: "not-allowed",
+		border: "1px solid lightgray"
+	});
+
     function getIconButton(title, props) {
         return isc.IconButton.create(isc.addProperties({
                 title: title
