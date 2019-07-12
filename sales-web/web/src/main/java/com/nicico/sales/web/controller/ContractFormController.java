@@ -59,5 +59,33 @@ public class ContractFormController {
 		else
 			return null;
 	}
+	@RequestMapping("/printIncome/{type}")
+	public ResponseEntity<?> printIncome(Authentication authentication, @PathVariable String type) {
+		String token = "";
+		if (authentication instanceof OAuth2AuthenticationToken) {
+			OAuth2AuthorizedClient client = authorizedClientService
+					.loadAuthorizedClient(
+							((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
+							authentication.getName());
+			token = client.getAccessToken().getTokenValue();
+		}
+
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "Bearer " + token);
+
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+		if(type.equals("pdf"))
+			return restTemplate.exchange(restApiUrl +"/api/contract/printIncome/pdf", HttpMethod.GET, entity, byte[].class);
+		else if(type.equals("excel"))
+			return restTemplate.exchange(restApiUrl +"/api/contract/printIncome/excel", HttpMethod.GET, entity, byte[].class);
+		else if(type.equals("html"))
+			return restTemplate.exchange(restApiUrl +"/api/contract/printIncome/html", HttpMethod.GET, entity, byte[].class);
+		else
+			return null;
+	}
 
 }

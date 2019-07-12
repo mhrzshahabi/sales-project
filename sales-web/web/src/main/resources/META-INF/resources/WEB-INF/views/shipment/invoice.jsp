@@ -605,7 +605,7 @@
 					}]
 				},
 				{
-					name: "invoiceValueCur",
+					name: "invoiceValueCurrency",
 					title: "<spring:message
 		code='invoice.invoiceValueCur'/>",
 					type: 'text',
@@ -897,7 +897,7 @@
 					width: "10%"
 				},
 				{
-					name: "invoiceValueCur",
+					name: "invoiceValueCurrency",
 					title: "<spring:message code='invoice.invoiceValueCur'/>",
 					type: 'text',
 					width: "10%"

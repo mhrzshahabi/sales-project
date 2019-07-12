@@ -12,7 +12,8 @@ import com.nicico.sales.iservice.IContractService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
-import org.apache.commons.lang.StringUtils;
+import net.sf.jasperreports.functions.FunctionsUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -138,5 +139,12 @@ public class ContractRestController {
 		Map<String, Object> params = new HashMap<>();
 		params.put(ConstantVARs.REPORT_TYPE, type);
 		reportUtil.export("/reports/Contract.jasper", params, response);
+	}
+	@Loggable
+	@GetMapping(value = {"/printIncome/{type}"})
+	public void printIncome(HttpServletResponse response, @PathVariable String type) throws SQLException, IOException, JRException {
+		Map<String, Object> params = new HashMap<>();
+		params.put(ConstantVARs.REPORT_TYPE, type);
+		reportUtil.export("/reports/ContractIncomeCosts.jasper", params, response);
 	}
 }

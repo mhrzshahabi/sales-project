@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ContractIncomeCosts" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="7574894b-b930-46ea-ac15-5edef133af30">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="logo_nicico" class="java.lang.Object"/>
+	<queryString language="SQL">
+		<![CDATA[select * from sales.VIEW_CONTRACT_INCOME_COST]]>
+	</queryString>
+	<field name="INVOIC_DATE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INVOIC_DATE"/>
+	</field>
+	<field name="C_CONTRACT_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C_CONTRACT_NO"/>
+	</field>
+	<field name="C_FULLNAME_EN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C_FULLNAME_EN"/>
+	</field>
+	<field name="C_DESCL" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C_DESCL"/>
+	</field>
+	<field name="C_NAME_EN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C_NAME_EN"/>
+	</field>
+	<field name="NET" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="NET"/>
+	</field>
+	<field name="INVOICE_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INVOICE_TYPE"/>
+	</field>
+	<field name="INVOICE_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INVOICE_NO"/>
+	</field>
+	<field name="INVOICE_VALUE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INVOICE_VALUE"/>
+	</field>
+	<field name="TOTAL_FREIGHT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TOTAL_FREIGHT"/>
+	</field>
+	<field name="INVOICE_DOLLAR" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="INVOICE_DOLLAR"/>
+	</field>
+	<field name="INVOICE_EURO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="INVOICE_EURO"/>
+	</field>
+	<field name="INVOICE_IRR" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="INVOICE_IRR"/>
+	</field>
+	<field name="COST_DOLLAR" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="COST_DOLLAR"/>
+	</field>
+	<field name="COST_EURO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="COST_EURO"/>
+	</field>
+	<field name="COSTS_IRR" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="COSTS_IRR"/>
+	</field>
+	<variable name="dolar" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{COST_DOLLAR}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="euro" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{COST_EURO}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="irr" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{COSTS_IRR}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="dolar_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{INVOICE_DOLLAR}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="euro_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{INVOICE_EURO}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="irr_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{INVOICE_IRR}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{C_CONTRACT_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="55">
+				<staticText>
+					<reportElement x="279" y="5" width="31" height="20" uuid="17c606aa-51ee-45f4-9060-d5b1649d1348"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[محصول]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="510" y="5" width="44" height="20" uuid="e8188081-9f0c-4c48-8b38-f4f80776dec7"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[شماره قرارداد]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="442" y="5" width="34" height="20" uuid="0475d728-20a8-4aae-a8b3-89fe7e9a4ea2"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[خریدار]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="110" y="5" width="30" height="20" uuid="4a7820c4-4e80-46bb-96d8-c807bae01c7f"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[واحد]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="476" y="5" width="34" height="20" uuid="7c495e8f-4c2b-4049-841a-15448e0735ca"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{C_CONTRACT_NO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="140" y="5" width="139" height="20" uuid="c8558325-d463-4e92-9786-11a254f67452"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{C_DESCL}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="310" y="5" width="132" height="20" uuid="c8fc1ed9-8632-491e-ad21-889d8f1d13f5"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{C_FULLNAME_EN}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="60" y="5" width="50" height="20" uuid="2cc8a9ba-37a4-491f-ab66-f8cb8f1c28e1"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{C_NAME_EN}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="485" y="30" width="70" height="20" uuid="21e3e903-8f86-4d58-b9a3-9864ebb8c4ae"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[تاریخ صورتحساب]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="435" y="30" width="50" height="20" uuid="07faa0f0-5da6-4788-8cc9-aac5213e4ee7"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[فاکتور]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="329" y="30" width="56" height="20" uuid="45401e03-f9c5-424f-86d0-cc92521ccd81"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[مبلغ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="385" y="30" width="50" height="20" uuid="9cbed8d4-42e5-4b4a-8a53-c69ea0e098f2"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[مقدارخالص]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="279" y="30" width="50" height="20" uuid="ef1f4830-1180-471b-a42d-5867d67a7ca2"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[هزینه حمل]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<staticText>
+					<reportElement x="477" y="0" width="78" height="20" uuid="0a472c2b-221a-4a96-8db5-95614d8f31ce"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[مجموع فاکتورها دلاری]]></text>
+				</staticText>
+				<textField pattern="#,##0.###;(#,##0.###-)">
+					<reportElement x="411" y="0" width="66" height="20" uuid="2c574e5b-3120-4670-81d4-72d0f9fc1d9d"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{dolar_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="385" y="0" width="26" height="20" uuid="8d118c10-34b4-4294-8bdf-975b89289c84"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[یورو]]></text>
+				</staticText>
+				<textField pattern="#,##0.###;(#,##0.###-)">
+					<reportElement x="319" y="0" width="66" height="20" uuid="e82fef8b-f9d0-4afb-97d4-dc2cf02c38d8"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{euro_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="293" y="0" width="26" height="20" uuid="243e5c70-36c7-4ef1-b728-9ac2d90e1746"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[ریالی]]></text>
+				</staticText>
+				<textField pattern="#,##0.###;(#,##0.###-)">
+					<reportElement x="227" y="0" width="66" height="20" uuid="03530776-1272-4c81-84b5-6ff360d688fd"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{irr_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="477" y="20" width="78" height="20" uuid="88ae26a9-fd5b-474d-9ef9-e24f9b6afd6b"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[مجموع هزینه های دلاری]]></text>
+				</staticText>
+				<textField pattern="#,##0.###;(#,##0.###-)">
+					<reportElement x="411" y="20" width="66" height="20" uuid="d4afe841-e978-4db8-b011-0b64ac32e626"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[SUM( $F{COST_DOLLAR} ,$V{dolar})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="385" y="20" width="26" height="20" uuid="4db5a80b-9a4b-45b5-93af-ab7be4dc6387"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[یورو]]></text>
+				</staticText>
+				<textField pattern="#,##0.###;(#,##0.###-)">
+					<reportElement x="319" y="20" width="66" height="20" uuid="e3f9cb0d-63a3-4bb3-a253-12d2425493aa"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[SUM($F{COST_EURO} , $V{euro})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="293" y="20" width="26" height="20" uuid="6ac8c5e6-fdf7-4765-8697-e7b506d71139"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<text><![CDATA[ریالی]]></text>
+				</staticText>
+				<textField pattern="#,##0.###;(#,##0.###-)">
+					<reportElement x="227" y="20" width="66" height="20" uuid="7641983f-6017-4a4e-b11c-107c96749d10"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[SUM($F{COSTS_IRR}, $V{irr})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<rectangle radius="5">
+				<reportElement x="0" y="0" width="550" height="80" backcolor="#F0F0F0" uuid="86a7a224-0e3d-4b6e-ba36-96b9cae85572"/>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="450" y="6" width="84" height="69" uuid="49e0779d-49d3-4939-9bc6-c8c46b679421"/>
+				<imageExpression><![CDATA[$P{logo_nicico}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="184" y="20" width="186" height="40" uuid="18c2dd15-ac9d-41be-baed-7992ffaabde1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Titr" size="18" isBold="true" pdfFontName="" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[قراردادها]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="14" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="435" y="2" width="50" height="20" uuid="7a48bcdf-d1c7-4f5e-b89d-9853be697425"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INVOICE_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="485" y="2" width="70" height="20" uuid="17f0cfc4-5d36-4e12-8d92-63fbb179884a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INVOIC_DATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement x="329" y="2" width="56" height="20" uuid="eb7d4799-7727-49a4-9c3c-08128ea03482"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INVOICE_VALUE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement x="385" y="2" width="50" height="20" uuid="1160b463-c0ee-4665-afd7-ce3652381724"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NET}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement x="279" y="2" width="50" height="20" uuid="e5093a0d-3027-49f4-988d-ff5264be655f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL_FREIGHT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="28" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>
