@@ -370,6 +370,18 @@
                         title: "<spring:message code='global.Attachment'/>", pane: InstructionAttachmentViewLoader
                         , tabSelected: function (form, item, value) {
                             var record = ListGrid_Instruction.getSelectedRecord();
+                            if (record == null || record.id == null) {
+                                isc.Dialog.create({
+                                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                                    icon: "[SKIN]ask.png",
+                                    title: "<spring:message code='global.message'/>",
+                                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                    buttonClick: function () {
+                                        this.hide();
+                                    }
+                                });
+                                return;
+                            }
                             var dccTableId = record.id;
                             var dccTableName = "TBL_INSTRUCTION";
                             InstructionAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)

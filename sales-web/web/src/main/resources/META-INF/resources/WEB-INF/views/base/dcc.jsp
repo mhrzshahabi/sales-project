@@ -7,17 +7,17 @@
 
     var dccTableName = "${dccTableName}";
     var dccTableId = "${dccTableId}";
+    var criteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [
+            {fieldName: "tblId1", operator: "equals", value: dccTableId},
+            {fieldName: "tblName1", operator: "equals", value: dccTableName}
+        ]
+    };
 
     function ListGrid_Dcc_refresh() {
         if (dccTableId != null) {
-            var criteria = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [
-                {fieldName: "tblId1", operator: "equals", value: dccTableId},
-                {fieldName: "tblName1", operator: "equals", value: dccTableName}
-                ]
-            };
             ListGrid_Dcc.fetchData(criteria, function (dsResponse, data, dsRequest) {
                 ListGrid_Dcc.setData(data);
             }, {operationId: "00"});
@@ -65,7 +65,7 @@
                     title: "<spring:message code='global.Attachment'/> ",
                     type: "file",
                     required: "true",
-                    accept: ".PDF,image/*",
+                    accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
                     multiple: "",
                     width: "90%",
                 }
@@ -361,7 +361,8 @@
         contextMenu: dccMenu,
         sortField: 0,
         dataPageSize: 50,
-        autoFetchData: false,
+        autoFetchData: true,
+        initialCriteria: criteria,
         showFilterEditor: false,
         filterOnKeypress: true,
         sortFieldAscendingText: "مرتب سازی صعودی",
