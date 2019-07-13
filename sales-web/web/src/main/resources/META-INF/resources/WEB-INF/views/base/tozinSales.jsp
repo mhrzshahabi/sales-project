@@ -167,11 +167,13 @@
 		width: 150,
 		data: [
 			{
-				title: "بین مجامع", icon: "pieces/16/refresh.png",
+				title: "فروش و بارگیری", icon: "pieces/16/refresh.png",
 				click: function () {
 					var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
-					ViewLoader_createTozinSales.setViewURL("<spring:url value="tozinSales/showTransport2Plants"/>" + "/" + toDay);
-					Window_TozinSales_ViewLoader.show();
+					"<spring:url value="/tozinSales/print/pdf" var="printUrl"/>"
+					window.open('${printUrl}'+'/'+toDay);
+					<%--ViewLoader_createTozinSales.setViewURL("<spring:url value="tozinSales/showTransport2Plants"/>" + "/" + toDay);--%>
+					<%--Window_TozinSales_ViewLoader.show();--%>
 				}
 			},
 			{

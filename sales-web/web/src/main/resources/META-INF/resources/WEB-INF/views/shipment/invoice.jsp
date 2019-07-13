@@ -74,11 +74,39 @@
 		fetchDataURL: "${restApiUrl}/api/shipment/spec-list"
 	});
 
+//---------------------------------------
+  var Menu_ListGrid_Shipment_InvoiceHeader = isc.Menu.create({
+        width: 150,
+        data: [
+
+            {
+                title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
+                click: function () {
+					ListGrid_Shipment_InvoiceHeader.invalidateCache();
+                }
+            }
+            ]
+		});
+	var ToolStripButton_Shipment_InvoiceHeader_Refresh = isc.ToolStripButton.create({
+		icon: "[SKIN]/actions/refresh.png",
+		title: "<spring:message code='global.form.refresh'/>",
+		click: function () {
+			ListGrid_Shipment_InvoiceHeader.invalidateCache();
+		}
+	});
+	var ToolStrip_Actions_Shipment_InvoiceHeader = isc.ToolStrip.create({
+		width: "100%",
+		members: [
+			ToolStripButton_Shipment_InvoiceHeader_Refresh,
+		]
+	});
+//-------------------
 
 	var ListGrid_Shipment_InvoiceHeader = isc.ListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_Shipment_InvoiceHeader,
+		contextMenu: Menu_ListGrid_Shipment_InvoiceHeader,
 		fields: [
 			{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
 			{name: "contractShipmentId", hidden: true, type: 'long'},
@@ -224,7 +252,7 @@
 		width: "100%",
 		height: "100%",
 		members: [
-			HLayout_Grid_Shipment_InvoiceHeader
+			ToolStrip_Actions_Shipment_InvoiceHeader,HLayout_Grid_Shipment_InvoiceHeader
 		]
 	});
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

@@ -70,10 +70,37 @@
 		},
 		fetchDataURL: "${restApiUrl}/api/shipment/spec-list"
 	});
+//---------------------------------------
+  var Menu_ListGrid_Shipment_CostHeader = isc.Menu.create({
+        width: 150,
+        data: [
 
+            {
+                title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
+                click: function () {
+					ListGrid_Shipment_CostHeader.invalidateCache();
+                }
+            }
+            ]
+		});
+	var ToolStripButton_Shipment_CostHeader_Refresh = isc.ToolStripButton.create({
+		icon: "[SKIN]/actions/refresh.png",
+		title: "<spring:message code='global.form.refresh'/>",
+		click: function () {
+			ListGrid_Shipment_CostHeader.invalidateCache();
+		}
+	});
+	var ToolStrip_Actions_Shipment_CostHeader = isc.ToolStrip.create({
+		width: "100%",
+		members: [
+			ToolStripButton_Shipment_CostHeader_Refresh,
+		]
+	});
+//-------------------
 	var ListGrid_Shipment_CostHeader = isc.ListGrid.create({
 		width: "100%",
 		height: "100%",
+		contextMenu: Menu_ListGrid_Shipment_CostHeader,
 		dataSource: RestDataSource_Shipment_CostHeader,
 		fields: [
 			{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -220,7 +247,7 @@
 		width: "100%",
 		height: "100%",
 		members: [
-			HLayout_Grid_Shipment_CostHeader
+			ToolStrip_Actions_Shipment_CostHeader,HLayout_Grid_Shipment_CostHeader
 		]
 	});
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
