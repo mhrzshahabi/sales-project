@@ -15,21 +15,21 @@ public class ContractItem {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ID")
 	private Contract contract;
 
 	@Column(name = "ITEM_ROW", nullable = false, length = 20)
 	private Long itemRow;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MATERIAL_ID")
 	private Material tblMaterial;
 
 	@Column(name = "AMOUNT", nullable = false, length = 20)
 	private Double amount;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "UNIT_ID")
 	private Unit unit;
 
@@ -54,11 +54,11 @@ public class ContractItem {
 	@Column(name = "PACK_SIZE")
 	private Long packSize;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "RATE_ID")
 	private Rate rate;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTACT_INSPECTION_ID")
 	private Contact tblContactByInspection;
 

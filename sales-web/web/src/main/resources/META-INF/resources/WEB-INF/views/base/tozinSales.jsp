@@ -167,13 +167,19 @@
 		width: 150,
 		data: [
 			{
-				title: "فروش و بارگیری", icon: "pieces/16/refresh.png",
+				title: "فروش و بارگیری Excel", icon: "pieces/16/refresh.png",
+				click: function () {
+					var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
+					"<spring:url value="/tozinSales/print/excel" var="printUrl"/>"
+					window.open('${printUrl}'+'/'+toDay);
+				}
+			},
+			{
+				title: "فروش و بارگیری pdf", icon: "pieces/16/refresh.png",
 				click: function () {
 					var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
 					"<spring:url value="/tozinSales/print/pdf" var="printUrl"/>"
 					window.open('${printUrl}'+'/'+toDay);
-					<%--ViewLoader_createTozinSales.setViewURL("<spring:url value="tozinSales/showTransport2Plants"/>" + "/" + toDay);--%>
-					<%--Window_TozinSales_ViewLoader.show();--%>
 				}
 			},
 			{

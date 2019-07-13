@@ -22,7 +22,7 @@ public class ContractItemFeature extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ITEM_ID", nullable = false, insertable = false, updatable = false)
 	private ContractItem contractItem;
 
@@ -32,7 +32,7 @@ public class ContractItemFeature extends Auditable {
 	@Column(name = "FEATURE_ROW", nullable = false, length = 5)
 	private Long itemRow;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FEATURE_ID", nullable = false, insertable = false, updatable = false)
 	private Feature feature;
 
@@ -51,7 +51,7 @@ public class ContractItemFeature extends Auditable {
 	@Column(name = "TOLORANCE")
 	private Double tolorance;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "RATE_ID", nullable = false, insertable = false, updatable = false)
 	private Rate rate;
 

@@ -26,7 +26,7 @@ public class BolItem extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BOL_HEADER_ID", nullable = false, updatable = false, insertable = false)
 	private BolHeader bolHeader;
 

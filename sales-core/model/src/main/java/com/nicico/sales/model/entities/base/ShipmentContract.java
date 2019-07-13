@@ -22,42 +22,42 @@ public class ShipmentContract extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "OWNERS", nullable = false, insertable = false, updatable = false)
 	private Contact tblContactByOwners;
 
 	@Column(name = "OWNERS")
 	private Long contactByOwnersId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CHARTERER", nullable = false, insertable = false, updatable = false)
 	private Contact tblContactByCharterer;
 
 	@Column(name = "CHARTERER")
 	private Long contactByChartererId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CHAIN_OF_OWNERS", nullable = false, insertable = false, updatable = false)
 	private Contact tblContactByChainOfOwners;
 
 	@Column(name = "CHAIN_OF_OWNERS")
 	private Long contactByChainOfOwnersId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FLAG", nullable = false, insertable = false, updatable = false)
 	private Country tblCountryFlag;
 
 	@Column(name = "FLAG")
 	private Long countryFlagId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_HEADER_ID", nullable = false, insertable = false, updatable = false)
 	private ShipmentHeader shipmentHeader;
 
 	@Column(name = "SHIPMENT_HEADER_ID")
 	private Long shipmentHeaderId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_PRICE_ID", nullable = false, insertable = false, updatable = false)
 	private ShipmentPrice shipmentPrice;
 

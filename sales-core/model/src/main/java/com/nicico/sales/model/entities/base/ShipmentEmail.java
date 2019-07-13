@@ -22,7 +22,7 @@ public class ShipmentEmail extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
 	private Shipment shipment;
 

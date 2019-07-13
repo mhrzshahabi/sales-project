@@ -22,7 +22,7 @@ public class ContractAttachment extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contract contract;
 

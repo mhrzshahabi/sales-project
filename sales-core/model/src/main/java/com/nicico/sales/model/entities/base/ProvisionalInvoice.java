@@ -73,28 +73,28 @@ public class ProvisionalInvoice extends Auditable {
 	@Column(name = "SUBTOTAL_DEDUCTIONS")
 	private Float subDeductions;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
 	private Shipment shipment;
 
 	@Column(name = "SHIPMENT_ID")
 	private Long shipmentId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contact contact;
 
 	@Column(name = "CONTACT_ID")
 	private Long contactId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BOL_HEADER_ID", nullable = false, insertable = false, updatable = false)
 	private BolHeader bolHeader;
 
 	@Column(name = "BOL_HEADER_ID")
 	private Long bolHeaderId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contract contract;
 

@@ -22,14 +22,14 @@ public class PaymentOptionContract extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contract contract;
 
 	@Column(name = "CONTRACT_ID")
 	private Long contractId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PAYMENT_OPTION_ID", nullable = false, insertable = false, updatable = false)
 	private PaymentOption paymentOption;
 

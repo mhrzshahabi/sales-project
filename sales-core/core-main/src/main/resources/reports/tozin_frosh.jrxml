@@ -47,13 +47,13 @@ group by id,plant,gdscode,gdsname
 					<reportElement x="443" y="6" width="108" height="20" uuid="dfb86558-213e-4f1f-b127-2920f720f848"/>
 					<box>
 						<pen lineWidth="0.5"/>
-						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD" size="14" isBold="true"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{PLANT}]]></textFieldExpression>
 				</textField>
@@ -73,14 +73,14 @@ group by id,plant,gdscode,gdsname
 				<imageExpression><![CDATA[$P{logo_nicico}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="200" y="20" width="167" height="30" uuid="818128ec-da92-4187-b5a1-86c53dd5824e"/>
+				<reportElement x="233" y="25" width="167" height="30" uuid="818128ec-da92-4187-b5a1-86c53dd5824e"/>
 				<textElement>
 					<font fontName="Shabnam-FD" size="14"/>
 				</textElement>
 				<text><![CDATA[فروش و بارگیری محصولات ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="40" y="44" width="100" height="30" uuid="33738ce8-2c3b-4091-a1b4-e51b4a8c03f7"/>
+				<reportElement x="20" y="40" width="100" height="30" uuid="33738ce8-2c3b-4091-a1b4-e51b4a8c03f7"/>
 				<textElement>
 					<font fontName="Shabnam-FD"/>
 				</textElement>
@@ -88,7 +88,7 @@ group by id,plant,gdscode,gdsname
 			</textField>
 			<staticText>
 				<reportElement x="130" y="40" width="90" height="30" uuid="9483ceb8-d2ac-478c-a678-8e02115f61cb"/>
-				<textElement>
+				<textElement textAlignment="Center">
 					<font fontName="Shabnam-FD" size="14"/>
 				</textElement>
 				<text><![CDATA[تاریخ]]></text>

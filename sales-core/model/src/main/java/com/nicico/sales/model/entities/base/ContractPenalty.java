@@ -22,7 +22,7 @@ public class ContractPenalty extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ITEM_FEATURE_ID", nullable = false, insertable = false, updatable = false)
 	private ContractItemFeature contractItemFeature;
 

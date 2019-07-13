@@ -22,7 +22,7 @@ public class ContractItemShipment extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ITEM_ID")
 	private ContractItem contractItem;
 
@@ -35,7 +35,7 @@ public class ContractItemShipment extends Auditable {
 	@Column(name = "SHIPMENT_ROW", nullable = false, length = 5)
 	private Long shipmentRow;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DISCHARGE")
 	private Port port;
 

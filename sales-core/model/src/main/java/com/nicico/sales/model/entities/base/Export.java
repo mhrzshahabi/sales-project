@@ -22,14 +22,14 @@ public class Export extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
 	private Material material;
 
 	@Column(name = "MATERIAL_ID")
 	private Long materialId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COUNTRY_ID", nullable = false, insertable = false, updatable = false)
 	private Country country;
 

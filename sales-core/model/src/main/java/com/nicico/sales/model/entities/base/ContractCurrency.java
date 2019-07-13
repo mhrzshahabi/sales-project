@@ -28,14 +28,14 @@ public class ContractCurrency extends Auditable {
 	@Column(name = "COEFFICIENT")
 	private Long coefficient;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CURRENCY_ID", nullable = false, insertable = false, updatable = false)
 	private Currency tblCurrency;
 
 	@Column(name = "CURRENCY_ID")
 	private Long currencyId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contract contract;
 

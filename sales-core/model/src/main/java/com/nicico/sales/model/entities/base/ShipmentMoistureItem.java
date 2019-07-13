@@ -22,7 +22,7 @@ public class ShipmentMoistureItem extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MOISTURE_HEADER_ID", nullable = false, insertable = false, updatable = false)
 	private ShipmentMoistureHeader shipmentMoistureHeader;
 

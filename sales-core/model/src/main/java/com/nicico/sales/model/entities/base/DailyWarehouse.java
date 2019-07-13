@@ -28,7 +28,7 @@ public class DailyWarehouse extends Auditable {
 	@Column(name = "TO_DAY", nullable = false, length = 20)
 	private String toDay;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
 	private Material material;
 

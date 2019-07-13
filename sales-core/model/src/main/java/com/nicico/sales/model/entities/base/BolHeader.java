@@ -28,14 +28,14 @@ public class BolHeader extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
 	private Shipment Shipment;
 
 	@Column(name = "SHIPMENT_ID")
 	private Long shipmentId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_CONTRACT_ID", nullable = false, insertable = false, updatable = false)
 	private ShipmentContract shipmentContract;
 
@@ -60,14 +60,14 @@ public class BolHeader extends Auditable {
 	@Column(name = "c_SWBL_NO", length = 100)
 	private String swBlNo;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DISCHARGE_port_id", nullable = false, insertable = false, updatable = false)
 	private Port portByDischarge;
 
 	@Column(name = "DISCHARGE_port_id")
 	private Long PortByDischargeId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SWITCH_PORT_id", nullable = false, insertable = false, updatable = false)
 	private Port switchPort;
 

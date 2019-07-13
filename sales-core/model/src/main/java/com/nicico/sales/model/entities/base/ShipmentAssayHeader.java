@@ -22,14 +22,14 @@ public class ShipmentAssayHeader extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
 	private Shipment shipment;
 
 	@Column(name = "SHIPMENT_ID")
 	private Long shipmentId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INSPECT_CONTACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contact inspectionByContact;
 

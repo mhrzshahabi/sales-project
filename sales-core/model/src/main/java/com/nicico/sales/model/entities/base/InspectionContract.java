@@ -22,21 +22,21 @@ public class InspectionContract extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
 	private Shipment shipment;
 
 	@Column(name = "SHIPMENT_ID")
 	private Long shipmentId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INSPECTION_CONTACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contact contactByInspection;
 
 	@Column(name = "INSPECTION_CONTACT_ID")
 	private Long contactByInspectionId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_CONTRACT_ID", nullable = false, insertable = false, updatable = false)
 	private ShipmentContract shipmentContract;
 
@@ -76,11 +76,11 @@ public class InspectionContract extends Auditable {
 	@Column(name = "EMAIL_RESPOND", length = 4000)
 	private String emailRespond;
 
-   /* @ManyToOne
+   /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOAD_PORT")
     private TblPort tblPortByLoadPort;*/
 
-    /*@ManyToOne
+    /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DISCHARGE_PORT")
     private TblPort tblPortByDischargePort;*/
 
