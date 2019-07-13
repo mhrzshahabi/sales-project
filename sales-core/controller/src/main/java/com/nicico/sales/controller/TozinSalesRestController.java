@@ -2,21 +2,28 @@ package com.nicico.sales.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.core.dto.search.EOperator;
 import com.nicico.copper.core.dto.search.SearchDTO;
 import com.nicico.copper.core.util.Loggable;
+import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.TozinSalesDTO;
 import com.nicico.sales.iservice.ITozinSalesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +33,7 @@ public class TozinSalesRestController {
 
 	private final ObjectMapper objectMapper;
 	private final ITozinSalesService tozinSalesService;
+	private final ReportUtil reportUtil;
 
 	// ------------------------------s
 
@@ -101,7 +109,6 @@ public class TozinSalesRestController {
 		request.setStartIndex(startRow)
 				.setCount(endRow - startRow);
 
-
 		SearchDTO.SearchRs<TozinSalesDTO.Info> response = tozinSalesService.search(request);
 
 		final TozinSalesDTO.SpecRs specResponse = new TozinSalesDTO.SpecRs();
@@ -124,4 +131,17 @@ public class TozinSalesRestController {
 	public ResponseEntity<SearchDTO.SearchRs<TozinSalesDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(tozinSalesService.search(request), HttpStatus.OK);
 	}
+
+	//---------------------------------------------------------------
+	@Loggable
+	@GetMapping(value = {"/print/{type}/{date}"})
+	public void print(HttpServletResponse response, @PathVariable String type, @PathVariable("date") String date) throws SQLException, IOException, JRException {
+		String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
+		Map<String, Object> params = new HashMap<>();
+		params.put("dateReport", day);
+		params.put(ConstantVARs.REPORT_TYPE, type);
+		reportUtil.export("/reports/tozin_frosh.jasper", params, response);
+	}
+
+
 }
