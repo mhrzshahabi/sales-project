@@ -22,7 +22,6 @@ public class MaterialFeature extends Auditable {
     @Column(name = "ID", precision = 10)
     private Long id;
 
-    //becuase material is not shown in MaterialFeature List Grid
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)

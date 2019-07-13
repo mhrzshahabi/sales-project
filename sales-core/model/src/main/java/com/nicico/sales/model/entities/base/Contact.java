@@ -70,7 +70,8 @@ public class Contact extends Auditable {
     @Column(name = "C_ECONOMICAL_CODE")
     private String economicalCode;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Setter(AccessLevel.NONE)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "CNT_ID", insertable = false, updatable = false)
     private Set<ContactAccount> contactAccounts;
 
@@ -87,9 +88,9 @@ public class Contact extends Auditable {
     private String bankSwift;
 
     //c_DEFAULT_BANK_ID
-    // because bank is added later in contact creat form
+    @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "C_DEFAULT_BANK_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "C_DEFAULT_BANK_ID", insertable = false, updatable = false)
     private Bank bank;
 
     //c_DEFAULT_BANK_ID
@@ -145,6 +146,7 @@ public class Contact extends Auditable {
     @Column(name = "c_CEO_PASSPORT_NO")
     private String ceoPassportNo;
 
+    @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false)
     private Country country;
