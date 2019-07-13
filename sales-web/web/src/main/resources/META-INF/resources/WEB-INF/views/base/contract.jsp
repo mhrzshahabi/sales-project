@@ -3,9 +3,9 @@
 
 <%--<script>--%>
 
-<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
-    var RestDataSource_Contract = isc.RestDataSource.create({
+    var RestDataSource_Contract = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -19,21 +19,11 @@
                 {name: "refinaryCost", ID: "refinaryCost"},
                 {name: "treatCost", ID: "treatCost"},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         // ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${restApiUrl}/api/contract/spec-list"
     });
 
-    var RestDataSource_Contact = isc.RestDataSource.create({
+    var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -41,41 +31,21 @@
                 {name: "nameFA", title: "<spring:message code='contact.nameFa'/> "},
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/> "}
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         // ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${restApiUrl}/api/contact/spec-list"
     });
 
-    var RestDataSource_Incoterms = isc.RestDataSource.create({
+    var RestDataSource_Incoterms = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         // ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${restApiUrl}/api/incoterms/spec-list"
     });
 
-    var RestDataSource_Material = isc.RestDataSource.create({
+    var RestDataSource_Material = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -84,21 +54,11 @@
                 {name: "unitId"},
                 {name: "unit.nameEN"},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         // ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${restApiUrl}/api/material/spec-list"
     });
 
-    var RestDataSource_Unit = isc.RestDataSource.create({
+    var RestDataSource_Unit = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -108,17 +68,7 @@
                 {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
                 {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         // ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${restApiUrl}/api/unit/spec-list"
     });
 
@@ -145,34 +95,34 @@
             DynamicForm_Contract.setValue("contractDateDumy", new Date(record.contractDate));
             DynamicForm_Contract.setValue("runEndDateDumy", (record.runEndtDate == null ? null : new Date(record.runEndtDate)));
             DynamicForm_Contract.setValue("runStartDateDumy", new Date(record.runStartDate));
-                        if (record.material.descl === 'Copper Concentrate') {
-                            DynamicForm_Contract.getItem("copper").show();
-                            DynamicForm_Contract.getItem("copperTolorance").show();
-                            DynamicForm_Contract.getItem("gold").show();
-                            DynamicForm_Contract.getItem("goldTolorance").show();
-                            DynamicForm_Contract.getItem("silver").show();
-                            DynamicForm_Contract.getItem("silverTolorance").show();
-                            DynamicForm_Contract.getItem("molybdenum").hide();
-                            DynamicForm_Contract.getItem("molybdenumTolorance").hide();
-                        } else if (record.material.descl === 'Molybdenum Oxide') {
-                            DynamicForm_Contract.getItem("copper").hide();
-                            DynamicForm_Contract.getItem("copperTolorance").hide();
-                            DynamicForm_Contract.getItem("gold").hide();
-                            DynamicForm_Contract.getItem("goldTolorance").hide();
-                            DynamicForm_Contract.getItem("silver").hide();
-                            DynamicForm_Contract.getItem("silverTolorance").hide();
-                            DynamicForm_Contract.getItem("molybdenum").show();
-                            DynamicForm_Contract.getItem("molybdenumTolorance").show();
-                        } else {
-                            DynamicForm_Contract.getItem("copper").hide();
-                            DynamicForm_Contract.getItem("copperTolorance").hide();
-                            DynamicForm_Contract.getItem("gold").hide();
-                            DynamicForm_Contract.getItem("goldTolorance").hide();
-                            DynamicForm_Contract.getItem("silver").hide();
-                            DynamicForm_Contract.getItem("silverTolorance").hide();
-                            DynamicForm_Contract.getItem("molybdenum").hide();
-                            DynamicForm_Contract.getItem("molybdenumTolorance").hide();
-                        }
+            if (record.material.descl === 'Copper Concentrate') {
+                DynamicForm_Contract.getItem("copper").show();
+                DynamicForm_Contract.getItem("copperTolorance").show();
+                DynamicForm_Contract.getItem("gold").show();
+                DynamicForm_Contract.getItem("goldTolorance").show();
+                DynamicForm_Contract.getItem("silver").show();
+                DynamicForm_Contract.getItem("silverTolorance").show();
+                DynamicForm_Contract.getItem("molybdenum").hide();
+                DynamicForm_Contract.getItem("molybdenumTolorance").hide();
+            } else if (record.material.descl === 'Molybdenum Oxide') {
+                DynamicForm_Contract.getItem("copper").hide();
+                DynamicForm_Contract.getItem("copperTolorance").hide();
+                DynamicForm_Contract.getItem("gold").hide();
+                DynamicForm_Contract.getItem("goldTolorance").hide();
+                DynamicForm_Contract.getItem("silver").hide();
+                DynamicForm_Contract.getItem("silverTolorance").hide();
+                DynamicForm_Contract.getItem("molybdenum").show();
+                DynamicForm_Contract.getItem("molybdenumTolorance").show();
+            } else {
+                DynamicForm_Contract.getItem("copper").hide();
+                DynamicForm_Contract.getItem("copperTolorance").hide();
+                DynamicForm_Contract.getItem("gold").hide();
+                DynamicForm_Contract.getItem("goldTolorance").hide();
+                DynamicForm_Contract.getItem("silver").hide();
+                DynamicForm_Contract.getItem("silverTolorance").hide();
+                DynamicForm_Contract.getItem("molybdenum").hide();
+                DynamicForm_Contract.getItem("molybdenumTolorance").hide();
+            }
             Window_Contract.animateShow()
         }
     }
@@ -229,8 +179,7 @@
                 title: "<spring:message code='global.form.refresh'/>",
                 icon: "pieces/16/refresh.png",
                 click: function () {
-                    DynamicForm_Contract.clearValues();
-                    Window_Contract.animateShow();
+                    ListGrid_Contract_refresh();
                 }
             },
             {
@@ -256,7 +205,7 @@
                 }
             },
             {
-               title: "ارسال به Pdf", icon: "icon/pdf.png", click: function () {
+                title: "ارسال به Pdf", icon: "icon/pdf.png", click: function () {
                     "<spring:url value="/contract/print/pdf" var="printUrl"/>"
                     window.open('${printUrl}');
                 }
@@ -264,7 +213,7 @@
                 title: "ارسال به Excel", icon: "icon/excel.png", click: function () {
                     "<spring:url value="/contract/print/excel" var="printUrl"/>"
                     window.open('${printUrl}');
-             }
+                }
             }, {
                 title: "ارسال به Html", icon: "icon/html.jpg", click: function () {
                     "<spring:url value="/contract/print/html" var="printUrl"/>"
@@ -275,12 +224,12 @@
         ]
     });
 
-var RestDataSource_Contact_optionCriteria= {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{fieldName: "seller", operator: "equals", value: true}]
-  };
-var DynamicForm_Contract = isc.DynamicForm.create({
+    var RestDataSource_Contact_optionCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "seller", operator: "equals", value: true}]
+    };
+    var DynamicForm_Contract = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         setMethod: 'POST',
@@ -293,7 +242,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
         wrapTitle: false,
         requiredMessage: "<spring:message code='validator.field.is.required'/>.",
         numCols: 4,
-        backgroundImage:"backgrounds/leaves.jpg",
+        backgroundImage: "backgrounds/leaves.jpg",
         titleWidth: "120",
         titleAlign: "right",
         fields:
@@ -302,10 +251,10 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                 {type: "Header", defaultValue: ""},
                 {
                     name: "contractNo",
-                    colSpan:1,
-                    titleColSpan:1,
-                    tabIndex:1,
-                    showHover:true,
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    tabIndex: 1,
+                    showHover: true,
                     title: "<spring:message code='contract.contractNo'/>",
                     type: 'text',
                     required: true,
@@ -313,28 +262,28 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                 },
                 {
                     name: "contractDateDumy",
-                    colSpan:1,
-                    titleColSpan:1,
-                    tabIndex:2,
-                    showHover:true,
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    tabIndex: 2,
+                    showHover: true,
                     title: "<spring:message code='contract.contractDate'/>",
                     type: 'date',
                     width: "100%"
                 },
                 {
                     name: "contactId",
-                    colSpan:3,
-                    titleColSpan:1,
-                    tabIndex:3,
-                    showHover:true,
-                    autoFetchData:false,
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    tabIndex: 3,
+                    showHover: true,
+                    autoFetchData: false,
                     title: "<spring:message code='contact.name'/>",
                     type: 'long',
                     width: "100%",
                     required: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Contact,
-                    optionCriteria : RestDataSource_Contact_optionCriteria,
+                    optionCriteria: RestDataSource_Contact_optionCriteria,
                     displayField: "nameFA",
                     valueField: "id",
                     pickListWidth: "500",
@@ -526,7 +475,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.goldTolorance'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -540,7 +489,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.silver'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -554,7 +503,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.silverTolorance'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -568,7 +517,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.molybdenum'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -582,7 +531,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.molybdenumTolorance'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -591,13 +540,16 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     }],
                     hidden: true
                 },
-                {type: "Header",defaultValue:"------------------  قیمت---------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  قیمت---------------------------------------------------------------"
+                },
                 {
                     name: "premium",
                     title: "<spring:message code='contract.premium'/>",
                     type: 'integer',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -610,7 +562,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.discount'/>",
                     type: 'integer',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -623,7 +575,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.TC'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -636,7 +588,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.RC'/>",
                     type: 'float',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -649,7 +601,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     title: "<spring:message code='contract.prepaid'/>",
                     type: 'integer',
                     required: false,
-                    width: "100%" ,
+                    width: "100%",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -661,10 +613,13 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     name: "prepaidCurrency",
                     title: "<spring:message code='contract.prepaidCurrency'/>",
                     type: 'text',
-                    defaultValue: "DOLLAR", valueMap:{"EURO":"EURO", "DOLLAR":"DOLLAR"},
+                    defaultValue: "DOLLAR", valueMap: {"EURO": "EURO", "DOLLAR": "DOLLAR"},
                     width: "100%"
                 },
-                {type: "Header",defaultValue:"------------------  زمان----------------------------------------------------------------"},
+                {
+                    type: "Header",
+                    defaultValue: "------------------  زمان----------------------------------------------------------------"
+                },
                 {
                     name: "runStartDateDumy",
                     title: "<spring:message code='contract.runStartDate'/>",
@@ -677,7 +632,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                     type: 'date',
                     width: "100%"
                 },
-                {type: "Header",defaultValue:""}
+                {type: "Header", defaultValue: ""}
             ]
     });
 
@@ -718,8 +673,8 @@ var DynamicForm_Contract = isc.DynamicForm.create({
         icon: "[SKIN]/RichTextEditor/print.png",
         title: "<spring:message code='global.form.print'/>",
         click: function () {
-                    "<spring:url value="/contract/printIncome/pdf" var="printIncomeUrl"/>"
-                    window.open('${printIncomeUrl}');
+            "<spring:url value="/contract/printIncome/pdf" var="printIncomeUrl"/>"
+            window.open('${printIncomeUrl}');
         }
     });
     var ToolStrip_Actions_Contract = isc.ToolStrip.create({
@@ -813,7 +768,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
             [
                 DynamicForm_Contract,
                 isc.HLayout.create({
-                    width: "100%", align: "center",  height: "20",
+                    width: "100%", align: "center", height: "20",
                     members:
                         [
                             IButton_Contract_Save,
@@ -921,7 +876,6 @@ var DynamicForm_Contract = isc.DynamicForm.create({
         },
         dataArrived: function (startRow, endRow) {
         }
-
     });
     var HLayout_Contract_Grid = isc.HLayout.create({
         width: "100%",
@@ -938,28 +892,23 @@ var DynamicForm_Contract = isc.DynamicForm.create({
             HLayout_Contract_Actions, HLayout_Contract_Grid
         ]
     });
+    isc.ViewLoader.create({
+        ID: "contractAttachmentViewLoader",
+        autoDraw: false,
+        loadingMessage: ""
+    });
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-    var RestDataSource_Port = isc.RestDataSource.create({
+    var RestDataSource_Port = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "port", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         // ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${restApiUrl}/api/port/spec-list"
     });
-    var RestDataSource_ContractShipment = isc.RestDataSource.create({
+    var RestDataSource_ContractShipment = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false,},
@@ -1002,17 +951,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                 },
                 {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         // ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${restApiUrl}/api/contractShipment/spec-list"
     });
 
@@ -1031,7 +970,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
         ListGrid_ContractShipment.fetchData(criteria1, function (dsResponse, data, dsRequest) {
             ListGrid_ContractShipment.setData(data);
         }, {operationId: "00"});
-    };
+    }
 
     function ListGrid_ContractShipment_edit() {
         var record = ListGrid_ContractShipment.getSelectedRecord();
@@ -1050,7 +989,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
             DynamicForm_ContractShipment.setValue("sendDateDummy", new Date(record.sendDate))
             Window_ContractShipment.animateShow();
         }
-    };
+    }
 
     function ListGrid_ContractShipment_remove() {
 
@@ -1095,6 +1034,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
             });
         }
     }
+
     var Menu_ListGrid_ContractShipment = isc.Menu.create({
         width: 150,
         data:
@@ -1327,29 +1267,22 @@ var DynamicForm_Contract = isc.DynamicForm.create({
             // ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
-            isc.RPCManager.sendRequest({
-                // ######@@@@###&&@@### pls correct callback
-                actionURL: "${restApiUrl}/api/contractShipment/",
-                httpMethod: methodXXXX,
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                //         httpMethod: "POST",
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                showPrompt: false,
-                data: JSON.stringify(data),
-                serverOutputAsString: false,
-                //params: {    data:data1},
-                callback: function (RpcResponse_o) {
-                    // ######@@@@###&&@@###
-                    //         if(RpcResponse_o.data == 'success')
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                        ListGrid_ContractShipment_refresh();
-                        Window_ContractShipment.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            });
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    // ######@@@@###&&@@### pls correct callback
+                    actionURL: "${restApiUrl}/api/contractShipment/",
+                    httpMethod: methodXXXX,
+                    data: JSON.stringify(data),
+                    callback: function (RpcResponse_o) {
+                        // ######@@@@###&&@@###
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_ContractShipment_refresh();
+                            Window_ContractShipment.close();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                })
+            );
         }
     });
     var Window_ContractShipment = isc.Window.create({
@@ -1370,7 +1303,7 @@ var DynamicForm_Contract = isc.DynamicForm.create({
             [
                 DynamicForm_ContractShipment,
                 isc.HLayout.create({
-                    width: "100%", align: "center",  height: "20",
+                    width: "100%", align: "center", height: "20",
                     members:
                         [
                             IButton_ContractShipment_Save,
@@ -1499,8 +1432,17 @@ var DynamicForm_Contract = isc.DynamicForm.create({
                 width: "100%",
                 tabs:
                     [
-                        {title: "<spring:message code='main.contractsTab'/>", pane: VLayout_Contract_Body}
-                        , {title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body}
+                        {title: "<spring:message code='main.contractsTab'/>", pane: VLayout_Contract_Body},
+                        {title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body},
+                        {
+                            title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader
+                            , tabSelected: function (form, item, value) {
+                                var record = ListGrid_Contract.getSelectedRecord();
+                                var dccTableId = record.id;
+                                var dccTableName = "TBL_CONTRACT";
+                                contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                            }
+                        }
                     ]
             })
         ]
