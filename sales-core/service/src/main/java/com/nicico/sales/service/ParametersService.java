@@ -75,6 +75,8 @@ public class ParametersService implements IParametersService {
 		parametersDAO.deleteAll(parameterss);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ParametersDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(parametersDAO, request, parameters -> modelMapper.map(parameters, ParametersDTO.Info.class));
 	}

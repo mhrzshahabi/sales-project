@@ -75,6 +75,8 @@ public class DCCService implements IDCCService {
 		dCCDAO.deleteAll(dCCs);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<DCCDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(dCCDAO, request, dCC -> modelMapper.map(dCC, DCCDTO.Info.class));
 	}

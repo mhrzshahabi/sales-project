@@ -75,6 +75,8 @@ public class GroupsPersonService implements IGroupsPersonService {
 		groupsPersonDAO.deleteAll(groupsPersons);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<GroupsPersonDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(groupsPersonDAO, request, groupsPerson -> modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class));
 	}

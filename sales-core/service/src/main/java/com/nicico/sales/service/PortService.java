@@ -75,6 +75,8 @@ public class PortService implements IPortService {
 		portDAO.deleteAll(ports);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<PortDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(portDAO, request, port -> modelMapper.map(port, PortDTO.Info.class));
 	}

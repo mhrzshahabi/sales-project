@@ -75,6 +75,8 @@ public class PersonService implements IPersonService {
 		personDAO.deleteAll(persons);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<PersonDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(personDAO, request, person -> modelMapper.map(person, PersonDTO.Info.class));
 	}

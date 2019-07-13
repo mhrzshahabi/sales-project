@@ -75,6 +75,8 @@ public class ShipmentPriceService implements IShipmentPriceService {
 		shipmentPriceDAO.deleteAll(shipmentPrices);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ShipmentPriceDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(shipmentPriceDAO, request, shipmentPrice -> modelMapper.map(shipmentPrice, ShipmentPriceDTO.Info.class));
 	}

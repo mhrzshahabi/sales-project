@@ -75,6 +75,8 @@ public class PaymentOptionService implements IPaymentOptionService {
 		paymentOptionDAO.deleteAll(paymentOptions);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<PaymentOptionDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(paymentOptionDAO, request, paymentOption -> modelMapper.map(paymentOption, PaymentOptionDTO.Info.class));
 	}

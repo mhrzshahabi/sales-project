@@ -75,6 +75,8 @@ public class TozinService implements ITozinService {
 		tozinDAO.deleteAll(tozins);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<TozinDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(tozinDAO, request, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
 	}

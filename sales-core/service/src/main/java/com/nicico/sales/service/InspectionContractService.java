@@ -75,6 +75,8 @@ public class InspectionContractService implements IInspectionContractService {
 		inspectionContractDAO.deleteAll(inspectionContracts);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<InspectionContractDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(inspectionContractDAO, request, inspectionContract -> modelMapper.map(inspectionContract, InspectionContractDTO.Info.class));
 	}

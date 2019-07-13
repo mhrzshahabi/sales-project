@@ -97,6 +97,8 @@ public class ContactAccountService implements IContactAccountService {
         contactAccountDAO.deleteAll(contactAccounts);
     }
 
+    @Transactional(readOnly = true)
+    @Override
     public SearchDTO.SearchRs<ContactAccountDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(contactAccountDAO, request, contactAccount -> modelMapper.map(contactAccount, ContactAccountDTO.Info.class));
     }

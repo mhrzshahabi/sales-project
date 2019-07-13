@@ -75,6 +75,8 @@ public class ShipmentAssayItemService implements IShipmentAssayItemService {
 		shipmentAssayItemDAO.deleteAll(shipmentAssayItems);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ShipmentAssayItemDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(shipmentAssayItemDAO, request, shipmentAssayItem -> modelMapper.map(shipmentAssayItem, ShipmentAssayItemDTO.Info.class));
 	}

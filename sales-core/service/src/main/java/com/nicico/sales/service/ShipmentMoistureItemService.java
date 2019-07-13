@@ -75,6 +75,8 @@ public class ShipmentMoistureItemService implements IShipmentMoistureItemService
 		shipmentMoistureItemDAO.deleteAll(shipmentMoistureItems);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ShipmentMoistureItemDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(shipmentMoistureItemDAO, request, shipmentMoistureItem -> modelMapper.map(shipmentMoistureItem, ShipmentMoistureItemDTO.Info.class));
 	}

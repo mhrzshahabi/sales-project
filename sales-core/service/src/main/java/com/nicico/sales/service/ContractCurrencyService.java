@@ -75,6 +75,8 @@ public class ContractCurrencyService implements IContractCurrencyService {
 		contractCurrencyDAO.deleteAll(contractCurrencys);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ContractCurrencyDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(contractCurrencyDAO, request, contractCurrency -> modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class));
 	}

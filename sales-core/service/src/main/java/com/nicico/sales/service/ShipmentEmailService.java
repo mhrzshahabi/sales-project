@@ -75,6 +75,8 @@ public class ShipmentEmailService implements IShipmentEmailService {
 		shipmentEmailDAO.deleteAll(shipmentEmails);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ShipmentEmailDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(shipmentEmailDAO, request, shipmentEmail -> modelMapper.map(shipmentEmail, ShipmentEmailDTO.Info.class));
 	}

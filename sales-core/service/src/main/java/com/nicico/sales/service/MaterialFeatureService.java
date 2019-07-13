@@ -75,6 +75,8 @@ public class MaterialFeatureService implements IMaterialFeatureService {
 		materialFeatureDAO.deleteAll(materialFeatures);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<MaterialFeatureDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(materialFeatureDAO, request, materialFeature -> modelMapper.map(materialFeature, MaterialFeatureDTO.Info.class));
 	}

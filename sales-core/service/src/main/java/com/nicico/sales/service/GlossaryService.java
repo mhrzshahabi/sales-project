@@ -75,6 +75,8 @@ public class GlossaryService implements IGlossaryService {
 		glossaryDAO.deleteAll(glossarys);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<GlossaryDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(glossaryDAO, request, glossary -> modelMapper.map(glossary, GlossaryDTO.Info.class));
 	}

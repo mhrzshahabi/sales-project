@@ -75,6 +75,8 @@ public class ShipmentInquiryService implements IShipmentInquiryService {
 		shipmentInquiryDAO.deleteAll(shipmentInquirys);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ShipmentInquiryDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(shipmentInquiryDAO, request, shipmentInquiry -> modelMapper.map(shipmentInquiry, ShipmentInquiryDTO.Info.class));
 	}

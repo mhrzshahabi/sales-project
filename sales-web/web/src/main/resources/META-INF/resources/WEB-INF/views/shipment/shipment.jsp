@@ -293,6 +293,7 @@
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     DynamicForm_Shipment.clearValues();
+                    RestDataSource_pickShipmentItem.fetchData();
                     Window_Shipment.animateShow();
                 }
             },
@@ -1022,6 +1023,7 @@ var RestDataSource_Contact_optionCriteria= {
 			DynamicForm_Shipment1.setValue("blDateDumy", new Date(record.blDate));
 			if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA == 'undefiend'))
 				Shipment_contact_name.setContents(record.contract.contact.nameFA);
+            RestDataSource_pickShipmentItem.fetchData();
 			Window_Shipment.animateShow();
 		}
 	};
@@ -1037,6 +1039,7 @@ var RestDataSource_Contact_optionCriteria= {
 		title: "<spring:message code='global.form.new'/>",
 		click: function () {
 			DynamicForm_Shipment.clearValues();
+            RestDataSource_pickShipmentItem.fetchData();
 			Window_Shipment.animateShow();
 		}
 	});

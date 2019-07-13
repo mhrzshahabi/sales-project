@@ -75,6 +75,8 @@ public class LMEService implements ILMEService {
 		lMEDAO.deleteAll(lMEs);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<LMEDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(lMEDAO, request, lME -> modelMapper.map(lME, LMEDTO.Info.class));
 	}

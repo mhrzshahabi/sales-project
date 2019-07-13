@@ -75,6 +75,8 @@ public class InstructionService implements IInstructionService {
 		instructionDAO.deleteAll(instructions);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<InstructionDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(instructionDAO, request, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
 	}

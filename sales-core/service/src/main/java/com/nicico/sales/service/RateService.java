@@ -75,6 +75,8 @@ public class RateService implements IRateService {
 		rateDAO.deleteAll(rates);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<RateDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(rateDAO, request, rate -> modelMapper.map(rate, RateDTO.Info.class));
 	}

@@ -75,6 +75,8 @@ public class ContractPenaltyService implements IContractPenaltyService {
 		contractPenaltyDAO.deleteAll(contractPenaltys);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ContractPenaltyDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(contractPenaltyDAO, request, contractPenalty -> modelMapper.map(contractPenalty, ContractPenaltyDTO.Info.class));
 	}

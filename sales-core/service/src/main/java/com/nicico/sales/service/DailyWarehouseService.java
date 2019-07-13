@@ -75,6 +75,8 @@ public class DailyWarehouseService implements IDailyWarehouseService {
 		dailyWarehouseDAO.deleteAll(dailyWarehouses);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<DailyWarehouseDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(dailyWarehouseDAO, request, dailyWarehouse -> modelMapper.map(dailyWarehouse, DailyWarehouseDTO.Info.class));
 	}

@@ -75,6 +75,8 @@ public class CurrencyRateService implements ICurrencyRateService {
 		currencyRateDAO.deleteAll(currencyRates);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<CurrencyRateDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(currencyRateDAO, request, currencyRate -> modelMapper.map(currencyRate, CurrencyRateDTO.Info.class));
 	}

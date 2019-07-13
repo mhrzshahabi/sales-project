@@ -75,6 +75,8 @@ public class ShipmentAssayHeaderService implements IShipmentAssayHeaderService {
 		shipmentAssayHeaderDAO.deleteAll(shipmentAssayHeaders);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ShipmentAssayHeaderDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(shipmentAssayHeaderDAO, request, shipmentAssayHeader -> modelMapper.map(shipmentAssayHeader, ShipmentAssayHeaderDTO.Info.class));
 	}

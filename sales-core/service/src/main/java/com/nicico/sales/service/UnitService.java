@@ -75,6 +75,8 @@ public class UnitService implements IUnitService {
 		unitDAO.deleteAll(units);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<UnitDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(unitDAO, request, unit -> modelMapper.map(unit, UnitDTO.Info.class));
 	}

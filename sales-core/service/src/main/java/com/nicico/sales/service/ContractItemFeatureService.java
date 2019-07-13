@@ -75,6 +75,8 @@ public class ContractItemFeatureService implements IContractItemFeatureService {
 		contractItemFeatureDAO.deleteAll(contractItemFeatures);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ContractItemFeatureDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(contractItemFeatureDAO, request, contractItemFeature -> modelMapper.map(contractItemFeature, ContractItemFeatureDTO.Info.class));
 	}

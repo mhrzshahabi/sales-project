@@ -75,6 +75,8 @@ public class ProvisionalInvoiceService implements IProvisionalInvoiceService {
 		provisionalInvoiceDAO.deleteAll(provisionalInvoices);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ProvisionalInvoiceDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(provisionalInvoiceDAO, request, provisionalInvoice -> modelMapper.map(provisionalInvoice, ProvisionalInvoiceDTO.Info.class));
 	}

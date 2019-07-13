@@ -75,6 +75,8 @@ public class ContractPersonService implements IContractPersonService {
 		contractPersonDAO.deleteAll(contractPersons);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ContractPersonDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(contractPersonDAO, request, contractPerson -> modelMapper.map(contractPerson, ContractPersonDTO.Info.class));
 	}

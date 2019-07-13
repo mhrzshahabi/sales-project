@@ -75,6 +75,8 @@ public class ContractAddendumService implements IContractAddendumService {
 		contractAddendumDAO.deleteAll(contractAddendums);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ContractAddendumDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(contractAddendumDAO, request, contractAddendum -> modelMapper.map(contractAddendum, ContractAddendumDTO.Info.class));
 	}

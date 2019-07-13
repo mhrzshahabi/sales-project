@@ -75,6 +75,8 @@ public class ShipmentContractService implements IShipmentContractService {
 		shipmentContractDAO.deleteAll(shipmentContracts);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ShipmentContractDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(shipmentContractDAO, request, shipmentContract -> modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class));
 	}

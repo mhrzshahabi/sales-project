@@ -75,6 +75,8 @@ public class IncotermsService implements IIncotermsService {
 		incotermsDAO.deleteAll(incotermss);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<IncotermsDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(incotermsDAO, request, incoterms -> modelMapper.map(incoterms, IncotermsDTO.Info.class));
 	}

@@ -75,6 +75,8 @@ public class CountryService implements ICountryService {
 		countryDAO.deleteAll(countrys);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<CountryDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(countryDAO, request, country -> modelMapper.map(country, CountryDTO.Info.class));
 	}

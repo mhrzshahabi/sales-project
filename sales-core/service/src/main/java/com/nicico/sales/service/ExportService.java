@@ -75,6 +75,8 @@ public class ExportService implements IExportService {
 		exportDAO.deleteAll(exports);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ExportDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(exportDAO, request, export -> modelMapper.map(export, ExportDTO.Info.class));
 	}

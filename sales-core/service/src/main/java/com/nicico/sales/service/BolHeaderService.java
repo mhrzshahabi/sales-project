@@ -75,6 +75,8 @@ public class BolHeaderService implements IBolHeaderService {
 		bolHeaderDAO.deleteAll(bolHeaders);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<BolHeaderDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(bolHeaderDAO, request, bolHeader -> modelMapper.map(bolHeader, BolHeaderDTO.Info.class));
 	}

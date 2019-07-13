@@ -75,6 +75,8 @@ public class WarehouseLotService implements IWarehouseLotService {
 		warehouseLotDAO.deleteAll(warehouseLots);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<WarehouseLotDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(warehouseLotDAO, request, warehouseLot -> modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class));
 	}

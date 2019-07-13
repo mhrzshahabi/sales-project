@@ -75,6 +75,8 @@ public class FeatureService implements IFeatureService {
 		featureDAO.deleteAll(features);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<FeatureDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(featureDAO, request, feature -> modelMapper.map(feature, FeatureDTO.Info.class));
 	}

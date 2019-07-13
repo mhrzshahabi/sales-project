@@ -75,6 +75,8 @@ public class BolItemService implements IBolItemService {
 		bolItemDAO.deleteAll(bolItems);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<BolItemDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(bolItemDAO, request, bolItem -> modelMapper.map(bolItem, BolItemDTO.Info.class));
 	}

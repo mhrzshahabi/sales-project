@@ -75,6 +75,8 @@ public class ContractAttachmentService implements IContractAttachmentService {
 		contractAttachmentDAO.deleteAll(contractAttachments);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
 	public SearchDTO.SearchRs<ContractAttachmentDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(contractAttachmentDAO, request, contractAttachment -> modelMapper.map(contractAttachment, ContractAttachmentDTO.Info.class));
 	}
