@@ -13,7 +13,10 @@
             var criteria = {
                 _constructor: "AdvancedCriteria",
                 operator: "and",
-                criteria: [{fieldName: "tblId1", operator: "equals", value: dccTableId}]
+                criteria: [
+                {fieldName: "tblId1", operator: "equals", value: dccTableId},
+                {fieldName: "tblName1", operator: "equals", value: dccTableName}
+                ]
             };
             ListGrid_Dcc.fetchData(criteria, function (dsResponse, data, dsRequest) {
                 ListGrid_Dcc.setData(data);
