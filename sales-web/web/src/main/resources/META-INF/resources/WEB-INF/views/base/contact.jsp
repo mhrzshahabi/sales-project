@@ -645,7 +645,7 @@
         }
     });
 
-    var ListGrid_ContactAccount = isc.ListGrid.create({
+    var ListGrid_ContactAccount = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ContactAccount,
@@ -718,14 +718,6 @@
         autoFetchData: false,
         showFilterEditor: true,
         filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
         startsWithTitle: "tt"
     });
 
@@ -1257,7 +1249,7 @@
         ]
     });
 
-    var ListGrid_Contact = isc.ListGrid.create({
+    var ListGrid_Contact = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Contact,
@@ -1333,14 +1325,6 @@
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
         startsWithTitle: "tt"
     });
 

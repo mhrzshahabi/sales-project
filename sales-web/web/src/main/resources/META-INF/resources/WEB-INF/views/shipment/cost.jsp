@@ -97,7 +97,7 @@
 		]
 	});
 //-------------------
-	var ListGrid_Shipment_CostHeader = isc.ListGrid.create({
+	var ListGrid_Shipment_CostHeader = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		contextMenu: Menu_ListGrid_Shipment_CostHeader,
@@ -225,14 +225,6 @@
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	});
 	var HLayout_Grid_Shipment_CostHeader = isc.HLayout.create({
@@ -1068,7 +1060,7 @@ var RestDataSource_Contact_optionCriteria_insurancer= {
 				})
 			]
 	});
-	var ListGrid_Cost = isc.ListGrid.create({
+	var ListGrid_Cost = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_Cost,
@@ -1236,14 +1228,6 @@ var RestDataSource_Contact_optionCriteria_insurancer= {
 		autoFetchData: false,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt",
 		recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
 		updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {

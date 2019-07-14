@@ -72,7 +72,7 @@
 		fetchDataURL: "${restApiUrl}/api/dcc/spec-list"
 	});
 
-	var listGrid_DccView = isc.ListGrid.create({
+	var listGrid_DccView = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_DccView,
@@ -81,14 +81,6 @@
 		autoFetchData: false,
 		showFilterEditor: false,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt",
 		fields:
 			[

@@ -1074,7 +1074,7 @@ var RestDataSource_Contact_optionCriteria= {
 		]
 	});
 
-	var ListGrid_Shipment = isc.ListGrid.create({
+	var ListGrid_Shipment = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_Shipment,
@@ -1198,14 +1198,6 @@ var RestDataSource_Contact_optionCriteria= {
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	});
 	var HLayout_Grid_Shipment = isc.HLayout.create({
@@ -1389,7 +1381,7 @@ var RestDataSource_Contact_optionCriteria= {
 				}
 			]
 	});
-	ListGrid_Person_EmailCC = isc.ListGrid.create({
+	ListGrid_Person_EmailCC = isc.MyListGrid.create({
 		width: "800",
 		height: "400",
 		dataSource: RestDataSource_Person_EmailCC,
@@ -1424,14 +1416,6 @@ var RestDataSource_Contact_optionCriteria= {
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt",
 		selectionAppearance: "checkbox"
 	});
@@ -1634,7 +1618,7 @@ var RestDataSource_Contact_optionCriteria= {
 				DynamicForm_ShipmentEmail, IButton_ShipmentEmail_Save
 			]
 	});
-	var ListGrid_ShipmentEmail = isc.ListGrid.create({
+	var ListGrid_ShipmentEmail = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_ShipmentEmail,
@@ -1688,14 +1672,6 @@ var RestDataSource_Contact_optionCriteria= {
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt",
 		recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
 		updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {

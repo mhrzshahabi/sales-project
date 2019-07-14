@@ -182,7 +182,7 @@
 		}, {operationId: "00"});
 	}
 
-	var ListGrid_Shipment_HeaderByTender = isc.ListGrid.create({
+	var ListGrid_Shipment_HeaderByTender = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_Shipment_HeaderByTender,
@@ -211,14 +211,6 @@
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	});
 	var HLayout_Grid_Shipment_HeaderByTender = isc.HLayout.create({
@@ -239,7 +231,7 @@
 	});
 
 	//---------------------------------------------------------- Inquiry ---------------------------------------------------------------------------------------------------
-	var ListGrid_ShipmentByTender = isc.ListGrid.create({
+	var ListGrid_ShipmentByTender = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_ByTender,
@@ -350,14 +342,6 @@
 		autoFetchData: false,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	});
 	var HLayout_Grid_ShipmentBytender = isc.HLayout.create({
@@ -605,7 +589,7 @@
 				}
 			]
 	});
-	ListGrid_PersonByShipmentInquiry_EmailCC = isc.ListGrid.create({
+	ListGrid_PersonByShipmentInquiry_EmailCC = isc.MyListGrid.create({
 		width: "800",
 		height: "400",
 		dataSource: RestDataSource_PersonByShipInq_EmailCC,
@@ -640,14 +624,6 @@
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt",
 		selectionAppearance: "checkbox"
 	});
@@ -921,7 +897,7 @@
 					height: "100%",
 					members:
 						[
-							isc.ListGrid.create({
+							isc.MyListGrid.create({
 								ID: "ShipmentResourceByInquiry_ListGrid",
 								dataSource: RestDataSource_ShipmentResourceByInquiry,
 								selectionAppearance: "checkbox",
@@ -952,14 +928,6 @@
 								autoFetchData: true,
 								showFilterEditor: true,
 								filterOnKeypress: true,
-								sortFieldAscendingText: "مرتب سازی صعودی",
-								sortFieldDescendingText: "مرتب سازی نزولی",
-								configureSortText: "تنظیم مرتب سازی",
-								autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-								autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-								filterUsingText: "فیلتر کردن",
-								groupByText: "گروه بندی",
-								freezeFieldText: "ثابت نگه داشتن",
 								startsWithTitle: "tt"
 							}),
 							isc.ToolStripButton.create({
@@ -1309,7 +1277,7 @@
 				})
 			]
 	});
-	var ListGrid_ShipmentInquiry = isc.ListGrid.create({
+	var ListGrid_ShipmentInquiry = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_ShipmentInquiry,
@@ -1368,14 +1336,6 @@
 		autoFetchData: false,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt",
 		recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
 		updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
