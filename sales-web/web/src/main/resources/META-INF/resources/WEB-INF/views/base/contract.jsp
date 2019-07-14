@@ -857,6 +857,7 @@
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
+            companyName.setTitle(record.contractNo+' '+record.contact.nameFA);
             var criteria1 = {
                 _constructor: "AdvancedCriteria",
                 operator: "and",
@@ -1416,7 +1417,7 @@
                 width: "100%",
                 tabs:
                     [
-                        {title: "<spring:message code='main.contractsTab'/>", pane: VLayout_Contract_Body},
+                        {ID:"companyName",title: "<spring:message code='main.contractsTab'/>", pane: VLayout_Contract_Body},
                         {title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body},
                         {
                             title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader
