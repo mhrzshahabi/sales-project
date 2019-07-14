@@ -125,6 +125,38 @@
                 {name: "summary", title: "<spring:message code='glossary.summary'/>", type: 'text', width: "480" , required: true},
                 {name: "meaning", title: "<spring:message code='glossary.meaning'/>", type: 'text', width: "480" , required: true},
                 {type: "RowSpacerItem"}
+
+            <%--{--%>
+            <%--name: "nameFA",--%>
+            <%--title: "<spring:message--%>
+                    <%--code='FiscalYear.nameFa'/>",--%>
+            <%--required: true,--%>
+            <%--type: 'text',--%>
+            <%--readonly: true,--%>
+            <%--hint: "Persian/فارسی",--%>
+            <%--keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9 ]",--%>
+            <%--length: "20",--%>
+            <%--validators: [{--%>
+            <%--type: "isString", validateOnExit: true, stopOnError: true, errorMessage: "<spring:message--%>
+                    <%--code='validator.field.name'/>"--%>
+            <%--}]--%>
+            <%--},--%>
+
+            <%--{--%>
+            <%--name: "nameEN", title: "<spring:message--%>
+                    <%--code='FiscalYear.nameLatin'/>", type: 'text', keyPressFilter: "[a-z|A-Z|0-9 ]", length: "20", hint: "Latin",--%>
+            <%--validators: [{--%>
+            <%--type: "isString",--%>
+            <%--validateOnExit: true,--%>
+            <%--type: "lengthRange",--%>
+            <%--min: 0,--%>
+            <%--max: 20,--%>
+            <%--stopOnError: true,--%>
+            <%--errorMessage: "<spring:message--%>
+                    <%--code='validator.field.name'/>"--%>
+            <%--}]--%>
+            <%--},--%>
+
             ]
     });
 
