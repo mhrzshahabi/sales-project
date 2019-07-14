@@ -64,6 +64,7 @@
     /*-----------------------------------------*/
 
     isc.defineClass("MyRestDataSource", RestDataSource);
+    isc.defineClass("MyListGrid", ListGrid);
 
     isc.MyRestDataSource.addProperties({
         dataFormat: "json",
@@ -104,20 +105,9 @@
     isc.RPCManager.allowCrossDomainCalls = true;
     isc.FileLoader.loadLocale("fa");
     isc.FileLoader.cacheLocale("fa");
-    // isc.RPCManager.addClassProperties({
-    //     defaultTimeout: 4400000,
-    //     willHandleError: true,
-    //     handleError: function (response, request) {
-    //         isc.say('خطا در اتصال به سرور!!');
-    //     }
-    // });
     Page.setAppImgDir("static/img/");
-    var headerLayout;
 
-	isc.ListGrid.addProperties({
-        allowFilterExpressions: true,
-        allowAdvancedCriteria: true,
-// filterOnKeypress: true,
+    isc.MyListGrid.addProperties({
         sortFieldAscendingText: "مرتب سازی صعودی",
         sortFieldDescendingText: "مرتب سازی نزولی",
         configureSortText: "تنظیم مرتب سازی",
@@ -125,25 +115,25 @@
         autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
         filterUsingText: "فیلتر کردن",
         groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
-		showPrompt: true
-	});
-	isc.ToolStripButton.addProperties({
-		showDownIcon: false,
-		showSelectedIcon: false,
-		showRollOverIcon: false,
-		showMenuOnRollOver:true,
-		disabledCursor: "not-allowed",
-		border: "1px solid lightblue"
-	});
-	isc.ToolStripMenuButton.addProperties({
-		showDownIcon: false,
-		showSelectedIcon: false,
-		showRollOverIcon: false,
-		showMenuOnRollOver:true,
-		disabledCursor: "not-allowed",
-		border: "1px solid lightgray"
-	});
+        freezeFieldText: "ثابت نگه داشتن"
+    });
+
+    isc.ToolStripButton.addProperties({
+        showDownIcon: false,
+        showSelectedIcon: false,
+        showRollOverIcon: false,
+        showMenuOnRollOver: true,
+        disabledCursor: "not-allowed",
+        border: "1px solid lightblue"
+    });
+    isc.ToolStripMenuButton.addProperties({
+        showDownIcon: false,
+        showSelectedIcon: false,
+        showRollOverIcon: false,
+        showMenuOnRollOver: true,
+        disabledCursor: "not-allowed",
+        border: "1px solid lightgray"
+    });
 
     function getIconButton(title, props) {
         return isc.IconButton.create(isc.addProperties({
@@ -282,7 +272,7 @@
 
 
     languageForm.setValue("languageName", "<c:out value='${pageContext.response.locale}'/>");
-    headerLayout = isc.HLayout.create({
+    var headerLayout = isc.HLayout.create({
         width: "100%",
         height: "30",
         //border: "1px solid red",

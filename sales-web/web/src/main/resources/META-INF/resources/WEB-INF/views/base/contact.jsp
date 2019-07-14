@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-//<script>
+<%--<script>--%>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -507,34 +507,6 @@
         }
     });
 
-    <%--var IButton_Contact_Account = isc.IButton.create({--%>
-    <%--top: 260,--%>
-    <%--title: "<spring:message code='contact.accounts'/>",--%>
-    <%--icon: "pieces/16/save.png",--%>
-    <%--click: function () {--%>
-    <%--var record = ListGrid_Contact.getSelectedRecord();--%>
-    <%--if (record == null || record.id == null) {--%>
-    <%--isc.Dialog.create({--%>
-    <%--message: "<spring:message code='global.grid.record.not.selected'/>",--%>
-    <%--icon: "[SKIN]ask.png",--%>
-    <%--title: "<spring:message code='global.message'/> ",--%>
-    <%--buttons: [isc.Button.create({title: "<spring:message code='global.ok'/> "})],--%>
-    <%--buttonClick: function () {--%>
-    <%--this.hide();--%>
-    <%--}--%>
-    <%--});--%>
-    <%--} else {--%>
-
-    <%--contactAccountTabs.selectTab(0);--%>
-    <%--ContactAccount_CreateDynamicForm.clearValues();--%>
-    <%--ContactAccount_EditDynamicForm.clearValues();--%>
-    <%--setContactAccountListGridHeaderFormData(ListGrid_Contact.getSelectedRecord());--%>
-    <%--Window_AccountsContact.animateShow();--%>
-    <%--ListGrid_ContactAccount.fetchData({contactId: ListGrid_Contact.getSelectedRecord().id});--%>
-    <%--}--%>
-    <%--}--%>
-    <%--});--%>
-
     var contactFormButtonLayout = isc.HLayout.create({
         width: "100%",
         height: "20",
@@ -546,7 +518,6 @@
         members: [
             IButton_Contact_Save,
             contactCancelBtn
-            <%--IButton_Contact_Account--%>
         ]
     });
 
@@ -674,7 +645,7 @@
         }
     });
 
-    var ListGrid_ContactAccount = isc.ListGrid.create({
+    var ListGrid_ContactAccount = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ContactAccount,
@@ -747,14 +718,6 @@
         autoFetchData: false,
         showFilterEditor: true,
         filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
         startsWithTitle: "tt"
     });
 
@@ -1054,7 +1017,6 @@
                 return;
             }
             var data = ContactAccount_EditDynamicForm.getValues();
-            console.log(data);
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${restApiUrl}/api/contactAccount",
                     httpMethod: "PUT",
@@ -1131,7 +1093,6 @@
         click: function () {
             {
                 var record = ListGrid_ContactAccount.getSelectedRecord();
-
                 if (record == null || record.id == null) {
                     isc.Dialog.create({
                         message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -1156,6 +1117,10 @@
                         buttonClick: function (button, index) {
                             this.hide();
                             if (index == 0) {
+                                if (record.isDefault) {
+                                    isc.warn("<spring:message code='exception.DeleteDefaultAccount'/>");
+                                    return;
+                                }
                                 var contactAccountId = record.id;
                                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                         actionURL: "${restApiUrl}/api/contactAccount/" + contactAccountId,
@@ -1165,8 +1130,6 @@
                                                 ListGrid_ContactAccount.invalidateCache();
                                                 ListGrid_Contact.invalidateCache();
                                                 isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                            } else if (RpcResponse_o.data == 'deny') {
-                                                isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                             } else {
                                                 isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                             }
@@ -1286,7 +1249,7 @@
         ]
     });
 
-    var ListGrid_Contact = isc.ListGrid.create({
+    var ListGrid_Contact = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Contact,
@@ -1362,14 +1325,6 @@
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
         startsWithTitle: "tt"
     });
 
@@ -1412,10 +1367,21 @@
                 title: "<spring:message code='contactAttach.title'/>",
                 icon: "",
                 iconSize: 16,
-                pane: contactAttachmentViewLoader
-                ,
+                pane: contactAttachmentViewLoader,
                 tabSelected: function (form, item, value) {
                     var record = ListGrid_Contact.getSelectedRecord();
+                    if (record == null || record.id == null) {
+                        isc.Dialog.create({
+                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                            icon: "[SKIN]ask.png",
+                            title: "<spring:message code='global.message'/>",
+                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                            buttonClick: function () {
+                                this.hide();
+                            }
+                        });
+                        return;
+                    }
                     var dccTableId = record.id;
                     var dccTableName = "TBL_CONTACT";
                     contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)

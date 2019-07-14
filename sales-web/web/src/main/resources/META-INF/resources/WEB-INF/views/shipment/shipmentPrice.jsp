@@ -252,7 +252,7 @@
 		}, {operationId: "00"});
 	}
 
-	var ListGrid_Shipment_HeaderByPrice = isc.ListGrid.create({
+	var ListGrid_Shipment_HeaderByPrice = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_Shipment_HeaderByPrice,
@@ -281,14 +281,6 @@
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	});
 	var HLayout_Grid_Shipment_HeaderByPrice = isc.HLayout.create({
@@ -407,7 +399,7 @@
 		fetchDataURL: "rest/shipment/list"
 	});
 
-	var ListGrid_ShipmentByPrice = isc.ListGrid.create({
+	var ListGrid_ShipmentByPrice = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_ShipmentByPrice,
@@ -519,14 +511,6 @@
 		autoFetchData: false,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	});
 	var HLayout_Grid_ShipmentByPrice = isc.HLayout.create({
@@ -1237,7 +1221,7 @@
 		]
 	});
 
-	var ListGrid_Shipment_Price = isc.ListGrid.create({
+	var ListGrid_Shipment_Price = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_Shipment_Price,
@@ -1318,14 +1302,6 @@
 		dataPageSize: 50,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	});
 	var HLayout_Grid_Shipment_Price = isc.HLayout.create({

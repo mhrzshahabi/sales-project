@@ -7,17 +7,17 @@
 
     var dccTableName = "${dccTableName}";
     var dccTableId = "${dccTableId}";
+    var criteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [
+            {fieldName: "tblId1", operator: "equals", value: dccTableId},
+            {fieldName: "tblName1", operator: "equals", value: dccTableName}
+        ]
+    };
 
     function ListGrid_Dcc_refresh() {
         if (dccTableId != null) {
-            var criteria = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [
-                {fieldName: "tblId1", operator: "equals", value: dccTableId},
-                {fieldName: "tblName1", operator: "equals", value: dccTableName}
-                ]
-            };
             ListGrid_Dcc.fetchData(criteria, function (dsResponse, data, dsRequest) {
                 ListGrid_Dcc.setData(data);
             }, {operationId: "00"});
@@ -65,7 +65,7 @@
                     title: "<spring:message code='global.Attachment'/> ",
                     type: "file",
                     required: "true",
-                    accept: ".PDF,image/*",
+                    accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
                     multiple: "",
                     width: "90%",
                 }
@@ -354,24 +354,17 @@
                 })
             ]
     });
-    var ListGrid_Dcc = isc.ListGrid.create({
+    var ListGrid_Dcc = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Dcc,
         contextMenu: dccMenu,
         sortField: 0,
         dataPageSize: 50,
-        autoFetchData: false,
+        autoFetchData: true,
+        initialCriteria: criteria,
         showFilterEditor: false,
         filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
         startsWithTitle: "tt",
         fields:
             [

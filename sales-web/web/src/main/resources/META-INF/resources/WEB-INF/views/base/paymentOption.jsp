@@ -267,7 +267,7 @@
 
             ]
     });
-    var ListGrid_PaymentOption = isc.ListGrid.create({
+    var ListGrid_PaymentOption = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_PaymentOption,
@@ -289,14 +289,6 @@
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
         startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {

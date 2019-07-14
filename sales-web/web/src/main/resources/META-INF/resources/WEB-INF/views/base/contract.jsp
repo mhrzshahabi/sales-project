@@ -789,7 +789,7 @@
                 })
             ]
     });
-    var ListGrid_Contract = isc.ListGrid.create({
+    var ListGrid_Contract = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Contract,
@@ -853,18 +853,11 @@
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
         startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
+            companyName.setTitle(record.contractNo+' '+record.contact.nameFA);
             var criteria1 = {
                 _constructor: "AdvancedCriteria",
                 operator: "and",
@@ -1324,7 +1317,7 @@
                 })
             ]
     });
-    var ListGrid_ContractShipment = isc.ListGrid.create({
+    var ListGrid_ContractShipment = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ContractShipment,
@@ -1393,14 +1386,6 @@
         autoFetchData: false,
         showFilterEditor: false,
         filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
         startsWithTitle: "tt"
     });
     var HLayout_ContractShipment_Grid = isc.HLayout.create({
@@ -1432,12 +1417,24 @@
                 width: "100%",
                 tabs:
                     [
-                        {title: "<spring:message code='main.contractsTab'/>", pane: VLayout_Contract_Body},
+                        {ID:"companyName",title: "<spring:message code='main.contractsTab'/>", pane: VLayout_Contract_Body},
                         {title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body},
                         {
                             title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader
                             , tabSelected: function (form, item, value) {
                                 var record = ListGrid_Contract.getSelectedRecord();
+                                if (record == null || record.id == null) {
+                                    isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
+                                    return;
+                                }
                                 var dccTableId = record.id;
                                 var dccTableName = "TBL_CONTRACT";
                                 contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)

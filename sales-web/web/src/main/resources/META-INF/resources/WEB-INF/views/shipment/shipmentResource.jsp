@@ -273,7 +273,7 @@
 	};
 
 
-	var ListGrid_Shipment_HeaderByRes = isc.ListGrid.create({
+	var ListGrid_Shipment_HeaderByRes = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_Shipment_HeaderByRes,
@@ -303,14 +303,6 @@
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	});
 	var HLayout_Grid_Shipment_HeaderByRes = isc.HLayout.create({
@@ -320,7 +312,7 @@
 			ListGrid_Shipment_HeaderByRes
 		]
 	});
-	var ListGrid_ShipmentByAddHeader = isc.ListGrid.create({
+	var ListGrid_ShipmentByAddHeader = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_Shipment_Add_Header,
@@ -399,14 +391,6 @@
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	})
 	var HLayout_ShipmentByAddHeader_ListGrid = isc.HLayout.create({
@@ -644,7 +628,7 @@
 		]
 	});
 	/*------------------------------------------------------Shipment--------------------------------------------------------------------------------------------------------------------------------------------------*/
-	var ListGrid_Shipment = isc.ListGrid.create({
+	var ListGrid_Shipment = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_ShipmentByResource,
@@ -754,14 +738,6 @@
 		autoFetchData: false,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt"
 	});
 	var HLayout_Grid_Shipment = isc.HLayout.create({
@@ -1103,7 +1079,7 @@
 		height: 22
 	});
 
-	var ListGrid_ContactByShipmentResource = isc.ListGrid.create({
+	var ListGrid_ContactByShipmentResource = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_ContactByShipmentResource,
@@ -1164,14 +1140,6 @@
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt",
 		recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
 		canAcceptDroppedRecords: true,
@@ -1186,7 +1154,7 @@
 	}, {operationId: "00"});
 	<%------SELECTED-------------%>
 
-	var ListGrid_ContactByShipmentResourceSelected = isc.ListGrid.create({
+	var ListGrid_ContactByShipmentResourceSelected = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_ShipmentResource,
@@ -1211,14 +1179,6 @@
 		autoFetchData: true,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt",
 		recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
 		canAcceptDroppedRecords: true,
@@ -1371,7 +1331,7 @@
 
 			]
 	});
-	var ListGrid_ShipmentResource = isc.ListGrid.create({
+	var ListGrid_ShipmentResource = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
 		dataSource: RestDataSource_ShipmentResource,
@@ -1403,14 +1363,6 @@
 		autoFetchData: false,
 		showFilterEditor: true,
 		filterOnKeypress: true,
-		sortFieldAscendingText: "مرتب سازی صعودی",
-		sortFieldDescendingText: "مرتب سازی نزولی",
-		configureSortText: "تنظیم مرتب سازی",
-		autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-		autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-		filterUsingText: "فیلتر کردن",
-		groupByText: "گروه بندی",
-		freezeFieldText: "ثابت نگه داشتن",
 		startsWithTitle: "tt",
 		recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
 		updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
