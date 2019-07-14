@@ -56,13 +56,10 @@
                     this.hide();
                     if (index == 0) {
                         var LMEId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${restApiUrl}/api/LME/" + LMEId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_LME_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -106,24 +103,7 @@
                 }
             },
             {isSeparator: true}
-            <%--{title:"<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",--%>
-            <%--click: function ()--%>
-            <%--{--%>
-            <%--window.open( "/LME/print/pdf");--%>
-            <%--}--%>
-            <%--},--%>
-            <%--{title:"<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",--%>
-            <%--click: function ()--%>
-            <%--{--%>
-            <%--window.open( "/LME/print/excel");--%>
-            <%--}--%>
-            <%--},--%>
-            <%--{title:"<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",--%>
-            <%--click: function ()--%>
-            <%--{--%>
-            <%--window.open( "/LME/print/html");--%>
-            <%--}--%>
-            <%--}--%>
+
         ]
     });
 
@@ -147,12 +127,48 @@
                 {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "cuUsdMt", title: "<spring:message code='LME.cuUsdMt'/>", width: 480, type: "text"},
-                {name: "goldUsdOunce", title: "<spring:message code='LME.goldUsdOunce'/>", width: 480},
-                {name: "silverUsdOunce", title: "<spring:message code='LME.silverUsdOunce'/>", width: 480},
-                {name: "seleniumUsdLb", title: "<spring:message code='LME.seleniumUsdLb'/>", width: 480},
-                {name: "platinumUsdOunce", title: "<spring:message code='LME.platinumUsdOunce'/>", width: 480},
-                {name: "palladiumUsdOunce", title: "<spring:message code='LME.palladiumUsdOunce'/>", width: 480},
-                {name: "molybdenumUsdLb", title: "<spring:message code='LME.molybdenumUsdLb'/>", width: 480},
+                {name: "goldUsdOunce", title: "<spring:message code='LME.goldUsdOunce'/>", width: 480, keyPressFilter: "[0-9.]", length: "15" ,
+validators: [{
+type: "isFloat",
+validateOnExit: true,
+stopOnError: true,
+errorMessage: "<spring:message code='global.form.correctType'/>"
+}]},
+                {name: "silverUsdOunce", title: "<spring:message code='LME.silverUsdOunce'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
+validators: [{
+type: "isFloat",
+validateOnExit: true,
+stopOnError: true,
+errorMessage: "<spring:message code='global.form.correctType'/>"
+}]},
+                {name: "seleniumUsdLb", title: "<spring:message code='LME.seleniumUsdLb'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
+validators: [{
+type: "isFloat",
+validateOnExit: true,
+stopOnError: true,
+errorMessage: "<spring:message code='global.form.correctType'/>"
+}]},
+                {name: "platinumUsdOunce", title: "<spring:message code='LME.platinumUsdOunce'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
+validators: [{
+type: "isFloat",
+validateOnExit: true,
+stopOnError: true,
+errorMessage: "<spring:message code='global.form.correctType'/>"
+}]},
+                {name: "palladiumUsdOunce", title: "<spring:message code='LME.palladiumUsdOunce'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
+validators: [{
+type: "isFloat",
+validateOnExit: true,
+stopOnError: true,
+errorMessage: "<spring:message code='global.form.correctType'/>"
+}]},
+                {name: "molybdenumUsdLb", title: "<spring:message code='LME.molybdenumUsdLb'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
+validators: [{
+type: "isFloat",
+validateOnExit: true,
+stopOnError: true,
+errorMessage: "<spring:message code='global.form.correctType'/>"
+}]},
                 {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: 480, type: "date"},
                 {type: "RowSpacerItem"}
             ]
@@ -233,7 +249,6 @@
                 {name: "palladiumUsdOunce", title: "<spring:message code='LME.palladiumUsdOunce'/>", width: 200},
                 {name: "molybdenumUsdLb", title: "<spring:message code='LME.molybdenumUsdLb'/>", width: 200}
             ],
-// ######@@@@###&&@@###
         fetchDataURL: "${restApiUrl}/api/LME/spec-list"
     });
     var IButton_LME_Save = isc.IButton.create({
@@ -250,17 +265,13 @@
             DynamicForm_LME.setValue("lmeDate", datestring)
 
             var data = DynamicForm_LME.getValues();
-
-// ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                     actionURL: "${restApiUrl}/api/LME/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_LME_refresh();

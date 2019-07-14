@@ -78,9 +78,9 @@
                             showPrompt: true,
                             serverOutputAsString: false,
                             callback: function (RpcResponse_o) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 
-                                    ListGrid_Parameters_refresh();
+                                    ListGrid_Parameters.invalidateCache();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                 } else {
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
@@ -145,17 +145,19 @@
                     name: "paramName",
                     title: "<spring:message code='parameters.paramName'/>",
                     width: "100%",
+                    required: true,
                     type: "text"
                 },
                 {
                     name: "paramType",
                     title: "<spring:message code='parameters.paramType'/>",
                     width: "100%",
+                    required: true,
                     type: "text"
                 },
                 {
                     name: "paramValue", title: "<spring:message	code='parameters.paramValue'/>",
-                    width: "100%", type: "textArea"
+                    width: "100%", type: "textArea" , required: true
                 },
                 {type: "RowSpacerItem"}
             ]
@@ -250,6 +252,7 @@
 
     var ParametersCancelBtn = isc.IButton.create({
         top: 260,
+        icon: "pieces/16/icon_delete.png",
         layoutMargin: 5,
         membersMargin: 5,
         width: 120,

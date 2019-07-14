@@ -55,13 +55,10 @@
                     this.hide();
                     if (index == 0) {
                         var glossaryId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${restApiUrl}/api/glossary/" + glossaryId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Glossary_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -125,8 +122,8 @@
             [
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
-                {name: "summary", title: "<spring:message code='glossary.summary'/>", type: 'text', width: "480"},
-                {name: "meaning", title: "<spring:message code='glossary.meaning'/>", type: 'text', width: "480"},
+                {name: "summary", title: "<spring:message code='glossary.summary'/>", type: 'text', width: "480" , required: true},
+                {name: "meaning", title: "<spring:message code='glossary.meaning'/>", type: 'text', width: "480" , required: true},
                 {type: "RowSpacerItem"}
             ]
     });

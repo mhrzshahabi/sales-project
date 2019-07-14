@@ -121,7 +121,7 @@
 				name: "contactId",
 				title: "<spring:message code='contact.name'/>"
 				,
-                width: "100%",  wrapTitle : false,
+                width: "100%",  wrapTitle : false, required: true,
 				editorType: "SelectItem",
 				type: 'long'
 				,
@@ -266,12 +266,12 @@
 
 		if (record == null || record.id == null) {
 			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/>. !",
+				message: "<spring:message code='global.grid.record.not.selected'/>",
 				icon: "[SKIN]ask.png",
-				title: "<spring:message code='global.message'/>.",
-				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
+				title: "<spring:message code='global.message'/>",
+				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
 				buttonClick: function () {
-					hide();
+					this.hide();
 				}
 			});
 		} else {

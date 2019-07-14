@@ -142,21 +142,22 @@
                     name: "code",
                     title: "<spring:message code='country.code'/>",
                     width: "100%",
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
+                    keyPressFilter: "[0-9]", length: "15" ,
                     titleColSpan: 1
                 },
                 {
                     name: "nameFa",
                     title: "<spring:message code='country.nameFa'/>",
                     width: "100%",
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
                     titleColSpan: 1
                 },
                 {
                     name: "nameEn",
                     title: "<spring:message code='country.nameEn'/>",
                     width: "100%",
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
                     titleColSpan: 1
                 },
             ]
