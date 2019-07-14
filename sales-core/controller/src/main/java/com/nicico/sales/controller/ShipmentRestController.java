@@ -123,6 +123,8 @@ public class ShipmentRestController {
 										   @RequestParam(value = "_endRow", required = false) Integer endRow,
 										   @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		String body = "";
+		startRow=(startRow==null ? 0: startRow);
+		endRow  =(endRow  ==null ?50: endRow  );
 		if (startRow != null) {
 			List<Object[]> list = shipmentService.pickListShipment();
 			String[] fl = "cisId,contractNo,fullname,amount,address,plan,sendDate,duration,contactID,materialID,contractID,dischargeID,dischargeAddress".split(",");
