@@ -55,13 +55,10 @@
                     this.hide();
                     if (index == 0) {
                         var glossaryId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${restApiUrl}/api/glossary/" + glossaryId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Glossary_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -119,15 +116,47 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 1,
         fields:
             [
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
-                {name: "summary", title: "<spring:message code='glossary.summary'/>", type: 'text', width: "480"},
-                {name: "meaning", title: "<spring:message code='glossary.meaning'/>", type: 'text', width: "480"},
+                {name: "summary", title: "<spring:message code='glossary.summary'/>", type: 'text', width: "480" , required: true},
+                {name: "meaning", title: "<spring:message code='glossary.meaning'/>", type: 'text', width: "480" , required: true},
                 {type: "RowSpacerItem"}
+
+            <%--{--%>
+            <%--name: "nameFA",--%>
+            <%--title: "<spring:message--%>
+                    <%--code='FiscalYear.nameFa'/>",--%>
+            <%--required: true,--%>
+            <%--type: 'text',--%>
+            <%--readonly: true,--%>
+            <%--hint: "Persian/فارسی",--%>
+            <%--keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9 ]",--%>
+            <%--length: "20",--%>
+            <%--validators: [{--%>
+            <%--type: "isString", validateOnExit: true, stopOnError: true, errorMessage: "<spring:message--%>
+                    <%--code='validator.field.name'/>"--%>
+            <%--}]--%>
+            <%--},--%>
+
+            <%--{--%>
+            <%--name: "nameEN", title: "<spring:message--%>
+                    <%--code='FiscalYear.nameLatin'/>", type: 'text', keyPressFilter: "[a-z|A-Z|0-9 ]", length: "20", hint: "Latin",--%>
+            <%--validators: [{--%>
+            <%--type: "isString",--%>
+            <%--validateOnExit: true,--%>
+            <%--type: "lengthRange",--%>
+            <%--min: 0,--%>
+            <%--max: 20,--%>
+            <%--stopOnError: true,--%>
+            <%--errorMessage: "<spring:message--%>
+                    <%--code='validator.field.name'/>"--%>
+            <%--}]--%>
+            <%--},--%>
+
             ]
     });
 

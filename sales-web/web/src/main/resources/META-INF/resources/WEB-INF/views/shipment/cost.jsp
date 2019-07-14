@@ -389,7 +389,7 @@
 
 		if (record == null || record.id == null) {
 			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/> !",
+				message: "<spring:message code='global.grid.record.not.selected'/>",
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.message'/>",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
@@ -513,7 +513,7 @@ var RestDataSource_Contact_optionCriteria_insurancer= {
 		titleWidth: "120",
 		titleAlign: "right",
 		margin: 10,
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		numCols: 6, backgroundImage: "backgrounds/leaves.jpg",
 		fields:
 			[

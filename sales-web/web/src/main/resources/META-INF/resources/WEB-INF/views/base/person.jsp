@@ -121,7 +121,7 @@
 				name: "contactId",
 				title: "<spring:message code='contact.name'/>"
 				,
-                width: "100%",  wrapTitle : false,
+                width: "100%",  wrapTitle : false, required: true,
 				editorType: "SelectItem",
 				type: 'long'
 				,
@@ -219,6 +219,7 @@
 		membersMargin: 10,
 		width: 120,
 		title: "<spring:message code='global.cancel'/>",
+		icon: "pieces/16/icon_delete.png",
 		click: function () {
 				Window_Person.close();
 		}
@@ -265,12 +266,12 @@
 
 		if (record == null || record.id == null) {
 			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/>. !",
+				message: "<spring:message code='global.grid.record.not.selected'/>",
 				icon: "[SKIN]ask.png",
-				title: "<spring:message code='global.message'/>.",
-				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
+				title: "<spring:message code='global.message'/>",
+				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
 				buttonClick: function () {
-					hide();
+					this.hide();
 				}
 			});
 		} else {
@@ -317,7 +318,7 @@
 
 		if (record == null || record.id == null) {
 			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/> !",
+				message: "<spring:message code='global.grid.record.not.selected'/>",
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.message'/>",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],

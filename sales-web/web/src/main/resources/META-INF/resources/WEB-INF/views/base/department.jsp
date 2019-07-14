@@ -140,6 +140,7 @@
 	var departmentCodeCancelBtn = isc.Button.create({
 		top: 260,
 		title: "<spring:message code='global.cancel'/>",
+		icon: "pieces/16/icon_delete.png",
 		click: function () {
 			departmentCodeWindow.close();
 		}

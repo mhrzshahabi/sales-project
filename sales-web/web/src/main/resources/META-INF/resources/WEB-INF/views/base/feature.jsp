@@ -56,7 +56,8 @@
 		fields: [
 			{name: "id", hidden: true,},
 			{type: "RowSpacerItem"},
-			{name: "code", title: "<spring:message code='feature.code'/>", type: 'text', required: true, width: 400},
+			{name: "code", title: "<spring:message code='feature.code'/>", type: 'text', required: true, width: 400 ,
+							keyPressFilter: "[0-9]", length: "100",},
 			{
 				name: "nameFA",
 				title: "<spring:message code='feature.nameFa'/>",
@@ -64,10 +65,11 @@
 				readonly: true,
 				width: 400
 			},
-			{name: "nameEN", title: "<spring:message code='feature.nameEN'/>", type: 'text', width: 400},
+			{name: "nameEN", title: "<spring:message code='feature.nameEN'/>", type: 'text', width: 400 , required: true,},
 			{name: "symbol", title: "<spring:message code='feature.symbol'/>", type: 'text', width: 400},
 			{
 				name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400,
+				keyPressFilter: "[0-9.]", length: "15",
 				validators: [{
 					type: "isInteger",
 					validateOnExit: true,
@@ -90,16 +92,13 @@
 				return;
 			}
 			var data = DynamicForm_Feature.getValues();
-// ######@@@@###&&@@###
 			var methodXXXX = "PUT";
 			if (data.id == null) methodXXXX = "POST";
 			isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
 					actionURL: "${restApiUrl}/api/feature/",
 					httpMethod: methodXXXX,
 					data: JSON.stringify(data),
 					callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 						if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 							isc.say("<spring:message code='global.form.request.successful'/>");
 							ListGrid_Feature_refresh();
@@ -114,7 +113,7 @@
 	});
 
 	var Window_Feature = isc.Window.create({
-		title: "<spring:message code='feature.title'/>. ",
+		title: "<spring:message code='feature.title'/>",
 		width: 580,
 		hight: 500,
 		autoSize: true,
@@ -140,7 +139,7 @@
 								width: 5,
 							}),
 							isc.IButton.create({
-								ID: "courseEditExitIButton",
+								ID: "featureEditExitIButton",
 								title: "<spring:message code='global.cancel'/>",
 								width: 100,
 								icon: "pieces/16/icon_delete.png",
@@ -164,7 +163,7 @@
 
 		if (record == null || record.id == null) {
 			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/>. !",
+				message: "<spring:message code='global.grid.record.not.selected'/>",
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.message'/>.",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],

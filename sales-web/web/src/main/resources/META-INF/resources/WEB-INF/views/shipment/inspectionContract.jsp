@@ -741,7 +741,7 @@
 		errorOrientation: "right",
 		titleWidth: "100",
 		titleAlign: "right",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		numCols: 1,
 		fields:
 			[

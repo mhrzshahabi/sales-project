@@ -139,7 +139,7 @@
 		errorOrientation: "right",
 		titleWidth: "200",
 		titleAlign: "right",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		numCols: 4,
 		fields:
 			[
@@ -367,7 +367,7 @@
 		errorOrientation: "right",
 		titleWidth: "100",
 		titleAlign: "right",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		numCols: 1,
 		fields:
 			[
@@ -733,8 +733,12 @@
 				showHover: true,
 				width: "1%"
 			},
-			{name: "targetPlantId", showHover: true, width: "1%"},
-			{name: "sourcePlantId", showHover: true, width: "1%"},
+			{name: "targetPlantId",
+			title: "<spring:message code='Tozin.targetPlantId'/>",
+			 showHover: true, width: "1%"},
+			{name: "sourcePlantId",
+			title: "<spring:message code='Tozin.sourcePlantId'/>",
+			 showHover: true, width: "1%"},
 		],
 
 		allowAdvancedCriteria: true,

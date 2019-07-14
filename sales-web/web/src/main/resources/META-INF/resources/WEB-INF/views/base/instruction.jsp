@@ -117,7 +117,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 1,
         fields:
             [
@@ -258,6 +258,7 @@
         membersMargin: 5,
         width: 120,
         title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Instruction.close();
         }

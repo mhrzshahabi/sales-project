@@ -56,12 +56,14 @@
 		fields: [
 			{name: "id", hidden: true,},
 			{type: "RowSpacerItem"},
-			{name: "code", title: "<spring:message code='rate.code'/>", type: 'text', required: true, width: 400},
+			{name: "code", title: "<spring:message code='rate.code'/>", type: 'text', required: true, width: 400
+						 , keyPressFilter: "[0-9]", length: "15"},
 			{name: "nameFA", title: "<spring:message code='rate.nameFa'/>", required: true, readonly: true, width: 400},
-			{name: "nameEN", title: "<spring:message code='rate.nameEN'/>", type: 'text', width: 400},
+			{name: "nameEN", title: "<spring:message code='rate.nameEN'/>", type: 'text', width: 400 , required: true},
 			{name: "symbol", title: "<spring:message code='feature.symbol'/>", type: 'text', width: 400},
 			{
 				name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400,
+				keyPressFilter: "[0-9]", length: "15" ,
 				validators: [{
 					type: "isInteger",
 					validateOnExit: true,
@@ -83,16 +85,13 @@
 				return;
 			}
 			var data = DynamicForm_Rate.getValues();
-// ######@@@@###&&@@###
 			var methodXXXX = "PUT";
 			if (data.id == null) methodXXXX = "POST";
 			isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
 					actionURL: "${restApiUrl}/api/rate/",
 					httpMethod: methodXXXX,
 					data: JSON.stringify(data),
 					callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 						if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 							isc.say("<spring:message code='global.form.request.successful'/>");
 							ListGrid_Rate_refresh();
@@ -107,7 +106,7 @@
 	});
 
 	var Window_Rate = isc.Window.create({
-		title: "<spring:message code='rate.title'/>. ",
+		title: "<spring:message code='rate.title'/> ",
 		width: 580,
 		hight: 500,
 		autoSize: true,
@@ -157,7 +156,7 @@
 
 		if (record == null || record.id == null) {
 			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/>. !",
+				message: "<spring:message code='global.grid.record.not.selected'/>",
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.message'/>.",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
@@ -179,13 +178,10 @@
 					if (index == 0) {
 
 						var rateId = record.id;
-// ######@@@@###&&@@###
 						isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
 								actionURL: "${restApiUrl}/api/rate/" + rateId,
 								httpMethod: "DELETE",
 								callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 									if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 										ListGrid_Rate.invalidateCache();
 										isc.say("<spring:message code='global.grid.record.remove.success'/>.");

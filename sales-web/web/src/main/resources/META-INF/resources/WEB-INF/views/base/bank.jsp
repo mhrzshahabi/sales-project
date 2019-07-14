@@ -162,7 +162,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -172,35 +172,35 @@
                     name: "bankCode",
                     title: "<spring:message code='bank.bankCode'/>",
                     width: "100%",
-                    colSpan: 1,
-                    titleColSpan: 1
+                    colSpan: 1, required: true ,
+titleColSpan: 1
                 },
                 {
                     name: "bankName",
                     title: "<spring:message code='bank.namefa'/>",
                     width: "100%",
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
                     titleColSpan: 1
                 },
                 {
                     name: "enBankName",
                     title: "<spring:message code='bank.nameEn'/>",
                     width: "100%",
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
                     titleColSpan: 1
                 },
                 {
                     name: "address",
                     title: "<spring:message code='bank.address'/>",
                     width: "100%",
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
                     titleColSpan: 1
                 },
                 {
                     name: "coreBranch",
                     title: "<spring:message code='bank.coreBranch'/>",
                     width: 200,
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
                     titleColSpan: 1
                     ,
                     valueMap: {
@@ -212,7 +212,7 @@
                     name: "countryId",
                     title: "<spring:message code='country.nameFa'/>",
                     type: 'long',
-                    width: 200,
+                    width: 200, required: true ,
                     editorType: "SelectItem"
                     ,
                     optionDataSource: RestDataSource_Country,

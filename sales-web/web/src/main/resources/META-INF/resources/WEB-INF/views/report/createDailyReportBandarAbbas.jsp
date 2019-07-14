@@ -22,7 +22,7 @@
 		target: "_Blank",
 		margin: 0, cellPadding: 0, showTitle: false, align: "center",
 		numCols: 4, colWidths: [60, "*"], border: "1px solid blue",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		fields:
 			[
 				<% for (int j = 0; j < list.size(); j++) {
@@ -55,7 +55,7 @@
 		target: "_Blank",
 		margin: 0, cellPadding: 0, showTitle: false, align: "center",
 		numCols: 4, colWidths: [60, "*"], border: "1px solid blue",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		fields:
 			[
 				<% for (int j = 0; j < list.size(); j++) {
@@ -87,7 +87,7 @@
 		target: "_Blank",
 		margin: 0, cellPadding: 0, showTitle: false, align: "center",
 		numCols: 4, colWidths: [60, "*"], border: "1px solid blue",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		fields:
 			[
 				<% for (int j = 0; j < list.size(); j++) {
@@ -121,12 +121,12 @@
 		errorOrientation: "right",
 		titleWidth: "100",
 		titleAlign: "right",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		numCols: 1,
 		action: "/report/createDailyReportBandarAbbas",
 		margin: 0, cellPadding: 0, showTitle: false,
 		numCols: 6, colWidths: [60, "*"], border: "1px solid blue",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		fields:
 			[
 

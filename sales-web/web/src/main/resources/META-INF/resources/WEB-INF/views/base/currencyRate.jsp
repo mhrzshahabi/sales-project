@@ -40,7 +40,7 @@
                 title: "<spring:message code='global.message'/>",
                 buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                 buttonClick: function () {
-                    hide();
+                    this.hide();
                 }
             });
         } else {
@@ -49,27 +49,21 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [isc.Button.create({
-                    title: "<spring:message
-		code='global.yes'/>"
+                    title: "<spring:message	code='global.yes'/>"
                 }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
                         var currencyRateId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest({
-// ######@@@@###&&@@### pls correct callback
                             actionURL: "${restApiUrl}/api/currencyRate/" + currencyRateId,
                             httpMethod: "DELETE",
                             httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-// httpMethod: "POST",
                             useSimpleHttp: true,
                             contentType: "application/json; charset=utf-8",
                             showPrompt: true,
                             serverOutputAsString: false,
                             callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
-// if(RpcResponse_o.data == 'success')
                                 if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_CurrencyRate_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -126,7 +120,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 1,
         fields:
             [
@@ -138,10 +132,10 @@
                     type: "date",
                     width: "400"
                 },
-                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", type: 'text', width: "400"},
-                {name: "eurUsd", title: "<spring:message code='currencyRate.eurUsd'/>", type: 'text', width: "400"},
-                {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", type: 'text', width: "400"},
-                {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", type: 'text', width: "400"},
+                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", type: 'text', width: "400" , keyPressFilter: "[0-9.]", length: "15"},
+                {name: "eurUsd", title: "<spring:message code='currencyRate.eurUsd'/>", type: 'text', width: "400" , keyPressFilter: "[0-9.]", length: "15"},
+                {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", type: 'text', width: "400" , keyPressFilter: "[0-9.]", length: "15"},
+                {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", type: 'text', width: "400" , keyPressFilter: "[0-9.]", length: "15"},
                 {type: "RowSpacerItem"}
             ]
     });
@@ -207,20 +201,20 @@
                     width: "50%",
                     align: "center"
                 },
-                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", width: "50%", align: "center"},
+                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", width: "50%", align: "center" },
                 {name: "eurUsd", title: "<spring:message code='currencyRate.eurUsd'/>", width: "50%", align: "center"},
                 {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", width: "50%", align: "center"},
                 {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", width: "50%", align: "center"}
             ],
-// ######@@@@###&&@@###
         fetchDataURL: "${restApiUrl}/api/currencyRate/spec-list"
     });
+
+
     var IButton_CurrencyRate_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
             DynamicForm_CurrencyRate.validate();
             if (DynamicForm_CurrencyRate.hasErrors())
                 return;
@@ -229,24 +223,18 @@
             DynamicForm_CurrencyRate.setValue("curDate", datestring)
 
             var data = DynamicForm_CurrencyRate.getValues();
-// ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest({
-// ######@@@@###&&@@### pls correct callback
                 actionURL: "${restApiUrl}/api/currencyRate/",
                 httpMethod: methodXXXX,
                 httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-// httpMethod: "POST",
                 useSimpleHttp: true,
                 contentType: "application/json; charset=utf-8",
                 showPrompt: false,
                 data: JSON.stringify(data),
                 serverOutputAsString: false,
-//params: { data:data1},
                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
-// if(RpcResponse_o.data == 'success')
                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_CurrencyRate_refresh();

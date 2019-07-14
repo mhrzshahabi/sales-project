@@ -234,7 +234,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 1,
         fields:
             [
@@ -243,9 +243,10 @@
                 {
                     name: "code",
                     title: "<spring:message code='material.code'/>",
-                    type: 'long',
                     required: true,
                     width: 400,
+                    length: "20",
+                    keyPressFilter: "[0-9]",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -552,7 +553,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 1,
         fields:
             [
@@ -562,15 +563,9 @@
                 {
                     name: "itemRow",
                     title: "<spring:message code='contractItem.itemRow'/>",
-                    type: 'integer',
-                    required: true, wrapTitle: false,
+                    required: true, wrapTitle: false, keyPressFilter: "[0-9]", length: "15",
                     width: 400,
-                    validators: [{
-                        type: "isInteger",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
-                    }]
+
                 },
                 {
                     name: "featureId",
@@ -596,7 +591,7 @@
                 {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
-                    type: 'float', wrapTitle: false,
+                    type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 400,
                     validators: [{
                         type: "isFloat",
@@ -608,7 +603,7 @@
                 {
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
-                    type: 'float', wrapTitle: false,
+                    type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 400,
                     validators: [{
                         type: "isFloat",
@@ -621,7 +616,7 @@
                 {
                     name: "avgValue",
                     title: "<spring:message code='MaterialFeature.avgValue'/>",
-                    type: 'float', wrapTitle: false,
+                    type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 400,
                     validators: [{
                         type: "isFloat",
@@ -633,7 +628,7 @@
                 {
                     name: "tolorance",
                     title: "<spring:message code='MaterialFeature.tolorance'/>",
-                    type: 'float', wrapTitle: false,
+                    type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 400,
                     validators: [{
                         type: "isFloat",
@@ -667,7 +662,7 @@
                 {
                     name: "payableIfGraterThan",
                     title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
-                    type: 'float', wrapTitle: false,
+                    type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 400,
                     validators: [{
                         type: "isFloat",
@@ -679,7 +674,7 @@
                 {
                     name: "paymentPercent",
                     title: "<spring:message code='MaterialFeature.paymentPercent'/>",
-                    type: 'float', wrapTitle: false,
+                    type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 400,
                     validators: [{
                         type: "isFloat",
@@ -691,7 +686,7 @@
                 {
                     name: "treatCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
-                    type: 'float',
+                    type: 'float', keyPressFilter: "[0-9.]", length: "15",
                     width: 400,
                     wrapTitle: false,
                     validators: [{
@@ -704,7 +699,7 @@
                 {
                     name: "refineryCost",
                     title: "<spring:message code='MaterialFeature.RC'/>",
-                    type: 'float',
+                    type: 'float', keyPressFilter: "[0-9.]", length: "15",
                     width: 400,
                     wrapTitle: false,
                     validators: [{
@@ -819,6 +814,7 @@
         membersMargin: 5,
         width: 120,
         title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_MaterialFeature.close();
         }

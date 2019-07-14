@@ -240,7 +240,7 @@
         showErrorStyle: true,
         errorOrientation: "right",
         wrapTitle: false,
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         backgroundImage: "backgrounds/leaves.jpg",
         titleWidth: "120",
@@ -415,7 +415,7 @@
                     width: "100%",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Unit,
-                    displayField: "code",
+                    displayField: "nameFA",
                     valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
@@ -1072,7 +1072,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 1,
         fields:
             [

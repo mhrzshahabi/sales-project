@@ -68,6 +68,7 @@
 					type: 'checkbox',
 					editorType: 'checkbox',
 					required: true,
+defaultValue : false ,
 					wrapTitle : false ,
 					width: 500
 				},
@@ -77,6 +78,7 @@
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
+defaultValue : false ,
 					width: 500
 				},
 				{
@@ -85,6 +87,7 @@
 					editorType: 'checkbox',
 					type: 'checkbox',
 					wrapTitle : false ,
+defaultValue : false ,
 					width: 500
 				},
 				{
@@ -93,6 +96,7 @@
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
+defaultValue : false ,
 					width: 500
 				},
 				{
@@ -101,6 +105,7 @@
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
+defaultValue : false ,
 					width: 500
 				},
 				{
@@ -109,6 +114,7 @@
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
+defaultValue : false ,
 					width: 500
 				},
 				{
@@ -117,6 +123,7 @@
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
+defaultValue : false ,
 					width: 500
 				},
 				{
@@ -125,6 +132,7 @@
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
+defaultValue : false ,
 					width: 500
 				},
 				{
@@ -220,7 +228,7 @@
 	});
 
 	var Window_Incoterms = isc.Window.create({
-		title: "<spring:message code='incoterms.name'/>. ",
+		title: "<spring:message code='incoterms.name'/> ",
 		width: 580,
 		hight: 500,
 		autoSize: true,
@@ -251,7 +259,7 @@
 
 		if (record == null || record.id == null) {
 			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/>. !",
+				message: "<spring:message code='global.grid.record.not.selected'/>",
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.message'/>.",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
@@ -265,23 +273,19 @@
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.grid.record.remove.ask.title'/>",
 				buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-					title: "<spring:message
-		code='global.no'/>"
+					title: "<spring:message	code='global.no'/>"
 				})],
 				buttonClick: function (button, index) {
 					this.hide();
 					if (index == 0) {
 
 						var incotermsId = record.id;
-// ######@@@@###&&@@###
 						isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
 							{
-// ######@@@@###&&@@### pls correct callback
 								actionURL: "${restApiUrl}/api/incoterms/" + incotermsId,
 								httpMethod: "DELETE",
 								serverOutputAsString: false,
 								callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
 									if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 										ListGrid_Incoterms.invalidateCache();
 										isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -452,7 +456,6 @@
 					}
 				},
 			],
-// ######@@@@###&&@@###
 		fetchDataURL: "${restApiUrl}/api/incoterms/spec-list"
 	});
 

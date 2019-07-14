@@ -133,7 +133,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -144,13 +144,16 @@
                     title: "<spring:message code='currency.code'/>",
                     width: "100%",
                     colSpan: 1,
-                    titleColSpan: 1
+                    titleColSpan: 1 ,
+                    required: true,
+                    keyPressFilter: "[0-9]", length: "15"
                 },
                 {
                     name: "nameFa",
                     title: "<spring:message code='currency.nameFa'/>",
                     width: "100%",
                     colSpan: 1,
+                    required: true,
                     titleColSpan: 1
                 },
                 {
@@ -158,6 +161,8 @@
                     title: "<spring:message code='currency.nameLatin'/>",
                     width: "100%",
                     colSpan: 1,
+                    required: true,
+                    wrapTitle : false ,
                     titleColSpan: 1
                 },
                 {

@@ -132,7 +132,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -142,21 +142,22 @@
                     name: "code",
                     title: "<spring:message code='country.code'/>",
                     width: "100%",
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
+                    keyPressFilter: "[0-9]", length: "15" ,
                     titleColSpan: 1
                 },
                 {
                     name: "nameFa",
                     title: "<spring:message code='country.nameFa'/>",
                     width: "100%",
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
                     titleColSpan: 1
                 },
                 {
                     name: "nameEn",
                     title: "<spring:message code='country.nameEn'/>",
                     width: "100%",
-                    colSpan: 1,
+                    colSpan: 1, required: true ,
                     titleColSpan: 1
                 },
             ]
@@ -253,6 +254,7 @@
         membersMargin: 5,
         width: 120,
         title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Country.close();
         }

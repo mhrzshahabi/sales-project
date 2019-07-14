@@ -236,14 +236,14 @@
                 required: true,
                 readonly: true,
                 width: 200,
-                wrapTitle: false
+                wrapTitle: false , hint: "Persian/فارسی"
             },
             {
                 name: "nameEN",
                 title: "<spring:message code='contact.nameEn'/>",
                 type: 'text',
                 width: 200,
-                colSpan: 3, titleColSpan: 1,
+                colSpan: 3, titleColSpan: 1, hint: "Latin",
                 wrapTitle: false
             },
             {
@@ -267,7 +267,7 @@
                 title: "<spring:message code='contact.ceoPassportNo'/>",
                 type: 'text',
                 width: 200,
-                colSpan: 3, titleColSpan: 1,
+                colSpan: 3, titleColSpan: 1, keyPressFilter: "[0-9.]" ,
                 wrapTitle: false
             },
             {
@@ -275,7 +275,7 @@
                 title: "<spring:message code='contact.commercialRegistration'/>",
                 type: 'text',
                 width: 200,
-                colSpan: 3, titleColSpan: 1,
+                colSpan: 3, titleColSpan: 1, keyPressFilter: "[0-9.]" ,
                 wrapTitle: false
             },
             {
@@ -366,14 +366,14 @@
                 name: "nationalCode",
                 title: "<spring:message code='contact.nationalCode'/>",
                 width: 200,
-                required: true,
+                required: true, keyPressFilter: "[0-9.]" ,
                 wrapTitle: false
             },
             {
                 name: "economicalCode",
                 title: "<spring:message code='contact.economicalCode'/>",
                 width: 200,
-                colSpan: 3, titleColSpan: 1,
+                colSpan: 3, titleColSpan: 1, keyPressFilter: "[0-9.]" ,
                 wrapTitle: false
             },
             {
@@ -414,10 +414,10 @@
                 title: "<spring:message code='contact.phone'/>",
                 type: 'text',
                 width: 500,
-                wrapTitle: false
+                wrapTitle: false , keyPressFilter: "[0-9.+]"
             },
-            {name: "mobile", title: "<spring:message code='contact.mobile'/>", width: 500, wrapTitle: false},
-            {name: "fax", title: "<spring:message code='contact.fax'/>", width: 500, wrapTitle: false},
+            {name: "mobile", title: "<spring:message code='contact.mobile'/>", width: 500, wrapTitle: false , keyPressFilter: "[0-9.+]",},
+            {name: "fax", title: "<spring:message code='contact.fax'/>", width: 500, wrapTitle: false , keyPressFilter: "[0-9.+]",},
             {
                 name: "countryId",
                 title: "<spring:message code='country.nameFa'/>",
@@ -502,6 +502,7 @@
     var contactCancelBtn = isc.Button.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Contact.close();
         }
@@ -795,7 +796,6 @@
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {type: "header", defaultValue: "<spring:message code='contactAccount.title'/>"},
-//{type: "RowSpacerItem"},
             {name: "id", hidden: true},
             {name: "contactId", hidden: true},
             {
@@ -1038,6 +1038,7 @@
     var ContactAccountCancelBtn = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_AccountsContact.close();
         }
