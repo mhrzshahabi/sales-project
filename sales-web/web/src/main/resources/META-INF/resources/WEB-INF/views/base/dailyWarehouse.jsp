@@ -76,7 +76,7 @@
 				title: "<spring:message code='global.message'/>",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
 				buttonClick: function () {
-					hide();
+					this.hide();
 				}
 			});
 		} else {
@@ -174,7 +174,7 @@
 		errorOrientation: "right",
 		titleWidth: "100",
 		titleAlign: "right",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		numCols: 1,
 		fields:
 			[

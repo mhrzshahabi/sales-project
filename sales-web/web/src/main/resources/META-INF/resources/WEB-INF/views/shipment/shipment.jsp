@@ -958,7 +958,7 @@ var RestDataSource_Contact_optionCriteria= {
 				title: "<spring:message code='global.message'/>.",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
 				buttonClick: function () {
-					hide();
+					this.hide();
 				}
 			});
 		} else {
@@ -1491,7 +1491,7 @@ var RestDataSource_Contact_optionCriteria= {
 		errorOrientation: "right",
 		titleWidth: "100",
 		titleAlign: "right",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		numCols: 1,
 		fields:
 			[

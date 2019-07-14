@@ -692,7 +692,7 @@
 		titleWidth: "100",
 		titleAlign: "right",
 		numCols: 8,
-		requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+		requiredMessage: "<spring:message code='validator.field.is.required'/>",
 		fields:
 			[
 				{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
