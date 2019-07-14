@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//
+<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -229,6 +230,7 @@
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
+        icon: "pieces/16/icon_delete.png",
         title: "<spring:message code='global.cancel'/>",
         click: function () {
             Window_PaymentOption.close();

@@ -299,6 +299,7 @@
         layoutMargin: 5,
         membersMargin: 5,
         title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Port.close();
         }

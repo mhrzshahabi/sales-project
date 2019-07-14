@@ -502,6 +502,7 @@
     var contactCancelBtn = isc.Button.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Contact.close();
         }
@@ -1038,6 +1039,7 @@
     var ContactAccountCancelBtn = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_AccountsContact.close();
         }

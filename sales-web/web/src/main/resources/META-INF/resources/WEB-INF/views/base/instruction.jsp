@@ -258,6 +258,7 @@
         membersMargin: 5,
         width: 120,
         title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Instruction.close();
         }
