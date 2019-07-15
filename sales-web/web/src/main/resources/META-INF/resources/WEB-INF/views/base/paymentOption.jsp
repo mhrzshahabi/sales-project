@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-//
-<script>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -126,7 +125,7 @@
             [
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
-                {name: "namePay", title: "<spring:message code='paymentOption.payName'/>", type: 'text', width: "480"},
+                {name: "namePay", title: "<spring:message code='paymentOption.payName'/>", type: 'text', width: "480", required: true},
                 {type: "RowSpacerItem"}
             ]
     });
