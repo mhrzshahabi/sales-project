@@ -205,7 +205,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "400",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields: [

@@ -843,8 +843,17 @@
                 showHover: true,
                 width: "1%"
             },
-            {name: "targetPlantId", showHover: true, width: "1%"},
-            {name: "sourcePlantId", showHover: true, width: "1%"},
+            {
+            name: "targetPlantId",
+             showHover: true,
+              width: "1%",
+              title: "<spring:message code='Tozin.targetPlantId'/>"
+              },
+            {name: "sourcePlantId",
+             showHover: true,
+              width: "1%",
+              title: "<spring:message code='Tozin.sourcePlantId'/>"
+              },
         ],
         dataPageSize: 50,
         autoFetchData: true,

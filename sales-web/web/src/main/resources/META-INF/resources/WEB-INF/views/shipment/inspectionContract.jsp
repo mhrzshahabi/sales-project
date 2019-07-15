@@ -786,7 +786,7 @@
 				,
 				valueField: "id",
 				pickListWidth: "680",
-				pickListheight: "500",
+				pickListHeight: "500",
 				pickListProperties: {showFilterEditor: true}
 				,
 				pickListFields:
@@ -891,7 +891,7 @@
 				,
 				valueField: "id",
 				pickListWidth: "680",
-				pickListheight: "500",
+				pickListHeight: "500",
 				pickListProperties: {showFilterEditor: true}
 				,
 				pickListFields:
