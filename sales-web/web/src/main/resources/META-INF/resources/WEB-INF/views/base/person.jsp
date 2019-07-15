@@ -123,7 +123,11 @@
 				,
                 width: "100%",  wrapTitle : false, required: true,
 				editorType: "SelectItem",
-				type: 'long',
+				type: 'long'
+				,
+				optionDataSource: RestDataSource_Contact,
+				displayField: "nameFA"
+				,
 				valueField: "id",
 				pickListWidth: 500,
 				pickListHeight: 500,
@@ -159,10 +163,11 @@
 			{name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: "100%", wrapTitle : false},
 			{name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: "100%", wrapTitle : false},
 			{name: "webAddress", title: "<spring:message code='person.webAddress'/>", type: 'text', width: "100%", wrapTitle : false},
-			{name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: "100%", wrapTitle : false , keyPressFilter: "[0-9+]"},
-			{name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text',width: "100%", wrapTitle : false , keyPressFilter: "[0-9+]"},
-			{name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: "100%", wrapTitle : false , keyPressFilter: "[0-9+]"},
-			{name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: "100%", wrapTitle : false , keyPressFilter: "[0-9+]"},
+			{name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text',width: "100%", wrapTitle : false},
+			{name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: "100%", wrapTitle : false},
 			{name: "whatsApp", title: "<spring:message code='person.whatsApp'/>", type: 'text', width: "100%", wrapTitle : false},
 			{name: "weChat", title: "<spring:message code='person.weChat'/>", type: 'text', width: "100%", wrapTitle : false},
 			{name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: "100%", wrapTitle : false},
@@ -214,7 +219,6 @@
 		membersMargin: 10,
 		width: 120,
 		title: "<spring:message code='global.cancel'/>",
-		icon: "pieces/16/icon_delete.png",
 		click: function () {
 				Window_Person.close();
 		}
