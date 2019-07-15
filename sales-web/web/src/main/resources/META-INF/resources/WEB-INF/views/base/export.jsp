@@ -188,7 +188,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "450",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields: [{
@@ -236,7 +236,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "300",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields: [{name: "nameFa", width: 150, align: "center"}, {

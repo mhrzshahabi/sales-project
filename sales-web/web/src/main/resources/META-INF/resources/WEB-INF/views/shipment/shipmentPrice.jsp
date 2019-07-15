@@ -133,7 +133,7 @@
 			{name: "bankName", title: "<spring:message code='contact.bankName'/>"},
 			<%--{name: "tblBank.id", title:"<spring:message code='global.country'/>", type:'long' , width: 400,editorType: "SelectItem"--%>
 			<%--, optionDataSource:RestDataSource_Country ,displayField:"nameFa"--%>
-			<%--, valueField:"id" ,pickListWidth:"300",pickListheight:"500" ,pickListProperties: {showFilterEditor:true}--%>
+			<%--, valueField:"id" ,pickListWidth:"300",pickListHeight:"500" ,pickListProperties: {showFilterEditor:true}--%>
 			<%--,pickListFields:[{name:"nameFa",width:150,align:"center"},{name:"code",width:150,align:"center"}] --%>
 			<%--},--%>
 			{
@@ -605,7 +605,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "450",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields: [{name: "tblShipment.tblContact.nameEN", width: 150, align: "center"}, {
@@ -630,7 +630,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "450",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields: [{name: "nameFA", width: 150, align: "center"}, {
@@ -766,7 +766,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "450",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields: [{name: "tblShipment.tblContact.nameEN", width: 150, align: "center"}, {
@@ -791,7 +791,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "450",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields: [{name: "nameFA", width: 150, align: "center"}, {
@@ -1052,7 +1052,7 @@
 
 		if (record == null || record.id == null) {
 			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/>. !",
+				message: "<spring:message code='global.grid.record.not.selected'/>",
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.message'/>.",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],

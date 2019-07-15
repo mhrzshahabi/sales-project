@@ -609,7 +609,7 @@
 				title: "<spring:message code='global.message'/>",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
 				buttonClick: function () {
-					hide();
+					this.hide();
 				}
 			});
 		} else {
@@ -709,7 +709,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "500",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields:
@@ -790,7 +790,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "500",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields:
@@ -815,7 +815,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "500",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields:

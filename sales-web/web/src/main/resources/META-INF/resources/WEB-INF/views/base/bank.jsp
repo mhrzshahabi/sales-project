@@ -222,7 +222,7 @@ titleColSpan: 1
                     ,
                     valueField: "id",
                     pickListWidth: "500",
-                    pickListheight: "500",
+                    pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true}
                     ,
                     pickListFields: [

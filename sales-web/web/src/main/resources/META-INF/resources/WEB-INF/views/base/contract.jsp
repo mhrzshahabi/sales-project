@@ -159,7 +159,7 @@
                                 callback: function (resp) {
                                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_Contract_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -1007,7 +1007,7 @@
                                     // ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_ContractShipment_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -1104,7 +1104,7 @@
                     ,
                     valueField: "id",
                     pickListWidth: "300",
-                    pickListheight: "500",
+                    pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true}
                     ,
                     pickListFields: [{name: "port", width: 150, align: "center"}]
