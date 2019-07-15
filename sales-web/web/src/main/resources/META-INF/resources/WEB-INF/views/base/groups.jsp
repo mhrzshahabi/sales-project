@@ -5,7 +5,7 @@
 
 	<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
-	var RestDataSource_Person = isc.MyRestDataSource.create({
+	var RestDataSource_Person_GroupEmail = isc.MyRestDataSource.create({
 		fields: [
 			{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
 			{name: "contactId"},
@@ -130,7 +130,6 @@
 				showPrompt: false,
 				data: JSON.stringify(data),
 				serverOutputAsString: false,
-//params: { data:data1},
 				callback: function (RpcResponse_o) {
 					if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 						isc.say("<spring:message code='global.form.request.successful'/>");
@@ -211,8 +210,7 @@
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.grid.record.remove.ask.title'/>",
 				buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-					title: "<spring:message
-		code='global.no'/>"
+					title: "<spring:message	code='global.no'/>"
 				})],
 				buttonClick: function (button, index) {
 					this.hide();
@@ -389,7 +387,7 @@
 	});
 	//************************************************************************ person ************
 
-	var RestDataSource_Contact = isc.MyRestDataSource.create({
+	var RestDataSource_Contact_GroupEmail = isc.MyRestDataSource.create({
 		fields: [
 			{name: "id", primaryKey: true, canEdit: false, hidden: true},
 			{name: "code", title: "<spring:message code='contact.code'/>"},
@@ -425,7 +423,6 @@
 			{name: "tradeMark"},
 			{name: "commercialRegistration"},
 			{name: "branchName"},
-			<%--{name: "bank.bankName", title: "<spring:message code='contact.bankName'/>"},--%>
 			{name: "countryId", title: "<spring:message code='country.nameFa'/>", type: 'long'},
 			{name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
 			{name: "contactAccounts"}
@@ -433,303 +430,36 @@
 		fetchDataURL: "${restApiUrl}/api/contact/spec-list"
 	});
 
-	var Menu_ListGrid_Person = isc.Menu.create({
+	var Menu_ListGrid_Person_GroupEmail = isc.Menu.create({
 		width: 150,
 		data:
 			[
 				{
 					title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
 					click: function () {
-						ListGrid_Person_refresh();
-					}
-				},
-				{
-					title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-					click: function () {
-						DynamicForm_Person.clearValues();
-						Window_Person.show();
-					}
-				},
-				{
-					title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-					click: function () {
-						ListGrid_Person_edit();
-					}
-				},
-				{
-					title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-					click: function () {
-						ListGrid_Person_remove();
+							ListGrid_Person_GroupEmail_refresh();
 					}
 				}
 			]
 	});
-	var ValuesManager_Person = isc.ValuesManager.create({});
-	var DynamicForm_Person = isc.DynamicForm.create({
-		width: "100%",
-		height: "100%",
-		setMethod: 'POST',
-		align: "center",
-		canSubmit: true,
-		showInlineErrors: true,
-		showErrorText: true,
-		showErrorStyle: true,
-		errorOrientation: "right",
-		titleWidth: "100",
-		titleAlign: "right",
-		requiredMessage: "<spring:message code='validator.field.is.required'/>",
-		numCols: 1,
 
-		fields: [
-			{name: "id", hidden: true,},
-			{type: "RowSpacerItem"},
-			{
-				name: "contactId",
-				title: "<spring:message code='contact.name'/>",
-				type: 'long',
-				width: 120,
-				editorType: "SelectItem"
-				,
-				optionDataSource: RestDataSource_Contact,
-				displayField: "nameFA"
-				,
-				valueField: "id",
-				pickListWidth: "500",
-				pickListheight: "500",
-				pickListProperties: {showFilterEditor: true}
-				,
-				pickListFields: [{name: "id", width: 50, align: "center"}, {
-					name: "nameFA",
-					width: 150,
-					align: "center"
-				}, {name: "nameEN", width: 150, align: "center"}, {name: "code", width: 150, align: "center"}]
-			},
-			{
-				name: "fullName",
-				title: "<spring:message code='person.fullName'/>",
-				type: 'text',
-				required: true,
-				width: 400
-			},
-			{name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 400},
-			{
-				name: "title",
-				title: "<spring:message code='person.title'/>",
-				type: 'text',
-				width: 400,
-				valueMap: {
-					"MR": "<spring:message code='global.MR'/>",
-					"MIS": "<spring:message code='global.MIS'/>",
-					"MRS": "<spring:message code='global.MRS'/>",
-				}
-			},
-			{name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400},
-			{name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
-			{name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400},
-			{name: "webAddress", title: "<spring:message code='person.webAddress'/>", type: 'text', width: 400},
-			{name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 400},
-			{name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 400},
-			{name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: 400},
-			{name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: 400},
-			{name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: 400},
-			{name: "whatsApp", title: "<spring:message code='person.whatsApp'/>", type: 'text', width: 400},
-			{name: "weChat", title: "<spring:message code='person.weChat'/>", type: 'text', width: 400},
-			{name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: 400},
-		]
-	});
-	var IButton_Person_Save = isc.IButton.create({
-		top: 260,
-		title: "<spring:message code='global.form.save'/>",
-		icon: "pieces/16/save.png",
-		click: function () {
-			ValuesManager_Person.validate();
-			DynamicForm_Person.validate();
-			if (DynamicForm_Person.hasErrors()) {
-				return;
-			}
-			var data = DynamicForm_Person.getValues();
-			var method = "PUT";
-			if (data.id == null)
-				method = "POST";
-			isc.RPCManager.sendRequest({
-				actionURL: "${restApiUrl}/api/person",
-				httpMethod: method,
-				httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-				useSimpleHttp: true,
-				contentType: "application/json; charset=utf-8",
-				showPrompt: true,
-				data: JSON.stringify(data),
-				serverOutputAsString: false,
-//params: { data:data1},
-				callback: function (RpcResponse_o) {
-					if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-						isc.say("<spring:message code='global.form.request.successful'/>");
-						ListGrid_Person_refresh();
-						Window_Person.close();
-					} else {
-						isc.say(RpcResponse_o.data);
-					}
-				}
-			});
-		}
-	});
-	var Window_Person = isc.Window.create({
-		title: "<spring:message code='person.title'/>. ",
-		width: 580,
-		hight: 500,
-		autoSize: true,
-		autoCenter: true,
-		isModal: true,
-		showModalMask: true,
-		align: "center",
-		autoDraw: false,
-		dismissOnEscape: true,
-		margin: '10px',
-		closeClick: function () {
-			this.Super("closeClick", arguments)
-		},
-		items: [
-			DynamicForm_Person,
-			isc.HLayout.create({
-				width: "100%",
-				members:
-					[
-						IButton_Person_Save,
-						isc.Label.create({
-							width: 5,
-						}),
-						isc.IButton.create({
-							ID: "personEditExitIButton",
-							title: "<spring:message code='global.cancel'/>",
-							width: 100,
-							icon: "pieces/16/icon_delete.png",
-							orientation: "vertical",
-							click: function () {
-								Window_Person.close();
-							}
-						})
-					]
-			})
-		]
-	});
-
-	function ListGrid_Person_refresh() {
-		ListGrid_Person.invalidateCache();
+	function ListGrid_Person_GroupEmail_refresh() {
+			ListGrid_Person_GroupEmail.invalidateCache();
 	};
 
-	function ListGrid_Person_remove() {
-		ListGrid_Person.invalidateCache();
-	};
-
-	function ListGrid_Person_remove() {
-
-		var record = ListGrid_Person.getSelectedRecord();
-
-		if (record == null || record.id == null) {
-			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/>. !",
-				icon: "[SKIN]ask.png",
-				title: "<spring:message code='global.message'/>.",
-				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
-				buttonClick: function () {
-					this.hide();
-				}
-			});
-		} else {
-			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.remove.ask'/>",
-				icon: "[SKIN]ask.png",
-				title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-				buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-					title: "<spring:message
-		code='global.no'/>"
-				})],
-				buttonClick: function (button, index) {
-					this.hide();
-					if (index == 0) {
-
-						var personId = record.id;
-						isc.RPCManager.sendRequest({
-							actionURL: "${restApiUrl}/api/person/" + personId,
-							httpMethod: "DELETE",
-							httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-							useSimpleHttp: true,
-							contentType: "application/json; charset=utf-8",
-							showPrompt: true,
-// data: personId,
-							serverOutputAsString: false,
-							callback: function (RpcResponse_o) {
-								if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-									ListGrid_Person.invalidateCache();
-									isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-								} else {
-									isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-								}
-							}
-						});
-					}
-				}
-			});
-		}
-	};
-
-	function ListGrid_Person_edit() {
-		var record = ListGrid_Person.getSelectedRecord();
-		if (record == null || record.id == null) {
-			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/>",
-				icon: "[SKIN]ask.png",
-				title: "<spring:message code='global.message'/>",
-				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-				buttonClick: function () {
-					this.hide();
-				}
-			});
-		} else {
-			DynamicForm_Person.editRecord(record);
-			Window_Person.show();
-		}
-	};
 	var ToolStripButton_Person_Refresh = isc.ToolStripButton.create({
 		icon: "[SKIN]/actions/refresh.png",
 		title: "<spring:message code='global.form.refresh'/>",
 		click: function () {
-			ListGrid_Person_refresh();
+				ListGrid_Person_GroupEmail_refresh();
 		}
 	});
-
-	<%--var ToolStripButton_Person_Add = isc.ToolStripButton.create({--%>
-	<%--icon: "[SKIN]/actions/add.png",--%>
-	<%--title: "<spring:message code='global.form.new'/>",--%>
-	<%--click: function () {--%>
-	<%--DynamicForm_Person.clearValues();--%>
-	<%--Window_Person.show();--%>
-	<%--}--%>
-	<%--});--%>
-
-	<%--var ToolStripButton_Person_Edit = isc.ToolStripButton.create({--%>
-	<%--icon: "[SKIN]/actions/edit.png",--%>
-	<%--title: "<spring:message code='global.form.edit'/>",--%>
-	<%--click: function () {--%>
-	<%--ListGrid_Person_edit();--%>
-	<%--}--%>
-	<%--});--%>
-
-	<%--var ToolStripButton_Person_Remove = isc.ToolStripButton.create({--%>
-	<%--icon: "[SKIN]/actions/remove.png",--%>
-	<%--title: "<spring:message code='global.form.remove'/>",--%>
-	<%--click: function () {--%>
-	<%--ListGrid_Person_remove();--%>
-	<%--}--%>
-	<%--});--%>
 
 	var ToolStrip_Actions_Person = isc.ToolStrip.create({
 		width: "100%",
 		members: [
-			ToolStripButton_Person_Refresh,
-//ToolStripButton_Person_Add,
-//ToolStripButton_Person_Edit,
-//ToolStripButton_Person_Remove
+			ToolStripButton_Person_Refresh
+
 		]
 	});
 
@@ -740,11 +470,11 @@
 		]
 	});
 
-	var ListGrid_Person = isc.MyListGrid.create({
+	var ListGrid_Person_GroupEmail = isc.MyListGrid.create({
 		width: "100%",
 		height: "100%",
-		dataSource: RestDataSource_Person,
-//contextMenu: Menu_ListGrid_Person,
+		dataSource: RestDataSource_Person_GroupEmail,
+		contextMenu: Menu_ListGrid_Person_GroupEmail,
 		canDragRecordsOut: true,
 		fields: [
 			{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -808,7 +538,7 @@
 		width: "100%",
 		height: "100%",
 		members: [
-			ListGrid_Person
+			ListGrid_Person_GroupEmail
 		]
 	});
 
@@ -887,7 +617,7 @@
 					width: 400,
 					editorType: "SelectItem"
 					,
-					optionDataSource: RestDataSource_Person,
+					optionDataSource: RestDataSource_Person_GroupEmail,
 					displayField: "fullName"
 					,
 					valueField: "id",
@@ -926,8 +656,9 @@
 				actionURL: "${restApiUrl}/api/groupsPerson",
 				httpMethod: method,
 				httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+				useSimpleHttp: true,
 				contentType: "application/json; charset=utf-8",
-				showPrompt: false,
+				showPrompt: true,
 				data: JSON.stringify(data),
 				serverOutputAsString: false,
 				callback: function (RpcResponse_o) {
@@ -991,7 +722,7 @@
 		ListGrid_GroupsPerson.invalidateCache();
 		var record = ListGrid_Groups.getSelectedRecord();
 		if (record == null || record.id == null)
-			return;
+			ListGrid_GroupsPerson.invalidateCache();
 		ListGrid_GroupsPerson.fetchData({"tblGroups.id": record.id}, function (dsResponse, data, dsRequest) {
 			ListGrid_GroupsPerson.setData(data);
 		}, {operationId: "00"});
@@ -1224,14 +955,14 @@
 
 			if (dropRecords.length > 1)
 				return;
-// var dropRec = dropRecords[0]; isc.ListGrid.create
-			if (ListGrid_Groups.getSelectedRecord() == null || ListGrid_Groups.getSelectedRecord().id == null || ListGrid_Person.getSelectedRecord() == null || ListGrid_Person.getSelectedRecord().id == null) {
+			if (ListGrid_Groups.getSelectedRecord() == null || ListGrid_Groups.getSelectedRecord().id == null
+				|| ListGrid_Person_GroupEmail.getSelectedRecord() == null || ListGrid_Person.getSelectedRecord().id == null) {
 				isc.say("<spring:message code='global.grid.record.not.selected'/>");
 				return;
 			}
 			DynamicForm_GroupsPerson.clearValues();
-			DynamicForm_GroupsPerson.setValue("groupsId", ListGrid_Groups.getSelectedRecord().id);
-			DynamicForm_GroupsPerson.setValue("personId", ListGrid_Person.getSelectedRecord().id);
+			DynamicForm_GroupsPerson.setValue("groupsId", ListGrid_Groups_GroupEmail.getSelectedRecord().id);
+			DynamicForm_GroupsPerson.setValue("personId", ListGrid_Person_GroupEmail.getSelectedRecord().id);
 			var data = DynamicForm_GroupsPerson.getValues();
 			var method = "PUT";
 			if (data.id == null)
@@ -1242,12 +973,12 @@
 				httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
 				useSimpleHttp: true,
 				contentType: "application/json; charset=utf-8",
-				showPrompt: false,
+				showPrompt: true,
 				data: JSON.stringify(data),
 				serverOutputAsString: false,
 				callback: function (RpcResponse_o) {
 					if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-// isc.say("<spring:message code='global.form.request.successful'/>");
+								isc.say("<spring:message code='global.form.request.successful'/>");
 						ListGrid_GroupsPerson_refresh();
 					} else
 						isc.say(RpcResponse_o.data);
@@ -1360,7 +1091,8 @@
 			HLayout_Actions_GroupsPerson, HLayout_Grid_GroupsPerson
 		]
 	});
-	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
 	isc.SectionStack.create({
 		ID: "Groups_Section_Stack",
 		sections:
