@@ -102,6 +102,7 @@
         }
     });
 
+    isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     isc.RPCManager.allowCrossDomainCalls = true;
     isc.FileLoader.loadLocale("fa");
     isc.FileLoader.cacheLocale("fa");
