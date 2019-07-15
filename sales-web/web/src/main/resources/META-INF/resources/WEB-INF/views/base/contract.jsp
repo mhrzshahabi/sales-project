@@ -855,17 +855,9 @@
         filterOnKeypress: true,
         startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+        updateDetails: function (viewer, rec, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
-            companyName.setTitle(record.contractNo+' '+record.contact.nameFA);
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
-            };
-            ListGrid_ContractShipment.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ContractShipment.setData(data);
-            });
+            companyName.setTitle(record.contractNo + ' ' + record.contact.nameFA);
         },
         dataArrived: function (startRow, endRow) {
         }
@@ -1248,13 +1240,7 @@
             // return;
             var d = DynamicForm_ContractShipment.getValue("sendDateDummy");
             var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
-            DynamicForm_ContractShipment.setValue("sendDate", datestring)
-
-            var contractDate = DynamicForm_ContractShipment.getValue("contract").contractDate.split("/");
-            if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
-                isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
-                return;
-            }
+            DynamicForm_ContractShipment.setValue("sendDate", datestring);
 
             var data = DynamicForm_ContractShipment.getValues();
             // ######@@@@###&&@@###
@@ -1417,11 +1403,40 @@
                 width: "100%",
                 tabs:
                     [
-                        {ID:"companyName",title: "<spring:message code='main.contractsTab'/>", pane: VLayout_Contract_Body},
-                        {title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body},
                         {
-                            title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader
-                            , tabSelected: function (form, item, value) {
+                            ID: "companyName",
+                            title: "<spring:message code='main.contractsTab'/>",
+                            pane: VLayout_Contract_Body
+                        },
+                        {
+                            title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body,
+                            tabSelected: function (form, item, value) {
+                                var record = ListGrid_Contract.getSelectedRecord();
+                                if (record == null || record.id == null) {
+                                    isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
+                                    return;
+                                }
+                                var criteria = {
+                                    _constructor: "AdvancedCriteria",
+                                    operator: "and",
+                                    criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
+                                };
+                                ListGrid_ContractShipment.fetchData(criteria, function (dsResponse, data, dsRequest) {
+                                    ListGrid_ContractShipment.setData(data);
+                                });
+                            }
+                        },
+                        {
+                            title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader,
+                            tabSelected: function (form, item, value) {
                                 var record = ListGrid_Contract.getSelectedRecord();
                                 if (record == null || record.id == null) {
                                     isc.Dialog.create({
@@ -1444,4 +1459,3 @@
             })
         ]
     });
-
