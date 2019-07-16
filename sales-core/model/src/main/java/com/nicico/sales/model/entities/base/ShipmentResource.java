@@ -22,6 +22,7 @@ public class ShipmentResource extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_HEADER_ID", nullable = false, insertable = false, updatable = false)
 	private ShipmentHeader shipmentHeader;
@@ -29,6 +30,7 @@ public class ShipmentResource extends Auditable {
 	@Column(name = "SHIPMENT_HEADER_ID")
 	private Long shipmentHeaderId;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contact contact;

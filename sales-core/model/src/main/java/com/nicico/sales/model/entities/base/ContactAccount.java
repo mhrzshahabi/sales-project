@@ -25,8 +25,7 @@ public class ContactAccount extends Auditable {
 	@Column(name = "CNT_ID", nullable = false)
 	private Long contactId;
 
-	//because bank is show in contactAccount gridList
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BANK_ID", insertable = false, updatable = false)
 	private Bank bank;
 

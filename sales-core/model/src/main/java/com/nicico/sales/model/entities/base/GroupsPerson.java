@@ -22,14 +22,16 @@ public class GroupsPerson extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "GROUPS_ID", nullable = false, insertable = false, updatable = false)
 	private Groups groups;
 
 	@Column(name = "GROUPS_ID")
 	private Long groupsId;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PERSON_ID", nullable = false, insertable = false, updatable = false)
 	private Person person;
 

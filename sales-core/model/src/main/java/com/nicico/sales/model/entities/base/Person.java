@@ -22,9 +22,9 @@ public class Person extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
-	//@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "CONTACT_ID", nullable = true, insertable = false, updatable = false)
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false)
 	private Contact contact;
 
 	@Column(name = "CONTACT_ID")

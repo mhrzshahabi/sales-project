@@ -22,6 +22,7 @@ public class InspectionContract extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
 	private Shipment shipment;
@@ -29,6 +30,7 @@ public class InspectionContract extends Auditable {
 	@Column(name = "SHIPMENT_ID")
 	private Long shipmentId;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INSPECTION_CONTACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contact contactByInspection;
@@ -36,6 +38,7 @@ public class InspectionContract extends Auditable {
 	@Column(name = "INSPECTION_CONTACT_ID")
 	private Long contactByInspectionId;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_CONTRACT_ID", nullable = false, insertable = false, updatable = false)
 	private ShipmentContract shipmentContract;
