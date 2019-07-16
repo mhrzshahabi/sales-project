@@ -960,7 +960,7 @@
 	var Window_Shipment_Price = isc.Window.create({
 		title: "<spring:message code='shipment.Price'/>",
 		width: "28%",
-		hight: "30%",
+		height: "30%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -999,7 +999,7 @@
 	var Window_Shipment_Price_continar = isc.Window.create({
 		title: "<spring:message code='shipment.Price'/>",
 		width: "28%",
-		hight: "30%",
+		height: "30%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

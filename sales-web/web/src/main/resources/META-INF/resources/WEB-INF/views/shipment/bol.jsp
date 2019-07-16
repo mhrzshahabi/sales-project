@@ -893,7 +893,7 @@
 	var Window_BolHeader = isc.Window.create({
 		title: "<spring:message code='shipment.BolHeader'/>",
 		width: "28%",
-		hight: "30%",
+		height: "30%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -1313,7 +1313,7 @@
 	var Window_BolItem = isc.Window.create({
 		title: "<spring:message code='shipment.BolItem'/>",
 		width: "28%",
-		hight: "30%",
+		height: "30%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

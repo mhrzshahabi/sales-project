@@ -876,7 +876,7 @@
 	var Window_ShipmentMoistureHeader = isc.Window.create({
 		title: "<spring:message code='shipment.MoistureHeader'/>",
 		width: "28%",
-		hight: "30%",
+		height: "30%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -1273,7 +1273,7 @@
 	var Window_ShipmentMoistureItem = isc.Window.create({
 		title: "<spring:message code='shipment.MoistureItem'/>",
 		width: "28%",
-		hight: "30%",
+		height: "30%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

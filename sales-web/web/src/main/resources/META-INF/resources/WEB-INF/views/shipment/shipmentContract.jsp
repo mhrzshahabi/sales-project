@@ -1101,9 +1101,9 @@
 	});
 
 	var Window_ShipmentContract = isc.Window.create({
-		title: "<spring:message code='shipmentContract.title'/>. ",
+		title: "<spring:message code='shipmentContract.title'/>",
 		width: "28%",
-		hight: "30%",
+		height: "30%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

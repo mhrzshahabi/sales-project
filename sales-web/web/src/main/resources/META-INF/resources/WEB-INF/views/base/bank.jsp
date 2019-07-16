@@ -172,35 +172,35 @@
                     name: "bankCode",
                     title: "<spring:message code='bank.bankCode'/>",
                     width: "100%",
-                    colSpan: 1, required: true ,
-titleColSpan: 1
+                    colSpan: 1, required: true,
+                    titleColSpan: 1
                 },
                 {
                     name: "bankName",
                     title: "<spring:message code='bank.namefa'/>",
                     width: "100%",
-                    colSpan: 1, required: true ,
+                    colSpan: 1, required: true,
                     titleColSpan: 1
                 },
                 {
                     name: "enBankName",
                     title: "<spring:message code='bank.nameEn'/>",
                     width: "100%",
-                    colSpan: 1, required: true ,
+                    colSpan: 1, required: true,
                     titleColSpan: 1
                 },
                 {
                     name: "address",
                     title: "<spring:message code='bank.address'/>",
                     width: "100%",
-                    colSpan: 1, required: true ,
+                    colSpan: 1, required: true,
                     titleColSpan: 1
                 },
                 {
                     name: "coreBranch",
                     title: "<spring:message code='bank.coreBranch'/>",
                     width: 200,
-                    colSpan: 1, required: true ,
+                    colSpan: 1, required: true,
                     titleColSpan: 1
                     ,
                     valueMap: {
@@ -212,7 +212,7 @@ titleColSpan: 1
                     name: "countryId",
                     title: "<spring:message code='country.nameFa'/>",
                     type: 'long',
-                    width: 200, required: true ,
+                    width: 200, required: true,
                     editorType: "SelectItem"
                     ,
                     optionDataSource: RestDataSource_Country,
@@ -327,7 +327,7 @@ titleColSpan: 1
     var Window_Bank = isc.Window.create({
         title: "<spring:message code='bank.title'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

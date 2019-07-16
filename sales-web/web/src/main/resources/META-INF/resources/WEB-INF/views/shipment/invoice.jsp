@@ -837,7 +837,7 @@
     var Window_Invoice = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         margin: '10px',
         autoSize: true,
         autoCenter: true,

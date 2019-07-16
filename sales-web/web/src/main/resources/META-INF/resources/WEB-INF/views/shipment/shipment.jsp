@@ -846,7 +846,7 @@
     });
 
     var Window_Shipment = isc.Window.create({
-        title: "<spring:message code='Shipment.title'/>. ",
+        title: "<spring:message code='Shipment.title'/>",
         width: 640,
         height: 600,
         autoSize: true,
@@ -1366,7 +1366,7 @@
     var Window_ShipmentEmailCC = isc.Window.create({
         title: "<spring:message code='person.title'/> ",
         width: "800",
-        hight: "700",
+        height: "700",
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1546,7 +1546,7 @@
     var Window_ShipmentEmail = isc.Window.create({
         title: "<spring:message code='global.email'/> ",
         width: "800",
-        hight: "700",
+        height: "700",
         autoSize: true,
         autoCenter: true,
         isModal: true,

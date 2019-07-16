@@ -230,7 +230,7 @@ defaultValue : false ,
 	var Window_Incoterms = isc.Window.create({
 		title: "<spring:message code='incoterms.name'/> ",
 		width: 580,
-		hight: 500,
+		height: 500,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

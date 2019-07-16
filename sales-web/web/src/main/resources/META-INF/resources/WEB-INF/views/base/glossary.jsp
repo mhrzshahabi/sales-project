@@ -255,7 +255,7 @@
     var Window_Glossary = isc.Window.create({
         title: "<spring:message code='glossary.title'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

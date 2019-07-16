@@ -830,7 +830,7 @@
 	var Window_ShipmentAssayHeader = isc.Window.create({
 		title: "<spring:message code='shipment.AssayHeader'/>",
 		width: "28%",
-		hight: "30%",
+		height: "30%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -1253,7 +1253,7 @@
 	var Window_ShipmentAssayItem = isc.Window.create({
 		title: "<spring:message code='shipment.AssayItem'/>",
 		width: "28%",
-		hight: "30%",
+		height: "30%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

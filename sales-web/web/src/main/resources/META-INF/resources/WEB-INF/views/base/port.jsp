@@ -338,7 +338,7 @@ format : "[0-9]+(\.[0-9][0-9][0-9])"
     var Window_Port = isc.Window.create({
         title: "<spring:message code='port.port'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

@@ -785,7 +785,7 @@
 	var Window_ProvisionalInvoice = isc.Window.create({
 		title: "<spring:message code='provisionalInvoice.tilte'/> ",
 		width: 780,
-		hight: 900,
+		height: 900,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

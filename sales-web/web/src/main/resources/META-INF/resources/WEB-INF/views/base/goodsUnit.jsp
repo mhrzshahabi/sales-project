@@ -166,7 +166,7 @@
 	var Window_GoodsUnit = isc.Window.create({
 		title: "<spring:message code='goods.title'/> ",
 		width: 580,
-		hight: 500,
+		height: 500,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

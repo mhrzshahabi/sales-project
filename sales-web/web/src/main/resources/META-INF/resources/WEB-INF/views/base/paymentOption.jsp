@@ -248,7 +248,7 @@
     var Window_PaymentOption = isc.Window.create({
         title: "<spring:message code='paymentOption.title'/> ",
         width: 500,
-        hight: 50,
+        height: 50,
         autoSize: true,
         autoCenter: true,
         isModal: true,

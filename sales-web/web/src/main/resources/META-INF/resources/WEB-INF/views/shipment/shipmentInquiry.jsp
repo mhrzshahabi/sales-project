@@ -630,7 +630,7 @@
 	var Window_ShipmentInquiryEmailCC = isc.Window.create({
 		title: "<spring:message code='person.title'/> ",
 		width: "800",
-		hight: "700",
+		height: "700",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -879,7 +879,7 @@
 		ID: "shipmentResourceByInquiry_Window",
 		title: "<spring:message code='tenderNotice.title'/> ",
 		width: 700,
-		hight: 800,
+		height: 800,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -1251,7 +1251,7 @@
 	var Window_ShipmentInquiry = isc.Window.create({
 		title: "<spring:message code='tenderNotice.title'/> ",
 		width: "800",
-		hight: "700",
+		height: "700",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

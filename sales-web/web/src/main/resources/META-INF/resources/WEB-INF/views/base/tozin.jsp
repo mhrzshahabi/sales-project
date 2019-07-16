@@ -634,7 +634,7 @@
     var Window_Tozin = isc.Window.create({
         title: "<spring:message code='warehouses.title'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

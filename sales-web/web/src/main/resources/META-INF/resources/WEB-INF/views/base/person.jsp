@@ -235,9 +235,9 @@
 	});
 
 	var Window_Person = isc.Window.create({
-		title: "<spring:message code='person.title'/>. ",
+		title: "<spring:message code='person.title'/>",
 		width: 580,
-		hight: 500,
+		height: 500,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
