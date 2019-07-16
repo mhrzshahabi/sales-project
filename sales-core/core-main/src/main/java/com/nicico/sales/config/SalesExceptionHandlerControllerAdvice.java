@@ -23,6 +23,7 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
     protected Map<String, ErrorResponseDTO.ErrorFieldDTO> getUniqueConstraintErrors() {
         Map<String, ErrorResponseDTO.ErrorFieldDTO> errorCodeMap = new HashMap<>();
         errorCodeMap.put("fk", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation"));
+        errorCodeMap.put("uk", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_Unique"));
         return errorCodeMap;
     }
 

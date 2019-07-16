@@ -43,16 +43,13 @@
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
     /*---------------currentTime---------------*/
-    var secs;
-    var mins;
-    var hr;
     var informationFlow;
 
     function calculateclockAndAssign() {
         var currentTime = new Date();
-        secs = currentTime.getSeconds();
-        mins = currentTime.getMinutes();
-        hr = currentTime.getHours();
+        var secs = currentTime.getSeconds();
+        var mins = currentTime.getMinutes();
+        var hr = currentTime.getHours();
         informationFlow.setContents("<div align='center'>ساعت : " + secs + " : " + mins + " : " + hr + "</div>");
     }
 
@@ -95,6 +92,9 @@
                 case "Unauthorized":
                     isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: 'هشدار'});
                     break;
+                case "DataIntegrityViolation_Unique":
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: 'هشدار'});
+                    break;
                 case "DataIntegrityViolation":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation'/>", {title: 'هشدار'});
                     break;
@@ -119,23 +119,6 @@
         freezeFieldText: "ثابت نگه داشتن"
     });
 
-    isc.ToolStripButton.addProperties({
-        showDownIcon: false,
-        showSelectedIcon: false,
-        showRollOverIcon: false,
-        showMenuOnRollOver: true,
-        disabledCursor: "not-allowed",
-        border: "1px solid lightblue"
-    });
-    isc.ToolStripMenuButton.addProperties({
-        showDownIcon: false,
-        showSelectedIcon: false,
-        showRollOverIcon: false,
-        showMenuOnRollOver: true,
-        disabledCursor: "not-allowed",
-        border: "1px solid lightgray"
-    });
-
     function getIconButton(title, props) {
         return isc.IconButton.create(isc.addProperties({
                 title: title
@@ -155,7 +138,6 @@
         var flagTabExist = false;
 
         if (mainTabSet.tabs != null) {
-            //alert(mainTabSet.tabs.length);
             for (i = 0; i < mainTabSet.tabs.length; i++) {
 
                 if (title == mainTabSet.getTab(i).title) {
@@ -265,8 +247,6 @@
                 }
 
                 window.location.href = newUrl;
-
-
             }
         }]
     });
@@ -1452,7 +1432,6 @@
         // border: "0px solid blue",
         backgroundColor: "",
         members: [headerLayout, menuTabSet, mainTabSet]
-
     });
 
     // createTab("<spring:message code='workgroups'/>", "/group/showForm")
