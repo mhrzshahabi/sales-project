@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -247,7 +247,7 @@
         titleAlign: "right",
         fields:
             [
-                {name: "id", hidden: true,},
+                {name: "id", hidden: true},
                 {type: "Header", defaultValue: ""},
                 {
                     name: "contractNo",
@@ -401,8 +401,9 @@
                     type: 'float',
                     required: true,
                     width: "100%",
+                    keyPressFilter: "[0-9]",
                     validators: [{
-                        type: "isFloat",
+                        type: "isInteger",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "لطفا مقدار عددی وارد نمائید."
@@ -547,11 +548,12 @@
                 {
                     name: "premium",
                     title: "<spring:message code='contract.premium'/>",
-                    type: 'integer',
+                    type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
-                        type: "isInteger",
+                        type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "لطفا مقدار عددی وارد نمائید."
@@ -560,11 +562,12 @@
                 {
                     name: "discount",
                     title: "<spring:message code='contract.discount'/>",
-                    type: 'integer',
+                    type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
-                        type: "isInteger",
+                        type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "لطفا مقدار عددی وارد نمائید."
@@ -576,6 +579,7 @@
                     type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -589,6 +593,7 @@
                     type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -599,11 +604,12 @@
                 {
                     name: "prepaid",
                     title: "<spring:message code='contract.prepaid'/>",
-                    type: 'integer',
+                    type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
-                        type: "isInteger",
+                        type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "لطفا مقدار عددی وارد نمائید."
@@ -726,7 +732,7 @@
             }
 
             if (dre < drs) {
-                isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
+                isc.warn("<spring:message code='contract.date.validation'/>", {title: 'هشدار'});
                 return;
             }
 
@@ -1084,6 +1090,7 @@
                     type: 'integer',
                     required: true,
                     width: 400,
+                    keyPressFilter: "[0-9]",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -1124,6 +1131,7 @@
                     type: 'float',
                     required: true,
                     width: 400,
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -1140,7 +1148,11 @@
                     format: 'DD-MM-YYYY HH:mm:ss'
                 },
                 {
-                    name: "duration", title: "<spring:message code='global.duration'/>", type: 'integer', width: 400,
+                    name: "duration",
+                    title: "<spring:message code='global.duration'/>",
+                    type: 'integer',
+                    width: 400,
+                    keyPressFilter: "[0-9]",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
