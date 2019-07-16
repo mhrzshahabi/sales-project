@@ -3,6 +3,19 @@
 
 <%--<script>--%>
 
+    function ThousandSeparate1(item)
+    {
+        var V = item;
+        V = V.replace(/,/g,'');
+        var R = new RegExp('(-?[0-9]+)([0-9]{3})');
+        while(R.test(V))
+        {
+            V = V.replace(R, '$1,$2');
+        }
+        return V;
+    }
+
+
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
     var RestDataSource_Port = isc.MyRestDataSource.create({
@@ -72,32 +85,36 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
-                ],
+                buttons: [isc.Button.create({
+                    title: "<spring:message
+		code='global.yes'/>"
+                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/port/" + record.id,
-                                httpMethod: "DELETE",
-                                callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                        ListGrid_Port_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
+                        var PortId = record.id;
+                        isc.RPCManager.sendRequest({
+                            actionURL: "${restApiUrl}/api/port/" + PortId,
+                            httpMethod: "DELETE",
+                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+                            useSimpleHttp: true,
+                            contentType: "application/json; charset=utf-8",
+                            showPrompt: true,
+                            serverOutputAsString: false,
+                            callback: function (RpcResponse_o) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                    ListGrid_Port_refresh();
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
-                            })
-                        );
+                            }
+                        });
                     }
                 }
             });
         }
-    }
-
+    };
     var Menu_ListGrid_Port = isc.Menu.create({
         width: 150,
         data: [
@@ -145,15 +162,14 @@
         numCols: 2,
         fields:
             [
-                {name: "id", hidden: true},
+                {name: "id", hidden: true,},
                 {
                     name: "port",
                     title: "<spring:message code='port.port'/>",
-                    width: "100%",
+                    width: "100%",  required: true ,
                     colSpan: 1,
                     titleColSpan: 1,
-                    wrapTitle: false,
-                    required: true
+                    wrapTitle: false
                 },
                 {
                     name: "loa",
@@ -162,8 +178,9 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    keyPressFilter: "[0-9]",
-                    length: "100"
+                    change :function (form, item, value, oldValue){item.setValue(ThousandSeparate1(value));},
+                    keyPressFilter :  "[0-9.]",
+format : "[0-9]+(\.[0-9][0-9][0-9])"
                 },
                 {
                     name: "beam",
@@ -172,8 +189,8 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    keyPressFilter: "[0-9]",
-                    length: "100"
+                    change :function (form, item, value, oldValue){item.setValue(ThousandSeparate1(value));},
+                    keyPressFilter :  "[0-9.]"
                 },
                 {
                     name: "arrival",
@@ -182,8 +199,8 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    keyPressFilter: "[0-9]",
-                    length: "100"
+                    change :function (form, item, value, oldValue){item.setValue(ThousandSeparate1(value));},
+                    keyPressFilter : "[0-9]+(\.[0-9][0-9][0-9])"
                 },
                 {
                     name: "countryId",
@@ -199,13 +216,15 @@
                     wrapTitle: false,
                     valueField: "id",
                     pickListWidth: "500",
-                    pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListheight: "500",
+                    pickListProperties: {showFilterEditor: true}
+                    ,
                     pickListFields: [
                         {name: "id", width: 50, align: "center"},
                         {name: "nameFa", width: 150, align: "center"},
                         {name: "nameEn", width: 150, align: "center"},
                         {name: "isActive", width: 150, align: "center"}
+
                     ]
                 }
             ]
@@ -274,20 +293,24 @@
             var data = DynamicForm_Port.getValues();
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/port/",
-                    httpMethod: methodXXXX,
-                    data: JSON.stringify(data),
-                    callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
-                            ListGrid_Port_refresh();
-                            Window_Port.close();
-                        } else
-                            isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
+            isc.RPCManager.sendRequest({
+                actionURL: "${restApiUrl}/api/port/",
+                httpMethod: methodXXXX,
+                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
+                useSimpleHttp: true,
+                contentType: "application/json; charset=utf-8",
+                showPrompt: false,
+                data: JSON.stringify(data),
+                serverOutputAsString: false,
+                callback: function (RpcResponse_o) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        ListGrid_Port_refresh();
+                        Window_Port.close();
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            });
         }
     });
 
@@ -380,3 +403,5 @@
             HLayout_Port_Actions, HLayout_Port_Grid
         ]
     });
+
+
