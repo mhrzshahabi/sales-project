@@ -129,7 +129,7 @@
                     title: "<spring:message code='instruction.titleInstruction'/>",
                     width: 400,
                     align: "center",
-                    required: true
+                    required: true , length : "4000"
                 },
                 {
                     name: "disableDateDummy",
@@ -235,7 +235,7 @@
             DynamicForm_Instruction.setValue("runDate", datestringRun);
 
             if (d < dRun) {
-                isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
+                isc.warn("<spring:message code='instruction.date.validation'/>", {title: 'هشدار'});
                 return;
             }
 

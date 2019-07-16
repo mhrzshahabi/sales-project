@@ -125,7 +125,7 @@
             [
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
-                {name: "namePay", title: "<spring:message code='paymentOption.payName'/>", type: 'text', width: "480", required: true},
+                {name: "namePay", title: "<spring:message code='paymentOption.payName'/>", type: 'text', width: "480", required: true , length: "255"},
                 {type: "RowSpacerItem"}
             ]
     });

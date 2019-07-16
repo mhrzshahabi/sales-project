@@ -166,7 +166,7 @@
                 {
                     name: "port",
                     title: "<spring:message code='port.port'/>",
-                    width: "100%",  required: true ,
+                    width: "100%",  required: true , length : "4000" ,
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false
@@ -178,9 +178,13 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    change :function (form, item, value, oldValue){item.setValue(ThousandSeparate1(value));},
-                    keyPressFilter :  "[0-9.]",
-format : "[0-9]+(\.[0-9][0-9][0-9])"
+                    keyPressFilter :  "[0-9.]", length : "100" ,
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                 {
                     name: "beam",
@@ -189,8 +193,13 @@ format : "[0-9]+(\.[0-9][0-9][0-9])"
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    change :function (form, item, value, oldValue){item.setValue(ThousandSeparate1(value));},
-                    keyPressFilter :  "[0-9.]"
+                    keyPressFilter :  "[0-9.]", length : "100" ,
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                 {
                     name: "arrival",
@@ -199,8 +208,13 @@ format : "[0-9]+(\.[0-9][0-9][0-9])"
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    change :function (form, item, value, oldValue){item.setValue(ThousandSeparate1(value));},
-                    keyPressFilter : "[0-9]+(\.[0-9][0-9][0-9])"
+                    keyPressFilter :  "[0-9.]", length : "100" ,
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                 {
                     name: "countryId",
@@ -208,9 +222,8 @@ format : "[0-9]+(\.[0-9][0-9][0-9])"
                     type: 'long',
                     width: "100%",
                     editorType: "SelectItem",
-                    colSpan: 1,
-                    titleColSpan: 1
-                    ,
+                    colSpan: 1, required: true ,
+                    titleColSpan: 1 ,
                     optionDataSource: RestDataSource_CountryPort,
                     displayField: "nameFa",
                     wrapTitle: false,

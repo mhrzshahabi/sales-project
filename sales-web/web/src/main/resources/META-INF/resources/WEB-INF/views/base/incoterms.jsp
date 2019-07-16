@@ -59,7 +59,7 @@
 					title: "<spring:message code='incoterms.code'/>",
 					type: 'text',
 					required: true,
-					wrapTitle : false ,
+					wrapTitle : false , length : "100" ,
 					width: 500
 				},
 				{

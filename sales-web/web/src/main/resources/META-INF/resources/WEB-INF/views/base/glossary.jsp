@@ -122,8 +122,8 @@
             [
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
-                {name: "summary", title: "<spring:message code='glossary.summary'/>", type: 'text', width: "480" , required: true},
-                {name: "meaning", title: "<spring:message code='glossary.meaning'/>", type: 'text', width: "480" , required: true},
+                {name: "summary", title: "<spring:message code='glossary.summary'/>", type: 'text', width: "480" , required: true , length : "20"},
+                {name: "meaning", title: "<spring:message code='glossary.meaning'/>", type: 'text', width: "480" , required: true, length : "200"},
                 {type: "RowSpacerItem"}
 
             <%--{--%>
@@ -217,7 +217,6 @@
                 {name: "summary", title: "<spring:message code='glossary.summary'/>", width: 200},
                 {name: "meaning", title: "<spring:message code='glossary.meaning'/>", width: 200}
             ],
-// ######@@@@###&&@@###
         fetchDataURL: "${restApiUrl}/api/glossary/spec-list"
     });
     var IButton_Glossary_Save = isc.IButton.create({
@@ -231,11 +230,9 @@
                 return;
 
             var data = DynamicForm_Glossary.getValues();
-// ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                     actionURL: "${restApiUrl}/api/glossary/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
