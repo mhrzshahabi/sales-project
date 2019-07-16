@@ -337,6 +337,7 @@
                 title: "<spring:message		code='shipment.loadingLetter'/>",
                 type: 'text',
                 required: true,
+                length : "100" ,
                 width: "100%"
             },
             {
@@ -448,7 +449,7 @@
         fields: [
             {name: "id", hidden: true,},
             {type: "Header", defaultValue: ""},
-            {name: "blDate", hidden: true,},
+            {name: "blDate", hidden: true},
             {
                 name: "blDateDumy", colSpan: 1,
                 title: "<spring:message		code='shipment.blDate'/>",
@@ -483,11 +484,10 @@
                 name: "swb", colSpan: 1, title: "<spring:message	code='shipment.SWB'/>",
                 type: 'text', width: "100%", defaultValue: "Yes", valueMap: {"Yes": "Yes", "No": "No"}
             },
-            {name: "swBlDate", hidden: true,},
+            {name: "swBlDate", hidden: true},
             {
                 name: "swBlDateDumy", colSpan: 1,
-                title: "<spring:message
-		code='shipment.swBlDate'/>",
+                title: "<spring:message		code='shipment.swBlDate'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: 'date',
                 format: 'DD-MM-YYYY',
@@ -496,8 +496,7 @@
             },
             {
                 name: "switchPortId", colSpan: 3,
-                title: "<spring:message
-		code='port.switchPort'/>",
+                title: "<spring:message		code='port.switchPort'/>",
                 type: 'long',
                 width: "100%",
                 editorType: "SelectItem",
@@ -521,8 +520,7 @@
             {type: "Header", defaultValue: dash},
             {
                 name: "portByLoadingId", colSpan: 3,
-                title: "<spring:message
-		code='shipment.loading'/>",
+                title: "<spring:message		code='shipment.loading'/>",
                 type: 'long',
                 width: "100%",
                 editorType: "SelectItem",
@@ -538,8 +536,7 @@
             },
             {
                 name: "portByDischargeId", colSpan: 3,
-                title: "<spring:message
-		code='shipment.discharge'/>",
+                title: "<spring:message		code='shipment.discharge'/>",
                 type: 'long',
                 width: "100%",
                 editorType: "SelectItem",
@@ -590,8 +587,7 @@
             {
                 colSpan: 4,
                 name: "contactByAgentId",
-                title: "<spring:message
-		code='shipment.agent'/>",
+                title: "<spring:message		code='shipment.agent'/>",
                 type: 'long',
                 width: "100%",
                 editorType: "SelectItem",

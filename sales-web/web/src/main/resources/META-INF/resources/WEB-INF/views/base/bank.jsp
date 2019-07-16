@@ -173,7 +173,7 @@
                     title: "<spring:message code='bank.bankCode'/>",
                     width: "100%",
                     colSpan: 1, required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1 , keyPressFilter :  "[0-9]", length : "15"
                 },
                 {
                     name: "bankName",
