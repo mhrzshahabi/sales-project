@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-//<script>
+<%--<script>--%>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -46,36 +46,33 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({
-                    title: "<spring:message
-		code='global.yes'/>"
-                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
                         var paymentOptionId = record.id;
-                        isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/paymentOption/" + paymentOptionId,
-                            httpMethod: "DELETE",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            showPrompt: true,
-                            serverOutputAsString: false,
-                            callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                    ListGrid_PaymentOption_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                actionURL: "${restApiUrl}/api/paymentOption/" + paymentOptionId,
+                                httpMethod: "DELETE",
+                                callback: function (RpcResponse_o) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                        ListGrid_PaymentOption_refresh();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
                                 }
-                            }
-                        });
+                            })
+                        );
                     }
                 }
             });
         }
-    };
+    }
+
     var Menu_ListGrid_PaymentOption = isc.Menu.create({
         width: 150,
         data: [
@@ -125,7 +122,14 @@
             [
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
-                {name: "namePay", title: "<spring:message code='paymentOption.payName'/>", type: 'text', width: "480", required: true , length: "255"},
+                {
+                    name: "namePay",
+                    title: "<spring:message code='paymentOption.payName'/>",
+                    type: 'text',
+                    width: "480",
+                    required: true,
+                    length: "255"
+                },
                 {type: "RowSpacerItem"}
             ]
     });
@@ -184,7 +188,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "namePay", title: "<spring:message code='paymentOption.payName'/>", width: 200},
+                {name: "namePay", title: "<spring:message code='paymentOption.payName'/>", width: 200}
             ],
 
         fetchDataURL: "${restApiUrl}/api/paymentOption/spec-list"
@@ -204,24 +208,20 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/paymentOption",
-                httpMethod: method,
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                showPrompt: true,
-                data: JSON.stringify(data),
-                serverOutputAsString: false,
-                callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>");
-                        ListGrid_PaymentOption_refresh();
-                        Window_PaymentOption.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            });
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${restApiUrl}/api/paymentOption",
+                    httpMethod: method,
+                    data: JSON.stringify(data),
+                    callback: function (RpcResponse_o) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>");
+                            ListGrid_PaymentOption_refresh();
+                            Window_PaymentOption.close();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                })
+            );
         }
     });
 
@@ -265,7 +265,6 @@
             [
                 DynamicForm_PaymentOption,
                 HLayout_PaymentOption_IButton
-
             ]
     });
     var ListGrid_PaymentOption = isc.MyListGrid.create({
@@ -275,7 +274,8 @@
         contextMenu: Menu_ListGrid_PaymentOption,
         doubleClick: function () {
             ListGrid_PaymentOption_edit();
-        }, fields:
+        },
+        fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
@@ -296,7 +296,6 @@
         },
         dataArrived: function (startRow, endRow) {
         }
-
     });
     var HLayout_PaymentOption_Grid = isc.HLayout.create({
         width: "100%",
@@ -306,13 +305,10 @@
         ]
     });
 
-    var VLayout_PaymentOption_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_PaymentOption_Actions, HLayout_PaymentOption_Grid
         ]
     });
-
-
-    //</script>
