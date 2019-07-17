@@ -542,7 +542,7 @@
 	var Window_ShipmentByAddHeader = isc.Window.create({
 		title: "<spring:message code='shipmentHeader.title'/> ",
 		width: "60%",
-		hight: "60%",
+		height: "60%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -563,7 +563,7 @@
 	var Window_ShipmentByAddHeader_For_Edit = isc.Window.create({
 		title: "<spring:message code='shipmentHeader.title'/> ",
 		width: "60%",
-		hight: "60%",
+		height: "60%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -1254,7 +1254,7 @@
 	var Window_ShipmentResource = isc.Window.create({
 		title: "<spring:message code='shipment.shipmentResource'/> ",
 		width: "60%",
-		hight: "60%",
+		height: "60%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -1305,7 +1305,7 @@
 	var Window_Edit_ShipmentResource = isc.Window.create({
 		title: "<spring:message code='shipment.shipmentResource'/> ",
 		width: "60%",
-		hight: "60%",
+		height: "60%",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

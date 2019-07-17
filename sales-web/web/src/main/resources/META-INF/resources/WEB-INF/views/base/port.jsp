@@ -3,6 +3,19 @@
 
 <%--<script>--%>
 
+    function ThousandSeparate1(item)
+    {
+        var V = item;
+        V = V.replace(/,/g,'');
+        var R = new RegExp('(-?[0-9]+)([0-9]{3})');
+        while(R.test(V))
+        {
+            V = V.replace(R, '$1,$2');
+        }
+        return V;
+    }
+
+
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
     var RestDataSource_Port = isc.MyRestDataSource.create({
@@ -153,7 +166,7 @@
                 {
                     name: "port",
                     title: "<spring:message code='port.port'/>",
-                    width: "100%",
+                    width: "100%",  required: true , length : "4000" ,
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false
@@ -164,7 +177,14 @@
                     width: "100%",
                     colSpan: 1,
                     titleColSpan: 1,
-                    wrapTitle: false
+                    wrapTitle: false,
+                    keyPressFilter :  "[0-9.]", length : "100" ,
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                 {
                     name: "beam",
@@ -172,15 +192,29 @@
                     width: "100%",
                     colSpan: 1,
                     titleColSpan: 1,
-                    wrapTitle: false
+                    wrapTitle: false,
+                    keyPressFilter :  "[0-9.]", length : "100" ,
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                 {
                     name: "arrival",
                     title: "<spring:message code='port.arrival'/>",
                     width: "100%",
                     colSpan: 1,
-                    titleColSpan: 1
-                    , wrapTitle: false
+                    titleColSpan: 1,
+                    wrapTitle: false,
+                    keyPressFilter :  "[0-9.]", length : "100" ,
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                 {
                     name: "countryId",
@@ -188,9 +222,8 @@
                     type: 'long',
                     width: "100%",
                     editorType: "SelectItem",
-                    colSpan: 1,
-                    titleColSpan: 1
-                    ,
+                    colSpan: 1, required: true ,
+                    titleColSpan: 1 ,
                     optionDataSource: RestDataSource_CountryPort,
                     displayField: "nameFa",
                     wrapTitle: false,
@@ -318,7 +351,7 @@
     var Window_Port = isc.Window.create({
         title: "<spring:message code='port.port'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

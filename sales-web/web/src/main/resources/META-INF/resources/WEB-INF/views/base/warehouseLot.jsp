@@ -265,7 +265,7 @@
 									,
 									valueField: "id",
 									pickListWidth: "500",
-									pickListheight: "500",
+									pickListHeight: "500",
 									pickListProperties: {showFilterEditor: true}
 									,
 									pickListFields: [{name: "id", width: 50, align: "center"}, {
@@ -582,7 +582,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "500",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields: [{name: "id", width: 50, align: "center"}, {
@@ -750,7 +750,7 @@
 	var Window_WarehouseLot = isc.Window.create({
 		title: "<spring:message code='molybdenum.title'/> ",
 		width: 580,
-		hight: 500,
+		height: 500,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

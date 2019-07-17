@@ -161,9 +161,9 @@
 	});
 
 	var Window_CurrencyUnit = isc.Window.create({
-		title: "<spring:message code='currency.title'/>. ",
+		title: "<spring:message code='currency.title'/>",
 		width: 580,
-		hight: 500,
+		height: 500,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -210,7 +210,7 @@
 
 		if (record == null || record.id == null) {
 			isc.Dialog.create({
-				message: "<spring:message code='global.grid.record.not.selected'/>. !",
+				message: "<spring:message code='global.grid.record.not.selected'/>",
 				icon: "[SKIN]ask.png",
 				title: "<spring:message code='global.message'/>.",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],

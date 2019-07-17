@@ -343,7 +343,7 @@
                             callback: function (resp) {
                                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Invoice_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
@@ -509,6 +509,7 @@
                     type: 'float',
                     required: true,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -522,6 +523,7 @@
                     type: 'float',
                     required: true,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -535,6 +537,7 @@
                     type: 'float',
                     required: true,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -634,6 +637,7 @@
                 {
                     name: "copperUnitPrice", title: "<spring:message code='invoice.copperUnitPrice'/>",
                     type: 'float', required: false, width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -647,6 +651,7 @@
                     type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -657,6 +662,7 @@
                 {
                     name: "goldUnitPrice", title: "<spring:message code='invoice.goldUnitPrice'/>",
                     type: 'float', required: false, width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -670,6 +676,7 @@
                     type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -680,6 +687,7 @@
                 {
                     name: "silverUnitPrice", title: "<spring:message code='invoice.silverUnitPrice'/>",
                     type: 'float', required: false, width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -693,6 +701,7 @@
                     type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -703,6 +712,7 @@
                 {
                     name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>",
                     type: 'float', required: false, width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -716,6 +726,7 @@
                     type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -837,7 +848,7 @@
     var Window_Invoice = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         margin: '10px',
         autoSize: true,
         autoCenter: true,

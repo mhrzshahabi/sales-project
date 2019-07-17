@@ -5,8 +5,6 @@
 
 	<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
-	<%----------------------------------------------------------ATTACH----------------------------------------------------%>
-
 	var RestDataSource_DccView = isc.MyRestDataSource.create({
 		fields: [
 			{name: "id", hidden: true, primaryKey: true, canEdit: false},
@@ -68,7 +66,6 @@
 				align: "center"
 			}
 		],
-// ######@@@@###&&@@###
 		fetchDataURL: "${restApiUrl}/api/dcc/spec-list"
 	});
 
@@ -148,5 +145,3 @@
 			DccViewGridHLayout
 		]
 	});
-
-	<%-----------------------------------------------END ATTACH-----------------------------------------------------------%>

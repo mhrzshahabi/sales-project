@@ -247,7 +247,7 @@
         titleAlign: "right",
         fields:
             [
-                {name: "id", hidden: true,},
+                {name: "id", hidden: true},
                 {type: "Header", defaultValue: ""},
                 {
                     name: "contractNo",
@@ -409,7 +409,7 @@
                     }]
                 },
                 {
-                    name: "unitId",required:true,
+                    name: "unitId",
                     title: "<spring:message code='unit.nameFa'/>",
                     type: 'long',
                     width: "100%",
@@ -547,11 +547,12 @@
                 {
                     name: "premium",
                     title: "<spring:message code='contract.premium'/>",
-                    type: 'integer',
+                    type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
-                        type: "isInteger",
+                        type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "لطفا مقدار عددی وارد نمائید."
@@ -560,11 +561,12 @@
                 {
                     name: "discount",
                     title: "<spring:message code='contract.discount'/>",
-                    type: 'integer',
+                    type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
-                        type: "isInteger",
+                        type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "لطفا مقدار عددی وارد نمائید."
@@ -576,6 +578,7 @@
                     type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -589,6 +592,7 @@
                     type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -599,11 +603,12 @@
                 {
                     name: "prepaid",
                     title: "<spring:message code='contract.prepaid'/>",
-                    type: 'integer',
+                    type: 'float',
                     required: false,
                     width: "100%",
+                    keyPressFilter: "[0-9.]",
                     validators: [{
-                        type: "isInteger",
+                        type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "لطفا مقدار عددی وارد نمائید."
@@ -726,7 +731,7 @@
             }
 
             if (dre < drs) {
-                isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
+                isc.warn("<spring:message code='contract.date.validation'/>", {title: 'هشدار'});
                 return;
             }
 
@@ -1015,7 +1020,7 @@
                                     // ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_ContractShipment_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -1092,6 +1097,7 @@
                     type: 'integer',
                     required: true,
                     width: 400,
+                    keyPressFilter: "[0-9]",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -1112,7 +1118,7 @@
                     ,
                     valueField: "id",
                     pickListWidth: "300",
-                    pickListheight: "500",
+                    pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true}
                     ,
                     pickListFields: [{name: "port", width: 150, align: "center"}]
@@ -1132,6 +1138,7 @@
                     type: 'float',
                     required: true,
                     width: 400,
+                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -1148,7 +1155,11 @@
                     format: 'DD-MM-YYYY HH:mm:ss'
                 },
                 {
-                    name: "duration", title: "<spring:message code='global.duration'/>", type: 'integer', width: 400,
+                    name: "duration",
+                    title: "<spring:message code='global.duration'/>",
+                    type: 'integer',
+                    width: 400,
+                    keyPressFilter: "[0-9]",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -1250,11 +1261,11 @@
             var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
             DynamicForm_ContractShipment.setValue("sendDate", datestring)
 
-            <%--var contractDate = DynamicForm_ContractShipment.getValue("contract").contractDate.split("/");
+            var contractDate = DynamicForm_ContractShipment.getValue("contract").contractDate.split("/");
             if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
                 isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
                 return;
-            }--%>
+            }
 
             var data = DynamicForm_ContractShipment.getValues();
             // ######@@@@###&&@@###
@@ -1281,7 +1292,7 @@
     var Window_ContractShipment = isc.Window.create({
         title: "<spring:message code='Shipment.title'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1417,11 +1428,40 @@
                 width: "100%",
                 tabs:
                     [
-                        {ID:"companyName",title: "<spring:message code='main.contractsTab'/>", pane: VLayout_Contract_Body},
-                        {title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body},
                         {
-                            title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader
-                            , tabSelected: function (form, item, value) {
+                            ID: "companyName",
+                            title: "<spring:message code='main.contractsTab'/>",
+                            pane: VLayout_Contract_Body
+                        },
+                        {
+                            title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body,
+                            tabSelected: function (form, item, value) {
+                                var record = ListGrid_Contract.getSelectedRecord();
+                                if (record == null || record.id == null) {
+                                    isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
+                                    return;
+                                }
+                                var criteria = {
+                                    _constructor: "AdvancedCriteria",
+                                    operator: "and",
+                                    criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
+                                };
+                                ListGrid_ContractShipment.fetchData(criteria, function (dsResponse, data, dsRequest) {
+                                    ListGrid_ContractShipment.setData(data);
+                                });
+                            }
+                        },
+                        {
+                            title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader,
+                            tabSelected: function (form, item, value) {
                                 var record = ListGrid_Contract.getSelectedRecord();
                                 if (record == null || record.id == null) {
                                     isc.Dialog.create({
@@ -1444,4 +1484,3 @@
             })
         ]
     });
-

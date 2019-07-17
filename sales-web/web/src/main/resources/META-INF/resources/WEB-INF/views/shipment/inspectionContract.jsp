@@ -673,7 +673,7 @@
 	var Window_InspectionContractEmailCC = isc.Window.create({
 		title: "<spring:message code='person.title'/> ",
 		width: "800",
-		hight: "700",
+		height: "700",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
@@ -786,7 +786,7 @@
 				,
 				valueField: "id",
 				pickListWidth: "680",
-				pickListheight: "500",
+				pickListHeight: "500",
 				pickListProperties: {showFilterEditor: true}
 				,
 				pickListFields:
@@ -891,7 +891,7 @@
 				,
 				valueField: "id",
 				pickListWidth: "680",
-				pickListheight: "500",
+				pickListHeight: "500",
 				pickListProperties: {showFilterEditor: true}
 				,
 				pickListFields:
@@ -1156,7 +1156,7 @@
 	var Window_InspectionContract = isc.Window.create({
 		title: "<spring:message code='inspectionContract.title'/> ",
 		width: "800",
-		hight: "700",
+		height: "700",
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

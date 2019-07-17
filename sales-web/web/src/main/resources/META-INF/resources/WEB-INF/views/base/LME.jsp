@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+// <script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -126,49 +126,85 @@
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "cuUsdMt", title: "<spring:message code='LME.cuUsdMt'/>", width: 480, type: "text"},
-                {name: "goldUsdOunce", title: "<spring:message code='LME.goldUsdOunce'/>", width: 480, keyPressFilter: "[0-9.]", length: "15" ,
-validators: [{
-type: "isFloat",
-validateOnExit: true,
-stopOnError: true,
-errorMessage: "<spring:message code='global.form.correctType'/>"
-}]},
-                {name: "silverUsdOunce", title: "<spring:message code='LME.silverUsdOunce'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
-validators: [{
-type: "isFloat",
-validateOnExit: true,
-stopOnError: true,
-errorMessage: "<spring:message code='global.form.correctType'/>"
-}]},
-                {name: "seleniumUsdLb", title: "<spring:message code='LME.seleniumUsdLb'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
-validators: [{
-type: "isFloat",
-validateOnExit: true,
-stopOnError: true,
-errorMessage: "<spring:message code='global.form.correctType'/>"
-}]},
-                {name: "platinumUsdOunce", title: "<spring:message code='LME.platinumUsdOunce'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
-validators: [{
-type: "isFloat",
-validateOnExit: true,
-stopOnError: true,
-errorMessage: "<spring:message code='global.form.correctType'/>"
-}]},
-                {name: "palladiumUsdOunce", title: "<spring:message code='LME.palladiumUsdOunce'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
-validators: [{
-type: "isFloat",
-validateOnExit: true,
-stopOnError: true,
-errorMessage: "<spring:message code='global.form.correctType'/>"
-}]},
-                {name: "molybdenumUsdLb", title: "<spring:message code='LME.molybdenumUsdLb'/>", width: 480, keyPressFilter: "[0-9.]", length: "15",
-validators: [{
-type: "isFloat",
-validateOnExit: true,
-stopOnError: true,
-errorMessage: "<spring:message code='global.form.correctType'/>"
-}]},
+                {name: "cuUsdMt", title: "<spring:message code='LME.cuUsdMt'/>", width: 480, type: "text" ,  length : "255"},
+                {
+                    name: "goldUsdOunce",
+                    title: "<spring:message code='LME.goldUsdOunce'/>",
+                    width: 480,
+                    keyPressFilter: "[0-9.]",
+                    length: "15",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "silverUsdOunce",
+                    title: "<spring:message code='LME.silverUsdOunce'/>",
+                    width: 480,
+                    keyPressFilter: "[0-9.]",
+                    length: "15",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "seleniumUsdLb",
+                    title: "<spring:message code='LME.seleniumUsdLb'/>",
+                    width: 480,
+                    keyPressFilter: "[0-9.]",
+                    length: "15",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "platinumUsdOunce",
+                    title: "<spring:message code='LME.platinumUsdOunce'/>",
+                    width: 480,
+                    keyPressFilter: "[0-9.]",
+                    length: "15",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "palladiumUsdOunce",
+                    title: "<spring:message code='LME.palladiumUsdOunce'/>",
+                    width: 480,
+                    keyPressFilter: "[0-9.]",
+                    length: "15",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "molybdenumUsdLb",
+                    title: "<spring:message code='LME.molybdenumUsdLb'/>",
+                    width: 480,
+                    keyPressFilter: "[0-9.]",
+                    length: "15",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
                 {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: 480, type: "date"},
                 {type: "RowSpacerItem"}
             ]
@@ -286,7 +322,7 @@ errorMessage: "<spring:message code='global.form.correctType'/>"
     var Window_LME = isc.Window.create({
         title: "<spring:message code='LME.title'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

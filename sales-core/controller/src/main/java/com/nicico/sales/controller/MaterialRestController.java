@@ -75,12 +75,14 @@ public class MaterialRestController {
     @Loggable
     @GetMapping(value = "/spec-list")
 //    @PreAuthorize("hasAuthority('r_material')")
-    public ResponseEntity<MaterialDTO.MaterialSpecRs> list(@RequestParam("_startRow") Integer startRow,
-                                                           @RequestParam("_endRow") Integer endRow,
-                                                           @RequestParam(value = "_constructor", required = false) String constructor,
-                                                           @RequestParam(value = "operator", required = false) String operator,
-                                                           @RequestParam(value = "_sortBy", required = false) String sortBy,
-                                                           @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
+    public ResponseEntity<MaterialDTO.MaterialSpecRs> list(
+            @RequestParam("_startRow") Integer startRow,
+            @RequestParam("_endRow") Integer endRow,
+            @RequestParam(value = "_constructor", required = false) String constructor,
+            @RequestParam(value = "operator", required = false) String operator,
+            @RequestParam(value = "_sortBy", required = false) String sortBy,
+            @RequestParam(value = "criteria", required = false) String criteria
+    ) throws IOException {
         SearchDTO.SearchRq request = new SearchDTO.SearchRq();
         SearchDTO.CriteriaRq criteriaRq;
         if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {

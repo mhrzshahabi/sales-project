@@ -130,7 +130,7 @@
 				,
 				valueField: "id",
 				pickListWidth: 500,
-				pickListheight: 500,
+				pickListHeight: 500,
 				pickListProperties: {showFilterEditor: true}
 
 				,
@@ -144,10 +144,10 @@
 				name: "fullName",
 				title: "<spring:message code='person.fullName'/>",
 				type: 'text',  wrapTitle : false ,
-				required: true,
+				required: true, length : "200" ,
                 width: "100%",
 			},
-			{name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text',  width: "100%", wrapTitle : false},
+			{name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", length : "200" , type: 'text',  width: "100%", wrapTitle : false},
 			{
 				name: "title",
 				title: "<spring:message code='person.title'/>",
@@ -163,14 +163,19 @@
 			{name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: "100%", wrapTitle : false},
 			{name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: "100%", wrapTitle : false},
 			{name: "webAddress", title: "<spring:message code='person.webAddress'/>", type: 'text', width: "100%", wrapTitle : false},
-			{name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: "100%", wrapTitle : false},
-			{name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: "100%", wrapTitle : false},
-			{name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text',width: "100%", wrapTitle : false},
-			{name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: "100%", wrapTitle : false},
-			{name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: "100%",
+                wrapTitle : false, length : "20" , keyPressFilter: "[0-9.+]"},
+			{name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: "100%",
+                wrapTitle : false , length : "20", keyPressFilter: "[0-9.+]"},
+			{name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", length : "20" , type: 'text',
+                width: "100%", wrapTitle : false, keyPressFilter: "[0-9.+]"},
+			{name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text',
+                width: "100%", wrapTitle : false , length : "20", keyPressFilter: "[0-9.+]"},
+			{name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text',
+                width: "100%", wrapTitle : false , length : "20", keyPressFilter: "[0-9.+]"},
 			{name: "whatsApp", title: "<spring:message code='person.whatsApp'/>", type: 'text', width: "100%", wrapTitle : false},
 			{name: "weChat", title: "<spring:message code='person.weChat'/>", type: 'text', width: "100%", wrapTitle : false},
-			{name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: "100%", wrapTitle : false},
+			{name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: "100%", wrapTitle : false , length : "1000"},
 		]
 	});
 
@@ -219,7 +224,6 @@
 		membersMargin: 10,
 		width: 120,
 		title: "<spring:message code='global.cancel'/>",
-		icon: "pieces/16/icon_delete.png",
 		click: function () {
 				Window_Person.close();
 		}
@@ -236,9 +240,9 @@
 	});
 
 	var Window_Person = isc.Window.create({
-		title: "<spring:message code='person.title'/>. ",
+		title: "<spring:message code='person.title'/>",
 		width: 580,
-		hight: 500,
+		height: 500,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

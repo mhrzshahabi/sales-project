@@ -25,6 +25,7 @@ public class ContractItemAddendum extends Auditable {
 	@Column(name = "ADDENDUM_DESC", length = 1000)
 	private String addendumDesc;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
 	private Contract contract;
@@ -32,6 +33,7 @@ public class ContractItemAddendum extends Auditable {
 	@Column(name = "CONTRACT_ID")
 	private Long contractId;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTRACT_ITEM_ID", nullable = false, insertable = false, updatable = false)
 	private ContractItem contractItem;

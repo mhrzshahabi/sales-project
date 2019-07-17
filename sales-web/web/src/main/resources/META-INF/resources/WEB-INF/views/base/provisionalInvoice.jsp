@@ -268,7 +268,7 @@
 				title: "<spring:message code='global.message'/>",
 				buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
 				buttonClick: function () {
-					hide();
+					this.hide();
 				}
 			});
 		} else {
@@ -368,7 +368,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "500",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields:
@@ -410,7 +410,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "500",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields:
@@ -452,7 +452,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "500",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields:
@@ -506,7 +506,7 @@
 					,
 					valueField: "id",
 					pickListWidth: "500",
-					pickListheight: "500",
+					pickListHeight: "500",
 					pickListProperties: {showFilterEditor: true}
 					,
 					pickListFields:
@@ -785,7 +785,7 @@
 	var Window_ProvisionalInvoice = isc.Window.create({
 		title: "<spring:message code='provisionalInvoice.tilte'/> ",
 		width: 780,
-		hight: 900,
+		height: 900,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

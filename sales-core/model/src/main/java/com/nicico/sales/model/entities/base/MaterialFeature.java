@@ -35,7 +35,7 @@ public class MaterialFeature extends Auditable {
 
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FEATURE_ID", nullable = false, insertable = false, updatable = false)
     private Feature feature;
 
@@ -55,7 +55,7 @@ public class MaterialFeature extends Auditable {
     private Double tolorance;
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RATE_ID", nullable = false, insertable = false, updatable = false)
     private Rate rate;
 

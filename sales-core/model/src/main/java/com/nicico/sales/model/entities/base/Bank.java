@@ -38,7 +38,7 @@ public class Bank extends Auditable {
     private String coreBranch;
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID", nullable = false, insertable = false, updatable = false)
     private Country country;
 

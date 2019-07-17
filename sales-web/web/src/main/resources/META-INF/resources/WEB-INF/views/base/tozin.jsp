@@ -634,7 +634,7 @@
     var Window_Tozin = isc.Window.create({
         title: "<spring:message code='warehouses.title'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -843,8 +843,17 @@
                 showHover: true,
                 width: "1%"
             },
-            {name: "targetPlantId", showHover: true, width: "1%"},
-            {name: "sourcePlantId", showHover: true, width: "1%"},
+            {
+            name: "targetPlantId",
+             showHover: true,
+              width: "1%",
+              title: "<spring:message code='Tozin.targetPlantId'/>"
+              },
+            {name: "sourcePlantId",
+             showHover: true,
+              width: "1%",
+              title: "<spring:message code='Tozin.sourcePlantId'/>"
+              },
         ],
         dataPageSize: 50,
         autoFetchData: true,

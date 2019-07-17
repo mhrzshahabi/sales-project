@@ -25,7 +25,7 @@
         } else {
             DynamicForm_Instruction.editRecord(record);
             DynamicForm_Instruction.setValue("disableDateDummy", new Date(record.disableDate));
-            DynamicForm_Instruction.setValue("runDate", new Date(record.runDate));
+            DynamicForm_Instruction.setValue("runDateDummy", new Date(record.runDate));
             Window_Instruction.show();
         }
     }
@@ -128,7 +128,8 @@
                     name: "titleInstruction",
                     title: "<spring:message code='instruction.titleInstruction'/>",
                     width: 400,
-                    align: "center"
+                    align: "center",
+                    required: true , length : "4000"
                 },
                 {
                     name: "disableDateDummy",
@@ -232,6 +233,12 @@
             var dRun = DynamicForm_Instruction.getValue("runDateDummy");
             var datestringRun = (dRun.getFullYear() + "/" + ("0" + (dRun.getMonth() + 1)).slice(-2) + "/" + ("0" + dRun.getDate()).slice(-2))
             DynamicForm_Instruction.setValue("runDate", datestringRun);
+
+            if (d < dRun) {
+                isc.warn("<spring:message code='instruction.date.validation'/>", {title: 'هشدار'});
+                return;
+            }
+
             var data = DynamicForm_Instruction.getValues();
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
@@ -277,7 +284,7 @@
     var Window_Instruction = isc.Window.create({
         title: "<spring:message code='instruction.title'/> ",
         width: 580,
-        hight: 500,
+        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

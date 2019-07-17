@@ -22,6 +22,7 @@ public class ShipmentPrice extends Auditable {
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FLAG", nullable = false, insertable = false, updatable = false)
 	private Country countryByflag;
@@ -29,6 +30,7 @@ public class ShipmentPrice extends Auditable {
 	@Column(name = "FLAG")
 	private Long countryByflagId;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INQUIRY_ID", nullable = false, insertable = false, updatable = false)
 	private ShipmentInquiry shipmentInquiry;
@@ -36,6 +38,7 @@ public class ShipmentPrice extends Auditable {
 	@Column(name = "INQUIRY_ID")
 	private Long shipmentInquiryId;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
 	private Shipment shipment;
@@ -43,6 +46,7 @@ public class ShipmentPrice extends Auditable {
 	@Column(name = "SHIPMENT_ID")
 	private Long ShipmentId;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_HEADER_ID", nullable = false, insertable = false, updatable = false)
 	private ShipmentHeader shipmentHeader;
@@ -50,6 +54,7 @@ public class ShipmentPrice extends Auditable {
 	@Column(name = "SHIPMENT_HEADER_ID")
 	private Long shipmentHeaderId;
 
+	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPPING_COMPANY", nullable = false, insertable = false, updatable = false)
 	private Contact contactByCompany;

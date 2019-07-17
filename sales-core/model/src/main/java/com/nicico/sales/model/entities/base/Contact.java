@@ -147,7 +147,7 @@ public class Contact extends Auditable {
     private String ceoPassportNo;
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false)
     private Country country;
 
