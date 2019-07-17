@@ -16,19 +16,18 @@
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${restApiUrl}/api/currency/list",
             httpMethod: "GET",
-            data: "",
             callback: function (RpcResponse_o) {
                 if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                     var data = JSON.parse(RpcResponse_o.data);
                     for (x of data) {
                         dollar[x.nameEn] = x.nameEn;
                     }
-                } //if rpc
-            } // callback
+                }
+            }
         })
     );
 
-    var RestDataSource_Contact = isc.MyRestDataSource.create({
+    var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -40,16 +39,17 @@
                 {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
                 {name: "email", title: "<spring:message code='contact.email'/>"},
                 {
-                    name: "type", title: "<spring:message code='contact.type'/>", valueMap: {
+                    name: "type", title: "<spring:message code='contact.type'/>",
+                    valueMap: {
                         "true": "<spring:message code='contact.type.real'/>",
                         "false": "<spring:message code='contact.type.legal'/>"
                     }
                 },
                 {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
                 {
-                    name: "status", title: "<spring:message code='contact.status'/>", valueMap: {
-                        "true": "<spring:message
-		code='enabled'/>", "false": "<spring:message code='disabled'/>"
+                    name: "status", title: "<spring:message code='contact.status'/>",
+                    valueMap: {
+                        "true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"
                     }
                 },
                 {name: "contactAccounts"},
@@ -57,6 +57,7 @@
             ],
         fetchDataURL: "${restApiUrl}/api/contact/spec-list"
     });
+
     var RestDataSource_LoadingPort = isc.MyRestDataSource.create({
         fields:
             [
@@ -66,6 +67,7 @@
             ],
         fetchDataURL: "${restApiUrl}/api/port/spec-list1"
     });
+
     var RestDataSource_DischargePort = isc.MyRestDataSource.create({
         fields:
             [
@@ -75,6 +77,7 @@
             ],
         fetchDataURL: "${restApiUrl}/api/port/spec-list2"
     });
+
     var RestDataSource_SwitchPort = isc.MyRestDataSource.create({
         fields:
             [
@@ -84,6 +87,7 @@
             ],
         fetchDataURL: "${restApiUrl}/api/port/spec-list"
     });
+
     var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
         fields:
             [
@@ -104,7 +108,7 @@
         fetchDataURL: "${restApiUrl}/api/shipment/pick-list"
     });
 
-    var RestDataSource_Shipment = isc.MyRestDataSource.create({
+    var RestDataSource_Shipment__SHIPMENT = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
@@ -130,12 +134,18 @@
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
             {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
             {
-                name: "laycan", title: "<spring:message
-		code='shipmentContract.laycanStart'/>", type: 'integer', width: "10%", align: "center",
+                name: "laycan",
+                title: "<spring:message code='shipmentContract.laycanStart'/>",
+                type: 'integer',
+                width: "10%",
+                align: "center",
             },
             {
-                name: "shipmentType", title: "<spring:message
-		code='shipment.shipmentType'/>", type: 'text', width: 400, valueMap: {"b": "bulk", "c": "container"}
+                name: "shipmentType",
+                title: "<spring:message code='shipment.shipmentType'/>",
+                type: 'text',
+                width: 400,
+                valueMap: {"b": "bulk", "c": "container"}
             },
             {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
             {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", type: 'text', width: "10%"},
@@ -163,10 +173,13 @@
             {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "10%"},
             {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
             {
-                name: "status", title: "<spring:message
-		code='shipment.staus'/>", type: 'text', width: "10%", valueMap: {
-                    "Load Ready": "<spring:message
-		code='shipment.loadReady'/>", "Resource": "<spring:message code='shipment.resource'/>"
+                name: "status",
+                title: "<spring:message code='shipment.staus'/>",
+                type: 'text',
+                width: "10%",
+                valueMap: {
+                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                    "Resource": "<spring:message code='shipment.resource'/>"
                 }
             },
             {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
@@ -199,10 +212,10 @@
         ],
         fetchDataURL: "${restApiUrl}/api/person/spec-list"
     });
+
     var Menu_ListGrid_Shipment = isc.Menu.create({
         width: 150,
         data: [
-
             {
                 title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
@@ -232,13 +245,14 @@
             }
         ]
     });
+
     var dash = "----------------------------------------------------------------";
     var DynamicForm_Shipment = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         setMethod: 'POST',
         align: "center",
-        dataSource: RestDataSource_Shipment,
+        dataSource: RestDataSource_Shipment__SHIPMENT,
         canSubmit: true,
         showInlineErrors: true,
         showErrorText: true,
@@ -260,27 +274,27 @@
                 title: "<spring:message	code='contact.name'/>",
                 type: 'long',
                 width: "100%",
-                editorType: "SelectItem"
-                ,
+                editorType: "SelectItem",
                 optionDataSource: RestDataSource_pickShipmentItem,
-                displayField: "contractNo"
-                ,
+                displayField: "contractNo",
                 valueField: "cisId",
                 pickListWidth: "500",
                 pickListHeight: "500",
-                pickListProperties: {showFilterEditor: true}
-                ,
-                pickListFields: [{name: "contractNo", width: 50, align: "center"}, {
-                    name: "fullname",
-                    width: 200,
-                    align: "center"
-                },
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "contractNo", width: 50, align: "center"},
+                    {
+                        name: "fullname",
+                        width: 200,
+                        align: "center"
+                    },
                     {name: "amount", width: 150, align: "center"}, {
                         name: "sendDate",
                         width: 150,
                         align: "center"
-                    }, {name: "plan", width: 150, align: "center"}]
-                ,
+                    },
+                    {name: "plan", width: 150, align: "center"}
+                ],
                 changed: function () {
                     var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
                     Shipment_contact_name.setContents(record.fullname);
@@ -288,7 +302,7 @@
                     DynamicForm_Shipment.setValue("createDateDumy", d);
                     DynamicForm_Shipment.setValue("amount", record.amount);
                     DynamicForm_Shipment1.setValue("dischargeAddress", record.address);
-// DynamicForm_Shipment.setValue("createDate",record.plan);
+                    // DynamicForm_Shipment.setValue("createDate",record.plan);
                     DynamicForm_Shipment.setValue("contactId", record.contactID);
                     DynamicForm_Shipment.setValue("materialId", record.materialID);
                     DynamicForm_Shipment.setValue("contractNo", record.contractNo);
@@ -298,7 +312,7 @@
                     DynamicForm_Shipment.setValue("contractShipmentId", record.cisId);
                     DynamicForm_Shipment1.setValue("portByDischargeId", record.dischargeID);
                     DynamicForm_Shipment1.setValue("dischargeAddress", record.dischargeAddress);
-// cisId,contractNo,fullname,amount,address,plan,sendDate,duration,contactID,materialID,contractID,dischargeID,dischargeAddress
+                    // cisId,contractNo,fullname,amount,address,plan,sendDate,duration,contactID,materialID,contractID,dischargeID,dischargeAddress
                 }
             },
             {type: "Header", defaultValue: dash},
@@ -334,10 +348,10 @@
             {
                 name: "loadingLetter",
                 colSpan: 2,
-                title: "<spring:message		code='shipment.loadingLetter'/>",
+                title: "<spring:message code='shipment.loadingLetter'/>",
                 type: 'text',
                 required: true,
-                length : "100" ,
+                length: "100",
                 width: "100%"
             },
             {
@@ -356,14 +370,14 @@
             },
             {type: "Header", defaultValue: dash},
             {
-                name: "shipmentType", colSpan: 2, title: "<spring:message		code='shipment.shipmentType'/>",
+                name: "shipmentType", colSpan: 2, title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text', width: "100%", valueMap: {"b": "bulk", "c": "container"}
             },
             {type: "Header", defaultValue: dash},
             {
                 name: "noContainer",
                 colSpan: 2,
-                title: "<spring:message		code='shipment.noContainer'/>",
+                title: "<spring:message	code='shipment.noContainer'/>",
                 type: 'integer',
                 required: false,
                 width: "100%",
@@ -418,11 +432,11 @@
             {
                 name: "status",
                 colSpan: 3,
-                title: "<spring:message		code='shipment.staus'/>",
+                title: "<spring:message	code='shipment.staus'/>",
                 type: 'text',
                 width: "100%",
                 valueMap: {
-                    "Load Ready": "<spring:message		code='shipment.loadReady'/>",
+                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
                     "Resource": "<spring:message code='shipment.resource'/>"
                 }
             }
@@ -430,12 +444,13 @@
 // portByDischargeId,consignee,contactByAgentId,vesselName,freight,demurrage,dispatch,status
         ]
     });
+
     var DynamicForm_Shipment1 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         setMethod: 'POST',
         align: "center",
-        dataSource: RestDataSource_Shipment,
+        dataSource: RestDataSource_Shipment__SHIPMENT,
         canSubmit: true,
         showInlineErrors: true,
         showErrorText: true,
@@ -508,7 +523,7 @@
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true}
                 ,
-                    pickListFields: [{name: "port", align: "center"}, {name: "country.nameFa", align: "center"}]
+                pickListFields: [{name: "port", align: "center"}, {name: "country.nameFa", align: "center"}]
             },
             {
                 name: "switchBl", colSpan: 3,
@@ -530,24 +545,21 @@
                 valueField: "id",
                 pickListWidth: "400",
                 pickListHeight: "500",
-                pickListProperties: {showFilterEditor: true}
-                ,
+                pickListProperties: {showFilterEditor: true},
                 pickListFields: [{name: "port", align: "center"}, {name: "country.nameFa", align: "center"}]
             },
             {
                 name: "portByDischargeId", colSpan: 3,
-                title: "<spring:message		code='shipment.discharge'/>",
+                title: "<spring:message	code='shipment.discharge'/>",
                 type: 'long',
                 width: "100%",
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_DischargePort
-                ,
+                optionDataSource: RestDataSource_DischargePort,
                 displayField: "port",
                 valueField: "id",
                 pickListWidth: "400",
                 pickListHeight: "500",
-                pickListProperties: {showFilterEditor: true}
-                ,
+                pickListProperties: {showFilterEditor: true},
                 pickListFields: [{name: "port", align: "center"}, {name: "country.nameFa", align: "center"}]
             },
             {type: "Header", defaultValue: dash},
@@ -560,7 +572,7 @@
             },
         ]
     });
-    var RestDataSource_Contact_optionCriteria = {
+    var RestDataSource_Contact_optionCriteria__SHIPMENT = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [{fieldName: "transporter", operator: "equals", value: true}]
@@ -570,7 +582,7 @@
         height: "100%",
         setMethod: 'POST',
         align: "center",
-        dataSource: RestDataSource_Shipment,
+        dataSource: RestDataSource_Shipment__SHIPMENT,
         canSubmit: true,
         showInlineErrors: true,
         showErrorText: true,
@@ -582,7 +594,7 @@
         numCols: 4, backgroundImage: "backgrounds/leaves.jpg",
 
         fields: [
-            {name: "id", hidden: true,},
+            {name: "id", hidden: true},
             {type: "Header", defaultValue: ""},
             {
                 colSpan: 4,
@@ -591,20 +603,20 @@
                 type: 'long',
                 width: "100%",
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Contact,
-                optionCriteria: RestDataSource_Contact_optionCriteria,
+                optionDataSource: RestDataSource_Contact__SHIPMENT,
+                optionCriteria: RestDataSource_Contact_optionCriteria__SHIPMENT,
                 displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: "500",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                {name: "nameFA", align: "center"},
-                {
-                    name: "nameEN",
-                    align: "center"
-                },
-                 {name: "country.nameFa", align: "center"}]
+                    {name: "nameFA", align: "center"},
+                    {
+                        name: "nameEN",
+                        align: "center"
+                    },
+                    {name: "country.nameFa", align: "center"}]
             },
             {type: "Header", defaultValue: dash},
             {
@@ -731,6 +743,7 @@
             },
         ]
     });
+
     var shipmentTabs = isc.TabSet.create({
         height: "500",
         width: "100%",
@@ -750,6 +763,7 @@
             }
         ]
     });
+
     var IButton_Shipment_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -802,30 +816,23 @@
 
 
             var dataShipment = Object.assign(DynamicForm_Shipment.getValues());
-// ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
-            isc.RPCManager.sendRequest({
-// ######@@@@###&&@@### pls correct callback
-                actionURL: "${restApiUrl}/api/shipment/",
-                httpMethod: methodXXXX,
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                showPrompt: false,
-                data: JSON.stringify(dataShipment),
-                serverOutputAsString: false,
-//params: { data:data1},
-                callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>");
-                        ListGrid_Shipment_refresh();
-                        Window_Shipment.close();
-                    } else {
-                        isc.say(RpcResponse_o.data);
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${restApiUrl}/api/shipment/",
+                    httpMethod: methodXXXX,
+                    data: JSON.stringify(dataShipment),
+                    callback: function (RpcResponse_o) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>");
+                            ListGrid_Shipment_refresh();
+                            Window_Shipment.close();
+                        } else {
+                            isc.say(RpcResponse_o.data);
+                        }
                     }
-                }
-            });
+                })
+            );
         }
     });
 
@@ -870,22 +877,20 @@
                 width: "100%",
                 height: "20",
                 layoutMargin: 5,
-                membersMargin: 5, align: "center", height: "20",
+                membersMargin: 5, align: "center",
                 members: [
                     IButton_Shipment_Save,
                     ShipmentCancelBtn
                 ]
-            }),
-
+            })
         ]
     });
 
     function ListGrid_Shipment_refresh() {
         ListGrid_Shipment.invalidateCache();
-    };
+    }
 
     function ListGrid_Shipment_remove() {
-
         var record = ListGrid_Shipment.getSelectedRecord();
 
         if (record == null || record.id == null) {
@@ -903,43 +908,34 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({
-                    title: "<spring:message
-		code='global.yes'/>"
-                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
-
                         var shipmentId = record.id;
-                        isc.RPCManager.sendRequest({
-// ######@@@@###&&@@### pls correct callback
-                            actionURL: "${restApiUrl}/api/shipment/" + shipmentId,
-                            httpMethod: "DELETE",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-// httpMethod: "POST",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            showPrompt: true,
-// data: shipmentId,
-                            serverOutputAsString: false,
-                            callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                    ListGrid_Shipment.invalidateCache();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                actionURL: "${restApiUrl}/api/shipment/" + shipmentId,
+                                httpMethod: "DELETE",
+                                callback: function (RpcResponse_o) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                        ListGrid_Shipment.invalidateCache();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
                                 }
-                            }
-                        });
+                            })
+                        );
                     }
                 }
             });
         }
-    };
+    }
 
     function ListGrid_Shipment_edit() {
-
         var record = ListGrid_Shipment.getSelectedRecord();
 
         if (record == null || record.id == null) {
@@ -965,7 +961,8 @@
             // abal.fetchData();
             Window_Shipment.animateShow();
         }
-    };
+    }
+
     var ToolStripButton_Shipment_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -1017,24 +1014,34 @@
     var ListGrid_Shipment = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_Shipment,
+        dataSource: RestDataSource_Shipment__SHIPMENT,
         contextMenu: Menu_ListGrid_Shipment,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
             {name: "contactId", type: 'long', hidden: true},
             {
-                name: "contract.contact.nameFA", title: "<spring:message
-		code='contact.name'/>", type: 'text', width: "20%", align: "center", showHover: true
+                name: "contract.contact.nameFA",
+                title: "<spring:message code='contact.name'/>",
+                type: 'text',
+                width: "20%",
+                align: "center",
+                showHover: true
             },
             {name: "contractId", type: 'long', hidden: true},
             {
-                name: "contract.contractNo", title: "<spring:message
-		code='contract.contractNo'/>", type: 'text', width: "10%", showHover: true
+                name: "contract.contractNo",
+                title: "<spring:message code='contract.contractNo'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
             },
             {
-                name: "contract.contractDate", title: "<spring:message
-		code='contract.contractDate'/>", type: 'text', width: "10%", showHover: true
+                name: "contract.contractDate",
+                title: "<spring:message code='contract.contractDate'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
             },
             {
                 name: "materialId",
@@ -1044,63 +1051,121 @@
                 showHover: true
             },
             {
-                name: "material.descl", title: "<spring:message
-		code='material.descl'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "material.descl",
+                title: "<spring:message code='material.descl'/>",
+                type: 'text',
+                width: "10%",
+                align: "center",
+                showHover: true
             },
             {
-                name: "material.unit.nameEN", title: "<spring:message
-		code='unit.nameEN'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "material.unit.nameEN",
+                title: "<spring:message code='unit.nameEN'/>",
+                type: 'text',
+                width: "10%",
+                align: "center",
+                showHover: true
             },
             {
-                name: "amount", title: "<spring:message
-		code='global.amount'/>", type: 'float', width: "10%", align: "center", showHover: true
+                name: "amount",
+                title: "<spring:message code='global.amount'/>",
+                type: 'float',
+                width: "10%",
+                align: "center",
+                showHover: true
             },
             {
-                name: "shipmentType", title: "<spring:message
-		code='shipment.shipmentType'/>", type: 'text', width: "10%", showHover: true
+                name: "shipmentType",
+                title: "<spring:message code='shipment.shipmentType'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
             },
             {
-                name: "loadingLetter", title: "<spring:message
-		code='shipment.loadingLetter'/>", type: 'text', width: "10%", showHover: true
+                name: "loadingLetter",
+                title: "<spring:message code='shipment.loadingLetter'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
             },
             {
-                name: "noContainer", title: "<spring:message
-		code='shipment.noContainer'/>", type: 'integer', width: "10%", align: "center", showHover: true
+                name: "noContainer",
+                title: "<spring:message code='shipment.noContainer'/>",
+                type: 'integer',
+                width: "10%",
+                align: "center",
+                showHover: true
             },
             <%--{name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},--%>
             {
-                name: "portByLoading.port", title: "<spring:message
-		code='shipment.loading'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "portByLoading.port",
+                title: "<spring:message	code='shipment.loading'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
             },
             {
-                name: "portByDischarge.port", title: "<spring:message
-		code='shipment.discharge'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "portByDischarge.port",
+                title: "<spring:message code='shipment.discharge'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
             },
 // {name: "dischargeAddress", title:"<spring:message
 		code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
             {
-                name: "description", title: "<spring:message
-		code='shipment.description'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
+                name: "description",
+                title: "<spring:message code='shipment.description'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
             },
             {
-                name: "contractShipment.sendDate", title: "<spring:message
-		code='global.sendDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
+                name: "contractShipment.sendDate",
+                title: "<spring:message code='global.sendDate'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
             },
             {
-                name: "createDate", title: "<spring:message
-		code='global.createDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
+                name: "createDate",
+                title: "<spring:message code='global.createDate'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
             },
             {
-                name: "month", title: "<spring:message
-		code='shipment.month'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
+                name: "month",
+                title: "<spring:message code='shipment.month'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
             },
             {
-                name: "contactByAgent.nameFA", title: "<spring:message
-		code='shipment.agent'/>", type: 'text', width: "20%", align: "center", showHover: true
+                name: "contactByAgent.nameFA",
+                title: "<spring:message code='shipment.agent'/>",
+                type: 'text',
+                width: "20%",
+                align: "center",
+                showHover: true
             },
             {
-                name: "vesselName", title: "<spring:message
-		code='shipment.vesselName'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "vesselName",
+                title: "<spring:message	code='shipment.vesselName'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
             },
             {
                 name: "swb",
@@ -1111,15 +1176,24 @@
                 showHover: true
             },
             {
-                name: "switchPort.port", title: "<spring:message
-		code='port.switchPort'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "switchPort.port",
+                title: "<spring:message code='port.switchPort'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
             },
             {
-                name: "status", title: "<spring:message
-		code='shipment.staus'/>", type: 'text', width: "10%", align: "center", valueMap: {
-                    "Load Ready": "<spring:message
-		code='shipment.loadReady'/>", "Resource": "<spring:message code='shipment.resource'/>"
-                }, showHover: true
+                name: "status",
+                title: "<spring:message	code='shipment.staus'/>",
+                type: 'text',
+                width: "10%",
+                align: "center",
+                valueMap: {
+                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                    "Resource": "<spring:message code='shipment.resource'/>"
+                },
+                showHover: true
             },
 
         ],
@@ -1156,27 +1230,16 @@
         ]
     });
 
-    RestDataSource_ContractPerson = isc.RestDataSource.create({
+    RestDataSource_ContractPerson = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "emailCC", title: "CC", primaryKey: true, canEdit: false, hidden: true}
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
-// ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${restApiUrl}/api/contractPerson/spec-list"
     });
 
     //************************************Email*********************************************
-    var RestDataSource_ShipmentEmail = isc.RestDataSource.create({
+    var RestDataSource_ShipmentEmail = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -1221,17 +1284,6 @@
                     width: "10%"
                 },
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
-// ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${restApiUrl}/api/shipmentEmail/spec-list"
     });
 
@@ -1240,36 +1292,27 @@
         title: "<spring:message code='shipment.email.createAndSend'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
             DynamicForm_ShipmentEmail.validate();
             if (DynamicForm_ShipmentEmail.hasErrors())
                 return;
 
             var data = DynamicForm_ShipmentEmail.getValues();
-// ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
-            isc.RPCManager.sendRequest({
-// ######@@@@###&&@@### pls correct callback
-                actionURL: "${restApiUrl}/api/shipmentEmail/",
-                httpMethod: methodXXXX,
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-// httpMethod: "POST",
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                showPrompt: false,
-                data: JSON.stringify(data),
-                serverOutputAsString: false,
-//params: { data:data1},
-                callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                        ListGrid_ShipmentEmail_refresh();
-                        Window_ShipmentEmail.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            });
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${restApiUrl}/api/shipmentEmail/",
+                    httpMethod: methodXXXX,
+                    data: JSON.stringify(data),
+                    callback: function (RpcResponse_o) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_ShipmentEmail_refresh();
+                            Window_ShipmentEmail.close();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                })
+            );
         }
     });
 
@@ -1284,8 +1327,7 @@
     }
 
     function ListGrid_ShipmentEmail_edit() {
-
-        var record = ListGrid_ShipmentEmail.getSelectedRecord()
+        var record = ListGrid_ShipmentEmail.getSelectedRecord();
         if (record == null || record.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -1342,9 +1384,11 @@
                 width: 150
             },
             {
-                name: "title", title: "<spring:message code='person.title'/>", type: 'text', width: 150, valueMap: {
-                    "MR": "<spring:message
-		code='global.MR'/>", "MIS": "<spring:message code='global.MIS'/>", "MRS": "<spring:message code='global.MRS'/>",
+                name: "title", title: "<spring:message code='person.title'/>", type: 'text', width: 150,
+                valueMap: {
+                    "MR": "<spring:message code='global.MR'/>",
+                    "MIS": "<spring:message code='global.MIS'/>",
+                    "MRS": "<spring:message code='global.MRS'/>"
                 }
             },
             {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 150},
@@ -1380,8 +1424,7 @@
                     height: "100%",
                     members:
                         [
-                            ListGrid_Person_EmailCC
-                            ,
+                            ListGrid_Person_EmailCC,
                             isc.Button.create({
                                 title: "<spring:message code='global.ok'/>",
                                 click: function () {
@@ -1448,8 +1491,8 @@
                 },
                 {name: "emailTo", title: "<spring:message code='global.emailTo'/>", type: 'text', width: 700},
                 {
-                    name: "emailCC", title: "<spring:message code='global.emailCC'/>", width: 700, type: "text"
-                    , icons: [{
+                    name: "emailCC", title: "<spring:message code='global.emailCC'/>", width: 700, type: "text",
+                    icons: [{
                         src: "icon/search.png",
                         click: function (form, item) {
                             Window_ShipmentEmailCC.show();
@@ -1458,12 +1501,22 @@
                     }]
                 },
                 {
-                    name: "emailBody", title: "<spring:message
-		code='global.emailBody'/>", align: "center", textAlign: "left", width: "700", type: "textArea", height: 200
+                    name: "emailBody",
+                    title: "<spring:message code='global.emailBody'/>",
+                    align: "center",
+                    textAlign: "left",
+                    width: "700",
+                    type: "textArea",
+                    height: 200
                 },
                 {
-                    name: "emailRespond", title: "<spring:message
-		code='global.emailRespond'/>", align: "center", textAlign: "left", width: "700", type: "textArea", height: 200
+                    name: "emailRespond",
+                    title: "<spring:message code='global.emailRespond'/>",
+                    align: "center",
+                    textAlign: "left",
+                    width: "700",
+                    type: "textArea",
+                    height: 200
                 }
             ]
     });
@@ -1505,7 +1558,7 @@
                 RestDataSource_ContractPerson.fetchData({contractId: contractId}, function (dsResponse, data, dsRequest) {
                     DynamicForm_ShipmentEmail.setValue("emailCC", data[0].emailCC);
                 });
-                RestDataSource_Contact.fetchData({"id": record.tblContactId}, function (dsResponse, data, dsRequest) {
+                RestDataSource_Contact__SHIPMENT.fetchData({"id": record.tblContactId}, function (dsResponse, data, dsRequest) {
                     DynamicForm_ShipmentEmail.setValue("emailTo", data[0].email);
                 });
 
@@ -1615,10 +1668,6 @@
         startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-// ListGrid_ShipmentEmail.fetchData({"shipment.id":record.id},function (dsResponse, data, dsRequest) {
-// ListGrid_ShipmentEmai.setData(data);
-// },{operationId:"00"});
         },
         dataArrived: function (startRow, endRow) {
         }
@@ -1646,8 +1695,8 @@
         ID: "Shipment_Section_Stack",
         sections:
             [
-                {title: "<spring:message code='Shipment.title'/>", items: VLayout_Body_Shipment, expanded: true}
-                , {title: "<spring:message code='global.email'/>", items: VLayout_ShipmentEmail_Body, expanded: true}
+                {title: "<spring:message code='Shipment.title'/>", items: VLayout_Body_Shipment, expanded: true},
+                {title: "<spring:message code='global.email'/>", items: VLayout_ShipmentEmail_Body, expanded: true}
             ],
         visibilityMode: "multiple",
         animateSections: true,
