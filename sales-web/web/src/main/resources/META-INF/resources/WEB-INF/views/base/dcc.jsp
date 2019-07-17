@@ -147,9 +147,10 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-                    title: "<spring:message code='global.no'/>"
-                })],
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
@@ -288,6 +289,9 @@
             } else if (dccTableName != null && dccTableName === 'TBL_INSTRUCTION') {
                 folder = "instruction";
                 dccDynamicForm.setValue("folder", "instruction");
+            } else if (dccTableName != null && dccTableName === 'TBL_SHIPMENT') {
+                folder = "shipment";
+                dccDynamicForm.setValue("folder", "shipment");
             }
 
             var formData = new FormData();
@@ -404,6 +408,8 @@
                     window.open("/dcc/downloadFile?data=" + "\\" + "contact\\" + record.fileNewName);
                 else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
                     window.open("/dcc/downloadFile?data=" + "\\" + "instruction\\" + record.fileNewName);
+                else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
+                    window.open("/dcc/downloadFile?data=" + "\\" + "shipment\\" + record.fileNewName);
             }
         }
     });
@@ -416,7 +422,7 @@
         ]
     });
 
-    var dccBodyVLayout = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

@@ -1691,7 +1691,7 @@
     });
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    isc.SectionStack.create({
+    var SectionStack_shipment = isc.SectionStack.create({
         ID: "Shipment_Section_Stack",
         sections:
             [
@@ -1703,4 +1703,48 @@
         height: "100%",
         width: "100%",
         overflow: "hidden"
+    });
+
+    isc.ViewLoader.create({
+        ID: "ShipmentAttachmentViewLoader",
+        autoDraw: false,
+        loadingMessage: ""
+    });
+
+    isc.HLayout.create({
+        width: "100%",
+        height: "100%",
+        border: "1px solid black",
+        layoutTopMargin: 5,
+        members: [
+            isc.TabSet.create({
+                tabBarPosition: "top",
+                width: "100%",
+                tabs:
+                    [
+                        {title: "<spring:message code='cargoAssignment.title'/>", pane: SectionStack_shipment},
+                        {
+                            title: "<spring:message code='global.Attachment'/>", pane: ShipmentAttachmentViewLoader,
+                            tabSelected: function (form, item, value) {
+                                var record = ListGrid_Shipment.getSelectedRecord();
+                                if (record == null || record.id == null) {
+                                    isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
+                                    return;
+                                }
+                                var dccTableId = record.id;
+                                var dccTableName = "TBL_SHIPMENT";
+                                ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                            }
+                        }
+                    ]
+            })
+        ]
     });

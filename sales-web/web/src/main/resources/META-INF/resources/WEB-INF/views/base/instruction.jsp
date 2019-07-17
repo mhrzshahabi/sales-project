@@ -31,7 +31,6 @@
     }
 
     function ListGrid_Instruction_remove() {
-
         var record = ListGrid_Instruction.getSelectedRecord();
 
         if (record == null || record.id == null) {
@@ -73,7 +72,8 @@
                 }
             });
         }
-    };
+    }
+
     var Menu_ListGrid_Instruction = isc.Menu.create({
         width: 150,
         data: [
@@ -129,7 +129,7 @@
                     title: "<spring:message code='instruction.titleInstruction'/>",
                     width: 400,
                     align: "center",
-                    required: true , length : "4000"
+                    required: true, length: "4000"
                 },
                 {
                     name: "disableDateDummy",
@@ -149,11 +149,6 @@
             ]
     });
 
-    isc.ViewLoader.create({
-        ID: "InstructionAttachmentViewLoader",
-        autoDraw: false,
-        loadingMessage: ""
-    });
     var ToolStripButton_Instruction_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -332,8 +327,6 @@
         startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-
         },
         dataArrived: function (startRow, endRow) {
         }
@@ -354,6 +347,13 @@
             HLayout_Instruction_Actions, HLayout_Instruction_Grid
         ]
     });
+
+    isc.ViewLoader.create({
+        ID: "InstructionAttachmentViewLoader",
+        autoDraw: false,
+        loadingMessage: ""
+    });
+
     isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -365,31 +365,29 @@
                 width: "100%",
                 tabs:
                     [
-                        {title: "<spring:message code='instruction.title'/>", pane: VLayout_Instruction_Body}
-                        , {
-                        title: "<spring:message code='global.Attachment'/>", pane: InstructionAttachmentViewLoader
-                        , tabSelected: function (form, item, value) {
-                            var record = ListGrid_Instruction.getSelectedRecord();
-                            if (record == null || record.id == null) {
-                                isc.Dialog.create({
-                                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                                    icon: "[SKIN]ask.png",
-                                    title: "<spring:message code='global.message'/>",
-                                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                    buttonClick: function () {
-                                        this.hide();
-                                    }
-                                });
-                                return;
+                        {title: "<spring:message code='instruction.title'/>", pane: VLayout_Instruction_Body},
+                        {
+                            title: "<spring:message code='global.Attachment'/>", pane: InstructionAttachmentViewLoader
+                            , tabSelected: function (form, item, value) {
+                                var record = ListGrid_Instruction.getSelectedRecord();
+                                if (record == null || record.id == null) {
+                                    isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
+                                    return;
+                                }
+                                var dccTableId = record.id;
+                                var dccTableName = "TBL_INSTRUCTION";
+                                InstructionAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                             }
-                            var dccTableId = record.id;
-                            var dccTableName = "TBL_INSTRUCTION";
-                            InstructionAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                         }
-                    }
-
                     ]
             })
         ]
     });
-

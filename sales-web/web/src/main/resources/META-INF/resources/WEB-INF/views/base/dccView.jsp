@@ -3,145 +3,144 @@
 
 <%--<script>--%>
 
-	<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
-	var RestDataSource_DccView = isc.MyRestDataSource.create({
-		fields: [
-			{name: "id", hidden: true, primaryKey: true, canEdit: false},
-			{
-				name: "createDate",
-				title: "<spring:message code='global.createDate'/> ",
-				type: 'text',
-				required: true,
-				width: 400
-			},
-			{
-				name: "documentType",
-				title: "<spring:message code='dcc.documentType'/>",
-				type: 'text',
-				required: true,
-				width: 400,
-				align: "center",
-				valueMap: {
-					"letter": "<spring:message code='dcc.letter'/>"
-				}
-			},
-			{
-				name: "description",
-				title: "<spring:message code='global.description'/>",
-				type: 'text',
-				required: true,
-				width: 200,
-				align: "center"
-			},
-			{
-				name: "contractNo",
-				title: "<spring:message code='dcc.contractNo'/>",
-				type: 'text',
-				required: true,
-				width: 200,
-				align: "center"
-			},
-			{
-				name: "contactNameFa",
-				title: "<spring:message code='dcc.contactNameFa'/>",
-				type: 'text',
-				required: true,
-				width: 200,
-				align: "center"
-			},
-			{
-				name: "fileName",
-				title: "<spring:message code='global.fileName'/>",
-				type: 'text',
-				required: true,
-				width: 200,
-				align: "center"
-			},
-			{
-				name: "fileNewName",
-				title: "<spring:message code='global.fileNewName'/>",
-				type: 'text',
-				width: 200,
-				align: "center"
-			}
-		],
-		fetchDataURL: "${restApiUrl}/api/dcc/spec-list"
-	});
+    var RestDataSource_DccView = isc.MyRestDataSource.create({
+        fields: [
+            {name: "id", hidden: true, primaryKey: true, canEdit: false},
+            {
+                name: "documentType",
+                title: "<spring:message code='dcc.documentType'/>"
+            },
+            {
+                name: "description",
+                title: "<spring:message code='global.description'/>"
+            },
+            {
+                name: "tblId1",
+                title: "شناسه مربوطه"
+            },
+            {
+                name: "tblName1",
+                title: "جدول مربوطه"
+            },
+            {
+                name: "fileName",
+                title: "<spring:message code='global.fileName'/>"
+            }
+        ],
+        fetchDataURL: "${restApiUrl}/api/dcc/spec-list"
+    });
 
-	var listGrid_DccView = isc.MyListGrid.create({
-		width: "100%",
-		height: "100%",
-		dataSource: RestDataSource_DccView,
-		sortField: 0,
-		dataPageSize: 50,
-		autoFetchData: false,
-		showFilterEditor: false,
-		filterOnKeypress: true,
-		startsWithTitle: "tt",
-		fields:
-			[
-				{
-					name: "fileName",
-					title: "<spring:message code='global.fileName'/>",
-					type: 'text',
-					required: true,
-					width: 400,
-					align: "center"
-				},
-				{
-					name: "contractNo",
-					title: "<spring:message code='dcc.contractNo'/>",
-					type: 'text',
-					width: 365,
-					align: "center"
-				},
-				{
-					name: "contactNameFa",
-					title: "<spring:message code='dcc.contactNameFa'/>",
-					type: 'text',
-					width: 400,
-					align: "center"
-				},
-				{
-					name: "description",
-					title: "<spring:message code='global.description'/>",
-					type: 'text',
-					width: 400,
-					align: "center"
-				},
-				{name: "id", hidden: true,},
-				{name: "contactId", type: "long", hidden: true}
-			],
-		cellClick: function (record, rowNum, colNum) {
-			if (colNum == 0)
-				if (record.contractNo != null)
-					window.open("dccView/downloadFile?data=" + "\\" + "contract\\" + record.fileNewName);
-				else if (record.contactNameFa != null)
-					window.open("dccView/downloadFile?data=" + "\\" + "contact\\" + record.fileNewName);
-		}
-	});
+    var listGrid_DccView = isc.MyListGrid.create({
+        width: "100%",
+        height: "100%",
+        dataSource: RestDataSource_DccView,
+        sortField: 0,
+        dataPageSize: 50,
+        autoFetchData: true,
+        showFilterEditor: false,
+        filterOnKeypress: true,
+        startsWithTitle: "tt",
+        fields:
+            [
+                {name: "id", hidden: true},
+                {
+                    name: "documentType",
+                    title: "<spring:message code='dcc.documentType'/>",
+                    type: 'text',
+                    required: true,
+                    width: "20%",
+                    align: "center",
+                },
+                {
+                    name: "description",
+                    title: "<spring:message code='global.description'/>",
+                    type: 'text',
+                    required: true,
+                    width: "20%",
+                    align: "center"
+                },
+                {
+                    name: "tblId1",
+                    title: "شناسه مربوطه",
+                    type: 'long',
+                    required: true,
+                    width: 200,
+                    align: "center"
+                },
+                {
+                    name: "tblName1",
+                    title: "جدول مربوطه",
+                    type: 'text',
+                    required: true,
+                    width: "20%",
+                    align: "center"
+                },
+                {
+                    name: "fileName",
+                    title: "<spring:message code='global.fileName'/>",
+                    type: 'text',
+                    required: true,
+                    width: "20%",
+                    align: "center"
+                }
+            ],
+        cellClick: function (record, rowNum, colNum) {
+            if (colNum == 0) {
+                if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
+                    window.open("/dcc/downloadFile?data=" + "\\" + "contract\\" + record.fileNewName);
+                else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
+                    window.open("/dcc/downloadFile?data=" + "\\" + "contact\\" + record.fileNewName);
+                else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
+                    window.open("/dcc/downloadFile?data=" + "\\" + "instruction\\" + record.fileNewName);
+                else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
+                    window.open("/dcc/downloadFile?data=" + "\\" + "shipment\\" + record.fileNewName);
+            }
+        }
+    });
 
-	listGrid_DccView.fetchData(
-		{},
-		function (dsResponse, data, dsRequest) {
-			listGrid_DccView.setData(data);
-		},
-		{operationId: "00"}
-	);
+    function ListGrid_DccView_refresh() {
+        listGrid_DccView.invalidateCache();
+    }
 
-	var DccViewGridHLayout = isc.HLayout.create({
-		width: "100%",
-		height: "100%",
-		members: [
-			listGrid_DccView
-		]
-	});
+    var ToolStripButton_DccView_Refresh = isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/refresh.png",
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+            ListGrid_DccView_refresh();
+        }
+    });
 
-	var dccViewBodyVLayout = isc.VLayout.create({
-		width: "100%",
-		height: "100%",
-		members: [
-			DccViewGridHLayout
-		]
-	});
+    var ToolStrip_Actions_DccView = isc.ToolStrip.create({
+        width: "100%",
+        members:
+            [
+                ToolStripButton_DccView_Refresh
+            ]
+    });
+
+    var HLayout_DccView_Actions = isc.HLayout.create({
+        width: "100%",
+        members:
+            [
+                ToolStrip_Actions_DccView
+            ]
+    });
+
+    var HLayout_DccView_Grid = isc.HLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+            listGrid_DccView
+        ]
+    });
+
+    isc.VLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+            HLayout_DccView_Actions,
+            HLayout_DccView_Grid
+        ]
+    });
