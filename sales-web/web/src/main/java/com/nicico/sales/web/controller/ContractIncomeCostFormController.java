@@ -12,9 +12,12 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @Controller
@@ -27,7 +30,7 @@ public class ContractIncomeCostFormController {
     private String restApiUrl;
 
     @RequestMapping("/showForm")
-    public String showContractIncomeCost() {
+    public String showContractIncomeCost( HttpServletRequest req) {
         String [][] aa=
         {{ "String","contractNo","@" },
         { "String","customerFullNameEn","@" },
@@ -66,7 +69,7 @@ public class ContractIncomeCostFormController {
         { "String","SourceInspectionCost","@" },
         { "String","insuranceCost","@" },
         { "String","umpireCost","@" }};
-
+        req.setAttribute("aa",aa);
         return "base/contractIncomeCost";
     }
 

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-
+<% String [][] aa= (String [][]) request.getAttribute("aa"); %>
 <%--<script>--%>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
@@ -35,42 +35,10 @@
     var RestDataSource_ContractIncomeCost = isc.MyRestDataSource.create({
         fields:
             [
-
 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "cardId", title: "<spring:message code='ContractIncomeCost.cardId'/>", align: "center"},
-                {name: "carNo1", title: "<spring:message code='ContractIncomeCost.carNo1'/>", align: "center"},
-                {name: "carNo3", title: "<spring:message code='ContractIncomeCost.carNo3'/>", align: "center"},
-                {name: "plak", title: "<spring:message code='ContractIncomeCost.plak'/>", align: "center"},
-                {name: "carName", title: "<spring:message code='ContractIncomeCost.carName'/>", align: "center"},
-                {name: "containerId", title: "<spring:message code='ContractIncomeCost.containerId'/>", align: "center"},
-                {name: "containerNo1", title: "<spring:message code='ContractIncomeCost.containerNo1'/>", align: "center"},
-                {name: "containerNo3", title: "<spring:message code='ContractIncomeCost.containerNo3'/>", align: "center"},
-                {name: "containerName", title: "<spring:message code='ContractIncomeCost.containerName'/>", align: "center"},
-                {name: "vazn1", title: "<spring:message code='ContractIncomeCost.vazn1'/>", align: "center"},
-                {name: "vazn2", title: "<spring:message code='ContractIncomeCost.vazn2'/>", align: "center"},
-                {name: "condition", title: "<spring:message code='ContractIncomeCost.condition'/>", align: "center"},
-                {name: "vazn", title: "<spring:message code='ContractIncomeCost.vazn'/>", align: "center"},
-                {name: "tedad", title: "<spring:message code='ContractIncomeCost.tedad'/>", align: "center"},
-                {name: "unitKala", title: "<spring:message code='ContractIncomeCost.unitKala'/>", align: "center"},
-                {name: "packName", title: "<spring:message code='ContractIncomeCost.packName'/>", align: "center"},
-                {name: "haveCode", title: "<spring:message code='ContractIncomeCost.haveCode'/>", align: "center"},
-                {name: "date", title: "<spring:message code='ContractIncomeCost.date'/>", align: "center"},
-                {name: "contractIncomeCostId", title: "<spring:message code='ContractIncomeCost.contractIncomeCostId'/>", align: "center"},
-                {name: "contractIncomeCostDate", title: "<spring:message code='ContractIncomeCost.contractIncomeCostDate'/>", align: "center"},
-                {name: "contractIncomeCostTime", title: "<spring:message code='ContractIncomeCost.contractIncomeCostTime'/>", align: "center"},
-                {name: "codeKala", title: "<spring:message code='ContractIncomeCost.codeKala'/>", align: "center"},
-                {name: "nameKala", title: "<spring:message code='ContractIncomeCost.nameKala'/>", align: "center"},
-                {name: "sourceId", title: "<spring:message code='ContractIncomeCost.sourceId'/>", align: "center"},
-                {name: "source", title: "<spring:message code='ContractIncomeCost.source'/>", align: "center"},
-                {name: "targetId", title: "<spring:message code='ContractIncomeCost.targetId'/>", align: "center"},
-                {name: "target", title: "<spring:message code='ContractIncomeCost.target'/>", align: "center"},
-                {name: "havalehName", title: "<spring:message code='ContractIncomeCost.havalehName'/>", align: "center"},
-                {name: "havalehFrom", title: "<spring:message code='ContractIncomeCost.havalehFrom'/>", align: "center"},
-                {name: "havalehTo", title: "<spring:message code='ContractIncomeCost.havalehTo'/>", align: "center"},
-                {name: "havalehDate", title: "<spring:message code='ContractIncomeCost.havalehDate'/>", align: "center"},
-                {name: "isFinal", title: "<spring:message code='ContractIncomeCost.isFinal'/>", align: "center"},
-                {name: "targetPlantId"},
-                {name: "sourcePlantId"},
+<% for(int i=0;i<aa.length;i++) { %>
+  {name: "<%=aa[i][1] %>", title: "<%=aa[i][1] %>", align: "center"},
+<% } %>
             ],
 // ######@@@@###&&@@###
         fetchDataURL: "${restApiUrl}/api/contractIncomeCost/spec-list"
@@ -194,88 +162,6 @@
 					window.open('${printUrl}'+'/'+toDay);
 				}
 			}
-			// {
-			// 	title: "مبدا/مقصد سرجشمه", icon: "pieces/16/search.png",
-			// 	click: function () {
-			// 		var criteria = {
-			// 			_constructor: "AdvancedCriteria",
-			// 			operator: "and",
-			// 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "1"}]
-			// 		};
-			// 		ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-			// 			ListGrid_ContractIncomeCostSales.setData(data);
-			// 		});
-			// 	}
-			// },
-			// {
-			// 	title: "مبدا/مقصد ميدوک", icon: "pieces/16/search.png",
-			// 	click: function () {
-			// 		var criteria = {
-			// 			_constructor: "AdvancedCriteria",
-			// 			operator: "and",
-			// 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "2"}]
-			// 		};
-			// 		ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-			// 			ListGrid_ContractIncomeCostSales.setData(data);
-			// 		});
-			// 	}
-			// },
-			// {
-			// 	title: "مبدا/مقصد بندرعباس", icon: "pieces/16/search.png",
-			// 	click: function () {
-			// 		var criteria = {
-			// 			_constructor: "AdvancedCriteria",
-			// 			operator: "and",
-			// 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "3"}]
-			// 		};
-			// 		ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-			// 			ListGrid_ContractIncomeCostSales.setData(data);
-			// 		});
-			// 	}
-			// },
-			// {
-			// 	title: "مبدا/مقصد خاتون آباد", icon: "pieces/16/search.png",
-			// 	click: function () {
-			// 		var criteria = {
-			// 			_constructor: "AdvancedCriteria",
-			// 			operator: "and",
-			// 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "4"}]
-			// 		};
-			// 		ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-			// 			ListGrid_ContractIncomeCostSales.setData(data);
-			// 		});
-			// 	}
-			// },
-			// {
-			// 	title: "مبدا/مقصد سونگون", icon: "pieces/16/search.png",
-			// 	click: function () {
-			// 		var criteria = {
-			// 			_constructor: "AdvancedCriteria",
-			// 			operator: "and",
-			// 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "5"}]
-			// 		};
-			// 		ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-			// 			ListGrid_ContractIncomeCostSales.setData(data);
-			// 		});
-			// 	}
-			// },
-			// {
-            <%--title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",--%>
-            // click: function () {
-            // }
-            // },
-            // {
-            <%--title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",--%>
-            // click: function () {
-            //     ListGrid_ContractIncomeCost_edit();
-            // }
-            // },
-            // {
-            <%--title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",--%>
-            // click: function () {
-            //     ListGrid_ContractIncomeCost_remove();
-            // }
-            // },
 		]
 	});
 
@@ -377,38 +263,9 @@
             [
 
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "cardId", title: "<spring:message code='ContractIncomeCost.cardId'/>", align: "center"},
-                {name: "carNo1", title: "<spring:message code='ContractIncomeCost.carNo1'/>", align: "center"},
-                {name: "carNo3", title: "<spring:message code='ContractIncomeCost.carNo3'/>", align: "center"},
-                {name: "plak", title: "<spring:message code='ContractIncomeCost.plak'/>", align: "center"},
-                {name: "carName", title: "<spring:message code='ContractIncomeCost.carName'/>", align: "center"},
-                {name: "containerId", title: "<spring:message code='ContractIncomeCost.containerId'/>", align: "center"},
-                {name: "containerNo1", title: "<spring:message code='ContractIncomeCost.containerNo1'/>", align: "center"},
-                {name: "containerNo3", title: "<spring:message code='ContractIncomeCost.containerNo3'/>", align: "center"},
-                {name: "containerName", title: "<spring:message code='ContractIncomeCost.containerName'/>", align: "center"},
-                {name: "vazn1", title: "<spring:message code='ContractIncomeCost.vazn1'/>", align: "center"},
-                {name: "vazn2", title: "<spring:message code='ContractIncomeCost.vazn2'/>", align: "center"},
-                {name: "condition", title: "<spring:message code='ContractIncomeCost.condition'/>", align: "center"},
-                {name: "vazn", title: "<spring:message code='ContractIncomeCost.vazn'/>", align: "center"},
-                {name: "tedad", title: "<spring:message code='ContractIncomeCost.tedad'/>", align: "center"},
-                {name: "unitKala", title: "<spring:message code='ContractIncomeCost.unitKala'/>", align: "center"},
-                {name: "packName", title: "<spring:message code='ContractIncomeCost.packName'/>", align: "center"},
-                {name: "haveCode", title: "<spring:message code='ContractIncomeCost.haveCode'/>", align: "center"},
-                {name: "date", title: "<spring:message code='ContractIncomeCost.date'/>", align: "center"},
-                {name: "contractIncomeCostId", title: "<spring:message code='ContractIncomeCost.contractIncomeCostId'/>", align: "center"},
-                {name: "contractIncomeCostDate", title: "<spring:message code='ContractIncomeCost.contractIncomeCostDate'/>", align: "center"},
-                {name: "contractIncomeCostTime", title: "<spring:message code='ContractIncomeCost.contractIncomeCostTime'/>", align: "center"},
-                {name: "codeKala", title: "<spring:message code='ContractIncomeCost.codeKala'/>", align: "center"},
-                {name: "nameKala", title: "<spring:message code='ContractIncomeCost.nameKala'/>", align: "center"},
-                {name: "sourceId", title: "<spring:message code='ContractIncomeCost.sourceId'/>", align: "center"},
-                {name: "source", title: "<spring:message code='ContractIncomeCost.source'/>", align: "center"},
-                {name: "targetId", title: "<spring:message code='ContractIncomeCost.targetId'/>", align: "center"},
-                {name: "target", title: "<spring:message code='ContractIncomeCost.target'/>", align: "center"},
-                {name: "havalehName", title: "<spring:message code='ContractIncomeCost.havalehName'/>", align: "center"},
-                {name: "havalehFrom", title: "<spring:message code='ContractIncomeCost.havalehFrom'/>", align: "center"},
-                {name: "havalehTo", title: "<spring:message code='ContractIncomeCost.havalehTo'/>", align: "center"},
-                {name: "havalehDate", title: "<spring:message code='ContractIncomeCost.havalehDate'/>", align: "center"},
-                {name: "isFinal", title: "<spring:message code='ContractIncomeCost.isFinal'/>", align: "center"},
+<% for(int i=0;i<aa.length;i++) { %>
+  {name: "<%=aa[i][1] %>", title: "<%=aa[i][1] %>", align: "center"},
+<% } %>
 
             ]
     });
@@ -421,105 +278,6 @@
         }
     });
 
-    // var ToolStripButton_ContractIncomeCost_Add = isc.ToolStripButton.create({
-    //     icon: "[SKIN]/actions/add.png",
-    <%--title: "<spring:message code='global.form.new'/>",--%>
-    // click: function () {
-    //     DynamicForm_ContractIncomeCost.clearValues();
-    //     Window_ContractIncomeCost.show();
-    // }
-    // });
-    //
-    // var ToolStripButton_ContractIncomeCost_Edit = isc.ToolStripButton.create({
-    //     icon: "[SKIN]/actions/edit.png",
-    <%--title: "<spring:message code='global.form.edit'/>",--%>
-    // click: function () {
-    //     ListGrid_ContractIncomeCost_edit();
-    // }
-    // });
-    //
-    // var ToolStripButton_ContractIncomeCost_Remove = isc.ToolStripButton.create({
-    //     icon: "[SKIN]/actions/remove.png",
-    <%--title: "<spring:message code='global.form.remove'/>",--%>
-    // click: function () {
-    //     ListGrid_ContractIncomeCost_remove();
-    // }
-    // });
-    //
-    // var ToolStripButton_ContractIncomeCost_Sarcheshmeh = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد سرجشمه",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "1"}]
-    //         };
-    //         ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_ContractIncomeCostSales.setData(data);
-    //         });
-    //     }
-    // });
-    //
-    // var ToolStripButton_ContractIncomeCost_Miduk = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد ميدوک",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "2"}]
-    //         };
-    //         ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_ContractIncomeCostSales.setData(data);
-    //         });
-    //     }
-    // });
-    //
-    // var ToolStripButton_ContractIncomeCost_Bandar = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد بندرعباس",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "3"}]
-    //         };
-    //         ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_ContractIncomeCostSales.setData(data);
-    //         });
-    //     }
-    // });
-    //
-    // var ToolStripButton_ContractIncomeCost_Khaton = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد خاتون آباد",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "4"}]
-    //         };
-    //         ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_ContractIncomeCostSales.setData(data);
-    //         });
-    //     }
-    // });
-    //
-    // var ToolStripButton_ContractIncomeCost_sungun = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد سونگون",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "5"}]
-    //         };
-    //         ListGrid_ContractIncomeCost.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_ContractIncomeCostSales.setData(data);
-    //         });
-    //     }
-    // });
 
     var ToolStripButton_ContractIncomeCost_sum = isc.ToolStripButton.create({
         icon: "icon/sigma.png",
@@ -670,182 +428,9 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-// {name:"carNo1", title:"<spring:message code='ContractIncomeCost.carNo1'/>",align:"center",showHover:true,width:"1%"},
-// {name:"carNo3", title:"<spring:message code='ContractIncomeCost.carNo3'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "plak",
-                title: "<spring:message code='ContractIncomeCost.plak'/>",
-                align: "center",
-                showHover: true,
-                canEdit: true,
-                width: "15%"
-            },
-            {
-                name: "carName",
-                title: "<spring:message code='ContractIncomeCost.carName'/>",
-                align: "center",
-                showHover: true,
-                width: "25%",
-                operator: "equals"
-            },
-            {
-                name: "containerNo1",
-                title: "<spring:message code='ContractIncomeCost.containerNo1'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-// {name:"vazn1", title:"<spring:message code='ContractIncomeCost.vazn1'/>",align:"center",showHover:true,width:"1%"},
-// {name:"vazn2", title:"<spring:message code='ContractIncomeCost.vazn2'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "condition",
-                title: "<spring:message code='ContractIncomeCost.condition'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-            {
-                name: "vazn",
-                title: "<spring:message code='ContractIncomeCost.vazn'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-            {
-                name: "tedad",
-                title: "<spring:message code='ContractIncomeCost.tedad'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-// {name:"unitKala", title:"<spring:message code='ContractIncomeCost.unitKala'/>",align:"center",showHover:true,width:"1%"},
-// {name:"date", title:"<spring:message code='ContractIncomeCost.date'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "contractIncomeCostId",
-                title: "<spring:message code='ContractIncomeCost.contractIncomeCostId'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-            {
-                name: "contractIncomeCostDate",
-                title: "<spring:message code='ContractIncomeCost.contractIncomeCostDate'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-// {name:"codeKala", title:"<spring:message code='ContractIncomeCost.codeKala'/>",align:"center",showHover:true,width:"15%"},
-            {
-                name: "nameKala",
-                title: "<spring:message code='ContractIncomeCost.nameKala'/>",
-                align: "center",
-                showHover: true,
-                width: "25%"
-            },
-// {name:"sourceId", title:"<spring:message code='ContractIncomeCost.sourceId'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "source",
-                title: "<spring:message code='ContractIncomeCost.source'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-// {name:"targetId", title:"<spring:message code='ContractIncomeCost.targetId'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "target",
-                title: "<spring:message code='ContractIncomeCost.target'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-            {
-                name: "haveCode",
-                title: "<spring:message code='ContractIncomeCost.haveCode'/>",
-                align: "center",
-                showHover: true,
-                canEdit: true,
-                width: "15%"
-            },
-            {
-                name: "havalehName",
-                title: "<spring:message code='ContractIncomeCost.havalehName'/>",
-                align: "center",
-                showHover: true,
-                width: "25%"
-            },
-            {
-                name: "contractIncomeCostPlantId",
-                title: "<spring:message code='ContractIncomeCost.contractIncomeCostPlantId'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-// {name:"isFinal", title:"<spring:message code='ContractIncomeCost.isFinal'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "cardId",
-                title: "<spring:message code='ContractIncomeCost.cardId'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "containerId",
-                title: "<spring:message code='ContractIncomeCost.containerId'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "containerNo3",
-                title: "<spring:message code='ContractIncomeCost.containerNo3'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "containerName",
-                title: "<spring:message code='ContractIncomeCost.containerName'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "packName",
-                title: "<spring:message code='ContractIncomeCost.packName'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "contractIncomeCostTime",
-                title: "<spring:message code='ContractIncomeCost.contractIncomeCostTime'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "havalehFrom",
-                title: "<spring:message code='ContractIncomeCost.havalehFrom'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "havalehTo",
-                title: "<spring:message code='ContractIncomeCost.havalehTo'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "havalehDate",
-                title: "<spring:message code='ContractIncomeCost.havalehDate'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {name: "targetPlantId", showHover: true, width: "1%"},
-            {name: "sourcePlantId", showHover: true, width: "1%"},
+<% for(int i=0;i<aa.length;i++) { %>
+  {name: "<%=aa[i][1] %>", title: "<%=aa[i][1] %>", align: "center"},
+<% } %>
         ],
         dataPageSize: 50,
         autoFetchData: true,
@@ -883,7 +468,7 @@
         width: "100%",
         height: "100%",
         members: [
-            HLayout_ContractIncomeCost_Actions, VLayout_ContractIncomeCost_Grid
+            HLayout_ContractIncomeCost_Actions ,VLayout_ContractIncomeCost_Grid
         ]
     });
 
