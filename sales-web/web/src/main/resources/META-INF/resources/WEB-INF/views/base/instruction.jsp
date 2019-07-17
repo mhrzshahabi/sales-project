@@ -129,7 +129,7 @@
                     title: "<spring:message code='instruction.titleInstruction'/>",
                     width: 400,
                     align: "center",
-                    required: true , length : "4000"
+                    required: true, length: "4000"
                 },
                 {
                     name: "disableDateDummy",
