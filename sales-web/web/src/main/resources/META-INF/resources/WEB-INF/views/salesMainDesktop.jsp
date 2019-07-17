@@ -373,7 +373,7 @@
         orientation: "vertical",
 
         click: function () {
-            <%--createTab("<spring:message code='material.title'/>", "/material/showForm")--%>
+            createTab("گزارش قراردادهای فروش", "<spring:url value="/contractIncomeCost/showForm" />")
         }
     });
     var coordinatingOfficeReportButton = isc.IconButton.create({
