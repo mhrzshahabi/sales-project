@@ -5,7 +5,7 @@
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
-    var RestDataSource_Bank = isc.MyRestDataSource.create({
+    var RestDataSource_Bank__BANK = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -19,7 +19,8 @@
 
         fetchDataURL: "${restApiUrl}/api/bank/spec-list"
     });
-    var RestDataSource_Country = isc.MyRestDataSource.create({
+
+    var RestDataSource_Country__BANK = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -72,36 +73,33 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({
-                    title: "<spring:message
-                    code='global.yes'/>"
-                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
                         var BankId = record.id;
-                        isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/bank/" + record.id,
-                            httpMethod: "DELETE",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            showPrompt: true,
-                            serverOutputAsString: false,
-                            callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                    ListGrid_Bank_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                actionURL: "${restApiUrl}/api/bank/" + BankId,
+                                httpMethod: "DELETE",
+                                callback: function (resp) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                        ListGrid_Bank_refresh();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
                                 }
-                            }
-                        });
+                            })
+                        );
                     }
                 }
             });
         }
-    };
+    }
+
     var Menu_ListGrid_Bank = isc.Menu.create({
         width: 150,
         data: [
@@ -173,7 +171,7 @@
                     title: "<spring:message code='bank.bankCode'/>",
                     width: "100%",
                     colSpan: 1, required: true,
-                    titleColSpan: 1 , keyPressFilter :  "[0-9]", length : "15"
+                    titleColSpan: 1, keyPressFilter: "[0-9]", length: "15"
                 },
                 {
                     name: "bankName",
@@ -201,8 +199,7 @@
                     title: "<spring:message code='bank.coreBranch'/>",
                     width: 200,
                     colSpan: 1, required: true,
-                    titleColSpan: 1
-                    ,
+                    titleColSpan: 1,
                     valueMap: {
                         "core": "دفتر مرکزی",
                         "branch": "شعبه"
@@ -213,24 +210,20 @@
                     title: "<spring:message code='country.nameFa'/>",
                     type: 'long',
                     width: 200, required: true,
-                    editorType: "SelectItem"
-                    ,
-                    optionDataSource: RestDataSource_Country,
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Country__BANK,
                     displayField: "nameFa",
                     colSpan: 1,
-                    titleColSpan: 1
-                    ,
+                    titleColSpan: 1,
                     valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true}
-                    ,
+                    pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                         {name: "id", width: 50, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "nameFa", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "nameEn", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "isActive", width: 150, align: "center", colSpan: 1, titleColSpan: 1}
-
                     ]
                 }
             ]
@@ -293,7 +286,6 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
             DynamicForm_Bank.validate();
             if (DynamicForm_Bank.hasErrors())
                 return;
@@ -302,28 +294,23 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/bank/",
-                httpMethod: method,
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                showPrompt: true,
-                serverOutputAsString: false,
-                data: JSON.stringify(data),
-                //params: { data:data1},
-                callback: function (resp) {
-
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                        ListGrid_Bank_refresh();
-                        Window_Bank.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            });
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${restApiUrl}/api/bank/",
+                    httpMethod: method,
+                    data: JSON.stringify(data),
+                    callback: function (resp) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_Bank_refresh();
+                            Window_Bank.close();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                })
+            );
         }
     });
+
     var Window_Bank = isc.Window.create({
         title: "<spring:message code='bank.title'/> ",
         width: 580,
@@ -366,7 +353,7 @@
     var ListGrid_Bank = isc.MyListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_Bank,
+        dataSource: RestDataSource_Bank__BANK,
         contextMenu: Menu_ListGrid_Bank,
         fields:
             [
@@ -391,15 +378,11 @@
         startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            // ListGrid_BankFeature.fetchData({"tblBank.id":record.id},function (dsResponse, data, dsRequest) {
-            // ListGrid_BankFeature.setData(data);
-            // },{operationId:"00"});
         },
         dataArrived: function (startRow, endRow) {
         }
-
     });
+
     var HLayout_Bank_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -415,5 +398,3 @@
             HLayout_Bank_Actions, HLayout_Bank_Grid
         ]
     });
-
-
