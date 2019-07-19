@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -175,6 +176,18 @@ public class ContractIncomeCostRestController {
             Font f2 = new Font(bfk, 18, Font.BOLD, Color.BLACK);
             Font f7 = new Font(bf, 12, Font.NORMAL, Color.BLACK);
 
+            Map<String, Field> fieldMap = new HashMap<>();
+            Field[] InfoFields = ContractIncomeCostDTO.Info.class.getDeclaredFields();
+            for(Field field : InfoFields) {
+                field.setAccessible(true);
+                fieldMap.put(field.getName(), field);
+            }
+            Field[] InfoSuperClassFields = ContractIncomeCostDTO.Info.class.getSuperclass().getDeclaredFields();
+            for(Field field : InfoSuperClassFields) {
+                field.setAccessible(true);
+                fieldMap.put(field.getName(), field);
+            }
+
             // Start Header Images
             PdfPCell cell = new PdfPCell();
             cell.setPadding(4);
@@ -194,7 +207,7 @@ public class ContractIncomeCostRestController {
             cell.setPaddingBottom(6);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 
-            cell.setPhrase(new Phrase(10, "شماره درخواست:" + myList.get(0).getContractNo(), f7));
+            cell.setPhrase(new Phrase(10, "شماره درخواست:" + fieldMap.get("contractNo").get(myList.get(0)), f7));
             cell.setColspan(2);
             cell.setBorderWidthTop(1);
             cell.setBorderWidthLeft(1);
