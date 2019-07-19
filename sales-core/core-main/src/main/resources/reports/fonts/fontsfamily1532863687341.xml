@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+
+   <fontFamily name="B Nazanin">
+       <normal><![CDATA[fonts/bnazanin.ttf]]></normal>
+       <bold><![CDATA[fonts/bnazaninb.ttf]]></bold>
+       <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+ <fontFamily name="Arial">
+       <normal><![CDATA[fonts/arial.ttf]]></normal>
+       <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+   <fontFamily name="Karnik">
+       <normal><![CDATA[fonts/karnik.ttf]]></normal>
+       <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+   
+   <fontFamily name="BTitrBd">
+       <normal><![CDATA[fonts/BTitrBd.ttf]]></normal>
+       <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+   <fontFamily name="Vazir">
+       <normal><![CDATA[fonts/Vazir.ttf]]></normal>
+       <bold><![CDATA[fonts/Vazir-Bold.ttf]]></bold>
+       <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+</fontFamilies>
+

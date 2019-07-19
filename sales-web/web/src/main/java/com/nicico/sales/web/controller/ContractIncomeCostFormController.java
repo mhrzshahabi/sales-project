@@ -93,7 +93,7 @@ public class ContractIncomeCostFormController {
         HttpEntity<String> entity = new HttpEntity<String>(headers);
 
         if(type.equals("pdf"))
-            return restTemplate.exchange(restApiUrl + "/api/contractIncomeCost/print/pdf", HttpMethod.GET, entity, byte[].class);
+            return restTemplate.exchange(restApiUrl + "/api/contractIncomeCost/print", HttpMethod.GET, entity, byte[].class);
         else if(type.equals("excel"))
             return restTemplate.exchange(restApiUrl + "/api/contractIncomeCost/print/excel", HttpMethod.GET, entity, byte[].class);
         else if(type.equals("html"))

@@ -143,7 +143,7 @@
 				click: function () {
 					var toDay = DynamicForm_DailyReport_ContractIncomeCost.getValue("toDay").replaceAll("/", "");
 					"<spring:url value="/contractIncomeCost/print/pdf" var="printUrl"/>"
-					window.open('${printUrl}'+'/'+toDay);
+					window.open('${printUrl}');
 				}
 			},
 			{
