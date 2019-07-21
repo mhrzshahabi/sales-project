@@ -45,7 +45,8 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
 	public ContractIncomeCostDTO.Info create(ContractIncomeCostDTO.Create request) {
 		final ContractIncomeCost contractIncomeCost = modelMapper.map(request, ContractIncomeCost.class);
 
-		return save(contractIncomeCost);
+		ContractIncomeCostDTO.Info aa= save(contractIncomeCost);
+		return aa;
 	}
 
 	@Transactional
