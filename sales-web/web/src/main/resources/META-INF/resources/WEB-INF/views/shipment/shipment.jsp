@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <% DateUtil dateUtil = new DateUtil();%>
 
@@ -810,6 +810,10 @@
             DynamicForm_Shipment.setValue("freight", DynamicForm_Shipment2.getValue("freight"));
             DynamicForm_Shipment.setValue("totalFreight", DynamicForm_Shipment2.getValue("totalFreight"));
             DynamicForm_Shipment.setValue("freightCurrency", DynamicForm_Shipment2.getValue("freightCurrency"));
+
+            DynamicForm_Shipment.setValue("preFreight", DynamicForm_Shipment2.getValue("preFreight"));
+            DynamicForm_Shipment.setValue("postFreight", DynamicForm_Shipment2.getValue("postFreight"));
+
             DynamicForm_Shipment.setValue("dispatch", DynamicForm_Shipment2.getValue("dispatch"));
             DynamicForm_Shipment.setValue("demurrage", DynamicForm_Shipment2.getValue("demurrage"));
             DynamicForm_Shipment.setValue("detention", DynamicForm_Shipment2.getValue("detention"));
