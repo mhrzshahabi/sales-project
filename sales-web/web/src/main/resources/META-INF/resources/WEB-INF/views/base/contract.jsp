@@ -1261,11 +1261,11 @@
             var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
             DynamicForm_ContractShipment.setValue("sendDate", datestring)
 
-            var contractDate = DynamicForm_ContractShipment.getValue("contract").contractDate.split("/");
+            <%--var contractDate = DynamicForm_ContractShipment.getValue("contract").contractDate.split("/");
             if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
                 isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
                 return;
-            }
+            }--%>
 
             var data = DynamicForm_ContractShipment.getValues();
             // ######@@@@###&&@@###
