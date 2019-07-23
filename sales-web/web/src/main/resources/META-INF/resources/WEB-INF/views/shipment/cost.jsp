@@ -712,7 +712,8 @@
                     }]
                 },
                 {
-                    name: "otherCostCurrency", title: "<spring:message		code='cost.otherCostCurrency'/>", type: 'text', width: "100%", defaultValue: "DOLLAR", valueMap: dollar
+                    name: "otherCostCurrency", title: "<spring:message		code='cost.otherCostCurrency'/>",
+                    type: 'text', width: "100%", defaultValue: "DOLLAR", valueMap: dollar
                 },
                 {
                     name: "inventortRentCost", title: "<spring:message		code='cost.inventortRentCost'/>", type: 'integer', required: false, width: "100%",
@@ -753,7 +754,6 @@
                     name: "blFeeCost",
                     title: "<spring:message code='cost.blFeeCost'/>",
                     type: 'float',
-                    required: true,
                     width: "100%",
                     validators: [{
                         type: "isFloat",
@@ -774,6 +774,10 @@
                         stopOnError: true,
                         errorMessage: "لطفا مقدار عددی وارد نمائید."
                     }]
+                },
+                {
+                    name: "demandCurrency", title: "<spring:message		code='cost.demandCurrency'/>",
+                    type: 'text', width: "100%", defaultValue: "DOLLAR", valueMap: dollar
                 },
                 {
                     name: "contractorCost", title: "<spring:message		code='cost.contractorCost'/>", type: 'float', required: false, width: "100%",

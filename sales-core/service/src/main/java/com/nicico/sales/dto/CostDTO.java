@@ -48,6 +48,7 @@ public class CostDTO {
 	private Float thcCost;
 	private Float blFeeCost;
 	private Float demandCost;
+	private String demandCurrency;
 	private Float contractorCost;
 	private Float counterCost;
 	private Float disinfectionCost;

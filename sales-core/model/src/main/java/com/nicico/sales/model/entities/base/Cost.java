@@ -132,6 +132,9 @@ public class Cost extends Auditable {
 	@Column(name = "DEMAND_COST")
 	private Float demandCost;
 
+	@Column(name = "DEMAND_COST_CUR", length = 20)
+	private String demandCurrency;
+
 	@Column(name = "CONTRACTOR_COST")
 	private Float contractorCost;
 
