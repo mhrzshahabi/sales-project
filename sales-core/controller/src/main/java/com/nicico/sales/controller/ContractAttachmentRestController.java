@@ -92,7 +92,7 @@ public class ContractAttachmentRestController {
 					}));
 
 			if (StringUtils.isNotEmpty(sortBy)) {
-				criteriaRq.set_sortBy(sortBy);
+				request.set_sortBy(sortBy);
 			}
 
 			request.setCriteria(criteriaRq);
