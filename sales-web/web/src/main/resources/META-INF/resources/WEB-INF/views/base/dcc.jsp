@@ -305,15 +305,17 @@
             request.setRequestHeader("Authorization", "Bearer " + "${cookie['access_token'].getValue()}");
             request.setRequestHeader("contentType", "application/json; charset=utf-8");
             request.send(formData);
+            request.timeout = 1000;
+            request.ontimeout = function () { isc.warn("حجم فایل باید کمتر از یک مگابایت باشد");}
             request.onreadystatechange = function () {
                 if (request.readyState === XMLHttpRequest.DONE) {
                     if (request.status === 500)
                         isc.warn("آپلود فایل با مشکل مواجه شده است.");
-                    if (request.status === 200 || request.status == 201) {
+                    if (request.status === 200 ||    request.status == 201) {
                         isc.say("فایل پیوست با موفقیت ثبت شد");
                         ListGrid_Dcc_refresh();
                         dccCreateWindow.close();
-                    } else if (JSON.parse(request.responseText).exceptionClass.includes("MaxUploadSizeExceededException"))
+                    } else if (request.responseText !== "" && JSON.parse(request.responseText).exceptionClass.includes("MaxUploadSizeExceededException"))
                         isc.warn("حجم فایل باید کمتر از یک مگابایت باشد");
                 }
             }
