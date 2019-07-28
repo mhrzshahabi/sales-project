@@ -3,6 +3,7 @@ package com.nicico.sales.config;
 import com.nicico.copper.core.AbstractExceptionHandlerControllerAdvice;
 import com.nicico.copper.core.dto.ErrorResponseDTO;
 import com.nicico.copper.core.util.IErrorCode;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,7 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
     }
 
     @ExceptionHandler({MaxUploadSizeExceededException.class})
-    public ResponseEntity<Object> handleFileSizeLimitExceeded(MaxUploadSizeExceededException ex) {
+    public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
         this.printLog(ex, true, true);
         return this.createGeneralResponseEntity(ex, IErrorCode.Unknown); // 400 Bad Request is better
     }

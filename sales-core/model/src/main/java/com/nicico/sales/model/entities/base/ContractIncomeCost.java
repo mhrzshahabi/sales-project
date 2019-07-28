@@ -3,6 +3,7 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.*;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
+@Immutable
 @Table(name = "VIEW_CONTRACT_INCOME_COST", schema = "SALES")
 public class ContractIncomeCost extends Auditable {
 
@@ -29,7 +31,7 @@ public class ContractIncomeCost extends Auditable {
     private String customerFullNameEn;
 
     @Column(name = "C_DESCL")
-    private String ProductNameEn;
+    private String productNameEn;
 
     @Column(name = "C_NAME_EN")
     private String unitNameEn;

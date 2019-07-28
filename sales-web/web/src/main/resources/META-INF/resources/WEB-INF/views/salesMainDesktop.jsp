@@ -347,7 +347,7 @@
         members: [cartableRibbonBar]
     });
     /*-------------------Report---------------------------*/
-    var routineReportsButton = isc.IconButton.create({
+    var routineReportButton = isc.IconButton.create({
         title: "<spring:message code='routineReports.title'/>",
         icon: "report/routineReports.png",
         largeIcon: "report/routineReports.png",
@@ -357,6 +357,15 @@
             createTab("گزارش قراردادهای فروش", "<spring:url value="/contractIncomeCost/showForm" />")
         }
     });
+    var demandReportButton = isc.IconButton.create({
+        title: "<spring:message code='byDemandReports.title'/>",
+        icon: "report/byDemandReports.png",
+        largeIcon: "report/byDemandReports.png",
+        orientation: "vertical",
+        click: function () {
+            <%--createTab("<spring:message code='material.title'/>", "/material/showForm")--%>
+        }
+    });
     var coordinatingOfficeReportButton = isc.IconButton.create({
         title: "<spring:message code='coordinatingOfficeReportButton.title'/>",
         icon: "report/routineReports.png",
@@ -364,15 +373,6 @@
         orientation: "vertical",
         click: function () {
             createTab("گزارش روزانه اداره هماهنگی فروش و امور گمرکی بندرعباس", "<spring:url value="/dailyReportBandarAbbas/showForm" />")
-        }
-    });
-    var demandReportsButton = isc.IconButton.create({
-        title: "<spring:message code='byDemandReports.title'/>",
-        icon: "report/byDemandReports.png",
-        largeIcon: "report/byDemandReports.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='material.title'/>", "/material/showForm")--%>
         }
     });
     var reportRibbonBar = isc.RibbonBar.create({
@@ -387,9 +387,9 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            routineReportsButton
-            , demandReportsButton
-            , coordinatingOfficeReportButton
+            routineReportButton,
+            demandReportButton,
+            coordinatingOfficeReportButton
         ],
         autoDraw: false
     });
@@ -398,7 +398,6 @@
     var reportRibbonHLayout = isc.HLayout.create({
         width: "100%",
         height: "60",
-        // border: "0px solid green",
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
