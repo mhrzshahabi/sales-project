@@ -235,7 +235,7 @@
                 title: "<spring:message code='contact.nameFa'/>",
                 required: true,
                 readonly: true,
-                width: 200,
+                width: "90%",
                 wrapTitle: false , hint: "Persian/فارسی"
             },
             {
@@ -356,6 +356,7 @@
                 width: 200,
                 wrapTitle: false,
                 type: "boolean",
+                defaultValue : false ,
                 colSpan: 3, titleColSpan: 1,
                 valueMap: {
                     "true": "<spring:message code='contact.type.real'/>",
@@ -365,7 +366,7 @@
             {
                 name: "nationalCode",
                 title: "<spring:message code='contact.nationalCode'/>",
-                width: 200,
+                width: "90%",
                 required: true, keyPressFilter: "[0-9.]" ,
                 wrapTitle: false
             },
@@ -437,15 +438,15 @@
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
             {name: "webSite", title: "<spring:message code='contact.webSite'/>", width: 500, wrapTitle: false},
-            {name: "email", title: "<spring:message code='contact.email'/>", width: 500, wrapTitle: false},
+            {name: "email", title: "<spring:message code='contact.email'/>", width: 500, wrapTitle: false , keyPressFilter: "[a-z|A-Z|0-9 . _ - ]"},
             {type: "RowSpacerItem"}
         ]
     });
 
     var contactTabs = isc.TabSet.create({
         height: 550,
-        width: 600,
-        showTabScroller: false,
+        width: 670,
+        showTabScroller: true,
         tabs: [
             {
                 title: "<spring:message code='contact.tab.generalInfo'/>",
@@ -501,7 +502,7 @@
 
     var contactCancelBtn = isc.Button.create({
         top: 260,
-        title: "<spring:message code='global.cancel'/>",
+        title: "<spring:message code='global.close'/>",
         icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_Contact.close();
@@ -524,8 +525,8 @@
 
     var Window_Contact = isc.Window.create({
         title: "<spring:message code='contact.title'/>",
-        width: 610,
-        height: 550,
+        width: 670,
+        height: 560,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -997,7 +998,7 @@
                             ListGrid_ContactAccount.invalidateCache();
                             ListGrid_Contact.invalidateCache();
                             isc.say("<spring:message code='global.form.request.successful'/>");
-                            Window_AccountsContact.close();
+                            // Window_AccountsContact.close();
                         } else
                             isc.say(RpcResponse_o.data);
                     }
@@ -1026,7 +1027,7 @@
                             ListGrid_ContactAccount.invalidateCache();
                             ListGrid_Contact.invalidateCache();
                             isc.say("<spring:message code='global.form.request.successful'/>");
-                            Window_AccountsContact.close();
+                            //Window_AccountsContact.close();
                         } else
                             isc.say(RpcResponse_o.data);
                     }

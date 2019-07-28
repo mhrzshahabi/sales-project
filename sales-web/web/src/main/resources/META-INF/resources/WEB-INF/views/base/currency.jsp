@@ -159,7 +159,7 @@
                 {
                     name: "nameEn",
                     title: "<spring:message code='currency.nameLatin'/>",
-                    width: "100%",
+                    width: "100%",  keyPressFilter: "[a-z|A-Z|0-9.]" ,
                     colSpan: 1,
                     required: true,
                     wrapTitle : false ,
@@ -266,7 +266,7 @@
     var Window_Currency = isc.Window.create({
         title: "<spring:message code='currency.title'/> ",
         width: 580,
-        height: 500,
+        // height: 280,
         autoSize: true,
         autoCenter: true,
         isModal: true,

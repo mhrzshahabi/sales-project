@@ -120,7 +120,8 @@
 				readonly: true,
 				width: 400
 			},
-			{name: "nameEN", title: "<spring:message code='currency.nameLatin'/>", type: 'text', width: 400},
+			{name: "nameEN", title: "<spring:message code='currency.nameLatin'/>", type: 'text', width: 400
+				, keyPressFilter: "[a-z|A-Z|0-9.]"},
 			{name: "symbol", title: "<spring:message code='currency.symbol'/>", type: 'text', width: 400},
 			{name: "decimalDigit", title: "<spring:message code='currency.decimalDigit'/>", width: 400},
 			{type: "RowSpacerItem"},
@@ -163,7 +164,7 @@
 	var Window_CurrencyUnit = isc.Window.create({
 		title: "<spring:message code='currency.title'/>",
 		width: 580,
-		height: 500,
+		height: 310,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

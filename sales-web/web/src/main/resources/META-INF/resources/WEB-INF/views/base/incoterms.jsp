@@ -68,7 +68,7 @@
 					type: 'checkbox',
 					editorType: 'checkbox',
 					required: true,
-defaultValue : false ,
+					defaultValue : false ,
 					wrapTitle : false ,
 					width: 500
 				},
@@ -78,7 +78,7 @@ defaultValue : false ,
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
-defaultValue : false ,
+					defaultValue : false ,
 					width: 500
 				},
 				{
@@ -87,7 +87,7 @@ defaultValue : false ,
 					editorType: 'checkbox',
 					type: 'checkbox',
 					wrapTitle : false ,
-defaultValue : false ,
+					defaultValue : false ,
 					width: 500
 				},
 				{
@@ -96,7 +96,7 @@ defaultValue : false ,
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
-defaultValue : false ,
+					defaultValue : false ,
 					width: 500
 				},
 				{
@@ -105,7 +105,7 @@ defaultValue : false ,
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
-defaultValue : false ,
+					defaultValue : false ,
 					width: 500
 				},
 				{
@@ -114,7 +114,7 @@ defaultValue : false ,
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
-defaultValue : false ,
+					defaultValue : false ,
 					width: 500
 				},
 				{
@@ -123,7 +123,7 @@ defaultValue : false ,
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
-defaultValue : false ,
+					defaultValue : false ,
 					width: 500
 				},
 				{
@@ -132,7 +132,7 @@ defaultValue : false ,
 					type: 'checkbox',
 					editorType: 'checkbox',
 					wrapTitle : false ,
-defaultValue : false ,
+					defaultValue : false ,
 					width: 500
 				},
 				{
@@ -210,6 +210,7 @@ defaultValue : false ,
 		top: 260,
 		layoutMargin: 5,
 		membersMargin: 5,
+		icon: "pieces/16/icon_delete.png",
 		width: 120,
 		title: "<spring:message code='global.cancel'/>",
 		click: function () {
@@ -230,7 +231,7 @@ defaultValue : false ,
 	var Window_Incoterms = isc.Window.create({
 		title: "<spring:message code='incoterms.name'/> ",
 		width: 580,
-		height: 500,
+		// height: 500,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,

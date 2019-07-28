@@ -157,7 +157,7 @@
                     name: "nameEn",
                     title: "<spring:message code='country.nameEn'/>",
                     width: "100%",
-                    colSpan: 1, required: true ,
+                    colSpan: 1, required: true , keyPressFilter: "[a-z|A-Z|0-9.]" ,
                     titleColSpan: 1
                 },
             ]
@@ -274,7 +274,7 @@
     var Window_Country = isc.Window.create({
         title: "<spring:message code='country.title'/> ",
         width: 580,
-        height: 500,
+        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

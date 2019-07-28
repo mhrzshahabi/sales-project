@@ -156,7 +156,7 @@
 				valueMap: {
 					"MR": "<spring:message code='global.MR'/>",
 					"MIS": "<spring:message code='global.MIS'/>",
-					"MRS": "<spring:message code='global.MRS'/>",
+					"MS": "<spring:message code='global.MRS'/>",
 				}
 			},
 			{name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: "100%", wrapTitle : false},
@@ -223,7 +223,8 @@
 		layoutMargin: 10,
 		membersMargin: 10,
 		width: 120,
-		title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
+        title: "<spring:message code='global.cancel'/>",
 		click: function () {
 				Window_Person.close();
 		}
@@ -409,7 +410,7 @@
 				valueMap: {
 					"MR": "<spring:message code='global.MR'/>",
 					"MIS": "<spring:message code='global.MIS'/>",
-					"MRS": "<spring:message code='global.MRS'/>",
+					"MS": "<spring:message code='global.MRS'/>",
 				}
 			},
 			{name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400},
@@ -459,7 +460,7 @@
 				valueMap: {
 					"MR": "<spring:message code='global.MR'/>",
 					"MIS": "<spring:message code='global.MIS'/>",
-					"MRS": "<spring:message code='global.MRS'/>",
+					"MS": "<spring:message code='global.MRS'/>",
 				}
 			},
 			{name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 150},

@@ -248,7 +248,7 @@
     var Window_CurrencyRate = isc.Window.create({
         title: "<spring:message code='exchangeRate.title'/> ",
         width: 580,
-        height: 500,
+        height: 310,
         autoSize: true,
         autoCenter: true,
         isModal: true,

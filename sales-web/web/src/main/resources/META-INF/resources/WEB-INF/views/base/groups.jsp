@@ -26,7 +26,7 @@
                 valueMap: {
                     "MR": "<spring:message code='global.MR'/>",
                     "MIS": "<spring:message code='global.MIS'/>",
-                    "MRS": "<spring:message code='global.MRS'/>",
+                    "MS": "<spring:message code='global.MRS'/>",
                 }
             },
             {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400},
@@ -161,7 +161,7 @@
     var Window_Groups = isc.Window.create({
         title: "<spring:message code='groups.title'/>",
         width: 580,
-        height: 500,
+        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -441,7 +441,7 @@
                 valueMap: {
                     "MR": "<spring:message code='global.MR'/>",
                     "MIS": "<spring:message code='global.MIS'/>",
-                    "MRS": "<spring:message code='global.MRS'/>",
+                    "MS": "<spring:message code='global.MRS'/>",
                 }
             },
             {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 150},
@@ -652,7 +652,7 @@
     var Window_GroupsPerson = isc.Window.create({
         title: "<spring:message code='groupsPerson.title'/>",
         width: 580,
-        height: 500,
+        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -858,7 +858,7 @@
                 valueMap: {
                     "MR": "<spring:message code='global.MR'/>",
                     "MIS": "<spring:message code='global.MIS'/>",
-                    "MRS": "<spring:message code='global.MRS'/>",
+                    "MS": "<spring:message code='global.MRS'/>",
                 }
             },
             {
@@ -986,7 +986,7 @@
                 valueMap: {
                     "MR": "<spring:message code='global.MR'/>",
                     "MIS": "<spring:message code='global.MIS'/>",
-                    "MRS": "<spring:message code='global.MRS'/>",
+                    "MS": "<spring:message code='global.MRS'/>",
                 }
             },
             {

@@ -248,7 +248,7 @@
                 name: "description",
                 title: "<spring:message code='global.description'/>",
                 type: 'text',
-                required: true,
+                // required: true,
                 width: 400
             },
             {
@@ -324,7 +324,7 @@
     var dccCreateWindow = isc.Window.create({
         title: "<spring:message code='dcc.Attachment'/> ",
         width: 580,
-        height: 500,
+        // height: 300,
         autoSize: true,
         autoCenter: true,
         isModal: true,

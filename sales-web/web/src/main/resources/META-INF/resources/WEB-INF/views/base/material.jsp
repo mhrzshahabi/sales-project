@@ -258,10 +258,10 @@
                     name: "descl",
                     title: "<spring:message code='material.descl'/>",
                     type: 'text',
-                    width: 400,
+                    width: 400, required: true, keyPressFilter: "[a-z|A-Z|0-9 ]" ,
                     textAlign: "left"
                 },
-                {name: "descp", title: "<spring:message code='material.descp'/>", type: 'text', width: 400},
+                {name: "descp", title: "<spring:message code='material.descp'/>", type: 'text', width: 400 , required: true},
                 {
                     name: "unitId",
                     title: "<spring:message code='unit.nameFa'/>",
@@ -338,7 +338,7 @@
     var Window_Material = isc.Window.create({
         title: "<spring:message code='material.title'/> ",
         width: 580,
-        height: 500,
+        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -571,7 +571,7 @@
                     name: "featureId",
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'long', wrapTitle: false,
-                    width: 400,
+                    width: 400,required: true,
                     editorType: "SelectItem"
                     ,
                     optionDataSource: RestDataSource_Feature,
@@ -789,6 +789,15 @@
             if (DynamicForm_MaterialFeature.hasErrors())
                 return;
             var data = DynamicForm_MaterialFeature.getValues();
+            var minValue = DynamicForm_MaterialFeature.getValue("minValue");
+            var maxValue = DynamicForm_MaterialFeature.getValue("maxValue");
+            console.log(minValue);
+            console.log(maxValue);
+console.log(DynamicForm_MaterialFeature);
+            if  (minValue > maxValue) {
+                    isc.say("<spring:message code='MaterialFeature.minValue.Error'/>.");
+                    return;
+                    }
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -833,7 +842,7 @@
     var Window_MaterialFeature = isc.Window.create({
         title: "<spring:message code='MaterialFeature.title'/> ",
         width: 580,
-        height: 500,
+        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

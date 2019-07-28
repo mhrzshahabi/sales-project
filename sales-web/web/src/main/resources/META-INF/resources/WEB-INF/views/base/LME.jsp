@@ -126,7 +126,14 @@
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "cuUsdMt", title: "<spring:message code='LME.cuUsdMt'/>", width: 480, type: "text" ,  length : "255"},
+                {name: "cuUsdMt", title: "<spring:message code='LME.cuUsdMt'/>", width: 480, keyPressFilter: "[0-9.]",
+                    length: "15",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]},
                 {
                     name: "goldUsdOunce",
                     title: "<spring:message code='LME.goldUsdOunce'/>",
@@ -322,7 +329,7 @@
     var Window_LME = isc.Window.create({
         title: "<spring:message code='LME.title'/> ",
         width: 580,
-        height: 500,
+        // height: 450,
         autoSize: true,
         autoCenter: true,
         isModal: true,

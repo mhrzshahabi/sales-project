@@ -115,7 +115,7 @@
 	var Window_Feature = isc.Window.create({
 		title: "<spring:message code='feature.title'/>",
 		width: 580,
-		height: 500,
+		height: 310,
 		autoSize: true,
 		autoCenter: true,
 		isModal: true,
