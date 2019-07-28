@@ -123,7 +123,7 @@
             },
             {
                 name: "amount", title: "<spring:message
-		code='global.amount'/>", type: 'float', width: "10%", align: "center", showHover: true
+		code='global.amount'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
             {
                 name: "shipmentType", title: "<spring:message
@@ -135,7 +135,7 @@
             },
             {
                 name: "noContainer", title: "<spring:message
-		code='shipment.noContainer'/>", type: 'integer', width: "10%", align: "center", showHover: true
+		code='shipment.noContainer'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
             <%--{name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},--%>
             {

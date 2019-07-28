@@ -121,7 +121,7 @@
             },
             {
                 name: "amount", title: "<spring:message
-		code='global.amount'/>", type: 'float', width: "10%", align: "center", showHover: true
+		code='global.amount'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
             {
                 name: "shipmentType", title: "<spring:message
@@ -133,7 +133,7 @@
             },
             {
                 name: "noContainer", title: "<spring:message
-		code='shipment.noContainer'/>", type: 'integer', width: "10%", align: "center", showHover: true
+		code='shipment.noContainer'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
             <%--{name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},--%>
             {
@@ -497,7 +497,11 @@
                     }, {name: "country.nameFa", align: "center"}]
                 },
                 {
-                    name: "sourceInspectionCost", title: "<spring:message		code='cost.sourceInspectionCost'/>", type: 'float', required: false, width: "100%",
+                    name: "sourceInspectionCost",
+                    title: "<spring:message		code='cost.sourceInspectionCost'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -532,7 +536,11 @@
                     }, {name: "country.nameFa", align: "center"}]
                 },
                 {
-                    name: "destinationInspectionCost", title: "<spring:message		code='cost.destinationInspectionCost'/>", type: 'float', required: false, width: "100%",
+                    name: "destinationInspectionCost",
+                    title: "<spring:message		code='cost.destinationInspectionCost'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -548,7 +556,11 @@
                     defaultValue: "DOLLAR", valueMap: dollar
                 },
                 {
-                    name: "sarcheshmehLabCost", title: "<spring:message		code='cost.sarcheshmehLabCost'/>", type: 'integer', required: false, width: "100%",
+                    name: "sarcheshmehLabCost",
+                    title: "<spring:message		code='cost.sarcheshmehLabCost'/>",
+                    type: 'integer',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -570,14 +582,23 @@
                     }]
                 },
                 {
-                    name: "umpireCostCurrency", title: "<spring:message		code='cost.umpireCostCurrency'/>", type: 'text', width: "100%", defaultValue: "DOLLAR", valueMap: dollar
+                    name: "umpireCostCurrency",
+                    title: "<spring:message		code='cost.umpireCostCurrency'/>",
+                    type: 'text',
+                    width: "100%",
+                    defaultValue: "DOLLAR",
+                    valueMap: dollar
                 },
                 {
                     type: "Header",
                     defaultValue: "محتوی - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
                 {
-                    name: "sourceCopper", title: "<spring:message		code='cost.sourceCopper'/>", type: 'float', required: false, width: "100%",
+                    name: "sourceCopper",
+                    title: "<spring:message		code='cost.sourceCopper'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -599,7 +620,11 @@
                     }]
                 },
                 {
-                    name: "sourceSilver", title: "<spring:message		code='cost.sourceSilver'/>", type: 'float', required: false, width: "100%",
+                    name: "sourceSilver",
+                    title: "<spring:message		code='cost.sourceSilver'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -608,7 +633,11 @@
                     }]
                 },
                 {
-                    name: "sourceMolybdenum", title: "<spring:message		code='cost.sourceMolybdenum'/>", type: 'float', required: false, width: "100%",
+                    name: "sourceMolybdenum",
+                    title: "<spring:message		code='cost.sourceMolybdenum'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -617,7 +646,11 @@
                     }]
                 },
                 {
-                    name: "destinationCopper", title: "<spring:message		code='cost.destinationCopper'/>", type: 'float', required: false, width: "100%",
+                    name: "destinationCopper",
+                    title: "<spring:message		code='cost.destinationCopper'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -626,7 +659,11 @@
                     }]
                 },
                 {
-                    name: "destinationGold", title: "<spring:message		code='cost.destinationGold'/>", type: 'float', required: false, width: "100%",
+                    name: "destinationGold",
+                    title: "<spring:message		code='cost.destinationGold'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -635,7 +672,11 @@
                     }]
                 },
                 {
-                    name: "destinationSilver", title: "<spring:message		code='cost.destinationSilver'/>", type: 'float', required: false, width: "100%",
+                    name: "destinationSilver",
+                    title: "<spring:message		code='cost.destinationSilver'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -644,7 +685,11 @@
                     }]
                 },
                 {
-                    name: "destinationMolybdenum", title: "<spring:message		code='cost.destinationMolybdenum'/>", type: 'float', required: false, width: "100%",
+                    name: "destinationMolybdenum",
+                    title: "<spring:message		code='cost.destinationMolybdenum'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -676,7 +721,11 @@
                     }, {name: "country.nameFa", align: "center"}]
                 },
                 {
-                    name: "insuranceCost", title: "<spring:message		code='cost.insuranceCost'/>", type: 'float', required: false, width: "100%",
+                    name: "insuranceCost",
+                    title: "<spring:message		code='cost.insuranceCost'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -692,7 +741,11 @@
                     defaultValue: "DOLLAR", valueMap: dollar
                 },
                 {
-                    name: "insuranceClause", title: "<spring:message		code='cost.insuranceClause'/>", type: 'text', width: "100%", valueMap: {"A": "A", "B": "B", "C": "C"}
+                    name: "insuranceClause",
+                    title: "<spring:message		code='cost.insuranceClause'/>",
+                    type: 'text',
+                    width: "100%",
+                    valueMap: {"A": "A", "B": "B", "C": "C"}
                 },
                 {
                     type: "Header",
@@ -716,7 +769,11 @@
                     type: 'text', width: "100%", defaultValue: "DOLLAR", valueMap: dollar
                 },
                 {
-                    name: "inventortRentCost", title: "<spring:message		code='cost.inventortRentCost'/>", type: 'integer', required: false, width: "100%",
+                    name: "inventortRentCost",
+                    title: "<spring:message		code='cost.inventortRentCost'/>",
+                    type: 'integer',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -754,6 +811,7 @@
                     name: "blFeeCost",
                     title: "<spring:message code='cost.blFeeCost'/>",
                     type: 'float',
+required: true,
                     width: "100%",
                     validators: [{
                         type: "isFloat",
@@ -780,7 +838,11 @@
                     type: 'text', width: "100%", defaultValue: "DOLLAR", valueMap: dollar
                 },
                 {
-                    name: "contractorCost", title: "<spring:message		code='cost.contractorCost'/>", type: 'float', required: false, width: "100%",
+                    name: "contractorCost",
+                    title: "<spring:message		code='cost.contractorCost'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -802,7 +864,11 @@
                     }]
                 },
                 {
-                    name: "disinfectionCost", title: "<spring:message		code='cost.disinfectionCost'/>", type: 'float', required: false, width: "100%",
+                    name: "disinfectionCost",
+                    title: "<spring:message		code='cost.disinfectionCost'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,

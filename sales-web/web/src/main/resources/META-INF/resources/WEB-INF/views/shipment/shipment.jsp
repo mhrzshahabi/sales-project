@@ -280,6 +280,7 @@
                 valueField: "cisId",
                 pickListWidth: "500",
                 pickListHeight: "500",
+required: true,
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "contractNo", width: 50, align: "center"},
@@ -1073,7 +1074,7 @@
             {
                 name: "amount",
                 title: "<spring:message code='global.amount'/>",
-                type: 'float',
+                type: 'text',
                 width: "10%",
                 align: "center",
                 showHover: true

@@ -15,6 +15,7 @@
                 {name: "contact.nameFA", title: "<spring:message code='contact.name'/> "},
                 {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
                 {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
+                {name: "amount", title: "<spring:message code='global.amount'/>"},
                 {name: "sideContractDate", ID: "sideContractDate"},
                 {name: "refinaryCost", ID: "refinaryCost"},
                 {name: "treatCost", ID: "treatCost"},
@@ -74,6 +75,7 @@
 
     function ListGrid_Contract_refresh() {
         ListGrid_Contract.invalidateCache();
+        companyName.setTitle('قراردادها');
     }
 
     function ListGrid_Contract_edit() {
@@ -351,6 +353,7 @@
                     titleColSpan: 1,
                     tabIndex: 7,
                     showHover: true,
+                    required: true,
                     title: "<spring:message code='contractItem.material'/>",
                     type: 'long',
                     width: "100%",
@@ -758,7 +761,7 @@
     var Window_Contract = isc.Window.create({
         title: "<spring:message code='contract.title'/> ",
         width: 580,
-        height: "*",
+        // height: "*",
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -862,7 +865,7 @@
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
-            companyName.setTitle(record.contractNo+' '+record.contact.nameFA);
+            companyName.setTitle(record.contractNo + ' ' + record.contact.nameFA);
             var criteria1 = {
                 _constructor: "AdvancedCriteria",
                 operator: "and",
@@ -983,6 +986,7 @@
                 }
             });
         } else {
+            DynamicForm_ContractShipment.clearValues();
             DynamicForm_ContractShipment.editRecord(record);
             DynamicForm_ContractShipment.setValue("sendDateDummy", new Date(record.sendDate))
             Window_ContractShipment.animateShow();
@@ -1111,17 +1115,14 @@
                     type: 'long',
                     required: true,
                     width: 400,
-                    editorType: "SelectItem"
-                    ,
+                    editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
-                    displayField: "port"
-                    ,
+                    displayField: "port",
                     valueField: "id",
                     pickListWidth: "300",
                     pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true}
-                    ,
-                    pickListFields: [{name: "port", width: 150, align: "center"}]
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [{name: "port", width: 400, align: "center"}]
                 },
 
                 {
@@ -1253,10 +1254,9 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
             DynamicForm_ContractShipment.validate();
-            // if (DynamicForm_ContractShipment.hasErrors())
-            // return;
+            if (DynamicForm_ContractShipment.hasErrors())
+                return;
             var d = DynamicForm_ContractShipment.getValue("sendDateDummy");
             var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
             DynamicForm_ContractShipment.setValue("sendDate", datestring)
@@ -1292,7 +1292,7 @@
     var Window_ContractShipment = isc.Window.create({
         title: "<spring:message code='Shipment.title'/> ",
         width: 580,
-        height: 500,
+        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
