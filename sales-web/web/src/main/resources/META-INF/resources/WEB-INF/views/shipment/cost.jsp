@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <% DateUtil dateUtil = new DateUtil();%>
 
@@ -397,36 +397,51 @@
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
-                    DynamicForm_Cost.clearValues();
-                    if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
-                        DynamicForm_Cost.getItem("sourceCopper").show();
-                        DynamicForm_Cost.getItem("destinationCopper").show();
-                        DynamicForm_Cost.getItem("sourceGold").show();
-                        DynamicForm_Cost.getItem("destinationGold").show();
-                        DynamicForm_Cost.getItem("sourceSilver").show();
-                        DynamicForm_Cost.getItem("destinationSilver").show();
-                        DynamicForm_Cost.getItem("sourceMolybdenum").hide();
-                        DynamicForm_Cost.getItem("destinationMolybdenum").hide();
-                    } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
-                        DynamicForm_Cost.getItem("sourceCopper").hide();
-                        DynamicForm_Cost.getItem("destinationCopper").hide();
-                        DynamicForm_Cost.getItem("sourceGold").hide();
-                        DynamicForm_Cost.getItem("destinationGold").hide();
-                        DynamicForm_Cost.getItem("sourceSilver").hide();
-                        DynamicForm_Cost.getItem("destinationSilver").hide();
-                        DynamicForm_Cost.getItem("sourceMolybdenum").show();
-                        DynamicForm_Cost.getItem("destinationMolybdenum").show();
+                    var record = ListGrid_Shipment_CostHeader.getSelectedRecord();
+
+                    if (record == null || record.id == null) {
+                        isc.Dialog.create({
+                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                            icon: "[SKIN]ask.png",
+                            title: "<spring:message code='global.message'/>",
+                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                            buttonClick: function () {
+                                this.hide();
+                            }
+                        });
                     } else {
-                        DynamicForm_Cost.getItem("sourceCopper").show();
-                        DynamicForm_Cost.getItem("destinationCopper").show();
-                        DynamicForm_Cost.getItem("sourceGold").hide();
-                        DynamicForm_Cost.getItem("destinationGold").hide();
-                        DynamicForm_Cost.getItem("sourceSilver").hide();
-                        DynamicForm_Cost.getItem("destinationSilver").hide();
-                        DynamicForm_Cost.getItem("sourceMolybdenum").hide();
-                        DynamicForm_Cost.getItem("destinationMolybdenum").hide();
+                        DynamicForm_Cost.clearValues();
+                        DynamicForm_Cost.setValue("shipmentId", record.id);
+                        if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
+                            DynamicForm_Cost.getItem("sourceCopper").show();
+                            DynamicForm_Cost.getItem("destinationCopper").show();
+                            DynamicForm_Cost.getItem("sourceGold").show();
+                            DynamicForm_Cost.getItem("destinationGold").show();
+                            DynamicForm_Cost.getItem("sourceSilver").show();
+                            DynamicForm_Cost.getItem("destinationSilver").show();
+                            DynamicForm_Cost.getItem("sourceMolybdenum").hide();
+                            DynamicForm_Cost.getItem("destinationMolybdenum").hide();
+                        } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+                            DynamicForm_Cost.getItem("sourceCopper").hide();
+                            DynamicForm_Cost.getItem("destinationCopper").hide();
+                            DynamicForm_Cost.getItem("sourceGold").hide();
+                            DynamicForm_Cost.getItem("destinationGold").hide();
+                            DynamicForm_Cost.getItem("sourceSilver").hide();
+                            DynamicForm_Cost.getItem("destinationSilver").hide();
+                            DynamicForm_Cost.getItem("sourceMolybdenum").show();
+                            DynamicForm_Cost.getItem("destinationMolybdenum").show();
+                        } else {
+                            DynamicForm_Cost.getItem("sourceCopper").show();
+                            DynamicForm_Cost.getItem("destinationCopper").show();
+                            DynamicForm_Cost.getItem("sourceGold").hide();
+                            DynamicForm_Cost.getItem("destinationGold").hide();
+                            DynamicForm_Cost.getItem("sourceSilver").hide();
+                            DynamicForm_Cost.getItem("destinationSilver").hide();
+                            DynamicForm_Cost.getItem("sourceMolybdenum").hide();
+                            DynamicForm_Cost.getItem("destinationMolybdenum").hide();
+                        }
+                        Window_Cost.animateShow();
                     }
-                    Window_Cost.animateShow();
                 }
             },
             {
@@ -811,7 +826,7 @@
                     name: "blFeeCost",
                     title: "<spring:message code='cost.blFeeCost'/>",
                     type: 'float',
-required: true,
+                    required: true,
                     width: "100%",
                     validators: [{
                         type: "isFloat",

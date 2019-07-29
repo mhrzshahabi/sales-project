@@ -226,6 +226,8 @@
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     DynamicForm_Shipment.clearValues();
+                    DynamicForm_Shipment1.clearValues();
+                    DynamicForm_Shipment2.clearValues();
                     abal.show();
                     abal.fetchData();
                     Window_Shipment.animateShow();
@@ -280,7 +282,7 @@
                 valueField: "cisId",
                 pickListWidth: "500",
                 pickListHeight: "500",
-required: true,
+                required: true,
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "contractNo", width: 50, align: "center"},
@@ -980,6 +982,8 @@ required: true,
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Shipment.clearValues();
+            DynamicForm_Shipment1.clearValues();
+            DynamicForm_Shipment2.clearValues();
             abal.show();
             abal.fetchData();
             Window_Shipment.animateShow();

@@ -573,16 +573,13 @@
                     title: "<spring:message code='person.fullName'/>",
                     type: 'long',
                     width: 400,
-                    editorType: "SelectItem"
-                    ,
+                    editorType: "SelectItem",
                     optionDataSource: RestDataSource_Person_GroupEmail,
-                    displayField: "fullName"
-                    ,
+                    displayField: "fullName",
                     valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true}
-                    ,
+                    pickListProperties: {showFilterEditor: true},
                     pickListFields: [{name: "id", width: 50, align: "center"}, {
                         name: "fullName",
                         width: 150,
@@ -842,13 +839,6 @@
                 width: 120,
                 align: "center"
             },
-            {
-                name: "person.fullName",
-                title: "<spring:message code='person.fullName'/>",
-                type: 'text',
-                required: true,
-                width: 150
-            },
             {name: "person.jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 150},
             {
                 name: "person.title",
@@ -969,13 +959,6 @@
                 type: 'long',
                 width: 120,
                 align: "center"
-            },
-            {
-                name: "person.fullName",
-                title: "<spring:message code='person.fullName'/>",
-                type: 'text',
-                required: true,
-                width: 150
             },
             {name: "person.jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 150},
             {

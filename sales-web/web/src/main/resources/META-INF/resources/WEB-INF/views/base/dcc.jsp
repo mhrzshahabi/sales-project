@@ -33,7 +33,7 @@
         showInlineErrors: true,
         showErrorText: true,
         showErrorStyle: true,
-        errorOrientation: "right",
+        errorOrientation: "bottom",
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
