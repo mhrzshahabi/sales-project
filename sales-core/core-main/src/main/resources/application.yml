@@ -79,7 +79,7 @@ spring:
 server:
   servlet:
     context-path: /
-  port: 9099
+  port: 9095
 
 nicico:
   security:
