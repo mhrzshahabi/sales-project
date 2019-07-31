@@ -206,11 +206,9 @@
         dataArrived: function (startRow, endRow) {
         },
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        startsWithTitle: "tt"
+        filterOnKeypress: true
     });
     var HLayout_Grid_Shipment_CostHeader = isc.HLayout.create({
         width: "100%",
@@ -1234,11 +1232,9 @@
                 },
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: false,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();

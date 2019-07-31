@@ -1,15 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
-    function ThousandSeparate1(item)
-    {
+    function ThousandSeparate1(item) {
         var V = item;
-        V = V.replace(/,/g,'');
+        V = V.replace(/,/g, '');
         var R = new RegExp('(-?[0-9]+)([0-9]{3})');
-        while(R.test(V))
-        {
+        while (R.test(V)) {
             V = V.replace(R, '$1,$2');
         }
         return V;
@@ -166,7 +164,7 @@
                 {
                     name: "port",
                     title: "<spring:message code='port.port'/>",
-                    width: "100%",  required: true , length : "4000" ,
+                    width: "100%", required: true, length: "4000",
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false
@@ -178,7 +176,7 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    keyPressFilter :  "[0-9.]", length : "100" ,
+                    keyPressFilter: "[0-9.]", length: "100",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -193,7 +191,7 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    keyPressFilter :  "[0-9.]", length : "100" ,
+                    keyPressFilter: "[0-9.]", length: "100",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -208,7 +206,7 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    keyPressFilter :  "[0-9.]", length : "100" ,
+                    keyPressFilter: "[0-9.]", length: "100",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -222,8 +220,8 @@
                     type: 'long',
                     width: "100%",
                     editorType: "SelectItem",
-                    colSpan: 1, required: true ,
-                    titleColSpan: 1 ,
+                    colSpan: 1, required: true,
+                    titleColSpan: 1,
                     optionDataSource: RestDataSource_CountryPort,
                     displayField: "nameFa",
                     wrapTitle: false,
@@ -388,11 +386,9 @@
                 }
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();

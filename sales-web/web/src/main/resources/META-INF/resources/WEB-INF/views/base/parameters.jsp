@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 
-// <script>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -157,7 +157,7 @@
                 },
                 {
                     name: "paramValue", title: "<spring:message	code='parameters.paramValue'/>",
-                    width: "100%", type: "textArea" , required: true
+                    width: "100%", type: "textArea", required: true
                 },
                 {type: "RowSpacerItem"}
             ]
@@ -322,11 +322,9 @@
                 }
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();

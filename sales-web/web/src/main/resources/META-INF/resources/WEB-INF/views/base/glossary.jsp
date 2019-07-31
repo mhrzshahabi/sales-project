@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -122,40 +122,54 @@
             [
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
-                {name: "summary", title: "<spring:message code='glossary.summary'/>", type: 'text', width: "480" , required: true , length : "20"},
-                {name: "meaning", title: "<spring:message code='glossary.meaning'/>", type: 'text', width: "480" , required: true, length : "200"},
+                {
+                    name: "summary",
+                    title: "<spring:message code='glossary.summary'/>",
+                    type: 'text',
+                    width: "480",
+                    required: true,
+                    length: "20"
+                },
+                {
+                    name: "meaning",
+                    title: "<spring:message code='glossary.meaning'/>",
+                    type: 'text',
+                    width: "480",
+                    required: true,
+                    length: "200"
+                },
                 {type: "RowSpacerItem"}
 
-            <%--{--%>
-            <%--name: "nameFA",--%>
-            <%--title: "<spring:message--%>
-                    <%--code='FiscalYear.nameFa'/>",--%>
-            <%--required: true,--%>
-            <%--type: 'text',--%>
-            <%--readonly: true,--%>
-            <%--hint: "Persian/فارسی",--%>
-            <%--keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9 ]",--%>
-            <%--length: "20",--%>
-            <%--validators: [{--%>
-            <%--type: "isString", validateOnExit: true, stopOnError: true, errorMessage: "<spring:message--%>
-                    <%--code='validator.field.name'/>"--%>
-            <%--}]--%>
-            <%--},--%>
+                <%--{--%>
+                <%--name: "nameFA",--%>
+                <%--title: "<spring:message--%>
+                <%--code='FiscalYear.nameFa'/>",--%>
+                <%--required: true,--%>
+                <%--type: 'text',--%>
+                <%--readonly: true,--%>
+                <%--hint: "Persian/فارسی",--%>
+                <%--keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9 ]",--%>
+                <%--length: "20",--%>
+                <%--validators: [{--%>
+                <%--type: "isString", validateOnExit: true, stopOnError: true, errorMessage: "<spring:message--%>
+                <%--code='validator.field.name'/>"--%>
+                <%--}]--%>
+                <%--},--%>
 
-            <%--{--%>
-            <%--name: "nameEN", title: "<spring:message--%>
-                    <%--code='FiscalYear.nameLatin'/>", type: 'text', keyPressFilter: "[a-z|A-Z|0-9 ]", length: "20", hint: "Latin",--%>
-            <%--validators: [{--%>
-            <%--type: "isString",--%>
-            <%--validateOnExit: true,--%>
-            <%--type: "lengthRange",--%>
-            <%--min: 0,--%>
-            <%--max: 20,--%>
-            <%--stopOnError: true,--%>
-            <%--errorMessage: "<spring:message--%>
-                    <%--code='validator.field.name'/>"--%>
-            <%--}]--%>
-            <%--},--%>
+                <%--{--%>
+                <%--name: "nameEN", title: "<spring:message--%>
+                <%--code='FiscalYear.nameLatin'/>", type: 'text', keyPressFilter: "[a-z|A-Z|0-9 ]", length: "20", hint: "Latin",--%>
+                <%--validators: [{--%>
+                <%--type: "isString",--%>
+                <%--validateOnExit: true,--%>
+                <%--type: "lengthRange",--%>
+                <%--min: 0,--%>
+                <%--max: 20,--%>
+                <%--stopOnError: true,--%>
+                <%--errorMessage: "<spring:message--%>
+                <%--code='validator.field.name'/>"--%>
+                <%--}]--%>
+                <%--},--%>
 
             ]
     });
@@ -300,11 +314,9 @@
                 {name: "meaning", title: "<spring:message code='glossary.meaning'/>", width: "50%", align: "center"},
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();

@@ -1220,8 +1220,7 @@
         dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        startsWithTitle: "tt"
+        filterOnKeypress: true
     });
     var HLayout_Grid_Shipment = isc.HLayout.create({
         width: "100%",
@@ -1409,7 +1408,6 @@
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         selectionAppearance: "checkbox"
     });
     var Window_ShipmentEmailCC = isc.Window.create({
@@ -1674,7 +1672,6 @@
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
         },

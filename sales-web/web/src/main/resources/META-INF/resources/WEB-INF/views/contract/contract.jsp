@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -857,11 +857,9 @@
                 }
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
@@ -1393,11 +1391,9 @@
                 },
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: false,
         showFilterEditor: false,
-        filterOnKeypress: true,
-        startsWithTitle: "tt"
+        filterOnKeypress: true
     });
     var HLayout_ContractShipment_Grid = isc.HLayout.create({
         width: "100%",

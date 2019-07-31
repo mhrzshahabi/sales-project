@@ -31,7 +31,7 @@ public class TozinFormController {
 
 	@RequestMapping("/showForm")
 	public String showTozin() {
-		return "base/tozin";
+		return "product/tozin";
 	}
 
 	@RequestMapping(value = {"/showTransport2Plants/{date}"})

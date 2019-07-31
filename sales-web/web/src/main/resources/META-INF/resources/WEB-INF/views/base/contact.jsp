@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -236,7 +236,7 @@
                 required: true,
                 readonly: true,
                 width: "90%",
-                wrapTitle: false , hint: "Persian/فارسی"
+                wrapTitle: false, hint: "Persian/فارسی"
             },
             {
                 name: "nameEN",
@@ -267,7 +267,7 @@
                 title: "<spring:message code='contact.ceoPassportNo'/>",
                 type: 'text',
                 width: 200,
-                colSpan: 3, titleColSpan: 1, keyPressFilter: "[0-9.]" ,
+                colSpan: 3, titleColSpan: 1, keyPressFilter: "[0-9.]",
                 wrapTitle: false
             },
             {
@@ -275,7 +275,7 @@
                 title: "<spring:message code='contact.commercialRegistration'/>",
                 type: 'text',
                 width: 200,
-                colSpan: 3, titleColSpan: 1, keyPressFilter: "[0-9.]" ,
+                colSpan: 3, titleColSpan: 1, keyPressFilter: "[0-9.]",
                 wrapTitle: false
             },
             {
@@ -356,7 +356,7 @@
                 width: 200,
                 wrapTitle: false,
                 type: "boolean",
-                defaultValue : false ,
+                defaultValue: false,
                 colSpan: 3, titleColSpan: 1,
                 valueMap: {
                     "true": "<spring:message code='contact.type.real'/>",
@@ -367,14 +367,14 @@
                 name: "nationalCode",
                 title: "<spring:message code='contact.nationalCode'/>",
                 width: "90%",
-                required: true, keyPressFilter: "[0-9.]" ,
+                required: true, keyPressFilter: "[0-9.]",
                 wrapTitle: false
             },
             {
                 name: "economicalCode",
                 title: "<spring:message code='contact.economicalCode'/>",
                 width: 200,
-                colSpan: 3, titleColSpan: 1, keyPressFilter: "[0-9.]" ,
+                colSpan: 3, titleColSpan: 1, keyPressFilter: "[0-9.]",
                 wrapTitle: false
             },
             {
@@ -415,10 +415,22 @@
                 title: "<spring:message code='contact.phone'/>",
                 type: 'text',
                 width: 500,
-                wrapTitle: false , keyPressFilter: "[0-9.+]"
+                wrapTitle: false, keyPressFilter: "[0-9.+]"
             },
-            {name: "mobile", title: "<spring:message code='contact.mobile'/>", width: 500, wrapTitle: false , keyPressFilter: "[0-9.+]",},
-            {name: "fax", title: "<spring:message code='contact.fax'/>", width: 500, wrapTitle: false , keyPressFilter: "[0-9.+]",},
+            {
+                name: "mobile",
+                title: "<spring:message code='contact.mobile'/>",
+                width: 500,
+                wrapTitle: false,
+                keyPressFilter: "[0-9.+]",
+            },
+            {
+                name: "fax",
+                title: "<spring:message code='contact.fax'/>",
+                width: 500,
+                wrapTitle: false,
+                keyPressFilter: "[0-9.+]",
+            },
             {
                 name: "countryId",
                 title: "<spring:message code='country.nameFa'/>",
@@ -438,7 +450,13 @@
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
             {name: "webSite", title: "<spring:message code='contact.webSite'/>", width: 500, wrapTitle: false},
-            {name: "email", title: "<spring:message code='contact.email'/>", width: 500, wrapTitle: false , keyPressFilter: "[a-z|A-Z|0-9 . _ - ]"},
+            {
+                name: "email",
+                title: "<spring:message code='contact.email'/>",
+                width: 500,
+                wrapTitle: false,
+                keyPressFilter: "[a-z|A-Z|0-9 . _ - ]"
+            },
             {type: "RowSpacerItem"}
         ]
     });

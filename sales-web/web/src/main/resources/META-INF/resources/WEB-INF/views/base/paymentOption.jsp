@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -267,7 +267,7 @@
                 HLayout_PaymentOption_IButton
             ]
     });
-    var ListGrid_PaymentOption = isc.MyListGrid.create({
+    var ListGrid_PaymentOption = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_PaymentOption,
@@ -286,11 +286,9 @@
                 }
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
         },

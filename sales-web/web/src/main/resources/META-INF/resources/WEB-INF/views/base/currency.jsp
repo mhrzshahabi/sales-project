@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -144,7 +144,7 @@
                     title: "<spring:message code='currency.code'/>",
                     width: "100%",
                     colSpan: 1,
-                    titleColSpan: 1 ,
+                    titleColSpan: 1,
                     required: true,
                     keyPressFilter: "[0-9]", length: "15"
                 },
@@ -159,10 +159,10 @@
                 {
                     name: "nameEn",
                     title: "<spring:message code='currency.nameLatin'/>",
-                    width: "100%",  keyPressFilter: "[a-z|A-Z|0-9.]" ,
+                    width: "100%", keyPressFilter: "[a-z|A-Z|0-9.]",
                     colSpan: 1,
                     required: true,
-                    wrapTitle : false ,
+                    wrapTitle: false,
                     titleColSpan: 1
                 },
                 {
@@ -316,11 +316,9 @@
                 {name: "nameFa", title: "<spring:message code='currency.nameFa'/>", width: "10%", align: "center"},
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -144,7 +144,6 @@
                     window.open('${printUrl}');
                 }
             }
-
         ]
     });
 
@@ -350,7 +349,7 @@
                 })
             ]
     });
-    var ListGrid_Bank = isc.MyListGrid.create({
+    var ListGrid_Bank = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Bank__BANK,
@@ -371,11 +370,8 @@
                 {name: "address", title: "<spring:message code='bank.address'/>", width: "20%", align: "center"}
             ],
         sortField: 0,
-        dataPageSize: 50,
-        autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
         },

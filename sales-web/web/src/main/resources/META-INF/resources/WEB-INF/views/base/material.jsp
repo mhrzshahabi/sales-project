@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -164,7 +164,7 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-					title: "<spring:message
+                    title: "<spring:message
 		code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {
@@ -188,7 +188,7 @@
                 }
             });
         }
-	};
+    };
 
     var Menu_ListGrid_Material = isc.Menu.create({
         width: 150,
@@ -258,10 +258,16 @@
                     name: "descl",
                     title: "<spring:message code='material.descl'/>",
                     type: 'text',
-                    width: 400, required: true, keyPressFilter: "[a-z|A-Z|0-9 ]" ,
+                    width: 400, required: true, keyPressFilter: "[a-z|A-Z|0-9 ]",
                     textAlign: "left"
                 },
-                {name: "descp", title: "<spring:message code='material.descp'/>", type: 'text', width: 400 , required: true},
+                {
+                    name: "descp",
+                    title: "<spring:message code='material.descp'/>",
+                    type: 'text',
+                    width: 400,
+                    required: true
+                },
                 {
                     name: "unitId",
                     title: "<spring:message code='unit.nameFa'/>",
@@ -391,11 +397,9 @@
                 {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit'/>", align: "center"},
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
@@ -571,7 +575,7 @@
                     name: "featureId",
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'long', wrapTitle: false,
-                    width: 400,required: true,
+                    width: 400, required: true,
                     editorType: "SelectItem"
                     ,
                     optionDataSource: RestDataSource_Feature,
@@ -793,11 +797,11 @@
             var maxValue = DynamicForm_MaterialFeature.getValue("maxValue");
             console.log(minValue);
             console.log(maxValue);
-console.log(DynamicForm_MaterialFeature);
-            if  (minValue > maxValue) {
-                    isc.say("<spring:message code='MaterialFeature.minValue.Error'/>.");
-                    return;
-                    }
+            console.log(DynamicForm_MaterialFeature);
+            if (minValue > maxValue) {
+                isc.say("<spring:message code='MaterialFeature.minValue.Error'/>.");
+                return;
+            }
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -961,11 +965,9 @@ console.log(DynamicForm_MaterialFeature);
                 },
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        startsWithTitle: "tt"
+        filterOnKeypress: true
     });
     var HLayout_MaterialFeature_Grid = isc.HLayout.create({
         width: "100%",

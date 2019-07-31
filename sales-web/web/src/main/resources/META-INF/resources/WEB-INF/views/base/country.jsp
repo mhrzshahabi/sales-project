@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -142,22 +142,22 @@
                     name: "code",
                     title: "<spring:message code='country.code'/>",
                     width: "100%",
-                    colSpan: 1, required: true ,
-                    keyPressFilter: "[0-9]", length: "15" ,
+                    colSpan: 1, required: true,
+                    keyPressFilter: "[0-9]", length: "15",
                     titleColSpan: 1
                 },
                 {
                     name: "nameFa",
                     title: "<spring:message code='country.nameFa'/>",
                     width: "100%",
-                    colSpan: 1, required: true ,
+                    colSpan: 1, required: true,
                     titleColSpan: 1
                 },
                 {
                     name: "nameEn",
                     title: "<spring:message code='country.nameEn'/>",
                     width: "100%",
-                    colSpan: 1, required: true , keyPressFilter: "[a-z|A-Z|0-9.]" ,
+                    colSpan: 1, required: true, keyPressFilter: "[a-z|A-Z|0-9.]",
                     titleColSpan: 1
                 },
             ]
@@ -304,11 +304,9 @@
                 {name: "nameEn", title: "<spring:message code='country.nameEn'/>", width: "10%", align: "center"},
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -132,10 +132,38 @@
                     type: "date",
                     width: "400"
                 },
-                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", type: 'text', width: "400" , keyPressFilter: "[0-9.]", length: "15"},
-                {name: "eurUsd", title: "<spring:message code='currencyRate.eurUsd'/>", type: 'text', width: "400" , keyPressFilter: "[0-9.]", length: "15"},
-                {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", type: 'text', width: "400" , keyPressFilter: "[0-9.]", length: "15"},
-                {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", type: 'text', width: "400" , keyPressFilter: "[0-9.]", length: "15"},
+                {
+                    name: "irrUsd",
+                    title: "<spring:message code='currencyRate.irrUsd'/>",
+                    type: 'text',
+                    width: "400",
+                    keyPressFilter: "[0-9.]",
+                    length: "15"
+                },
+                {
+                    name: "eurUsd",
+                    title: "<spring:message code='currencyRate.eurUsd'/>",
+                    type: 'text',
+                    width: "400",
+                    keyPressFilter: "[0-9.]",
+                    length: "15"
+                },
+                {
+                    name: "aedUsd",
+                    title: "<spring:message code='currencyRate.aedUsd'/>",
+                    type: 'text',
+                    width: "400",
+                    keyPressFilter: "[0-9.]",
+                    length: "15"
+                },
+                {
+                    name: "rmbUsd",
+                    title: "<spring:message code='currencyRate.rmbUsd'/>",
+                    type: 'text',
+                    width: "400",
+                    keyPressFilter: "[0-9.]",
+                    length: "15"
+                },
                 {type: "RowSpacerItem"}
             ]
     });
@@ -201,7 +229,7 @@
                     width: "50%",
                     align: "center"
                 },
-                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", width: "50%", align: "center" },
+                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", width: "50%", align: "center"},
                 {name: "eurUsd", title: "<spring:message code='currencyRate.eurUsd'/>", width: "50%", align: "center"},
                 {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", width: "50%", align: "center"},
                 {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", width: "50%", align: "center"}
@@ -305,11 +333,9 @@
                 {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", width: "50%", align: "center"}
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();

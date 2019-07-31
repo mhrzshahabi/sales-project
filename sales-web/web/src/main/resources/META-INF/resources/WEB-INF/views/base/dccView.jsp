@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<%--<script>--%>
+//<script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -32,16 +32,14 @@
         fetchDataURL: "${restApiUrl}/api/dcc/spec-list"
     });
 
-    var listGrid_DccView = isc.MyListGrid.create({
+    var listGrid_DccView = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_DccView,
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: false,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         fields:
             [
                 {name: "id", hidden: true},
