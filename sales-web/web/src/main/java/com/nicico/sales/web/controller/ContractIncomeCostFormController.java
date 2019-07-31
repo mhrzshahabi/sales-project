@@ -45,13 +45,14 @@ public class ContractIncomeCostFormController {
 
     @RequestMapping("/showForm")
     public String showContractIncomeCost(HttpServletRequest req) {
+
         String[] contractIncomeCostFields =
                 {
                         "contractNo",
                         "customerFullNameEn",
                         "productNameEn",
                         "unitNameEn",
-                        "amount",
+                        "amount", "Double",
                         "totalFreight",
                         "shipmentAmount",
                         "blDate",

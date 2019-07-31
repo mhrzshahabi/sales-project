@@ -5,6 +5,7 @@ import com.nicico.sales.dto.ContractIncomeCostDTO;
 import net.sf.jasperreports.engine.JRException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public interface IContractIncomeCostService {

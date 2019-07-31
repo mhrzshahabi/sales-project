@@ -47,7 +47,7 @@
         fetchDataURL: "${restApiUrl}/api/contractIncomeCost/spec-list"
     });
 
-    var fltContractIncomeCost = isc.FilterBuilder.create({dataSource : RestDataSource_ContractIncomeCost});
+    var fltContractIncomeCost = isc.FilterBuilder.create({dataSource: RestDataSource_ContractIncomeCost});
     var HLayout_ContractIncomeCost_labels = isc.HLayout.create({
         width: "100%",
         layoutMargin: 5,
