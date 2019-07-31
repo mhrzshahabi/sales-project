@@ -24,7 +24,7 @@ public class ContractFormController {
 
 	@RequestMapping("/showForm")
 	public String showContract() {
-		return "base/contract";
+		return "contract/contract";
 	}
 
 	private final OAuth2AuthorizedClientService authorizedClientService;

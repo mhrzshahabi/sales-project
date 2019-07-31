@@ -15,6 +15,7 @@
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
+    <SCRIPT SRC=isomorphic/locales/frameworkMessages_fa.properties></SCRIPT>
 
     <SCRIPT>var isomorphicDir = "isomorphic/";</SCRIPT>
     <SCRIPT SRC=isomorphic/system/modules/ISC_Core.js></SCRIPT>
@@ -28,7 +29,6 @@
     <SCRIPT SRC=isomorphic/system/modules/ISC_Analytics.js></SCRIPT>
     <SCRIPT SRC=isomorphic/system/modules/ISC_FileLoader.js></SCRIPT>
     <SCRIPT SRC=isomorphic/skins/Tahoe/load_skin.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/locales/frameworkMessages_fa.properties></SCRIPT>
 
 </head>
 
@@ -42,6 +42,7 @@
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
+    isc.FileLoader.loadLocale("fa");
     /*---------------currentTime---------------*/
     var informationFlow;
 
@@ -86,6 +87,12 @@
     };
 
     isc.RPCManager.addClassProperties({
+        defaultPrompt: "<spring:message code='global.server.contacting'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
+        fetchDataPrompt: "<spring:message code='global.server.data.fetch'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
+        removeDataPrompt: "<spring:message code='global.server.data.remove'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
+        saveDataPrompt: "<spring:message code='global.server.data.save'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
+        promptStyle: "dialog",
+        allowCrossDomainCalls: true,
         handleError: function (response, request) {
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
@@ -103,20 +110,28 @@
     });
 
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
-    isc.RPCManager.allowCrossDomainCalls = true;
-    isc.FileLoader.loadLocale("fa");
-    isc.FileLoader.cacheLocale("fa");
     Page.setAppImgDir("static/img/");
 
-    isc.MyListGrid.addProperties({
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن"
+    isc.ListGrid.addProperties({
+        dataPageSize: 500,
+        showPrompt: true
+    });
+
+    isc.ToolStripButton.addProperties({
+        showDownIcon: false,
+        showSelectedIcon: false,
+        showRollOverIcon: false,
+        showMenuOnRollOver: true,
+        disabledCursor: "not-allowed",
+        border: "1px solid lightblue"
+    });
+    isc.ToolStripMenuButton.addProperties({
+        showDownIcon: false,
+        showSelectedIcon: false,
+        showRollOverIcon: false,
+        showMenuOnRollOver: true,
+        disabledCursor: "not-allowed",
+        border: "1px solid lightgray"
     });
 
     function getIconButton(title, props) {

@@ -12,7 +12,7 @@ public class DailyWarehouseFormController {
 
 	@RequestMapping("/showForm")
 	public String showDailyWarehouse() {
-		return "base/dailyWarehouse";
+		return "product/dailyWarehouse";
 	}
 
 	@RequestMapping("/print/{type}")
