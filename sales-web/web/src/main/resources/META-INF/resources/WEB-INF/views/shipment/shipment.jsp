@@ -113,7 +113,7 @@
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "contactId", type: 'long', hidden: true},
-            {name: "contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
+            {name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
             {name: "contractId", type: 'long', hidden: true},
             {
                 name: "contract.contractNo",
@@ -146,6 +146,13 @@
                 type: 'text',
                 width: 400,
                 valueMap: {"b": "bulk", "c": "container"}
+            },
+            {
+                name: "loadingLetter",
+                title: "<spring:message code='shipment.loadingLetter'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
             },
             {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
             {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", type: 'text', width: "10%"},
@@ -182,7 +189,32 @@
                     "Resource": "<spring:message code='shipment.resource'/>"
                 }
             },
+            {
+                name: "contractShipment.sendDate",
+                title: "<spring:message code='global.sendDate'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
+            },
             {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
+            {
+                name: "contactByAgent.nameFA",
+                title: "<spring:message code='shipment.agent'/>",
+                type: 'text',
+                width: "20%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "vesselName",
+                title: "<spring:message	code='shipment.vesselName'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
+            }
         ],
         fetchDataURL: "${restApiUrl}/api/shipment/spec-list"
     });
@@ -1020,7 +1052,7 @@
         ]
     });
 
-    var ListGrid_Shipment = isc.MyListGrid.create({
+    var ListGrid_Shipment = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
@@ -1100,7 +1132,7 @@
             {
                 name: "noContainer",
                 title: "<spring:message code='shipment.noContainer'/>",
-                type: 'integer',
+                type: 'text',
                 width: "10%",
                 align: "center",
                 showHover: true
@@ -1203,8 +1235,7 @@
                     "Resource": "<spring:message code='shipment.resource'/>"
                 },
                 showHover: true
-            },
-
+            }
         ],
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
@@ -1371,7 +1402,7 @@
                 }
             ]
     });
-    ListGrid_Person_EmailCC = isc.MyListGrid.create({
+    ListGrid_Person_EmailCC = isc.ListGrid.create({
         width: "800",
         height: "400",
         dataSource: RestDataSource_Person_EmailCC,
@@ -1618,7 +1649,7 @@
                 DynamicForm_ShipmentEmail, IButton_ShipmentEmail_Save
             ]
     });
-    var ListGrid_ShipmentEmail = isc.MyListGrid.create({
+    var ListGrid_ShipmentEmail = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ShipmentEmail,
@@ -1743,7 +1774,7 @@
                                             this.hide();
                                         }
                                     });
-                                    return;
+                                    record.id = null;
                                 }
                                 var dccTableId = record.id;
                                 var dccTableName = "TBL_SHIPMENT";

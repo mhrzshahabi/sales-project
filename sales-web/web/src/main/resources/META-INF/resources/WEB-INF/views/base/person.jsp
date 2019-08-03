@@ -484,7 +484,7 @@
         fetchDataURL: "${restApiUrl}/api/person/spec-list"
     });
 
-    var ListGrid_Person = isc.MyListGrid.create({
+    var ListGrid_Person = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Person,

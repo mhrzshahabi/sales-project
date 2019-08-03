@@ -68,7 +68,7 @@
             {name: "symbol", title: "<spring:message code='unit.symbol'/>", type: 'text', width: 400},
             {
                 name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400
-                , keyPressFilter: "[0-9]", length: "15"
+                , keyPressFilter: "[0-4]", length: "1"
             },
             {type: "RowSpacerItem"},
         ]
@@ -285,7 +285,7 @@
         fetchDataURL: "${restApiUrl}/api/unit/spec-list"
     });
 
-    var ListGrid_Unit = isc.MyListGrid.create({
+    var ListGrid_Unit = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Unit,

@@ -163,7 +163,7 @@ public class TozinRestController {
 		Map<String, Object> params = new HashMap<>();
 		params.put("dateReport", day);
 		params.put(ConstantVARs.REPORT_TYPE, type);
-		reportUtil.export("/reports/tozin_m1.jasper", params, response);
+		reportUtil.export("/reports/tozin_beyn_mojtama.jasper", params, response);
 	}
 
 }

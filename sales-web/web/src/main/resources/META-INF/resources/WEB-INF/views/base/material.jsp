@@ -382,7 +382,7 @@
             ]
     });
 
-    var ListGrid_Material = isc.MyListGrid.create({
+    var ListGrid_Material = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Material,
@@ -864,7 +864,7 @@
             ]
     });
 
-    var ListGrid_MaterialFeature = isc.MyListGrid.create({
+    var ListGrid_MaterialFeature = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_MaterialFeature,

@@ -62,7 +62,6 @@
     /*-----------------------------------------*/
 
     isc.defineClass("MyRestDataSource", RestDataSource);
-    isc.defineClass("MyListGrid", ListGrid);
 
     isc.MyRestDataSource.addProperties({
         dataFormat: "json",

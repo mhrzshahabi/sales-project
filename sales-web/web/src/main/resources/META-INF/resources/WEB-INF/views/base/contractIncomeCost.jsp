@@ -94,7 +94,7 @@
         ]
     });
 
-    var ListGrid_ContractIncomeCost = isc.MyListGrid.create({
+    var ListGrid_ContractIncomeCost = isc.ListGrid.create({
         ID: "pickableFields",
 
         width: "100%",

@@ -268,6 +268,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_Groups.clearValues();
             ListGrid_Groups_edit();
         }
     });
@@ -313,7 +314,7 @@
         fetchDataURL: "${restApiUrl}/api/groups/spec-list"
     });
 
-    var ListGrid_Groups = isc.MyListGrid.create({
+    var ListGrid_Groups = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Groups,
@@ -408,7 +409,7 @@
         ]
     });
 
-    var ListGrid_Person_GroupEmail = isc.MyListGrid.create({
+    var ListGrid_Person_GroupEmail = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Person_GroupEmail,
@@ -463,12 +464,13 @@
         recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
+            console.log(record);
             var criteria = {
                 _constructor: "AdvancedCriteria",
                 operator: "and",
                 criteria: [{fieldName: "personId", operator: "equals", value: record.id}]
             };
-            ListGrid_GroupsPerson.fetchData({"personId": record.id}, function (dsResponse, data, dsRequest) {
+            ListGrid_GroupsPerson.fetchData(criteria, function (dsResponse, data, dsRequest) {
                 ListGrid_GroupsPerson.setData(data);
             }, {operationId: "00"});
         },
@@ -749,7 +751,7 @@
 
             if (record == null || record.id == null) {
                 isc.Dialog.create({
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    message: "گروهی انتخاب نشده است!",
                     icon: "[SKIN]ask.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
@@ -760,6 +762,7 @@
             } else {
                 DynamicForm_GroupsPerson.clearValues();
                 DynamicForm_GroupsPerson.setValue("groupsId", record.id);
+                DynamicForm_GroupsPerson.setValue("groupsName", record.groupsName);
                 Window_GroupsPerson.show();
             }
         }
@@ -828,13 +831,6 @@
                 required: true,
                 width: 400
             },
-            {
-                name: "person.contact.nameFA",
-                title: "<spring:message code='contact.name'/>",
-                type: 'long',
-                width: 120,
-                align: "center"
-            },
             {name: "person.jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 150},
             {
                 name: "person.title",
@@ -874,7 +870,7 @@
 
         fetchDataURL: "${restApiUrl}/api/groupsPerson/spec-list"
     });
-    var ListGrid_GroupsPerson = isc.MyListGrid.create({
+    var ListGrid_GroupsPerson = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_GroupsPerson,
@@ -948,13 +944,6 @@
                 type: 'text',
                 required: true,
                 width: 400
-            },
-            {
-                name: "person.contact.nameFA",
-                title: "<spring:message code='contact.name'/>",
-                type: 'long',
-                width: 120,
-                align: "center"
             },
             {name: "person.jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 150},
             {

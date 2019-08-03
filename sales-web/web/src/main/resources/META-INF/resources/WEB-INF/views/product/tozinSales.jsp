@@ -163,14 +163,14 @@
             ]
     });
 
-    var Menu_ListGrid_TozinSales = isc.Menu.create({
+    var Menu_ListGrid_Forosh_Bargiri = isc.Menu.create({
         width: 150,
         data: [
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
                     var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
-                    "<spring:url value="/tozinSales/print/pdf" var="printUrl"/>"
+                    "<spring:url value="/tozinSales/print/Forosh_Bargiri/pdf" var="printUrl"/>"
                     window.open('${printUrl}' + '/' + toDay);
                 }
             },
@@ -178,7 +178,7 @@
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
                     var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
-                    "<spring:url value="/tozinSales/print/excel" var="printUrl"/>"
+                    "<spring:url value="/tozinSales/print/Forosh_Bargiri/excel" var="printUrl"/>"
                     window.open('${printUrl}' + '/' + toDay);
                 }
             },
@@ -186,174 +186,60 @@
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
                     var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
-                    "<spring:url value="/tozinSales/print/html" var="printUrl"/>"
+                    "<spring:url value="/tozinSales/print/Forosh_Bargiri/html" var="printUrl"/>"
                     window.open('${printUrl}' + '/' + toDay);
                 }
             }
-            // {
-            // 	title: "مبدا/مقصد سرجشمه", icon: "pieces/16/search.png",
-            // 	click: function () {
-            // 		var criteria = {
-            // 			_constructor: "AdvancedCriteria",
-            // 			operator: "and",
-            // 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "1"}]
-            // 		};
-            // 		ListGrid_TozinSales.fetchData(criteria, function (dsResponse, data, dsRequest) {
-            // 			ListGrid_TozinSales.setData(data);
-            // 		});
-            // 	}
-            // },
-            // {
-            // 	title: "مبدا/مقصد ميدوک", icon: "pieces/16/search.png",
-            // 	click: function () {
-            // 		var criteria = {
-            // 			_constructor: "AdvancedCriteria",
-            // 			operator: "and",
-            // 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "2"}]
-            // 		};
-            // 		ListGrid_TozinSales.fetchData(criteria, function (dsResponse, data, dsRequest) {
-            // 			ListGrid_TozinSales.setData(data);
-            // 		});
-            // 	}
-            // },
-            // {
-            // 	title: "مبدا/مقصد بندرعباس", icon: "pieces/16/search.png",
-            // 	click: function () {
-            // 		var criteria = {
-            // 			_constructor: "AdvancedCriteria",
-            // 			operator: "and",
-            // 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "3"}]
-            // 		};
-            // 		ListGrid_TozinSales.fetchData(criteria, function (dsResponse, data, dsRequest) {
-            // 			ListGrid_TozinSales.setData(data);
-            // 		});
-            // 	}
-            // },
-            // {
-            // 	title: "مبدا/مقصد خاتون آباد", icon: "pieces/16/search.png",
-            // 	click: function () {
-            // 		var criteria = {
-            // 			_constructor: "AdvancedCriteria",
-            // 			operator: "and",
-            // 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "4"}]
-            // 		};
-            // 		ListGrid_TozinSales.fetchData(criteria, function (dsResponse, data, dsRequest) {
-            // 			ListGrid_TozinSales.setData(data);
-            // 		});
-            // 	}
-            // },
-            // {
-            // 	title: "مبدا/مقصد سونگون", icon: "pieces/16/search.png",
-            // 	click: function () {
-            // 		var criteria = {
-            // 			_constructor: "AdvancedCriteria",
-            // 			operator: "and",
-            // 			criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "5"}]
-            // 		};
-            // 		ListGrid_TozinSales.fetchData(criteria, function (dsResponse, data, dsRequest) {
-            // 			ListGrid_TozinSales.setData(data);
-            // 		});
-            // 	}
-            // },
-            <%--{--%>
-            <%--title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",--%>
-            <%--click: function () {--%>
-            <%--}--%>
-            <%--},--%>
-            <%--{--%>
-            <%--title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",--%>
-            <%--click: function () {--%>
-            <%--ListGrid_TozinSales_edit();--%>
-            <%--}--%>
-            <%--},--%>
-            <%--{--%>
-            <%--title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",--%>
-            <%--click: function () {--%>
-            <%--ListGrid_TozinSales_remove();--%>
-            <%--}--%>
-            <%--},--%>
         ]
     });
 
-    var MenuButton_TozinSales = isc.MenuButton.create({
-        ID: "MenuButton_TozinSales",
+    var Menu_ListGrid_Kharid_Konstantere = isc.Menu.create({
+        width: 150,
+        data: [
+            {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/tozinSales/print/Kharid_Konstantere/pdf" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/tozinSales/print/Kharid_Konstantere/excel" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/tozinSales/print/Kharid_Konstantere/html" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            }
+        ]
+    });
+
+    var MenuButton_Forosh_Bargiri = isc.MenuButton.create({
+        ID: "MenuButton_Forosh_Bargiri",
         autoDraw: false,
         title: "گزارش فروش و بارگیری محصولات",
         prompt: "گزارش فروش و بارگیری محصولات براساس تاریخ داده شده",
         width: 100,
-        menu: Menu_ListGrid_TozinSales
+        menu: Menu_ListGrid_Forosh_Bargiri
     });
 
-    function ListGrid_TozinSales_edit() {
-
-        var record = ListGrid_TozinSales.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            DynamicForm_TozinSales.editRecord(record);
-            Window_TozinSales.show();
-        }
-    }
-
-    function ListGrid_TozinSales_remove() {
-
-        var record = ListGrid_TozinSales.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-                    title: "<spring:message
-		code='global.no'/>"
-                })],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index == 0) {
-                        var TozinSalesId = record.id;
-// ######@@@@###&&@@###
-                        var methodXXXX = "PUT";
-                        if (data.id == null) methodXXXX = "POST";
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
-                                actionURL: "${restApiUrl}/api/tozinSales/" + TozinSalesId,
-                                httpMethod: "DELETE",
-                                callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
-                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                        ListGrid_TozinSales_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
-                    }
-                }
-            });
-        }
-    }
+    var MenuButton_Kharid_Konstantere = isc.MenuButton.create({
+        ID: "MenuButton_Kharid_Konstantere",
+        autoDraw: false,
+        title: "گزارش خرید کنستانتره",
+        prompt: "گزارش خرید کنستانتره براساس تاریخ داده شده",
+        width: 100,
+        menu: Menu_ListGrid_Kharid_Konstantere
+    });
 
     var DynamicForm_TozinSales = isc.DynamicForm.create({
         width: "100%",
@@ -413,31 +299,6 @@
         }
     });
 
-    <%--var ToolStripButton_TozinSales_Add = isc.ToolStripButton.create({--%>
-    <%--icon: "[SKIN]/actions/add.png",--%>
-    <%--title: "<spring:message code='global.form.new'/>",--%>
-    <%--click: function () {--%>
-    <%--DynamicForm_TozinSales.clearValues();--%>
-    <%--Window_TozinSales.show();--%>
-    <%--}--%>
-    <%--});--%>
-    <%----%>
-    <%--var ToolStripButton_TozinSales_Edit = isc.ToolStripButton.create({--%>
-    <%--icon: "[SKIN]/actions/edit.png",--%>
-    <%--title: "<spring:message code='global.form.edit'/>",--%>
-    <%--click: function () {--%>
-    <%--ListGrid_TozinSales_edit();--%>
-    <%--}--%>
-    <%--});--%>
-    <%----%>
-    <%--var ToolStripButton_TozinSales_Remove = isc.ToolStripButton.create({--%>
-    <%--icon: "[SKIN]/actions/remove.png",--%>
-    <%--title: "<spring:message code='global.form.remove'/>",--%>
-    <%--click: function () {--%>
-    <%--ListGrid_TozinSales_remove();--%>
-    <%--}--%>
-    <%--});--%>
-
     var ToolStripButton_TozinSales_sum = isc.ToolStripButton.create({
         icon: "icon/sigma.png",
         title: "مجموع حمل",
@@ -471,33 +332,14 @@
         }
     });
 
-    var ToolStripButton_TozinSales_Print = isc.ToolStripButton.create({
-        icon: "[SKIN]/RichTextEditor/print.png",
-        title: "<spring:message code='global.form.print'/>",
-        prompt: "گزارش فروش و بارگیری محصولات براساس تاریخ داده شده",
-        click: function () {
-            var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
-            "<spring:url value="/tozinSales/print/pdf" var="printUrl"/>"
-            window.open('${printUrl}' + '/' + toDay);
-        }
-    });
-
     var ToolStrip_Actions_TozinSales = isc.ToolStrip.create({
         width: "100%",
         members:
             [
-                DynamicForm_DailyReport_TozinSales, MenuButton_TozinSales,
+                DynamicForm_DailyReport_TozinSales,
+                MenuButton_Forosh_Bargiri,
+                MenuButton_Kharid_Konstantere,
                 ToolStripButton_TozinSales_Refresh,
-                <%--ToolStripButton_TozinSales_Add,--%>
-                <%--ToolStripButton_TozinSales_Edit,--%>
-                <%--ToolStripButton_TozinSales_Remove,--%>
-                ToolStripButton_TozinSales_Print,
-                // ToolStripButton_TozinSales_Sarcheshmeh,
-                // ToolStripButton_TozinSales_Miduk,
-                // ToolStripButton_TozinSales_Bandar,
-                // ToolStripButton_TozinSales_Khaton,
-                // ToolStripButton_TozinSales_sungun,
-                // ToolStripButton_TozinSales_sum1,
                 ToolStripButton_TozinSales_sum
             ]
     });
@@ -584,7 +426,7 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_TozinSales,
-        contextMenu: Menu_ListGrid_TozinSales,
+        // contextMenu: Menu_ListGrid_TozinSales,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},

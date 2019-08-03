@@ -302,7 +302,7 @@
                 })
             ]
     });
-    var ListGrid_Currency = isc.MyListGrid.create({
+    var ListGrid_Currency = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Currency,

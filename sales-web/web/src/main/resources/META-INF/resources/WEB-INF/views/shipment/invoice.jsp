@@ -74,6 +74,14 @@
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_InvoiceHeader.invalidateCache();
+            var criteria = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{fieldName: "shipmentId", operator: "equals", value: null}]
+            };
+            ListGrid_Invoice.fetchData(criteria, function (dsResponse, data, dsRequest) {
+                ListGrid_Invoice.setData(data);
+            });
         }
     });
     var ToolStrip_Actions_Shipment_InvoiceHeader = isc.ToolStrip.create({
@@ -84,7 +92,7 @@
     });
     //-------------------
 
-    var ListGrid_Shipment_InvoiceHeader = isc.MyListGrid.create({
+    var ListGrid_Shipment_InvoiceHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment_InvoiceHeader,
@@ -883,7 +891,7 @@
                 })
             ]
     });
-    var ListGrid_Invoice = isc.MyListGrid.create({
+    var ListGrid_Invoice = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Invoice,

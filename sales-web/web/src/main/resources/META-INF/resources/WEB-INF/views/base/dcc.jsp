@@ -107,7 +107,7 @@
             [
                 ToolStripButton_Dcc_Refresh,
                 ToolStripButton_Dcc_Add,
-                ToolStripButton_Dcc_Edit,
+                // ToolStripButton_Dcc_Edit,
                 ToolStripButton_Dcc_Remove
             ]
     });
@@ -211,21 +211,17 @@
             },
             {isSeparator: true},
             {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                title: "<spring:message code='global.form.dcc.download'/>", icon: "icon/pdf.png",
                 click: function () {
-                    window.open("/dcc/print/pdf");
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
-                click: function () {
-                    window.open("/dcc/print/excel");
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
-                click: function () {
-                    window.open("/dcc/print/html");
+                    var record = ListGrid_Dcc.getSelectedRecord();
+                    if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
+                        window.open("/dcc/downloadFile?data=" + "\\" + "contract\\" + record.fileNewName);
+                    else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
+                        window.open("/dcc/downloadFile?data=" + "\\" + "contact\\" + record.fileNewName);
+                    else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
+                        window.open("/dcc/downloadFile?data=" + "\\" + "instruction\\" + record.fileNewName);
+                    else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
+                        window.open("/dcc/downloadFile?data=" + "\\" + "shipment\\" + record.fileNewName);
                 }
             }
         ]
@@ -362,7 +358,7 @@
                 })
             ]
     });
-    var ListGrid_Dcc = isc.MyListGrid.create({
+    var ListGrid_Dcc = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Dcc,
@@ -401,19 +397,7 @@
                     width: "50%",
                     align: "center"
                 }
-            ],
-        cellClick: function (record, rowNum, colNum) {
-            if (colNum == 0) {
-                if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "contract\\" + record.fileNewName);
-                else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "contact\\" + record.fileNewName);
-                else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "instruction\\" + record.fileNewName);
-                else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "shipment\\" + record.fileNewName);
-            }
-        }
+            ]
     });
 
     var DccGridHLayout = isc.HLayout.create({

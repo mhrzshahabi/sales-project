@@ -350,7 +350,7 @@
         fetchDataURL: "rest/currencyUnit/list"
     });
 
-    var ListGrid_CurrencyUnit = isc.MyListGrid.create({
+    var ListGrid_CurrencyUnit = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_CurrencyUnit,

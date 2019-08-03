@@ -420,106 +420,6 @@
         }
     });
 
-    // var ToolStripButton_Tozin_Add = isc.ToolStripButton.create({
-    //     icon: "[SKIN]/actions/add.png",
-    <%--title: "<spring:message code='global.form.new'/>",--%>
-    // click: function () {
-    //     DynamicForm_Tozin.clearValues();
-    //     Window_Tozin.show();
-    // }
-    // });
-    //
-    // var ToolStripButton_Tozin_Edit = isc.ToolStripButton.create({
-    //     icon: "[SKIN]/actions/edit.png",
-    <%--title: "<spring:message code='global.form.edit'/>",--%>
-    // click: function () {
-    //     ListGrid_Tozin_edit();
-    // }
-    // });
-    //
-    // var ToolStripButton_Tozin_Remove = isc.ToolStripButton.create({
-    //     icon: "[SKIN]/actions/remove.png",
-    <%--title: "<spring:message code='global.form.remove'/>",--%>
-    // click: function () {
-    //     ListGrid_Tozin_remove();
-    // }
-    // });
-    //
-    // var ToolStripButton_Tozin_Sarcheshmeh = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد سرجشمه",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "1"}]
-    //         };
-    //         ListGrid_Tozin.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_TozinSales.setData(data);
-    //         });
-    //     }
-    // });
-    //
-    // var ToolStripButton_Tozin_Miduk = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد ميدوک",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "2"}]
-    //         };
-    //         ListGrid_Tozin.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_TozinSales.setData(data);
-    //         });
-    //     }
-    // });
-    //
-    // var ToolStripButton_Tozin_Bandar = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد بندرعباس",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "3"}]
-    //         };
-    //         ListGrid_Tozin.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_TozinSales.setData(data);
-    //         });
-    //     }
-    // });
-    //
-    // var ToolStripButton_Tozin_Khaton = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد خاتون آباد",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "4"}]
-    //         };
-    //         ListGrid_Tozin.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_TozinSales.setData(data);
-    //         });
-    //     }
-    // });
-    //
-    // var ToolStripButton_Tozin_sungun = isc.ToolStripButton.create({
-    //     icon: "pieces/16/search.png",
-    //     title: "مبدا/مقصد سونگون",
-    //     click: function () {
-    //         var criteria = {
-    //             _constructor: "AdvancedCriteria",
-    //             operator: "and",
-    //             criteria: [{fieldName: "sourcePlantId", operator: "contains", value: "5"}]
-    //         };
-    //         ListGrid_Tozin.fetchData(criteria, function (dsResponse, data, dsRequest) {
-    //             ListGrid_TozinSales.setData(data);
-    //         });
-    //     }
-    // });
-
     var ToolStripButton_Tozin_sum = isc.ToolStripButton.create({
         icon: "icon/sigma.png",
         title: "مجموع حمل",
@@ -553,32 +453,12 @@
         }
     });
 
-    var ToolStripButton_Tozin_Print = isc.ToolStripButton.create({
-        icon: "[SKIN]/RichTextEditor/print.png",
-        title: "<spring:message code='global.form.print'/>",
-        prompt: "گزارش بین مجامع براساس تاریخ داده شده",
-        click: function () {
-            var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-            "<spring:url value="/tozin/print/pdf" var="printUrl"/>"
-            window.open('${printUrl}' + '/' + toDay);
-        }
-    });
-
     var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
         width: "100%",
         members:
             [
                 DynamicForm_DailyReport_Tozin, MenuButton_Tozin,
                 ToolStripButton_Tozin_Refresh,
-                // ToolStripButton_Tozin_Add,
-                // ToolStripButton_Tozin_Edit,
-                // ToolStripButton_Tozin_Remove,
-                ToolStripButton_Tozin_Print,
-                // ToolStripButton_Tozin_Sarcheshmeh,
-                // ToolStripButton_Tozin_Miduk,
-                // ToolStripButton_Tozin_Bandar,
-                // ToolStripButton_Tozin_Khaton,
-                // ToolStripButton_Tozin_sungun,
                 ToolStripButton_Tozin_sum
             ]
     });

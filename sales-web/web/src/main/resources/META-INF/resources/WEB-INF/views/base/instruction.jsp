@@ -297,7 +297,7 @@
             ]
     });
 
-    var ListGrid_Instruction = isc.MyListGrid.create({
+    var ListGrid_Instruction = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Instruction,
@@ -378,7 +378,7 @@
                                             this.hide();
                                         }
                                     });
-                                    return;
+                                    record.id= null;
                                 }
                                 var dccTableId = record.id;
                                 var dccTableName = "TBL_INSTRUCTION";

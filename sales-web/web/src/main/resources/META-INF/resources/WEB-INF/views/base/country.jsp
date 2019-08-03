@@ -291,7 +291,7 @@
                 HLayout_Country_IButton
             ]
     });
-    var ListGrid_Country = isc.MyListGrid.create({
+    var ListGrid_Country = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Country,

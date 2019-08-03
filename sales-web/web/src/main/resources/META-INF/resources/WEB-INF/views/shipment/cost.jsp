@@ -82,7 +82,7 @@
         ]
     });
     //-------------------
-    var ListGrid_Shipment_CostHeader = isc.MyListGrid.create({
+    var ListGrid_Shipment_CostHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         contextMenu: Menu_ListGrid_Shipment_CostHeader,
@@ -1068,7 +1068,7 @@
                 })
             ]
     });
-    var ListGrid_Cost = isc.MyListGrid.create({
+    var ListGrid_Cost = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Cost,

@@ -563,6 +563,7 @@
 
     function ListGrid_Contact_refresh() {
         ListGrid_Contact.invalidateCache();
+        commercialParty.setTitle('طرف حساب تجاری');
     }
 
     function ListGrid_Contact_remove() {
@@ -665,7 +666,7 @@
         }
     });
 
-    var ListGrid_ContactAccount = isc.MyListGrid.create({
+    var ListGrid_ContactAccount = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ContactAccount,
@@ -1056,7 +1057,7 @@
 
     var ContactAccountCancelBtn = isc.IButton.create({
         top: 260,
-        title: "<spring:message code='global.cancel'/>",
+        title: "<spring:message code='global.form.close'/>",
         icon: "pieces/16/icon_delete.png",
         click: function () {
             Window_AccountsContact.close();
@@ -1269,13 +1270,14 @@
         ]
     });
 
-    var ListGrid_Contact = isc.MyListGrid.create({
+    var ListGrid_Contact = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Contact,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
+            commercialParty.setTitle(record.nameFA);
         },
         dataArrived: function (startRow, endRow) {
         },
@@ -1378,6 +1380,7 @@
         height: "100%",
         tabs: [
             {
+                ID: "commercialParty",
                 title: "<spring:message code='commercialParty.title'/>",
                 icon: "",
                 iconSize: 16,
@@ -1400,7 +1403,7 @@
                                 this.hide();
                             }
                         });
-                        return;
+                        record.id = null;
                     }
                     var dccTableId = record.id;
                     var dccTableName = "TBL_CONTACT";
@@ -1415,5 +1418,4 @@
         height: "100%",
         backgroundColor: "",
         members: [contactMainTabSet]
-
     });

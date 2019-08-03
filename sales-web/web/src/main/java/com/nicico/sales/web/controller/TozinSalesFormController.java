@@ -24,56 +24,56 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @RequestMapping("/tozinSales")
 public class TozinSalesFormController {
-	private final OAuth2AuthorizedClientService authorizedClientService;
+    private final OAuth2AuthorizedClientService authorizedClientService;
 
-	@Value("${nicico.rest-api.url}")
-	private String restApiUrl;
+    @Value("${nicico.rest-api.url}")
+    private String restApiUrl;
 
-	@RequestMapping("/showForm")
-	public String showTozinSales() {
-		return "product/tozinSales";
-	}
+    @RequestMapping("/showForm")
+    public String showTozinSales() {
+        return "product/tozinSales";
+    }
 
-	@RequestMapping(value = {"/showTransport2Plants/{date}"})
-	public String showTransport2Plants(HttpServletRequest req, @PathVariable String date, @RequestParam("Authorization") String auth) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", auth);
-		HttpEntity<String> request = new HttpEntity<String>(headers);
+    @RequestMapping(value = {"/showTransport2Plants/{date}"})
+    public String showTransport2Plants(HttpServletRequest req, @PathVariable String date, @RequestParam("Authorization") String auth) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", auth);
+        HttpEntity<String> request = new HttpEntity<String>(headers);
 
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> modelMapFromRest = restTemplate.exchange(restApiUrl + "/api/tozinSales/showTransport2Plants/" + date, HttpMethod.GET, request, String.class);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> modelMapFromRest = restTemplate.exchange(restApiUrl + "/api/tozinSales/showTransport2Plants/" + date, HttpMethod.GET, request, String.class);
 
-		String out = modelMapFromRest.getBody();
-		req.setAttribute("out", out);
-		return "base/tozinSalesTransport2Plants";
-	}
+        String out = modelMapFromRest.getBody();
+        req.setAttribute("out", out);
+        return "base/tozinSalesTransport2Plants";
+    }
 
-	@RequestMapping("/print/{type}/{date}")
-	public ResponseEntity<?> print(Authentication authentication, @PathVariable String type, @PathVariable String date) {
-		String token = "";
-		if (authentication instanceof OAuth2AuthenticationToken) {
-			OAuth2AuthorizedClient client = authorizedClientService
-					.loadAuthorizedClient(
-							((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
-							authentication.getName());
-			token = client.getAccessToken().getTokenValue();
-		}
+    @RequestMapping("/print/{name}/{type}/{date}")
+    public ResponseEntity<?> print(Authentication authentication, @PathVariable String name, @PathVariable String type, @PathVariable String date) {
+        String token = "";
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthorizedClient client = authorizedClientService
+                    .loadAuthorizedClient(
+                            ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
+                            authentication.getName());
+            token = client.getAccessToken().getTokenValue();
+        }
 
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + token);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + token);
 
-		HttpEntity<String> entity = new HttpEntity<String>(headers);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
 
-		if(type.equals("pdf"))
-			return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/pdf/"+date, HttpMethod.GET, entity, byte[].class);
-		else if(type.equals("excel"))
-			return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/excel/"+date, HttpMethod.GET, entity, byte[].class);
-		else if(type.equals("html"))
-			return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/html/"+date, HttpMethod.GET, entity, byte[].class);
-		else
-			return null;
-	}
+        if (type.equals("pdf"))
+            return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/pdf/" + date, HttpMethod.GET, entity, byte[].class);
+        else if (type.equals("excel"))
+            return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/excel/" + date, HttpMethod.GET, entity, byte[].class);
+        else if (type.equals("html"))
+            return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "html/" + date, HttpMethod.GET, entity, byte[].class);
+        else
+            return null;
+    }
 }

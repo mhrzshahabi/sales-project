@@ -797,7 +797,7 @@
                 })
             ]
     });
-    var ListGrid_Contract = isc.MyListGrid.create({
+    var ListGrid_Contract = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Contract,
@@ -864,14 +864,6 @@
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             companyName.setTitle(record.contractNo + ' ' + record.contact.nameFA);
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
-            };
-            ListGrid_ContractShipment.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ContractShipment.setData(data);
-            });
         },
         dataArrived: function (startRow, endRow) {
         }
@@ -1208,6 +1200,7 @@
             } else {
                 DynamicForm_ContractShipment.clearValues();
                 DynamicForm_ContractShipment.setValue("contractId", record.id);
+                DynamicForm_ContractShipment.setValue("contractDate", record.contractDate);
                 Window_ContractShipment.animateShow();
             }
         }
@@ -1257,13 +1250,13 @@
                 return;
             var d = DynamicForm_ContractShipment.getValue("sendDateDummy");
             var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
-            DynamicForm_ContractShipment.setValue("sendDate", datestring)
+            DynamicForm_ContractShipment.setValue("sendDate", datestring);
 
-            <%--var contractDate = DynamicForm_ContractShipment.getValue("contract").contractDate.split("/");
+            var contractDate = DynamicForm_ContractShipment.getValue("contractDate").split("/");
             if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
-                isc.warn("<spring:message code='date.validation'/>", {title: 'هشدار'});
+                isc.warn("<spring:message code='shipment.date.validation'/>", {title: 'هشدار'});
                 return;
-            }--%>
+            }
 
             var data = DynamicForm_ContractShipment.getValues();
             // ######@@@@###&&@@###
@@ -1326,7 +1319,7 @@
                 })
             ]
     });
-    var ListGrid_ContractShipment = isc.MyListGrid.create({
+    var ListGrid_ContractShipment = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ContractShipment,
@@ -1443,7 +1436,7 @@
                                             this.hide();
                                         }
                                     });
-                                    return;
+                                    record.id = null;
                                 }
                                 var criteria = {
                                     _constructor: "AdvancedCriteria",
@@ -1469,7 +1462,7 @@
                                             this.hide();
                                         }
                                     });
-                                    return;
+                                    record.id = null;
                                 }
                                 var dccTableId = record.id;
                                 var dccTableName = "TBL_CONTRACT";
