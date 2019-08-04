@@ -128,7 +128,7 @@
 
 
     var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
-        width: "300",
+        width: "200",
         wrapItemTitles: false,
         height: "100%",
         setMethod: 'POST',
@@ -455,9 +455,11 @@
 
     var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 10,
         members:
             [
-                DynamicForm_DailyReport_Tozin, MenuButton_Tozin,
+                DynamicForm_DailyReport_Tozin,
+                MenuButton_Tozin,
                 ToolStripButton_Tozin_Refresh,
                 ToolStripButton_Tozin_sum
             ]

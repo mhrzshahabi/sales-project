@@ -125,7 +125,7 @@
 
 
     var DynamicForm_DailyReport_TozinSales = isc.DynamicForm.create({
-        width: "300",
+        width: "200",
         wrapItemTitles: false,
         height: "100%",
         setMethod: 'POST',
@@ -228,7 +228,7 @@
         autoDraw: false,
         title: "گزارش فروش و بارگیری محصولات",
         prompt: "گزارش فروش و بارگیری محصولات براساس تاریخ داده شده",
-        width: 100,
+        width: 150,
         menu: Menu_ListGrid_Forosh_Bargiri
     });
 
@@ -237,7 +237,7 @@
         autoDraw: false,
         title: "گزارش خرید کنستانتره",
         prompt: "گزارش خرید کنستانتره براساس تاریخ داده شده",
-        width: 100,
+        width: 150,
         menu: Menu_ListGrid_Kharid_Konstantere
     });
 
@@ -334,6 +334,7 @@
 
     var ToolStrip_Actions_TozinSales = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 10,
         members:
             [
                 DynamicForm_DailyReport_TozinSales,

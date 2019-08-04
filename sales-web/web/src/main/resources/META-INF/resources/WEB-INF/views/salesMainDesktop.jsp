@@ -403,7 +403,7 @@
         controls: [
             routineReportButton,
             // demandReportButton,
-            coordinatingOfficeReportButton
+            // coordinatingOfficeReportButton
         ],
         autoDraw: false
     });
