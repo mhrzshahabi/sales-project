@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-//<script>
+// <script>
 
     <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
 
@@ -563,14 +563,15 @@
         fields:
             [
                 {name: "id", hidden: true,},
-                {type: "RowSpacerItem"},
+                // {type: "RowSpacerItem"},
                 {name: "groupsId", type: "long", hidden: true},
-                {type: "RowSpacerItem"},
+                // {type: "RowSpacerItem"},
                 {
                     name: "personId",
                     title: "<spring:message code='person.fullName'/>",
                     type: 'long',
                     width: 400,
+                    required : true ,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Person_GroupEmail,
                     displayField: "fullName",
@@ -644,6 +645,45 @@
         ]
     });
 
+
+    ////////////////////////////////////////////////////
+    var GroupPersonHeaderForm = isc.DynamicForm.create({
+        align: "center",
+        width: "100%",
+        height: "100%",
+        titleWidth: "100%",
+        titleAlign: "right",
+        numCols: 1,
+        fields: [
+            {name: "id", type: "hidden", title: ""},
+            {
+                name: "groupsName",
+                type: "staticText",
+                title: "<spring:message code='group.name'/>",
+                wrapTitle: false
+            }
+        ]
+    });
+
+    function setGroupPersonHeaderFormData(record) {
+        GroupPersonHeaderForm.setValue("id", record.groups.id);
+        GroupPersonHeaderForm.setValue("groupsName", record.groups.groupsName);
+    };
+
+    var GroupPersonHeaderVLayout = isc.VLayout.create({
+        autoDraw: false,
+        align: "center",
+        width: "100%",
+        members: [
+            GroupPersonHeaderForm,
+            DynamicForm_GroupsPerson
+
+        ]
+    });
+
+    ///////////////////////////////////////////////////////////////////////
+
+
     var Window_GroupsPerson = isc.Window.create({
         title: "<spring:message code='groupsPerson.title'/>",
         width: 580,
@@ -661,7 +701,7 @@
         },
         items:
             [
-                DynamicForm_GroupsPerson,
+                GroupPersonHeaderVLayout,
                 HLayout_GroupsPerson_IButton
             ]
     });
@@ -731,6 +771,7 @@
             });
         } else {
             DynamicForm_GroupsPerson.editRecord(record);
+            setGroupPersonHeaderFormData(record);
             Window_GroupsPerson.show();
         }
     }
@@ -763,6 +804,10 @@
                 DynamicForm_GroupsPerson.clearValues();
                 DynamicForm_GroupsPerson.setValue("groupsId", record.id);
                 DynamicForm_GroupsPerson.setValue("groupsName", record.groupsName);
+                //setGroupPersonHeaderFormData(record);
+                GroupPersonHeaderForm.setValue("id", record.id);
+                GroupPersonHeaderForm.setValue("groupsName", record.groupsName);
+
                 Window_GroupsPerson.show();
             }
         }
