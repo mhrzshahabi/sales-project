@@ -362,13 +362,13 @@
     });*/
     /*-------------------Report---------------------------*/
     var routineReportButton = isc.IconButton.create({
-        title: "<spring:message code='routineReports.title'/>",
+        title: "<spring:message code='reportGenerator.title'/>",
         icon: "report/routineReports.png",
         largeIcon: "report/routineReports.png",
         orientation: "vertical",
 
         click: function () {
-            createTab("گزارش قراردادهای فروش", "<spring:url value="/contractIncomeCost/showForm" />")
+            createTab("گزارش ساز قرارداد فروش", "<spring:url value="/contractIncomeCost/showForm" />")
         }
     });
     var demandReportButton = isc.IconButton.create({

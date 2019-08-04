@@ -195,6 +195,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_Glossary.clearValues();
             ListGrid_Glossary_edit();
         }
     });

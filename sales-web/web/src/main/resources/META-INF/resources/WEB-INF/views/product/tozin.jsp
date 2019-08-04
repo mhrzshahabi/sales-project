@@ -758,7 +758,12 @@
 
     });
 
-    var VLayout_fltTozin = isc.VLayout.create({members: [fltTozin]});
+    var VLayout_fltTozin = isc.VLayout.create(
+        {
+            layoutMargin: 10,
+            members: [fltTozin]
+        }
+    );
 
 
     var VLayout_Tozin_Grid = isc.VLayout.create({

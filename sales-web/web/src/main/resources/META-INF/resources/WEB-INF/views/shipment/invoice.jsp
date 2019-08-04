@@ -780,6 +780,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_Invoice.clearValues();
             ListGrid_Invoice_edit();
         }
     });

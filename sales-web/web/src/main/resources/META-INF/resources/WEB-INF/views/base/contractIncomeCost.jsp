@@ -130,14 +130,6 @@
     pickableFields.delayCall("editFields");
 
 
-    var MenuButton_ContractIncomeCost = isc.MenuButton.create({
-        ID: "MenuButton_ContractIncomeCost",
-        autoDraw: false,
-        title: "گزارش بین مجامع",
-        width: 100,
-        menu: Menu_ListGrid_ContractIncomeCost
-    });
-
     var ToolStripButton_ContractIncomeCost_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -150,7 +142,6 @@
         width: "100%",
         members:
             [
-                MenuButton_ContractIncomeCost,
                 ToolStripButton_ContractIncomeCost_Refresh
             ]
     });
@@ -163,7 +154,12 @@
             ]
     });
 
-    var VLayout_fltContractIncomeCost = isc.VLayout.create({members: [fltContractIncomeCost]});
+    var VLayout_fltContractIncomeCost = isc.VLayout.create(
+        {
+            layoutMargin: 10,
+            members: [fltContractIncomeCost]
+        }
+    );
 
     var VLayout_ContractIncomeCost_Grid = isc.VLayout.create({
         width: "100%",

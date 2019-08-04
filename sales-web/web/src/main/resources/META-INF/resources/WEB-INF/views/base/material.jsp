@@ -122,6 +122,14 @@
 
     function ListGrid_Material_refresh() {
         ListGrid_Material.invalidateCache();
+        var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "materialId", operator: "equals", value: null}]
+        };
+        ListGrid_MaterialFeature.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            ListGrid_MaterialFeature.setData(data);
+        }, {operationId: "00"});
     }
 
     function ListGrid_Material_edit() {
@@ -311,6 +319,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_Material.clearValues();
             ListGrid_Material_edit();
         }
     });
@@ -753,6 +762,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_MaterialFeature.clearValues();
             ListGrid_MaterialFeature_edit();
         }
     });

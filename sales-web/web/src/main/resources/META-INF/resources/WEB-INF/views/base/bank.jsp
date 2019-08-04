@@ -249,6 +249,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_Bank.clearValues();
             ListGrid_Bank_edit();
         }
     });
@@ -370,6 +371,7 @@
                 {name: "address", title: "<spring:message code='bank.address'/>", width: "20%", align: "center"}
             ],
         sortField: 0,
+        autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",

@@ -184,6 +184,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_Parameters.clearValues();
             ListGrid_Parameters_edit();
         }
     });

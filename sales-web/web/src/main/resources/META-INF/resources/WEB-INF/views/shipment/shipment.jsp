@@ -1025,6 +1025,9 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_Shipment.clearValues();
+            DynamicForm_Shipment1.clearValues();
+            DynamicForm_Shipment2.clearValues();
             ListGrid_Shipment_edit();
         }
     });

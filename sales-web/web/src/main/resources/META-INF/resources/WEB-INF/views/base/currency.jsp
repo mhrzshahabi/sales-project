@@ -196,6 +196,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_Currency.clearValues();
             ListGrid_Currency_edit();
         }
     });

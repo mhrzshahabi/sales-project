@@ -244,6 +244,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_LME.clearValues();
             ListGrid_LME_edit();
         }
     });

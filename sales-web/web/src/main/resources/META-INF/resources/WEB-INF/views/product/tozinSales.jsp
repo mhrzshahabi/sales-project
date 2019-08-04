@@ -607,7 +607,12 @@
 
     });
 
-    var VLayout_fltTozinSales = isc.VLayout.create({members: [fltTozinSales]});
+    var VLayout_fltTozinSales = isc.VLayout.create(
+        {
+            layoutMargin: 10,
+            members: [fltTozinSales]
+        }
+    );
 
 
     var VLayout_TozinSales_Grid = isc.VLayout.create({
