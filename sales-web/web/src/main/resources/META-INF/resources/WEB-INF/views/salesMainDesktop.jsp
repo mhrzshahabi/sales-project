@@ -328,7 +328,7 @@
         }
     });
 
-    var cartableRibbonBar = isc.RibbonBar.create({
+    /*var cartableRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
         groupTitleAlign: "center",
         groupTitleOrientation: "top"
@@ -359,7 +359,7 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [cartableRibbonBar]
-    });
+    });*/
     /*-------------------Report---------------------------*/
     var routineReportButton = isc.IconButton.create({
         title: "<spring:message code='routineReports.title'/>",
@@ -402,7 +402,7 @@
         titleAlign: "left",
         controls: [
             routineReportButton,
-            demandReportButton,
+            // demandReportButton,
             coordinatingOfficeReportButton
         ],
         autoDraw: false
@@ -419,7 +419,7 @@
     });
 
     /*--------------------Dashboard--------------------------*/
-    var dashboardRibbonBar = isc.RibbonBar.create({
+    /*var dashboardRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
         groupTitleAlign: "center",
         groupTitleOrientation: "top"
@@ -443,7 +443,7 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [dashboardRibbonBar]
-    });
+    });*/
     /*----------------------Base------------------------*/
 
     var materialButton = isc.IconButton.create({
@@ -665,7 +665,7 @@
         members: [baseRibbonBar]
     });
     /*-------------------Setting---------------------------*/
-    var userButton = isc.IconButton.create({
+    /*var userButton = isc.IconButton.create({
         title: "کاربران",
         icon: "pieces/user.png",
         orientation: "vertical",
@@ -728,11 +728,11 @@
             , operatorsAccessButton
             , workgroupButton
             , roleButton
-            /*    IconButton_User
+            /!*    IconButton_User
                 ,IconButton_Group
                 ,IconButton_Access
                 ,departmentButton
-             */
+             *!/
 
         ],
         autoDraw: false
@@ -748,7 +748,7 @@
         backgroundColor: "#153560",
         members: [settingRibbonBar]
     });
-    /*-------------------license---------------------------*/
+    /!*-------------------license---------------------------*!/
     var boardCertificateButton = isc.IconButton.create({
         title: "<spring:message code='boardCertificate.title'/>",
         icon: "license/boardCertificate.png",
@@ -805,7 +805,7 @@
         backgroundColor: "#153560",
         members: [licenseRibbonBar]
     });
-    /*-------------------Tender---------------------------*/
+    /!*-------------------Tender---------------------------*!/
     var tenderButton = isc.IconButton.create({
         title: "<spring:message code='tenderNotice.title'/>",
         icon: "tender/tenderNotice.png",
@@ -852,7 +852,7 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [tenderRibbonBar]
-    });
+    });*/
     /*-------------------Contracts---------------------------*/
     var salesContractButton = isc.IconButton.create({
         title: "<spring:message code='salesContract.title'/>",
@@ -913,10 +913,10 @@
         titleAlign: "left",
         controls: [
             salesContractButton
-            , purchaseContractButton
-            , shipmentContractButton
-            , inspectionContractButton
-            , insuranceContractButton
+            // , purchaseContractButton
+            // , shipmentContractButton
+            // , inspectionContractButton
+            // , insuranceContractButton
 
         ],
         autoDraw: false
@@ -1064,15 +1064,15 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            warehousesButton
+            // warehousesButton
             , tozinButton
             , tozinSalesButton
-            , warehousesLotButton
-            , exportButton
-            , salesPlanButton
-            , purchasePlanButton
-            , deliveryPlanButton
-            , productionPlanButton
+            // , warehousesLotButton
+            // , exportButton
+            // , salesPlanButton
+            // , purchasePlanButton
+            // , deliveryPlanButton
+            // , productionPlanButton
         ],
         autoDraw: false
     });
@@ -1157,10 +1157,10 @@
         titleAlign: "left",
         controls: [
             cargoAssignmentButton
-            , shipmentAssignmentButton
-            , customFormalitiesButton
+            // , shipmentAssignmentButton
+            // , customFormalitiesButton
             , shipmentCostButton
-            , shipmentBolButton
+            // , shipmentBolButton
         ],
         autoDraw: false
     });
@@ -1176,7 +1176,7 @@
         members: [shipmentRibbonBar]
     });
     /*-------------------inspection---------------------------*/
-    var inspectorAppointmentButton = isc.IconButton.create({
+    /*var inspectorAppointmentButton = isc.IconButton.create({
         title: "<spring:message code='inspectorAppointment.title'/>",
         icon: "inspection/inspectorAppointment.png",
         largeIcon: "inspection/inspectorAppointment.png",
@@ -1243,7 +1243,7 @@
         backgroundColor: "#153560",
         members: [inspectionRibbonBar]
     });
-    /*-------------------insurance---------------------------*/
+    /!*-------------------insurance---------------------------*!/
     var insurerNominationButton = isc.IconButton.create({
         title: "<spring:message code='insurerNomination.title'/>",
         icon: "insurance/insurerNomination.png",
@@ -1320,7 +1320,7 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [insuranceRibbonBar]
-    });
+    });*/
     /*-------------------financial---------------------------*/
     var issuedInvoicesButton = isc.IconButton.create({
         title: "<spring:message code='issuedInvoices.title'/>",
@@ -1364,8 +1364,8 @@
         titleAlign: "left",
         controls: [
             issuedInvoicesButton
-            , receivedInvoicesButton
-            , financialBalanceButton
+            // , receivedInvoicesButton
+            // , financialBalanceButton
         ],
         autoDraw: false
     });
@@ -1418,23 +1418,18 @@
         width: "100%",
         height: "130",
         tabs: [
-            {title: "<spring:message code='main.cartableTab'/>", icon: "", iconSize: 16, pane: cartableRibbonHLayout},
+            <%--{title: "<spring:message code='main.cartableTab'/>", icon: "", iconSize: 16, pane: cartableRibbonHLayout},--%>
             {title: "<spring:message code='main.reportTab'/>", icon: "", iconSize: 16, pane: reportRibbonHLayout},
-            {title: "<spring:message code='main.dashboardTab'/>", icon: "", iconSize: 16, pane: dashboardRibbonHLayout},
+            <%--{title: "<spring:message code='main.dashboardTab'/>", icon: "", iconSize: 16, pane: dashboardRibbonHLayout},--%>
             {title: "<spring:message code='main.baseTab'/>", icon: "", iconSize: 16, pane: baseRibbonHLayout},
-            {title: "<spring:message code='main.settingTab'/>", icon: "", iconSize: 16, pane: settingRibbonHLayout},
-            {title: "<spring:message code='main.licenseTab'/>", icon: "", iconSize: 16, pane: licenseRibbonHLayout},
-            {title: "<spring:message code='main.tenderTab'/>", icon: "", iconSize: 16, pane: tenderRibbonHLayout},
+            <%--{title: "<spring:message code='main.settingTab'/>", icon: "", iconSize: 16, pane: settingRibbonHLayout},--%>
+            <%--{title: "<spring:message code='main.licenseTab'/>", icon: "", iconSize: 16, pane: licenseRibbonHLayout},--%>
+            <%--{title: "<spring:message code='main.tenderTab'/>", icon: "", iconSize: 16, pane: tenderRibbonHLayout},--%>
             {title: "<spring:message code='main.contractsTab'/>", icon: "", iconSize: 16, pane: contractRibbonHLayout},
             {title: "<spring:message code='main.productTab'/>", icon: "", iconSize: 16, pane: productRibbonHLayout},
             {title: "<spring:message code='main.shipmentTab'/>", icon: "", iconSize: 16, pane: shipmentRibbonHLayout},
-            {
-                title: "<spring:message code='main.inspectionTab'/>",
-                icon: "",
-                iconSize: 16,
-                pane: inspectionRibbonHLayout
-            },
-            {title: "<spring:message code='main.insuranceTab'/>", icon: "", iconSize: 16, pane: insuranceRibbonHLayout},
+            <%--{title: "<spring:message code='main.inspectionTab'/>",icon: "",iconSize: 16,pane: inspectionRibbonHLayout},--%>
+            <%--{title: "<spring:message code='main.insuranceTab'/>", icon: "", iconSize: 16, pane: insuranceRibbonHLayout},--%>
             {title: "<spring:message code='main.financialTab'/>", icon: "", iconSize: 16, pane: financialRibbonHLayout}
 
         ]
