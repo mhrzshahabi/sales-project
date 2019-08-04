@@ -72,7 +72,7 @@ public class TozinSalesFormController {
         else if (type.equals("excel"))
             return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/excel/" + date, HttpMethod.GET, entity, byte[].class);
         else if (type.equals("html"))
-            return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "html/" + date, HttpMethod.GET, entity, byte[].class);
+            return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/html/" + date, HttpMethod.GET, entity, byte[].class);
         else
             return null;
     }
