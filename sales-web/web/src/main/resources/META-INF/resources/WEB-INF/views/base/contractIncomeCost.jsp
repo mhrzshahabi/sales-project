@@ -82,13 +82,21 @@
             {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
-                    window.open('/contractIncomeCost/print/excel/' + encodeURIComponent(JSON.stringify(fltContractIncomeCost.getCriteria())));
+                    var viewState = ListGrid_ContractIncomeCost.getViewState();
+                    viewState = viewState.substring(1, viewState.length - 1);
+                    window.open('/contractIncomeCost/print/excel/' +
+                        encodeURIComponent(JSON.stringify(fltContractIncomeCost.getCriteria())) + "/" +
+                        encodeURIComponent(viewState));
                 }
             },
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
-                    window.open('/contractIncomeCost/print/html/' + encodeURIComponent(JSON.stringify(fltContractIncomeCost.getCriteria())));
+                    var viewState = ListGrid_ContractIncomeCost.getViewState();
+                    viewState = viewState.substring(1, viewState.length - 1);
+                    window.open('/contractIncomeCost/print/html/' +
+                        encodeURIComponent(JSON.stringify(fltContractIncomeCost.getCriteria())) + "/" +
+                        encodeURIComponent(viewState));
                 }
             }
         ]

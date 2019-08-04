@@ -9,12 +9,13 @@ import net.sf.jasperreports.engine.xml.JRBandFactory;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import java.awt.*;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ReportBuilder {
-    public static JasperDesign getPageTemplateDesign(String templatePath, ArrayList<String> columns) throws JRException {
+    public static JasperDesign getPageTemplateDesign(InputStream templatePath, ArrayList<String> columns) throws JRException {
 
         JasperDesign jasDes = JRXmlLoader.load(templatePath);
         jasDes.setName("report");

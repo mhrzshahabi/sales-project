@@ -4,8 +4,9 @@ import com.nicico.copper.core.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContractIncomeCostDTO;
 import net.sf.jasperreports.engine.JRException;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public interface IContractIncomeCostService {
@@ -24,5 +25,5 @@ public interface IContractIncomeCostService {
 
 	SearchDTO.SearchRs<ContractIncomeCostDTO.Info> search(SearchDTO.SearchRq request);
 
-	void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns) throws JRException;
+	void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns, String type, HttpServletResponse httpServletResponse) throws JRException, IOException;
 }

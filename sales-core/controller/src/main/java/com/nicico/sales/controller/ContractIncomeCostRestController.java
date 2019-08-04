@@ -115,7 +115,8 @@ public class ContractIncomeCostRestController {
             @RequestParam("type") String type,
             @RequestParam("operator") String operator,
             @RequestParam("criteria") String criteria,
-            @RequestParam("preferences") String preferences
+            @RequestParam("preferences") String preferences,
+            HttpServletResponse httpServletResponse
     ) {
         try {
             SearchDTO.SearchRq request = new SearchDTO.SearchRq();
@@ -160,7 +161,7 @@ public class ContractIncomeCostRestController {
 
             List<ContractIncomeCostDTO.Info> searchList = contractIncomeCostService.search(request).getList();
 
-            contractIncomeCostService.pdfFx(searchList, columns);
+            contractIncomeCostService.pdfFx(searchList, columns,type,httpServletResponse);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -12,11 +12,19 @@ import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -92,10 +100,36 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
     }
 
     @Override
-    public void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns) throws JRException {
-        JasperDesign jasperDesign = ReportBuilder.getPageTemplateDesign("report.jrxml", columns);
+    public void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns, String type, HttpServletResponse httpServletResponse) throws JRException, IOException {
+        JasperDesign jasperDesign = ReportBuilder.getPageTemplateDesign(getClass().getResourceAsStream("/reports/report.jrxml"), columns);
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(myList));
-        JasperExportManager.exportReportToPdfFile(jasperPrint, "output.pdf");
+        switch (type) {
+            case "pdf":
+                httpServletResponse.setContentType("application/x-pdf");
+                httpServletResponse.setHeader("Content-disposition", "inline; filename=report.pdf");
+                JasperExportManager.exportReportToPdfStream(jasperPrint, httpServletResponse.getOutputStream());
+                break;
+            case "excel":
+                httpServletResponse.setContentType("application/vnd.ms-excel");
+                httpServletResponse.setHeader("Content-disposition", "inline; filename=report.xls");
+                JRXlsxExporter xlsxExporter = new JRXlsxExporter(DefaultJasperReportsContext.getInstance());
+                xlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                xlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(httpServletResponse.getOutputStream()));
+                SimpleXlsxReportConfiguration reportConfigXls = new SimpleXlsxReportConfiguration();
+                reportConfigXls.setSheetNames(new String[]{"Data"});
+                xlsxExporter.setConfiguration(reportConfigXls);
+                xlsxExporter.exportReport();
+                httpServletResponse.getOutputStream().flush();
+                break;
+            case "html":
+                httpServletResponse.setContentType("text/html");
+                httpServletResponse.setCharacterEncoding("UTF-8");
+                HtmlExporter htmlExporter = new HtmlExporter(DefaultJasperReportsContext.getInstance());
+                htmlExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                htmlExporter.setExporterOutput(new SimpleHtmlExporterOutput(httpServletResponse.getWriter()));
+                htmlExporter.exportReport();
+                break;
+        }
     }
 }
