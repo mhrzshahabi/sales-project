@@ -945,8 +945,8 @@
     });
     var tozinButton = isc.IconButton.create({
         title: "<spring:message code='tozin.title'/>",
-        icon: "product/tozin.png",
-        largeIcon: "product/tozin.png",
+        icon: "product/forklift.png",
+        largeIcon: "product/forklift.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='tozin.title'/>", "<spring:url value="/tozin/showForm" />")

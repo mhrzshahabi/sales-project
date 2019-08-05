@@ -86,13 +86,13 @@
             dccCreateWindow.show();
         }
     });
-    var ToolStripButton_Dcc_Edit = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/edit.png",
-        title: "<spring:message code='global.form.edit'/>",
-        click: function () {
-            ListGrid_Dcc_edit();
-        }
-    });
+    <%--var ToolStripButton_Dcc_Edit = isc.ToolStripButton.create({--%>
+        <%--icon: "[SKIN]/actions/edit.png",--%>
+        <%--title: "<spring:message code='global.form.edit'/>",--%>
+        <%--click: function () {--%>
+            <%--ListGrid_Dcc_edit();--%>
+        <%--}--%>
+    <%--});--%>
 
     var ToolStripButton_Dcc_Remove = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/remove.png",
