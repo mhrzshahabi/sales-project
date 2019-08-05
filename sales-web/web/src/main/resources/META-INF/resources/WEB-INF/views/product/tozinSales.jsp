@@ -223,6 +223,36 @@
         ]
     });
 
+    var Menu_ListGrid_Kharid_Zaieat = isc.Menu.create({
+        width: 200,
+        data: [
+            {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/tozinSales/print/Kharid_Zaieat/pdf" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/tozinSales/print/Kharid_Zaieat/excel" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_TozinSales.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/tozinSales/print/Kharid_Zaieat/html" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            }
+        ]
+    });
+
     var MenuButton_Forosh_Bargiri = isc.MenuButton.create({
         ID: "MenuButton_Forosh_Bargiri",
         autoDraw: false,
@@ -239,6 +269,15 @@
         prompt: "گزارش خرید کنستانتره براساس تاریخ داده شده",
         width: 150,
         menu: Menu_ListGrid_Kharid_Konstantere
+    });
+
+    var MenuButton_Kharid_Zaieat = isc.MenuButton.create({
+        ID: "MenuButton_Kharid_Zaieat",
+        autoDraw: false,
+        title: "گزارش خرید ضایعات مسی و بلیستر وارده",
+        prompt: "گزارش خرید ضایعات مسی و بلیستر وارده براساس تاریخ داده شده",
+        width: 200,
+        menu: Menu_ListGrid_Kharid_Zaieat
     });
 
     var DynamicForm_TozinSales = isc.DynamicForm.create({
@@ -340,6 +379,7 @@
                 DynamicForm_DailyReport_TozinSales,
                 MenuButton_Forosh_Bargiri,
                 MenuButton_Kharid_Konstantere,
+                MenuButton_Kharid_Zaieat,
                 ToolStripButton_TozinSales_Refresh,
                 ToolStripButton_TozinSales_sum
             ]
@@ -624,13 +664,11 @@
             ListGrid_TozinSales
         ]
     });
-    var VLayout_TozinSales_Body = isc.VLayout.create({
+
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_TozinSales_Actions, VLayout_TozinSales_Grid
         ]
     });
-
-
-

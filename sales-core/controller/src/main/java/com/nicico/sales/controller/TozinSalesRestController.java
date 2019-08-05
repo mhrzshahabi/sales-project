@@ -144,6 +144,8 @@ public class TozinSalesRestController {
             reportUtil.export("/reports/tozin_forosh_bargiri.jasper", params, response);
         } else if (name.equals("Kharid_Konstantere")) {
             reportUtil.export("/reports/tozin_kharid_konstantere.jasper", params, response);
+        }else if (name.equals("Kharid_Zaieat")) {
+            reportUtil.export("/reports/tozin_kharid_zayeat.jasper", params, response);
         }
     }
 
