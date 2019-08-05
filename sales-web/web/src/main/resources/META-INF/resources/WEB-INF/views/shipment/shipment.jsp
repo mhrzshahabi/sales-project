@@ -332,6 +332,7 @@
                 ],
                 changed: function () {
                     var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
+                    console.log(record);
                     Shipment_contact_name.setContents(record.fullname);
                     var d = new Date(record.sendDate);
                     DynamicForm_Shipment.setValue("createDateDumy", d);
@@ -570,7 +571,7 @@
             {type: "Header", defaultValue: dash},
             {
                 name: "portByLoadingId", colSpan: 3,
-                title: "<spring:message		code='shipment.loading'/>",
+                title: "<spring:message code='shipment.loading'/>",
                 type: 'long',
                 width: "100%",
                 editorType: "SelectItem",

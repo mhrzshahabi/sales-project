@@ -18,9 +18,7 @@ public interface ShipmentDAO extends JpaRepository<Shipment, Long>, JpaSpecifica
 			"                     join sales.tbl_contract c on c.id=cs.CONTRACT_ID  " +
 			"                     join sales.tbl_material m on m.id=c.MATERIAL_ID  " +
 			"                     join sales.tbl_contact a on a.ID=c.CONTACT_ID  " +
-			"                      where cs.id not in (select  xs.contract_shipment_id from sales.tbl_shipment xs where  xs.contract_shipment_id=cs.id) " +
+			"                      where cs.id not in (select  xs.contract_shipment_id from sales.tbl_shipment xs where  xs.contract_shipment_id=cs.id) and cs.DISCHARGE IS NOT NULL" +
 			"                      and to_char(sysdate+15,'yyyy/mm/dd') > cs.SEND_DATE   ", nativeQuery = true)
 	public List<Object[]> pickListShipment();
-
-
 }
