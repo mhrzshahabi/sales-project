@@ -890,7 +890,7 @@
 
     var Window_Shipment = isc.Window.create({
         title: "<spring:message code='Shipment.title'/>",
-        width: 640,
+        width: 680,
         height: 600,
         autoSize: true,
         autoCenter: true,
