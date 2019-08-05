@@ -100,8 +100,8 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
     }
 
     @Override
-    public void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns, String type, HttpServletResponse httpServletResponse) throws JRException, IOException {
-        JasperDesign jasperDesign = ReportBuilder.getPageTemplateDesign(getClass().getResourceAsStream("/reports/report.jrxml"), columns);
+    public void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns,  ArrayList<String> fields, String type, HttpServletResponse httpServletResponse) throws JRException, IOException {
+        JasperDesign jasperDesign = ReportBuilder.getPageTemplateDesign(getClass().getResourceAsStream("/reports/report.jrxml"), columns ,fields);
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(myList));
         switch (type) {

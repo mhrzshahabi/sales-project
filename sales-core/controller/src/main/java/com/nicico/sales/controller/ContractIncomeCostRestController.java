@@ -130,9 +130,11 @@ public class ContractIncomeCostRestController {
             JsonParser jsonParser = JsonParserFactory.getJsonParser();
             Map<String, Object> preferencesMap = jsonParser.parseMap(preferences);
             ArrayList<String> columns = new ArrayList<>();
+            ArrayList<String> fields = new ArrayList<>();
             for (Map<String, Object> field : (ArrayList<Map<String, Object>>) preferencesMap.get("field")) {
                 if (!field.containsKey("visible")) {
-                    columns.add(field.get("name").toString());
+                    columns.add(field.get("title").toString());
+                    fields.add(field.get("name").toString());
                 }
             }
 
@@ -161,7 +163,7 @@ public class ContractIncomeCostRestController {
 
             List<ContractIncomeCostDTO.Info> searchList = contractIncomeCostService.search(request).getList();
 
-            contractIncomeCostService.pdfFx(searchList, columns,type,httpServletResponse);
+            contractIncomeCostService.pdfFx(searchList, columns, fields, type, httpServletResponse);
         } catch (Exception e) {
             e.printStackTrace();
         }

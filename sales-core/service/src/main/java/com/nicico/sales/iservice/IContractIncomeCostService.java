@@ -25,5 +25,5 @@ public interface IContractIncomeCostService {
 
 	SearchDTO.SearchRs<ContractIncomeCostDTO.Info> search(SearchDTO.SearchRq request);
 
-	void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns, String type, HttpServletResponse httpServletResponse) throws JRException, IOException;
+	void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns,  ArrayList<String> fields, String type, HttpServletResponse httpServletResponse) throws JRException, IOException;
 }

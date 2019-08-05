@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ReportBuilder {
-    public static JasperDesign getPageTemplateDesign(InputStream templatePath, ArrayList<String> columns) throws JRException {
+    public static JasperDesign getPageTemplateDesign(InputStream templatePath, ArrayList<String> columns, ArrayList<String> fields) throws JRException {
 
         JasperDesign jasDes = JRXmlLoader.load(templatePath);
         jasDes.setName("report");
@@ -29,15 +29,12 @@ public class ReportBuilder {
         mystyle.setPdfEncoding("UTF-8");
         jasDes.addStyle(mystyle);
 
-        // Title
-
-
         // Fields
-        for (String column : columns) {
+        for (String myField : fields) {
             JRDesignField field = new JRDesignField();
-            field.setName(column);
+            field.setName(myField);
             try {
-                field.setValueClass(ContractIncomeCostDTO.class.getDeclaredField(column).getType());
+                field.setValueClass(ContractIncomeCostDTO.class.getDeclaredField(myField).getType());
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             }
@@ -54,9 +51,11 @@ public class ReportBuilder {
         detailBand.setHeight(20);
 
         int start = 0;
+        int index = 0;
         for (String column : columns) {
             headerBand.addElement(getStaticText(start, 0, 100, 20, column));
-            detailBand.addElement(getTextField(start, 0, 100, 20, column));
+            detailBand.addElement(getTextField(start, 0, 100, 20, fields.get(index)));
+            index++;
             start = start + 100;
         }
 

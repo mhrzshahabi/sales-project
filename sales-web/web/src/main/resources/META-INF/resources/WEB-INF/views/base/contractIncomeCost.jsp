@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<% String[] contractIncomeCostFields = (String[]) request.getAttribute("contractIncomeCostFields"); %>
+<% String[][] contractIncomeCostFields = (String[][]) request.getAttribute("contractIncomeCostFields"); %>
 
 //<script>
 
@@ -12,8 +12,8 @@
         var fields = [];
         <%for (int i = 0; i < contractIncomeCostFields.length; i++) {%>
         fields.add({
-            name: "<%=contractIncomeCostFields[i] %>",
-            title: "<%=contractIncomeCostFields[i] %>",
+            name: "<%=contractIncomeCostFields[i][0] %>",
+            title: "<%=contractIncomeCostFields[i][0] %>",
             showIf: "false"
         });
         <%}%>
@@ -39,8 +39,8 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 <% for(int i=0;i<contractIncomeCostFields.length;i++) { %>
                 {
-                    name: "<%=contractIncomeCostFields[i] %>",
-                    title: "<%=contractIncomeCostFields[i] %>"
+                    name: "<%=contractIncomeCostFields[i][0] %>",
+                    title: "<%=contractIncomeCostFields[i][0] %>"
                 },
                 <% } %>
             ],
@@ -102,6 +102,10 @@
         ]
     });
 
+    isc.FieldPicker.addProperties({
+        styleName:"fieldpicker_style"
+    });
+
     var ListGrid_ContractIncomeCost = isc.ListGrid.create({
         ID: "pickableFields",
 
@@ -128,7 +132,6 @@
     });
 
     pickableFields.delayCall("editFields");
-
 
     var ToolStripButton_ContractIncomeCost_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
