@@ -104,6 +104,7 @@
                 {name: "materialID", title: "materialId"},
                 {name: "dischargeID", title: "dischargeID"},
                 {name: "dischargeAddress", title: "materialId"},
+                {name: "code", title: "code"}
             ],
         fetchDataURL: "${restApiUrl}/api/shipment/pick-list"
     });
@@ -332,7 +333,6 @@
                 ],
                 changed: function () {
                     var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
-                    console.log(record);
                     Shipment_contact_name.setContents(record.fullname);
                     var d = new Date(record.sendDate);
                     DynamicForm_Shipment.setValue("createDateDumy", d);
@@ -348,7 +348,14 @@
                     DynamicForm_Shipment.setValue("contractShipmentId", record.cisId);
                     DynamicForm_Shipment1.setValue("portByDischargeId", record.dischargeID);
                     DynamicForm_Shipment1.setValue("dischargeAddress", record.dischargeAddress);
-                    // cisId,contractNo,fullname,amount,address,plan,sendDate,duration,contactID,materialID,contractID,dischargeID,dischargeAddress
+                    // cisId,contractNo,fullname,amount,address,plan,sendDate,duration,contactID,materialID,contractID,dischargeID,dischargeAddress,code
+                    if (record.code === 'FOB') {
+                        DynamicForm_Shipment2.getItem("freight").setRequired(false);
+                        DynamicForm_Shipment2.getItem("totalFreight").setRequired(false);
+                    } else {
+                        DynamicForm_Shipment2.getItem("freight").setRequired(true);
+                        DynamicForm_Shipment2.getItem("totalFreight").setRequired(true);
+                    }
                 }
             },
             {type: "Header", defaultValue: dash},
@@ -535,7 +542,23 @@
                 name: "swb",
                 colSpan: 1,
                 title: "<spring:message	code='shipment.SWB'/>",
-                type: 'text', width: "100%", defaultValue: "Yes", valueMap: {"Yes": "Yes", "No": "No"}
+                type: 'text', width: "100%",
+                defaultValue: "Yes",
+                valueMap: {"Yes": "Yes", "No": "No"},
+                changed: function (form, item, value) {
+                    switch (value) {
+                        case "Yes":
+                            form.getItem("swBlDateDumy").show();
+                            form.getItem("switchPortId").show();
+                            form.getItem("switchBl").show();
+                            break;
+                        case "No":
+                            form.getItem("swBlDateDumy").hide();
+                            form.getItem("switchPortId").hide();
+                            form.getItem("switchBl").hide();
+                            break;
+                    }
+                }
             },
             {name: "swBlDate", hidden: true},
             {
@@ -855,7 +878,6 @@
             DynamicForm_Shipment.setValue("dispatch", DynamicForm_Shipment2.getValue("dispatch"));
             DynamicForm_Shipment.setValue("demurrage", DynamicForm_Shipment2.getValue("demurrage"));
             DynamicForm_Shipment.setValue("detention", DynamicForm_Shipment2.getValue("detention"));
-
 
             var dataShipment = Object.assign(DynamicForm_Shipment.getValues());
             var methodXXXX = "PUT";
