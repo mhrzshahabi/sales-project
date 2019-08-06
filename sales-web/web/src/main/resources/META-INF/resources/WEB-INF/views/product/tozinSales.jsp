@@ -64,8 +64,8 @@
                 {name: "havalehName", title: "<spring:message code='Tozin.havalehName'/>", align: "center"},
                 {name: "havalehDate", title: "<spring:message code='Tozin.havalehDate'/>", align: "center"},
                 {name: "isFinal", title: "<spring:message code='Tozin.isFinal'/>", align: "center"},
-                {name: "targetPlantId"},
-                {name: "sourcePlantId"},
+                {name: "targetPlantId",title: "<spring:message code='Tozin.targetPlantId'/>"},
+                {name: "sourcePlantId",title: "<spring:message code='Tozin.sourcePlantId'/>"}
             ],
 // ######@@@@###&&@@###
         fetchDataURL: "${restApiUrl}/api/tozinSales/spec-list"
