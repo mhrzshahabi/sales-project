@@ -35,7 +35,7 @@
 
 <body dir="rtl">
 
-<form action="myLogin?logout" method="post" id="logoutForm">
+<form action="logout" method="get" id="logoutForm">
 </form>
 
 <script type="application/javascript">
