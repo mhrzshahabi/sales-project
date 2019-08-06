@@ -31,35 +31,35 @@ public class ContractAttachmentRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_contractAttachment')")
+//	@PreAuthorize("hasAuthority('r_contractAttachment')")
 	public ResponseEntity<ContractAttachmentDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(contractAttachmentService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_contractAttachment')")
+//	@PreAuthorize("hasAuthority('r_contractAttachment')")
 	public ResponseEntity<List<ContractAttachmentDTO.Info>> list() {
 		return new ResponseEntity<>(contractAttachmentService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_contractAttachment')")
+//	@PreAuthorize("hasAuthority('c_contractAttachment')")
 	public ResponseEntity<ContractAttachmentDTO.Info> create(@Validated @RequestBody ContractAttachmentDTO.Create request) {
 		return new ResponseEntity<>(contractAttachmentService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_contractAttachment')")
+//	@PreAuthorize("hasAuthority('u_contractAttachment')")
 	public ResponseEntity<ContractAttachmentDTO.Info> update(@RequestBody ContractAttachmentDTO.Update request) {
 		return new ResponseEntity<>(contractAttachmentService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_contractAttachment')")
+//	@PreAuthorize("hasAuthority('d_contractAttachment')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		contractAttachmentService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -67,7 +67,7 @@ public class ContractAttachmentRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_contractAttachment')")
+//	@PreAuthorize("hasAuthority('d_contractAttachment')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ContractAttachmentDTO.Delete request) {
 		contractAttachmentService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -75,7 +75,7 @@ public class ContractAttachmentRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_contractAttachment')")
+//	@PreAuthorize("hasAuthority('r_contractAttachment')")
 	public ResponseEntity<ContractAttachmentDTO.ContractAttachmentSpecRs> list(@RequestParam("_startRow") Integer startRow,
 																			   @RequestParam("_endRow") Integer endRow,
 																			   @RequestParam(value = "_constructor", required = false) String constructor,
@@ -120,7 +120,7 @@ public class ContractAttachmentRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_contractAttachment')")
+//	@PreAuthorize("hasAuthority('r_contractAttachment')")
 	public ResponseEntity<SearchDTO.SearchRs<ContractAttachmentDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(contractAttachmentService.search(request), HttpStatus.OK);
 	}

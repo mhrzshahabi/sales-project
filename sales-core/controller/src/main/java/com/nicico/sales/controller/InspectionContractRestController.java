@@ -26,35 +26,35 @@ public class InspectionContractRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_inspectionContract')")
+	//	@PreAuthorize("hasAuthority('r_inspectionContract')")
 	public ResponseEntity<InspectionContractDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(inspectionContractService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_inspectionContract')")
+	//	@PreAuthorize("hasAuthority('r_inspectionContract')")
 	public ResponseEntity<List<InspectionContractDTO.Info>> list() {
 		return new ResponseEntity<>(inspectionContractService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_inspectionContract')")
+	//	@PreAuthorize("hasAuthority('c_inspectionContract')")
 	public ResponseEntity<InspectionContractDTO.Info> create(@Validated @RequestBody InspectionContractDTO.Create request) {
 		return new ResponseEntity<>(inspectionContractService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_inspectionContract')")
+	//	@PreAuthorize("hasAuthority('u_inspectionContract')")
 	public ResponseEntity<InspectionContractDTO.Info> update(@RequestBody InspectionContractDTO.Update request) {
 		return new ResponseEntity<>(inspectionContractService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_inspectionContract')")
+	//	@PreAuthorize("hasAuthority('d_inspectionContract')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		inspectionContractService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class InspectionContractRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_inspectionContract')")
+	//	@PreAuthorize("hasAuthority('d_inspectionContract')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody InspectionContractDTO.Delete request) {
 		inspectionContractService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class InspectionContractRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_inspectionContract')")
+	//	@PreAuthorize("hasAuthority('r_inspectionContract')")
 	public ResponseEntity<InspectionContractDTO.InspectionContractSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class InspectionContractRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_inspectionContract')")
+	//	@PreAuthorize("hasAuthority('r_inspectionContract')")
 	public ResponseEntity<SearchDTO.SearchRs<InspectionContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(inspectionContractService.search(request), HttpStatus.OK);
 	}

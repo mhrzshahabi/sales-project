@@ -39,35 +39,35 @@ public class ContractRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_contract')")
+//	@PreAuthorize("hasAuthority('r_contract')")
 	public ResponseEntity<ContractDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(contractService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_contract')")
+//	@PreAuthorize("hasAuthority('r_contract')")
 	public ResponseEntity<List<ContractDTO.Info>> list() {
 		return new ResponseEntity<>(contractService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_contract')")
+//	@PreAuthorize("hasAuthority('c_contract')")
 	public ResponseEntity<ContractDTO.Info> create(@Validated @RequestBody ContractDTO.Create request) {
 		return new ResponseEntity<>(contractService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_contract')")
+//	@PreAuthorize("hasAuthority('u_contract')")
 	public ResponseEntity<ContractDTO.Info> update(@RequestBody ContractDTO.Update request) {
 		return new ResponseEntity<>(contractService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_contract')")
+//	@PreAuthorize("hasAuthority('d_contract')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		contractService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -75,7 +75,7 @@ public class ContractRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_contract')")
+//	@PreAuthorize("hasAuthority('d_contract')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ContractDTO.Delete request) {
 		contractService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -83,7 +83,7 @@ public class ContractRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_contract')")
+//	@PreAuthorize("hasAuthority('r_contract')")
 	public ResponseEntity<ContractDTO.ContractSpecRs> list(@RequestParam("_startRow") Integer startRow,
 														   @RequestParam("_endRow") Integer endRow,
 														   @RequestParam(value = "_constructor", required = false) String constructor,
@@ -127,7 +127,7 @@ public class ContractRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_contract')")
+//	@PreAuthorize("hasAuthority('r_contract')")
 	public ResponseEntity<SearchDTO.SearchRs<ContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(contractService.search(request), HttpStatus.OK);
 	}

@@ -26,35 +26,35 @@ public class ContractAddendumRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_contractAddendum')")
+	//	@PreAuthorize("hasAuthority('r_contractAddendum')")
 	public ResponseEntity<ContractAddendumDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(contractAddendumService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_contractAddendum')")
+	//	@PreAuthorize("hasAuthority('r_contractAddendum')")
 	public ResponseEntity<List<ContractAddendumDTO.Info>> list() {
 		return new ResponseEntity<>(contractAddendumService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_contractAddendum')")
+	//	@PreAuthorize("hasAuthority('c_contractAddendum')")
 	public ResponseEntity<ContractAddendumDTO.Info> create(@Validated @RequestBody ContractAddendumDTO.Create request) {
 		return new ResponseEntity<>(contractAddendumService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_contractAddendum')")
+	//	@PreAuthorize("hasAuthority('u_contractAddendum')")
 	public ResponseEntity<ContractAddendumDTO.Info> update(@RequestBody ContractAddendumDTO.Update request) {
 		return new ResponseEntity<>(contractAddendumService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_contractAddendum')")
+	//	@PreAuthorize("hasAuthority('d_contractAddendum')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		contractAddendumService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class ContractAddendumRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_contractAddendum')")
+	//	@PreAuthorize("hasAuthority('d_contractAddendum')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ContractAddendumDTO.Delete request) {
 		contractAddendumService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class ContractAddendumRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_contractAddendum')")
+	//	@PreAuthorize("hasAuthority('r_contractAddendum')")
 	public ResponseEntity<ContractAddendumDTO.ContractAddendumSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class ContractAddendumRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_contractAddendum')")
+	//	@PreAuthorize("hasAuthority('r_contractAddendum')")
 	public ResponseEntity<SearchDTO.SearchRs<ContractAddendumDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(contractAddendumService.search(request), HttpStatus.OK);
 	}

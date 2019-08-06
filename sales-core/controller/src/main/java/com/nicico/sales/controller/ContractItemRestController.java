@@ -26,35 +26,35 @@ public class ContractItemRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_contractItem')")
+//	@PreAuthorize("hasAuthority('r_contractItem')")
 	public ResponseEntity<ContractItemDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(contractItemService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_contractItem')")
+//	@PreAuthorize("hasAuthority('r_contractItem')")
 	public ResponseEntity<List<ContractItemDTO.Info>> list() {
 		return new ResponseEntity<>(contractItemService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_contractItem')")
+//	@PreAuthorize("hasAuthority('c_contractItem')")
 	public ResponseEntity<ContractItemDTO.Info> create(@Validated @RequestBody ContractItemDTO.Create request) {
 		return new ResponseEntity<>(contractItemService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_contractItem')")
+//	@PreAuthorize("hasAuthority('u_contractItem')")
 	public ResponseEntity<ContractItemDTO.Info> update(@RequestBody ContractItemDTO.Update request) {
 		return new ResponseEntity<>(contractItemService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_contractItem')")
+//	@PreAuthorize("hasAuthority('d_contractItem')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		contractItemService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class ContractItemRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_contractItem')")
+//	@PreAuthorize("hasAuthority('d_contractItem')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ContractItemDTO.Delete request) {
 		contractItemService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class ContractItemRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_contractItem')")
+//	@PreAuthorize("hasAuthority('r_contractItem')")
 	public ResponseEntity<ContractItemDTO.ContractItemSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class ContractItemRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_contractItem')")
+//	@PreAuthorize("hasAuthority('r_contractItem')")
 	public ResponseEntity<SearchDTO.SearchRs<ContractItemDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(contractItemService.search(request), HttpStatus.OK);
 	}

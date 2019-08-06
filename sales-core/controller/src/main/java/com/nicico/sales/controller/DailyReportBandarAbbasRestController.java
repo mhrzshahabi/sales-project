@@ -32,35 +32,35 @@ public class DailyReportBandarAbbasRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_dailyReportBandarAbbas')")
+//	@PreAuthorize("hasAuthority('r_dailyReportBandarAbbas')")
 	public ResponseEntity<DailyReportBandarAbbasDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(dailyReportBandarAbbasService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_dailyReportBandarAbbas')")
+//	@PreAuthorize("hasAuthority('r_dailyReportBandarAbbas')")
 	public ResponseEntity<List<DailyReportBandarAbbasDTO.Info>> list() {
 		return new ResponseEntity<>(dailyReportBandarAbbasService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_dailyReportBandarAbbas')")
+//	@PreAuthorize("hasAuthority('c_dailyReportBandarAbbas')")
 	public ResponseEntity<DailyReportBandarAbbasDTO.Info> create(@Validated @RequestBody DailyReportBandarAbbasDTO.Create request) {
 		return new ResponseEntity<>(dailyReportBandarAbbasService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_dailyReportBandarAbbas')")
+//	@PreAuthorize("hasAuthority('u_dailyReportBandarAbbas')")
 	public ResponseEntity<DailyReportBandarAbbasDTO.Info> update(@RequestBody DailyReportBandarAbbasDTO.Update request) {
 		return new ResponseEntity<>(dailyReportBandarAbbasService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_dailyReportBandarAbbas')")
+//	@PreAuthorize("hasAuthority('d_dailyReportBandarAbbas')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		dailyReportBandarAbbasService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -68,7 +68,7 @@ public class DailyReportBandarAbbasRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_dailyReportBandarAbbas')")
+//	@PreAuthorize("hasAuthority('d_dailyReportBandarAbbas')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody DailyReportBandarAbbasDTO.Delete request) {
 		dailyReportBandarAbbasService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -76,7 +76,7 @@ public class DailyReportBandarAbbasRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_dailyReportBandarAbbas')")
+//	@PreAuthorize("hasAuthority('r_dailyReportBandarAbbas')")
 	public ResponseEntity<DailyReportBandarAbbasDTO.DailyReportBandarAbbasSpecRs> list(@RequestParam("_startRow") Integer startRow,
 																					   @RequestParam("_endRow") Integer endRow,
 																					   @RequestParam(value = "_constructor", required = false) String constructor,
@@ -119,7 +119,7 @@ public class DailyReportBandarAbbasRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_dailyReportBandarAbbas')")
+//	@PreAuthorize("hasAuthority('r_dailyReportBandarAbbas')")
 	public ResponseEntity<SearchDTO.SearchRs<DailyReportBandarAbbasDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(dailyReportBandarAbbasService.search(request), HttpStatus.OK);
 	}

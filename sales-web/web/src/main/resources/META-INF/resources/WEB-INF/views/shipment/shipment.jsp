@@ -532,7 +532,9 @@
             },
             {type: "Header", defaultValue: dash},
             {
-                name: "swb", colSpan: 1, title: "<spring:message	code='shipment.SWB'/>",
+                name: "swb",
+                colSpan: 1,
+                title: "<spring:message	code='shipment.SWB'/>",
                 type: 'text', width: "100%", defaultValue: "Yes", valueMap: {"Yes": "Yes", "No": "No"}
             },
             {name: "swBlDate", hidden: true},

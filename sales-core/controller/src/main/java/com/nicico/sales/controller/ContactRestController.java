@@ -31,21 +31,21 @@ public class ContactRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_contact')")
+//	@PreAuthorize("hasAuthority('r_contact')")
 	public ResponseEntity<ContactDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(contactService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_contact')")
+//	@PreAuthorize("hasAuthority('r_contact')")
 	public ResponseEntity<List<ContactDTO.Info>> list() {
 		return new ResponseEntity<>(contactService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_contact')")
+//	@PreAuthorize("hasAuthority('c_contact')")
 	public ResponseEntity<ContactDTO.Info> create(@Validated @RequestBody ContactDTO.Create request) {
 		request.setCommercialRole( (request.getInspector()!=null&&request.getInspector().toString().equalsIgnoreCase("true")?"بازرس , ":"")
 				+(request.getInsurancer()!=null && request.getInsurancer().toString().equalsIgnoreCase("true") ?" بیمه گر ,":"")
@@ -61,7 +61,7 @@ public class ContactRestController {
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_contact')")
+//	@PreAuthorize("hasAuthority('u_contact')")
 	public ResponseEntity<ContactDTO.Info> update(@RequestBody ContactDTO.Update request) {
 		request.setCommercialRole( (request.getInspector()!=null&&request.getInspector().toString().equalsIgnoreCase("true")?"بازرس , ":"")
 				+(request.getInsurancer()!=null && request.getInsurancer().toString().equalsIgnoreCase("true") ?" بیمه گر ,":"")
@@ -78,7 +78,7 @@ public class ContactRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_contact')")
+//	@PreAuthorize("hasAuthority('d_contact')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		contactService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -86,7 +86,7 @@ public class ContactRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_contact')")
+//	@PreAuthorize("hasAuthority('d_contact')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ContactDTO.Delete request) {
 		contactService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -94,7 +94,7 @@ public class ContactRestController {
 
 	@Loggable
 	@GetMapping( {"/spec-list","/spec-list1","/spec-list2","/spec-list3","/spec-list4"})
-	@PreAuthorize("hasAuthority('r_contact')")
+//	@PreAuthorize("hasAuthority('r_contact')")
 	public ResponseEntity<ContactDTO.ContactSpecRs> list(@RequestParam(value = "_startRow", required = false) Integer startRow,
 														 @RequestParam(value = "_endRow", required = false) Integer endRow,
 														 @RequestParam(value = "_constructor", required = false) String constructor,
@@ -142,7 +142,7 @@ public class ContactRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_contact')")
+//	@PreAuthorize("hasAuthority('r_contact')")
 	public ResponseEntity<SearchDTO.SearchRs<ContactDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(contactService.search(request), HttpStatus.OK);
 	}

@@ -26,35 +26,35 @@ public class ExportRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_export')")
+//	@PreAuthorize("hasAuthority('r_export')")
 	public ResponseEntity<ExportDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(exportService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_export')")
+//	@PreAuthorize("hasAuthority('r_export')")
 	public ResponseEntity<List<ExportDTO.Info>> list() {
 		return new ResponseEntity<>(exportService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_export')")
+//	@PreAuthorize("hasAuthority('c_export')")
 	public ResponseEntity<ExportDTO.Info> create(@Validated @RequestBody ExportDTO.Create request) {
 		return new ResponseEntity<>(exportService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_export')")
+//	@PreAuthorize("hasAuthority('u_export')")
 	public ResponseEntity<ExportDTO.Info> update(@RequestBody ExportDTO.Update request) {
 		return new ResponseEntity<>(exportService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_export')")
+//	@PreAuthorize("hasAuthority('d_export')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		exportService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class ExportRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_export')")
+//	@PreAuthorize("hasAuthority('d_export')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ExportDTO.Delete request) {
 		exportService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class ExportRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_export')")
+//	@PreAuthorize("hasAuthority('r_export')")
 	public ResponseEntity<ExportDTO.ExportSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class ExportRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_export')")
+//	@PreAuthorize("hasAuthority('r_export')")
 	public ResponseEntity<SearchDTO.SearchRs<ExportDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(exportService.search(request), HttpStatus.OK);
 	}

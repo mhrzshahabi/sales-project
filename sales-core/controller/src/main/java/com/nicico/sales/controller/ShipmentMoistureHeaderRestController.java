@@ -26,35 +26,35 @@ public class ShipmentMoistureHeaderRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
+	//	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
 	public ResponseEntity<ShipmentMoistureHeaderDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(shipmentMoistureHeaderService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
+	//	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
 	public ResponseEntity<List<ShipmentMoistureHeaderDTO.Info>> list() {
 		return new ResponseEntity<>(shipmentMoistureHeaderService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_shipmentMoistureHeader')")
+	//	@PreAuthorize("hasAuthority('c_shipmentMoistureHeader')")
 	public ResponseEntity<ShipmentMoistureHeaderDTO.Info> create(@Validated @RequestBody ShipmentMoistureHeaderDTO.Create request) {
 		return new ResponseEntity<>(shipmentMoistureHeaderService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_shipmentMoistureHeader')")
+	//	@PreAuthorize("hasAuthority('u_shipmentMoistureHeader')")
 	public ResponseEntity<ShipmentMoistureHeaderDTO.Info> update(@RequestBody ShipmentMoistureHeaderDTO.Update request) {
 		return new ResponseEntity<>(shipmentMoistureHeaderService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_shipmentMoistureHeader')")
+	//	@PreAuthorize("hasAuthority('d_shipmentMoistureHeader')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		shipmentMoistureHeaderService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class ShipmentMoistureHeaderRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_shipmentMoistureHeader')")
+	//	@PreAuthorize("hasAuthority('d_shipmentMoistureHeader')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentMoistureHeaderDTO.Delete request) {
 		shipmentMoistureHeaderService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class ShipmentMoistureHeaderRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
+	//	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
 	public ResponseEntity<ShipmentMoistureHeaderDTO.ShipmentMoistureHeaderSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class ShipmentMoistureHeaderRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
+	//	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
 	public ResponseEntity<SearchDTO.SearchRs<ShipmentMoistureHeaderDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(shipmentMoistureHeaderService.search(request), HttpStatus.OK);
 	}

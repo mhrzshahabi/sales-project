@@ -26,35 +26,35 @@ public class ProvisionalInvoiceRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_provisionalInvoice')")
+	//	//	@PreAuthorize("hasAuthority('r_provisionalInvoice')")
 	public ResponseEntity<ProvisionalInvoiceDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(provisionalInvoiceService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_provisionalInvoice')")
+	//	@PreAuthorize("hasAuthority('r_provisionalInvoice')")
 	public ResponseEntity<List<ProvisionalInvoiceDTO.Info>> list() {
 		return new ResponseEntity<>(provisionalInvoiceService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_provisionalInvoice')")
+	//	@PreAuthorize("hasAuthority('c_provisionalInvoice')")
 	public ResponseEntity<ProvisionalInvoiceDTO.Info> create(@Validated @RequestBody ProvisionalInvoiceDTO.Create request) {
 		return new ResponseEntity<>(provisionalInvoiceService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_provisionalInvoice')")
+	//	@PreAuthorize("hasAuthority('u_provisionalInvoice')")
 	public ResponseEntity<ProvisionalInvoiceDTO.Info> update(@RequestBody ProvisionalInvoiceDTO.Update request) {
 		return new ResponseEntity<>(provisionalInvoiceService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_provisionalInvoice')")
+	//	@PreAuthorize("hasAuthority('d_provisionalInvoice')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		provisionalInvoiceService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class ProvisionalInvoiceRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_provisionalInvoice')")
+	//	@PreAuthorize("hasAuthority('d_provisionalInvoice')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ProvisionalInvoiceDTO.Delete request) {
 		provisionalInvoiceService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class ProvisionalInvoiceRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_provisionalInvoice')")
+	//	@PreAuthorize("hasAuthority('r_provisionalInvoice')")
 	public ResponseEntity<ProvisionalInvoiceDTO.ProvisionalInvoiceSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class ProvisionalInvoiceRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_provisionalInvoice')")
+	//	@PreAuthorize("hasAuthority('r_provisionalInvoice')")
 	public ResponseEntity<SearchDTO.SearchRs<ProvisionalInvoiceDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(provisionalInvoiceService.search(request), HttpStatus.OK);
 	}

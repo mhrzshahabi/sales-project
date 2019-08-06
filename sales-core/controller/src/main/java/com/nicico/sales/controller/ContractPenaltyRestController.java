@@ -26,35 +26,35 @@ public class ContractPenaltyRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_contractPenalty')")
+	//	@PreAuthorize("hasAuthority('r_contractPenalty')")
 	public ResponseEntity<ContractPenaltyDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(contractPenaltyService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_contractPenalty')")
+	//	@PreAuthorize("hasAuthority('r_contractPenalty')")
 	public ResponseEntity<List<ContractPenaltyDTO.Info>> list() {
 		return new ResponseEntity<>(contractPenaltyService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_contractPenalty')")
+	//	@PreAuthorize("hasAuthority('c_contractPenalty')")
 	public ResponseEntity<ContractPenaltyDTO.Info> create(@Validated @RequestBody ContractPenaltyDTO.Create request) {
 		return new ResponseEntity<>(contractPenaltyService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_contractPenalty')")
+	//	@PreAuthorize("hasAuthority('u_contractPenalty')")
 	public ResponseEntity<ContractPenaltyDTO.Info> update(@RequestBody ContractPenaltyDTO.Update request) {
 		return new ResponseEntity<>(contractPenaltyService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_contractPenalty')")
+	//	@PreAuthorize("hasAuthority('d_contractPenalty')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		contractPenaltyService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class ContractPenaltyRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_contractPenalty')")
+	//	@PreAuthorize("hasAuthority('d_contractPenalty')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ContractPenaltyDTO.Delete request) {
 		contractPenaltyService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class ContractPenaltyRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_contractPenalty')")
+	//	@PreAuthorize("hasAuthority('r_contractPenalty')")
 	public ResponseEntity<ContractPenaltyDTO.ContractPenaltySpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class ContractPenaltyRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_contractPenalty')")
+	//	@PreAuthorize("hasAuthority('r_contractPenalty')")
 	public ResponseEntity<SearchDTO.SearchRs<ContractPenaltyDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(contractPenaltyService.search(request), HttpStatus.OK);
 	}

@@ -26,35 +26,35 @@ public class BolHeaderRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_bolHeader')")
+//	@PreAuthorize("hasAuthority('r_bolHeader')")
 	public ResponseEntity<BolHeaderDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(bolHeaderService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_bolHeader')")
+//	@PreAuthorize("hasAuthority('r_bolHeader')")
 	public ResponseEntity<List<BolHeaderDTO.Info>> list() {
 		return new ResponseEntity<>(bolHeaderService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_bolHeader')")
+	//	@PreAuthorize("hasAuthority('c_bolHeader')")
 	public ResponseEntity<BolHeaderDTO.Info> create(@Validated @RequestBody BolHeaderDTO.Create request) {
 		return new ResponseEntity<>(bolHeaderService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_bolHeader')")
+	//	@PreAuthorize("hasAuthority('u_bolHeader')")
 	public ResponseEntity<BolHeaderDTO.Info> update(@RequestBody BolHeaderDTO.Update request) {
 		return new ResponseEntity<>(bolHeaderService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_bolHeader')")
+	//	@PreAuthorize("hasAuthority('d_bolHeader')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		bolHeaderService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class BolHeaderRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_bolHeader')")
+	//	@PreAuthorize("hasAuthority('d_bolHeader')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody BolHeaderDTO.Delete request) {
 		bolHeaderService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class BolHeaderRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_bolHeader')")
+	//	@PreAuthorize("hasAuthority('r_bolHeader')")
 	public ResponseEntity<BolHeaderDTO.BolHeaderSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class BolHeaderRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_bolHeader')")
+	//	@PreAuthorize("hasAuthority('r_bolHeader')")
 	public ResponseEntity<SearchDTO.SearchRs<BolHeaderDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(bolHeaderService.search(request), HttpStatus.OK);
 	}

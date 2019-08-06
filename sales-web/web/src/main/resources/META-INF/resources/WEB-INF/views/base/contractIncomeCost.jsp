@@ -168,8 +168,8 @@
         width: "100%",
         height: "100%",
         members: [
-            // VLayout_fltContractIncomeCost,
-            // HLayout_ContractIncomeCost_labels,
+            VLayout_fltContractIncomeCost,
+            HLayout_ContractIncomeCost_labels,
             ListGrid_ContractIncomeCost
         ]
     });

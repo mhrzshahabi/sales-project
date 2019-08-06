@@ -26,35 +26,35 @@ public class PaymentOptionContractRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_paymentOptionContract')")
+//	@PreAuthorize("hasAuthority('r_paymentOptionContract')")
 	public ResponseEntity<PaymentOptionContractDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(paymentOptionContractService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_paymentOptionContract')")
+//	@PreAuthorize("hasAuthority('r_paymentOptionContract')")
 	public ResponseEntity<List<PaymentOptionContractDTO.Info>> list() {
 		return new ResponseEntity<>(paymentOptionContractService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_paymentOptionContract')")
+//	@PreAuthorize("hasAuthority('c_paymentOptionContract')")
 	public ResponseEntity<PaymentOptionContractDTO.Info> create(@Validated @RequestBody PaymentOptionContractDTO.Create request) {
 		return new ResponseEntity<>(paymentOptionContractService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_paymentOptionContract')")
+//	@PreAuthorize("hasAuthority('u_paymentOptionContract')")
 	public ResponseEntity<PaymentOptionContractDTO.Info> update(@RequestBody PaymentOptionContractDTO.Update request) {
 		return new ResponseEntity<>(paymentOptionContractService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_paymentOptionContract')")
+//	@PreAuthorize("hasAuthority('d_paymentOptionContract')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		paymentOptionContractService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class PaymentOptionContractRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_paymentOptionContract')")
+//	@PreAuthorize("hasAuthority('d_paymentOptionContract')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody PaymentOptionContractDTO.Delete request) {
 		paymentOptionContractService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class PaymentOptionContractRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_paymentOptionContract')")
+//	@PreAuthorize("hasAuthority('r_paymentOptionContract')")
 	public ResponseEntity<PaymentOptionContractDTO.PaymentOptionContractSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class PaymentOptionContractRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_paymentOptionContract')")
+//	@PreAuthorize("hasAuthority('r_paymentOptionContract')")
 	public ResponseEntity<SearchDTO.SearchRs<PaymentOptionContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(paymentOptionContractService.search(request), HttpStatus.OK);
 	}

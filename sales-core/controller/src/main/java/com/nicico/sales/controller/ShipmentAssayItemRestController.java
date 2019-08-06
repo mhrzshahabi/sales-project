@@ -26,35 +26,35 @@ public class ShipmentAssayItemRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
+	//	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
 	public ResponseEntity<ShipmentAssayItemDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(shipmentAssayItemService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
+	//	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
 	public ResponseEntity<List<ShipmentAssayItemDTO.Info>> list() {
 		return new ResponseEntity<>(shipmentAssayItemService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_shipmentAssayItem')")
+	//	@PreAuthorize("hasAuthority('c_shipmentAssayItem')")
 	public ResponseEntity<ShipmentAssayItemDTO.Info> create(@Validated @RequestBody ShipmentAssayItemDTO.Create request) {
 		return new ResponseEntity<>(shipmentAssayItemService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_shipmentAssayItem')")
+	//	@PreAuthorize("hasAuthority('u_shipmentAssayItem')")
 	public ResponseEntity<ShipmentAssayItemDTO.Info> update(@RequestBody ShipmentAssayItemDTO.Update request) {
 		return new ResponseEntity<>(shipmentAssayItemService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_shipmentAssayItem')")
+	//	@PreAuthorize("hasAuthority('d_shipmentAssayItem')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		shipmentAssayItemService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +62,7 @@ public class ShipmentAssayItemRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_shipmentAssayItem')")
+	//	@PreAuthorize("hasAuthority('d_shipmentAssayItem')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentAssayItemDTO.Delete request) {
 		shipmentAssayItemService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class ShipmentAssayItemRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
+	//	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
 	public ResponseEntity<ShipmentAssayItemDTO.ShipmentAssayItemSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -94,7 +94,7 @@ public class ShipmentAssayItemRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
+	//	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
 	public ResponseEntity<SearchDTO.SearchRs<ShipmentAssayItemDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(shipmentAssayItemService.search(request), HttpStatus.OK);
 	}

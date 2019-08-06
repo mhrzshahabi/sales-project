@@ -31,35 +31,35 @@ public class DailyWarehouseRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
+	//	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
 	public ResponseEntity<DailyWarehouseDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(dailyWarehouseService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
+	//	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
 	public ResponseEntity<List<DailyWarehouseDTO.Info>> list() {
 		return new ResponseEntity<>(dailyWarehouseService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	@PreAuthorize("hasAuthority('c_dailyWarehouse')")
+	//	@PreAuthorize("hasAuthority('c_dailyWarehouse')")
 	public ResponseEntity<DailyWarehouseDTO.Info> create(@Validated @RequestBody DailyWarehouseDTO.Create request) {
 		return new ResponseEntity<>(dailyWarehouseService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	@PreAuthorize("hasAuthority('u_dailyWarehouse')")
+	//	@PreAuthorize("hasAuthority('u_dailyWarehouse')")
 	public ResponseEntity<DailyWarehouseDTO.Info> update(@RequestBody DailyWarehouseDTO.Update request) {
 		return new ResponseEntity<>(dailyWarehouseService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('d_dailyWarehouse')")
+	//	@PreAuthorize("hasAuthority('d_dailyWarehouse')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		dailyWarehouseService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -67,7 +67,7 @@ public class DailyWarehouseRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	@PreAuthorize("hasAuthority('d_dailyWarehouse')")
+	//	@PreAuthorize("hasAuthority('d_dailyWarehouse')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody DailyWarehouseDTO.Delete request) {
 		dailyWarehouseService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -75,7 +75,7 @@ public class DailyWarehouseRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
+	//	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
 	public ResponseEntity<DailyWarehouseDTO.DailyWarehouseSpecRs> list(@RequestParam("_startRow") Integer startRow,
 																	   @RequestParam("_endRow") Integer endRow,
 																	   @RequestParam(value = "_constructor", required = false) String constructor,
@@ -119,7 +119,7 @@ public class DailyWarehouseRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
+	//	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
 	public ResponseEntity<SearchDTO.SearchRs<DailyWarehouseDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(dailyWarehouseService.search(request), HttpStatus.OK);
 	}
