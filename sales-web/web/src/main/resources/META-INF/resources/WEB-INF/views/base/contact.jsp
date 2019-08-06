@@ -1005,19 +1005,19 @@
                 return;
             }
             var data = ContactAccount_CreateDynamicForm.getValues();
-            data["contactId"] = ListGrid_Contact.getSelectedRecord().id;
+            data["contactId"] = ContactAccountGridHeaderForm.getValue('id');
 
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${restApiUrl}/api/contactAccount",
                     httpMethod: "POST",
                     data: JSON.stringify(data),
-                    params: {parentId: ListGrid_Contact.getSelectedRecord().id},
+                    params: {parentId: data["contactId"]},
                     callback: function (RpcResponse_o) {
                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            ContactAccount_CreateDynamicForm.clearValues();
                             ListGrid_ContactAccount.invalidateCache();
                             ListGrid_Contact.invalidateCache();
                             isc.say("<spring:message code='global.form.request.successful'/>");
-                            // Window_AccountsContact.close();
                         } else
                             isc.say(RpcResponse_o.data);
                     }
