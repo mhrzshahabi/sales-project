@@ -965,8 +965,8 @@
     }
 
     function ListGrid_ContractShipment_edit() {
-        var record = ListGrid_ContractShipment.getSelectedRecord();
-        if (record == null || record.id == null) {
+        var shipmentRecord = ListGrid_ContractShipment.getSelectedRecord();
+        if (shipmentRecord == null || shipmentRecord.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
                 icon: "[SKIN]ask.png",
@@ -978,8 +978,12 @@
             });
         } else {
             DynamicForm_ContractShipment.clearValues();
-            DynamicForm_ContractShipment.editRecord(record);
-            DynamicForm_ContractShipment.setValue("sendDateDummy", new Date(record.sendDate))
+            DynamicForm_ContractShipment.editRecord(shipmentRecord);
+
+            var contractRecord = ListGrid_Contract.getSelectedRecord();
+            DynamicForm_ContractShipment.setValue("contractId", contractRecord.id);
+            DynamicForm_ContractShipment.setValue("contractDate", contractRecord.contractDate);
+            DynamicForm_ContractShipment.setValue("sendDateDummy", new Date(shipmentRecord.sendDate));
             Window_ContractShipment.animateShow();
         }
     }
@@ -1187,23 +1191,10 @@
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_Contract.getSelectedRecord();
-
-            if (record == null || record.id == null) {
-                isc.Dialog.create({
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                    buttonClick: function () {
-                        this.hide();
-                    }
-                });
-            } else {
-                DynamicForm_ContractShipment.clearValues();
-                DynamicForm_ContractShipment.setValue("contractId", record.id);
-                DynamicForm_ContractShipment.setValue("contractDate", record.contractDate);
-                Window_ContractShipment.animateShow();
-            }
+            DynamicForm_ContractShipment.clearValues();
+            DynamicForm_ContractShipment.setValue("contractId", record.id);
+            DynamicForm_ContractShipment.setValue("contractDate", record.contractDate);
+            Window_ContractShipment.animateShow();
         }
     });
 
