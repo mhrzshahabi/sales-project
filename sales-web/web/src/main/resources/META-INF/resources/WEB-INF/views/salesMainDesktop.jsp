@@ -173,14 +173,14 @@
     }
 
     var headerFlow = isc.HTMLFlow.create({
-        width: "10%",
+        width: "5%",
         height: "100%",
         styleName: "mainHeaderStyleOnline",
         contents: "<spring:message code='main.salesName'/>"
     });
 
     var label_Username = isc.Label.create({
-        width: "30%",
+        width: "40%",
         height: "100%",
         align: "left",
         styleName: "mainHeaderStyleOnline",
@@ -207,7 +207,7 @@
 
 
     isc.HTMLFlow.create({
-        width: "40%",
+        width: "20%",
         ID: "informationFlow",
         styleName: "mainHeaderStyleOnline"
     });
