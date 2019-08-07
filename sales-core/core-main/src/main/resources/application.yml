@@ -52,7 +52,7 @@ nicico:
     username:
     password:
   upload:
-    dir:
+    dir: c:/upload
   workflow:
     update:
       mode: true
@@ -60,9 +60,6 @@ nicico:
     upload:
       dir: c:/upload/bpmn/
 
-system:
-  upload:
-    dir: c:/upload
 ---
 
 spring:

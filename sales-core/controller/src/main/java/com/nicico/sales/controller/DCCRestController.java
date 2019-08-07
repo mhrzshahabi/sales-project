@@ -72,15 +72,16 @@ public class DCCRestController {
         try {
             FileInfo fileInfo = new FileInfo();
             File destinationFile;
-            String UPLOAD_FILE_DIR = environment.getProperty("system.upload.dir");
 
+            String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
             String fileName = file.getOriginalFilename();
 
-            destinationFile = new File(UPLOAD_FILE_DIR + File.separator + "\\" + folder + "\\" + fileName);
+            new File(UPLOAD_FILE_DIR + File.separator + folder).mkdirs();
+            destinationFile = new File(UPLOAD_FILE_DIR + File.separator + folder + File.separator + fileName);
             Long imageNumber = contactAttachmentService.findNextImageNumber();
             String ext = getExtensionOfFile(destinationFile.getPath());
             String fileNewName = imageNumber.toString() + "-" + System.currentTimeMillis() + "." + ext;
-            destinationFile = new File(UPLOAD_FILE_DIR + "\\" + folder + "\\" + File.separator + fileNewName);
+            destinationFile = new File(UPLOAD_FILE_DIR + File.separator + folder + File.separator + fileNewName);
             file.transferTo(destinationFile);
             fileInfo.setFileName(destinationFile.getPath());
 
@@ -93,7 +94,6 @@ public class DCCRestController {
                 dcc.setFileName(file.getOriginalFilename());
                 dcc.setFileNewName(fileNewName);
                 return new ResponseEntity<>(dCCService.update(dcc.getId(), dcc), HttpStatus.OK);
-
             } else {
                 DCCDTO.Create dcc = gson.fromJson(data, DCCDTO.Create.class);
                 dcc.setFileName(file.getOriginalFilename());
@@ -109,7 +109,15 @@ public class DCCRestController {
     @DeleteMapping(value = "/{id}")
 //    @PreAuthorize("hasAuthority('d_dcc')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        DCCDTO.Info dccdto = dCCService.get(id);
         dCCService.delete(id);
+        //move file to deleted folder
+        String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
+        String folder = UPLOAD_FILE_DIR + File.separator + dccdto.getTblName1().toLowerCase().split("tbl_")[1];
+        File file = new File(folder + File.separator + dccdto.getFileNewName());
+        new File(folder + File.separator + "deleted").mkdirs();
+        File movedFile = new File(folder + File.separator + "deleted" + File.separator + dccdto.getFileNewName());
+        file.renameTo(movedFile);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -177,7 +185,7 @@ public class DCCRestController {
     public void downloadFile(@RequestParam String data, HttpServletRequest request, HttpServletResponse response) {
         try {
             String filePath;
-            filePath = "C:\\" + "upload" + "\\" + data;
+            filePath = "C:" + File.separator + "upload" + File.separator + data;
             File downloadFile = new File(filePath);
             FileInputStream inputStream = new FileInputStream(downloadFile);
 

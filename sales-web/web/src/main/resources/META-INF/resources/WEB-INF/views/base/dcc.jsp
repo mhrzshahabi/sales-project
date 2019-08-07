@@ -197,12 +197,12 @@
                     dccCreateWindow.show();
                 }
             },
-            {
-                title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-                click: function () {
-                    ListGrid_Dcc_edit();
-                }
-            },
+            // {
+                <%--title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",--%>
+                // click: function () {
+                //     ListGrid_Dcc_edit();
+                // }
+            // },
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
