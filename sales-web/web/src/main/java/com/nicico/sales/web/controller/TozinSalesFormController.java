@@ -38,7 +38,7 @@ public class TozinSalesFormController {
     public String showTransport2Plants(HttpServletRequest req, @PathVariable String date, @RequestParam("Authorization") String auth) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", auth);
-        HttpEntity<String> request = new HttpEntity<String>(headers);
+        HttpEntity<String> request = new HttpEntity<>(headers);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> modelMapFromRest = restTemplate.exchange(restApiUrl + "/api/tozinSales/showTransport2Plants/" + date, HttpMethod.GET, request, String.class);
@@ -65,15 +65,17 @@ public class TozinSalesFormController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token);
 
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        if (type.equals("pdf"))
-            return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/pdf/" + date, HttpMethod.GET, entity, byte[].class);
-        else if (type.equals("excel"))
-            return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/excel/" + date, HttpMethod.GET, entity, byte[].class);
-        else if (type.equals("html"))
-            return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/html/" + date, HttpMethod.GET, entity, byte[].class);
-        else
-            return null;
+        switch (type) {
+            case "pdf":
+                return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/pdf/" + date, HttpMethod.GET, entity, byte[].class);
+            case "excel":
+                return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/excel/" + date, HttpMethod.GET, entity, byte[].class);
+            case "html":
+                return restTemplate.exchange(restApiUrl + "/api/tozinSales/print/" + name + "/html/" + date, HttpMethod.GET, entity, byte[].class);
+            default:
+                return null;
+        }
     }
 }

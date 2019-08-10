@@ -14,8 +14,4 @@ public class ContractCurrencyFormController {
 	public String showContractCurrency() {
 		return "base/contractCurrency";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printContractCurrency(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

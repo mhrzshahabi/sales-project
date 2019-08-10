@@ -14,8 +14,4 @@ public class CostFormController {
 	public String showCost() {
 		return "shipment/cost";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printInvoice(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

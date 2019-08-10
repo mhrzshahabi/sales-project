@@ -14,8 +14,4 @@ public class CurrencyRateFormController {
 	public String showCurrencyRate() {
 		return "base/currencyRate";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printCurrencyRate(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

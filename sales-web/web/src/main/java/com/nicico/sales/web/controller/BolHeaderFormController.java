@@ -14,8 +14,4 @@ public class BolHeaderFormController {
 	public String showBolHeader() {
 		return "base/bolHeader";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printBolHeader(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

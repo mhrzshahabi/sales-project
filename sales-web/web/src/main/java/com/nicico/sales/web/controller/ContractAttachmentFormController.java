@@ -14,8 +14,4 @@ public class ContractAttachmentFormController {
 	public String showContractAttachment() {
 		return "base/contractAttachment";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printContractAttachment(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

@@ -14,8 +14,4 @@ public class ContactAccountFormController {
 	public String showContactAccount() {
 		return "base/contactAccount";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printContactAccount(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

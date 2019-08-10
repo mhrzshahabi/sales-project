@@ -25,50 +25,52 @@ import java.nio.charset.Charset;
 @RequestMapping("/dailyReportBandarAbbas")
 public class DailyReportBandarAbbasFormController {
 
-	private final OAuth2AuthorizedClientService authorizedClientService;
+    private final OAuth2AuthorizedClientService authorizedClientService;
 
-	@Value("${nicico.rest-api.url}")
-	private String restApiUrl;
+    @Value("${nicico.rest-api.url}")
+    private String restApiUrl;
 
-	@RequestMapping("/showForm")
-	public String showDailyReportBandarAbbas() {
-		return "report/dailyReportBandarAbbas";
-	}
+    @RequestMapping("/showForm")
+    public String showDailyReportBandarAbbas() {
+        return "report/dailyReportBandarAbbas";
+    }
 
-	@RequestMapping("/print/{type}")
-	public ResponseEntity<?> printDailyReportBandarAbbas(Authentication authentication, @PathVariable String type, @RequestParam(name = "toDay", required = false) String toDay, @RequestParam(name = "warehouseNo", required = false) String warehouseNo) throws Exception {
-
-
-		String token = "";
-		if (authentication instanceof OAuth2AuthenticationToken) {
-			OAuth2AuthorizedClient client = authorizedClientService
-					.loadAuthorizedClient(
-							((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
-							authentication.getName());
-			token = client.getAccessToken().getTokenValue();
-		}
-
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters()
-				.add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
-		restTemplate.getMessageConverters().add(1, new ByteArrayHttpMessageConverter());
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + token);
-		headers.add("toDay", toDay);
-		headers.add("warehouseNo", warehouseNo);
-
-		HttpEntity<String> entity = new HttpEntity<String>(headers);
-
-		if (type.equals("pdf"))
-			return restTemplate.exchange(restApiUrl + "/api/report/printDailyReportBandarAbbas", HttpMethod.POST, entity, byte[].class);
-		else if (type.equals("excel"))
-			return restTemplate.exchange(restApiUrl + "/api/report/printDailyReportBandarAbbas", HttpMethod.POST, entity, byte[].class);
-		else if (type.equals("html"))
-			return restTemplate.exchange(restApiUrl + "/api/report/printDailyReportBandarAbbas", HttpMethod.POST, entity, byte[].class);
-		else
-			return null;
+    @RequestMapping("/print/{type}")
+    public ResponseEntity<?> printDailyReportBandarAbbas(Authentication authentication, @PathVariable String type, @RequestParam(name = "toDay", required = false) String toDay, @RequestParam(name = "warehouseNo", required = false) String warehouseNo) throws Exception {
 
 
-	}
+        String token = "";
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthorizedClient client = authorizedClientService
+                    .loadAuthorizedClient(
+                            ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
+                            authentication.getName());
+            token = client.getAccessToken().getTokenValue();
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters()
+                .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+        restTemplate.getMessageConverters().add(1, new ByteArrayHttpMessageConverter());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + token);
+        headers.add("toDay", toDay);
+        headers.add("warehouseNo", warehouseNo);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        switch (type) {
+            case "pdf":
+                return restTemplate.exchange(restApiUrl + "/api/report/printDailyReportBandarAbbas", HttpMethod.POST, entity, byte[].class);
+            case "excel":
+                return restTemplate.exchange(restApiUrl + "/api/report/printDailyReportBandarAbbas", HttpMethod.POST, entity, byte[].class);
+            case "html":
+                return restTemplate.exchange(restApiUrl + "/api/report/printDailyReportBandarAbbas", HttpMethod.POST, entity, byte[].class);
+            default:
+                return null;
+        }
+
+
+    }
 }

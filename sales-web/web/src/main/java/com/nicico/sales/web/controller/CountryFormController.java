@@ -14,8 +14,4 @@ public class CountryFormController {
 	public String showCountry() {
 		return "base/country";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printCountry(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

@@ -14,8 +14,4 @@ public class ContractPersonFormController {
 	public String showContractPerson() {
 		return "base/contractPerson";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printContractPerson(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

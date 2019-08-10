@@ -14,8 +14,4 @@ public class BolItemFormController {
 	public String showBolItem() {
 		return "base/bolItem";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printBolItem(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

@@ -14,8 +14,4 @@ public class ContractPenaltyFormController {
 	public String showContractPenalty() {
 		return "base/contractPenalty";
 	}
-
-	@RequestMapping("/print/{type}")
-	public void printContractPenalty(HttpServletResponse response, @PathVariable String type) throws Exception {
-	}
 }

@@ -17,75 +17,80 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/contract")
 public class ContractFormController {
 
-	@RequestMapping("/showForm")
-	public String showContract() {
-		return "contract/contract";
-	}
+    @RequestMapping("/showForm")
+    public String showContract() {
+        return "contract/contract";
+    }
 
-	private final OAuth2AuthorizedClientService authorizedClientService;
-	@Value("${nicico.rest-api.url}")
-	private String restApiUrl;
+    private final OAuth2AuthorizedClientService authorizedClientService;
+    @Value("${nicico.rest-api.url}")
+    private String restApiUrl;
 
-	@RequestMapping("/print/{type}")
-	public ResponseEntity<?> print(Authentication authentication, @PathVariable String type) {
-		String token = "";
-		if (authentication instanceof OAuth2AuthenticationToken) {
-			OAuth2AuthorizedClient client = authorizedClientService
-					.loadAuthorizedClient(
-							((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
-							authentication.getName());
-			token = client.getAccessToken().getTokenValue();
-		}
+    @RequestMapping("/print/{type}")
+    public ResponseEntity<?> print(Authentication authentication, @PathVariable String type) {
+        String token = "";
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthorizedClient client = authorizedClientService
+                    .loadAuthorizedClient(
+                            ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
+                            authentication.getName());
+            token = client.getAccessToken().getTokenValue();
+        }
 
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + token);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + token);
 
-		HttpEntity<String> entity = new HttpEntity<String>(headers);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-		if(type.equals("pdf"))
-			return restTemplate.exchange(restApiUrl +"/api/contract/print/pdf", HttpMethod.GET, entity, byte[].class);
-		else if(type.equals("excel"))
-			return restTemplate.exchange(restApiUrl +"/api/contract/print/excel", HttpMethod.GET, entity, byte[].class);
-		else if(type.equals("html"))
-			return restTemplate.exchange(restApiUrl +"/api/contract/print/html", HttpMethod.GET, entity, byte[].class);
-		else
-			return null;
-	}
-	@RequestMapping("/printIncome/{type}")
-	public ResponseEntity<?> printIncome(Authentication authentication, @PathVariable String type) {
-		String token = "";
-		if (authentication instanceof OAuth2AuthenticationToken) {
-			OAuth2AuthorizedClient client = authorizedClientService
-					.loadAuthorizedClient(
-							((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
-							authentication.getName());
-			token = client.getAccessToken().getTokenValue();
-		}
+        switch (type) {
+            case "pdf":
+                return restTemplate.exchange(restApiUrl + "/api/contract/print/pdf", HttpMethod.GET, entity, byte[].class);
+            case "excel":
+                return restTemplate.exchange(restApiUrl + "/api/contract/print/excel", HttpMethod.GET, entity, byte[].class);
+            case "html":
+                return restTemplate.exchange(restApiUrl + "/api/contract/print/html", HttpMethod.GET, entity, byte[].class);
+            default:
+                return null;
+        }
+    }
 
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+    @RequestMapping("/printIncome/{type}")
+    public ResponseEntity<?> printIncome(Authentication authentication, @PathVariable String type) {
+        String token = "";
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthorizedClient client = authorizedClientService
+                    .loadAuthorizedClient(
+                            ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
+                            authentication.getName());
+            token = client.getAccessToken().getTokenValue();
+        }
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + token);
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
 
-		HttpEntity<String> entity = new HttpEntity<String>(headers);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + token);
 
-		if(type.equals("pdf"))
-			return restTemplate.exchange(restApiUrl +"/api/contract/printIncome/pdf", HttpMethod.GET, entity, byte[].class);
-		else if(type.equals("excel"))
-			return restTemplate.exchange(restApiUrl +"/api/contract/printIncome/excel", HttpMethod.GET, entity, byte[].class);
-		else if(type.equals("html"))
-			return restTemplate.exchange(restApiUrl +"/api/contract/printIncome/html", HttpMethod.GET, entity, byte[].class);
-		else
-			return null;
-	}
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        switch (type) {
+            case "pdf":
+                return restTemplate.exchange(restApiUrl + "/api/contract/printIncome/pdf", HttpMethod.GET, entity, byte[].class);
+            case "excel":
+                return restTemplate.exchange(restApiUrl + "/api/contract/printIncome/excel", HttpMethod.GET, entity, byte[].class);
+            case "html":
+                return restTemplate.exchange(restApiUrl + "/api/contract/printIncome/html", HttpMethod.GET, entity, byte[].class);
+            default:
+                return null;
+        }
+    }
 
 }

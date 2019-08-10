@@ -32,7 +32,7 @@ public class BankFormController {
     }
 
     @RequestMapping("/print/{type}")
-    public ResponseEntity<?> print(Authentication authentication, @PathVariable String type) {
+    public ResponseEntity<byte[]> print(Authentication authentication, @PathVariable String type) {
         String token = "";
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthorizedClient client = authorizedClientService
@@ -48,15 +48,17 @@ public class BankFormController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token);
 
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        if(type.equals("pdf"))
-            return restTemplate.exchange(restApiUrl + "/api/bank/print/pdf", HttpMethod.GET, entity, byte[].class);
-        else if(type.equals("excel"))
-            return restTemplate.exchange(restApiUrl + "/api/bank/print/excel", HttpMethod.GET, entity, byte[].class);
-        else if(type.equals("html"))
-            return restTemplate.exchange(restApiUrl + "/api/bank/print/html", HttpMethod.GET, entity, byte[].class);
-        else
-            return null;
+        switch (type) {
+            case "pdf":
+                return restTemplate.exchange(restApiUrl + "/api/bank/print/pdf", HttpMethod.GET, entity, byte[].class);
+            case "excel":
+                return restTemplate.exchange(restApiUrl + "/api/bank/print/excel", HttpMethod.GET, entity, byte[].class);
+            case "html":
+                return restTemplate.exchange(restApiUrl + "/api/bank/print/html", HttpMethod.GET, entity, byte[].class);
+            default:
+                return null;
+        }
     }
 }
