@@ -492,7 +492,7 @@
                 },
                 {
                     name: "sourceInspectorId",
-                    title: "<spring:message		code='cost.sourceInspectorId'/>",
+                    title: "<spring:message code='cost.sourceInspectorId'/>",
                     type: 'long',
                     width: "100%",
                     editorType: "SelectItem",
@@ -502,12 +502,11 @@
                     valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true}
-                    ,
-                    pickListFields: [{name: "nameFA", align: "center"}, {
-                        name: "nameEN",
-                        align: "center"
-                    }, {name: "country.nameFa", align: "center"}]
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "nameFA", align: "center"},
+                        {name: "nameEN", align: "center"}
+                    ]
                 },
                 {
                     name: "sourceInspectionCost",
@@ -541,12 +540,11 @@
                     valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true}
-                    ,
+                    pickListProperties: {showFilterEditor: true},
                     pickListFields: [{name: "nameFA", align: "center"}, {
                         name: "nameEN",
                         align: "center"
-                    }, {name: "country.nameFa", align: "center"}]
+                    }]
                 },
                 {
                     name: "destinationInspectionCost",
