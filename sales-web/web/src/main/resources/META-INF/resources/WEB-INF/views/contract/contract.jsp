@@ -329,6 +329,7 @@
                     titleColSpan: 1,
                     tabIndex: 6,
                     showHover: true,
+                    required: true,
                     title: "<spring:message code='incoterms.name'/>",
                     type: 'long',
                     width: "100%", numCols: 4,
