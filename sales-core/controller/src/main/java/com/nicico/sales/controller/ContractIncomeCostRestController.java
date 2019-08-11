@@ -133,6 +133,9 @@ public class ContractIncomeCostRestController {
             ArrayList<String> fields = new ArrayList<>();
             for (Map<String, Object> field : (ArrayList<Map<String, Object>>) preferencesMap.get("field")) {
                 if (!field.containsKey("visible")) {
+                    if ((type.equals("pdf") || type.equals("excel")) && (columns.size() >= 8 || field.size() >= 8)) { // view exceeded problem!
+                        continue;
+                    }
                     columns.add(field.get("title").toString());
                     fields.add(field.get("name").toString());
                 }

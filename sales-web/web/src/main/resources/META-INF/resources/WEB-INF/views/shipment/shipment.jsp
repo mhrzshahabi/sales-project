@@ -1761,7 +1761,7 @@
         sections:
             [
                 {title: "<spring:message code='Shipment.title'/>", items: VLayout_Body_Shipment, expanded: true},
-                {title: "<spring:message code='global.email'/>", items: VLayout_ShipmentEmail_Body, expanded: true}
+                {title: "<spring:message code='global.email'/>", items: VLayout_ShipmentEmail_Body, expanded: true,hidden: true}
             ],
         visibilityMode: "multiple",
         animateSections: true,

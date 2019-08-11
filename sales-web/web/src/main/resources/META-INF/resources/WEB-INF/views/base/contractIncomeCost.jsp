@@ -145,7 +145,15 @@
         width: "100%",
         members:
             [
-                ToolStripButton_ContractIncomeCost_Refresh
+                ToolStripButton_ContractIncomeCost_Refresh,
+isc.Label.create({
+width: 25,
+}),
+                isc.Label.create({
+                    contents: "در حالت نمایش به صورت Pdf و Excel تنها 8 ستون اول از سمت راست نمایش داده می شوند.",
+                    width: "450px",
+                    border: "1px solid red"
+                })
             ]
     });
 

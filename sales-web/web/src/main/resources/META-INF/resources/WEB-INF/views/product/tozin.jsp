@@ -558,7 +558,6 @@
                 title: "<spring:message code='Tozin.plak'/>",
                 align: "center",
                 showHover: true,
-                canEdit: true,
                 width: "15%"
             },
             {
@@ -644,7 +643,6 @@
                 title: "<spring:message code='Tozin.haveCode'/>",
                 align: "center",
                 showHover: true,
-                canEdit: true,
                 width: "15%"
             },
             {

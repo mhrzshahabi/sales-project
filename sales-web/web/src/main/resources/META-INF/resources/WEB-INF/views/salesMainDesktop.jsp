@@ -222,7 +222,7 @@
             type: "select",
             width: 100,
             height: 30,
-
+            disabled: true,
             wrapHintText: false,
             valueMap: {
                 "fa": "پارسی",

@@ -87,15 +87,15 @@ spring:
 server:
   servlet:
     context-path: /
-  port: 10588
+  port: 10885
 
 nicico:
   oauth2:
     token:
       cookie:
-        domain: 172.16.6.142
+        domain: production.icico.net.ir
   rest-api:
-    url: http://172.16.6.142:9098
+    url: http://production.icico.net.ir:9095
 
 logging:
   level:

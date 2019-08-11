@@ -95,7 +95,7 @@ logging:
 spring:
   profiles: prod
   datasource:
-    url: jdbc:oracle:thin:@//172.16.180.22:1521/orcl.icico.net.ir
+    url: jdbc:oracle:thin:@//172.16.180.20:1521/pdb1.icico.net.ir
     username: sales
     password: sales
   jpa:
@@ -106,7 +106,7 @@ spring:
 server:
   servlet:
     context-path: /
-  port: 9098
+  port: 9095
 
 nicico:
   security:
