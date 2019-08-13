@@ -1,0 +1,161 @@
+spring:
+  application:
+    name: Sales
+  profiles:
+    active: Local
+  datasource:
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+    open-in-view: false
+  #  liquibase:
+  #    database-change-log-table: Z_LIQ_CHANGELOG
+  #    database-change-log-lock-table: Z_LIQ_CHANGELOG_LOCK
+  #    change-log: classpath:db/changelog/liquibase-master.xml
+  redis:
+    port: 6379
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  activiti:
+    rest-api-enabled: true
+    history-level: full
+    database-schema-update: true
+    db-history-used: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /sales
+    session:
+      cookie:
+        name: App_${spring.application.name}
+
+nicico:
+  jpa:
+    entity:
+      package: com.nicico.sales.model
+  google:
+    mail:
+      username:
+      password:
+  mail:
+    domain:
+    url:
+    username:
+    password:
+  upload:
+    dir: c:/upload
+  workflow:
+    update:
+      mode: true
+  bpmn:
+    upload:
+      dir: c:/upload/bpmn/
+
+---
+
+spring:
+  profiles: Production
+  datasource:
+    url: jdbc:oracle:thin:@//172.16.180.20:1521/pdb1.icico.net.ir
+    username: sales
+    password: sales
+  redis:
+    host: 172.16.180.20
+    password: nicico
+  security:
+    oauth2:
+      client:
+        registration:
+          oserver:
+            client-id: ${spring.application.name}
+            client-secret: password
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: user_info
+        provider:
+          oserver:
+            authorization-uri: http://172.16.180.22/oauth/authorize
+            token-uri: http://172.16.180.22/oauth/token
+            user-info-uri: http://172.16.180.22/user/info
+            user-name-attribute: username
+
+logging:
+  level:
+    com.nicico: info
+
+---
+
+spring:
+  profiles: Development
+  datasource:
+    url: jdbc:oracle:thin:@//172.16.180.22:1521/pdb1.icico.net.ir
+    username: sales
+    password: sales
+  redis:
+    host: 172.16.180.22
+  #    password: nicico
+  security:
+    oauth2:
+      client:
+        registration:
+          oserver:
+            client-id: ${spring.application.name}
+            client-secret: password
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: user_info
+        provider:
+          oserver:
+            authorization-uri: http://172.16.180.22/oauth/authorize
+            token-uri: http://172.16.180.22/oauth/token
+            user-info-uri: http://172.16.180.22/user/info
+            user-name-attribute: username
+
+logging:
+  level:
+    com.nicico: info
+
+---
+
+spring:
+  profiles: Local
+  datasource:
+    url: jdbc:oracle:thin:@//172.16.180.22:1521/pdb1.icico.net.ir
+    #    url: jdbc:oracle:thin:@//localhost:1521/pdb1.icico.net.ir
+    username: sales
+    password: sales
+  redis:
+    host: 172.16.180.22
+  #    password: nicico
+  jpa:
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          oserver:
+            client-id: ${spring.application.name}
+            client-secret: password
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: user_info
+        provider:
+          oserver:
+            authorization-uri: http://172.16.180.22:8888/oauth/authorize
+            token-uri: http://172.16.180.22:8888/oauth/token
+            user-info-uri: http://172.16.180.22:8888/user/info
+            user-name-attribute: username
+
+logging:
+  level:
+    com.nicico: debug
