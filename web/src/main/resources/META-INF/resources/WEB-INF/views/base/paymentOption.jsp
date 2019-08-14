@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     function ListGrid_PaymentOption_refresh() {
         ListGrid_PaymentOption.invalidateCache();
@@ -55,7 +56,7 @@
                     if (index == 0) {
                         var paymentOptionId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/paymentOption/" + paymentOptionId,
+                                actionURL: "${contextPath}/api/paymentOption/" + paymentOptionId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -192,7 +193,7 @@
                 {name: "namePay", title: "<spring:message code='paymentOption.payName'/>", width: 200}
             ],
 
-        fetchDataURL: "${restApiUrl}/api/paymentOption/spec-list"
+        fetchDataURL: "${contextPath}/api/paymentOption/spec-list"
 
     });
     var IButton_PaymentOption_Save = isc.IButton.create({
@@ -210,7 +211,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/paymentOption",
+                    actionURL: "${contextPath}/api/paymentOption",
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {

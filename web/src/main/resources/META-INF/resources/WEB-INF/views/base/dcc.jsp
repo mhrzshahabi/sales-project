@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var dccTableName = "${dccTableName}";
     var dccTableId = "${dccTableId}";
@@ -156,7 +157,7 @@
                     if (index == 0) {
                         var dccId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/dcc/" + dccId,
+                                actionURL: "${contextPath}/api/dcc/" + dccId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -256,7 +257,7 @@
             },
             {name: "fileNewName", title: "<spring:message code='global.fileNewName'/>", type: 'text', width: 400}
         ],
-        fetchDataURL: "${restApiUrl}/api/dcc/spec-list"
+        fetchDataURL: "${contextPath}/api/dcc/spec-list"
     });
 
     var dccSaveIButton = isc.IButton.create({
@@ -297,7 +298,7 @@
 
             var request = new XMLHttpRequest();
 
-            request.open("POST", "${restApiUrl}/api/dcc/");
+            request.open("POST", "${contextPath}/api/dcc/");
             request.setRequestHeader("Authorization", "Bearer " + "${cookie['access_token'].getValue()}");
             request.setRequestHeader("contentType", "application/json; charset=utf-8");
             request.send(formData);

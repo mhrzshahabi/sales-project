@@ -5,7 +5,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_DailyReport = isc.MyRestDataSource.create({
         fields:
@@ -31,7 +32,7 @@
                 {name: "amountReviseSal", title: "<spring:message code='dailyReport.amountReviseSal'/>"},
                 {name: "reviseSal", title: "<spring:message code='dailyReport.reviseSalPct'/>"}
             ],
-        fetchDataURL: "${restApiUrl}/api/dailyReportBandarAbbas/spec-list",
+        fetchDataURL: "${contextPath}/api/dailyReportBandarAbbas/spec-list",
         allowAdvancedCriteria: true
     });
     <%--<script>--%>
@@ -42,7 +43,7 @@
         height: "100%",
         setMethod: 'POST',
         align: "center",
-        action: "${restApiUrl}/api/report/printDailyReportBandarAbbas",
+        action: "${contextPath}/api/report/printDailyReportBandarAbbas",
         target: "_Blank",
         canSubmit: true,
         showInlineErrors: true,

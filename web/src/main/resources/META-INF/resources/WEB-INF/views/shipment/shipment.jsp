@@ -6,7 +6,8 @@
 
     <% DateUtil dateUtil = new DateUtil();%>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var contractId;
     var RestDataSource_ContractPerson;

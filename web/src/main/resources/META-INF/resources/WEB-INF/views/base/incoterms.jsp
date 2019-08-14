@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var Menu_ListGrid_Incoterms = isc.Menu.create({
         width: 150,
@@ -201,7 +202,7 @@
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(
                 Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/incoterms/",
+                    actionURL: "${contextPath}/api/incoterms/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
@@ -295,7 +296,7 @@
                         var incotermsId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                             {
-                                actionURL: "${restApiUrl}/api/incoterms/" + incotermsId,
+                                actionURL: "${contextPath}/api/incoterms/" + incotermsId,
                                 httpMethod: "DELETE",
                                 serverOutputAsString: false,
                                 callback: function (RpcResponse_o) {
@@ -470,7 +471,7 @@
                     }
                 },
             ],
-        fetchDataURL: "${restApiUrl}/api/incoterms/spec-list"
+        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
     });
 
     var ListGrid_Incoterms = isc.ListGrid.create({

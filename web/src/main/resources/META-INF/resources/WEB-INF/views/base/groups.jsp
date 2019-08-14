@@ -3,7 +3,8 @@
 
 // <script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Person_GroupEmail = isc.MyRestDataSource.create({
         fields: [
@@ -43,7 +44,7 @@
             {name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: 400},
         ],
 
-        fetchDataURL: "${restApiUrl}/api/person/spec-list"
+        fetchDataURL: "${contextPath}/api/person/spec-list"
     });
 
     var Menu_ListGrid_Groups = isc.Menu.create({
@@ -119,7 +120,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/groups",
+                    actionURL: "${contextPath}/api/groups",
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
@@ -210,7 +211,7 @@
 
                         var groupsId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/groups/" + groupsId,
+                                actionURL: "${contextPath}/api/groups/" + groupsId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -311,7 +312,7 @@
             },
         ],
 
-        fetchDataURL: "${restApiUrl}/api/groups/spec-list"
+        fetchDataURL: "${contextPath}/api/groups/spec-list"
     });
 
     var ListGrid_Groups = isc.ListGrid.create({
@@ -606,7 +607,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/groupsPerson",
+                    actionURL: "${contextPath}/api/groupsPerson",
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
@@ -738,7 +739,7 @@
                     if (index == 0) {
                         var groupsPersonId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/groupsPerson/" + groupsPersonId,
+                                actionURL: "${contextPath}/api/groupsPerson/" + groupsPersonId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -914,7 +915,7 @@
             {name: "person.address", title: "<spring:message code='person.address'/>", type: 'text', width: 150},
         ],
 
-        fetchDataURL: "${restApiUrl}/api/groupsPerson/spec-list"
+        fetchDataURL: "${contextPath}/api/groupsPerson/spec-list"
     });
     var ListGrid_GroupsPerson = isc.ListGrid.create({
         width: "100%",
@@ -946,7 +947,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/groupsPerson",
+                    actionURL: "${contextPath}/api/groupsPerson",
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {

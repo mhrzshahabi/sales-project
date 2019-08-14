@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     function ListGrid_LME_refresh() {
         ListGrid_LME.invalidateCache();
@@ -57,7 +58,7 @@
                     if (index == 0) {
                         var LMEId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/LME/" + LMEId,
+                                actionURL: "${contextPath}/api/LME/" + LMEId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -298,7 +299,7 @@
                 {name: "palladiumUsdOunce", title: "<spring:message code='LME.palladiumUsdOunce'/>", width: 200},
                 {name: "molybdenumUsdLb", title: "<spring:message code='LME.molybdenumUsdLb'/>", width: 200}
             ],
-        fetchDataURL: "${restApiUrl}/api/LME/spec-list"
+        fetchDataURL: "${contextPath}/api/LME/spec-list"
     });
     var IButton_LME_Save = isc.IButton.create({
         top: 260,
@@ -317,7 +318,7 @@
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/LME/",
+                    actionURL: "${contextPath}/api/LME/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {

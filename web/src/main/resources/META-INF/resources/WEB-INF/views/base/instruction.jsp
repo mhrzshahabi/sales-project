@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     function ListGrid_Instruction_refresh() {
         ListGrid_Instruction.invalidateCache();
@@ -57,7 +58,7 @@
                     if (index == 0) {
                         var InstructionId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${restApiUrl}/api/instruction/" + InstructionId,
+                            actionURL: "${contextPath}/api/instruction/" + InstructionId,
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -209,7 +210,7 @@
                 {name: "disableDate", title: "<spring:message code='instruction.disableDate'/>", width: 400},
                 {name: "runDate", title: "<spring:message code='instruction.runDate'/>", width: 400}
             ],
-        fetchDataURL: "${restApiUrl}/api/instruction/spec-list"
+        fetchDataURL: "${contextPath}/api/instruction/spec-list"
     });
 
     var IButton_Instruction_Save = isc.IButton.create({
@@ -239,7 +240,7 @@
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/instruction/",
+                    actionURL: "${contextPath}/api/instruction/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {

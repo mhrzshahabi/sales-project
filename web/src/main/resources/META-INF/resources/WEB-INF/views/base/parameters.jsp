@@ -4,7 +4,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Parameters = isc.MyRestDataSource.create({
         fields:
@@ -15,7 +16,7 @@
                 {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
             ],
 
-        fetchDataURL: "${restApiUrl}/api/parameters/spec-list"
+        fetchDataURL: "${contextPath}/api/parameters/spec-list"
     });
 
     function ListGrid_Parameters_refresh() {
@@ -70,7 +71,7 @@
                         var parametersId = record.id;
 
                         isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/parameters/" + parametersId,
+                            actionURL: "${contextPath}/api/parameters/" + parametersId,
                             httpMethod: "DELETE",
                             useSimpleHttp: true,
                             contentType: "application/json; charset=utf-8",
@@ -230,7 +231,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/parameters",
+                actionURL: "${contextPath}/api/parameters",
                 httpMethod: method,
                 useSimpleHttp: true,
                 contentType: "application/json; charset=utf-8",

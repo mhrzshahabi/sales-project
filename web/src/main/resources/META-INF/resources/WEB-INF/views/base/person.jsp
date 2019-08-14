@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Country = isc.MyRestDataSource.create({
         fields:
@@ -12,7 +13,7 @@
                 {name: "code", title: "<spring:message code='goods.code'/> "},
                 {name: "nameFa", title: "<spring:message code='global.country'/> "}
             ],
-        fetchDataURL: "${restApiUrl}/api/country/spec-list"
+        fetchDataURL: "${contextPath}/api/country/spec-list"
     });
 
     var RestDataSource_Contact = isc.MyRestDataSource.create({
@@ -56,7 +57,7 @@
             },
             {name: "contactAccounts"}
         ],
-        fetchDataURL: "${restApiUrl}/api/contact/spec-list"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
     var Menu_ListGrid_Person = isc.Menu.create({
@@ -251,7 +252,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/person",
+                actionURL: "${contextPath}/api/person",
                 httpMethod: method,
                 httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
                 useSimpleHttp: true,
@@ -348,7 +349,7 @@
 
                         var personId = record.id;
                         isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/person/" + personId,
+                            actionURL: "${contextPath}/api/person/" + personId,
                             httpMethod: "DELETE",
                             httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
                             useSimpleHttp: true,
@@ -482,7 +483,7 @@
             {name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: 400},
         ],
 
-        fetchDataURL: "${restApiUrl}/api/person/spec-list"
+        fetchDataURL: "${contextPath}/api/person/spec-list"
     });
 
     var ListGrid_Person = isc.ListGrid.create({

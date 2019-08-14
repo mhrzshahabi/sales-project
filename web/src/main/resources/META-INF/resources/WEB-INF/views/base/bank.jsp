@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Bank__BANK = isc.MyRestDataSource.create({
         fields:
@@ -17,7 +18,7 @@
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
 
-        fetchDataURL: "${restApiUrl}/api/bank/spec-list"
+        fetchDataURL: "${contextPath}/api/bank/spec-list"
     });
 
     var RestDataSource_Country__BANK = isc.MyRestDataSource.create({
@@ -28,7 +29,7 @@
                 {name: "nameEn", title: "<spring:message code='country.nameEn'/>", width: 200},
                 {name: "isActive", title: "<spring:message code='country.isActive'/>", width: 200}
             ],
-        fetchDataURL: "${restApiUrl}/api/country/spec-list"
+        fetchDataURL: "${contextPath}/api/country/spec-list"
     });
 
     function ListGrid_Bank_refresh() {
@@ -82,7 +83,7 @@
                     if (index == 0) {
                         var BankId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/bank/" + BankId,
+                                actionURL: "${contextPath}/api/bank/" + BankId,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
                                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
@@ -295,7 +296,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/bank/",
+                    actionURL: "${contextPath}/api/bank/",
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {

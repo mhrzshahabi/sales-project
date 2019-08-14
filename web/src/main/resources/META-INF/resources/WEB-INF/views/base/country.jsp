@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Country = isc.MyRestDataSource.create({
         fields:
@@ -14,7 +15,7 @@
                 {name: "nameEn", title: "<spring:message code='country.nameEn'/>", width: 200},
             ],
 
-        fetchDataURL: "${restApiUrl}/api/country/spec-list"
+        fetchDataURL: "${contextPath}/api/country/spec-list"
     });
 
     function ListGrid_Country_refresh() {
@@ -68,7 +69,7 @@
                     if (index == 0) {
                         var CountryId = record.id;
                         isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/country/" + record.id,
+                            actionURL: "${contextPath}/api/country/" + record.id,
                             httpMethod: "DELETE",
                             useSimpleHttp: true,
                             contentType: "application/json; charset=utf-8",
@@ -229,7 +230,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/country/",
+                actionURL: "${contextPath}/api/country/",
                 httpMethod: method,
                 useSimpleHttp: true,
                 contentType: "application/json; charset=utf-8",

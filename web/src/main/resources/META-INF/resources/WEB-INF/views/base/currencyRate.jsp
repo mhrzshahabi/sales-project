@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     function ListGrid_CurrencyRate_refresh() {
         ListGrid_CurrencyRate.invalidateCache();
@@ -56,7 +57,7 @@
                     if (index == 0) {
                         var currencyRateId = record.id;
                         isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/currencyRate/" + currencyRateId,
+                            actionURL: "${contextPath}/api/currencyRate/" + currencyRateId,
                             httpMethod: "DELETE",
                             httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
                             useSimpleHttp: true,
@@ -235,7 +236,7 @@
                 {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", width: "50%", align: "center"},
                 {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", width: "50%", align: "center"}
             ],
-        fetchDataURL: "${restApiUrl}/api/currencyRate/spec-list"
+        fetchDataURL: "${contextPath}/api/currencyRate/spec-list"
     });
 
 
@@ -255,7 +256,7 @@
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/currencyRate/",
+                actionURL: "${contextPath}/api/currencyRate/",
                 httpMethod: methodXXXX,
                 httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
                 useSimpleHttp: true,

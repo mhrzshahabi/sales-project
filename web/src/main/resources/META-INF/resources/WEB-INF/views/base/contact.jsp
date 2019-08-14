@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Country = isc.MyRestDataSource.create({
         fields:
@@ -12,7 +13,7 @@
                 {name: "code", title: "<spring:message code='goods.code'/> "},
                 {name: "nameFa", title: "<spring:message code='global.country'/> "}
             ],
-        fetchDataURL: "${restApiUrl}/api/country/spec-list"
+        fetchDataURL: "${contextPath}/api/country/spec-list"
     });
 
     var RestDataSource_ContactAccount = isc.MyRestDataSource.create({
@@ -40,7 +41,7 @@
                     }
             }
         ],
-        fetchDataURL: "${restApiUrl}/api/contactAccount/spec-list"
+        fetchDataURL: "${contextPath}/api/contactAccount/spec-list"
     });
 
     var RestDataSource_Bank = isc.MyRestDataSource.create({
@@ -54,7 +55,7 @@
                 {name: "coreBranch", title: "<spring:message code='bank.coreBranch'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
-        fetchDataURL: "${restApiUrl}/api/bank/spec-list"
+        fetchDataURL: "${contextPath}/api/bank/spec-list"
     });
 
     var RestDataSource_Contact = isc.MyRestDataSource.create({
@@ -97,7 +98,7 @@
             {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
             {name: "contactAccounts"}
         ],
-        fetchDataURL: "${restApiUrl}/api/contact/spec-list"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
     var Menu_ListGrid_Contact = isc.Menu.create({
@@ -489,7 +490,7 @@
             if (contactData.id == null)
                 httpMethod = "POST"; //create
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${restApiUrl}/api/contact",
+                actionURL: "${contextPath}/api/contact",
                 httpMethod: httpMethod,
                 data: JSON.stringify(contactData),
                 callback: function (RpcResponse_o) {
@@ -593,7 +594,7 @@
                     if (index == 0) {
                         var contactId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/contact/" + contactId,
+                                actionURL: "${contextPath}/api/contact/" + contactId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -1008,7 +1009,7 @@
             data["contactId"] = ContactAccountGridHeaderForm.getValue('id');
 
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/contactAccount",
+                    actionURL: "${contextPath}/api/contactAccount",
                     httpMethod: "POST",
                     data: JSON.stringify(data),
                     params: {parentId: data["contactId"]},
@@ -1038,7 +1039,7 @@
             }
             var data = ContactAccount_EditDynamicForm.getValues();
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/contactAccount",
+                    actionURL: "${contextPath}/api/contactAccount",
                     httpMethod: "PUT",
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
@@ -1144,7 +1145,7 @@
                                 }
                                 var contactAccountId = record.id;
                                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                        actionURL: "${restApiUrl}/api/contactAccount/" + contactAccountId,
+                                        actionURL: "${contextPath}/api/contactAccount/" + contactAccountId,
                                         httpMethod: "DELETE",
                                         callback: function (RpcResponse_o) {
                                             if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {

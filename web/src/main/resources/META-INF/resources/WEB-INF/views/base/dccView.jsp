@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_DccView = isc.MyRestDataSource.create({
         fields: [
@@ -29,7 +30,7 @@
                 title: "<spring:message code='global.fileName'/>"
             }
         ],
-        fetchDataURL: "${restApiUrl}/api/dcc/spec-list"
+        fetchDataURL: "${contextPath}/api/dcc/spec-list"
     });
 
     var listGrid_DccView = isc.ListGrid.create({

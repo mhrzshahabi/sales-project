@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     function ListGrid_Glossary_refresh() {
         ListGrid_Glossary.invalidateCache();
@@ -56,7 +57,7 @@
                     if (index == 0) {
                         var glossaryId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/glossary/" + glossaryId,
+                                actionURL: "${contextPath}/api/glossary/" + glossaryId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -232,7 +233,7 @@
                 {name: "summary", title: "<spring:message code='glossary.summary'/>", width: 200},
                 {name: "meaning", title: "<spring:message code='glossary.meaning'/>", width: 200}
             ],
-        fetchDataURL: "${restApiUrl}/api/glossary/spec-list"
+        fetchDataURL: "${contextPath}/api/glossary/spec-list"
     });
     var IButton_Glossary_Save = isc.IButton.create({
         top: 260,
@@ -248,7 +249,7 @@
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/glossary/",
+                    actionURL: "${contextPath}/api/glossary/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {

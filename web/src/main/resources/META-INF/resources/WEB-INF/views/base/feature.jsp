@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var Menu_ListGrid_Feature = isc.Menu.create({
         width: 150,
@@ -103,7 +104,7 @@
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/feature/",
+                    actionURL: "${contextPath}/api/feature/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
@@ -196,7 +197,7 @@
 // ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 // ######@@@@###&&@@### pls correct callback
-                                actionURL: "${restApiUrl}/api/feature/" + featureId,
+                                actionURL: "${contextPath}/api/feature/" + featureId,
                                 httpMethod: "DELETE",
                                 serverOutputAsString: false,
                                 callback: function (RpcResponse_o) {
@@ -304,11 +305,11 @@
         transformRequest: function (dsRequest) {
             dsRequest.httpHeaders = {
                 "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${restApiUrl}"
+                "Access-Control-Allow-Origin": "${contextPath}"
             };
             return this.Super("transformRequest", arguments);
         },
-        fetchDataURL: "${restApiUrl}/api/feature/spec-list"
+        fetchDataURL: "${contextPath}/api/feature/spec-list"
     });
 
     var ListGrid_Feature = isc.ListGrid.create({

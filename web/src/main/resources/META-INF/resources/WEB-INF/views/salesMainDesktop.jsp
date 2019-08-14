@@ -45,7 +45,7 @@
 
 <script type="application/javascript">
 
-    <%--<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.FileLoader.loadLocale("fa");

@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Currency = isc.MyRestDataSource.create({
         fields:
@@ -15,7 +16,7 @@
                 {name: "nameFa", title: "<spring:message code='currency.nameFa'/>", width: 200},
             ],
 
-        fetchDataURL: "${restApiUrl}/api/currency/spec-list"
+        fetchDataURL: "${contextPath}/api/currency/spec-list"
     });
 
     function ListGrid_Currency_refresh() {
@@ -69,7 +70,7 @@
                     if (index == 0) {
                         var CurrencyId = record.id;
                         isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/currency/" + record.id,
+                            actionURL: "${contextPath}/api/currency/" + record.id,
                             httpMethod: "DELETE",
                             useSimpleHttp: true,
                             contentType: "application/json; charset=utf-8",
@@ -243,7 +244,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/currency/",
+                actionURL: "${contextPath}/api/currency/",
                 httpMethod: method,
                 useSimpleHttp: true,
                 contentType: "application/json; charset=utf-8",

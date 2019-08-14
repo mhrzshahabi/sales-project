@@ -14,7 +14,8 @@
     }
 
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Port = isc.MyRestDataSource.create({
         fields:
@@ -27,7 +28,7 @@
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
 
-        fetchDataURL: "${restApiUrl}/api/port/spec-list"
+        fetchDataURL: "${contextPath}/api/port/spec-list"
     });
     var RestDataSource_CountryPort = isc.MyRestDataSource.create({
         fields:
@@ -38,7 +39,7 @@
                 {name: "isActive", title: "<spring:message code='country.isActive'/>", width: 200}
             ],
 
-        fetchDataURL: "${restApiUrl}/api/country/spec-list"
+        fetchDataURL: "${contextPath}/api/country/spec-list"
     });
 
     function ListGrid_Port_refresh() {
@@ -92,7 +93,7 @@
                     if (index == 0) {
                         var PortId = record.id;
                         isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/port/" + PortId,
+                            actionURL: "${contextPath}/api/port/" + PortId,
                             httpMethod: "DELETE",
                             httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
                             useSimpleHttp: true,
@@ -306,7 +307,7 @@
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/port/",
+                actionURL: "${contextPath}/api/port/",
                 httpMethod: methodXXXX,
                 httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
                 useSimpleHttp: true,

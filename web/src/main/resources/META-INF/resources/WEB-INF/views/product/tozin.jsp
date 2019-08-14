@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var ViewLoader_createTozin = isc.ViewLoader.create({
         width: "100%",
@@ -72,7 +73,7 @@
                 {name: "sourcePlantId",title: "<spring:message code='Tozin.sourcePlantId'/>"},
             ],
 // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/tozin/spec-list"
+        fetchDataURL: "${contextPath}/api/tozin/spec-list"
     });
 
     var fltTozin = isc.FilterBuilder.create({dataSource: RestDataSource_Tozin});
@@ -339,7 +340,7 @@
                         if (data.id == null) methodXXXX = "POST";
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 // ######@@@@###&&@@### pls correct callback
-                                actionURL: "${restApiUrl}/api/tozin/" + TozinId,
+                                actionURL: "${contextPath}/api/tozin/" + TozinId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
 // ######@@@@###&&@@###
@@ -489,7 +490,7 @@
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 // ######@@@@###&&@@### pls correct callback
-                    actionURL: "${restApiUrl}/api/tozin/",
+                    actionURL: "${contextPath}/api/tozin/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {

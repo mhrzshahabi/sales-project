@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var Menu_ListGrid_Unit = isc.Menu.create({
         width: 150,
@@ -88,7 +89,7 @@
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/unit/",
+                    actionURL: "${contextPath}/api/unit/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
@@ -180,7 +181,7 @@
 
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 // ######@@@@###&&@@### pls correct callback
-                                actionURL: "${restApiUrl}/api/unit/" + unitId,
+                                actionURL: "${contextPath}/api/unit/" + unitId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
 // ######@@@@###&&@@###
@@ -283,7 +284,7 @@
             {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
         ],
 // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/unit/spec-list"
+        fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
     var ListGrid_Unit = isc.ListGrid.create({

@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
         fields:
@@ -21,7 +22,7 @@
                 {name: "treatCost", ID: "treatCost"},
             ],
         // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/contract/spec-list"
+        fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
 
     var RestDataSource_Contact = isc.MyRestDataSource.create({

@@ -3,7 +3,8 @@
 
 //<script>
 
-    <spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>
+    <%--<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />--%>
 
     var ViewLoader_createTozinSales = isc.ViewLoader.create({
         width: "100%",
@@ -68,7 +69,7 @@
                 {name: "sourcePlantId",title: "<spring:message code='Tozin.sourcePlantId'/>"}
             ],
 // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/tozinSales/spec-list"
+        fetchDataURL: "${contextPath}/api/tozinSales/spec-list"
     });
 
 
@@ -409,7 +410,7 @@
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 // ######@@@@###&&@@### pls correct callback
-                    actionURL: "${restApiUrl}/api/tozinSales/",
+                    actionURL: "${contextPath}/api/tozinSales/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
