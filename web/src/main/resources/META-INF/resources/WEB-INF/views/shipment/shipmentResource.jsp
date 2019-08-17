@@ -470,7 +470,7 @@
             var descriptionHeader = "";
             var selection = ListGrid_ShipmentByAddHeader.getSelection();
             var shipmentIds = "";
-            for (var i = 0; i < selection.length; i++) {
+            for (var i = 0; i < selection.``; i++) {
                 shipmentIds += selection[i].id + ",";
                 descriptionHeader += "\n" + "-" + "شماره قرارداد" + selection[i].contractNo + "\n"
             }

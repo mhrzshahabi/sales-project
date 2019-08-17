@@ -10,7 +10,7 @@
         width: "100%",
         height: "100%",
         autoDraw: false,
-        loadingMessage: " در حال بارگذاری ..."
+        loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
     var Window_Tozin_ViewLoader = isc.Window.create({
         title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
@@ -88,7 +88,7 @@
                 width: 100,
                 height: 22,
                 title: "",
-                prompt: "جستحو",
+                prompt: "<spring:message code='global.search'/>",
                 icon: "icon/search.png",
                 click: function () {
                     ListGrid_Tozin.fetchData(fltTozin.getCriteria());
@@ -96,7 +96,7 @@
             }),
             isc.Label.create({width: "100%"}),
             isc.Label.create({
-                contents: "رکورد",
+                contents: "<spring:message code='global.record'/>",
                 align: "center",
                 width: 50,
                 height: 22
@@ -282,8 +282,8 @@
     var MenuButton_Tozin = isc.MenuButton.create({
         ID: "MenuButton_Tozin",
         autoDraw: false,
-        title: "گزارش بین مجامع",
-        prompt: "گزارش بین مجامع براساس تاریخ داده شده",
+        title: "<spring:message code='tozin.report.betweenComplexes'/>",
+        prompt: "<spring:message code='tozin.report.betweenComplexes.date'/>",
         width: 100,
         menu: Menu_ListGrid_Tozin
     });
@@ -423,8 +423,8 @@
 
     var ToolStripButton_Tozin_sum = isc.ToolStripButton.create({
         icon: "icon/sigma.png",
-        title: "مجموع حمل",
-        prompt: "بعد از چستجو یا برای رکوردهای انتخاب شده روی صفجه  مجموع بارگیری و تخلیه را نشان می دهد ",
+        title: "<spring:message code='shipment.total'/>",
+        prompt: " <spring:message code='shipment.tozinSum.prompt'/>",
         click: function () {
             var sum1 = 0;
             var sum2 = 0;

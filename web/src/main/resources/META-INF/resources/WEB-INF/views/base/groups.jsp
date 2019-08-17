@@ -793,7 +793,7 @@
 
             if (record == null || record.id == null) {
                 isc.Dialog.create({
-                    message: "گروهی انتخاب نشده است!",
+                    message: "<spring:message code='group.record.notSelected'/>",
                     icon: "[SKIN]ask.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
@@ -931,11 +931,11 @@
                 return;
 
             if (ListGrid_Groups.getSelectedRecord() == null || ListGrid_Groups.getSelectedRecord().id == null) {
-                isc.say("گروهی انتخاب نشده است!");
+                isc.say("<spring:message code='group.record.notSelected'/>");
                 return;
             }
             if (ListGrid_Person_GroupEmail.getSelectedRecord() == null || ListGrid_Person_GroupEmail.getSelectedRecord().id == null) {
-                isc.say("شخصی انتخاب نشده است!");
+                isc.say("<spring:message code='contact.record.notSelected'/>");
                 return;
             }
 

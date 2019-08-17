@@ -19,11 +19,11 @@
             },
             {
                 name: "tblId1",
-                title: "شناسه مربوطه"
+                title: "<spring:message code='dcc.dccViewer.Id'/>"
             },
             {
                 name: "tblName1",
-                title: "جدول مربوطه"
+                title: "<spring:message code='dcc.dccViewer.TableName'/>"
             },
             {
                 name: "fileName",
@@ -62,7 +62,7 @@
                 },
                 {
                     name: "tblId1",
-                    title: "شناسه مربوطه",
+                    title:  "<spring:message code='dcc.dccViewer.Id'/>",
                     type: 'long',
                     required: true,
                     width: 200,
@@ -70,7 +70,7 @@
                 },
                 {
                     name: "tblName1",
-                    title: "جدول مربوطه",
+                    title: "<spring:message code='dcc.dccViewer.TableName'/>",
                     type: 'text',
                     required: true,
                     width: "20%",

@@ -192,7 +192,7 @@
                             isc.Label.create({
                                 height: "50",
                                 width: "92",
-                                contents: "موجودی (پایان روز)",
+                                contents: "<spring:message code='dailyReport.inventory'/>",
                                 border: "1px solid blue",
                                 align: "center",
 
@@ -219,7 +219,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "92",
-                                                    contents: "موجودی اولیه",
+                                                    contents: "<spring:message code='dailyReport.initial.balance'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -227,7 +227,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "91",
-                                                    contents: "ورودی",
+                                                    contents: "<spring:message code='dailyReport.entrance'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -235,7 +235,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "91",
-                                                    contents: "خروجی",
+                                                    contents: "<spring:message code='dailyReport.output'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -243,7 +243,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "91",
-                                                    contents: "تعدیل",
+                                                    contents: "<spring:message code='dailyReport.adjustment'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -261,7 +261,7 @@
                                     isc.Label.create({
                                         height: "25",
                                         width: "365",
-                                        contents: "ماه",
+                                        contents: "<spring:message code='shipment.month'/>",
                                         border: "1px solid blue",
                                         align: "center",
 
@@ -274,7 +274,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "92",
-                                                    contents: "موجودی اولیه",
+                                                    contents: "<spring:message code='dailyReport.initial.balance'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -282,7 +282,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "91",
-                                                    contents: "ورودی",
+                                                    contents: "<spring:message code='dailyReport.entrance'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -290,7 +290,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "91",
-                                                    contents: "خروجی",
+                                                    contents: "<spring:message code='dailyReport.output'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -298,7 +298,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "91",
-                                                    contents: "تعدیل",
+                                                    contents: "<spring:message code='dailyReport.adjustment'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -317,7 +317,7 @@
                                     isc.Label.create({
                                         height: "25",
                                         width: "363",
-                                        contents: "سال",
+                                        contents: "<spring:message code='global.year'/>",
                                         border: "1px solid blue",
                                         align: "center",
 
@@ -330,7 +330,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "92",
-                                                    contents: "موجودی اولیه",
+                                                    contents: "<spring:message code='dailyReport.initial.balance'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -338,7 +338,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "90",
-                                                    contents: "ورودی",
+                                                    contents: "<spring:message code='dailyReport.entrance'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -346,7 +346,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "90",
-                                                    contents: "خروجی",
+                                                    contents: "<spring:message code='dailyReport.output'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -354,7 +354,7 @@
                                                 isc.Label.create({
                                                     height: "100%",
                                                     width: "91",
-                                                    contents: "تعدیل",
+                                                    contents: "<spring:message code='dailyReport.adjustment'/>",
                                                     border: "1px solid blue",
                                                     align: "center",
 
@@ -367,7 +367,7 @@
                         isc.Label.create({
                             height: "50",
                             width: "92",
-                            contents: "درصد تعدیل سال (پایان روز)",
+                            contents: "<spring:message code='dailyReport.adjustment.percentage'/>",
                             border: "1px solid blue",
                             align: "center",
 

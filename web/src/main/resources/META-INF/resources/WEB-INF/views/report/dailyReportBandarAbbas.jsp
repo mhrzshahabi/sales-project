@@ -115,7 +115,7 @@
         width: "100%",
         height: "100%",
         autoDraw: false,
-        loadingMessage: " در حال بارگذاری ..."
+        loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
     var Window_createDailyReportBandar = isc.Window.create({
         title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",

@@ -130,17 +130,17 @@
                 }
             }, {isSeparator: true},
             {
-                title: "ارسال به Pdf", icon: "icon/pdf.png", click: function () {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png", click: function () {
                     "<spring:url value="/bank/print/pdf" var="printUrl"/>"
                     window.open('${printUrl}');
                 }
             }, {
-                title: "ارسال به Excel", icon: "icon/excel.png", click: function () {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png", click: function () {
                     "<spring:url value="/bank/print/excel" var="printUrl"/>"
                     window.open('${printUrl}');
                 }
             }, {
-                title: "ارسال به Html", icon: "icon/html.jpg", click: function () {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg", click: function () {
                     "<spring:url value="/bank/print/html" var="printUrl"/>"
                     window.open('${printUrl}');
                 }
@@ -201,8 +201,8 @@
                     colSpan: 1, required: true,
                     titleColSpan: 1,
                     valueMap: {
-                        "core": "دفتر مرکزی",
-                        "branch": "شعبه"
+                        "core": "<spring:message code='bank.coreBranch.centralOffice'/>",
+                        "branch": "<spring:message code='bank.coreBranch.branch'/>"
                     }
                 },
                 {

@@ -155,7 +155,7 @@
             height: "100%",
             autoDraw: false,
             viewURL: url,
-            loadingMessage: " در حال بارگذاری ..."
+            loadingMessage: " <spring:message code='global.loadingMessage'/>"
         });
 
         var flagTabExist = false;
@@ -200,7 +200,7 @@
     var logoutButton = isc.IButton.create({
         width: "100",
         height: "100%",
-        title: "خروج",
+        title: "<spring:message code='global.exit'/>",
         icon: "pieces/512/logout.png",
         click: function () {
             document.getElementById("logoutForm").submit();
@@ -332,7 +332,7 @@
         largeIcon: "cartable/process.png",
         orientation: "vertical",
         click: function () {
-            createTab("فایل تعریف فرایندها", "<spring:url value="/web/workflow/processDefinition/showForm" />")
+            createTab("<spring:message code='global.process.file'/>", "<spring:url value="/web/workflow/processDefinition/showForm" />")
 
         }
     });
@@ -377,7 +377,7 @@
         orientation: "vertical",
 
         click: function () {
-            createTab("گزارش ساز قرارداد فروش", "<spring:url value="/contractIncomeCost/showForm" />")
+            createTab("<spring:message code='global.report.generator.contract'/>", "<spring:url value="/contractIncomeCost/showForm" />")
         }
     });
     var demandReportButton = isc.IconButton.create({
@@ -395,7 +395,7 @@
         largeIcon: "report/routineReports.png",
         orientation: "vertical",
         click: function () {
-            createTab("گزارش روزانه اداره هماهنگی فروش و امور گمرکی بندرعباس", "<spring:url value="/dailyReportBandarAbbas/showForm" />")
+            createTab("<spring:message code='dailyReport.DailyReportBandarAbbas'/>", "<spring:url value="/dailyReportBandarAbbas/showForm" />")
         }
     });
     var reportRibbonBar = isc.RibbonBar.create({
@@ -404,7 +404,7 @@
         groupTitleOrientation: "top"
     });
     var reportRibbonGroup = isc.RibbonGroup.create({
-        title: "گزارشات",
+        title: "<spring:message code='global.reports'/>",
         numRows: 1,
         colWidths: [20, "*"],
         showTitle: false,
@@ -633,7 +633,7 @@
         groupTitleOrientation: "top"
     });
     var baseRibbonGroup = isc.RibbonGroup.create({
-        title: "اطلاعات پایه",
+        title: "<spring:message code='global.menu.base.info'/>",
         numRows: 1,
         colWidths: [20, "*"],
         showTitle: false,
@@ -915,7 +915,7 @@
         groupTitleOrientation: "top"
     });
     var contractRibbonGroup = isc.RibbonGroup.create({
-        title: "مدیریت قراردادها",
+        title: "<spring:message code='global.menu.contract.management'/>",
         numRows: 1,
         colWidths: [20, "*"],
         showTitle: false,
@@ -1067,7 +1067,7 @@
         groupTitleOrientation: "top"
     });
     var productRibbonGroup = isc.RibbonGroup.create({
-        title: "مدیریت محصول",
+        title: "<spring:message code='global.menu.product.management'/>",
         numRows: 1,
         colWidths: [20, "*"],
         showTitle: false,
@@ -1159,7 +1159,7 @@
         groupTitleOrientation: "top"
     });
     var shipmentRibbonGroup = isc.RibbonGroup.create({
-        title: "مدیریت حمل",
+        title: "<spring:message code='global.menu.shipment.management'/>",
         numRows: 1,
         colWidths: [20, "*"],
         showTitle: false,
@@ -1366,7 +1366,7 @@
         groupTitleOrientation: "top"
     });
     var financialRibbonGroup = isc.RibbonGroup.create({
-        title: "مالی",
+        title: "<spring:message code='global.menu.financial'/>",
         numRows: 1,
         colWidths: [20, "*"],
         showTitle: false,
@@ -1397,15 +1397,15 @@
         tabs: [],
         tabBarControls: [
             isc.IButton.create({
-                title: "بستن همه",
+                title: "<spring:message code='global.close.tabs'/>",
                 icon: "icon/closeAllTabs.png",
                 width: 100, height: 20,
                 click: function () {
                     isc.Dialog.create({
-                        message: "آیا شما برای بستن همه تبها مطمئن هستید؟",
+                        message: "<spring:message code='global.close.tabs.propmt'/>",
                         icon: "[SKIN]ask.png",
-                        title: "تائید",
-                        buttons: [isc.Button.create({title: "بله"}), isc.Button.create({title: "خیر"})],
+                        title: "<spring:message code='global.ok'/>",
+                        buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({title: "<spring:message code='global.no'/>"})],
                         buttonClick: function (button, index) {
                             this.hide();
                             if (index == 0) {

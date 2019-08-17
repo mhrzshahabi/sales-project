@@ -409,7 +409,7 @@
                     type: "isFloat",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {type: "Header", defaultValue: dash},
@@ -430,7 +430,7 @@
                     type: "isInteger",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {
@@ -443,7 +443,7 @@
                     type: "isInteger",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {
@@ -456,7 +456,7 @@
                     type: "isInteger",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {
@@ -469,7 +469,7 @@
                     type: "isInteger",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {type: "Header", defaultValue: dash},
@@ -528,7 +528,7 @@
                     type: "isInteger",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {
@@ -699,7 +699,7 @@
                     type: "isFloat",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {
@@ -720,7 +720,7 @@
                     type: "isFloat",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {type: "Header", defaultValue: dash},
@@ -734,7 +734,7 @@
                     type: "isFloat",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {
@@ -754,7 +754,7 @@
                     type: "isFloat",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {
@@ -774,7 +774,7 @@
                     type: "isFloat",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {
@@ -787,7 +787,7 @@
                     type: "isFloat",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
             {
@@ -800,7 +800,7 @@
                     type: "isFloat",
                     validateOnExit: true,
                     stopOnError: true,
-                    errorMessage: "لطفا مقدار عددی وارد نمائید."
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
         ]

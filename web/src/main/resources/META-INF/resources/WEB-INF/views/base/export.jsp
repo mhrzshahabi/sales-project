@@ -208,7 +208,7 @@
                         type: "isInteger",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
                 {name: "cargo", title: "<spring:message code='export.cargo'/>", align: "center", width: 400},
@@ -219,8 +219,8 @@
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
-                    }]
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+}]
                 },
 
                 {

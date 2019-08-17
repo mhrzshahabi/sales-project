@@ -8,45 +8,45 @@
         data: [
 
             {
-                title: "بازخوانی اطلاعات", icon: "pieces/16/refresh.png",
+                title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
                     ListGrid_FiscalYear_refresh();
                 }
             },
             {
-                title: "ایجاد رکورد", icon: "pieces/16/icon_add.png",
+                title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     DynamicForm_FiscalYear.clearValues();
                     Window_FiscalYear.show();
                 }
             },
             {
-                title: "ویرایش رکورد", icon: "pieces/16/icon_edit.png",
+                title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_FiscalYear_edit();
                 }
             },
             {
-                title: "حذف رکورد", icon: "pieces/16/icon_delete.png",
+                title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_FiscalYear_remove();
                 }
             },
             {isSeparator: true},
             {
-                title: "ارسال به PDF", icon: "icon/pdf.png",
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
                     window.open("/fiscalYear/print/pdf");
                 }
             },
             {
-                title: "ارسال به Excel", icon: "icon/excel.png",
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
                     window.open("/fiscalYear/print/excel");
                 }
             },
             {
-                title: "ارسال به HTML", icon: "icon/html.jpg",
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
                     window.open("/fiscalYear/print/html");
                 }
@@ -62,7 +62,7 @@
             {name: "nameEN"},
             {name: "startDate"},
             {name: "endDate"},
-            {name: "isActive", valueMap: {"true": "فعال", "false": "غیرفعال"}}
+            {name: "isActive", valueMap: {"true": "<spring:message code='global.active'/>", "false": "<spring:message code='global.noActive'/>"}}
         ],
         dataFormat: "json",
         jsonPrefix: "",
@@ -95,19 +95,19 @@
         data: [
             {isSeparator: true},
             {
-                title: "ارسال به PDF", icon: "icon/pdf.png",
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
                     window.open("/fiscalYear/print/pdf");
                 }
             },
             {
-                title: "ارسال به Excel", icon: "icon/excel.png",
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
                     window.open("/fiscalYear/print/excel");
                 }
             },
             {
-                title: "ارسال به HTML", icon: "icon/html.jpg",
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
                     window.open("/fiscalYear/print/html");
                 }
@@ -130,7 +130,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        requiredMessage: "فیلد اجباری است.",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 1,
 
         fields: [

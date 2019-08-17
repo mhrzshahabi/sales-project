@@ -357,11 +357,11 @@
         contextMenu: Menu_ListGrid_CurrencyUnit,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "کد واحد ارز", align: "center"},
-            {name: "nameFA", title: "نام واحد ارز ", align: "center"},
-            {name: "nameEN", title: "نام لاتین واحد ارز", align: "center"},
-            {name: "symbol", title: "علامت اختصاری", align: "center"},
-            {name: "decimalDigit", title: "تعداد ارقام اعشار", align: "center"},
+            {name: "code", title: "<spring:message code='currency.code'/> ", align: "center"},
+            {name: "nameFA", title: "<spring:message code='currency.nameFa'/> ", align: "center"},
+            {name: "nameEN", title: "<spring:message code='currency.nameLatin'/> ", align: "center"},
+            {name: "symbol", title: "<spring:message code='currency.symbol'/>", align: "center"},
+            {name: "decimalDigit", title: "<spring:message code='currency.decimalDigit'/>", align: "center"},
 
         ],
         sortField: 0,

@@ -304,18 +304,18 @@
             request.send(formData);
             request.timeout = 1000;
             request.ontimeout = function () {
-                isc.warn("حجم فایل باید کمتر از یک مگابایت باشد");
+                isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
             }
             request.onreadystatechange = function () {
                 if (request.readyState === XMLHttpRequest.DONE) {
                     if (request.status === 500)
-                        isc.warn("آپلود فایل با مشکل مواجه شده است.");
+                        isc.warn("<spring:message code='dcc.upload.error.message'/>");
                     if (request.status === 200 || request.status == 201) {
-                        isc.say("فایل پیوست با موفقیت ثبت شد");
+                        isc.say("<spring:message code='dcc.upload.success.message'/>");
                         ListGrid_Dcc_refresh();
                         dccCreateWindow.close();
                     } else if (request.responseText !== "" && JSON.parse(request.responseText).exceptionClass.includes("MaxUploadSizeExceededException"))
-                        isc.warn("حجم فایل باید کمتر از یک مگابایت باشد");
+                        isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
                 }
             }
         }

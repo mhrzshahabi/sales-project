@@ -10,7 +10,7 @@
         width: "100%",
         height: "100%",
         autoDraw: false,
-        loadingMessage: " در حال بارگذاری ..."
+        loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
     var Window_TozinSales_ViewLoader = isc.Window.create({
         title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
@@ -85,7 +85,7 @@
                 width: 100,
                 height: 22,
                 title: "",
-                prompt: "جستحو",
+                prompt: "<spring:message code='global.search'/>",
                 icon: "icon/search.png",
                 click: function () {
                     ListGrid_TozinSales.fetchData(fltTozinSales.getCriteria());
@@ -93,7 +93,7 @@
             }),
             isc.Label.create({width: "100%"}),
             isc.Label.create({
-                contents: "رکورد",
+                contents: "<spring:message code='global.record'/>",
                 align: "center",
                 width: 50,
                 height: 22
@@ -107,7 +107,7 @@
                 height: 22
             }),
             isc.Label.create({
-                contents: "از",
+                contents: "<spring:message code='global.from'/>",
                 align: "center",
                 width: 50,
                 height: 22
@@ -257,8 +257,8 @@
     var MenuButton_Forosh_Bargiri = isc.MenuButton.create({
         ID: "MenuButton_Forosh_Bargiri",
         autoDraw: false,
-        title: "گزارش فروش و بارگیری محصولات",
-        prompt: "گزارش فروش و بارگیری محصولات براساس تاریخ داده شده",
+        title: "<spring:message code='tozin.report.salesUpload'/>",
+        prompt: "<spring:message code='tozin.report.salesUpload.byDate'/>",
         width: 150,
         menu: Menu_ListGrid_Forosh_Bargiri
     });
@@ -266,8 +266,8 @@
     var MenuButton_Kharid_Konstantere = isc.MenuButton.create({
         ID: "MenuButton_Kharid_Konstantere",
         autoDraw: false,
-        title: "گزارش خرید کنستانتره",
-        prompt: "گزارش خرید کنستانتره براساس تاریخ داده شده",
+        title: "<spring:message code='tozin.report.cons.buy'/>",
+        prompt: "<spring:message code='tozin.report.cons.buy.byDate'/>",
         width: 150,
         menu: Menu_ListGrid_Kharid_Konstantere
     });
@@ -275,8 +275,8 @@
     var MenuButton_Kharid_Zaieat = isc.MenuButton.create({
         ID: "MenuButton_Kharid_Zaieat",
         autoDraw: false,
-        title: "گزارش خرید ضایعات مسی و بلیستر وارده",
-        prompt: "گزارش خرید ضایعات مسی و بلیستر وارده براساس تاریخ داده شده",
+        title: "<spring:message code='tozin.report.waste'/>",
+        prompt: "<spring:message code='tozin.report.waste.byDate'/>",
         width: 200,
         menu: Menu_ListGrid_Kharid_Zaieat
     });
@@ -341,8 +341,8 @@
 
     var ToolStripButton_TozinSales_sum = isc.ToolStripButton.create({
         icon: "icon/sigma.png",
-        title: "مجموع حمل",
-        prompt: "بعد از چستجو یا برای رکوردهای انتخاب شده روی صفجه  مجموع بارگیری و تخلیه را نشان می دهد ",
+        title: "<spring:message code='shipment.total'/>",
+        prompt: "<spring:message code='tozin.report.shipment.total'/>",
         click: function () {
             var sum1 = 0;
             var sum2 = 0;
@@ -362,7 +362,7 @@
             }
             isc.Dialog.create({
                 message: "مجموع برای " + record.length + "  رکورد مقداربارگیری(" + sum1 + ") و تخلیه مقدار (" + sum2 + ") می باشد",
-                title: "مجموع حمل",
+                title: "<spring:message code='shipment.total'/>",
             });
             // isc.ask("جمع تخلیه "+record.length+" رکورد مقدار"+sum+" می باشد");
             if (selectedAtFirst == 0) {

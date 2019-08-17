@@ -11,33 +11,33 @@
     var Menu_ListGrid_skill_level = isc.Menu.create({
         width: 150,
         data: [{
-            title: "بازخوانی اطلاعات", icon: "pieces/16/refresh.png", click: function () {
+            title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png", click: function () {
                 ListGrid_skill_level_refresh();
             }
         }, {
-            title: "ایجاد", icon: "pieces/16/icon_add.png", click: function () {
+            title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png", click: function () {
                 method = "POST";
                 DynamicForm_skill_level.clearValues();
                 Window_skill_level.show();
             }
         }, {
-            title: "ویرایش", icon: "pieces/16/icon_edit.png", click: function () {
+            title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png", click: function () {
                 ListGrid_skill_level_edit();
             }
         }, {
-            title: "حذف", icon: "pieces/16/icon_delete.png", click: function () {
+            title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png", click: function () {
                 ListGrid_skill_level_remove();
             }
         }, {isSeparator: true}, {
-            title: "ارسال به Pdf", icon: "icon/pdf.png", click: function () {
+            title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png", click: function () {
                 window.open("/skill-level/print/pdf");
             }
         }, {
-            title: "ارسال به Excel", icon: "icon/excel.png", click: function () {
+            title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png", click: function () {
                 window.open("/skill-level/print/excel");
             }
         }, {
-            title: "ارسال به Html", icon: "icon/html.jpg", click: function () {
+            title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg", click: function () {
                 window.open("/skill-level/print/html");
             }
         }]
