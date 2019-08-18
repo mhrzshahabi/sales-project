@@ -1140,7 +1140,7 @@
         largeIcon: "shipment/shipmentCost.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='shipmentCost.title'/>", "/cost/showForm")
+            createTab("<spring:message code='shipmentCost.title'/>","<spring:url value="/cost/showForm" />" )
         }
     });
     var shipmentBolButton = isc.IconButton.create({

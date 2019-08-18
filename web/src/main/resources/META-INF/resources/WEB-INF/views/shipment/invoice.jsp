@@ -11,7 +11,7 @@
 
     var dollar = {};
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${restApiUrl}/api/currency/list",
+            actionURL: "${contextPath}/api/currency/list",
             httpMethod: "GET",
             data: "",
             callback: function (RpcResponse_o) {
@@ -54,7 +54,7 @@
             {name: "switchPort.port"},
             {name: "status"}
         ],
-        fetchDataURL: "${restApiUrl}/api/shipment/spec-list"
+        fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
 
     //---------------------------------------
@@ -246,7 +246,7 @@
                 {name: "shipmentId", title: "id", canEdit: false, hidden: true},
             ],
 
-        fetchDataURL: "${restApiUrl}/api/invoice/spec-list"
+        fetchDataURL: "${contextPath}/api/invoice/spec-list"
     });
 
     function ListGrid_Invoice_refresh() {
@@ -340,7 +340,7 @@
                     if (index == 0) {
                         var InvoiceId = record.id;
                         isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/invoice/" + record.id,
+                            actionURL: "${contextPath}/api/invoice/" + record.id,
                             httpMethod: "DELETE",
                             useSimpleHttp: true,
                             contentType: "application/json; charset=utf-8",
@@ -832,7 +832,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest({
-                actionURL: "${restApiUrl}/api/invoice/",
+                actionURL: "${contextPath}/api/invoice/",
                 httpMethod: method,
                 useSimpleHttp: true,
                 contentType: "application/json; charset=utf-8",

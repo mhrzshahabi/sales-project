@@ -6,12 +6,11 @@
 
     <% DateUtil dateUtil = new DateUtil();%>
 
-    <%--<spring:eval var="restApiUrl" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var dollar = {};
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${restApiUrl}/api/currency/list",
+            actionURL: "${contextPath}/api/currency/list",
             httpMethod: "GET",
             data: "",
             callback: function (RpcResponse_o) {
@@ -54,7 +53,7 @@
             {name: "switchPort.port"},
             {name: "status"},
         ],
-        fetchDataURL: "${restApiUrl}/api/shipment/spec-list"
+        fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
     //---------------------------------------
     var Menu_ListGrid_Shipment_CostHeader = isc.Menu.create({
@@ -237,7 +236,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${restApiUrl}/api/contact/spec-list1"
+        fetchDataURL: "${contextPath}/api/contact/spec-list1"
     });
     var RestDataSource_ContactByDestinationInspector = isc.MyRestDataSource.create({
         fields:
@@ -248,7 +247,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${restApiUrl}/api/contact/spec-list2"
+        fetchDataURL: "${contextPath}/api/contact/spec-list2"
     });
     var RestDataSource_ContactByInsurance = isc.MyRestDataSource.create({
         fields:
@@ -260,7 +259,7 @@
                 {name: "commertialRole"},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"}
             ],
-        fetchDataURL: "${restApiUrl}/api/contact/spec-list3"
+        fetchDataURL: "${contextPath}/api/contact/spec-list3"
     });
 
     var RestDataSource_Cost = isc.MyRestDataSource.create({
@@ -269,7 +268,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentId", title: "id", canEdit: false, hidden: true},
             ],
-        fetchDataURL: "${restApiUrl}/api/cost/spec-list"
+        fetchDataURL: "${contextPath}/api/cost/spec-list"
     });
 
     function ListGrid_Cost_refresh() {
@@ -362,7 +361,7 @@
                     if (index == 0) {
                         var CostId = record.id;
                         isc.RPCManager.sendRequest({
-                            actionURL: "${restApiUrl}/api/cost/" + record.id,
+                            actionURL: "${contextPath}/api/cost/" + record.id,
                             httpMethod: "DELETE",
                             useSimpleHttp: true,
                             contentType: "application/json; charset=utf-8",
@@ -1014,7 +1013,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/cost/",
+                    actionURL: "${contextPath}/api/cost/",
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {

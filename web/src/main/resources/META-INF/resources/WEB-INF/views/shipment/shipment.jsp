@@ -15,7 +15,7 @@
 
     var dollar = {};
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${restApiUrl}/api/currency/list",
+            actionURL: "${contextPath}/api/currency/list",
             httpMethod: "GET",
             callback: function (RpcResponse_o) {
                 if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -56,7 +56,7 @@
                 {name: "contactAccounts"},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"}
             ],
-        fetchDataURL: "${restApiUrl}/api/contact/spec-list"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
     var RestDataSource_LoadingPort = isc.MyRestDataSource.create({
@@ -66,7 +66,7 @@
                 {name: "port", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
-        fetchDataURL: "${restApiUrl}/api/port/spec-list1"
+        fetchDataURL: "${contextPath}/api/port/spec-list1"
     });
 
     var RestDataSource_DischargePort = isc.MyRestDataSource.create({
@@ -76,7 +76,7 @@
                 {name: "port", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
-        fetchDataURL: "${restApiUrl}/api/port/spec-list2"
+        fetchDataURL: "${contextPath}/api/port/spec-list2"
     });
 
     var RestDataSource_SwitchPort = isc.MyRestDataSource.create({
@@ -86,7 +86,7 @@
                 {name: "port", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
-        fetchDataURL: "${restApiUrl}/api/port/spec-list"
+        fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
     var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
@@ -107,7 +107,7 @@
                 {name: "dischargeAddress", title: "materialId"},
                 {name: "code", title: "code"}
             ],
-        fetchDataURL: "${restApiUrl}/api/shipment/pick-list"
+        fetchDataURL: "${contextPath}/api/shipment/pick-list"
     });
 
     var RestDataSource_Shipment__SHIPMENT = isc.MyRestDataSource.create({
@@ -218,7 +218,7 @@
                 showHover: true
             }
         ],
-        fetchDataURL: "${restApiUrl}/api/shipment/spec-list"
+        fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
 
     var RestDataSource_Person_EmailCC = isc.MyRestDataSource.create({
@@ -244,7 +244,7 @@
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400}
         ],
-        fetchDataURL: "${restApiUrl}/api/person/spec-list"
+        fetchDataURL: "${contextPath}/api/person/spec-list"
     });
 
     var Menu_ListGrid_Shipment = isc.Menu.create({
@@ -884,7 +884,7 @@
             var methodXXXX = "PUT";
             if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/shipment/",
+                    actionURL: "${contextPath}/api/shipment/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(dataShipment),
                     callback: function (RpcResponse_o) {
@@ -982,7 +982,7 @@
                     if (index == 0) {
                         var shipmentId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/shipment/" + shipmentId,
+                                actionURL: "${contextPath}/api/shipment/" + shipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
@@ -1303,7 +1303,7 @@
             [
                 {name: "emailCC", title: "CC", primaryKey: true, canEdit: false, hidden: true}
             ],
-        fetchDataURL: "${restApiUrl}/api/contractPerson/spec-list"
+        fetchDataURL: "${contextPath}/api/contractPerson/spec-list"
     });
 
     //************************************Email*********************************************
@@ -1352,7 +1352,7 @@
                     width: "10%"
                 },
             ],
-        fetchDataURL: "${restApiUrl}/api/shipmentEmail/spec-list"
+        fetchDataURL: "${contextPath}/api/shipmentEmail/spec-list"
     });
 
     var IButton_ShipmentEmail_Save = isc.IButton.create({
@@ -1368,7 +1368,7 @@
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/shipmentEmail/",
+                    actionURL: "${contextPath}/api/shipmentEmail/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
