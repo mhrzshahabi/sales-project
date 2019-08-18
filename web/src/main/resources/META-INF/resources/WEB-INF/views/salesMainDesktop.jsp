@@ -85,14 +85,14 @@
         }
     });
 
-    BaseRPCRequest = {
-        httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-        useSimpleHttp: true,
-        contentType: "application/json; charset=utf-8",
-        showPrompt: true,
-        serverOutputAsString: false,
-        willHandleError: false //centralized error handling
-    };
+    <%--BaseRPCRequest = {--%>
+        <%--httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},--%>
+        <%--useSimpleHttp: true,--%>
+        <%--contentType: "application/json; charset=utf-8",--%>
+        <%--showPrompt: true,--%>
+        <%--serverOutputAsString: false,--%>
+        <%--willHandleError: false //centralized error handling--%>
+    <%--};--%>
 
     isc.RPCManager.addClassProperties({
         defaultPrompt: "<spring:message code='global.server.contacting'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",

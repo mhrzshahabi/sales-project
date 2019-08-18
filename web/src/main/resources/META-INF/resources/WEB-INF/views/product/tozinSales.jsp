@@ -2,9 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
-
-    <spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>
-    <%--<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />--%>
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var ViewLoader_createTozinSales = isc.ViewLoader.create({
         width: "100%",
