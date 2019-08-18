@@ -34,7 +34,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/> "}
             ],
         // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/contact/spec-list"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
     var RestDataSource_Incoterms = isc.MyRestDataSource.create({
@@ -44,7 +44,7 @@
                 {name: "code", title: "<spring:message code='goods.code'/> "},
             ],
         // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/incoterms/spec-list"
+        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
     });
 
     var RestDataSource_Material = isc.MyRestDataSource.create({
@@ -57,7 +57,7 @@
                 {name: "unit.nameEN"},
             ],
         // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/material/spec-list"
+        fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
     var RestDataSource_Unit = isc.MyRestDataSource.create({
@@ -71,7 +71,7 @@
                 {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
             ],
         // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/unit/spec-list"
+        fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
     function ListGrid_Contract_refresh() {
@@ -157,7 +157,7 @@
                     this.hide();
                     if (index == 0) {
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${restApiUrl}/api/contract/" + record.id,
+                                actionURL: "${contextPath}/api/contract/" + record.id,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
                                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
@@ -746,7 +746,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${restApiUrl}/api/contract/",
+                    actionURL: "${contextPath}/api/contract/",
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
@@ -900,7 +900,7 @@
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
         // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/port/spec-list"
+        fetchDataURL: "${contextPath}/api/port/spec-list"
     });
     var RestDataSource_ContractShipment = isc.MyRestDataSource.create({
         fields:
@@ -946,7 +946,7 @@
                 {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
             ],
         // ######@@@@###&&@@###
-        fetchDataURL: "${restApiUrl}/api/contractShipment/spec-list"
+        fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
 
     /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -1015,7 +1015,7 @@
                         var ContractShipmentId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 // ######@@@@###&&@@### pls correct callback
-                                actionURL: "${restApiUrl}/api/contractShipment/" + ContractShipmentId,
+                                actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     // ######@@@@###&&@@###
@@ -1258,7 +1258,7 @@
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     // ######@@@@###&&@@### pls correct callback
-                    actionURL: "${restApiUrl}/api/contractShipment/",
+                    actionURL: "${contextPath}/api/contractShipment/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
