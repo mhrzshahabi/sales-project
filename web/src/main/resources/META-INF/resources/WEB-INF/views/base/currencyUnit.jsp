@@ -335,7 +335,7 @@
         ]
     });
 
-    var RestDataSource_CurrencyUnit = isc.RestDataSource.create({
+    var RestDataSource_CurrencyUnit = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='currency.code'/> "},
@@ -344,9 +344,6 @@
             {name: "symbol", title: "<spring:message code='currency.symbol'/>"},
             {name: "decimalDigit", title: "<spring:message code='currency.decimalDigit'/>"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/currencyUnit/list"
     });
 

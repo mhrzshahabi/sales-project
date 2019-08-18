@@ -5,7 +5,7 @@
 
     var ListGrid_WarehouseLotPaste;
 
-    var RestDataSource_Material = isc.RestDataSource.create({
+    var RestDataSource_Material = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -14,9 +14,6 @@
                 {name: "tblUnit.id"},
                 {name: "tblUnit.nameEN"},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/material/list",
     });
 
@@ -24,7 +21,7 @@
         ListGrid_WarehouseLot.invalidateCache();
     }
 
-    var RestDataSource_WarehouseLot = isc.RestDataSource.create({
+    var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -46,9 +43,6 @@
                 {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
                 {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/warehouseLot/list"
     });
     var WarehouseLotData = [];
@@ -56,7 +50,7 @@
         WarehouseLotData.add({id: i});
     }
 
-    var ClientDataSource_WarehouseLot = isc.RestDataSource.create({
+    var ClientDataSource_WarehouseLot = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},

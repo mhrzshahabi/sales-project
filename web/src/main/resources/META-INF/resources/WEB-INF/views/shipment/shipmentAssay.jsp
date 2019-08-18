@@ -6,7 +6,7 @@
 
     <% DateUtil dateUtil = new DateUtil();%>
 
-    var RestDataSource_ShipmentAssayHeader = isc.RestDataSource.create({
+    var RestDataSource_ShipmentAssayHeader = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -41,12 +41,9 @@
                 },
                 {name: "totalDryWeight", title: "<spring:message code='shipment.Assay.totalDryWeight'/>", type: 'text'},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipmentAssayHeader/list"
     });
-    var RestDataSource_ShipmentAssayItem = isc.RestDataSource.create({
+    var RestDataSource_ShipmentAssayItem = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -89,13 +86,10 @@
                     }]
                 },
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipmentAssayItem/list"
     });
 
-    var RestDataSource_Contact = isc.RestDataSource.create({
+    var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contact.code'/>"},
@@ -139,13 +133,10 @@
             },
             {name: "contactAccounts"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/contact/list"
     });
     //*******************************************************************************
-    var RestDataSource_ShipmentByAssayHeader = isc.RestDataSource.create({
+    var RestDataSource_ShipmentByAssayHeader = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {
@@ -237,9 +228,6 @@
                 width: "10%"
             },
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipment/list"
     });
 
@@ -248,7 +236,7 @@
         ShipmentAssayItemData.add({id: i});
     }
 
-    var ClientDataSource_ShipmentAssayItem = isc.RestDataSource.create({
+    var ClientDataSource_ShipmentAssayItem = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},

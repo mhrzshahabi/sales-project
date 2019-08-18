@@ -42,21 +42,12 @@
             }
         }]
     });
-    var RestDataSource_skill_level = isc.RestDataSource.create({
+    var RestDataSource_skill_level = isc.MyRestDataSource.create({
         fields: [{name: "id"}, {name: "titleFa"}, {name: "titleEn"},
             {
                 name: "version"
             }
-        ], dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "http://localhost:9090"
-            };
-            return this.Super("transformRequest", arguments);
-        },
+        ],
         fetchDataURL: "http://localhost:9090/api/skill-level/spec-list"
     });
     var ListGrid_skill_level = isc.ListGrid.create({

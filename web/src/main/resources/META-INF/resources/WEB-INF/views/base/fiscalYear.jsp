@@ -54,7 +54,7 @@
         ]
     });
 
-    var RestDataSource_FiscalYear = isc.RestDataSource.create({
+    var RestDataSource_FiscalYear = isc.MyRestDataSource.create({
         fields: [
             {name: "id"},
             {name: "code"},
@@ -64,9 +64,6 @@
             {name: "endDate"},
             {name: "isActive", valueMap: {"true": "<spring:message code='global.active'/>", "false": "<spring:message code='global.noActive'/>"}}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/fiscalYear/list"
     });
 

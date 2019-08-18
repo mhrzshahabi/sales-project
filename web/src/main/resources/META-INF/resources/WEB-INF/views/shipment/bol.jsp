@@ -6,7 +6,7 @@
 
     <% DateUtil dateUtil = new DateUtil();%>
 
-    var RestDataSource_BolHeader = isc.RestDataSource.create({
+    var RestDataSource_BolHeader = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -43,13 +43,10 @@
                 {name: "netWeight", title: "<spring:message code='shipment.Bol.netWeight'/>", type: 'text'},
                 {name: "bolDate", title: "<spring:message code='shipment.Bol.bolDate'/>", type: 'text'},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/bolHeader/list"
     });
 
-    var RestDataSource_BolItem = isc.RestDataSource.create({
+    var RestDataSource_BolItem = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -118,13 +115,10 @@
                     }]
                 },
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/bolItem/list"
     });
 
-    var RestDataSource_Contact = isc.RestDataSource.create({
+    var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contact.code'/>"},
@@ -168,13 +162,10 @@
             },
             {name: "contactAccounts"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/contact/list"
     });
     //---------------------------------------------------------------------------------
-    var RestDataSource_ShipmentByBolHeader = isc.RestDataSource.create({
+    var RestDataSource_ShipmentByBolHeader = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {
@@ -266,9 +257,6 @@
                 width: "10%"
             },
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipment/list"
     });
 
@@ -277,7 +265,7 @@
         BolItemData.add({id: i});
     }
 
-    var ClientDataSource_BolItem = isc.RestDataSource.create({
+    var ClientDataSource_BolItem = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
