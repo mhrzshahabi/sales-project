@@ -322,7 +322,7 @@
         ]
     });
 
-    var RestDataSource_GoodsUnit = isc.RestDataSource.create({
+    var RestDataSource_GoodsUnit = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='goods.code'/> "},
@@ -331,9 +331,6 @@
             {name: "symbol", title: "<spring:message code='goods.symbol'/>"},
             {name: "decimalDigit", title: "<spring:message code='goods.decimalDigit'/>"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/goodsUnit/list"
     });
 

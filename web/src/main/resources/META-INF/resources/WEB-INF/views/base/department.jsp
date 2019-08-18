@@ -3,7 +3,7 @@
 
 //<script>
 
-    var departmentDS = isc.RestDataSource.create({
+    var departmentDS = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, type: "integer", title: " ID"},
             {name: "departmentName", title: "<spring:message code='department.name'/>"},
@@ -11,13 +11,10 @@
             {name: "parentId", foreignKey: "id", type: "integer", title: "parent department"},
             {name: "departmentCode", title: "<spring:message code='department.code'/>"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/department/departmentListFetch"
     });
 
-    var departmaneGridDS = isc.RestDataSource.create({
+    var departmaneGridDS = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, type: "integer", title: " ID"},
             {name: "departmentName", title: "<spring:message code='department.name'/>"},
@@ -27,9 +24,6 @@
             {name: "parentDepartment.parentDepartment.id"},
             {name: "departmentCode", title: "<spring:message code='department.code'/>"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/department/departmentGridFetch"
     });
 

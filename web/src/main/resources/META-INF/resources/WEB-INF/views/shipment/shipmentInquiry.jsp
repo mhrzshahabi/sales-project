@@ -10,19 +10,16 @@
 
 
     var ListGrid_PersonByShipmentInquiry_EmailCC;
-    var RestDataSource_Shipment_HeaderByTender = isc.RestDataSource.create({
+    var RestDataSource_Shipment_HeaderByTender = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, align: "center", hidden: true},
             {name: "shipmentHeaderDate", title: "<spring:message code='shipmentHeader.date'/>", align: "center"},
             {name: "description", title: "<spring:message code='shipmentHeader.description'/>", align: "center"}
 
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipmentHeader/list"
     });
-    var RestDataSource_PersonByShipInq_EmailCC = isc.RestDataSource.create({
+    var RestDataSource_PersonByShipInq_EmailCC = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "tblContact.id"},
@@ -45,12 +42,9 @@
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/person/list"
     });
-    var RestDataSource_Contact = isc.RestDataSource.create({
+    var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -76,12 +70,9 @@
                 },
                 {name: "contactAccounts"}
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/contact/list"
     });
-    var RestDataSource_ByTender = isc.RestDataSource.create({
+    var RestDataSource_ByTender = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "tblContractItemShipment.id", hidden: true, type: 'long'},
@@ -165,9 +156,6 @@
                 }
             },
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipment/list"
     });
 
@@ -356,7 +344,7 @@
         ]
     });
     //-------------------------------------------Email----------------------------------------------------------------------
-    var RestDataSource_ShipmentInquiry = isc.RestDataSource.create({
+    var RestDataSource_ShipmentInquiry = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -406,12 +394,9 @@
                     width: "10%"
                 },
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipmentInquiry/list"
     });
-    var RestDataSource_ShipmentResourceByInquiry = isc.RestDataSource.create({
+    var RestDataSource_ShipmentResourceByInquiry = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -434,9 +419,6 @@
                     width: "10%"
                 }
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipmentResource/list"
     });
     var IButton_ShipmentInquiry_Save = isc.IButton.create({

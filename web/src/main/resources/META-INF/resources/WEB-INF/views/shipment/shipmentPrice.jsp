@@ -6,19 +6,16 @@
 
     <% DateUtil dateUtil = new DateUtil();%>
     var shipmentHeaderIdByPrice;
-    var RestDataSource_Shipment_HeaderByPrice = isc.RestDataSource.create({
+    var RestDataSource_Shipment_HeaderByPrice = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, align: "center", hidden: true},
             {name: "shipmentHeaderDate", title: "<spring:message code='shipmentHeader.date'/>", align: "center"},
             {name: "description", title: "<spring:message code='shipmentHeader.description'/>", align: "center"}
 
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipmentHeader/list"
     });
-    var RestDataSource_Shipment_Price = isc.RestDataSource.create({
+    var RestDataSource_Shipment_Price = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -94,12 +91,9 @@
                     width: "10%"
                 },
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipmentPrice/list"
     });
-    var RestDataSource_Contact = isc.RestDataSource.create({
+    var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contact.code'/>"},
@@ -143,12 +137,9 @@
             },
             {name: "contactAccounts"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/contact/list"
     });
-    var RestDataSource_ShipmentInq = isc.RestDataSource.create({
+    var RestDataSource_ShipmentInq = isc.MyRestDataSource.create({
         fields:
             [
                 {
@@ -211,33 +202,24 @@
                     width: "10%"
                 },
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipmentInquiry/list"
     });
-    var RestDataSource_Country_Price = isc.RestDataSource.create({
+    var RestDataSource_Country_Price = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
                 {name: "nameEn", title: "<spring:message code='global.country'/> "}
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/country/list"
     });
-    var RestDataSource_Contact = isc.RestDataSource.create({
+    var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contact.code'/>"},
             {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
             {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/contact/list"
     });
 
@@ -301,7 +283,7 @@
     });
 
     /*********************************************************************************/
-    var RestDataSource_ShipmentByPrice = isc.RestDataSource.create({
+    var RestDataSource_ShipmentByPrice = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {
@@ -393,9 +375,6 @@
                 width: "10%"
             },
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipment/list"
     });
 

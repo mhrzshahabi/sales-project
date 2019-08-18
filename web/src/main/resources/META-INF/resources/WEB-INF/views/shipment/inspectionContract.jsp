@@ -7,7 +7,7 @@
     <% DateUtil dateUtil = new DateUtil();%>
     var main = "";
     var emailCCByBady = "";
-    var RestDataSource_ContactByInspection = isc.RestDataSource.create({
+    var RestDataSource_ContactByInspection = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contact.code'/>"},
@@ -40,13 +40,10 @@
             {name: "bankName", title: "<spring:message code='contact.bankName'/>"},
             {name: "contactAccounts"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/contact/list"
     });
 
-    var RestDataSource_ShipmentContractByInsContract = isc.RestDataSource.create({
+    var RestDataSource_ShipmentContractByInsContract = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -172,13 +169,10 @@
             {name: "createUser", title: "<spring:message code='global.createUser'/>", align: "center", width: "10%"},
             {name: "createDate", title: "<spring:message code='global.createDate'/>", align: "center", width: "10%"},
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipmentContract/list"
     });
 
-    var RestDataSource_PersonByInspectionContract_EmailCC = isc.RestDataSource.create({
+    var RestDataSource_PersonByInspectionContract_EmailCC = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "tblContact.id"},
@@ -201,12 +195,9 @@
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/person/list"
     });
-    var RestDataSource_ShipmentByInspectionContract = isc.RestDataSource.create({
+    var RestDataSource_ShipmentByInspectionContract = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {
@@ -298,9 +289,6 @@
                 width: "10%"
             },
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipment/list"
     });
 
@@ -436,7 +424,7 @@
     });
 
     //-------------------------------------------Email----------------------------------------------------------------------
-    var RestDataSource_InspectionContract = isc.RestDataSource.create({
+    var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -481,9 +469,6 @@
                     width: "10%"
                 },
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/inspectionContract/list"
     });
     var IButton_InspectionContract_Save = isc.IButton.create({

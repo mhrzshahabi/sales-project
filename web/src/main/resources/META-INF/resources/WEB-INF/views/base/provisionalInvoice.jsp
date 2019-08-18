@@ -4,7 +4,7 @@
 //<script>
 
     //*******************************************************************************
-    var RestDataSource_ProvisionalInvoice = isc.RestDataSource.create({
+    var RestDataSource_ProvisionalInvoice = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -29,13 +29,10 @@
                 {name: "tblMaterial.id", title: "", width: 200},
                 {name: "tblContract.id", title: "", width: 200},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/provisionalInvoiceRestController/list"
     });
     //*******************************************************************************
-    var RestDataSource_BolHeader = isc.RestDataSource.create({
+    var RestDataSource_BolHeader = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -72,14 +69,11 @@
                 {name: "netWeight", title: "<spring:message code='shipment.Bol.netWeight'/>", type: 'text'},
                 {name: "bolDate", title: "<spring:message code='shipment.Bol.bolDate'/>", type: 'text'},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/bolHeader/bolHeaderList"
     });
 
     //*******************************************************************************
-    var RestDataSource_Contract = isc.RestDataSource.create({
+    var RestDataSource_Contract = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -104,13 +98,10 @@
                 },
                 {name: "descl", title: "<spring:message code='contract.descl'/>"}
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/contract/list"
     });
     //*******************************************************************************
-    var RestDataSource_Shipment = isc.RestDataSource.create({
+    var RestDataSource_Shipment = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {
@@ -202,13 +193,10 @@
                 width: "10%"
             },
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/shipment/shipmentList"
     });
     //*******************************************************************************
-    var RestDataSource_Material = isc.RestDataSource.create({
+    var RestDataSource_Material = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -217,9 +205,6 @@
                 {name: "tblUnit.id"},
                 {name: "tblUnit.nameEN"},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/material/materialList"
     });
 

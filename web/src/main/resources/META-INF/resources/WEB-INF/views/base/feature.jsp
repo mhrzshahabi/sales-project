@@ -289,7 +289,7 @@
         ]
     });
 
-    var RestDataSource_Feature = isc.RestDataSource.create({
+    var RestDataSource_Feature = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='feature.code'/> "},
@@ -298,17 +298,6 @@
             {name: "symbol", title: "<spring:message code='feature.symbol'/>"},
             {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
         ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
-// ######@@@@###&&@@###
-        transformRequest: function (dsRequest) {
-            dsRequest.httpHeaders = {
-                "Authorization": "Bearer " + "${cookie['access_token'].getValue()}",
-                "Access-Control-Allow-Origin": "${contextPath}"
-            };
-            return this.Super("transformRequest", arguments);
-        },
         fetchDataURL: "${contextPath}/api/feature/spec-list"
     });
 

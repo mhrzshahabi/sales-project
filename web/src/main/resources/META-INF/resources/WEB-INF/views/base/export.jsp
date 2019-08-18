@@ -359,7 +359,7 @@
                 ToolStrip_Actions_Export
             ]
     });
-    var RestDataSource_Export = isc.RestDataSource.create({
+    var RestDataSource_Export = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -376,24 +376,18 @@
                 {name: "tblCountry.nameFa", title: "<spring:message code='global.country'/>", align: "center"},
                 {name: "shipDate", title: "<spring:message code='export.shipDate'/>", align: "center"},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/export/list"
     });
-    var RestDataSource_Country = isc.RestDataSource.create({
+    var RestDataSource_Country = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
                 {name: "nameFa", title: "<spring:message code='global.country'/> "}
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/country/list"
     });
-    var RestDataSource_Material = isc.RestDataSource.create({
+    var RestDataSource_Material = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -402,9 +396,6 @@
                 {name: "tblUnit.id"},
                 {name: "tblUnit.nameEN"},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/material/list"
     });
 

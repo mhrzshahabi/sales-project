@@ -3,7 +3,7 @@
 
 //<script>
 
-    var RestDataSource_Material = isc.RestDataSource.create({
+    var RestDataSource_Material = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -12,9 +12,6 @@
                 {name: "tblUnit.id"},
                 {name: "tblUnit.nameEN"},
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/material/list"
     });
 
@@ -22,7 +19,7 @@
         ListGrid_DailyWarehouse.invalidateCache();
     }
 
-    var RestDataSource_DailyWarehouse = isc.RestDataSource.create({
+    var RestDataSource_DailyWarehouse = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -39,9 +36,6 @@
                     align: "center"
                 },
             ],
-        dataFormat: "json",
-        jsonPrefix: "",
-        jsonSuffix: "",
         fetchDataURL: "rest/dailyWarehouse/list"
     });
 
