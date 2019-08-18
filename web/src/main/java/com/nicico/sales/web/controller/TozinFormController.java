@@ -1,6 +1,9 @@
 package com.nicico.sales.web.controller;
 
+import com.nicico.copper.common.domain.ConstantVARs;
+import com.nicico.copper.core.util.report.ReportUtil;
 import lombok.RequiredArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,12 +21,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/tozin")
 public class TozinFormController {
 	private final OAuth2AuthorizedClientService authorizedClientService;
+	private final ReportUtil reportUtil;
+
 
 	@Value("${nicico.rest-api.url:''}")
 	private String restApiUrl;
@@ -48,31 +58,15 @@ public class TozinFormController {
 	}
 
 	@RequestMapping("/print/{type}/{date}")
-	public ResponseEntity<?> print(Authentication authentication, @PathVariable String type, @PathVariable String date) {
-		String token = "";
-		if (authentication instanceof OAuth2AuthenticationToken) {
-			OAuth2AuthorizedClient client = authorizedClientService
-					.loadAuthorizedClient(
-							((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId(),
-							authentication.getName());
-			token = client.getAccessToken().getTokenValue();
-		}
+	public ResponseEntity<?> print(HttpServletResponse response, Authentication authentication, @PathVariable String type, @PathVariable String date)
+			throws SQLException, IOException, JRException {
 
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+		String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
+		Map<String, Object> params = new HashMap<>();
+		params.put("dateReport", day);
+		params.put(ConstantVARs.REPORT_TYPE, type);
+		reportUtil.export("/reports/tozin_beyn_mojtama.jasper", params, response);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + token);
-
-		HttpEntity<String> entity = new HttpEntity<String>(headers);
-
-		if(type.equals("pdf"))
-			return restTemplate.exchange(restApiUrl + "/api/tozin/print/pdf/"+date, HttpMethod.GET, entity, byte[].class);
-		else if(type.equals("excel"))
-			return restTemplate.exchange(restApiUrl + "/api/tozin/print/excel/"+date, HttpMethod.GET, entity, byte[].class);
-		else if(type.equals("html"))
-			return restTemplate.exchange(restApiUrl + "/api/tozin/print/html/"+date, HttpMethod.GET, entity, byte[].class);
-		else
 			return null;
 	}
 }

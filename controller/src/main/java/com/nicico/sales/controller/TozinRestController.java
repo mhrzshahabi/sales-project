@@ -158,7 +158,8 @@ public class TozinRestController {
 	//---------------------------------------------------------------
 	@Loggable
 	@GetMapping(value = {"/print/{type}/{date}"})
-	public void print(HttpServletResponse response, @PathVariable String type, @PathVariable("date") String date) throws SQLException, IOException, JRException {
+	public void print(HttpServletResponse response, @PathVariable String type, @PathVariable("date") String date)
+			throws SQLException, IOException, JRException {
 		String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
 		Map<String, Object> params = new HashMap<>();
 		params.put("dateReport", day);
