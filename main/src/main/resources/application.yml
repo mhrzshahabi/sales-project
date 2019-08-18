@@ -102,8 +102,8 @@ spring:
     username: sales
     password: sales
   redis:
-    host: 172.16.180.22
-  #    password: nicico
+    host: devapp01.icico.net.ir
+    password: nicico
   security:
     oauth2:
       client:
@@ -116,9 +116,9 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://172.16.180.22/oauth/authorize
-            token-uri: http://172.16.180.22/oauth/token
-            user-info-uri: http://172.16.180.22/user/info
+            authorization-uri: http://devapp01.icico.net.ir/oauth/authorize
+            token-uri: http://devapp01.icico.net.ir/oauth/token
+            user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
 
 logging:
@@ -135,8 +135,8 @@ spring:
     username: sales
     password: sales
   redis:
-    host: 172.16.180.22
-  #    password: nicico
+    host: devapp01.icico.net.ir
+    password: nicico
   jpa:
     show-sql: true
   security:
@@ -151,9 +151,9 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://172.16.180.22:8888/oauth/authorize
-            token-uri: http://172.16.180.22:8888/oauth/token
-            user-info-uri: http://172.16.180.22:8888/user/info
+            authorization-uri: http://devapp01.icico.net.ir/oauth/authorize
+            token-uri: http://devapp01.icico.net.ir/oauth/token
+            user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
 
 logging:
