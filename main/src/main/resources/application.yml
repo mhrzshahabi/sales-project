@@ -8,17 +8,17 @@ spring:
       connection-test-query: SELECT 1 FROM DUAL
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.Oracle12cDialect
+        dialect: com.nicico.copper.common.hibernate.CustomOracleDialect
+        hbm2ddl:
+          schema_filter_provider: com.nicico.copper.common.hibernate.CustomSchemaFilterProvider
     open-in-view: false
   #  liquibase:
   #    database-change-log-table: Z_LIQ_CHANGELOG
   #    database-change-log-lock-table: Z_LIQ_CHANGELOG_LOCK
   #    change-log: classpath:db/changelog/liquibase-master.xml
-  redis:
-    port: 6379
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -30,6 +30,8 @@ spring:
     history-level: full
     database-schema-update: true
     db-history-used: true
+  redis:
+    port: 6379
 
 server:
   port: 8080
@@ -38,6 +40,11 @@ server:
     session:
       cookie:
         name: App_${spring.application.name}
+
+management:
+  endpoint:
+    health:
+      show-details: always
 
 nicico:
   jpa:
@@ -53,13 +60,13 @@ nicico:
     username:
     password:
   upload:
-    dir: c:/upload
+    dir: /var/nicico/${spring.application.name}/
   workflow:
     update:
       mode: true
   bpmn:
     upload:
-      dir: c:/upload/bpmn/
+      dir: /var/nicico/${spring.application.name}/
 
 ---
 
@@ -70,7 +77,7 @@ spring:
     username: sales
     password: sales
   redis:
-    host: 172.16.180.20
+    host: apps.icico.net.ir
     password: nicico
   security:
     oauth2:
@@ -84,14 +91,10 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://172.16.180.22/oauth/authorize
-            token-uri: http://172.16.180.22/oauth/token
-            user-info-uri: http://172.16.180.22/user/info
+            authorization-uri: http://apps.icico.net.ir/oauth/authorize
+            token-uri: http://apps.icico.net.ir/oauth/token
+            user-info-uri: http://apps.icico.net.ir/user/info
             user-name-attribute: username
-
-logging:
-  level:
-    com.nicico: info
 
 ---
 
@@ -121,17 +124,12 @@ spring:
             user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
 
-logging:
-  level:
-    com.nicico: info
-
 ---
 
 spring:
   profiles: Local
   datasource:
     url: jdbc:oracle:thin:@//172.16.180.22:1521/pdb1.icico.net.ir
-    #    url: jdbc:oracle:thin:@//localhost:1521/pdb1.icico.net.ir
     username: sales
     password: sales
   redis:
@@ -155,7 +153,3 @@ spring:
             token-uri: http://devapp01.icico.net.ir/oauth/token
             user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
-
-logging:
-  level:
-    com.nicico: debug

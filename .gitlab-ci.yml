@@ -1,0 +1,49 @@
+image: devops01.icico.net.ir/docker:01
+
+stages:
+  - build
+  - package
+  - deploy
+
+build-dev:
+  stage: build
+  image: devops01.icico.net.ir/maven-3.6.1-jdk8:01
+  only:
+    - dev
+  script:
+    - mvn -s .m2/settings.xml -P NICICO clean package
+  artifacts:
+    paths:
+      - main/target/*.jar
+
+package-dev:
+  stage: package
+  only:
+    - dev
+  script:
+    - docker login -u $G_REG_USER -p $G_REG_PASSWD $G_REG_PUSH_URL
+    - docker pull $G_REG_PULL_URL/$CI_PROJECT_NAME:dev || true
+    - docker build --cache-from $G_REG_PULL_URL/$CI_PROJECT_NAME:dev -t $G_REG_PUSH_URL/$CI_PROJECT_NAME:dev .
+    - docker push $G_REG_PUSH_URL/$CI_PROJECT_NAME:dev
+
+deploy-dev:
+  stage: deploy
+  only:
+    - dev
+  script:
+    - >
+      sshpass -p "$G_DEV_SRV_PASSWD" ssh -o StrictHostKeyChecking=no $G_DEV_SRV_USER@$G_DEV_SRV_URL "
+      docker stop $CI_PROJECT_NAME || true;
+      docker rm $CI_PROJECT_NAME || true;
+      docker rmi $G_REG_PULL_URL/$CI_PROJECT_NAME:dev || true;
+      docker pull $G_REG_PULL_URL/$CI_PROJECT_NAME:dev;
+      docker run -d \
+        --net=$G_DCK_NET \
+        -v /var/log/nicico:/var/log/nicico \
+        -v /var/nicico:/var/nicico \
+        -l traefik.backend=$CI_PROJECT_NAME \
+        -l traefik.frontend.rule=PathPrefix:/sales \
+        -e PROFILE=Development \
+        --name $CI_PROJECT_NAME \
+        $G_REG_PULL_URL/$CI_PROJECT_NAME:dev
+      "

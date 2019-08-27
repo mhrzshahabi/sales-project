@@ -3,6 +3,7 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Subselect;
 
 import javax.persistence.*;
 
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "view_tozin", schema = "SALES")
+@Subselect("select * from view_tozin")
 public class Tozin extends Auditable {
 
 	@Id
