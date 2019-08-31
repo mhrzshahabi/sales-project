@@ -4,7 +4,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var fields = createFields();
@@ -75,7 +74,7 @@
                 click: function () {
                     var viewState = ListGrid_ContractIncomeCost.getViewState();
                     viewState = viewState.substring(1, viewState.length - 1);
-                    window.open('/contractIncomeCost/print/pdf/' +
+                    window.open('contractIncomeCost/print/pdf/' +
                         encodeURIComponent(JSON.stringify(fltContractIncomeCost.getCriteria())) + "/" +
                         encodeURIComponent(viewState));
                 }
@@ -85,7 +84,7 @@
                 click: function () {
                     var viewState = ListGrid_ContractIncomeCost.getViewState();
                     viewState = viewState.substring(1, viewState.length - 1);
-                    window.open('/contractIncomeCost/print/excel/' +
+                    window.open('contractIncomeCost/print/excel/' +
                         encodeURIComponent(JSON.stringify(fltContractIncomeCost.getCriteria())) + "/" +
                         encodeURIComponent(viewState));
                 }
@@ -95,7 +94,7 @@
                 click: function () {
                     var viewState = ListGrid_ContractIncomeCost.getViewState();
                     viewState = viewState.substring(1, viewState.length - 1);
-                    window.open('/contractIncomeCost/print/html/' +
+                    window.open('contractIncomeCost/print/html/' +
                         encodeURIComponent(JSON.stringify(fltContractIncomeCost.getCriteria())) + "/" +
                         encodeURIComponent(viewState));
                 }
@@ -104,7 +103,7 @@
     });
 
     isc.FieldPicker.addProperties({
-        styleName:"fieldpicker_style"
+        styleName: "fieldpicker_style"
     });
 
     var ListGrid_ContractIncomeCost = isc.ListGrid.create({
@@ -120,16 +119,9 @@
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true,
-
-        autoFitData: "both",
-        autoFitMaxRecords: 20,
-        autoFitMaxColumns: 8,
-        autoFitFieldWidths: true,
         canEditTitles: true,
         useAdvancedFieldPicker: true,
-        fields: getOrderedFields(fields),
-        alternateRecordStyles: true,
-        alternateFieldStyles: true
+        fields: getOrderedFields(fields)
     });
 
     pickableFields.delayCall("editFields");
@@ -147,9 +139,9 @@
         members:
             [
                 ToolStripButton_ContractIncomeCost_Refresh,
-isc.Label.create({
-width: 25,
-}),
+                isc.Label.create({
+                    width: 25,
+                }),
                 isc.Label.create({
                     contents: "در حالت نمایش به صورت Pdf و Excel تنها 8 ستون اول از سمت راست نمایش داده می شوند.",
                     width: "450px",

@@ -20,20 +20,20 @@
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
-    <SCRIPT SRC=isomorphic/locales/frameworkMessages_fa.properties></SCRIPT>
 
-    <SCRIPT>var isomorphicDir = "isomorphic/";</SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_Core.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_Containers.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_Grids.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_Forms.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_Drawing.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_Charts.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_Analytics.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/system/modules/ISC_FileLoader.js></SCRIPT>
-    <SCRIPT SRC=isomorphic/skins/Tahoe/load_skin.js></SCRIPT>
+    <script>var isomorphicDir = "isomorphic/";</script>
+    <script src=isomorphic/locales/frameworkMessages_fa.properties></script>
+    <script src=isomorphic/system/modules/ISC_Core.js></script>
+    <script src=isomorphic/system/modules/ISC_Foundation.js></script>
+    <script src=isomorphic/system/modules/ISC_Containers.js></script>
+    <script src=isomorphic/system/modules/ISC_Grids.js></script>
+    <script src=isomorphic/system/modules/ISC_Forms.js></script>
+    <script src=isomorphic/system/modules/ISC_DataBinding.js></script>
+    <script src=isomorphic/system/modules/ISC_Drawing.js></script>
+    <script src=isomorphic/system/modules/ISC_Charts.js></script>
+    <script src=isomorphic/system/modules/ISC_Analytics.js></script>
+    <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
+    <script src=isomorphic/skins/Tahoe/load_skin.js></script>
 
 </head>
 
@@ -1140,7 +1140,7 @@
         largeIcon: "shipment/shipmentCost.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='shipmentCost.title'/>","<spring:url value="/cost/showForm" />" )
+            createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
         }
     });
     var shipmentBolButton = isc.IconButton.create({

@@ -182,6 +182,7 @@ public class Shipment extends Auditable {
 	@Column(name = "POST_REIGHT_CUR", length = 20)
 	private String postFreightCurrency;
 
+	//drum
 	@Column(name = "NO_BARREL", length = 100)
 	private String noBarrel;
 

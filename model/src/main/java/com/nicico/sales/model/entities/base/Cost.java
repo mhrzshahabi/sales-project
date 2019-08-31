@@ -23,7 +23,7 @@ public class Cost extends Auditable {
 	private Long id;
 
 	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false)
 	private Shipment Shipment;
 

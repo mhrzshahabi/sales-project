@@ -25,35 +25,30 @@ public class ShipmentResourceRestController {
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	//	@PreAuthorize("hasAuthority('r_shipmentResource')")
 	public ResponseEntity<ShipmentResourceDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(shipmentResourceService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	//	@PreAuthorize("hasAuthority('r_shipmentResource')")
 	public ResponseEntity<List<ShipmentResourceDTO.Info>> list() {
 		return new ResponseEntity<>(shipmentResourceService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	//	@PreAuthorize("hasAuthority('c_shipmentResource')")
 	public ResponseEntity<ShipmentResourceDTO.Info> create(@Validated @RequestBody ShipmentResourceDTO.Create request) {
 		return new ResponseEntity<>(shipmentResourceService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	//	@PreAuthorize("hasAuthority('u_shipmentResource')")
 	public ResponseEntity<ShipmentResourceDTO.Info> update(@RequestBody ShipmentResourceDTO.Update request) {
 		return new ResponseEntity<>(shipmentResourceService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	//	@PreAuthorize("hasAuthority('d_shipmentResource')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		shipmentResourceService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
@@ -61,7 +56,6 @@ public class ShipmentResourceRestController {
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	//	@PreAuthorize("hasAuthority('d_shipmentResource')")
 	public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentResourceDTO.Delete request) {
 		shipmentResourceService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
@@ -69,7 +63,6 @@ public class ShipmentResourceRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	//	@PreAuthorize("hasAuthority('r_shipmentResource')")
 	public ResponseEntity<ShipmentResourceDTO.ShipmentResourceSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
 		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
 		request.setStartIndex(startRow)
@@ -93,7 +86,6 @@ public class ShipmentResourceRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	//	@PreAuthorize("hasAuthority('r_shipmentResource')")
 	public ResponseEntity<SearchDTO.SearchRs<ShipmentResourceDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(shipmentResourceService.search(request), HttpStatus.OK);
 	}
