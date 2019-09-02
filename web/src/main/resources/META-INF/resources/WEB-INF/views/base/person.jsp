@@ -3,7 +3,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Country = isc.MyRestDataSource.create({
@@ -251,15 +250,10 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest({
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                 actionURL: "${contextPath}/api/person",
                 httpMethod: method,
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                showPrompt: true,
                 data: JSON.stringify(data),
-                serverOutputAsString: false,
                 callback: function (RpcResponse_o) {
                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
@@ -269,7 +263,7 @@
                         isc.say(RpcResponse_o.data);
                     }
                 }
-            });
+            }));
         }
     });
 
@@ -348,15 +342,9 @@
                     if (index == 0) {
 
                         var personId = record.id;
-                        isc.RPCManager.sendRequest({
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                             actionURL: "${contextPath}/api/person/" + personId,
                             httpMethod: "DELETE",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            showPrompt: true,
-// data: personId,
-                            serverOutputAsString: false,
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_Person.invalidateCache();
@@ -365,12 +353,12 @@
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
                             }
-                        });
+                        }));
                     }
                 }
             });
         }
-    };
+    }
 
     function ListGrid_Person_edit() {
 
@@ -550,7 +538,7 @@
         ]
     });
 
-    var VLayout_Body_Person = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

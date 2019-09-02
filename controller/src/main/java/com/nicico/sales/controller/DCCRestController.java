@@ -41,8 +41,7 @@ public class DCCRestController {
     private final Environment environment;
     private final ContactAttachmentService contactAttachmentService;
     private final ObjectMapper objectMapper;
-    private final FileUtil fileUtil;
-    // ------------------------------s
+    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -103,6 +102,14 @@ public class DCCRestController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private String getExtensionOfFile(String fileName) {
+        int i = fileName.lastIndexOf(".");
+        if (i >= 0)
+            return fileName.substring(i + 1);
+        else
+            return "";
     }
 
     @Loggable
@@ -177,48 +184,5 @@ public class DCCRestController {
 //    @PreAuthorize("hasAuthority('r_dcc')")
     public ResponseEntity<SearchDTO.SearchRs<DCCDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(dCCService.search(request), HttpStatus.OK);
-    }
-
-    @Loggable
-    @GetMapping(value = "/downloadFile")
-//    @PreAuthorize("hasAuthority('r_dcc')")
-    public void downloadFile(@RequestParam String data, HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String filePath;
-            filePath = "C:" + File.separator + "upload" + File.separator + data;
-            File downloadFile = new File(filePath);
-            FileInputStream inputStream = new FileInputStream(downloadFile);
-
-            ServletContext context = request.getServletContext();
-            String mimeType = context.getMimeType(filePath);
-            if (mimeType == null) {
-                mimeType = "application/octet-stream";
-            }
-            response.setContentType(mimeType);
-            String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", data);
-            response.setHeader(headerKey, headerValue);
-            response.setContentLength((int) downloadFile.length());
-            OutputStream outputStream = response.getOutputStream();
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            outputStream.flush();
-            inputStream.close();
-            fileUtil.download(data, response);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    private String getExtensionOfFile(String fileName) {
-        int i = fileName.lastIndexOf(".");
-        if (i >= 0)
-            return fileName.substring(i + 1);
-        else
-            return "";
     }
 }

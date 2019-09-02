@@ -1,17 +1,20 @@
 package com.nicico.sales.web.controller;
 
+import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.core.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.LocaleResolver;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,14 +22,12 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/")
 public class HomeController {
 
-    private final OAuth2AuthorizedClientService authorizedClientService;
-
-//    @Value("${nicico.oauth2.server.url}")
-//    private String oauth2ServerUrl;
+    private final LocaleResolver localeResolver;
 
     @GetMapping(value = {"/", "/home"})
-    public String showHomePage(HttpSession session) {
-    	session.setAttribute("userFullName", SecurityUtil.getFullName());
+    public String showHomePage(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().setAttribute("userFullName", SecurityUtil.getFullName());
+        localeResolver.setLocale(request, response, new Locale(request.getParameter("lang") == null ? ConstantVARs.LANGUAGE_EN : request.getParameter("lang")));
 
         return "salesMainDesktop";
     }
@@ -39,9 +40,4 @@ public class HomeController {
             return "redirect:/oauth2/authorization/sso-login";
         }
     }
-
-//    @GetMapping("/oauth_logout")
-//    public String logout() {
-//        return "redirect:" + oauth2ServerUrl;
-//    }
 }

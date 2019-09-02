@@ -360,14 +360,9 @@
                     this.hide();
                     if (index == 0) {
                         var CostId = record.id;
-                        isc.RPCManager.sendRequest({
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                             actionURL: "${contextPath}/api/cost/" + record.id,
                             httpMethod: "DELETE",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            showPrompt: true,
-                            serverOutputAsString: false,
                             callback: function (resp) {
                                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Cost_refresh();
@@ -376,7 +371,7 @@
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
                             }
-                        });
+                        }));
                     }
                 }
             });

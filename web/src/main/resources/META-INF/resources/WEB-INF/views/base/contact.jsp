@@ -3,7 +3,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Country = isc.MyRestDataSource.create({
@@ -49,7 +48,7 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "bankCode", title: "<spring:message code='bank.bankCode'/>", width: 200},
-                {name: "bankName", title: "<spring:message code='bank.namefa'/>", width: 200},
+                {name: "bankName", title: "<spring:message code='bank.nameFa'/>", width: 200},
                 {name: "enBankName", title: "<spring:message code='bank.nameEn'/>", width: 200},
                 {name: "address", title: "<spring:message code='bank.address'/>", width: 200},
                 {name: "coreBranch", title: "<spring:message code='bank.coreBranch'/>", width: 200},
@@ -131,56 +130,6 @@
                 icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Contact_remove();
-                }
-            },
-            {isSeparator: true},
-            {
-                title: "<spring:message code='global.form.print.pdf'/>",
-                icon: "icon/pdf.png",
-                click: function () {
-                    window.open("/contact/print/pdf");
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.excel'/>",
-                icon: "icon/excel.png",
-                click: function () {
-                    window.open("/contact/print/excel");
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.html'/>",
-                icon: "icon/html.jpg",
-                click: function () {
-                    window.open("/contact/print/html");
-                }
-            }
-        ]
-    });
-
-    var Menu_ListGrid_Contact_Print = isc.Menu.create({
-        width: 150,
-        data: [
-            {isSeparator: true},
-            {
-                title: "<spring:message code='global.form.print.pdf'/>",
-                icon: "icon/pdf.png",
-                click: function () {
-                    window.open("/contact/print/pdf");
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.excel'/>",
-                icon: "icon/excel.png",
-                click: function () {
-                    window.open("/contact/print/excel");
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.html'/>",
-                icon: "icon/html.jpg",
-                click: function () {
-                    window.open("/contact/print/html");
                 }
             }
         ]
@@ -456,7 +405,7 @@
                 title: "<spring:message code='contact.email'/>",
                 width: 500,
                 wrapTitle: false,
-                keyPressFilter: "[a-z|A-Z|0-9 . _ - ]"
+                keyPressFilter: "[@|a-z|A-Z|0-9 . _ - ]"
             },
             {type: "RowSpacerItem"}
         ]

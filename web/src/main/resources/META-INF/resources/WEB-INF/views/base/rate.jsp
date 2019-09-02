@@ -3,7 +3,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var Menu_ListGrid_Rate = isc.Menu.create({

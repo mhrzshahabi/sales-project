@@ -1,25 +1,18 @@
 package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
-import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.BankDTO;
 import com.nicico.sales.iservice.IBankService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jasperreports.engine.JRException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,7 +21,6 @@ import java.util.Map;
 public class BankRestController {
 
     private final IBankService bankService;
-    private final ReportUtil reportUtil;
 
     // ------------------------------s
 
@@ -111,14 +103,4 @@ public class BankRestController {
     public ResponseEntity<SearchDTO.SearchRs<BankDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(bankService.search(request), HttpStatus.OK);
     }
-//---------------------------------------------------------------
-@Loggable
-@GetMapping(value = {"/print/{type}"})
-public void print(HttpServletResponse response, @PathVariable String type) throws SQLException, IOException, JRException {
-    Map<String, Object> params = new HashMap<>();
-    params.put(ConstantVARs.REPORT_TYPE, type);
-    reportUtil.export("/reports/Bank.jasper", params, response);
-}
-
-
 }

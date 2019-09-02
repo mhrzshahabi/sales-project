@@ -43,7 +43,7 @@
     direction: ltr;
 }
 
-.fieldpicker_style img {
+.rtl .fieldpicker_style img {
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }

@@ -3,7 +3,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Currency = isc.MyRestDataSource.create({
@@ -69,14 +68,9 @@
                     this.hide();
                     if (index == 0) {
                         var CurrencyId = record.id;
-                        isc.RPCManager.sendRequest({
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                             actionURL: "${contextPath}/api/currency/" + record.id,
                             httpMethod: "DELETE",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            showPrompt: true,
-                            serverOutputAsString: false,
                             callback: function (resp) {
                                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Currency_refresh();
@@ -85,12 +79,13 @@
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
                             }
-                        });
+                        }));
                     }
                 }
             });
         }
-    };
+    }
+
     var Menu_ListGrid_Currency = isc.Menu.create({
         width: 150,
         data: [
@@ -234,7 +229,6 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
             DynamicForm_Currency.validate();
             if (DynamicForm_Currency.hasErrors())
                 return;
@@ -243,18 +237,11 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest({
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                 actionURL: "${contextPath}/api/currency/",
                 httpMethod: method,
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                showPrompt: true,
-                serverOutputAsString: false,
                 data: JSON.stringify(data),
-                //params: { data:data1},
                 callback: function (resp) {
-
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_Currency_refresh();
@@ -262,13 +249,12 @@
                     } else
                         isc.say(RpcResponse_o.data);
                 }
-            });
+            }));
         }
     });
     var Window_Currency = isc.Window.create({
         title: "<spring:message code='currency.title'/> ",
         width: 580,
-        // height: 280,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -340,12 +326,10 @@
         ]
     });
 
-    var VLayout_Currency_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_Currency_Actions, HLayout_Currency_Grid
         ]
     });
-
-

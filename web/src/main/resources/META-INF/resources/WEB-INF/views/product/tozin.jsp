@@ -3,7 +3,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var ViewLoader_createTozin = isc.ViewLoader.create({
@@ -12,7 +11,7 @@
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
-    var Window_Tozin_ViewLoader = isc.Window.create({
+    isc.Window.create({
         title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
         width: "1560",
         height: "95%",
@@ -155,8 +154,7 @@
                     align: "center",
                     width: 150,
                     colSpan: 1,
-                    titleColSpan: 1
-                    ,
+                    titleColSpan: 1,
                     icons: [{
                         src: "pieces/pcal.png", click: function () {
                             displayDatePicker('toDayDate', this, 'ymd', '/');
@@ -459,10 +457,10 @@
         membersMargin: 10,
         members:
             [
-                DynamicForm_DailyReport_Tozin,
                 MenuButton_Tozin,
                 ToolStripButton_Tozin_Refresh,
-                ToolStripButton_Tozin_sum
+                ToolStripButton_Tozin_sum,
+                DynamicForm_DailyReport_Tozin,
             ]
     });
 
@@ -781,4 +779,3 @@
             HLayout_Tozin_Actions, VLayout_Tozin_Grid
         ]
     });
-

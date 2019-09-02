@@ -4,7 +4,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Parameters = isc.MyRestDataSource.create({
@@ -70,14 +69,9 @@
                     if (index == 0) {
                         var parametersId = record.id;
 
-                        isc.RPCManager.sendRequest({
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                             actionURL: "${contextPath}/api/parameters/" + parametersId,
                             httpMethod: "DELETE",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            showPrompt: true,
-                            serverOutputAsString: false,
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 
@@ -87,12 +81,12 @@
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
                             }
-                        });
+                        }));
                     }
                 }
             });
         }
-    };
+    }
     var Menu_ListGrid_Parameters = isc.Menu.create({
         width: 150,
         data: [
@@ -230,15 +224,10 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest({
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                 actionURL: "${contextPath}/api/parameters",
                 httpMethod: method,
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                showPrompt: false,
                 data: JSON.stringify(data),
-                serverOutputAsString: false,
                 callback: function (RpcResponse_o) {
                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 
@@ -248,7 +237,7 @@
                     } else
                         isc.say(RpcResponse_o.data);
                 }
-            });
+            }))
         }
     });
 
@@ -352,6 +341,3 @@
             HLayout_Parameters_Actions, HLayout_Parameters_Grid
         ]
     });
-
-
-

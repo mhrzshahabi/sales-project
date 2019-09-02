@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.nicico")
 public class SalesApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SalesApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SalesApplication.class, args);
+    }
 }

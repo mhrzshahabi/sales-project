@@ -10,7 +10,7 @@
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
-    var Window_TozinSales_ViewLoader = isc.Window.create({
+    isc.Window.create({
         title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
         width: "1560",
         height: "95%",
@@ -375,12 +375,12 @@
         membersMargin: 10,
         members:
             [
-                DynamicForm_DailyReport_TozinSales,
                 MenuButton_Forosh_Bargiri,
                 MenuButton_Kharid_Konstantere,
                 MenuButton_Kharid_Zaieat,
                 ToolStripButton_TozinSales_Refresh,
-                ToolStripButton_TozinSales_sum
+                ToolStripButton_TozinSales_sum,
+                DynamicForm_DailyReport_TozinSales
             ]
     });
 

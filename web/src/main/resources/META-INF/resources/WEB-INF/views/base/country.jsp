@@ -3,7 +3,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Country = isc.MyRestDataSource.create({
@@ -68,14 +67,9 @@
                     this.hide();
                     if (index == 0) {
                         var CountryId = record.id;
-                        isc.RPCManager.sendRequest({
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                             actionURL: "${contextPath}/api/country/" + record.id,
                             httpMethod: "DELETE",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            showPrompt: true,
-                            serverOutputAsString: false,
                             callback: function (resp) {
                                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Country_refresh();
@@ -84,12 +78,12 @@
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
                             }
-                        });
+                        }));
                     }
                 }
             });
         }
-    };
+    }
     var Menu_ListGrid_Country = isc.Menu.create({
         width: 150,
         data: [
@@ -229,14 +223,9 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest({
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                 actionURL: "${contextPath}/api/country/",
                 httpMethod: method,
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                showPrompt: true,
-                serverOutputAsString: false,
                 data: JSON.stringify(data),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
@@ -246,7 +235,7 @@
                     } else
                         isc.say(RpcResponse_o.data);
                 }
-            });
+            }));
         }
     });
 
@@ -328,12 +317,10 @@
         ]
     });
 
-    var VLayout_Country_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_Country_Actions, HLayout_Country_Grid
         ]
     });
-
-

@@ -142,9 +142,9 @@
                 isc.Label.create({
                     width: 25,
                 }),
-                isc.Label.create({
-                    contents: "در حالت نمایش به صورت Pdf و Excel تنها 8 ستون اول از سمت راست نمایش داده می شوند.",
-                    width: "450px",
+                isc.HTMLFlow.create({
+                    contents: "در هنگام چاپ تنها 7 ستون اول از سمت راست نمایش داده می شود",
+                    width: "325px",
                     border: "1px solid red"
                 })
             ]

@@ -3,7 +3,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Bank__BANK = isc.MyRestDataSource.create({
@@ -11,7 +10,7 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "bankCode", title: "<spring:message code='bank.bankCode'/>", width: 200},
-                {name: "bankName", title: "<spring:message code='bank.namefa'/>", width: 200},
+                {name: "bankName", title: "<spring:message code='bank.nameFa'/>", width: 200},
                 {name: "enBankName", title: "<spring:message code='bank.nameEn'/>", width: 200},
                 {name: "address", title: "<spring:message code='bank.address'/>", width: 200},
                 {name: "coreBranch", title: "<spring:message code='bank.coreBranch'/>", width: 200},
@@ -175,7 +174,7 @@
                 },
                 {
                     name: "bankName",
-                    title: "<spring:message code='bank.namefa'/>",
+                    title: "<spring:message code='bank.nameFa'/>",
                     width: "100%",
                     colSpan: 1, required: true,
                     titleColSpan: 1
@@ -360,7 +359,7 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "bankCode", title: "<spring:message code='bank.bankCode'/>", width: "10%", align: "center"},
-                {name: "bankName", title: "<spring:message code='bank.namefa'/>", width: "10%", align: "center"},
+                {name: "bankName", title: "<spring:message code='bank.nameFa'/>", width: "10%", align: "center"},
                 {name: "enBankName", title: "<spring:message code='bank.nameEn'/>", width: "10%", align: "center"},
                 {name: "coreBranch", title: "<spring:message code='bank.coreBranch'/>", width: "10%", align: "center"},
                 {

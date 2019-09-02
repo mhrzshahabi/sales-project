@@ -1,9 +1,9 @@
+<%@ page import="com.nicico.copper.common.domain.ConstantVARs" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var dccTableName = "${dccTableName}";
@@ -299,7 +299,7 @@
             var request = new XMLHttpRequest();
 
             request.open("POST", "${contextPath}/api/dcc/");
-            request.setRequestHeader("Authorization", "Bearer " + "${cookie['access_token'].getValue()}");
+            request.setRequestHeader("Authorization", "Bearer " + "<%= (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN) %>");
             request.setRequestHeader("contentType", "application/json; charset=utf-8");
             request.send(formData);
             request.timeout = 1000;

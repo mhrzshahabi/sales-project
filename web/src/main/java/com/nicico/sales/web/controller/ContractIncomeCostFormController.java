@@ -8,17 +8,13 @@ import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContractIncomeCostDTO;
 import com.nicico.sales.iservice.IContractIncomeCostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +29,6 @@ import java.util.Map;
 @RequestMapping("/contractIncomeCost")
 public class ContractIncomeCostFormController {
 
-    private final OAuth2AuthorizedClientService authorizedClientService;
     private final IContractIncomeCostService contractIncomeCostService;
     private final ObjectMapper objectMapper;
 

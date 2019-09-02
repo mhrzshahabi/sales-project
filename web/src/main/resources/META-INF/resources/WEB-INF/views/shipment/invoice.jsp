@@ -338,14 +338,9 @@
                     this.hide();
                     if (index == 0) {
                         var InvoiceId = record.id;
-                        isc.RPCManager.sendRequest({
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                             actionURL: "${contextPath}/api/invoice/" + record.id,
                             httpMethod: "DELETE",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            showPrompt: true,
-                            serverOutputAsString: false,
                             callback: function (resp) {
                                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Invoice_refresh();
@@ -354,7 +349,7 @@
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
                             }
-                        });
+                        }));
                     }
                 }
             });
@@ -830,18 +825,11 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest({
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                 actionURL: "${contextPath}/api/invoice/",
                 httpMethod: method,
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                showPrompt: true,
-                serverOutputAsString: false,
                 data: JSON.stringify(data),
-//params: { data:data1},
                 callback: function (resp) {
-
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_Invoice_refresh();
@@ -849,7 +837,7 @@
                     } else
                         isc.say(RpcResponse_o.data);
                 }
-            });
+            }));
         }
     });
     var Window_Invoice = isc.Window.create({

@@ -447,7 +447,7 @@
             },
             {
                 name: "noPalete", colSpan: 2,
-                title: "<spring:message code='shipment.noPalete'/>",
+                title: "<spring:message code='shipment.noPalette'/>",
                 type: 'integer',
                 required: false,
                 width: "100%",

@@ -3,7 +3,6 @@
 
 //<script>
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
@@ -94,7 +93,6 @@
             });
         } else {
             DynamicForm_Contract.editRecord(record);
-            DynamicForm_Contract.setValue("sideContractDateDumy", new Date(record.sideContractDate));
             DynamicForm_Contract.setValue("contractDateDumy", new Date(record.contractDate));
             DynamicForm_Contract.setValue("runEndDateDumy", (record.runEndtDate == null ? null : new Date(record.runEndtDate)));
             DynamicForm_Contract.setValue("runStartDateDumy", new Date(record.runStartDate));
@@ -297,28 +295,6 @@
                         {name: "nameEN", width: "50%", align: "center"},
                         {name: "code", width: "10%", align: "center"}
                     ]
-                },
-                {
-                    name: "sideContractNo",
-                    colSpan: 1,
-                    titleColSpan: 1,
-                    tabIndex: 4,
-                    showHover: true,
-                    title: "<spring:message code='contract.sideContractNo'/>",
-                    type: 'text',
-                    required: false,
-                    width: "100%"
-                },
-                {
-                    name: "sideContractDateDumy",
-                    colSpan: 1,
-                    titleColSpan: 1,
-                    tabIndex: 5,
-                    showHover: true,
-                    title: "<spring:message code='contract.sideContractDate'/>",
-                    type: 'date',
-                    required: false,
-                    width: "100%"
                 },
                 {
                     type: "Header",
@@ -717,10 +693,6 @@
             DynamicForm_Contract.validate();
             if (DynamicForm_Contract.hasErrors())
                 return;
-
-            var d = DynamicForm_Contract.getValue("sideContractDateDumy");
-            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2));
-            DynamicForm_Contract.setValue("sideContractDate", datestring);
 
             var d1 = DynamicForm_Contract.getValue("contractDateDumy");
             var datestring1 = (d1.getFullYear() + "/" + ("0" + (d1.getMonth() + 1)).slice(-2) + "/" + ("0" + d1.getDate()).slice(-2));
@@ -1243,9 +1215,10 @@
             if (DynamicForm_ContractShipment.hasErrors())
                 return;
             var d = DynamicForm_ContractShipment.getValue("sendDateDummy");
-            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
+            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2));
             DynamicForm_ContractShipment.setValue("sendDate", datestring);
 
+            console.log(DynamicForm_ContractShipment.getValue("contractDate"));
             var contractDate = DynamicForm_ContractShipment.getValue("contractDate").split("/");
             if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
                 isc.warn("<spring:message code='shipment.date.validation'/>", {title: 'هشدار'});

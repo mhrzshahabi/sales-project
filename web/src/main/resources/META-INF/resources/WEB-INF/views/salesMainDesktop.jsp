@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
 
     <script>var isomorphicDir = "isomorphic/";</script>
-    <script src=isomorphic/locales/frameworkMessages_fa.properties></script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
     <script src=isomorphic/system/modules/ISC_Foundation.js></script>
     <script src=isomorphic/system/modules/ISC_Containers.js></script>
@@ -34,18 +33,25 @@
     <script src=isomorphic/system/modules/ISC_Analytics.js></script>
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
     <script src=isomorphic/skins/Tahoe/load_skin.js></script>
+    <script src=isomorphic/locales/frameworkMessages_fa.properties type="application/json"></script>
 
 </head>
 
 
-<body dir="rtl">
+<c:choose>
+<c:when test="${pageContext.response.locale == 'fa'}">
+<body class="rtl" dir="rtl">
+</c:when>
+<c:otherwise>
+<body class="ltr" dir="ltr">
+</c:otherwise>
+</c:choose>
 
 <form action="logout" method="get" id="logoutForm">
 </form>
 
 <script type="application/javascript">
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.FileLoader.loadLocale("fa");
@@ -226,7 +232,7 @@
         wrapItemTitles: true,
 
         fields: [{
-            name: "languageName", title: "<span style=\"color:white\">زبان</span>",
+            name: "languageName", title: "<span style=\"color:white\"><spring:message code='global.language'/></span>",
 
             type: "select",
             width: 100,
@@ -265,7 +271,6 @@
                     } else {
                         //newUrl = newUrl.replace("#", "?lang=" + selLocale )
                         newUrl = newUrl + "?lang=" + selLocale;
-
                     }
                 }
 

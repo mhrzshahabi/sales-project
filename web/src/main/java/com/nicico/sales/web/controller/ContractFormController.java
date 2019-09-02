@@ -39,5 +39,4 @@ public class ContractFormController {
         params.put(ConstantVARs.REPORT_TYPE, type);
         reportUtil.export("/reports/ContractIncomeCosts.jasper", params, response);
     }
-
 }

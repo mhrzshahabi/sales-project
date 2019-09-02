@@ -14,7 +14,6 @@
     }
 
 
-    <%--<spring:eval var="contextPath" expression="@environment.getProperty('nicico.rest-api.url')"/>--%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Port = isc.MyRestDataSource.create({
@@ -92,14 +91,9 @@
                     this.hide();
                     if (index == 0) {
                         var PortId = record.id;
-                        isc.RPCManager.sendRequest({
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                             actionURL: "${contextPath}/api/port/" + PortId,
                             httpMethod: "DELETE",
-                            httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            showPrompt: true,
-                            serverOutputAsString: false,
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_Port_refresh();
@@ -108,12 +102,12 @@
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
                             }
-                        });
+                        }));
                     }
                 }
             });
         }
-    };
+    }
     var Menu_ListGrid_Port = isc.Menu.create({
         width: 150,
         data: [
@@ -306,15 +300,10 @@
             var data = DynamicForm_Port.getValues();
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
-            isc.RPCManager.sendRequest({
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                 actionURL: "${contextPath}/api/port/",
                 httpMethod: methodXXXX,
-                httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
-                useSimpleHttp: true,
-                contentType: "application/json; charset=utf-8",
-                showPrompt: false,
                 data: JSON.stringify(data),
-                serverOutputAsString: false,
                 callback: function (RpcResponse_o) {
                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
@@ -323,7 +312,7 @@
                     } else
                         isc.say(RpcResponse_o.data);
                 }
-            });
+            }));
         }
     });
 
@@ -407,12 +396,10 @@
         ]
     });
 
-    var VLayout_Port_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_Port_Actions, HLayout_Port_Grid
         ]
     });
-
-
