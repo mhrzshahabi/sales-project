@@ -34,10 +34,9 @@
         fetchDataURL: "${contextPath}/api/dailyReportBandarAbbas/spec-list",
         allowAdvancedCriteria: true
     });
-    <%--<script>--%>
+
     var DynamicForm_DailyReport = isc.DynamicForm.create({
         width: "300",
-        httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
         wrapItemTitles: false,
         height: "100%",
         setMethod: 'POST',
@@ -183,7 +182,7 @@
                 ListGrid_DailyReport
             ]
     });
-    var VLayout_DailyReport_Actions = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         members:
             [
