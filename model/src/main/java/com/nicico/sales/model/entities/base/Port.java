@@ -21,8 +21,8 @@ import javax.persistence.*;
 public class Port extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PORT_SEQ")
-	@SequenceGenerator(name = "PORT_SEQ", sequenceName = "SEQ_PORT_ID",allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PORT")
+	@SequenceGenerator(name = "SEQ_PORT", sequenceName = "SEQ_PORT")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 

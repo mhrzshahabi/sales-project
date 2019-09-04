@@ -1,5 +1,10 @@
 package com.nicico.sales.model.entities.base;
 
+
+/**
+ * mehdi 9802
+ */
+
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -16,61 +21,62 @@ import javax.persistence.*;
 @Table(name = "TBL_BOL_HEADER")
 public class BolHeader extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOL_HEADER_SEQ")
-    @SequenceGenerator(name = "BOL_HEADER_SEQ", sequenceName = "SEQ_BOL_HEADER_ID",allocationSize = 1)
-    @Column(name = "ID", precision = 10)
-    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
-    private Shipment Shipment;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BOL_HEADER")
+	@SequenceGenerator(name = "SEQ_BOL_HEADER", sequenceName = "SEQ_BOL_HEADER")
+	@Column(name = "ID", precision = 10)
+	private Long id;
 
-    @Column(name = "SHIPMENT_ID")
-    private Long shipmentId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
+	private Shipment Shipment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SHIPMENT_CONTRACT_ID", nullable = false, insertable = false, updatable = false)
-    private ShipmentContract shipmentContract;
+	@Column(name = "SHIPMENT_ID")
+	private Long shipmentId;
 
-    @Column(name = "SHIPMENT_CONTRACT_ID")
-    private Long shipmentContractId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SHIPMENT_CONTRACT_ID", nullable = false, insertable = false, updatable = false)
+	private ShipmentContract shipmentContract;
 
-    @Column(name = "f_GROSS_WEIGHT")
-    private Double grossWeight;
+	@Column(name = "SHIPMENT_CONTRACT_ID")
+	private Long shipmentContractId;
 
-    @Column(name = "f_NET_WEIGHT")
-    private Double netWeight;
+	@Column(name = "f_GROSS_WEIGHT")
+	private Double grossWeight;
 
-    @Column(name = "n_CONTAINER")
-    private Long noContainer;
+	@Column(name = "f_NET_WEIGHT")
+	private Double netWeight;
 
-    @Column(name = "n_BUNDLE")
-    private Long noBundle;
+	@Column(name = "n_CONTAINER")
+	private Long noContainer;
 
-    @Column(name = "c_BL_NO", nullable = false, length = 100)
-    private String blNo;
+	@Column(name = "n_BUNDLE")
+	private Long noBundle;
 
-    @Column(name = "c_SWBL_NO", length = 100)
-    private String swBlNo;
+	@Column(name = "c_BL_NO", nullable = false, length = 100)
+	private String blNo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DISCHARGE_port_id", nullable = false, insertable = false, updatable = false)
-    private Port portByDischarge;
+	@Column(name = "c_SWBL_NO", length = 100)
+	private String swBlNo;
 
-    @Column(name = "DISCHARGE_port_id")
-    private Long PortByDischargeId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DISCHARGE_port_id", nullable = false, insertable = false, updatable = false)
+	private Port portByDischarge;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SWITCH_PORT_id", nullable = false, insertable = false, updatable = false)
-    private Port switchPort;
+	@Column(name = "DISCHARGE_port_id")
+	private Long PortByDischargeId;
 
-    @Column(name = "SWITCH_PORT_id")
-    private Long switchPortId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SWITCH_PORT_id", nullable = false, insertable = false, updatable = false)
+	private Port switchPort;
 
-    @Column(name = "n_PALATE")
-    private Long noPalete;
+	@Column(name = "SWITCH_PORT_id")
+	private Long switchPortId;
 
-    @Column(name = "c_BOL_DATE", length = 100)
-    private String bolDate;
+	@Column(name = "n_PALATE")
+	private Long noPalete;
+
+	@Column(name = "c_BOL_DATE", length = 100)
+	private String bolDate;
 }

@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class Export extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EXPORT_SEQ")
-	@SequenceGenerator(name = "EXPORT_SEQ", sequenceName = "SEQ_EXPORT_ID",allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_EXPORT")
+	@SequenceGenerator(name = "SEQ_EXPORT", sequenceName = "SEQ_EXPORT")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
@@ -53,4 +53,5 @@ public class Export extends Auditable {
 
 	@Column(name = "CARGO", nullable = false, length = 200)
 	private String cargo;
+
 }

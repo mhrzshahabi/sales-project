@@ -16,23 +16,24 @@ import javax.persistence.*;
 @Table(name = "TBL_CONTRACT_PAYMENT_OPTION")
 public class PaymentOptionContract extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONTRACT_PAYMENT_OPTION_SEQ")
-    @SequenceGenerator(name = "CONTRACT_PAYMENT_OPTION_SEQ", sequenceName = "SEQ_CONTRACT_PAYMENT_OPTION_ID",allocationSize = 1)
-    @Column(name = "ID", precision = 10)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_PAYMENT_OPTION")
+	@SequenceGenerator(name = "SEQ_CONTRACT_PAYMENT_OPTION", sequenceName = "SEQ_CONTRACT_PAYMENT_OPTION")
+	@Column(name = "ID", precision = 10)
+	private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
-    private Contract contract;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
+	private Contract contract;
 
-    @Column(name = "CONTRACT_ID")
-    private Long contractId;
+	@Column(name = "CONTRACT_ID")
+	private Long contractId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PAYMENT_OPTION_ID", nullable = false, insertable = false, updatable = false)
-    private PaymentOption paymentOption;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PAYMENT_OPTION_ID", nullable = false, insertable = false, updatable = false)
+	private PaymentOption paymentOption;
 
-    @Column(name = "PAYMENT_OPTION_ID")
-    private Long paymentOptionId;
+	@Column(name = "PAYMENT_OPTION_ID")
+	private Long paymentOptionId;
+
 }

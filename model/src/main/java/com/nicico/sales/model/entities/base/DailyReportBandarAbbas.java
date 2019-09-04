@@ -16,71 +16,72 @@ import javax.persistence.*;
 @Table(name = "TBL_DAILY_REPORT_BANDARABBAS")
 public class DailyReportBandarAbbas extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DAILY_REPORT_BANDARABBAS_SEQ")
-    @SequenceGenerator(name = "DAILY_REPORT_BANDARABBAS_SEQ", sequenceName = "SALES.SEQ_DAILY_REPORT_BANDARABBAS_ID",allocationSize = 1)
-    @Column(name = "ID", precision = 10)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DAILY_REPORT_BANDARABBAS")
+	@SequenceGenerator(name = "SEQ_DAILY_REPORT_BANDARABBAS", sequenceName = "SEQ_DAILY_REPORT_BANDARABBAS")
+	@Column(name = "ID", precision = 10)
+	private Long id;
 
-    @Column(name = "WAREHOUSE_NO", nullable = false, length = 20)
-    private String warehouseNo;
+	@Column(name = "WAREHOUSE_NO", nullable = false, length = 20)
+	private String warehouseNo;
 
-    @Column(name = "TO_DAY", nullable = false, length = 20)
-    private String toDay;
+	@Column(name = "TO_DAY", nullable = false, length = 20)
+	private String toDay;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
-    private Material material;
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
+	private Material material;
 
-    @Column(name = "MATERIAL_ID")
-    private Long materialId;
+	@Column(name = "MATERIAL_ID")
+	private Long materialId;
 
-    @Column(name = "PLANT", nullable = false, length = 100)
-    private String plant;
+	@Column(name = "PLANT", nullable = false, length = 100)
+	private String plant;
 
-    @Column(name = "PACKING_TYPE", length = 20)
-    private String packingType;
+	@Column(name = "PACKING_TYPE", length = 20)
+	private String packingType;
 
-    @Column(name = "AMOUNT_DAY")
-    private Double amountDay;
+	@Column(name = "AMOUNT_DAY")
+	private Double amountDay;
 
-    @Column(name = "AMOUNT_FIRST_DAY")
-    private Double amountFirstDay;
+	@Column(name = "AMOUNT_FIRST_DAY")
+	private Double amountFirstDay;
 
-    @Column(name = "AMOUNT_IMPORT_DAY")
-    private Double amountImportDay;
+	@Column(name = "AMOUNT_IMPORT_DAY")
+	private Double amountImportDay;
 
-    @Column(name = "AMOUNT_EXPORT_DAY")
-    private Double amountExportDay;
+	@Column(name = "AMOUNT_EXPORT_DAY")
+	private Double amountExportDay;
 
-    @Column(name = "AMOUNT_REVISE_DAY")
-    private Double amountReviseDay;
+	@Column(name = "AMOUNT_REVISE_DAY")
+	private Double amountReviseDay;
 
-    @Column(name = "AMOUNT_FIRST_MON")
-    private Double amountFirstMon;
+	@Column(name = "AMOUNT_FIRST_MON")
+	private Double amountFirstMon;
 
-    @Column(name = "AMOUNT_IMPORT_MON")
-    private Double amountImportMon;
+	@Column(name = "AMOUNT_IMPORT_MON")
+	private Double amountImportMon;
 
-    @Column(name = "AMOUNT_EXPORT_MON")
-    private Double amountExportMon;
+	@Column(name = "AMOUNT_EXPORT_MON")
+	private Double amountExportMon;
 
-    @Column(name = "AMOUNT_REVISE_MON")
-    private Double amountReviseMon;
+	@Column(name = "AMOUNT_REVISE_MON")
+	private Double amountReviseMon;
 
-    @Column(name = "AMOUNT_FIRST_SAL")
-    private Double amountFirstSal;
+	@Column(name = "AMOUNT_FIRST_SAL")
+	private Double amountFirstSal;
 
-    @Column(name = "AMOUNT_IMPORT_SAL")
-    private Double amountImportSal;
+	@Column(name = "AMOUNT_IMPORT_SAL")
+	private Double amountImportSal;
 
-    @Column(name = "AMOUNT_EXPORT_SAL")
-    private Double amountExportSal;
+	@Column(name = "AMOUNT_EXPORT_SAL")
+	private Double amountExportSal;
 
-    @Column(name = "AMOUNT_REVISE_SAL")
-    private Double amountReviseSal;
+	@Column(name = "AMOUNT_REVISE_SAL")
+	private Double amountReviseSal;
 
-    @Column(name = "REVISE_SAL_PCT")
-    private Double reviseSal;
+	@Column(name = "REVISE_SAL_PCT")
+	private Double reviseSal;
+
 }

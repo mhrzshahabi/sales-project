@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class DailyReportTransport extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DAILY_REPORT_TRANSPORT_SEQ")
-	@SequenceGenerator(name = "DAILY_REPORT_TRANSPORT_SEQ", sequenceName = "SEQ_DAILY_REPORT_TRANSPORT_ID",allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DAILY_REPORT_TRANSPORT")
+	@SequenceGenerator(name = "SEQ_DAILY_REPORT_TRANSPORT", sequenceName = "DAILY_REPORT_TRANSPORT")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 

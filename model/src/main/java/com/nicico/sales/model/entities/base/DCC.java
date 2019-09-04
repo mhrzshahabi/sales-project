@@ -22,8 +22,8 @@ import javax.persistence.*;
 public class DCC extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DCC_SEQ")
-	@SequenceGenerator(name = "DCC_SEQ", sequenceName = "SEQ_DCC_ID",allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DCC")
+	@SequenceGenerator(name = "SEQ_DCC", sequenceName = "SEQ_DCC")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 

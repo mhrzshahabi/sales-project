@@ -16,12 +16,13 @@ import javax.persistence.*;
 @Table(name = "TBL_PAYMENT_OPTION")
 public class PaymentOption extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PAYMENT_OPTION_SEQ")
-    @SequenceGenerator(name = "PAYMENT_OPTION_SEQ", sequenceName = "SEQ_PAYMENT_OPTION_ID",allocationSize = 1)
-    @Column(name = "ID", precision = 10)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PAYMENT_OPTION")
+	@SequenceGenerator(name = "SEQ_PAYMENT_OPTION", sequenceName = "SEQ_PAYMENT_OPTION")
+	@Column(name = "ID", precision = 10)
+	private Long id;
 
-    @Column(name = "NAME_PAY")
-    private String namePay;
+	@Column(name = "NAME_PAY")
+	private String namePay;
+
 }

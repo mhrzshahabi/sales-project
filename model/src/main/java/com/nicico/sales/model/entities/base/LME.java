@@ -16,33 +16,33 @@ import javax.persistence.*;
 @Table(name = "TBL_LME")
 public class LME extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LME_SEQ")
-    @SequenceGenerator(name = "LME_SEQ", sequenceName = "SEQ_LME_ID",allocationSize = 1)
-    @Column(name = "ID", precision = 10)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_LME")
+	@SequenceGenerator(name = "SEQ_LME", sequenceName = "SEQ_LME")
+	@Column(name = "ID", precision = 10)
+	private Long id;
 
-    @Column(name = "LME_DATE")
-    private String lmeDate;
+	@Column(name = "LME_DATE")
+	private String lmeDate;
 
-    @Column(name = "CU_USD_MT")
-    private String cuUsdMt;
+	@Column(name = "CU_USD_MT")
+	private String cuUsdMt;
 
-    @Column(name = "GOLD_USD_OUNCE")
-    private String goldUsdOunce;
+	@Column(name = "GOLD_USD_OUNCE")
+	private String goldUsdOunce;
 
-    @Column(name = "SILVER_USD_OUNCE")
-    private String silverUsdOunce;
+	@Column(name = "SILVER_USD_OUNCE")
+	private String silverUsdOunce;
 
-    @Column(name = "SELENIUM_USD_IB")
-    private String seleniumUsdLb;
+	@Column(name = "SELENIUM_USD_IB")
+	private String seleniumUsdLb;
 
-    @Column(name = "PLATINUM_USD_OUNCE")
-    private String platinumUsdOunce;
+	@Column(name = "PLATINUM_USD_OUNCE")
+	private String platinumUsdOunce;
 
-    @Column(name = "PALLADIUM_USD_OUNCE")
-    private String palladiumUsdOunce;
+	@Column(name = "PALLADIUM_USD_OUNCE")
+	private String palladiumUsdOunce;
 
-    @Column(name = "MOLYBDENUM_USD_LB")
-    private String molybdenumUsdLb;
+	@Column(name = "MOLYBDENUM_USD_LB")
+	private String molybdenumUsdLb;
 }

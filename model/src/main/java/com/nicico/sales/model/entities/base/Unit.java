@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class Unit extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UNIT_SEQ")
-	@SequenceGenerator(name = "UNIT_SEQ", sequenceName = "SEQ_UNIT_ID",allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_UNIT")
+	@SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 

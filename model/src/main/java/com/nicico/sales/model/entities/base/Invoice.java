@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class Invoice extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INVOICE_SEQ")
-	@SequenceGenerator(name = "INVOICE_SEQ", sequenceName = "SEQ_INVOICE_ID",allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INVOICE")
+	@SequenceGenerator(name = "SEQ_INVOICE", sequenceName = "SEQ_INVOICE")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 

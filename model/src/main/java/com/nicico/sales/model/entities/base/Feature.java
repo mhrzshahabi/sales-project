@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class Feature extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FEATURE_SEQ")
-	@SequenceGenerator(name = "FEATURE_SEQ", sequenceName = "SEQ_FEATURE_ID",allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_FEATURE")
+	@SequenceGenerator(name = "SEQ_FEATURE", sequenceName = "SEQ_FEATURE")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 

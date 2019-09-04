@@ -16,73 +16,74 @@ import javax.persistence.*;
 @Table(name = "TBL_WAREHOUSE_LOT")
 public class WarehouseLot extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "WAREHOUSE_LOT_SEQ")
-    @SequenceGenerator(name = "WAREHOUSE_LOT_SEQ", sequenceName = "SEQ_WAREHOUSE_LOT_ID", allocationSize = 1)
-    @Column(name = "ID", precision = 10)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_WAREHOUSE_LOT")
+	@SequenceGenerator(name = "SEQ_WAREHOUSE_LOT", sequenceName = "SEQ_WAREHOUSE_LOT")
+	@Column(name = "ID", precision = 10)
+	private Long id;
 
-    @Column(name = "c_WAREHOUSE_NO", nullable = false, length = 20)
-    private String warehouseNo;
+	@Column(name = "c_WAREHOUSE_NO", nullable = false, length = 20)
+	private String warehouseNo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
-    private Material material;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
+	private Material material;
 
-    @Column(name = "MATERIAL_ID")
-    private Long materialId;
+	@Column(name = "MATERIAL_ID")
+	private Long materialId;
 
-    @Column(name = "PLANT", nullable = false, length = 100)
-    private String plant;
+	@Column(name = "PLANT", nullable = false, length = 100)
+	private String plant;
 
-    @Column(name = "LOT_NAME", nullable = false, length = 20)
-    private String lotName;
+	@Column(name = "LOT_NAME", nullable = false, length = 20)
+	private String lotName;
 
-    @Column(name = "CU")
-    private Double cu;
+	@Column(name = "CU")
+	private Double cu;
 
-    @Column(name = "AG")
-    private Double ag;
+	@Column(name = "AG")
+	private Double ag;
 
-    @Column(name = "AU")
-    private Double au;
+	@Column(name = "AU")
+	private Double au;
 
-    @Column(name = "DMT")
-    private Double dmt;
+	@Column(name = "DMT")
+	private Double dmt;
 
-    @Column(name = "MO")
-    private Double mo;
+	@Column(name = "MO")
+	private Double mo;
 
-    @Column(name = "SI")
-    private Double si;
+	@Column(name = "SI")
+	private Double si;
 
-    @Column(name = "PB")
-    private Double pb;
+	@Column(name = "PB")
+	private Double pb;
 
-    @Column(name = "S")
-    private Double s;
+	@Column(name = "S")
+	private Double s;
 
-    @Column(name = "C")
-    private Double c;
+	@Column(name = "C")
+	private Double c;
 
-    @Column(name = "P")
-    private String p;
+	@Column(name = "P")
+	private String p;
 
-    @Column(name = "SIZE1", length = 20)
-    private String size1;
+	@Column(name = "SIZE1", length = 20)
+	private String size1;
 
-    @Column(name = "SIZE1_VALUE")
-    private Double size1Value;
+	@Column(name = "SIZE1_VALUE")
+	private Double size1Value;
 
-    @Column(name = "SIZE2", length = 20)
-    private String size2;
+	@Column(name = "SIZE2", length = 20)
+	private String size2;
 
-    @Column(name = "SIZE2_VALUE")
-    private Double size2Value;
+	@Column(name = "SIZE2_VALUE")
+	private Double size2Value;
 
-    @Column(name = "WEIGHT_KG")
-    private Double weightKg;
+	@Column(name = "WEIGHT_KG")
+	private Double weightKg;
 
-    @Column(name = "GROSS_WEIGHT")
-    private Double grossWeight;
+	@Column(name = "GROSS_WEIGHT")
+	private Double grossWeight;
+
 }

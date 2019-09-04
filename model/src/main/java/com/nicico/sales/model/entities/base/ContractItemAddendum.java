@@ -16,28 +16,28 @@ import javax.persistence.*;
 @Table(name = "TBL_CONTRACT_ITEM_ADDENDUM")
 public class ContractItemAddendum extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONTRACT_ITEM_ADDENDUM_SEQ")
-    @SequenceGenerator(name = "CONTRACT_ITEM_ADDENDUM_SEQ", sequenceName = "SEQ_CONTRACT_ITEM_ADDENDUM_ID",allocationSize = 1)
-    @Column(name = "ID", precision = 10)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_ITEM_ADDENDUM")
+	@SequenceGenerator(name = "SEQ_CONTRACT_ITEM_ADDENDUM", sequenceName = "SEQ_CONTRACT_ITEM_ADDENDUM")
+	@Column(name = "ID", precision = 10)
+	private Long id;
 
-    @Column(name = "ADDENDUM_DESC", length = 1000)
-    private String addendumDesc;
+	@Column(name = "ADDENDUM_DESC", length = 1000)
+	private String addendumDesc;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
-    private Contract contract;
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
+	private Contract contract;
 
-    @Column(name = "CONTRACT_ID")
-    private Long contractId;
+	@Column(name = "CONTRACT_ID")
+	private Long contractId;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTRACT_ITEM_ID", nullable = false, insertable = false, updatable = false)
-    private ContractItem contractItem;
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CONTRACT_ITEM_ID", nullable = false, insertable = false, updatable = false)
+	private ContractItem contractItem;
 
-    @Column(name = "CONTRACT_ITEM_ID")
-    private Long contractItemId;
+	@Column(name = "CONTRACT_ITEM_ID")
+	private Long contractItemId;
 }

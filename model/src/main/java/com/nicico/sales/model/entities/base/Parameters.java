@@ -16,18 +16,18 @@ import javax.persistence.*;
 @Table(name = "TBL_PARAMETER")
 public class Parameters extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PARAMETER_SEQ")
-    @SequenceGenerator(name = "PARAMETER_SEQ", sequenceName = "SEQ_PARAMETER_ID",allocationSize = 1)
-    @Column(name = "ID", precision = 10)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PARAMETER")
+	@SequenceGenerator(name = "SEQ_PARAMETER", sequenceName = "SEQ_PARAMETER")
+	@Column(name = "ID", precision = 10)
+	private Long id;
 
-    @Column(name = "PARAM_NAME", nullable = false)
-    private String paramName;
+	@Column(name = "PARAM_NAME", nullable = false)
+	private String paramName;
 
-    @Column(name = "PARAM_TYPE", nullable = false)
-    private String paramType;
+	@Column(name = "PARAM_TYPE", nullable = false)
+	private String paramType;
 
-    @Column(name = "PARAM_Value", nullable = false)
-    private String paramValue;
+	@Column(name = "PARAM_Value", nullable = false)
+	private String paramValue;
 }

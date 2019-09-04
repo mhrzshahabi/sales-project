@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class Bank extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BANK_SEQ")
-    @SequenceGenerator(name = "BANK_SEQ", sequenceName = "SEQ_BANK_ID", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BANK")
+	@SequenceGenerator(name = "SEQ_BANK", sequenceName = "SEQ_BANK")
     @Column(name = "ID", precision = 10)
     private Long id;
 
@@ -44,4 +44,5 @@ public class Bank extends Auditable {
 
     @Column(name = "COUNTRY_ID")
     private Long countryId;
+
 }

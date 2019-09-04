@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class GroupsPerson extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GROUPS_PERSON_SEQ")
-    @SequenceGenerator(name = "GROUPS_PERSON_SEQ", sequenceName = "SEQ_GROUPS_PERSON_ID",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_GROUPS_PERSON")
+	@SequenceGenerator(name = "SEQ_GROUPS_PERSON", sequenceName = "SEQ_GROUPS_PERSON")
     @Column(name = "ID", precision = 10)
     private Long id;
 
@@ -40,4 +40,5 @@ public class GroupsPerson extends Auditable {
 
     @Column(name = "REMARK", length = 200)
     private String desc;
+
 }

@@ -16,15 +16,16 @@ import javax.persistence.*;
 @Table(name = "TBL_SHIPMENT_HEADER")
 public class ShipmentHeader extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SHIPMENT_HEADER_SEQ")
-    @SequenceGenerator(name = "SHIPMENT_HEADER_SEQ", sequenceName = "SEQ_SHIPMENT_HEADER_ID",allocationSize = 1)
-    @Column(name = "ID", precision = 10)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT_HEADER")
+	@SequenceGenerator(name = "SEQ_SHIPMENT_HEADER", sequenceName = "SEQ_SHIPMENT_HEADER")
+	@Column(name = "ID", precision = 10)
+	private Long id;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+	@Column(name = "DESCRIPTION")
+	private String description;
 
-    @Column(name = "SHIPMENT_HEADER_DATE")
-    private String shipmentHeaderDate;
+	@Column(name = "SHIPMENT_HEADER_DATE")
+	private String shipmentHeaderDate;
+
 }

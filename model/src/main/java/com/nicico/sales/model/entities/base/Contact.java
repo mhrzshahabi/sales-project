@@ -18,8 +18,8 @@ import java.util.Set;
 public class Contact extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONTACT_SEQ")
-    @SequenceGenerator(name = "CONTACT_SEQ", sequenceName = "SEQ_CONTACT_ID",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTACT")
+	@SequenceGenerator(name = "SEQ_CONTACT", sequenceName = "SEQ_CONTACT")
     @Column(name = "ID", precision = 10)
     private Long id;
 

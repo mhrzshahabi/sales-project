@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class ShipmentInquiry extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SHIPMENT_INQUIRY_SEQ")
-	@SequenceGenerator(name = "SHIPMENT_INQUIRY_SEQ", sequenceName = "SEQ_SHIPMENT_INQUIRY_ID",allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT_INQUIRY")
+	@SequenceGenerator(name = "SEQ_SHIPMENT_INQUIRY", sequenceName = "SEQ_SHIPMENT_INQUIRY")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 

@@ -2,7 +2,7 @@ package com.nicico.sales.web.controller;
 
 import com.nicico.copper.core.util.file.FileUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +23,7 @@ import java.io.OutputStream;
 public class DCCFormController {
 
     private final FileUtil fileUtil;
+    private final Environment environment;
 
     @GetMapping(value = {"/showForm/{dccTableName}/{dccTableId}"})
     public String showDCC(ModelMap modelMap, @PathVariable String dccTableName, @PathVariable String dccTableId) {
@@ -32,10 +33,10 @@ public class DCCFormController {
     }
 
     @GetMapping(value = "/downloadFile")
-    public void downloadFile(@RequestParam String data, HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    public void downloadFile(@RequestParam String table, @RequestParam String file, HttpServletRequest request, HttpServletResponse response) {
         try {
-            String filePath;
-            filePath = "C:" + File.separator + "upload" + File.separator + data;
+            String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
+            String filePath = UPLOAD_FILE_DIR + File.separator + table + File.separator + file;
             File downloadFile = new File(filePath);
             FileInputStream inputStream = new FileInputStream(downloadFile);
 
@@ -46,7 +47,7 @@ public class DCCFormController {
             }
             response.setContentType(mimeType);
             String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", data);
+            String headerValue = String.format("attachment; filename=%s", file);
             response.setHeader(headerKey, headerValue);
             response.setContentLength((int) downloadFile.length());
             OutputStream outputStream = response.getOutputStream();
@@ -58,7 +59,7 @@ public class DCCFormController {
 
             outputStream.flush();
             inputStream.close();
-            fileUtil.download(data, response);
+            fileUtil.download(file, response);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

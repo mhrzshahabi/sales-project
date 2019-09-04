@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class Glossary extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GLOSSARY_SEQ")
-	@SequenceGenerator(name = "GLOSSARY_SEQ", sequenceName = "SEQ_GLOSSARY_ID",allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_GLOSSARY")
+	@SequenceGenerator(name = "SEQ_GLOSSARY", sequenceName = "SEQ_GLOSSARY")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
