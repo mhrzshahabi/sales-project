@@ -216,13 +216,13 @@
                 click: function () {
                     var record = ListGrid_Dcc.getSelectedRecord();
                     if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
-                        window.open("/dcc/downloadFile?data=" + "\\" + "contract\\" + record.fileNewName);
+                        window.open("dcc/downloadFile?table=" + "contract" + "&file=" + record.fileNewName);
                     else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
-                        window.open("/dcc/downloadFile?data=" + "\\" + "contact\\" + record.fileNewName);
+                        window.open("dcc/downloadFile?table=" + "contact" + "&file=" + record.fileNewName);
                     else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
-                        window.open("/dcc/downloadFile?data=" + "\\" + "instruction\\" + record.fileNewName);
+                        window.open("dcc/downloadFile?table=" + "instruction" + "&file=" + record.fileNewName);
                     else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
-                        window.open("/dcc/downloadFile?data=" + "\\" + "shipment\\" + record.fileNewName);
+                        window.open("dcc/downloadFile?table=" + "shipment" + "&file=" + record.fileNewName);
                 }
             }
         ]
