@@ -14,12 +14,12 @@ import java.util.Set;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CONTACT", schema = "SALES")
+@Table(name = "TBL_CONTACT")
 public class Contact extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTACT")
-    @SequenceGenerator(name = "SEQ_CONTACT", sequenceName = "SALES.SEQ_CONTACT")
+	@SequenceGenerator(name = "SEQ_CONTACT", sequenceName = "SEQ_CONTACT")
     @Column(name = "ID", precision = 10)
     private Long id;
 

@@ -15,12 +15,12 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Immutable
-@Table(name = "VIEW_CONTRACT_INCOME_COST", schema = "SALES")
+@Table(name = "VIEW_CONTRACT_INCOME_COST")
 public class ContractIncomeCost extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BANK")
-    @SequenceGenerator(name = "SEQ_BANK", sequenceName = "SALES.SEQ_BANK")
+	@SequenceGenerator(name = "SEQ_BANK", sequenceName = "SEQ_BANK")
     @Column(name = "ID", precision = 10)
     private Long id;
 

@@ -6,12 +6,12 @@ import javax.persistence.*;
  * EMAMI
  */
 @Entity
-@Table(name = "TBL_CONTRACT_ITEM", schema = "SALES")
+@Table(name = "TBL_CONTRACT_ITEM")
 public class ContractItem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_ITEM")
-	@SequenceGenerator(name = "SEQ_CONTRACT_ITEM", sequenceName = "SALES.SEQ_CONTRACT_ITEM")
+	@SequenceGenerator(name = "SEQ_CONTRACT_ITEM", sequenceName = "SEQ_CONTRACT_ITEM")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 

@@ -18,12 +18,12 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CURRENCY_RATE", schema = "SALES")
+@Table(name = "TBL_CURRENCY_RATE")
 public class CurrencyRate extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CURRENCY_RATE")
-	@SequenceGenerator(name = "SEQ_CURRENCY_RATE", sequenceName = "SALES.SEQ_CURRENCY_RATE")
+	@SequenceGenerator(name = "SEQ_CURRENCY_RATE", sequenceName = "SEQ_CURRENCY_RATE")
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
