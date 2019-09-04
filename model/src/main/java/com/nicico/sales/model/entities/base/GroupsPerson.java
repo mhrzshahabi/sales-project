@@ -13,12 +13,12 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_GROUPS_PERSON", schema = "SALES", uniqueConstraints = @UniqueConstraint(columnNames = {"GROUPS_ID", "PERSON_ID"}))
+@Table(name = "TBL_GROUPS_PERSON", uniqueConstraints = @UniqueConstraint(columnNames = {"GROUPS_ID", "PERSON_ID"}))
 public class GroupsPerson extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_GROUPS_PERSON")
-    @SequenceGenerator(name = "SEQ_GROUPS_PERSON", sequenceName = "SALES.SEQ_GROUPS_PERSON")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GROUPS_PERSON_SEQ")
+    @SequenceGenerator(name = "GROUPS_PERSON_SEQ", sequenceName = "SEQ_GROUPS_PERSON_ID",allocationSize = 1)
     @Column(name = "ID", precision = 10)
     private Long id;
 
@@ -40,5 +40,4 @@ public class GroupsPerson extends Auditable {
 
     @Column(name = "REMARK", length = 200)
     private String desc;
-
 }

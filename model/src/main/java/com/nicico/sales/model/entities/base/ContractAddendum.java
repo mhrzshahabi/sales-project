@@ -13,23 +13,22 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CONTRACT_ADDENDUM", schema = "SALES")
+@Table(name = "TBL_CONTRACT_ADDENDUM")
 public class ContractAddendum extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_ADDENDUM")
-	@SequenceGenerator(name = "SEQ_CONTRACT_ADDENDUM", sequenceName = "SALES.SEQ_CONTRACT_ADDENDUM")
-	@Column(name = "ID", precision = 10)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONTRACT_ADDENDUM_SEQ")
+    @SequenceGenerator(name = "CONTRACT_ADDENDUM_SEQ", sequenceName = "SEQ_CONTRACT_ADDENDUM_SEQ",allocationSize = 1)
+    @Column(name = "ID", precision = 10)
+    private Long id;
 
-	@Column(name = "ADDENDUM_DESC", length = 1000)
-	private String addendumDesc;
+    @Column(name = "ADDENDUM_DESC", length = 1000)
+    private String addendumDesc;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
-	private Contract contract;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
+    private Contract contract;
 
-	@Column(name = "CONTRACT_ID")
-	private Long contractId;
-
+    @Column(name = "CONTRACT_ID")
+    private Long contractId;
 }

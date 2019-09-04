@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class TozinSales extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "base_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq")
 	@SequenceGenerator(name = "base_seq")
 	@Column(name = "ID", precision = 10)
 	private Long id;

@@ -130,8 +130,8 @@ spring:
   profiles: Local
   datasource:
     url: jdbc:oracle:thin:@//172.16.180.22:1521/pdb1.icico.net.ir
-    username: sales
-    password: sales
+    username: saleslocal
+    password: saleslocal
   redis:
     host: devapp01.icico.net.ir
     password: nicico

@@ -116,8 +116,8 @@
                 case "DataIntegrityViolation_Unique":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: 'هشدار'});
                     break;
-                case "DataIntegrityViolation":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation'/>", {title: 'هشدار'});
+                case "DataIntegrityViolation_FK":
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: 'هشدار'});
                     break;
             }
         }
@@ -417,7 +417,7 @@
         controls: [
             routineReportButton,
             // demandReportButton,
-            // coordinatingOfficeReportButton
+            coordinatingOfficeReportButton
         ],
         autoDraw: false
     });

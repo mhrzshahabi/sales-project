@@ -13,12 +13,12 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_BANK", schema = "SALES")
+@Table(name = "TBL_BANK")
 public class Bank extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BANK")
-    @SequenceGenerator(name = "SEQ_BANK", sequenceName = "SALES.SEQ_BANK")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BANK_SEQ")
+    @SequenceGenerator(name = "BANK_SEQ", sequenceName = "SEQ_BANK_ID", allocationSize = 1)
     @Column(name = "ID", precision = 10)
     private Long id;
 
@@ -44,5 +44,4 @@ public class Bank extends Auditable {
 
     @Column(name = "COUNTRY_ID")
     private Long countryId;
-
 }

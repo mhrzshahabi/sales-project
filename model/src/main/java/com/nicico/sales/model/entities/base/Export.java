@@ -13,12 +13,12 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_EXPORT", schema = "SALES")
+@Table(name = "TBL_EXPORT")
 public class Export extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_EXPORT")
-	@SequenceGenerator(name = "SEQ_EXPORT", sequenceName = "SALES.SEQ_EXPORT")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EXPORT_SEQ")
+	@SequenceGenerator(name = "EXPORT_SEQ", sequenceName = "SEQ_EXPORT_ID",allocationSize = 1)
 	@Column(name = "ID", precision = 10)
 	private Long id;
 
@@ -53,5 +53,4 @@ public class Export extends Auditable {
 
 	@Column(name = "CARGO", nullable = false, length = 200)
 	private String cargo;
-
 }

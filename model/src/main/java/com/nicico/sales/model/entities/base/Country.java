@@ -1,11 +1,5 @@
 package com.nicico.sales.model.entities.base;
 
-
-/**
- * EMAMI
- */
-
-
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -19,30 +13,27 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_COUNTRY", schema = "SALES")
+@Table(name = "TBL_COUNTRY")
 public class Country extends Auditable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COUNTRY_SEQ")
+    @SequenceGenerator(name = "COUNTRY_SEQ", sequenceName = "SEQ_COUNTRY_ID",allocationSize = 1)
+    @Column(name = "ID", precision = 10)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_COUNTRY")
-	@SequenceGenerator(name = "SEQ_COUNTRY", sequenceName = "SALES.SEQ_COUNTRY")
-	@Column(name = "ID", precision = 10)
-	private Long id;
+    @Column(name = "c_NAME_FA", nullable = false, length = 200)
+    private String nameFa;
 
-	@Column(name = "c_NAME_FA", nullable = false, length = 200)
-	private String nameFa;
+    @Column(name = "c_NAME_EN", nullable = false, length = 200)
+    private String nameEn;
 
-	@Column(name = "c_NAME_EN", nullable = false, length = 200)
-	private String nameEn;
+    @Column(name = "c_ISACTIVE")
+    private String isActive;
 
-	@Column(name = "c_ISACTIVE")
-	private String isActive;
+    @Column(name = "c_INV_ID")
+    private String invId;
 
-	@Column(name = "c_INV_ID")
-	private String invId;
-
-	@Column(name = "c_CODE", nullable = false, length = 200)
-	private String code;
-
-
+    @Column(name = "c_CODE", nullable = false, length = 200)
+    private String code;
 }

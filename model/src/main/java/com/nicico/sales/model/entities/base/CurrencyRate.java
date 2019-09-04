@@ -1,10 +1,5 @@
 package com.nicico.sales.model.entities.base;
 
-
-/**
- * ESTERABEH
- */
-
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -18,27 +13,27 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CURRENCY_RATE", schema = "SALES")
+@Table(name = "TBL_CURRENCY_RATE")
 public class CurrencyRate extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CURRENCY_RATE")
-	@SequenceGenerator(name = "SEQ_CURRENCY_RATE", sequenceName = "SALES.SEQ_CURRENCY_RATE")
-	@Column(name = "ID", precision = 10)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CURRENCY_RATE_SEQ")
+    @SequenceGenerator(name = "CURRENCY_RATE_SEQ", sequenceName = "SEQ_CURRENCY_RATE_ID",allocationSize = 1)
+    @Column(name = "ID", precision = 10)
+    private Long id;
 
-	@Column(name = "C_DATE")
-	private String curDate;
+    @Column(name = "C_DATE")
+    private String curDate;
 
-	@Column(name = "c_IRR_USD")
-	private String irrUsd;
+    @Column(name = "c_IRR_USD")
+    private String irrUsd;
 
-	@Column(name = "c_EUR_USD")
-	private String eurUsd;
+    @Column(name = "c_EUR_USD")
+    private String eurUsd;
 
-	@Column(name = "c_AED_USD")
-	private String aedUsd;
+    @Column(name = "c_AED_USD")
+    private String aedUsd;
 
-	@Column(name = "c_RMB_USD")
-	private String rmbUsd;
+    @Column(name = "c_RMB_USD")
+    private String rmbUsd;
 }
