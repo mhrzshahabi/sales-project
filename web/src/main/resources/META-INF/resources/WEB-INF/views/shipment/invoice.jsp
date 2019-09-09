@@ -277,17 +277,11 @@
                 }
             });
         } else {
-            DynamicForm_Invoice.setValue("invoiceDateDumy", new Date(record.invoiceDate));
-            DynamicForm_Invoice.editRecord(record);
             if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
-                DynamicForm_Invoice.getItem("copperUnitPrice").show();
-                DynamicForm_Invoice.getItem("copper").show();
-                DynamicForm_Invoice.getItem("goldUnitPrice").show();
-                DynamicForm_Invoice.getItem("gold").show();
-                DynamicForm_Invoice.getItem("silverUnitPrice").show();
-                DynamicForm_Invoice.getItem("silver").show();
-                DynamicForm_Invoice.getItem("molybdJenumUnitPrice").hide();
-                DynamicForm_Invoice.getItem("molybdenum").hide();
+                DynamicForm_Invoice_Concentrate.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+                DynamicForm_Invoice_Concentrate.editRecord(record);
+                Window_Invoice_Concentrate.show();
+                return;
             } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
                 DynamicForm_Invoice.getItem("copperUnitPrice").hide();
                 DynamicForm_Invoice.getItem("copper").hide();
@@ -307,6 +301,8 @@
                 DynamicForm_Invoice.getItem("molybdJenumUnitPrice").hide();
                 DynamicForm_Invoice.getItem("molybdenum").hide();
             }
+            DynamicForm_Invoice.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+            DynamicForm_Invoice.editRecord(record);
             Window_Invoice.show();
         }
     }
@@ -368,14 +364,9 @@
                 click: function () {
                     DynamicForm_Invoice.clearValues();
                     if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
-                        DynamicForm_Invoice.getItem("copperUnitPrice").show();
-                        DynamicForm_Invoice.getItem("copper").show();
-                        DynamicForm_Invoice.getItem("goldUnitPrice").show();
-                        DynamicForm_Invoice.getItem("gold").show();
-                        DynamicForm_Invoice.getItem("silverUnitPrice").show();
-                        DynamicForm_Invoice.getItem("silver").show();
-                        DynamicForm_Invoice.getItem("molybdJenumUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("molybdenum").hide();
+                        DynamicForm_Invoice_Concentrate.clearValues();
+                        Window_Invoice_Concentrate.show();
+                        return;
                     } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
                         DynamicForm_Invoice.getItem("copperUnitPrice").hide();
                         DynamicForm_Invoice.getItem("copper").hide();
@@ -401,34 +392,6 @@
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
-                    if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
-                        DynamicForm_Invoice.getItem("copperUnitPrice").show();
-                        DynamicForm_Invoice.getItem("copper").show();
-                        DynamicForm_Invoice.getItem("goldUnitPrice").show();
-                        DynamicForm_Invoice.getItem("gold").show();
-                        DynamicForm_Invoice.getItem("silverUnitPrice").show();
-                        DynamicForm_Invoice.getItem("silver").show();
-                        DynamicForm_Invoice.getItem("molybdJenumUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("molybdenum").hide();
-                    } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
-                        DynamicForm_Invoice.getItem("copperUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("copper").hide();
-                        DynamicForm_Invoice.getItem("goldUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("gold").hide();
-                        DynamicForm_Invoice.getItem("silverUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("silver").hide();
-                        DynamicForm_Invoice.getItem("molybdJenumUnitPrice").show();
-                        DynamicForm_Invoice.getItem("molybdenum").show();
-                    } else {
-                        DynamicForm_Invoice.getItem("copperUnitPrice").show();
-                        DynamicForm_Invoice.getItem("copper").show();
-                        DynamicForm_Invoice.getItem("goldUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("gold").hide();
-                        DynamicForm_Invoice.getItem("silverUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("silver").hide();
-                        DynamicForm_Invoice.getItem("molybdJenumUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("molybdenum").hide();
-                    }
                     ListGrid_Invoice_edit();
                 }
             },
@@ -739,6 +702,670 @@
             ]
     });
 
+    var DynamicForm_Invoice_Concentrate = isc.DynamicForm.create({
+        width: "100%",
+        height: "100%",
+        setMethod: 'POST',
+        align: "center",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "100", margin: '10px', wrapTitle: false,
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 12, backgroundImage: "backgrounds/leaves.jpg",
+        fields:
+            [
+                {name: "id", hidden: true},
+                {name: "shipmentId", hidden: true},
+                {
+                    type: "Header",
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+                },
+                {
+                    name: "paidStatus",
+                    title: "<spring:message code='invoice.paidStatus'/>",
+                    type: 'text',
+                    width: "100%",
+                    defaultValue: "UNPAID",
+                    valueMap: {"PAID": "PAID", "UNPAID": "UNPAID"}
+                },
+                {
+                    name: "invoiceType",
+                    title: "<spring:message code='invoice.invoiceType'/>",
+                    type: 'text',
+                    width: "100%",
+                    required: true,
+                    valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"}
+                },
+                {
+                    name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>",
+                    required: true,
+                    width: "100%",
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    wrapTitle: false,colSpan:2,titleColSpan:2
+                },
+                {
+                    name: "invoiceDateDumy",
+                    title: "<spring:message code='invoice.invoiceDate'/>",
+                    defaultValue: "<%=dateUtil.todayDate()%>",
+                    type: 'date',
+                    format: 'DD-MM-YYYY',
+                    required: true,
+                    width: "100%",colSpan:3,titleColSpan:1
+                },
+                {
+                    type: "Header",
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Assay calculation in one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                },
+                {
+                    name: "copperIns",
+                    title: "<spring:message code='invoice.copperIns'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "copperDed",
+                    title: "<spring:message code='invoice.copperDed'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "copper",
+                    title: "<spring:message code='invoice.copper'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",colSpan:2,titleColSpan:2,
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "copperUnitPrice", title: "<spring:message code='invoice.copperUnitPrice'/>",
+                    type: 'float', required: false, width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                 {
+                    name: "copperCal",
+                    title: "<spring:message code='invoice.copperCal'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "silverIns",
+                    title: "<spring:message code='invoice.silverIns'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "silverDed",
+                    title: "<spring:message code='invoice.silverDed'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "silver",
+                    title: "<spring:message code='invoice.silver'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "silverOun",
+                    title: "<spring:message code='invoice.silverOun'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "silverUnitPrice", title: "<spring:message code='invoice.silverUnitPrice'/>",
+                    type: 'float', required: false, width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                 {
+                    name: "silverCal",
+                    title: "<spring:message code='invoice.silverCal'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "goldIns",
+                    title: "<spring:message code='invoice.goldIns'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "goldDed",
+                    title: "<spring:message code='invoice.goldDed'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "gold",
+                    title: "<spring:message code='invoice.gold'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "goldOun",
+                    title: "<spring:message code='invoice.goldOun'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "goldUnitPrice", title: "<spring:message code='invoice.goldUnitPrice'/>",
+                    type: 'float', required: false, width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                 {
+                    name: "goldCal",
+                    title: "<spring:message code='invoice.goldCal'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "subTotal",
+                    title: "<spring:message code='invoice.subTotal'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:1,titleColSpan:11,
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    type: "Header",
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - DEDUCTION  per one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                },
+                {
+                    name: "TC",
+                    title: "<spring:message code='invoice.TC'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:10,titleAlign:"left",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCCU",
+                    title: "<spring:message code='invoice.RCCU'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCCUPer",
+                    title: "<spring:message code='invoice.RCCUPerc'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCCUCal",
+                    title: "<spring:message code='invoice.RCCUCal'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCCUTot",
+                    title: "<spring:message code='invoice.RCCUTot'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:1,titleAlign:"right",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCAG",
+                    title: "<spring:message code='invoice.RCAG'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCAGPer",
+                    title: "<spring:message code='invoice.RCCUPerc'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCAGTot",
+                    title: "<spring:message code='invoice.RCCUTot'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCAU",
+                    title: "<spring:message code='invoice.RCAU'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCAUPer",
+                    title: "<spring:message code='invoice.RCCUPerc'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "RCAUTot",
+                    title: "<spring:message code='invoice.RCCUTot'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                 {
+                    name: "subTotalDeduction",
+                    title: "<spring:message code='invoice.subTotalDed'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:10,
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "unitPrice",
+                    title: "<spring:message code='invoice.unitPrice'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+               {
+                    type: "Header",
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INVOICE - - - - - - - - - - - - - - - - - - - - - - - - -"
+                },
+                 {
+                    name: "grass",
+                    title: "<spring:message code='global.grass'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",colSpan:1,titleColSpan:2,titleAlign:"left",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "net",
+                    title: "<spring:message code='global.net'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",colSpan:1,titleColSpan:2,titleAlign:"center",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "commercialInvoceValue",
+                    title: "<spring:message code='invoice.commercialInvoceValue'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "paidPercent", title: "<spring:message code='invoice.paidPercent'/>",
+                    type: 'float', required: true, width: "100%",colSpan:1,titleColSpan:5,titleAlign:"right",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        },
+                        {
+                            type: "integerRange",
+                            min: 80,
+                            max: 120,
+                            errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
+                        }
+                    ]
+                },
+                {
+                    name: "commercialInvoceValueNet",
+                    title: "<spring:message code='invoice.commercialInvoceValueNet'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "Depreciation",
+                    title: "<spring:message code='invoice.Depreciation'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    wrapTitle: false,
+                    titleColSpan: 1,colSpan: 1,
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "otherCost",
+                    title: "<spring:message code='invoice.otherCost'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",colSpan:2,titleColSpan: 1,
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "beforePaid",
+                    title: "<spring:message code='invoice.beforePaid'/>",
+                    type: 'float',
+                    required: false,colSpan:2, titleColSpan: 1, wrapTitle: false,
+                    width: "100%",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "invoiceValueD", title: "<spring:message code='invoice.invoiceValueD'/>",
+                    type: 'float', required: true, width: "100%",colSpan:2,titleColSpan:2,titleAlign:"right",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+               {
+                    type: "Header",
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+                },
+                {
+                    name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",
+                    type: 'float', required: true, width: "100%",colSpan:1,titleColSpan:5,titleAlign:"right",
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        },
+                        {
+                            type: "integerRange",
+                            min: 80,
+                            max: 120,
+                            errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
+                        }
+                    ]
+                },
+                {
+                    name: "invoiceValueCurrency",
+                    title: "<spring:message code='invoice.invoiceValueCur'/>",
+                    type: 'text',
+                    width: "100%",colSpan:1,titleColSpan:1,titleAlign:"center",
+                    defaultValue: "DOLLAR",
+                    valueMap: dollar
+                },
+                {
+                    name: "invoiceValue",
+                    title: "<spring:message code='invoice.invoiceValue'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:2,titleAlign:"right",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+            ]
+    });
+
     var ToolStripButton_Invoice_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -764,6 +1391,12 @@
                     }
                 });
             } else {
+                if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
+                    DynamicForm_Invoice_Concentrate.clearValues();
+                    DynamicForm_Invoice_Concentrate.setValue("shipmentId", record.id);
+                    Window_Invoice_Concentrate.show();
+                    return;
+                }
                 DynamicForm_Invoice.clearValues();
                 DynamicForm_Invoice.setValue("shipmentId", record.id);
                 Window_Invoice.show();
@@ -867,13 +1500,84 @@
                                 width: 5,
                             }),
                             isc.IButton.create({
-                                ID: "invoiceEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
                                 orientation: "vertical",
                                 click: function () {
                                     Window_Invoice.close();
+                                }
+                            })
+                        ]
+                })
+            ]
+    });
+    var IButton_Invoice_Concentrate_Save = isc.IButton.create({
+        top: 260,
+        title: "<spring:message code='global.form.save'/>",
+        icon: "pieces/16/save.png",
+        click: function () {
+            /*ValuesManager_GoodsUnit.validate();*/
+            DynamicForm_Invoice_Concentrate.validate();
+            if (DynamicForm_Invoice_Concentrate.hasErrors())
+                return;
+            var drs = DynamicForm_Invoice_Concentrate.getValue("invoiceDateDumy");
+            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
+            DynamicForm_Invoice_Concentrate.setValue("invoiceDate", datestringRs);
+            DynamicForm_Invoice_Concentrate.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
+
+            var data = DynamicForm_Invoice_Concentrate.getValues();
+            var method = "PUT";
+            if (data.id == null)
+                method = "POST";
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+                actionURL: "${contextPath}/api/invoice/",
+                httpMethod: method,
+                data: JSON.stringify(data),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        ListGrid_Invoice_refresh();
+                        Window_Invoice_Concentrate.close();
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }));
+        }
+    });
+    var Window_Invoice_Concentrate = isc.Window.create({
+        title: "<spring:message code='issuedInvoices.title'/> ",
+        width: 1100,
+        height: 700,
+        margin: '10px',
+        autoSize: true,
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items:
+            [
+                DynamicForm_Invoice_Concentrate,
+                isc.HLayout.create({
+                    width: "100%", align: "center", height: "20",
+                    members:
+                        [
+                            IButton_Invoice_Concentrate_Save,
+                            isc.Label.create({
+                                width: 5,
+                            }),
+                            isc.IButton.create({
+                                title: "<spring:message code='global.cancel'/>",
+                                width: 100,
+                                icon: "pieces/16/icon_delete.png",
+                                orientation: "vertical",
+                                click: function () {
+                                    Window_Invoice_Concentrate.close();
                                 }
                             })
                         ]

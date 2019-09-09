@@ -32,6 +32,9 @@ spring:
     db-history-used: true
   redis:
     port: 6379
+  servlet:
+    multipart:
+      max-file-size: 1000MB
 
 server:
   port: 8080
