@@ -773,7 +773,18 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("copperDed");
+                    	if (tmp!=null && typeof (tmp)!='undefined')
+                    	    if (value<0)
+		   						DynamicForm_Invoice_Concentrate.setValue("copper",tmp * value);
+		   					else
+		   						DynamicForm_Invoice_Concentrate.setValue("copper", value - tmp);
+		   			  }
+		   			    else DynamicForm_Invoice_Concentrate.setValue("copper","0")
+		   			}
                 },
                 {
                     name: "copperDed",
@@ -787,13 +798,25 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("copperIns");
+                    	if (tmp!=null && typeof (tmp)!='undefined')
+                    	    if (value<0)
+		   						DynamicForm_Invoice_Concentrate.setValue("copper",tmp * value);
+		   					else
+		   						DynamicForm_Invoice_Concentrate.setValue("copper",tmp - value);
+		   			  }
+		   			    else DynamicForm_Invoice_Concentrate.setValue("copper","0")
+		   			}
+
                 },
                 {
                     name: "copper",
                     title: "<spring:message code='invoice.copper'/>",
                     type: 'float',
-                    required: false,
+                    required: false,canEdit:false,
                     width: "100%",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -801,7 +824,18 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("copperUnitPrice");
+                    	if (tmp!=null && typeof (tmp)!='undefined')
+		   						DynamicForm_Invoice_Concentrate.setValue("copperCal",tmp * value);
+		   					else
+		   						DynamicForm_Invoice_Concentrate.setValue("copperCal","0");
+		   			  }
+		   			    else DynamicForm_Invoice_Concentrate.setValue("copperCal","0")
+		   			}
+
                 },
                 {
                     name: "copperUnitPrice", title: "<spring:message code='invoice.copperUnitPrice'/>",
@@ -812,13 +846,23 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("copper");
+                    	if (tmp!=null && typeof (tmp)!='undefined')
+		   						DynamicForm_Invoice_Concentrate.setValue("copperCal",tmp * value);
+		   					else
+		   						DynamicForm_Invoice_Concentrate.setValue("copperCal","0");
+		   			  }
+		   			    else DynamicForm_Invoice_Concentrate.setValue("copperCal","0")
+		   			}
                 },
                  {
                     name: "copperCal",
                     title: "<spring:message code='invoice.copperCal'/>",
                     type: 'float',
-                    required: false,
+                    required: false,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:1,
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -840,7 +884,19 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("silverDed");
+                    	if (tmp!=null && typeof (tmp)!='undefined')
+                    	    if (value<0)
+		   						DynamicForm_Invoice_Concentrate.setValue("silver",tmp * value);
+		   					else
+		   						DynamicForm_Invoice_Concentrate.setValue("silver", value - tmp);
+		   			  }
+		   			    else DynamicForm_Invoice_Concentrate.setValue("silver","0")
+		   			}
+
                 },
                 {
                     name: "silverDed",
@@ -854,7 +910,19 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("silverIns");
+                    	if (tmp!=null && typeof (tmp)!='undefined')
+                    	    if (value<0)
+		   						DynamicForm_Invoice_Concentrate.setValue("silver",tmp * value);
+		   					else
+		   						DynamicForm_Invoice_Concentrate.setValue("silver",tmp - value);
+		   			  }
+		   			    else DynamicForm_Invoice_Concentrate.setValue("silver","0")
+		   			}
+
                 },
                 {
                     name: "silver",
@@ -921,7 +989,19 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("goldDed");
+                    	if (tmp!=null && typeof (tmp)!='undefined')
+                    	    if (value<0)
+		   						DynamicForm_Invoice_Concentrate.setValue("gold",tmp * value);
+		   					else
+		   						DynamicForm_Invoice_Concentrate.setValue("gold", value - tmp);
+		   			  }
+		   			    else DynamicForm_Invoice_Concentrate.setValue("gold","0")
+		   			}
+
                 },
                 {
                     name: "goldDed",
@@ -935,7 +1015,18 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("goldIns");
+                    	if (tmp!=null && typeof (tmp)!='undefined')
+                    	    if (value<0)
+		   						DynamicForm_Invoice_Concentrate.setValue("gold",tmp * value);
+		   					else
+		   						DynamicForm_Invoice_Concentrate.setValue("gold",tmp - value);
+		   			  }
+		   			    else DynamicForm_Invoice_Concentrate.setValue("gold","0")
+		   			}
                 },
                 {
                     name: "gold",
@@ -1391,7 +1482,7 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-            ]
+            ],
     });
 
     var ToolStripButton_Invoice_Refresh = isc.ToolStripButton.create({
