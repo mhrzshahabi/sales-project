@@ -794,7 +794,7 @@
                     title: "<spring:message code='invoice.copper'/>",
                     type: 'float',
                     required: false,
-                    width: "100%",colSpan:2,titleColSpan:2,
+                    width: "100%",
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
@@ -805,7 +805,7 @@
                 },
                 {
                     name: "copperUnitPrice", title: "<spring:message code='invoice.copperUnitPrice'/>",
-                    type: 'float', required: false, width: "100%",
+                    type: 'float', required: false, width: "100%",colSpan:2,titleColSpan:1,
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
@@ -819,7 +819,7 @@
                     title: "<spring:message code='invoice.copperCal'/>",
                     type: 'float',
                     required: false,
-                    width: "100%",
+                    width: "100%",colSpan:2,titleColSpan:1,
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
@@ -991,11 +991,25 @@
                     }]
                 },
                 {
+                    name: "priceBase",
+                    title: "<spring:message code='invoice.priceBase'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:9,titleColSpan:1,
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
                     name: "subTotal",
                     title: "<spring:message code='invoice.subTotal'/>",
                     type: 'float',
                     required: true,
-                    width: "100%",colSpan:1,titleColSpan:11,
+                    width: "100%",colSpan:1,titleColSpan:1,
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
@@ -1176,6 +1190,10 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
+               {
+                    type: "Header",
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INVOICE - - - - - - - - - - - - - - - - - - - - - - - - -"
+                },
                 {
                     name: "unitPrice",
                     title: "<spring:message code='invoice.unitPrice'/>",
@@ -1189,10 +1207,6 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
-                },
-               {
-                    type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INVOICE - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
                  {
                     name: "grass",
@@ -1323,9 +1337,23 @@
                     type: "Header",
                     defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
-                {
+               {
+                    name: "rateBase",
+                    title: "<spring:message code='invoice.rateBase'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",colSpan:4,titleColSpan:1,
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                 {
                     name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",
-                    type: 'float', required: true, width: "100%",colSpan:1,titleColSpan:5,titleAlign:"right",
+                    type: 'float', required: true, width: "100%",colSpan:1,titleColSpan:1,titleAlign:"right",
                     validators: [
                         {
                             type: "isFloat",
@@ -1354,7 +1382,7 @@
                     title: "<spring:message code='invoice.invoiceValue'/>",
                     type: 'float',
                     required: true,
-                    width: "100%",colSpan:2,titleColSpan:2,titleAlign:"right",
+                    width: "100%",colSpan:2,titleColSpan:1,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
