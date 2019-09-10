@@ -886,15 +886,9 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-					  if (value!=null && typeof (value)!='undefined'){
-                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("silverDed");
-                    	if (tmp!=null && typeof (tmp)!='undefined')
-                    	    if (value<0)
-		   						DynamicForm_Invoice_Concentrate.setValue("silver",tmp * value);
-		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("silver", value - tmp);
-		   			  }
-		   			    else DynamicForm_Invoice_Concentrate.setValue("silver","0")
+		   			  	multiplyAndSet("silverIns","silverDed","silver");
+		   			  	DynamicForm_Invoice_Concentrate.setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
+		   			  	multiplyAndSet("silverOun","silverUnitPrice","silverCal");
 		   			}
 
                 },
@@ -912,15 +906,9 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-					  if (value!=null && typeof (value)!='undefined'){
-                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("silverIns");
-                    	if (tmp!=null && typeof (tmp)!='undefined')
-                    	    if (value<0)
-		   						DynamicForm_Invoice_Concentrate.setValue("silver",tmp * value);
-		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("silver",tmp - value);
-		   			  }
-		   			    else DynamicForm_Invoice_Concentrate.setValue("silver","0")
+		   			  	multiplyAndSet("silverIns","silverDed","silver");
+		   			  	DynamicForm_Invoice_Concentrate.setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
+		   			  	multiplyAndSet("silverOun","silverUnitPrice","silverCal");
 		   			}
 
                 },
@@ -928,7 +916,7 @@
                     name: "silver",
                     title: "<spring:message code='invoice.silver'/>",
                     type: 'float',
-                    required: false,
+                    required: false,canEdit:false,
                     width: "100%",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -942,7 +930,7 @@
                     name: "silverOun",
                     title: "<spring:message code='invoice.silverOun'/>",
                     type: 'float',
-                    required: false,
+                    required: false,canEdit:false,
                     width: "100%",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -961,13 +949,19 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+		   			  	multiplyAndSet("silverIns","silverDed","silver");
+		   			  	DynamicForm_Invoice_Concentrate.setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
+		   			  	multiplyAndSet("silverOun","silverUnitPrice","silverCal");
+		   			}
+
                 },
                  {
                     name: "silverCal",
                     title: "<spring:message code='invoice.silverCal'/>",
                     type: 'float',
-                    required: false,
+                    required: false,canEdit:false,
                     width: "100%",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -991,15 +985,9 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-					  if (value!=null && typeof (value)!='undefined'){
-                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("goldDed");
-                    	if (tmp!=null && typeof (tmp)!='undefined')
-                    	    if (value<0)
-		   						DynamicForm_Invoice_Concentrate.setValue("gold",tmp * value);
-		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("gold", value - tmp);
-		   			  }
-		   			    else DynamicForm_Invoice_Concentrate.setValue("gold","0")
+		   			  	multiplyAndSet("goldIns","goldDed","gold");
+		   			  	DynamicForm_Invoice_Concentrate.setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
+		   			  	multiplyAndSet("goldOun","goldUnitPrice","goldCal");
 		   			}
 
                 },
@@ -1017,22 +1005,16 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-					  if (value!=null && typeof (value)!='undefined'){
-                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("goldIns");
-                    	if (tmp!=null && typeof (tmp)!='undefined')
-                    	    if (value<0)
-		   						DynamicForm_Invoice_Concentrate.setValue("gold",tmp * value);
-		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("gold",tmp - value);
-		   			  }
-		   			    else DynamicForm_Invoice_Concentrate.setValue("gold","0")
+		   			  	multiplyAndSet("goldIns","goldDed","gold");
+		   			  	DynamicForm_Invoice_Concentrate.setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
+		   			  	multiplyAndSet("goldOun","goldUnitPrice","goldCal");
 		   			}
                 },
                 {
                     name: "gold",
                     title: "<spring:message code='invoice.gold'/>",
                     type: 'float',
-                    required: false,
+                    required: false,canEdit:false,
                     width: "100%",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1046,7 +1028,7 @@
                     name: "goldOun",
                     title: "<spring:message code='invoice.goldOun'/>",
                     type: 'float',
-                    required: false,
+                    required: false,canEdit:false,
                     width: "100%",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1065,13 +1047,19 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+		   			  	multiplyAndSet("goldIns","goldDed","gold");
+		   			  	DynamicForm_Invoice_Concentrate.setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
+		   			  	multiplyAndSet("goldOun","goldUnitPrice","goldCal");
+		   			}
+
                 },
                  {
                     name: "goldCal",
                     title: "<spring:message code='invoice.goldCal'/>",
                     type: 'float',
-                    required: false,
+                    required: false,canEdit:false,
                     width: "100%",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1084,16 +1072,9 @@
                 {
                     name: "priceBase",
                     title: "<spring:message code='invoice.priceBase'/>",
-                    type: 'float',
+                    type: 'text',
                     required: true,
                     width: "100%",colSpan:9,titleColSpan:1,
-                    keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
                 },
                 {
                     name: "subTotal",
