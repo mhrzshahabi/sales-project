@@ -279,6 +279,7 @@
         } else {
             if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
                 DynamicForm_Invoice_Concentrate.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+                DynamicForm_Invoice_Concentrate.setValue("RCCUCal",2204.62);
                 DynamicForm_Invoice_Concentrate.editRecord(record);
                 Window_Invoice_Concentrate.show();
                 return;
@@ -364,8 +365,7 @@
                 click: function () {
                     DynamicForm_Invoice.clearValues();
                     if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
-                        DynamicForm_Invoice_Concentrate.clearValues();
-                        Window_Invoice_Concentrate.show();
+	                    DynamicForm_Invoice_Concentrate_AddNew(ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
                         return;
                     } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
                         DynamicForm_Invoice.getItem("copperUnitPrice").hide();
@@ -703,6 +703,10 @@
     });
 
      var DynamicForm_Invoice_Concentrate ;
+	function hasValue(fld){
+	 valueTmp=DynamicForm_Invoice_Concentrate.getValue(fld);
+	 return !(valueTmp==null || typeof (valueTmp)=='undefined' || valueTmp=="" );
+	}
     function multiply (fld1,value) {
 		if (value==null || typeof (value)=='undefined' || fld1==null || typeof (fld1) =='undefined')
 		   return 0;
@@ -713,9 +717,41 @@
 	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
 	  m=multiply(val1,val2);
 	  console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
-	  DynamicForm_Invoice_Concentrate.setValue(setName0,m);
+	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
 	}
-
+	function multiplyAndSet3 (name1,name2,setName0,number1) {
+	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
+	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
+	  m=multiply(val1,val2)*number1;
+	  console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
+	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
+	}
+	function DynamicForm_Invoice_Concentrate_setValue(fld,value){
+		DynamicForm_Invoice_Concentrate.setValue(fld,value);
+		if ((fld=="copperCal" || fld=='goldCal' || fld=='silverCal') && (hasValue("copperCal") && hasValue('goldCal') && hasValue('silverCal')))
+		   DynamicForm_Invoice_Concentrate_setValue("subTotal", DynamicForm_Invoice_Concentrate.getValue("copperCal") +
+		                                                        DynamicForm_Invoice_Concentrate.getValue('goldCal') +
+		                                                        DynamicForm_Invoice_Concentrate.getValue('silverCal'));
+        if (fld=="copper")
+        	DynamicForm_Invoice_Concentrate_setValue("RCCUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
+        if (fld=="silver")
+        	DynamicForm_Invoice_Concentrate_setValue("RCAGPer",DynamicForm_Invoice_Concentrate.getValue(fld));
+        if (fld=="gold")
+        	DynamicForm_Invoice_Concentrate_setValue("RCAUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
+        if (fld=="RCCUPer")
+        	multiplyAndSet3("RCCUPer","RCCU","RCCUTot",DynamicForm_Invoice_Concentrate.getValue("RCCUCal"));
+        if (fld=="RCAGPer")
+        	multiplyAndSet("RCAGPer","RCAG","RCAGTot");
+        if (fld=="RCAUPer")
+        	multiplyAndSet("RCAUPer","RCAU","RCAUTot");
+		if ((fld=="RCCUTot" || fld=='RCAGTot' || fld=='RCAUTot') && (hasValue("RCCUTot") && hasValue('RCAGTot') && hasValue('RCAUTot')))
+		   DynamicForm_Invoice_Concentrate_setValue("subTotalDeduction", DynamicForm_Invoice_Concentrate.getValue("RCCUTot") +
+		                                                        DynamicForm_Invoice_Concentrate.getValue('RCAGTot') +
+		                                                        DynamicForm_Invoice_Concentrate.getValue('RCAUTot'));
+		if ((fld=="subTotal" || fld=='subTotalDeduction' ) && (hasValue("subTotal") && hasValue('subTotalDeduction') ))
+		   DynamicForm_Invoice_Concentrate_setValue("unitPrice", DynamicForm_Invoice_Concentrate.getValue("subTotal") -
+		                                                        DynamicForm_Invoice_Concentrate.getValue('subTotalDeduction')) ;
+	}
     var DynamicForm_Invoice_Concentrate = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -793,11 +829,11 @@
                     	var tmp=DynamicForm_Invoice_Concentrate.getValue("copperDed");
                     	if (tmp!=null && typeof (tmp)!='undefined')
                     	    if (value<0)
-		   						DynamicForm_Invoice_Concentrate.setValue("copper",(tmp * value)/100);
+		   						DynamicForm_Invoice_Concentrate_setValue("copper",(tmp * value)/100);
 		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("copper", (value - tmp)/100);
+		   						DynamicForm_Invoice_Concentrate_setValue("copper", (value - tmp)/100);
 		   			  }
-		   			    else DynamicForm_Invoice_Concentrate.setValue("copper","0");
+		   			    else DynamicForm_Invoice_Concentrate_setValue("copper","0");
 		   			  multiplyAndSet("copper","copperUnitPrice","copperCal");
 		   			}
                 },
@@ -819,11 +855,11 @@
                     	var tmp=DynamicForm_Invoice_Concentrate.getValue("copperIns");
                     	if (tmp!=null && typeof (tmp)!='undefined')
                     	    if (value<0)
-		   						DynamicForm_Invoice_Concentrate.setValue("copper",(tmp * value)/100);
+		   						DynamicForm_Invoice_Concentrate_setValue("copper",(tmp * value)/100);
 		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("copper",(tmp - value)/100);
+		   						DynamicForm_Invoice_Concentrate_setValue("copper",(tmp - value)/100);
 		   			  }
-		   			    else DynamicForm_Invoice_Concentrate.setValue("copper","0")
+		   			    else DynamicForm_Invoice_Concentrate_setValue("copper","0")
 					  multiplyAndSet("copper","copperUnitPrice","copperCal");
 
 		   			}
@@ -887,7 +923,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("silverIns","silverDed","silver");
-		   			  	DynamicForm_Invoice_Concentrate.setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
 		   			  	multiplyAndSet("silverOun","silverUnitPrice","silverCal");
 		   			}
 
@@ -907,7 +943,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("silverIns","silverDed","silver");
-		   			  	DynamicForm_Invoice_Concentrate.setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
 		   			  	multiplyAndSet("silverOun","silverUnitPrice","silverCal");
 		   			}
 
@@ -952,7 +988,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("silverIns","silverDed","silver");
-		   			  	DynamicForm_Invoice_Concentrate.setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
 		   			  	multiplyAndSet("silverOun","silverUnitPrice","silverCal");
 		   			}
 
@@ -986,7 +1022,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("goldIns","goldDed","gold");
-		   			  	DynamicForm_Invoice_Concentrate.setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
 		   			  	multiplyAndSet("goldOun","goldUnitPrice","goldCal");
 		   			}
 
@@ -1006,7 +1042,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("goldIns","goldDed","gold");
-		   			  	DynamicForm_Invoice_Concentrate.setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
 		   			  	multiplyAndSet("goldOun","goldUnitPrice","goldCal");
 		   			}
                 },
@@ -1050,7 +1086,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("goldIns","goldDed","gold");
-		   			  	DynamicForm_Invoice_Concentrate.setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
 		   			  	multiplyAndSet("goldOun","goldUnitPrice","goldCal");
 		   			}
 
@@ -1080,7 +1116,7 @@
                     name: "subTotal",
                     title: "<spring:message code='invoice.subTotal'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canedit:false,
                     width: "100%",colSpan:1,titleColSpan:1,
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1098,7 +1134,7 @@
                     name: "TC",
                     title: "<spring:message code='invoice.TC'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:10,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1112,7 +1148,7 @@
                     name: "RCCU",
                     title: "<spring:message code='invoice.RCCU'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1126,7 +1162,7 @@
                     name: "RCCUPer",
                     title: "<spring:message code='invoice.RCCUPerc'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1140,7 +1176,7 @@
                     name: "RCCUCal",
                     title: "<spring:message code='invoice.RCCUCal'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1154,7 +1190,7 @@
                     name: "RCCUTot",
                     title: "<spring:message code='invoice.RCCUTot'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:1,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1168,7 +1204,7 @@
                     name: "RCAG",
                     title: "<spring:message code='invoice.RCAG'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1182,7 +1218,7 @@
                     name: "RCAGPer",
                     title: "<spring:message code='invoice.RCCUPerc'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1196,7 +1232,7 @@
                     name: "RCAGTot",
                     title: "<spring:message code='invoice.RCCUTot'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1210,7 +1246,7 @@
                     name: "RCAU",
                     title: "<spring:message code='invoice.RCAU'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1224,7 +1260,7 @@
                     name: "RCAUPer",
                     title: "<spring:message code='invoice.RCCUPerc'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1238,7 +1274,7 @@
                     name: "RCAUTot",
                     title: "<spring:message code='invoice.RCCUTot'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1252,7 +1288,7 @@
                     name: "subTotalDeduction",
                     title: "<spring:message code='invoice.subTotalDed'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:10,
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1270,7 +1306,7 @@
                     name: "unitPrice",
                     title: "<spring:message code='invoice.unitPrice'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1306,13 +1342,18 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+		   			  	multiplyAndSet("net","unitPrice","commercialInvoceValue");
+
+		   			}
+
                 },
                 {
                     name: "commercialInvoceValue",
                     title: "<spring:message code='invoice.commercialInvoceValue'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canedit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1492,9 +1533,7 @@
                 });
             } else {
                 if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
-                    DynamicForm_Invoice_Concentrate.clearValues();
-                    DynamicForm_Invoice_Concentrate.setValue("shipmentId", record.id);
-                    Window_Invoice_Concentrate.show();
+                    DynamicForm_Invoice_Concentrate_AddNew(record.id);
                     return;
                 }
                 DynamicForm_Invoice.clearValues();
@@ -1503,7 +1542,16 @@
             }
         }
     });
-
+    function DynamicForm_Invoice_Concentrate_AddNew(iidd) {
+		DynamicForm_Invoice_Concentrate.clearValues();
+		DynamicForm_Invoice_Concentrate.setValue("shipmentId", iidd);
+		DynamicForm_Invoice_Concentrate.setValue("TC",109.0);
+		DynamicForm_Invoice_Concentrate.setValue("RCCU",0.109);
+		DynamicForm_Invoice_Concentrate.setValue("RCCUCal",2204.62);
+		DynamicForm_Invoice_Concentrate.setValue("RCAG",0.35);
+		DynamicForm_Invoice_Concentrate.setValue("RCAU",5);
+		Window_Invoice_Concentrate.show();
+    }
     var ToolStripButton_Invoice_Edit = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
