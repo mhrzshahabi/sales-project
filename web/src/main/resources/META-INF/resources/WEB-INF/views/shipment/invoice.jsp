@@ -702,6 +702,20 @@
             ]
     });
 
+     var DynamicForm_Invoice_Concentrate ;
+    function multiply (fld1,value) {
+		if (value==null || typeof (value)=='undefined' || fld1==null || typeof (fld1) =='undefined')
+		   return 0;
+		return fld1 * value;
+	}
+	function multiplyAndSet (name1,name2,setName0) {
+	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
+	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
+	  m=multiply(val1,val2);
+	  console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
+	  DynamicForm_Invoice_Concentrate.setValue(setName0,m);
+	}
+
     var DynamicForm_Invoice_Concentrate = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -779,11 +793,12 @@
                     	var tmp=DynamicForm_Invoice_Concentrate.getValue("copperDed");
                     	if (tmp!=null && typeof (tmp)!='undefined')
                     	    if (value<0)
-		   						DynamicForm_Invoice_Concentrate.setValue("copper",tmp * value);
+		   						DynamicForm_Invoice_Concentrate.setValue("copper",(tmp * value)/100);
 		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("copper", value - tmp);
+		   						DynamicForm_Invoice_Concentrate.setValue("copper", (value - tmp)/100);
 		   			  }
-		   			    else DynamicForm_Invoice_Concentrate.setValue("copper","0")
+		   			    else DynamicForm_Invoice_Concentrate.setValue("copper","0");
+		   			  multiplyAndSet("copper","copperUnitPrice","copperCal");
 		   			}
                 },
                 {
@@ -804,11 +819,13 @@
                     	var tmp=DynamicForm_Invoice_Concentrate.getValue("copperIns");
                     	if (tmp!=null && typeof (tmp)!='undefined')
                     	    if (value<0)
-		   						DynamicForm_Invoice_Concentrate.setValue("copper",tmp * value);
+		   						DynamicForm_Invoice_Concentrate.setValue("copper",(tmp * value)/100);
 		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("copper",tmp - value);
+		   						DynamicForm_Invoice_Concentrate.setValue("copper",(tmp - value)/100);
 		   			  }
 		   			    else DynamicForm_Invoice_Concentrate.setValue("copper","0")
+					  multiplyAndSet("copper","copperUnitPrice","copperCal");
+
 		   			}
 
                 },
@@ -825,17 +842,6 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
-                    changed	: function(form, item, value){
-					  if (value!=null && typeof (value)!='undefined'){
-                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("copperUnitPrice");
-                    	if (tmp!=null && typeof (tmp)!='undefined')
-		   						DynamicForm_Invoice_Concentrate.setValue("copperCal",tmp * value);
-		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("copperCal","0");
-		   			  }
-		   			    else DynamicForm_Invoice_Concentrate.setValue("copperCal","0")
-		   			}
-
                 },
                 {
                     name: "copperUnitPrice", title: "<spring:message code='invoice.copperUnitPrice'/>",
@@ -848,14 +854,8 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-					  if (value!=null && typeof (value)!='undefined'){
-                    	var tmp=DynamicForm_Invoice_Concentrate.getValue("copper");
-                    	if (tmp!=null && typeof (tmp)!='undefined')
-		   						DynamicForm_Invoice_Concentrate.setValue("copperCal",tmp * value);
-		   					else
-		   						DynamicForm_Invoice_Concentrate.setValue("copperCal","0");
-		   			  }
-		   			    else DynamicForm_Invoice_Concentrate.setValue("copperCal","0")
+		   			  	multiplyAndSet("copper","copperUnitPrice","copperCal");
+
 		   			}
                 },
                  {
