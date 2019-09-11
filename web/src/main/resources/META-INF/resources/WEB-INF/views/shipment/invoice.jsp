@@ -236,6 +236,28 @@
         ]
     });
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    var ViewLoader_Molybdenum = isc.ViewLoader.create({
+        width: "100%",
+        height: "100%",
+        autoDraw: false,
+        loadingMessage: " <spring:message code='global.loadingMessage'/>",
+    });
+     var Window_Molybdenum = isc.Window.create({
+        title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
+        width: "1560",
+        height: "95%",
+        autoCenter: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items:
+            [
+                ViewLoader_Molybdenum
+            ]
+    });
 
 
     var RestDataSource_Invoice = isc.MyRestDataSource.create({
@@ -284,6 +306,9 @@
                 Window_Invoice_Concentrate.show();
                 return;
             } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id);
+                        Window_Molybdenum.show();
+                        return;
                 DynamicForm_Invoice.getItem("copperUnitPrice").hide();
                 DynamicForm_Invoice.getItem("copper").hide();
                 DynamicForm_Invoice.getItem("goldUnitPrice").hide();
@@ -368,6 +393,9 @@
 	                    DynamicForm_Invoice_Concentrate_AddNew(ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
                         return;
                     } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/0");
+                        Window_Molybdenum.show();
+                        return;
                         DynamicForm_Invoice.getItem("copperUnitPrice").hide();
                         DynamicForm_Invoice.getItem("copper").hide();
                         DynamicForm_Invoice.getItem("goldUnitPrice").hide();
@@ -715,23 +743,27 @@
 	function multiplyAndSet (name1,name2,setName0) {
 	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
 	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
-	  m=multiply(val1,val2);
-	  console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
+	  m=multiply(val1,val2)/((name1=="paidPercent" || name2=="paidPercent") ? 100 : 1);
+	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
 	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
 	}
 	function multiplyAndSet3 (name1,name2,setName0,number1) {
 	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
 	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
 	  m=multiply(val1,val2)*number1;
-	  console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
+	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
 	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
+	}
+	function DynamicForm_Invoice_Concentrate_getValue(fld){
+	 valueTmp=DynamicForm_Invoice_Concentrate.getValue(fld);
+	 return (valueTmp==null || typeof (valueTmp)=='undefined' || valueTmp=="" ) ? 0 : valueTmp;
 	}
 	function DynamicForm_Invoice_Concentrate_setValue(fld,value){
 		DynamicForm_Invoice_Concentrate.setValue(fld,value);
-		if ((fld=="copperCal" || fld=='goldCal' || fld=='silverCal') && (hasValue("copperCal") && hasValue('goldCal') && hasValue('silverCal')))
-		   DynamicForm_Invoice_Concentrate_setValue("subTotal", DynamicForm_Invoice_Concentrate.getValue("copperCal") +
-		                                                        DynamicForm_Invoice_Concentrate.getValue('goldCal') +
-		                                                        DynamicForm_Invoice_Concentrate.getValue('silverCal'));
+		if ( fld=="copperCal" || fld=='goldCal' || fld=='silverCal' )
+		   DynamicForm_Invoice_Concentrate_setValue("subTotal", DynamicForm_Invoice_Concentrate_getValue("copperCal") +
+		                                                        DynamicForm_Invoice_Concentrate_getValue('goldCal') +
+		                                                        DynamicForm_Invoice_Concentrate_getValue('silverCal'));
         if (fld=="copper")
         	DynamicForm_Invoice_Concentrate_setValue("RCCUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
         if (fld=="silverOun")
@@ -744,13 +776,14 @@
         	multiplyAndSet("RCAGPer","RCAG","RCAGTot");
         if (fld=="RCAUPer")
         	multiplyAndSet("RCAUPer","RCAU","RCAUTot");
-		if ((fld=="RCCUTot" || fld=='RCAGTot' || fld=='RCAUTot') && (hasValue("RCCUTot") && hasValue('RCAGTot') && hasValue('RCAUTot')))
-		   DynamicForm_Invoice_Concentrate_setValue("subTotalDeduction", DynamicForm_Invoice_Concentrate.getValue("RCCUTot") +
-		                                                        DynamicForm_Invoice_Concentrate.getValue('RCAGTot') +
-		                                                        DynamicForm_Invoice_Concentrate.getValue('RCAUTot'));
-		if ((fld=="subTotal" || fld=='subTotalDeduction' ) && (hasValue("subTotal") && hasValue('subTotalDeduction') ))
-		   DynamicForm_Invoice_Concentrate_setValue("unitPrice", DynamicForm_Invoice_Concentrate.getValue("subTotal") -
-		                                                        DynamicForm_Invoice_Concentrate.getValue('subTotalDeduction')) ;
+		if (fld=="TC" || fld=="RCCUTot" || fld=='RCAGTot' || fld=='RCAUTot' )
+		   DynamicForm_Invoice_Concentrate_setValue("subTotalDeduction", DynamicForm_Invoice_Concentrate_getValue("RCCUTot") +
+		                                                        DynamicForm_Invoice_Concentrate_getValue('TC') +
+		                                                        DynamicForm_Invoice_Concentrate_getValue('RCAGTot') +
+		                                                        DynamicForm_Invoice_Concentrate_getValue('RCAUTot'));
+		if ((fld=="subTotal" || fld=='subTotalDeduction' ) )
+		   DynamicForm_Invoice_Concentrate_setValue("unitPrice", DynamicForm_Invoice_Concentrate_getValue("subTotal") -
+		                                                        DynamicForm_Invoice_Concentrate_getValue('subTotalDeduction')) ;
 
 // commercialInvoceValue=net*unitPrice
 		if ((fld=="net" || fld=='unitPrice' ) && (hasValue("net") && hasValue('unitPrice') ))
@@ -759,11 +792,11 @@
 		if ((fld=="paidPercent" || fld=='commercialInvoceValue' ) && (hasValue("paidPercent") && hasValue('commercialInvoceValue') ))
 			multiplyAndSet("paidPercent",'commercialInvoceValue',"commercialInvoceValueNet");
 // invoiceValueD=commercialInvoceValueNet- (beforePaid+otherCost+Depreciation)
-		if ((fld=="commercialInvoceValueNet" || fld=='beforePaid'|| fld=='otherCost'|| fld=='Depreciation' ) && (hasValue("commercialInvoceValueNet") && hasValue('beforePaid')  && hasValue('otherCost')  && hasValue('Depreciation') ))
-		   DynamicForm_Invoice_Concentrate_setValue("invoiceValueD", DynamicForm_Invoice_Concentrate.getValue("commercialInvoceValueNet") -
-		                                                        (DynamicForm_Invoice_Concentrate.getValue('beforePaid') +
-		                                                        DynamicForm_Invoice_Concentrate.getValue('otherCost') +
-		                                                        DynamicForm_Invoice_Concentrate.getValue('Depreciation')));
+		if ((fld=="commercialInvoceValueNet" || fld=='beforePaid'|| fld=='otherCost'|| fld=='Depreciation' ) )
+		   DynamicForm_Invoice_Concentrate_setValue("invoiceValueD", DynamicForm_Invoice_Concentrate_getValue("commercialInvoceValueNet") -
+		                                                        (DynamicForm_Invoice_Concentrate_getValue('beforePaid') +
+		                                                        DynamicForm_Invoice_Concentrate_getValue('otherCost') +
+		                                                        DynamicForm_Invoice_Concentrate_getValue('Depreciation')));
 // invoiceValue=rate2dollar*invoiceValueD
 		if ((fld=="rate2dollar" || fld=='invoiceValueD' ) && (hasValue("rate2dollar") && hasValue('invoiceValueD') ))
 			multiplyAndSet("rate2dollar",'invoiceValueD',"invoiceValue");
@@ -1004,7 +1037,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("silverIns","silverDed","silver");
-		   			  	DynamicForm_Invoice_Concentrate_setValue("silverOun",DynamicForm_Invoice_Concentrate.getValue("silver")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("silverOun",DynamicForm_Invoice_Concentrate_getValue("silver")/31.1034);
 		   			  	multiplyAndSet("silverOun","silverUnitPrice","silverCal");
 		   			}
 
@@ -1038,7 +1071,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("goldIns","goldDed","gold");
-		   			  	DynamicForm_Invoice_Concentrate_setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("goldOun",DynamicForm_Invoice_Concentrate_getValue("gold")/31.1034);
 		   			  	multiplyAndSet("goldOun","goldUnitPrice","goldCal");
 		   			}
 
@@ -1058,7 +1091,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("goldIns","goldDed","gold");
-		   			  	DynamicForm_Invoice_Concentrate_setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("goldOun",DynamicForm_Invoice_Concentrate_getValue("gold")/31.1034);
 		   			  	multiplyAndSet("goldOun","goldUnitPrice","goldCal");
 		   			}
                 },
@@ -1102,7 +1135,7 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("goldIns","goldDed","gold");
-		   			  	DynamicForm_Invoice_Concentrate_setValue("goldOun",DynamicForm_Invoice_Concentrate.getValue("gold")/31.1034);
+		   			  	DynamicForm_Invoice_Concentrate_setValue("goldOun",DynamicForm_Invoice_Concentrate_getValue("gold")/31.1034);
 		   			  	multiplyAndSet("goldOun","goldUnitPrice","goldCal");
 		   			}
 
@@ -1562,6 +1595,10 @@
                 if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
                     DynamicForm_Invoice_Concentrate_AddNew(record.id);
                     return;
+                } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+                       ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0");
+                       Window_Molybdenum.show();
+                        return;
                 }
                 DynamicForm_Invoice.clearValues();
                 DynamicForm_Invoice.setValue("shipmentId", record.id);
