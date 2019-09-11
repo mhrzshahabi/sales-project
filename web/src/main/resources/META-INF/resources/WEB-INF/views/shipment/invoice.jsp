@@ -244,8 +244,8 @@
     });
      var Window_Molybdenum = isc.Window.create({
         title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
-        width: "1560",
-        height: "95%",
+        width: 1100,
+        height: 700,
         autoCenter: true,
         align: "center",
         autoDraw: false,

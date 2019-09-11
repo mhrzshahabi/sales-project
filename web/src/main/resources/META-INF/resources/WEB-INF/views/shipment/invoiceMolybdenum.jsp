@@ -1,88 +1,93 @@
+<%@ page import="com.nicico.copper.common.dto.grid.GridResponse" %>
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
+<%@ page import="com.nicico.sales.dto.InvoiceMolybdenumDTO" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
 
-    <% DateUtil dateUtil = new DateUtil();%>
+    <% DateUtil dateUtil = new DateUtil();
+		String shipmentId= request.getSession().getAttribute("shipmentId").toString();
+		String invoiceId=request.getSession().getAttribute("invoiceId").toString();
+		GridResponse<InvoiceMolybdenumDTO.Info> gridResponse= (GridResponse<InvoiceMolybdenumDTO.Info> )request.getSession().getAttribute("gridResponse");
+		List<InvoiceMolybdenumDTO.Info> list=gridResponse.getData();
+    %>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-
-
-
-     var DynamicForm_Invoice_Concentrate ;
+     var DynamicForm_Invoice_Molybdenum ;
 	function hasValue(fld){
-	 valueTmp=DynamicForm_Invoice_Concentrate.getValue(fld);
+	 valueTmp=DynamicForm_Invoice_Molybdenum.getValue(fld);
 	 return !(valueTmp==null || typeof (valueTmp)=='undefined' || valueTmp=="" );
 	}
-    function multiply (fld1,value) {
+    function multiplyMolybdenumMolybdenum (fld1,value) {
 		if (value==null || typeof (value)=='undefined' || fld1==null || typeof (fld1) =='undefined')
 		   return 0;
 		return fld1 * value;
 	}
-	function multiplyAndSet (name1,name2,setName0) {
-	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
-	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
-	  m=multiply(val1,val2)/((name1=="paidPercent" || name2=="paidPercent") ? 100 : 1);
+	function multiplyMolybdenumMolybdenumAndSet (name1,name2,setName0) {
+	  val1=DynamicForm_Invoice_Molybdenum.getValue(name1);
+	  val2=DynamicForm_Invoice_Molybdenum.getValue(name2);
+	  m=multiplyMolybdenumMolybdenum(val1,val2)/((name1=="paidPercent" || name2=="paidPercent") ? 100 : 1);
 	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
-	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
+	  DynamicForm_Invoice_Molybdenum_setValue(setName0,m);
 	}
-	function multiplyAndSet3 (name1,name2,setName0,number1) {
-	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
-	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
-	  m=multiply(val1,val2)*number1;
+	function multiplyMolybdenumMolybdenumAndSet3 (name1,name2,setName0,number1) {
+	  val1=DynamicForm_Invoice_Molybdenum.getValue(name1);
+	  val2=DynamicForm_Invoice_Molybdenum.getValue(name2);
+	  m=multiplyMolybdenumMolybdenum(val1,val2)*number1;
 	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
-	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
+	  DynamicForm_Invoice_Molybdenum_setValue(setName0,m);
 	}
-	function DynamicForm_Invoice_Concentrate_getValue(fld){
-	 valueTmp=DynamicForm_Invoice_Concentrate.getValue(fld);
+	function DynamicForm_Invoice_Molybdenum_getValue(fld){
+	 valueTmp=DynamicForm_Invoice_Molybdenum.getValue(fld);
 	 return (valueTmp==null || typeof (valueTmp)=='undefined' || valueTmp=="" ) ? 0 : valueTmp;
 	}
-	function DynamicForm_Invoice_Concentrate_setValue(fld,value){
-		DynamicForm_Invoice_Concentrate.setValue(fld,value);
+	function DynamicForm_Invoice_Molybdenum_setValue(fld,value){
+		DynamicForm_Invoice_Molybdenum.setValue(fld,value);
 		if ( fld=="copperCal" || fld=='goldCal' || fld=='silverCal' )
-		   DynamicForm_Invoice_Concentrate_setValue("subTotal", DynamicForm_Invoice_Concentrate_getValue("copperCal") +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('goldCal') +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('silverCal'));
+		   DynamicForm_Invoice_Molybdenum_setValue("subTotal", DynamicForm_Invoice_Molybdenum_getValue("copperCal") +
+		                                                        DynamicForm_Invoice_Molybdenum_getValue('goldCal') +
+		                                                        DynamicForm_Invoice_Molybdenum_getValue('silverCal'));
         if (fld=="copper")
-        	DynamicForm_Invoice_Concentrate_setValue("RCCUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
+        	DynamicForm_Invoice_Molybdenum_setValue("RCCUPer",DynamicForm_Invoice_Molybdenum.getValue(fld));
         if (fld=="silverOun")
-        	DynamicForm_Invoice_Concentrate_setValue("RCAGPer",DynamicForm_Invoice_Concentrate.getValue(fld));
+        	DynamicForm_Invoice_Molybdenum_setValue("RCAGPer",DynamicForm_Invoice_Molybdenum.getValue(fld));
         if (fld=="goldOun")
-        	DynamicForm_Invoice_Concentrate_setValue("RCAUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
+        	DynamicForm_Invoice_Molybdenum_setValue("RCAUPer",DynamicForm_Invoice_Molybdenum.getValue(fld));
         if (fld=="RCCUPer")
-        	multiplyAndSet3("RCCUPer","RCCU","RCCUTot",DynamicForm_Invoice_Concentrate.getValue("RCCUCal"));
+        	multiplyMolybdenumAndSet3("RCCUPer","RCCU","RCCUTot",DynamicForm_Invoice_Molybdenum.getValue("RCCUCal"));
         if (fld=="RCAGPer")
-        	multiplyAndSet("RCAGPer","RCAG","RCAGTot");
+        	multiplyMolybdenumAndSet("RCAGPer","RCAG","RCAGTot");
         if (fld=="RCAUPer")
-        	multiplyAndSet("RCAUPer","RCAU","RCAUTot");
+        	multiplyMolybdenumAndSet("RCAUPer","RCAU","RCAUTot");
 		if (fld=="TC" || fld=="RCCUTot" || fld=='RCAGTot' || fld=='RCAUTot' )
-		   DynamicForm_Invoice_Concentrate_setValue("subTotalDeduction", DynamicForm_Invoice_Concentrate_getValue("RCCUTot") +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('TC') +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('RCAGTot') +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('RCAUTot'));
+		   DynamicForm_Invoice_Molybdenum_setValue("subTotalDeduction", DynamicForm_Invoice_Molybdenum_getValue("RCCUTot") +
+		                                                        DynamicForm_Invoice_Molybdenum_getValue('TC') +
+		                                                        DynamicForm_Invoice_Molybdenum_getValue('RCAGTot') +
+		                                                        DynamicForm_Invoice_Molybdenum_getValue('RCAUTot'));
 		if ((fld=="subTotal" || fld=='subTotalDeduction' ) )
-		   DynamicForm_Invoice_Concentrate_setValue("unitPrice", DynamicForm_Invoice_Concentrate_getValue("subTotal") -
-		                                                        DynamicForm_Invoice_Concentrate_getValue('subTotalDeduction')) ;
+		   DynamicForm_Invoice_Molybdenum_setValue("unitPrice", DynamicForm_Invoice_Molybdenum_getValue("subTotal") -
+		                                                        DynamicForm_Invoice_Molybdenum_getValue('subTotalDeduction')) ;
 
 // commercialInvoceValue=net*unitPrice
 		if ((fld=="net" || fld=='unitPrice' ) && (hasValue("net") && hasValue('unitPrice') ))
-			multiplyAndSet("net",'unitPrice',"commercialInvoceValue");
+			multiplyMolybdenumAndSet("net",'unitPrice',"commercialInvoceValue");
 // commercialInvoceValueNet=paidPercent*commercialInvoceValue
 		if ((fld=="paidPercent" || fld=='commercialInvoceValue' ) && (hasValue("paidPercent") && hasValue('commercialInvoceValue') ))
-			multiplyAndSet("paidPercent",'commercialInvoceValue',"commercialInvoceValueNet");
+			multiplyMolybdenumAndSet("paidPercent",'commercialInvoceValue',"commercialInvoceValueNet");
 // invoiceValueD=commercialInvoceValueNet- (beforePaid+otherCost+Depreciation)
 		if ((fld=="commercialInvoceValueNet" || fld=='beforePaid'|| fld=='otherCost'|| fld=='Depreciation' ) )
-		   DynamicForm_Invoice_Concentrate_setValue("invoiceValueD", DynamicForm_Invoice_Concentrate_getValue("commercialInvoceValueNet") -
-		                                                        (DynamicForm_Invoice_Concentrate_getValue('beforePaid') +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('otherCost') +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('Depreciation')));
+		   DynamicForm_Invoice_Molybdenum_setValue("invoiceValueD", DynamicForm_Invoice_Molybdenum_getValue("commercialInvoceValueNet") -
+		                                                        (DynamicForm_Invoice_Molybdenum_getValue('beforePaid') +
+		                                                        DynamicForm_Invoice_Molybdenum_getValue('otherCost') +
+		                                                        DynamicForm_Invoice_Molybdenum_getValue('Depreciation')));
 // invoiceValue=rate2dollar*invoiceValueD
 		if ((fld=="rate2dollar" || fld=='invoiceValueD' ) && (hasValue("rate2dollar") && hasValue('invoiceValueD') ))
-			multiplyAndSet("rate2dollar",'invoiceValueD',"invoiceValue");
+			multiplyMolybdenumAndSet("rate2dollar",'invoiceValueD',"invoiceValue");
 	}
-     var DynamicForm_Invoice_Concentrate = isc.DynamicForm.create({
+     var DynamicForm_Invoice_Molybdenum = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         setMethod: 'POST',
@@ -92,7 +97,7 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100", margin: '10px', wrapTitle: false,
+        titleWidth: "100", margin: '1px', wrapTitle: false,
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 12, backgroundImage: "backgrounds/leaves.jpg",
@@ -139,7 +144,32 @@
                 },
                 {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Assay calculation in one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - -lotNo - - - - - - - - - grass- - - - - - - - - - - -net - - - - - - -  - MO%- - - - - - - CU%- molybdenumContent- discount%- - -  fee- - -price"
+                },
+<%		for (int i=0;i<list.size()+4;i++){ %>
+                {name: "id<%=i %>", hidden: true},
+                {name: "invoiceId<%=i %>", hidden: true},
+                {name: "lotNo<%=i %>", showTitle: false,type: 'text', required: false, width: "100%"},
+                {name: "grass<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "net<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "molybdenumPercent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "copperPercent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "molybdenumContent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "discountPercent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "priceFee<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "price<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+ <% } %>
+                {
+                    type: "Header",
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
                {
                     name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>",
@@ -208,7 +238,7 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-		   			  	multiplyAndSet("net","unitPrice","commercialInvoceValue");
+		   			  	multiplyMolybdenumAndSet("net","unitPrice","commercialInvoceValue");
 		   			}
 
                 },
@@ -244,7 +274,7 @@
                         }
                     ],
                     changed	: function(form, item, value){
-		   			  	multiplyAndSet("paidPercent","commercialInvoceValue","commercialInvoceValueNet");
+		   			  	multiplyMolybdenumAndSet("paidPercent","commercialInvoceValue","commercialInvoceValueNet");
 		   			}
 
                 },
@@ -277,7 +307,7 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-		   			  	DynamicForm_Invoice_Concentrate_setValue("Depreciation",value);
+		   			  	DynamicForm_Invoice_Molybdenum_setValue("Depreciation",value);
 		   			}
                },
                 {
@@ -293,7 +323,7 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-		   			  	DynamicForm_Invoice_Concentrate_setValue("otherCost",value);
+		   			  	DynamicForm_Invoice_Molybdenum_setValue("otherCost",value);
 		   			}
 
                 },
@@ -310,7 +340,7 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-		   			  	DynamicForm_Invoice_Concentrate_setValue("beforePaid",value);
+		   			  	DynamicForm_Invoice_Molybdenum_setValue("beforePaid",value);
 		   			}
                 },
                 {
@@ -353,7 +383,7 @@
                         },
                     ],
                     changed	: function(form, item, value){
-		   			  	multiplyAndSet("rate2dollar","invoiceValueD","invoiceValue");
+		   			  	multiplyMolybdenumAndSet("rate2dollar","invoiceValueD","invoiceValue");
 		   			}
 
                 },
@@ -383,30 +413,30 @@
     });
 
    var record = ListGrid_Invoice.getSelectedRecord();
-    DynamicForm_Invoice_Concentrate.editRecord(record);
+    DynamicForm_Invoice_Molybdenum.editRecord(record);
 
     if (!(record == null || record.id == null))
-       DynamicForm_Invoice_Concentrate.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+       DynamicForm_Invoice_Molybdenum.setValue("invoiceDateDumy", new Date(record.invoiceDate));
 
     var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
-   DynamicForm_Invoice_Concentrate.setValue("shipmentId", record.id);
+   DynamicForm_Invoice_Molybdenum.setValue("shipmentId", record.id);
 
 
-     var IButton_Invoice_Concentrate_Save = isc.IButton.create({
+     var IButton_Invoice_Molybdenum_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
             /*ValuesManager_GoodsUnit.validate();*/
-            DynamicForm_Invoice_Concentrate.validate();
-            if (DynamicForm_Invoice_Concentrate.hasErrors())
+            DynamicForm_Invoice_Molybdenum.validate();
+            if (DynamicForm_Invoice_Molybdenum.hasErrors())
                 return;
-            var drs = DynamicForm_Invoice_Concentrate.getValue("invoiceDateDumy");
+            var drs = DynamicForm_Invoice_Molybdenum.getValue("invoiceDateDumy");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Invoice_Concentrate.setValue("invoiceDate", datestringRs);
-            DynamicForm_Invoice_Concentrate.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
+            DynamicForm_Invoice_Molybdenum.setValue("invoiceDate", datestringRs);
+            DynamicForm_Invoice_Molybdenum.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
 
-            var data = DynamicForm_Invoice_Concentrate.getValues();
+            var data = DynamicForm_Invoice_Molybdenum.getValues();
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
@@ -425,17 +455,16 @@
             }));
         }
     });
-    var VLayout_Invoice_Body = isc.VLayout.create({
+    var VLayout_Invoice_Molybdenum_Body = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            [
-                DynamicForm_Invoice_Concentrate,
+                DynamicForm_Invoice_Molybdenum,
                 isc.HLayout.create({
                     width: "100%", align: "center", height: "20",
                     members:
                         [
-                            IButton_Invoice_Concentrate_Save,
+                            IButton_Invoice_Molybdenum_Save,
                             isc.Label.create({
                                 width: 5,
                             }),
@@ -450,7 +479,6 @@
                             })
                         ]
                 })
-            ]
        ]
     });
 
