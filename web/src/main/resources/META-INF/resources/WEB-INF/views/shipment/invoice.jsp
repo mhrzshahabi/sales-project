@@ -734,9 +734,9 @@
 		                                                        DynamicForm_Invoice_Concentrate.getValue('silverCal'));
         if (fld=="copper")
         	DynamicForm_Invoice_Concentrate_setValue("RCCUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
-        if (fld=="silver")
+        if (fld=="silverOun")
         	DynamicForm_Invoice_Concentrate_setValue("RCAGPer",DynamicForm_Invoice_Concentrate.getValue(fld));
-        if (fld=="gold")
+        if (fld=="goldOun")
         	DynamicForm_Invoice_Concentrate_setValue("RCAUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
         if (fld=="RCCUPer")
         	multiplyAndSet3("RCCUPer","RCCU","RCCUTot",DynamicForm_Invoice_Concentrate.getValue("RCCUCal"));
@@ -751,6 +751,22 @@
 		if ((fld=="subTotal" || fld=='subTotalDeduction' ) && (hasValue("subTotal") && hasValue('subTotalDeduction') ))
 		   DynamicForm_Invoice_Concentrate_setValue("unitPrice", DynamicForm_Invoice_Concentrate.getValue("subTotal") -
 		                                                        DynamicForm_Invoice_Concentrate.getValue('subTotalDeduction')) ;
+
+// commercialInvoceValue=net*unitPrice
+		if ((fld=="net" || fld=='unitPrice' ) && (hasValue("net") && hasValue('unitPrice') ))
+			multiplyAndSet("net",'unitPrice',"commercialInvoceValue");
+// commercialInvoceValueNet=paidPercent*commercialInvoceValue
+		if ((fld=="paidPercent" || fld=='commercialInvoceValue' ) && (hasValue("paidPercent") && hasValue('commercialInvoceValue') ))
+			multiplyAndSet("paidPercent",'commercialInvoceValue',"commercialInvoceValueNet");
+// invoiceValueD=commercialInvoceValueNet- (beforePaid+otherCost+Depreciation)
+		if ((fld=="commercialInvoceValueNet" || fld=='beforePaid'|| fld=='otherCost'|| fld=='Depreciation' ) && (hasValue("commercialInvoceValueNet") && hasValue('beforePaid')  && hasValue('otherCost')  && hasValue('Depreciation') ))
+		   DynamicForm_Invoice_Concentrate_setValue("invoiceValueD", DynamicForm_Invoice_Concentrate.getValue("commercialInvoceValueNet") -
+		                                                        (DynamicForm_Invoice_Concentrate.getValue('beforePaid') +
+		                                                        DynamicForm_Invoice_Concentrate.getValue('otherCost') +
+		                                                        DynamicForm_Invoice_Concentrate.getValue('Depreciation')));
+// invoiceValue=rate2dollar*invoiceValueD
+		if ((fld=="rate2dollar" || fld=='invoiceValueD' ) && (hasValue("rate2dollar") && hasValue('invoiceValueD') ))
+			multiplyAndSet("rate2dollar",'invoiceValueD',"invoiceValue");
 	}
     var DynamicForm_Invoice_Concentrate = isc.DynamicForm.create({
         width: "100%",
@@ -1345,7 +1361,6 @@
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("net","unitPrice","commercialInvoceValue");
-
 		   			}
 
                 },
@@ -1375,17 +1390,21 @@
                         },
                         {
                             type: "integerRange",
-                            min: 80,
+                            min: 10,
                             max: 120,
                             errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
                         }
-                    ]
+                    ],
+                    changed	: function(form, item, value){
+		   			  	multiplyAndSet("paidPercent","commercialInvoceValue","commercialInvoceValueNet");
+		   			}
+
                 },
                 {
                     name: "commercialInvoceValueNet",
                     title: "<spring:message code='invoice.commercialInvoceValueNet'/>",
                     type: 'float',
-                    required: true,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1408,8 +1427,11 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
+                    }],
+                    changed	: function(form, item, value){
+		   			  	DynamicForm_Invoice_Concentrate_setValue("Depreciation",value);
+		   			}
+               },
                 {
                     name: "otherCost",
                     title: "<spring:message code='invoice.otherCost'/>",
@@ -1421,7 +1443,11 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+		   			  	DynamicForm_Invoice_Concentrate_setValue("otherCost",value);
+		   			}
+
                 },
                 {
                     name: "beforePaid",
@@ -1434,11 +1460,14 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+		   			  	DynamicForm_Invoice_Concentrate_setValue("beforePaid",value);
+		   			}
                 },
                 {
                     name: "invoiceValueD", title: "<spring:message code='invoice.invoiceValueD'/>",
-                    type: 'float', required: true, width: "100%",colSpan:2,titleColSpan:2,titleAlign:"right",
+                    type: 'float', required: true, width: "100%",colSpan:2,titleColSpan:2,titleAlign:"right",canEdit:false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -1474,13 +1503,11 @@
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
-                        {
-                            type: "integerRange",
-                            min: 80,
-                            max: 120,
-                            errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
-                        }
-                    ]
+                    ],
+                    changed	: function(form, item, value){
+		   			  	multiplyAndSet("rate2dollar","invoiceValueD","invoiceValue");
+		   			}
+
                 },
                 {
                     name: "invoiceValueCurrency",
@@ -1493,7 +1520,7 @@
                 {
                     name: "invoiceValue",
                     title: "<spring:message code='invoice.invoiceValue'/>",
-                    type: 'float',
+                    type: 'float',canEdit:false,
                     required: true,
                     width: "100%",colSpan:2,titleColSpan:1,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
