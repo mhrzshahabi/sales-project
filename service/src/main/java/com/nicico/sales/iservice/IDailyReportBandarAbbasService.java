@@ -2,6 +2,7 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.DailyReportBandarAbbasDTO;
+import com.nicico.sales.model.entities.base.myModel.WholeDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,5 +24,5 @@ public interface IDailyReportBandarAbbasService {
 	SearchDTO.SearchRs<DailyReportBandarAbbasDTO.Info> search(SearchDTO.SearchRq request);
 
 	@Transactional
-	List<Object[]> findByDateAndWarehouseNo(String date, String warehouseNo);
+	List<WholeDto> findByDateAndWarehouseNo(String date, String warehouseNo);
 }
