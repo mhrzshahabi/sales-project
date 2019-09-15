@@ -57,6 +57,30 @@
        DynamicForm_Invoice_Molybdenum.setValue('molybdenumContent',moCnt)	;
        DynamicForm_Invoice_Molybdenum_setValue('commercialInvoceValue',am)	; // calling to compute invoice
 	}
+    function sumUpMolybdenumAndSet(value00,fld00,sumfld00,ii00){
+       sumUp=0;
+       for (i=0;i< <%= (loopUp==0 ? 3 : loopUp+2 ) %>;i++) {
+          nt=0;
+          if (DynamicForm_Invoice_Molybdenum_getValue("up.lessPlus"+i)=="PLUS") nt=1;
+          else if (DynamicForm_Invoice_Molybdenum_getValue("up.lessPlus"+i)=="MINUS") nt=-1;
+            DynamicForm_Invoice_Molybdenum.setValue('up.targetValue'+i,
+                    DynamicForm_Invoice_Molybdenum_getValue('up.conversionRate'+i)*DynamicForm_Invoice_Molybdenum_getValue("up.originValue"+i)*nt);
+            sumUp+=  DynamicForm_Invoice_Molybdenum_getValue('up.targetValue'+i);
+       }
+        DynamicForm_Invoice_Molybdenum_setValue('invoiceValueD',DynamicForm_Invoice_Molybdenum_getValue("commercialInvoceValueNet")+sumUp)	; // calling to compute invoice
+	}
+    function sumdownMolybdenumAndSet(value00,fld00,sumfld00,ii00){
+       sumUp=0;
+       for (i=0;i< <%= (loopUp==0 ? 3 : loopUp+2 ) %>;i++) {
+          nt=0;
+          if (DynamicForm_Invoice_Molybdenum_getValue("down.lessPlus"+i)=="PLUS") nt=1;
+          else if (DynamicForm_Invoice_Molybdenum_getValue("down.lessPlus"+i)=="MINUS") nt=-1;
+            DynamicForm_Invoice_Molybdenum.setValue("down.targetValue"+i,
+                    DynamicForm_Invoice_Molybdenum_getValue('down.conversionRate'+i)*DynamicForm_Invoice_Molybdenum_getValue("down.originValue"+i)*nt);
+            sumUp+=  DynamicForm_Invoice_Molybdenum_getValue('down.targetValue'+i);
+       }
+        DynamicForm_Invoice_Molybdenum_setValue('invoiceValue',DynamicForm_Invoice_Molybdenum_getValue("invoiceValueUp")+sumUp)	; // calling to compute invoice
+	}
     function multiplyMolybdenum (fld1,value) {
 		if (value==null || typeof (value)=='undefined' || fld1==null || typeof (fld1) =='undefined')
 		   return 0;
@@ -79,15 +103,18 @@
 // commercialInvoceValueNet=paidPercent*commercialInvoceValue
 		if ((fld=="paidPercent" || fld=='commercialInvoceValue' ) && (hasValue("paidPercent") && hasValue('commercialInvoceValue') ))
 			multiplyMolybdenumAndSet("paidPercent",'commercialInvoceValue',"commercialInvoceValueNet");
-// invoiceValueD=commercialInvoceValueNet- (beforePaid+otherCost+Depreciation)
-		if ((fld=="commercialInvoceValueNet" || fld=='beforePaid'|| fld=='otherCost'|| fld=='Depreciation' ) )
-		   DynamicForm_Invoice_Molybdenum_setValue("invoiceValueD", DynamicForm_Invoice_Molybdenum_getValue("commercialInvoceValueNet") -
-		                                                        (DynamicForm_Invoice_Molybdenum_getValue('beforePaid') +
-		                                                        DynamicForm_Invoice_Molybdenum_getValue('otherCost') +
-		                                                        DynamicForm_Invoice_Molybdenum_getValue('Depreciation')),-1);
+
+// commercialInvoceValueNet sumUpMolybdenumAndSet
+		if (fld=="commercialInvoceValueNet"  )
+		   sumUpMolybdenumAndSet(1,"aa","ff",1) ;
 // invoiceValue=rate2dollar*invoiceValueD
-		if ((fld=="rate2dollar" || fld=='invoiceValueD' ) && (hasValue("rate2dollar") && hasValue('invoiceValueD') ))
-			multiplyMolybdenumAndSet("rate2dollar",'invoiceValueD',"invoiceValue");
+		if ((fld=="rate2dollar" || fld=='invoiceValueD' ) && (hasValue("rate2dollar") && hasValue('invoiceValueD') )){
+			multiplyMolybdenumAndSet("rate2dollar",'invoiceValueD',"invoiceValueUp");
+		}
+		if ((fld=="invoiceValueUp" ) && ( hasValue('invoiceValueUp') )){
+            sumdownMolybdenumAndSet(1,"aa","ff",1) ;
+		}
+
 	}
      var DynamicForm_Invoice_Molybdenum = isc.DynamicForm.create({
         width: "100%",
@@ -137,7 +164,7 @@
                     name: "invoiceDateDumy",
                     title: "<spring:message code='invoice.invoiceDate'/>",
                     defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: 'date', useTextField:true,
+                    type: 'date',// useTextField:true,
                     format: 'DD-MM-YYYY',
                     required: true,
                     width: "100%",colSpan:3,titleColSpan:1
@@ -246,7 +273,8 @@
                     changed	: function(form, item, value){ sumUpMolybdenumAndSet(value,"up.originValue","up.originValue","<%=i %>");	} },
                 {name: "up.dateRate<%=i %>",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
                 {name: "up.rateReference<%=i %>",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
-                {name: "up.lessPlus<%=i %>",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} },
+                {name: "up.lessPlus<%=i %>",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} ,
+                    changed	: function(form, item, value){ sumUpMolybdenumAndSet(value,"up.originValue","up.originValue","<%=i %>");	} },
                 {name: "up.targetValue<%=i %>",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
    <% } %>
                 {
@@ -282,7 +310,8 @@
                         },
                     ],
                     changed	: function(form, item, value){
-		   			  	multiplyMolybdenumAndSet("rate2dollar","invoiceValueD","invoiceValue");
+		   			  	multiplyMolybdenumAndSet("rate2dollar",'invoiceValueD',"invoiceValueUp");
+
 		   			}
 
                 },
@@ -323,7 +352,8 @@
                     changed	: function(form, item, value){ sumdownMolybdenumAndSet(value,"down.originValue","down.originValue","<%=i %>");	} },
                 {name: "down.dateRate<%=i %>",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
                 {name: "down.rateReference<%=i %>",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
-                {name: "down.lessPlus<%=i %>",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} },
+                {name: "down.lessPlus<%=i %>",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"},
+                    changed	: function(form, item, value){ sumdownMolybdenumAndSet(value,"down.originValue","down.originValue","<%=i %>");	} },
                 {name: "down.targetValue<%=i %>",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
    <% } %>
                 {
