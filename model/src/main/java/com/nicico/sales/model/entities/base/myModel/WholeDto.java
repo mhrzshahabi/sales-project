@@ -59,33 +59,7 @@ public class WholeDto implements Cloneable {
     private Integer reviseSal;
     private Integer aa;
 
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
 
-
-    public WholeDto(String warehouseNo, String toDay, String descp, String plant, String packingType, Integer amountDay, Integer amountImportDay, Integer amountFirstDay, Integer amountExportDay, Integer amountReviseDay, Integer amountFirstMon, Integer amountImportMon, Integer amountExportMon, Integer amountReviseMon, Integer amountFirstSal, Integer amountImportSal, Integer amountExportSal, Integer amountReviseSal, Integer reviseSal, Integer aa) {
-        this.warehouseNo = warehouseNo;
-        this.toDay = toDay;
-        this.descp = descp;
-        this.plant = plant;
-        this.packingType = packingType;
-        this.amountDay = amountDay;
-        this.amountImportDay = amountImportDay;
-        this.amountFirstDay = amountFirstDay;
-        this.amountExportDay = amountExportDay;
-        this.amountReviseDay = amountReviseDay;
-        this.amountFirstMon = amountFirstMon;
-        this.amountImportMon = amountImportMon;
-        this.amountExportMon = amountExportMon;
-        this.amountReviseMon = amountReviseMon;
-        this.amountFirstSal = amountFirstSal;
-        this.amountImportSal = amountImportSal;
-        this.amountExportSal = amountExportSal;
-        this.amountReviseSal = amountReviseSal;
-        this.reviseSal = reviseSal;
-        this.aa = aa;
-    }
 
 
 }
