@@ -111,13 +111,13 @@
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
                 case "Unauthorized":
-                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: 'هشدار'});
+                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: "<spring:message code='global.warning'/>"});
                     break;
                 case "DataIntegrityViolation_Unique":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: 'هشدار'});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: "<spring:message code='global.warning'/>"});
                     break;
                 case "DataIntegrityViolation":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation'/>", {title: 'هشدار'});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation'/>", {title: "<spring:message code='global.warning'/>"});
                     break;
             }
         }

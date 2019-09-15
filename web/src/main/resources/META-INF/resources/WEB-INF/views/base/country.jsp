@@ -152,7 +152,7 @@
                     name: "nameEn",
                     title: "<spring:message code='country.nameEn'/>",
                     width: "100%",
-                    colSpan: 1, required: true, keyPressFilter: "[a-z|A-Z|0-9.]",
+                    colSpan: 1, required: true, keyPressFilter: "[a-z|A-Z|0-9.|\\s]",
                     titleColSpan: 1
                 },
             ]
