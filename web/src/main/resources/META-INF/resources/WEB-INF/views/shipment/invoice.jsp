@@ -243,10 +243,13 @@
         loadingMessage: " <spring:message code='global.loadingMessage'/>",
     });
      var Window_Molybdenum = isc.Window.create({
-        title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
-        width: 1100,
-        height: 700,
+        title: "<spring:message code='issuedInvoices.title'/> ",
+        width: 1500,
+        height: "90%",
+        margin: '1px',
         autoCenter: true,
+        isModal: true,
+        showModalMask: true,
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
@@ -811,7 +814,7 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100", margin: '10px', wrapTitle: false,
+        titleWidth: "100", margin: '0px', wrapTitle: true,
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 12, backgroundImage: "backgrounds/leaves.jpg",
@@ -843,9 +846,7 @@
                     name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>",
                     required: true,
                     width: "100%",
-                    colSpan: 1,
-                    titleColSpan: 1,
-                    wrapTitle: false,colSpan:2,titleColSpan:2
+                    wrapTitle: true,colSpan:2,titleColSpan:2
                 },
                 {
                     name: "invoiceDateDumy",
@@ -1165,7 +1166,7 @@
                     name: "subTotal",
                     title: "<spring:message code='invoice.subTotal'/>",
                     type: 'float',
-                    required: true,canedit:false,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:1,
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1401,7 +1402,7 @@
                     name: "commercialInvoceValue",
                     title: "<spring:message code='invoice.commercialInvoceValue'/>",
                     type: 'float',
-                    required: true,canedit:false,
+                    required: true,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1453,7 +1454,7 @@
                     type: 'float',
                     required: false,
                     width: "100%",
-                    wrapTitle: false,
+                    wrapTitle: true,
                     titleColSpan: 1,colSpan: 1,
                     validators: [{
                         type: "isFloat",
@@ -1486,7 +1487,7 @@
                     name: "beforePaid",
                     title: "<spring:message code='invoice.beforePaid'/>",
                     type: 'float',
-                    required: false,colSpan:2, titleColSpan: 1, wrapTitle: false,
+                    required: false,colSpan:2, titleColSpan: 1, wrapTitle: true,
                     width: "100%",
                     validators: [{
                         type: "isFloat",
@@ -1515,19 +1516,12 @@
                {
                     name: "rateBase",
                     title: "<spring:message code='invoice.rateBase'/>",
-                    type: 'float',
+                    type: 'text',
                     required: true,
                     width: "100%",colSpan:4,titleColSpan:1,
-                    keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
                 },
                  {
-                    name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",
+                    name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",keyPressFilter: "[0-9.]",
                     type: 'float', required: true, width: "100%",colSpan:1,titleColSpan:1,titleAlign:"right",
                     validators: [
                         {
@@ -1874,8 +1868,7 @@
                 },
                 {name: "silver", title: "<spring:message code='invoice.silver'/>", type: 'float', width: "10%"},
                 {
-                    name: "molybdJenumUnitPrice", title: "<spring:message
-		code='invoice.molybdJenumUnitPrice'/>", type: 'float', width: "10%"
+                    name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>", type: 'float', width: "10%"
                 },
                 {name: "molybdenum", title: "<spring:message code='invoice.molybdenum'/>", type: 'float', width: "10%"},
             ],

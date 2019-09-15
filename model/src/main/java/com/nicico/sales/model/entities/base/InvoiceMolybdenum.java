@@ -24,7 +24,7 @@ public class InvoiceMolybdenum extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INVOICE_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "INVOICE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "invoiceMolybdenum2invoice"))
 	private Invoice invoice;
 
 	@Column(name = "INVOICE_ID")

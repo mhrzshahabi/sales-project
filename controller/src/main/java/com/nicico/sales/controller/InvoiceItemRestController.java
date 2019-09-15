@@ -5,9 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
-import com.nicico.sales.dto.InvoiceDTO;
-import com.nicico.sales.iservice.IInvoiceMolybdenumService;
-import com.nicico.sales.iservice.IInvoiceService;
+import com.nicico.sales.dto.InvoiceItemDTO;
+import com.nicico.sales.iservice.IInvoiceItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,71 +21,61 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/invoice")
-public class InvoiceRestController {
+@RequestMapping(value = "/api/invoiceItem")
+public class InvoiceItemRestController {
 
-	private final IInvoiceService invoiceService;
-	private final IInvoiceMolybdenumService invoiceMolybdenumService;
+	private final IInvoiceItemService invoiceItemService;
 	private final ObjectMapper objectMapper;
-
 	// ------------------------------s
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	// @PreAuthorize("hasAuthority('r_invoice')")
-	public ResponseEntity<InvoiceDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(invoiceService.get(id), HttpStatus.OK);
+	// @PreAuthorize("hasAuthority('r_invoiceItem')")
+	public ResponseEntity<InvoiceItemDTO.Info> get(@PathVariable Long id) {
+		return new ResponseEntity<>(invoiceItemService.get(id), HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/list")
-	// @PreAuthorize("hasAuthority('r_invoice')")
-	public ResponseEntity<List<InvoiceDTO.Info>> list() {
-		return new ResponseEntity<>(invoiceService.list(), HttpStatus.OK);
+	// @PreAuthorize("hasAuthority('r_invoiceItem')")
+	public ResponseEntity<List<InvoiceItemDTO.Info>> list() {
+		return new ResponseEntity<>(invoiceItemService.list(), HttpStatus.OK);
 	}
 
 	@Loggable
 	@PostMapping
-	// @PreAuthorize("hasAuthority('c_invoice')")
-	public ResponseEntity<InvoiceDTO.Info> create(@Validated @RequestBody InvoiceDTO.Create request) {
-		return new ResponseEntity<>(invoiceService.create(request), HttpStatus.CREATED);
+	// @PreAuthorize("hasAuthority('c_invoiceItem')")
+	public ResponseEntity<InvoiceItemDTO.Info> create(@Validated @RequestBody InvoiceItemDTO.Create request) {
+		return new ResponseEntity<>(invoiceItemService.create(request), HttpStatus.CREATED);
 	}
 
 	@Loggable
 	@PutMapping
-	// @PreAuthorize("hasAuthority('u_invoice')")
-	public ResponseEntity<InvoiceDTO.Info> update(@RequestBody InvoiceDTO.Update request) {
-		return new ResponseEntity<>(invoiceService.update(request.getId(), request), HttpStatus.OK);
-	}
-
-	@Loggable
-	@PutMapping(value = "/molybdenum")
-	// @PreAuthorize("hasAuthority('u_invoice')")
-	public ResponseEntity<Void> molybdenum(@RequestBody String data) throws IOException {
-		invoiceMolybdenumService.molybdenum(data);
-		return new ResponseEntity<>(HttpStatus.OK);
+	// @PreAuthorize("hasAuthority('u_invoiceItem')")
+	public ResponseEntity<InvoiceItemDTO.Info> update(@RequestBody InvoiceItemDTO.Update request) {
+		return new ResponseEntity<>(invoiceItemService.update(request.getId(), request), HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/{id}")
-	// @PreAuthorize("hasAuthority('d_invoice')")
+	// @PreAuthorize("hasAuthority('d_invoiceItem')")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		invoiceService.delete(id);
+		invoiceItemService.delete(id);
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
 	@Loggable
 	@DeleteMapping(value = "/list")
-	// @PreAuthorize("hasAuthority('d_invoice')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody InvoiceDTO.Delete request) {
-		invoiceService.delete(request);
+	// @PreAuthorize("hasAuthority('d_invoiceItem')")
+	public ResponseEntity<Void> delete(@Validated @RequestBody InvoiceItemDTO.Delete request) {
+		invoiceItemService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	// @PreAuthorize("hasAuthority('r_invoice')")
-	public ResponseEntity<InvoiceDTO.InvoiceSpecRs> list(@RequestParam("_startRow") Integer startRow,
+	// @PreAuthorize("hasAuthority('r_invoiceItem')")
+	public ResponseEntity<InvoiceItemDTO.InvoiceItemSpecRs> list(@RequestParam("_startRow") Integer startRow,
 														 @RequestParam("_endRow") Integer endRow,
 														 @RequestParam(value = "_constructor", required = false) String constructor,
 														 @RequestParam(value = "operator", required = false) String operator,
@@ -110,15 +99,15 @@ public class InvoiceRestController {
 
 		request.setStartIndex(startRow)
 				.setCount(endRow - startRow);
-		SearchDTO.SearchRs<InvoiceDTO.Info> response = invoiceService.search(request);
+		SearchDTO.SearchRs<InvoiceItemDTO.Info> response = invoiceItemService.search(request);
 
-		final InvoiceDTO.SpecRs specResponse = new InvoiceDTO.SpecRs();
+		final InvoiceItemDTO.SpecRs specResponse = new InvoiceItemDTO.SpecRs();
 		specResponse.setData(response.getList())
 				.setStartRow(startRow)
 				.setEndRow(startRow + response.getTotalCount().intValue())
 				.setTotalRows(response.getTotalCount().intValue());
 
-		final InvoiceDTO.InvoiceSpecRs specRs = new InvoiceDTO.InvoiceSpecRs();
+		final InvoiceItemDTO.InvoiceItemSpecRs specRs = new InvoiceItemDTO.InvoiceItemSpecRs();
 		specRs.setResponse(specResponse);
 
 		return new ResponseEntity<>(specRs, HttpStatus.OK);
@@ -128,8 +117,8 @@ public class InvoiceRestController {
 
 	@Loggable
 	@GetMapping(value = "/search")
-	// @PreAuthorize("hasAuthority('r_invoice')")
-	public ResponseEntity<SearchDTO.SearchRs<InvoiceDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(invoiceService.search(request), HttpStatus.OK);
+	// @PreAuthorize("hasAuthority('r_invoiceItem')")
+	public ResponseEntity<SearchDTO.SearchRs<InvoiceItemDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
+		return new ResponseEntity<>(invoiceItemService.search(request), HttpStatus.OK);
 	}
 }

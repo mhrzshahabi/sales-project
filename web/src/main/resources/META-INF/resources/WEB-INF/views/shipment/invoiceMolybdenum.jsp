@@ -1,5 +1,6 @@
 <%@ page import="com.nicico.copper.common.dto.grid.GridResponse" %>
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
+<%@ page import="com.nicico.sales.dto.InvoiceItemDTO" %>
 <%@ page import="com.nicico.sales.dto.InvoiceMolybdenumDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,8 +13,19 @@
 		String invoiceId=request.getSession().getAttribute("invoiceId").toString();
 		GridResponse<InvoiceMolybdenumDTO.Info> gridResponse= (GridResponse<InvoiceMolybdenumDTO.Info> )request.getSession().getAttribute("gridResponse");
 		List<InvoiceMolybdenumDTO.Info> list=gridResponse.getData();
-    %>
+		int loop=(list==null ? 4 : list.size()+2);
 
+		GridResponse<InvoiceItemDTO.Info> gridResponseItem= (GridResponse<InvoiceItemDTO.Info> )request.getSession().getAttribute("gridResponseItem");
+		List<InvoiceItemDTO.Info> listItem=gridResponseItem.getData();
+		int loopUp=0;
+		int loopDown=0;
+		for(int i=0;i<listItem.size();i++)
+		    if (listItem.get(i).getUpDown().equalsIgnoreCase("up"))
+		        loopUp++;
+		    else
+		        loopDown++;
+    %>
+    var loop=<%=loop %>;
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
      var DynamicForm_Invoice_Molybdenum ;
@@ -21,59 +33,49 @@
 	 valueTmp=DynamicForm_Invoice_Molybdenum.getValue(fld);
 	 return !(valueTmp==null || typeof (valueTmp)=='undefined' || valueTmp=="" );
 	}
-    function multiplyMolybdenumMolybdenum (fld1,value) {
+    function sumMolybdenumAndSet(value00,fld00,sumfld00,ii00){
+    	gr=0;
+       	if (fld00=='grass'){
+			for (i=0;i<loop;i++)
+          		gr+=DynamicForm_Invoice_Molybdenum_getValue("grass"+i);
+          	DynamicForm_Invoice_Molybdenum.setValue('grass',gr)	;
+          	return;
+       }
+       nt=0;moCnt=0;am=0;
+       for (i=0;i<loop;i++) {
+          nt+=DynamicForm_Invoice_Molybdenum_getValue("net"+i);
+          DynamicForm_Invoice_Molybdenum.setValue('molybdenumContent'+i,
+          		DynamicForm_Invoice_Molybdenum_getValue('molybdenumPercent'+i)*DynamicForm_Invoice_Molybdenum_getValue("net"+i)/100);
+          DynamicForm_Invoice_Molybdenum.setValue('priceFee'+i,
+          		DynamicForm_Invoice_Molybdenum_getValue('molybdJenumUnitPrice')*(1-DynamicForm_Invoice_Molybdenum_getValue("discountPercent"+i)/100));
+          DynamicForm_Invoice_Molybdenum.setValue('price'+i,
+          		DynamicForm_Invoice_Molybdenum_getValue('priceFee'+i)*(DynamicForm_Invoice_Molybdenum_getValue("molybdenumContent"+i)*2.20462));
+          am+=DynamicForm_Invoice_Molybdenum_getValue("price"+i);
+          moCnt+=DynamicForm_Invoice_Molybdenum_getValue("molybdenumContent"+i);
+       }
+       DynamicForm_Invoice_Molybdenum.setValue('net',nt)	;
+       DynamicForm_Invoice_Molybdenum.setValue('molybdenumContent',moCnt)	;
+       DynamicForm_Invoice_Molybdenum_setValue('commercialInvoceValue',am)	; // calling to compute invoice
+	}
+    function multiplyMolybdenum (fld1,value) {
 		if (value==null || typeof (value)=='undefined' || fld1==null || typeof (fld1) =='undefined')
 		   return 0;
 		return fld1 * value;
 	}
-	function multiplyMolybdenumMolybdenumAndSet (name1,name2,setName0) {
+	function multiplyMolybdenumAndSet (name1,name2,setName0) {
 	  val1=DynamicForm_Invoice_Molybdenum.getValue(name1);
 	  val2=DynamicForm_Invoice_Molybdenum.getValue(name2);
-	  m=multiplyMolybdenumMolybdenum(val1,val2)/((name1=="paidPercent" || name2=="paidPercent") ? 100 : 1);
+	  m=multiplyMolybdenum(val1,val2)/((name1=="paidPercent" || name2=="paidPercent") ? 100 : 1);
 	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
-	  DynamicForm_Invoice_Molybdenum_setValue(setName0,m);
-	}
-	function multiplyMolybdenumMolybdenumAndSet3 (name1,name2,setName0,number1) {
-	  val1=DynamicForm_Invoice_Molybdenum.getValue(name1);
-	  val2=DynamicForm_Invoice_Molybdenum.getValue(name2);
-	  m=multiplyMolybdenumMolybdenum(val1,val2)*number1;
-	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
-	  DynamicForm_Invoice_Molybdenum_setValue(setName0,m);
+	  DynamicForm_Invoice_Molybdenum_setValue(setName0,m,-1);
 	}
 	function DynamicForm_Invoice_Molybdenum_getValue(fld){
 	 valueTmp=DynamicForm_Invoice_Molybdenum.getValue(fld);
 	 return (valueTmp==null || typeof (valueTmp)=='undefined' || valueTmp=="" ) ? 0 : valueTmp;
 	}
-	function DynamicForm_Invoice_Molybdenum_setValue(fld,value){
+	function DynamicForm_Invoice_Molybdenum_setValue(fld,value,iii){
 		DynamicForm_Invoice_Molybdenum.setValue(fld,value);
-		if ( fld=="copperCal" || fld=='goldCal' || fld=='silverCal' )
-		   DynamicForm_Invoice_Molybdenum_setValue("subTotal", DynamicForm_Invoice_Molybdenum_getValue("copperCal") +
-		                                                        DynamicForm_Invoice_Molybdenum_getValue('goldCal') +
-		                                                        DynamicForm_Invoice_Molybdenum_getValue('silverCal'));
-        if (fld=="copper")
-        	DynamicForm_Invoice_Molybdenum_setValue("RCCUPer",DynamicForm_Invoice_Molybdenum.getValue(fld));
-        if (fld=="silverOun")
-        	DynamicForm_Invoice_Molybdenum_setValue("RCAGPer",DynamicForm_Invoice_Molybdenum.getValue(fld));
-        if (fld=="goldOun")
-        	DynamicForm_Invoice_Molybdenum_setValue("RCAUPer",DynamicForm_Invoice_Molybdenum.getValue(fld));
-        if (fld=="RCCUPer")
-        	multiplyMolybdenumAndSet3("RCCUPer","RCCU","RCCUTot",DynamicForm_Invoice_Molybdenum.getValue("RCCUCal"));
-        if (fld=="RCAGPer")
-        	multiplyMolybdenumAndSet("RCAGPer","RCAG","RCAGTot");
-        if (fld=="RCAUPer")
-        	multiplyMolybdenumAndSet("RCAUPer","RCAU","RCAUTot");
-		if (fld=="TC" || fld=="RCCUTot" || fld=='RCAGTot' || fld=='RCAUTot' )
-		   DynamicForm_Invoice_Molybdenum_setValue("subTotalDeduction", DynamicForm_Invoice_Molybdenum_getValue("RCCUTot") +
-		                                                        DynamicForm_Invoice_Molybdenum_getValue('TC') +
-		                                                        DynamicForm_Invoice_Molybdenum_getValue('RCAGTot') +
-		                                                        DynamicForm_Invoice_Molybdenum_getValue('RCAUTot'));
-		if ((fld=="subTotal" || fld=='subTotalDeduction' ) )
-		   DynamicForm_Invoice_Molybdenum_setValue("unitPrice", DynamicForm_Invoice_Molybdenum_getValue("subTotal") -
-		                                                        DynamicForm_Invoice_Molybdenum_getValue('subTotalDeduction')) ;
 
-// commercialInvoceValue=net*unitPrice
-		if ((fld=="net" || fld=='unitPrice' ) && (hasValue("net") && hasValue('unitPrice') ))
-			multiplyMolybdenumAndSet("net",'unitPrice',"commercialInvoceValue");
 // commercialInvoceValueNet=paidPercent*commercialInvoceValue
 		if ((fld=="paidPercent" || fld=='commercialInvoceValue' ) && (hasValue("paidPercent") && hasValue('commercialInvoceValue') ))
 			multiplyMolybdenumAndSet("paidPercent",'commercialInvoceValue',"commercialInvoceValueNet");
@@ -82,7 +84,7 @@
 		   DynamicForm_Invoice_Molybdenum_setValue("invoiceValueD", DynamicForm_Invoice_Molybdenum_getValue("commercialInvoceValueNet") -
 		                                                        (DynamicForm_Invoice_Molybdenum_getValue('beforePaid') +
 		                                                        DynamicForm_Invoice_Molybdenum_getValue('otherCost') +
-		                                                        DynamicForm_Invoice_Molybdenum_getValue('Depreciation')));
+		                                                        DynamicForm_Invoice_Molybdenum_getValue('Depreciation')),-1);
 // invoiceValue=rate2dollar*invoiceValueD
 		if ((fld=="rate2dollar" || fld=='invoiceValueD' ) && (hasValue("rate2dollar") && hasValue('invoiceValueD') ))
 			multiplyMolybdenumAndSet("rate2dollar",'invoiceValueD',"invoiceValue");
@@ -97,8 +99,8 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100", margin: '1px', wrapTitle: false,
-        titleAlign: "right",
+        titleWidth: "100", margin: '0px', wrapTitle: true,
+        titleAlign: "center",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 12, backgroundImage: "backgrounds/leaves.jpg",
         fields:
@@ -129,133 +131,70 @@
                     name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>",
                     required: true,
                     width: "100%",
-                    colSpan: 1,
-                    titleColSpan: 1,
                     wrapTitle: false,colSpan:2,titleColSpan:2
                 },
                 {
                     name: "invoiceDateDumy",
                     title: "<spring:message code='invoice.invoiceDate'/>",
                     defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: 'date',
+                    type: 'date', useTextField:true,
                     format: 'DD-MM-YYYY',
                     required: true,
                     width: "100%",colSpan:3,titleColSpan:1
                 },
-                {
-                    type: "Header",
-                    defaultValue: " - - - -lotNo - - - - - - - - - grass- - - - - - - - - - - -net - - - - - - -  - MO%- - - - - - - CU%- molybdenumContent- discount%- - -  fee- - -price"
+                  {
+                    name: "priceBase",
+                    title: "<spring:message code='invoice.priceBase'/>",
+                    type: 'text',
+                    required: true,
+                    width: "100%",colSpan:8,titleColSpan:1,
                 },
-<%		for (int i=0;i<list.size()+4;i++){ %>
+                {name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>",type: 'float', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdJenumUnitPrice","none",-1);	} },
+              // {
+              //       type: "Header",
+              //       defaultValue: " - - - LotNo. - - - - - - - Grass- - - - - - - - - - - -Net - - - - - - -  - MO%- - - - CU%- MolybdenumContent- Discount%- - -  Fee - - - - -  Price"
+              //   },
+<%		for (int i=0;i<loop;i++){ %>
                 {name: "id<%=i %>", hidden: true},
                 {name: "invoiceId<%=i %>", hidden: true},
-                {name: "lotNo<%=i %>", showTitle: false,type: 'text', required: false, width: "100%"},
-                {name: "grass<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
-                {name: "net<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
-                {name: "molybdenumPercent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
-                {name: "copperPercent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
-                {name: "molybdenumContent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
-                {name: "discountPercent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
-                {name: "priceFee<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
-                {name: "price<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "version<%=i %>", hidden: true},
+                {name: "lotNo<%=i %>",title:"lotNo",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%"},
+                {name: "grass<%=i %>",title:"Grass",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"grass","grass","<%=i %>");	} },
+                {name: "net<%=i %>",title:"Net",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"net","net","<%=i %>");	} },
+                {name: "molybdenumPercent<%=i %>",title:"MO%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] ,
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdenumPercent","none","<%=i %>");	} },
+                {name: "copperPercent<%=i %>",title:"CU%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }]} ,
+                {name: "molybdenumContent<%=i %>",title:"MO content",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false},
+                {name: "discountPercent<%=i %>",title:"Discount%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] ,
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"discountPercent","none","<%=i %>");	} },
+                {name: "priceFee<%=i %>",title:"Fee",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false, },
+                {name: "price<%=i %>",title:"Price",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false },
  <% } %>
                 {
                     type: "Header",
                     defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
-               {
-                    name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>",
-                    type: 'float', required: false, width: "100%",
-                    keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-                {
-                    name: "molybdenum",
-                    title: "<spring:message code='invoice.molybdenum'/>",
-                    type: 'float',
-                    required: false,
-                    width: "100%",
-                    keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-                {
-                    name: "unitPrice",
-                    title: "<spring:message code='invoice.unitPrice'/>",
-                    type: 'float',
-                    required: true,canEdit:false,
-                    width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",
-                    keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-                 {
-                    name: "grass",
-                    title: "<spring:message code='global.grass'/>",
-                    type: 'float',
-                    required: true,
-                    width: "100%",
-                    keyPressFilter: "[0-9.]",colSpan:1,titleColSpan:2,titleAlign:"left",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-                {
-                    name: "net",
-                    title: "<spring:message code='global.net'/>",
-                    type: 'float',
-                    required: true,
-                    width: "100%",
-                    keyPressFilter: "[0-9.]",colSpan:1,titleColSpan:2,titleAlign:"center",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }],
-                    changed	: function(form, item, value){
-		   			  	multiplyMolybdenumAndSet("net","unitPrice","commercialInvoceValue");
-		   			}
-
-                },
-                {
-                    name: "commercialInvoceValue",
-                    title: "<spring:message code='invoice.commercialInvoceValue'/>",
-                    type: 'float',
-                    required: true,canedit:false,
-                    width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
-                    keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
+                {name: "lotNo",defaultValue:"Total:", showTitle: false,type: 'text', required: false, width: "100%",canEdit:false,},
+                {name: "grass", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "net", showTitle: false,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
+                {name: "tmpmolybdenumPercent", showTitle: false,type: 'text', required: false, width: "100%",defaultValue:"--",canEdit:false },
+                {name: "tmpcopperPercent", showTitle: false,type: 'text', required: false, width: "100%",defaultValue:"--",canEdit:false },
+                {name: "molybdenumContent", showTitle: false,type: 'float', required: false, width: "100%",colSpan:1,canEdit:false },
+                <%--{name: "discountPercent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",--%>
+                    <%--validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },--%>
+                {name: "tmppriceFee", showTitle: false,type: 'text', required: false, width: "100%",defaultValue:"--",canEdit:false,colSpan:2},
+                {name: "commercialInvoceValue", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false,align:"right" },
                 {
                     name: "paidPercent", title: "<spring:message code='invoice.paidPercent'/>",
                     type: 'float', required: true, width: "100%",colSpan:1,titleColSpan:5,titleAlign:"right",
@@ -292,60 +231,27 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-                {
-                    name: "Depreciation",
-                    title: "<spring:message code='invoice.Depreciation'/>",
-                    type: 'float',
-                    required: false,
-                    width: "100%",
-                    wrapTitle: false,
-                    titleColSpan: 1,colSpan: 1,
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }],
-                    changed	: function(form, item, value){
-		   			  	DynamicForm_Invoice_Molybdenum_setValue("Depreciation",value);
-		   			}
-               },
-                {
-                    name: "otherCost",
-                    title: "<spring:message code='invoice.otherCost'/>",
-                    type: 'float',
-                    required: false,
-                    width: "100%",colSpan:2,titleColSpan: 1,
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }],
-                    changed	: function(form, item, value){
-		   			  	DynamicForm_Invoice_Molybdenum_setValue("otherCost",value);
-		   			}
-
-                },
-                {
-                    name: "beforePaid",
-                    title: "<spring:message code='invoice.beforePaid'/>",
-                    type: 'float',
-                    required: false,colSpan:2, titleColSpan: 1, wrapTitle: false,
-                    width: "100%",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }],
-                    changed	: function(form, item, value){
-		   			  	DynamicForm_Invoice_Molybdenum_setValue("beforePaid",value);
-		   			}
-                },
+   <%		for (int i=0;i<(loopUp==0 ? 3 : loopUp+2 );i++){ %>
+                {name: "up.id<%=i %>", hidden: true},
+                {name: "up.invoiceId<%=i %>", hidden: true},
+                {name: "up.version<%=i %>", hidden: true},
+                {name: "up.upDown<%=i %>",defaultValue:"up", hidden: true},
+                {name: "up.description<%=i %>",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
+                {name: "up.originValue<%=i %>",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
+                    changed	: function(form, item, value){ sumUpMolybdenumAndSet(value,"up.originValue","up.originValue","<%=i %>");	} },
+                {name: "up.originValueCurrency<%=i %>",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
+                {name: "up.conversionRate<%=i %>",title:"Rate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
+                    changed	: function(form, item, value){ sumUpMolybdenumAndSet(value,"up.originValue","up.originValue","<%=i %>");	} },
+                {name: "up.dateRate<%=i %>",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
+                {name: "up.rateReference<%=i %>",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
+                {name: "up.lessPlus<%=i %>",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} },
+                {name: "up.targetValue<%=i %>",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
+   <% } %>
                 {
                     name: "invoiceValueD", title: "<spring:message code='invoice.invoiceValueD'/>",
-                    type: 'float', required: true, width: "100%",colSpan:2,titleColSpan:2,titleAlign:"right",canEdit:false,
+                    type: 'float', required: true, width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",canEdit:false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -360,19 +266,12 @@
                {
                     name: "rateBase",
                     title: "<spring:message code='invoice.rateBase'/>",
-                    type: 'float',
+                    type: 'text',
                     required: true,
                     width: "100%",colSpan:4,titleColSpan:1,
-                    keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
                 },
                  {
-                    name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",
+                    name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",keyPressFilter: "[0-9.]",
                     type: 'float', required: true, width: "100%",colSpan:1,titleColSpan:1,titleAlign:"right",
                     validators: [
                         {
@@ -396,7 +295,7 @@
                     valueMap: dollar
                 },
                 {
-                    name: "invoiceValue",
+                    name: "invoiceValueUp",
                     title: "<spring:message code='invoice.invoiceValue'/>",
                     type: 'float',canEdit:false,
                     required: true,
@@ -409,17 +308,89 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
+   <%		for (int i=0;i<(loopDown==0 ? 3 : loopDown+2 );i++){ %>
+                {name: "down.id<%=i %>", hidden: true},
+                {name: "down.invoiceId<%=i %>", hidden: true},
+                {name: "down.version<%=i %>", hidden: true},
+                {name: "down.upDown<%=i %>",defaultValue:"down", hidden: true},
+                {name: "down.description<%=i %>",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
+                {name: "down.originValue<%=i %>",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
+                    changed	: function(form, item, value){ sumdownMolybdenumAndSet(value,"down.originValue","down.originValue","<%=i %>");	} },
+                {name: "down.originValueCurrency<%=i %>",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
+                {name: "down.conversionRate<%=i %>",title:"Rate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
+                    changed	: function(form, item, value){ sumdownMolybdenumAndSet(value,"down.originValue","down.originValue","<%=i %>");	} },
+                {name: "down.dateRate<%=i %>",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
+                {name: "down.rateReference<%=i %>",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
+                {name: "down.lessPlus<%=i %>",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} },
+                {name: "down.targetValue<%=i %>",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
+   <% } %>
+                {
+                    name: "invoiceValue",
+                    title: "<spring:message code='invoice.invoiceValue'/>",
+                    type: 'float',canEdit:false,
+                    required: true,
+                    width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
             ],
     });
 
    var record = ListGrid_Invoice.getSelectedRecord();
-    DynamicForm_Invoice_Molybdenum.editRecord(record);
+ <% if (invoiceId.equalsIgnoreCase("0")) { %>
+   DynamicForm_Invoice_Molybdenum.clearValues();
+ <% } else { %>
+   DynamicForm_Invoice_Molybdenum.editRecord(record);
+ <% } %>
 
     if (!(record == null || record.id == null))
        DynamicForm_Invoice_Molybdenum.setValue("invoiceDateDumy", new Date(record.invoiceDate));
 
-    var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
+   var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
    DynamicForm_Invoice_Molybdenum.setValue("shipmentId", record.id);
+<%		for (int i=0;i<loop;i++){ %>
+               DynamicForm_Invoice_Molybdenum.setValue("invoiceId<%=i %>", "<%= invoiceId %>");
+            <% if (i<list.size()) {
+                  if (list.get(i).getId()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("id<%=i %>", <%=list.get(i).getId() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("version<%=i %>", <%= list.get(i).getVersion() %>);
+               <% }
+                  if (list.get(i).getLotNo()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("lotNo<%=i %>", "<%= list.get(i).getLotNo() %>");
+               <% }
+                  if (list.get(i).getGrass()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("grass<%=i %>", <%= list.get(i).getGrass() %>);
+               <% }
+                  if (list.get(i).getNet()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("net<%=i %>", <%= list.get(i).getNet() %>);
+               <% }
+                  if (list.get(i).getMolybdenumPercent()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("molybdenumPercent<%=i %>", <%= list.get(i).getMolybdenumPercent() %>);
+               <% }
+                  if (list.get(i).getCopperPercent()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("copperPercent<%=i %>", <%= list.get(i).getCopperPercent() %>);
+               <% }
+                  if (list.get(i).getMolybdenumContent()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("molybdenumContent<%=i %>", <%= list.get(i).getMolybdenumContent() %>);
+               <% }
+                  if (list.get(i).getDiscountPercent()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("discountPercent<%=i %>", <%= list.get(i).getDiscountPercent() %>);
+               <% }
+                  if (list.get(i).getPriceFee()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("priceFee<%=i %>", <%= list.get(i).getPriceFee() %>);
+               <% }
+                  if (list.get(i).getPrice()!=null) { %>
+               DynamicForm_Invoice_Molybdenum.setValue("price<%=i %>", <%= list.get(i).getPrice() %>);
+ 			<% }
+ 			}
+  } %>
 
 
      var IButton_Invoice_Molybdenum_Save = isc.IButton.create({
@@ -438,10 +409,8 @@
 
             var data = DynamicForm_Invoice_Molybdenum.getValues();
             var method = "PUT";
-            if (data.id == null)
-                method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
-                actionURL: "${contextPath}/api/invoice/",
+                actionURL: "${contextPath}/api/invoice/molybdenum",
                 httpMethod: method,
                 data: JSON.stringify(data),
                 callback: function (resp) {
@@ -457,7 +426,9 @@
     });
     var VLayout_Invoice_Molybdenum_Body = isc.VLayout.create({
         width: "100%",
-        height: "100%",
+        height: "*",
+                autoSize: true,
+
         members: [
                 DynamicForm_Invoice_Molybdenum,
                 isc.HLayout.create({
