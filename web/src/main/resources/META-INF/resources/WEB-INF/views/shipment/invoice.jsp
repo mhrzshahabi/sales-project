@@ -779,9 +779,9 @@
         	multiplyAndSet("RCAGPer","RCAG","RCAGTot");
         if (fld=="RCAUPer")
         	multiplyAndSet("RCAUPer","RCAU","RCAUTot");
-		if (fld=="TC" || fld=="RCCUTot" || fld=='RCAGTot' || fld=='RCAUTot' )
+		if (fld=="treatCost" || fld=="RCCUTot" || fld=='RCAGTot' || fld=='RCAUTot' )
 		   DynamicForm_Invoice_Concentrate_setValue("subTotalDeduction", DynamicForm_Invoice_Concentrate_getValue("RCCUTot") +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('TC') +
+		                                                        DynamicForm_Invoice_Concentrate_getValue('treatCost') +
 		                                                        DynamicForm_Invoice_Concentrate_getValue('RCAGTot') +
 		                                                        DynamicForm_Invoice_Concentrate_getValue('RCAUTot'));
 		if ((fld=="subTotal" || fld=='subTotalDeduction' ) )
@@ -1181,7 +1181,7 @@
                     defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - DEDUCTION  per one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
                 {
-                    name: "TC",
+                    name: "treatCost",
                     title: "<spring:message code='invoice.TC'/>",
                     type: 'float',
                     required: true,canEdit:false,
@@ -1603,7 +1603,7 @@
     function DynamicForm_Invoice_Concentrate_AddNew(iidd) {
 		DynamicForm_Invoice_Concentrate.clearValues();
 		DynamicForm_Invoice_Concentrate.setValue("shipmentId", iidd);
-		DynamicForm_Invoice_Concentrate.setValue("TC",109.0);
+		DynamicForm_Invoice_Concentrate.setValue("treatCost",109.0);
 		DynamicForm_Invoice_Concentrate.setValue("RCCU",0.109);
 		DynamicForm_Invoice_Concentrate.setValue("RCCUCal",2204.62);
 		DynamicForm_Invoice_Concentrate.setValue("RCAG",0.35);

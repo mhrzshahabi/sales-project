@@ -1,0 +1,38 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Admin (generated)" id="1568411304749-163">
+        <createTable tableName="TBL_INVOICE_MOLYBDENUM">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_MOLYBDENUMPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COPPER_PERCENT" type="FLOAT"/>
+            <column name="DISCOUNT_PERCENT" type="FLOAT"/>
+            <column name="GRASS" type="FLOAT"/>
+            <column name="INVOICE_ID" type="NUMBER(19, 0)"/>
+            <column name="LOT_NO" type="VARCHAR2(100 CHAR)"/>
+            <column name="MOLYBDENUM_CONTENT" type="FLOAT"/>
+            <column name="MOLYBDENUM_PERCENT" type="FLOAT"/>
+            <column name="NET" type="FLOAT"/>
+            <column name="PRICE" type="FLOAT"/>
+            <column name="PRICE_FEE" type="FLOAT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Admin (generated)" id="1568411304749-165">
+        <addForeignKeyConstraint baseColumnNames="INVOICE_ID" baseTableName="TBL_INVOICE_MOLYBDENUM" constraintName="invoiceMolybdenum2invoice" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_INVOICE" validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>

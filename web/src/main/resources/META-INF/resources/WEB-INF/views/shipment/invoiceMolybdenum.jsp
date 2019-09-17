@@ -37,47 +37,54 @@
     	gr=0;
        	if (fld00=='grass'){
 			for (i=0;i<loop;i++)
-          		gr+=DynamicForm_Invoice_Molybdenum_getValue("grass"+i);
+          		gr+=DynamicForm_Invoice_Molybdenum_getValue("mo"+i+".grass");
           	DynamicForm_Invoice_Molybdenum.setValue('grass',gr)	;
           	return;
        }
        nt=0;moCnt=0;am=0;
        for (i=0;i<loop;i++) {
-          nt+=DynamicForm_Invoice_Molybdenum_getValue("net"+i);
-          DynamicForm_Invoice_Molybdenum.setValue('molybdenumContent'+i,
-          		DynamicForm_Invoice_Molybdenum_getValue('molybdenumPercent'+i)*DynamicForm_Invoice_Molybdenum_getValue("net"+i)/100);
-          DynamicForm_Invoice_Molybdenum.setValue('priceFee'+i,
-          		DynamicForm_Invoice_Molybdenum_getValue('molybdJenumUnitPrice')*(1-DynamicForm_Invoice_Molybdenum_getValue("discountPercent"+i)/100));
-          DynamicForm_Invoice_Molybdenum.setValue('price'+i,
-          		DynamicForm_Invoice_Molybdenum_getValue('priceFee'+i)*(DynamicForm_Invoice_Molybdenum_getValue("molybdenumContent"+i)*2.20462));
-          am+=DynamicForm_Invoice_Molybdenum_getValue("price"+i);
-          moCnt+=DynamicForm_Invoice_Molybdenum_getValue("molybdenumContent"+i);
+          nt+=DynamicForm_Invoice_Molybdenum_getValue("mo"+i+".net");
+          DynamicForm_Invoice_Molybdenum.setValue("mo"+i+".molybdenumContent",
+          		DynamicForm_Invoice_Molybdenum_getValue("mo"+i+".molybdenumPercent")*DynamicForm_Invoice_Molybdenum_getValue("mo"+i+".net")/100);
+          DynamicForm_Invoice_Molybdenum.setValue("mo"+i+".priceFee",
+          		DynamicForm_Invoice_Molybdenum_getValue('molybdJenumUnitPrice')*(1-DynamicForm_Invoice_Molybdenum_getValue("mo"+i+".discountPercent")/100));
+          DynamicForm_Invoice_Molybdenum.setValue("mo"+i+".price",
+          		DynamicForm_Invoice_Molybdenum_getValue("mo"+i+".priceFee")*(DynamicForm_Invoice_Molybdenum_getValue("mo"+i+".molybdenumContent")*2.20462));
+          am+=DynamicForm_Invoice_Molybdenum_getValue("mo"+i+".price");
+          moCnt+=DynamicForm_Invoice_Molybdenum_getValue("mo"+i+".molybdenumContent");
        }
        DynamicForm_Invoice_Molybdenum.setValue('net',nt)	;
        DynamicForm_Invoice_Molybdenum.setValue('molybdenumContent',moCnt)	;
        DynamicForm_Invoice_Molybdenum_setValue('commercialInvoceValue',am)	; // calling to compute invoice
 	}
-    function sumUpMolybdenumAndSet(value00,fld00,sumfld00,ii00){
+	function precise_round(num, dec){
+        if ((typeof num !== 'number') || (typeof dec !== 'number'))
+            return false;
+        var num_sign = num >= 0 ? 1 : -1;
+        return (Math.round((num*Math.pow(10,dec))+(num_sign*0.0001))/Math.pow(10,dec)).toFixed(dec);
+    }
+
+    function sumUpMolybdenumAndSet(){
        sumUp=0;
        for (i=0;i< <%= (loopUp==0 ? 3 : loopUp+2 ) %>;i++) {
           nt=0;
-          if (DynamicForm_Invoice_Molybdenum_getValue("up.lessPlus"+i)=="PLUS") nt=1;
-          else if (DynamicForm_Invoice_Molybdenum_getValue("up.lessPlus"+i)=="MINUS") nt=-1;
-            DynamicForm_Invoice_Molybdenum.setValue('up.targetValue'+i,
-                    DynamicForm_Invoice_Molybdenum_getValue('up.conversionRate'+i)*DynamicForm_Invoice_Molybdenum_getValue("up.originValue"+i)*nt);
-            sumUp+=  DynamicForm_Invoice_Molybdenum_getValue('up.targetValue'+i);
+          if (DynamicForm_Invoice_Molybdenum_getValue("up"+i+".lessPlus")=="PLUS") nt=1;
+          else if (DynamicForm_Invoice_Molybdenum_getValue("up"+i+".lessPlus")=="MINUS") nt=-1;
+            DynamicForm_Invoice_Molybdenum.setValue("up"+i+".targetValue",
+                    DynamicForm_Invoice_Molybdenum_getValue("up"+i+".conversionRate")*DynamicForm_Invoice_Molybdenum_getValue("up"+i+".originValue")*nt);
+            sumUp+=  DynamicForm_Invoice_Molybdenum_getValue("up"+i+".targetValue");
        }
         DynamicForm_Invoice_Molybdenum_setValue('invoiceValueD',DynamicForm_Invoice_Molybdenum_getValue("commercialInvoceValueNet")+sumUp)	; // calling to compute invoice
 	}
-    function sumdownMolybdenumAndSet(value00,fld00,sumfld00,ii00){
+    function sumdownMolybdenumAndSet(){
        sumUp=0;
        for (i=0;i< <%= (loopUp==0 ? 3 : loopUp+2 ) %>;i++) {
           nt=0;
-          if (DynamicForm_Invoice_Molybdenum_getValue("down.lessPlus"+i)=="PLUS") nt=1;
-          else if (DynamicForm_Invoice_Molybdenum_getValue("down.lessPlus"+i)=="MINUS") nt=-1;
-            DynamicForm_Invoice_Molybdenum.setValue("down.targetValue"+i,
-                    DynamicForm_Invoice_Molybdenum_getValue('down.conversionRate'+i)*DynamicForm_Invoice_Molybdenum_getValue("down.originValue"+i)*nt);
-            sumUp+=  DynamicForm_Invoice_Molybdenum_getValue('down.targetValue'+i);
+          if (DynamicForm_Invoice_Molybdenum_getValue("down"+i+".lessPlus")=="PLUS") nt=1;
+          else if (DynamicForm_Invoice_Molybdenum_getValue("down"+i+".lessPlus")=="MINUS") nt=-1;
+            DynamicForm_Invoice_Molybdenum.setValue("down"+i+".targetValue",
+                    DynamicForm_Invoice_Molybdenum_getValue("down"+i+".conversionRate")*DynamicForm_Invoice_Molybdenum_getValue("down"+i+".originValue")*nt);
+            sumUp+=  DynamicForm_Invoice_Molybdenum_getValue("down"+i+".targetValue");
        }
         DynamicForm_Invoice_Molybdenum_setValue('invoiceValue',DynamicForm_Invoice_Molybdenum_getValue("invoiceValueUp")+sumUp)	; // calling to compute invoice
 	}
@@ -90,7 +97,6 @@
 	  val1=DynamicForm_Invoice_Molybdenum.getValue(name1);
 	  val2=DynamicForm_Invoice_Molybdenum.getValue(name2);
 	  m=multiplyMolybdenum(val1,val2)/((name1=="paidPercent" || name2=="paidPercent") ? 100 : 1);
-	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
 	  DynamicForm_Invoice_Molybdenum_setValue(setName0,m,-1);
 	}
 	function DynamicForm_Invoice_Molybdenum_getValue(fld){
@@ -106,13 +112,13 @@
 
 // commercialInvoceValueNet sumUpMolybdenumAndSet
 		if (fld=="commercialInvoceValueNet"  )
-		   sumUpMolybdenumAndSet(1,"aa","ff",1) ;
+		   sumUpMolybdenumAndSet() ;
 // invoiceValue=rate2dollar*invoiceValueD
 		if ((fld=="rate2dollar" || fld=='invoiceValueD' ) && (hasValue("rate2dollar") && hasValue('invoiceValueD') )){
 			multiplyMolybdenumAndSet("rate2dollar",'invoiceValueD',"invoiceValueUp");
 		}
 		if ((fld=="invoiceValueUp" ) && ( hasValue('invoiceValueUp') )){
-            sumdownMolybdenumAndSet(1,"aa","ff",1) ;
+            sumdownMolybdenumAndSet() ;
 		}
 
 	}
@@ -165,7 +171,7 @@
                     title: "<spring:message code='invoice.invoiceDate'/>",
                     defaultValue: "<%=dateUtil.todayDate()%>",
                     type: 'date',// useTextField:true,
-                    format: 'DD-MM-YYYY',
+                    format: 'YYYY-MM-DD',
                     required: true,
                     width: "100%",colSpan:3,titleColSpan:1
                 },
@@ -176,7 +182,7 @@
                     required: true,
                     width: "100%",colSpan:8,titleColSpan:1,
                 },
-                {name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>",type: 'float', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                {name: "molybdJenumUnitPrice", title: "MO/Oz USD",type: 'float', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdJenumUnitPrice","none",-1);	} },
               // {
@@ -184,27 +190,27 @@
               //       defaultValue: " - - - LotNo. - - - - - - - Grass- - - - - - - - - - - -Net - - - - - - -  - MO%- - - - CU%- MolybdenumContent- Discount%- - -  Fee - - - - -  Price"
               //   },
 <%		for (int i=0;i<loop;i++){ %>
-                {name: "id<%=i %>", hidden: true},
-                {name: "invoiceId<%=i %>", hidden: true},
-                {name: "version<%=i %>", hidden: true},
-                {name: "lotNo<%=i %>",title:"lotNo",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%"},
-                {name: "grass<%=i %>",title:"Grass",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                {name: "mo<%=i %>.id", hidden: true},
+                {name: "mo<%=i %>.invoiceId", hidden: true},
+                {name: "mo<%=i %>.version", hidden: true},
+                {name: "mo<%=i %>.lotNo",title:"lotNo",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%"},
+                {name: "mo<%=i %>.grass",title:"Grass Weight",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"grass","grass","<%=i %>");	} },
-                {name: "net<%=i %>",title:"Net",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                {name: "mo<%=i %>.net",title:"Net Wet Weight",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"net","net","<%=i %>");	} },
-                {name: "molybdenumPercent<%=i %>",title:"MO%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                {name: "mo<%=i %>.molybdenumPercent",title:"MO%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] ,
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdenumPercent","none","<%=i %>");	} },
-                {name: "copperPercent<%=i %>",title:"CU%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                {name: "mo<%=i %>.copperPercent",title:"CU%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }]} ,
-                {name: "molybdenumContent<%=i %>",title:"MO content",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false},
-                {name: "discountPercent<%=i %>",title:"Discount%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                {name: "mo<%=i %>.molybdenumContent",title:"MO content",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false},
+                {name: "mo<%=i %>.discountPercent",title:"Discount%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] ,
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"discountPercent","none","<%=i %>");	} },
-                {name: "priceFee<%=i %>",title:"Fee",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false, },
-                {name: "price<%=i %>",title:"Price",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false },
+                {name: "mo<%=i %>.priceFee",title:"USD/OZ",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false, },
+                {name: "mo<%=i %>.price",title:"Price  USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false },
  <% } %>
                 {
                     type: "Header",
@@ -259,23 +265,24 @@
                     }]
                 },
    <%		for (int i=0;i<(loopUp==0 ? 3 : loopUp+2 );i++){ %>
-                {name: "up.id<%=i %>", hidden: true},
-                {name: "up.invoiceId<%=i %>", hidden: true},
-                {name: "up.version<%=i %>", hidden: true},
-                {name: "up.upDown<%=i %>",defaultValue:"up", hidden: true},
-                {name: "up.description<%=i %>",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
-                {name: "up.originValue<%=i %>",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "up<%=i %>.id", hidden: true},
+                {name: "up<%=i %>.invoiceId",defaultValue:<%=invoiceId %> , hidden: true},
+                {name: "up<%=i %>.version", hidden: true},
+                {name: "up<%=i %>.targetValueCurrency",defaultValue:"USD" , hidden: true},
+                {name: "up<%=i %>.upDown",defaultValue:"up", hidden: true},
+                {name: "up<%=i %>.description",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
+                {name: "up<%=i %>.originValue",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
-                    changed	: function(form, item, value){ sumUpMolybdenumAndSet(value,"up.originValue","up.originValue","<%=i %>");	} },
-                {name: "up.originValueCurrency<%=i %>",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
-                {name: "up.conversionRate<%=i %>",title:"Rate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                    changed	: function(form, item, value){ sumUpMolybdenumAndSet();	} },
+                {name: "up<%=i %>.originValueCurrency",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
+                {name: "up<%=i %>.conversionRate",title:"Rate 2 USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
-                    changed	: function(form, item, value){ sumUpMolybdenumAndSet(value,"up.originValue","up.originValue","<%=i %>");	} },
-                {name: "up.dateRate<%=i %>",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
-                {name: "up.rateReference<%=i %>",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
-                {name: "up.lessPlus<%=i %>",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} ,
-                    changed	: function(form, item, value){ sumUpMolybdenumAndSet(value,"up.originValue","up.originValue","<%=i %>");	} },
-                {name: "up.targetValue<%=i %>",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
+                    changed	: function(form, item, value){ sumUpMolybdenumAndSet();	} },
+                {name: "up<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
+                {name: "up<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
+                {name: "up<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} ,
+                    changed	: function(form, item, value){ sumUpMolybdenumAndSet();	} },
+                {name: "up<%=i %>.targetValue",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
    <% } %>
                 {
                     name: "invoiceValueD", title: "<spring:message code='invoice.invoiceValueD'/>",
@@ -338,23 +345,23 @@
                     }]
                 },
    <%		for (int i=0;i<(loopDown==0 ? 3 : loopDown+2 );i++){ %>
-                {name: "down.id<%=i %>", hidden: true},
-                {name: "down.invoiceId<%=i %>", hidden: true},
-                {name: "down.version<%=i %>", hidden: true},
-                {name: "down.upDown<%=i %>",defaultValue:"down", hidden: true},
-                {name: "down.description<%=i %>",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
-                {name: "down.originValue<%=i %>",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "down<%=i %>.id", hidden: true},
+                {name: "down<%=i %>.invoiceId",defaultValue:<%=invoiceId %> ,hidden: true},
+                {name: "down<%=i %>.version", hidden: true},
+                {name: "down<%=i %>.upDown",defaultValue:"down", hidden: true},
+                {name: "down<%=i %>.description",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
+                {name: "down<%=i %>.originValue",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
-                    changed	: function(form, item, value){ sumdownMolybdenumAndSet(value,"down.originValue","down.originValue","<%=i %>");	} },
-                {name: "down.originValueCurrency<%=i %>",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
-                {name: "down.conversionRate<%=i %>",title:"Rate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                    changed	: function(form, item, value){ sumdownMolybdenumAndSet();	} },
+                {name: "down<%=i %>.originValueCurrency",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
+                {name: "down<%=i %>.conversionRate",title:"Rate2Invoice",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
-                    changed	: function(form, item, value){ sumdownMolybdenumAndSet(value,"down.originValue","down.originValue","<%=i %>");	} },
-                {name: "down.dateRate<%=i %>",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
-                {name: "down.rateReference<%=i %>",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
-                {name: "down.lessPlus<%=i %>",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"},
-                    changed	: function(form, item, value){ sumdownMolybdenumAndSet(value,"down.originValue","down.originValue","<%=i %>");	} },
-                {name: "down.targetValue<%=i %>",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
+                    changed	: function(form, item, value){ sumdownMolybdenumAndSet();	} },
+                {name: "down<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
+                {name: "down<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
+                {name: "down<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"},
+                    changed	: function(form, item, value){ sumdownMolybdenumAndSet();	} },
+                {name: "down<%=i %>.targetValue",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
    <% } %>
                 {
                     name: "invoiceValue",
@@ -386,43 +393,93 @@
    var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
    DynamicForm_Invoice_Molybdenum.setValue("shipmentId", record.id);
 <%		for (int i=0;i<loop;i++){ %>
-               DynamicForm_Invoice_Molybdenum.setValue("invoiceId<%=i %>", "<%= invoiceId %>");
-            <% if (i<list.size()) {
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.invoiceId", <%= invoiceId %>);
+            <% if (i < list.size()) {
                   if (list.get(i).getId()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("id<%=i %>", <%=list.get(i).getId() %>);
-               DynamicForm_Invoice_Molybdenum.setValue("version<%=i %>", <%= list.get(i).getVersion() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.id", <%=list.get(i).getId() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.version", <%= list.get(i).getVersion() %>);
                <% }
                   if (list.get(i).getLotNo()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("lotNo<%=i %>", "<%= list.get(i).getLotNo() %>");
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.lotNo", "<%= list.get(i).getLotNo() %>");
                <% }
                   if (list.get(i).getGrass()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("grass<%=i %>", <%= list.get(i).getGrass() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.grass", <%= list.get(i).getGrass() %>);
                <% }
                   if (list.get(i).getNet()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("net<%=i %>", <%= list.get(i).getNet() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.net", <%= list.get(i).getNet() %>);
                <% }
                   if (list.get(i).getMolybdenumPercent()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("molybdenumPercent<%=i %>", <%= list.get(i).getMolybdenumPercent() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.molybdenumPercent", <%= list.get(i).getMolybdenumPercent() %>);
                <% }
                   if (list.get(i).getCopperPercent()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("copperPercent<%=i %>", <%= list.get(i).getCopperPercent() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.copperPercent", <%= list.get(i).getCopperPercent() %>);
                <% }
                   if (list.get(i).getMolybdenumContent()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("molybdenumContent<%=i %>", <%= list.get(i).getMolybdenumContent() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.molybdenumContent", <%= list.get(i).getMolybdenumContent() %>);
                <% }
                   if (list.get(i).getDiscountPercent()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("discountPercent<%=i %>", <%= list.get(i).getDiscountPercent() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.discountPercent", <%= list.get(i).getDiscountPercent() %>);
                <% }
                   if (list.get(i).getPriceFee()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("priceFee<%=i %>", <%= list.get(i).getPriceFee() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.priceFee", <%= list.get(i).getPriceFee() %>);
                <% }
                   if (list.get(i).getPrice()!=null) { %>
-               DynamicForm_Invoice_Molybdenum.setValue("price<%=i %>", <%= list.get(i).getPrice() %>);
+               DynamicForm_Invoice_Molybdenum.setValue("mo<%=i %>.price", <%= list.get(i).getPrice() %>);
  			<% }
  			}
-  } %>
-
-
+        }
+		loopUp=0;
+		loopDown=0;
+		for(int i=0;i<listItem.size();i++)
+		    if (listItem.get(i).getUpDown().equalsIgnoreCase("up")) { %>
+		        DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.id" , <%=listItem.get(loopUp).getId() %>);
+		        DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.invoiceId" , <%=listItem.get(loopUp).getInvoiceId() %>);
+		        DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.version" , <%=listItem.get(loopUp).getVersion() %>);
+		        DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.upDown" , "<%=listItem.get(loopUp).getUpDown() %>");
+<%  	        if (listItem.get(loopUp).getDescription()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.description", "<%= listItem.get(loopUp).getDescription() %>");
+<%  	        } if (listItem.get(loopUp).getOriginValue()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.originValue", <%= listItem.get(loopUp).getOriginValue() %>);
+<%  	        } if (listItem.get(loopUp).getOriginValueCurrency()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.originValueCurrency", "<%= listItem.get(loopUp).getOriginValueCurrency() %>");
+<%  	        } if (listItem.get(loopUp).getConversionRate()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.conversionRate", <%= listItem.get(loopUp).getConversionRate() %>);
+<%  	        } if (listItem.get(loopUp).getDateRate()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.dateRate", "<%= listItem.get(loopUp).getDateRate() %>");
+<%  	        } if (listItem.get(loopUp).getRateReference()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.rateReference", "<%= listItem.get(loopUp).getRateReference() %>");
+<%  	        } if (listItem.get(loopUp).getLessPlus()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.lessPlus", "<%= listItem.get(loopUp).getLessPlus() %>");
+<%  	        } if (listItem.get(loopUp).getTargetValue()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("up<%=loopUp %>.targetValue", <%= listItem.get(loopUp).getTargetValue() %>);
+               <% }
+               loopUp++;
+               }
+		    else { %>
+		        DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.id" , <%=listItem.get(loopUp).getId() %>);
+		        DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.invoiceId" , <%=listItem.get(loopUp).getInvoiceId() %>);
+		        DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.version" , <%=listItem.get(loopUp).getVersion() %>);
+		        DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.downDown" , "<%=listItem.get(loopUp).getUpDown() %>");
+<%  	        if (listItem.get(loopUp).getDescription()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.description", "<%= listItem.get(loopUp).getDescription() %>");
+<%  	        }if (listItem.get(loopUp).getOriginValue()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.originValue", <%= listItem.get(loopUp).getOriginValue() %>);
+<%  	        }if (listItem.get(loopUp).getOriginValueCurrency()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.originValueCurrency", "<%= listItem.get(loopUp).getOriginValueCurrency() %>");
+<%  	        }if (listItem.get(loopUp).getConversionRate()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.conversionRate", <%= listItem.get(loopUp).getConversionRate() %>);
+<%  	        }if (listItem.get(loopUp).getDateRate()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.dateRate", "<%= listItem.get(loopUp).getDateRate() %>");
+<%  	        }if (listItem.get(loopUp).getRateReference()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.rateReference", "<%= listItem.get(loopUp).getRateReference() %>");
+<%  	        }if (listItem.get(loopUp).getLessPlus()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.lessPlus", "<%= listItem.get(loopUp).getLessPlus() %>");
+<%  	        }if (listItem.get(loopUp).getTargetValue()!=null) { %>
+                   DynamicForm_Invoice_Molybdenum.setValue("down<%=loopDown %>.targetValue", <%= listItem.get(loopUp).getTargetValue() %>);
+               <% }
+                loopDown++;
+            }
+     %>
      var IButton_Invoice_Molybdenum_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -438,11 +495,123 @@
             DynamicForm_Invoice_Molybdenum.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
 
             var data = DynamicForm_Invoice_Molybdenum.getValues();
+            var mo=[];
+            <%	for (int i=0;i<loop;i++){ %>
+                if (data.mo<%=i %>.lotNo!=null || data.mo<%=i %>.net!=null || data.mo<%=i %>.grass!=null || data.mo<%=i %>.molybdenumPercent!=null  ){
+                    if (data.mo<%=i %>.lotNo==null || data.mo<%=i %>.lotNo=="" ) {
+                    	isc.warn("Lot Number Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.mo<%=i %>.net==null || data.mo<%=i %>.net<=0 ) {
+                    	isc.warn("Net Weight Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.mo<%=i %>.grass==null || data.mo<%=i %>.grass<=0 ) {
+                    	isc.warn("Grass Weight Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.mo<%=i %>.molybdenumPercent==null || data.mo<%=i %>.molybdenumPercent<=0 ) {
+                    	isc.warn("Molybdenum Percent Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.mo<%=i %>.copperPercent==null || data.mo<%=i %>.copperPercent<=0 ) {
+                    	isc.warn("Copper Percent Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    mo.add(data.mo<%=i %>);
+                }
+                // data.mo<%=i %>='';
+             <% } %>
+            var up=[];
+          <%	for (int i=0;i<(loopUp==0 ? 3 : loopUp+2 );i++){ %>
+                if ( data.up<%=i %>.description!=null || data.up<%=i %>.originValue!=null || data.up<%=i %>.conversionRate!=null || data.up<%=i %>.rateReference!=null  ){
+                    data.up<%=i %>.targetValueCurrency="USD";
+                    data.up<%=i %>.upDown="up";
+                    data.up<%=i %>.invoiceId=<%=invoiceId %>;
+                    if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
+                    	isc.warn("less or Plus  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.up<%=i %>.description==null || data.up<%=i %>.description=="" ) {
+                    	isc.warn("description  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.up<%=i %>.originValue==null || data.up<%=i %>.originValue<=0 ) {
+                    	isc.warn("Origin Value  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.up<%=i %>.originValueCurrency==null || data.up<%=i %>.originValueCurrency=="" ) {
+                    	isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.up<%=i %>.conversionRate==null || data.up<%=i %>.conversionRate<=0 ) {
+                    	isc.warn("conversionRate  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    <%--if (data.up<%=i %>.dateRate==null || data.up<%=i %>.dateRate=="" ) {--%>
+                    	<%--isc.warn("Date Rate  Required", {title: 'هشدار'});--%>
+                    	<%--return;--%>
+                    <%--}--%>
+                    if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
+                    	isc.warn("less or Plus  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.up<%=i %>.rateReference==null || data.up<%=i %>.rateReference=="" ) {
+                    	isc.warn("Rate Reference  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    up.add(data.up<%=i %>);
+                }
+                // data.up<%=i %> ='';
+          <% } %>
+            var down=[];
+            <%	for (int i=0;i<(loopDown==0 ? 3 : loopUp+2 );i++){ %>
+                if ( data.down<%=i %>.description!=null || data.down<%=i %>.originValue!=null || data.down<%=i %>.conversionRate!=null || data.down<%=i %>.rateReference!=null  ){
+                    data.down<%=i %>.targetValueCurrency=DynamicForm_Invoice_Molybdenum.getValue("invoiceValueCurrency") ;
+                    data.down<%=i %>.upDown="down";
+                    data.down<%=i %>.invoiceId=<%=invoiceId %>;
+                    if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {
+                    	isc.warn("less or Plus  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.down<%=i %>.description==null || data.down<%=i %>.description=="" ) {
+                    	isc.warn("description  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.down<%=i %>.originValue==null || data.down<%=i %>.originValue<=0 ) {
+                    	isc.warn("Origin Value  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.down<%=i %>.originValueCurrency==null || data.down<%=i %>.originValueCurrency=="" ) {
+                    	isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.down<%=i %>.conversionRate==null || data.down<%=i %>.conversionRate<=0 ) {
+                    	isc.warn("conversionRate  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    <%--if (data.down<%=i %>.dateRate==null || data.down<%=i %>.dateRate=="" ) {--%>
+                    	<%--isc.warn("Date Rate  Required", {title: 'هشدار'});--%>
+                    	<%--return;--%>
+                    <%--}--%>
+                    <%--if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {--%>
+                    	<%--isc.warn("less or Plus  Required", {title: 'هشدار'});--%>
+                    	<%--return;--%>
+                    <%--}--%>
+                    if (data.down<%=i %>.rateReference==null || data.down<%=i %>.rateReference=="" ) {
+                    	isc.warn("Rate Reference  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                    up.add(data.down<%=i %>);
+                }
+                // data.down<%=i %> ='';
+            <% } %>
+            dataOut=JSON.stringify(mo)+'@abaspour@'+JSON.stringify(up)+'@abaspour@'+JSON.stringify(down)+'@abaspour@'+JSON.stringify(data);
             var method = "PUT";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                 actionURL: "${contextPath}/api/invoice/molybdenum",
                 httpMethod: method,
-                data: JSON.stringify(data),
+                data: dataOut,
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
