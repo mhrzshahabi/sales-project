@@ -30,34 +30,34 @@ public class WholeDto implements Cloneable {
     private String packingType;
 
     @Column(name = "amount_Day")
-    private Integer amountDay;
+    private Double amountDay;
     @Column(name = "amount_Import_Day")
-    private Integer amountImportDay;
+    private Double amountImportDay;
     @Column(name = "amount_First_Day")
-    private Integer amountFirstDay;
+    private Double amountFirstDay;
     @Column(name = "amount_Export_Day")
-    private Integer amountExportDay;
+    private Double amountExportDay;
     @Column(name = "amount_Revise_Day")
-    private Integer amountReviseDay;
+    private Double amountReviseDay;
     @Column(name = "amount_First_Mon")
-    private Integer amountFirstMon;
+    private Double amountFirstMon;
     @Column(name = "amount_Import_Mon")
-    private Integer amountImportMon;
+    private Double amountImportMon;
     @Column(name = "amount_Export_Mon")
-    private Integer amountExportMon;
+    private Double amountExportMon;
     @Column(name = "amount_Revise_Mon")
-    private Integer amountReviseMon;
+    private Double amountReviseMon;
     @Column(name = "amount_First_Sal")
-    private Integer amountFirstSal;
+    private Double amountFirstSal;
     @Column(name = "amount_Import_Sal")
-    private Integer amountImportSal;
+    private Double amountImportSal;
     @Column(name = "amount_Export_Sal")
-    private Integer amountExportSal;
+    private Double amountExportSal;
     @Column(name = "amount_Revise_Sal")
-    private Integer amountReviseSal;
+    private Double amountReviseSal;
     @Column(name = "revise_Sal")
-    private Integer reviseSal;
-    private Integer aa;
+    private Double reviseSal;
+    private Double aa;
 
 
 

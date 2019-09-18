@@ -1,26 +1,26 @@
 package com.nicico.sales.dto;
 
 public class ResponseListDTO {
-    private Integer amountDay;
-    /*private Integer amountImportDay;*/
-    private Integer amountFirstDay;
-    /*private Integer amountExportDay;*/
-    private Integer amountReviseDay;
-    private Integer amountFirstMon;
-    private Integer amountImportMon;
-    private Integer amountExportMon;
-    private Integer amountReviseMon;
-    private Integer amountFirstSal;
-    private Integer amountImportSal;
-    private Integer amountExportSal;
-    private Integer amountReviseSal;
-    private Integer reviseSal;
-    private Integer aa;
+    private Double amountDay;
+    /*private Double amountImportDay;*/
+    private Double amountFirstDay;
+    /*private Double amountExportDay;*/
+    private Double amountReviseDay;
+    private Double amountFirstMon;
+    private Double amountImportMon;
+    private Double amountExportMon;
+    private Double amountReviseMon;
+    private Double amountFirstSal;
+    private Double amountImportSal;
+    private Double amountExportSal;
+    private Double amountReviseSal;
+    private Double reviseSal;
+    private Double aa;
 
     public ResponseListDTO() {
     }
 
-    public ResponseListDTO(Integer amountDay, Integer amountFirstDay, Integer amountReviseDay, Integer amountFirstMon, Integer amountImportMon, Integer amountExportMon, Integer amountReviseMon, Integer amountFirstSal, Integer amountImportSal, Integer amountExportSal, Integer amountReviseSal, Integer reviseSal, Integer aa) {
+    public ResponseListDTO(Double amountDay, Double amountFirstDay, Double amountReviseDay, Double amountFirstMon, Double amountImportMon, Double amountExportMon, Double amountReviseMon, Double amountFirstSal, Double amountImportSal, Double amountExportSal, Double amountReviseSal, Double reviseSal, Double aa) {
         this.amountDay = amountDay;
         //this.amountImportDay = amountImportDay;
         this.amountFirstDay = amountFirstDay;
@@ -38,123 +38,123 @@ public class ResponseListDTO {
         this.aa = aa;
     }
 
-    public Integer getAmountDay() {
+    public Double getAmountDay() {
         return amountDay;
     }
 
-    public void setAmountDay(Integer amountDay) {
+    public void setAmountDay(Double amountDay) {
         this.amountDay = amountDay;
     }
 
-   /* public Integer getAmountImportDay() {
+   /* public Double getAmountImportDay() {
         return amountImportDay;
     }
 
-    public void setAmountImportDay(Integer amountImportDay) {
+    public void setAmountImportDay(Double amountImportDay) {
         this.amountImportDay = amountImportDay;
     }*/
 
-    public Integer getAmountFirstDay() {
+    public Double getAmountFirstDay() {
         return amountFirstDay;
     }
 
-    public void setAmountFirstDay(Integer amountFirstDay) {
+    public void setAmountFirstDay(Double amountFirstDay) {
         this.amountFirstDay = amountFirstDay;
     }
 
-   /* public Integer getAmountExportDay() {
+   /* public Double getAmountExportDay() {
         return amountExportDay;
     }
 
-    public void setAmountExportDay(Integer amountExportDay) {
+    public void setAmountExportDay(Double amountExportDay) {
         this.amountExportDay = amountExportDay;
     }*/
 
-    public Integer getAmountReviseDay() {
+    public Double getAmountReviseDay() {
         return amountReviseDay;
     }
 
-    public void setAmountReviseDay(Integer amountReviseDay) {
+    public void setAmountReviseDay(Double amountReviseDay) {
         this.amountReviseDay = amountReviseDay;
     }
 
-    public Integer getAmountFirstMon() {
+    public Double getAmountFirstMon() {
         return amountFirstMon;
     }
 
-    public void setAmountFirstMon(Integer amountFirstMon) {
+    public void setAmountFirstMon(Double amountFirstMon) {
         this.amountFirstMon = amountFirstMon;
     }
 
-    public Integer getAmountImportMon() {
+    public Double getAmountImportMon() {
         return amountImportMon;
     }
 
-    public void setAmountImportMon(Integer amountImportMon) {
+    public void setAmountImportMon(Double amountImportMon) {
         this.amountImportMon = amountImportMon;
     }
 
-    public Integer getAmountExportMon() {
+    public Double getAmountExportMon() {
         return amountExportMon;
     }
 
-    public void setAmountExportMon(Integer amountExportMon) {
+    public void setAmountExportMon(Double amountExportMon) {
         this.amountExportMon = amountExportMon;
     }
 
-    public Integer getAmountReviseMon() {
+    public Double getAmountReviseMon() {
         return amountReviseMon;
     }
 
-    public void setAmountReviseMon(Integer amountReviseMon) {
+    public void setAmountReviseMon(Double amountReviseMon) {
         this.amountReviseMon = amountReviseMon;
     }
 
-    public Integer getAmountFirstSal() {
+    public Double getAmountFirstSal() {
         return amountFirstSal;
     }
 
-    public void setAmountFirstSal(Integer amountFirstSal) {
+    public void setAmountFirstSal(Double amountFirstSal) {
         this.amountFirstSal = amountFirstSal;
     }
 
-    public Integer getAmountImportSal() {
+    public Double getAmountImportSal() {
         return amountImportSal;
     }
 
-    public void setAmountImportSal(Integer amountImportSal) {
+    public void setAmountImportSal(Double amountImportSal) {
         this.amountImportSal = amountImportSal;
     }
 
-    public Integer getAmountExportSal() {
+    public Double getAmountExportSal() {
         return amountExportSal;
     }
 
-    public void setAmountExportSal(Integer amountExportSal) {
+    public void setAmountExportSal(Double amountExportSal) {
         this.amountExportSal = amountExportSal;
     }
 
-    public Integer getAmountReviseSal() {
+    public Double getAmountReviseSal() {
         return amountReviseSal;
     }
 
-    public void setAmountReviseSal(Integer amountReviseSal) {
+    public void setAmountReviseSal(Double amountReviseSal) {
         this.amountReviseSal = amountReviseSal;
     }
 
-    public Integer getReviseSal() {
+    public Double getReviseSal() {
         return reviseSal;
     }
 
-    public void setReviseSal(Integer reviseSal) {
+    public void setReviseSal(Double reviseSal) {
         this.reviseSal = reviseSal;
     }
 
-    public Integer getAa() {
+    public Double getAa() {
         return aa;
     }
 
-    public void setAa(Integer aa) {
+    public void setAa(Double aa) {
         this.aa = aa;
     }
 }
