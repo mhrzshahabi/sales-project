@@ -1145,7 +1145,7 @@
                     name: "goldCal",
                     title: "<spring:message code='invoice.goldCal'/>",
                     type: 'float',
-                    required: false,canEdit:false,
+                    canEdit:false,
                     width: "100%",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1166,7 +1166,7 @@
                     name: "subTotal",
                     title: "<spring:message code='invoice.subTotal'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:1,
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1184,7 +1184,7 @@
                     name: "treatCost",
                     title: "<spring:message code='invoice.TC'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:10,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1198,7 +1198,7 @@
                     name: "RCCU",
                     title: "<spring:message code='invoice.RCCU'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1212,7 +1212,7 @@
                     name: "RCCUPer",
                     title: "<spring:message code='invoice.RCCUPerc'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1226,7 +1226,7 @@
                     name: "RCCUCal",
                     title: "<spring:message code='invoice.RCCUCal'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1240,7 +1240,7 @@
                     name: "RCCUTot",
                     title: "<spring:message code='invoice.RCCUTot'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:1,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1254,7 +1254,7 @@
                     name: "RCAG",
                     title: "<spring:message code='invoice.RCAG'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1268,7 +1268,7 @@
                     name: "RCAGPer",
                     title: "<spring:message code='invoice.RCCUPerc'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1282,7 +1282,7 @@
                     name: "RCAGTot",
                     title: "<spring:message code='invoice.RCCUTot'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1296,7 +1296,7 @@
                     name: "RCAU",
                     title: "<spring:message code='invoice.RCAU'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1310,7 +1310,7 @@
                     name: "RCAUPer",
                     title: "<spring:message code='invoice.RCCUPerc'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"center",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1324,7 +1324,7 @@
                     name: "RCAUTot",
                     title: "<spring:message code='invoice.RCCUTot'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1338,7 +1338,7 @@
                     name: "subTotalDeduction",
                     title: "<spring:message code='invoice.subTotalDed'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:10,
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1356,7 +1356,7 @@
                     name: "unitPrice",
                     title: "<spring:message code='invoice.unitPrice'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1402,7 +1402,7 @@
                     name: "commercialInvoceValue",
                     title: "<spring:message code='invoice.commercialInvoceValue'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1438,7 +1438,7 @@
                     name: "commercialInvoceValueNet",
                     title: "<spring:message code='invoice.commercialInvoceValueNet'/>",
                     type: 'float',
-                    required: true,canEdit:false,
+                    canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1501,7 +1501,7 @@
                 },
                 {
                     name: "invoiceValueD", title: "<spring:message code='invoice.invoiceValueD'/>",
-                    type: 'float', required: true, width: "100%",colSpan:2,titleColSpan:2,titleAlign:"right",canEdit:false,
+                    type: 'float', width: "100%",colSpan:2,titleColSpan:2,titleAlign:"right",canEdit:false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -1548,7 +1548,6 @@
                     name: "invoiceValue",
                     title: "<spring:message code='invoice.invoiceValue'/>",
                     type: 'float',canEdit:false,
-                    required: true,
                     width: "100%",colSpan:2,titleColSpan:1,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{

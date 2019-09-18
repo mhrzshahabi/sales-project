@@ -134,7 +134,7 @@ public class Invoice extends Auditable {
 	@Column(name = "COPPER_CAL")
 	private Float copperCal;
 
-	@Column(name = "COPPER_INS")
+	@Column(name = "SILVER_INS")
 	private Float silverIns;
 
 	@Column(name = "SILVER_DED")
@@ -146,7 +146,7 @@ public class Invoice extends Auditable {
 	@Column(name = "SILVER_CAL")
 	private Float silverCal;
 
-	@Column(name = "SILVER_INS")
+	@Column(name = "GOLD_INS")
 	private Float goldIns;
 
 	@Column(name = "GOLD_DED")

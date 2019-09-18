@@ -33,7 +33,11 @@
 	 valueTmp=DynamicForm_Invoice_Molybdenum.getValue(fld);
 	 return !(valueTmp==null || typeof (valueTmp)=='undefined' || valueTmp=="" );
 	}
-    function sumMolybdenumAndSet(value00,fld00,sumfld00,ii00){
+    function sumMolybdenumAndSet(value00,fld00,sumfld00,ii00,precise){
+        if (ii00>-1)
+           DynamicForm_Invoice_Molybdenum.setValue(fld00+ii00,precise_round(value00, precise));
+       else
+           DynamicForm_Invoice_Molybdenum.setValue(fld00,precise_round(value00, precise));
     	gr=0;
        	if (fld00=='grass'){
 			for (i=0;i<loop;i++)
@@ -184,7 +188,7 @@
                 },
                 {name: "molybdJenumUnitPrice", title: "MO/Oz USD",type: 'float', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
-                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdJenumUnitPrice","none",-1);	} },
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdJenumUnitPrice","none",-1,3);	} },
               // {
               //       type: "Header",
               //       defaultValue: " - - - LotNo. - - - - - - - Grass- - - - - - - - - - - -Net - - - - - - -  - MO%- - - - CU%- MolybdenumContent- Discount%- - -  Fee - - - - -  Price"
@@ -196,19 +200,19 @@
                 {name: "mo<%=i %>.lotNo",title:"lotNo",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%"},
                 {name: "mo<%=i %>.grass",title:"Grass Weight",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
-                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"grass","grass","<%=i %>");	} },
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"grass","grass","<%=i %>",2);	} },
                 {name: "mo<%=i %>.net",title:"Net Wet Weight",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
-                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"net","net","<%=i %>");	} },
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"net","net","<%=i %>",2);	} },
                 {name: "mo<%=i %>.molybdenumPercent",title:"MO%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] ,
-                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdenumPercent","none","<%=i %>");	} },
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdenumPercent","none","<%=i %>",2);	} },
                 {name: "mo<%=i %>.copperPercent",title:"CU%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }]} ,
                 {name: "mo<%=i %>.molybdenumContent",title:"MO content",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false},
                 {name: "mo<%=i %>.discountPercent",title:"Discount%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] ,
-                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"discountPercent","none","<%=i %>");	} },
+                    changed	: function(form, item, value){ sumMolybdenumAndSet(value,"discountPercent","none","<%=i %>",2);	} },
                 {name: "mo<%=i %>.priceFee",title:"USD/OZ",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false, },
                 {name: "mo<%=i %>.price",title:"Price  USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false },
  <% } %>
