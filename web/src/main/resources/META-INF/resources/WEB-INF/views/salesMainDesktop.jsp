@@ -679,49 +679,38 @@
         members: [baseRibbonBar]
     });
     /*-------------------Setting---------------------------*/
-    /*var userButton = isc.IconButton.create({
-        title: "کاربران",
-        icon: "pieces/user.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("کاربران", "<spring:url value="/user/showForm" />")
-        }
-    });
+     var userRoleButton = isc.IconButton.create({
 
-    var workgroupButton = isc.IconButton.create({
-        title: "<spring:message code='workgroups.title'/>",
-        icon: "pieces/users.png",
         orientation: "vertical",
+        icon: "pieces/512/role-icon.png",
+        largeIcon: "pieces/512/role-icon.png",
+        title: "<spring:message code='setting.appRoles'/>",
         click: function () {
-            createTab("<spring:message code='workgroups'/>", "<spring:url value="/group/showForm" />")
-        }
-    });
 
-    var operatorsAccessButton = isc.IconButton.create({
-        title: "<spring:message code='accesses.title'/>",
-        icon: "operators/accesses.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='access.plural'/>", "<spring:url value="/authority/showForm" />")
+            createTab("<spring:message code='setting.appRoles'/>",  "<spring:url value="web/oauth/app-roles/show-form" />" , false);
         }
     });
-    var organizationButton = isc.IconButton.create({
-        title: "<spring:message code='organization.title'/>",
-        icon: "operators/organization.png",
-        largeIcon: "operators/organization.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='organization.title'/>", "<spring:url value="/department/showForm" />")
+    var userGroupPermissionButton = isc.IconButton.create({
 
-        }
-    });
-    var roleButton = isc.IconButton.create({
-        title: "<spring:message code='role.title'/>",
-        icon: "operators/roles.png",
-        largeIcon: "operators/roles.png",
         orientation: "vertical",
+        icon: "pieces/512/purchase_img.png",
+        largeIcon: "pieces/512/purchase_img.png",
+        title: "<spring:message code='setting.groupPermission'/>",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+
+            createTab("<spring:message code='setting.groupPermission'/>","<spring:url value="web/oauth/groups/show-form" />", false);
+        }
+
+    });
+    var userAssignUserButton = isc.IconButton.create({
+
+        orientation: "vertical",
+        icon: "pieces/512/assign_role.png",
+        largeIcon: "pieces/512/assign_role.png",
+        title: "<spring:message code='setting.roleUser'/>",
+        click: function () {
+
+            createTab("<spring:message code='setting.roleUser'/>", "<spring:url value="web/oauth/users/show-form" />", false);
         }
     });
 
@@ -737,16 +726,9 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            organizationButton
-            , userButton
-            , operatorsAccessButton
-            , workgroupButton
-            , roleButton
-            /!*    IconButton_User
-                ,IconButton_Group
-                ,IconButton_Access
-                ,departmentButton
-             *!/
+            userGroupPermissionButton,
+            userRoleButton,
+            userAssignUserButton
 
         ],
         autoDraw: false
@@ -762,6 +744,7 @@
         backgroundColor: "#153560",
         members: [settingRibbonBar]
     });
+    /*
     /!*-------------------license---------------------------*!/
     var boardCertificateButton = isc.IconButton.create({
         title: "<spring:message code='boardCertificate.title'/>",
@@ -1436,7 +1419,7 @@
             {title: "<spring:message code='main.reportTab'/>", icon: "", iconSize: 16, pane: reportRibbonHLayout},
             <%--{title: "<spring:message code='main.dashboardTab'/>", icon: "", iconSize: 16, pane: dashboardRibbonHLayout},--%>
             {title: "<spring:message code='main.baseTab'/>", icon: "", iconSize: 16, pane: baseRibbonHLayout},
-            <%--{title: "<spring:message code='main.settingTab'/>", icon: "", iconSize: 16, pane: settingRibbonHLayout},--%>
+            {title: "<spring:message code='main.settingTab'/>", icon: "", iconSize: 16, pane: settingRibbonHLayout},
             <%--{title: "<spring:message code='main.licenseTab'/>", icon: "", iconSize: 16, pane: licenseRibbonHLayout},--%>
             <%--{title: "<spring:message code='main.tenderTab'/>", icon: "", iconSize: 16, pane: tenderRibbonHLayout},--%>
             {title: "<spring:message code='main.contractsTab'/>", icon: "", iconSize: 16, pane: contractRibbonHLayout},

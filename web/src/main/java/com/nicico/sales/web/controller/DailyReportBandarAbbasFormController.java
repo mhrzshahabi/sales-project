@@ -2,10 +2,7 @@ package com.nicico.sales.web.controller;
 
 import com.google.gson.JsonObject;
 import com.nicico.copper.common.domain.json.ResultSetConverter;
-import com.nicico.sales.iservice.ICreateReportService;
 import com.nicico.sales.iservice.IDailyReportBandarAbbasService;
-import com.nicico.sales.model.entities.base.myModel.WholeDto;
-import com.nicico.sales.util.ResultSetConverterTest;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -34,8 +31,7 @@ import java.util.Map;
 public class DailyReportBandarAbbasFormController {
 
     private final IDailyReportBandarAbbasService dailyReportBandarAbbasService;
-    private final ResultSetConverterTest resultSetConverter;
-    private  final ICreateReportService createReportService;
+    private final ResultSetConverter resultSetConverter;
 
     @RequestMapping("/showForm")
     public String showDailyReportBandarAbbas() {
@@ -52,8 +48,8 @@ public class DailyReportBandarAbbasFormController {
         try {
             Map<String, Object> parametersMap = new HashMap<>();
             parametersMap.put("logo_nicico", "C:\\upload\\report-logo\\nicico-logo.png");
-            List<WholeDto> list = createReportService.createReport(toDay, warehouseNo);
-           // List<Object[]> list = dailyReportBandarAbbasService.findByDateAndWarehouseNo(toDay, warehouseNo);
+
+            List<Object[]> list = dailyReportBandarAbbasService.findByDateAndWarehouseNo(toDay, warehouseNo);
             List<JsonObject> jsonArr = resultSetConverter.toJsonArray(list, new String[]
                     {"warehouseNo", "toDay", "descp", "plant", "packingType", "amountDay",
                             "amountImportDay", "amountFirstDay", "amountExportDay", "amountReviseDay",
