@@ -12,8 +12,8 @@
                 {name: "code", title: "<spring:message code='material.code'/> "},
                 {name: "descl", title: "<spring:message code='material.descl'/> "},
                 {name: "descp", title: "<spring:message code='material.descp'/> "},
-                {name: "unitId", title: "<spring:message code='MaterialFeature.unit'/> "},
-                {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit'/> "},
+                {name: "unitId", title: "<spring:message code='MaterialFeature.unit'/>"},//Edit By JZ
+                {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit'/> "},//Edit By JZ
             ],
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
@@ -22,8 +22,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='unit.code'/> "},
-                {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
+                {name: "nameFA", title: "<spring:message code='MaterialFeature.unit.FA'/> "},
                 {name: "nameEN", title: "<spring:message code='unit.nameEN'/> "},
                 {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
                 {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
@@ -285,14 +284,15 @@
                     optionDataSource: RestDataSource_Unit,
                     displayField: "nameFA",
                     valueField: "id",
-                    pickListWidth: "500",
+                    pickListWidth: "400",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [{name: "id", width: 50, align: "center"}, {
                         name: "nameFA",
-                        width: 150,
+                            width: 174,
                         align: "center"
-                    }, {name: "nameEN", width: 150, align: "center"}, {name: "code", width: 150, align: "center"}]
+                        }, {name: "nameEN", width: 174, align: "center"},
+                    ]
                 },
                 {type: "RowSpacerItem"}
             ]
@@ -402,8 +402,8 @@
                 {name: "code", title: "<spring:message code='material.code'/>", align: "center"},
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
-                {name: "unit.nameFA", title: "<spring:message code='MaterialFeature.unit'/>", align: "center"},
-                {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit'/>", align: "center"},
+                {name: "unit.nameFA", title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
+                {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
             ],
         sortField: 0,
         autoFetchData: true,
