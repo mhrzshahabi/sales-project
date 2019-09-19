@@ -28,16 +28,120 @@
     var loop=<%=loop %>;
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
+
+    isc.SimpleType.create({
+    name:"currencyFloat2",
+    inheritsFrom:"float",
+
+    normalDisplayFormatter:function(value) {
+        return isc.isA.Number(value) ? value.toCurrencyString() : value;
+    },
+    shortDisplayFormatter:function(value) {
+        return isc.isA.Number(value) ? value.toCurrencyString() : value;
+    },
+    editFormatter:function (value) {
+        return isc.isA.Number(value) ? value.toFixed(2) : value;
+    },
+    parseInput:function(value) {
+        var fVal = parseFloat(value);
+        if (!isNaN(fVal)) return fVal;
+        return value;
+    },
+
+    validators:[
+        {type:"floatRange", min:0, errorMessage:"notValid"},
+        {type:"floatPrecision", precision:2, roundToPrecision:true}
+    ]
+
+});
+    isc.SimpleType.create({
+    name:"currencyFloat2Sign",
+    inheritsFrom:"float",
+
+    normalDisplayFormatter:function(value) {
+        return isc.isA.Number(value) ? value.toCurrencyString() : value;
+    },
+    shortDisplayFormatter:function(value) {
+        return isc.isA.Number(value) ? value.toCurrencyString() : value;
+    },
+    editFormatter:function (value) {
+        return isc.isA.Number(value) ? value.toFixed(2) : value;
+    },
+    parseInput:function(value) {
+        var fVal = parseFloat(value);
+        if (!isNaN(fVal)) return fVal;
+        return value;
+    },
+
+    validators:[
+        {type:"floatRange", min:-999999, errorMessage:"notValid"},
+        {type:"floatPrecision", precision:2, roundToPrecision:true}
+    ]
+
+});
+    isc.SimpleType.create({
+    name:"currencyFloat3",
+    inheritsFrom:"float",
+
+    normalDisplayFormatter:function(value) {
+        return isc.isA.Number(value) ? value.toCurrencyString() : value;
+    },
+    shortDisplayFormatter:function(value) {
+        return isc.isA.Number(value) ? value.toCurrencyString() : value;
+    },
+    editFormatter:function (value) {
+        return isc.isA.Number(value) ? value.toFixed(3) : value;
+    },
+    parseInput:function(value) {
+        var fVal = parseFloat(value);
+        if (!isNaN(fVal)) return fVal;
+        return value;
+    },
+
+    validators:[
+        {type:"floatRange", min:0, errorMessage:"notValid"},
+        {type:"floatPrecision", precision:3, roundToPrecision:true}
+    ]
+
+});
+    isc.SimpleType.create({
+    name:"currencyFloat5",
+    inheritsFrom:"float",
+
+    normalDisplayFormatter:function(value) {
+        return isc.isA.Number(value) ? value.toCurrencyString() : value;
+    },
+    shortDisplayFormatter:function(value) {
+        return isc.isA.Number(value) ? value.toCurrencyString() : value;
+    },
+    editFormatter:function (value) {
+        return isc.isA.Number(value) ? value.toFixed(5) : value;
+    },
+    parseInput:function(value) {
+        var fVal = parseFloat(value);
+        if (!isNaN(fVal)) return fVal;
+        return value;
+    },
+
+    validators:[
+        {type:"floatRange", min:0, errorMessage:"notValid"},
+        {type:"floatPrecision", precision:5, roundToPrecision:true}
+    ]
+
+});
+
+
+
      var DynamicForm_Invoice_Molybdenum ;
 	function hasValue(fld){
 	 valueTmp=DynamicForm_Invoice_Molybdenum.getValue(fld);
 	 return !(valueTmp==null || typeof (valueTmp)=='undefined' || valueTmp=="" );
 	}
     function sumMolybdenumAndSet(value00,fld00,sumfld00,ii00,precise){
-        if (ii00>-1)
-           DynamicForm_Invoice_Molybdenum.setValue(fld00+ii00,precise_round(value00, precise));
-       else
-           DynamicForm_Invoice_Molybdenum.setValue(fld00,precise_round(value00, precise));
+       //  if (ii00>-1)
+       //     DynamicForm_Invoice_Molybdenum.setValue(fld00+ii00,precise_round(value00, precise));
+       // else
+       //     DynamicForm_Invoice_Molybdenum.setValue(fld00,precise_round(value00, precise));
     	gr=0;
        	if (fld00=='grass'){
 			for (i=0;i<loop;i++)
@@ -186,7 +290,7 @@
                     required: true,
                     width: "100%",colSpan:8,titleColSpan:1,
                 },
-                {name: "molybdJenumUnitPrice", title: "MO/Oz USD",type: 'float', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                {name: "molybdJenumUnitPrice", title: "MO/Oz USD",type: 'currencyFloat3', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdJenumUnitPrice","none",-1,3);	} },
               // {
@@ -198,43 +302,43 @@
                 {name: "mo<%=i %>.invoiceId", hidden: true},
                 {name: "mo<%=i %>.version", hidden: true},
                 {name: "mo<%=i %>.lotNo",title:"lotNo",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%"},
-                {name: "mo<%=i %>.grass",title:"Grass Weight",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                {name: "mo<%=i %>.grass",title:"Grass Weight",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat3', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"grass","grass","<%=i %>",2);	} },
-                {name: "mo<%=i %>.net",title:"Net Wet Weight",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                {name: "mo<%=i %>.net",title:"Net Wet Weight",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat3', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"net","net","<%=i %>",2);	} },
-                {name: "mo<%=i %>.molybdenumPercent",title:"MO%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                {name: "mo<%=i %>.molybdenumPercent",title:"MO%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] ,
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdenumPercent","none","<%=i %>",2);	} },
-                {name: "mo<%=i %>.copperPercent",title:"CU%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                {name: "mo<%=i %>.copperPercent",title:"CU%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }]} ,
-                {name: "mo<%=i %>.molybdenumContent",title:"MO content",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false},
-                {name: "mo<%=i %>.discountPercent",title:"Discount%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",
+                {name: "mo<%=i %>.molybdenumContent",title:"MO content",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat3', required: false, width: "100%",canEdit:false},
+                {name: "mo<%=i %>.discountPercent",title:"Discount%",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] ,
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"discountPercent","none","<%=i %>",2);	} },
-                {name: "mo<%=i %>.priceFee",title:"USD/OZ",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",canEdit:false, },
-                {name: "mo<%=i %>.price",title:"Price  USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false },
+                {name: "mo<%=i %>.priceFee",title:"USD/OZ",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat5', required: false, width: "100%",canEdit:false, },
+                {name: "mo<%=i %>.price",title:"Price  USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false },
  <% } %>
                 {
                     type: "Header",
                     defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
                 {name: "lotNo",defaultValue:"Total:", showTitle: false,type: 'text', required: false, width: "100%",canEdit:false,},
-                {name: "grass", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false,
+                {name: "grass", showTitle: false,type: 'currencyFloat3', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
-                {name: "net", showTitle: false,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false,
+                {name: "net", showTitle: false,type: 'currencyFloat3', required: false, width: "100%",colSpan:2,canEdit:false,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },
                 {name: "tmpmolybdenumPercent", showTitle: false,type: 'text', required: false, width: "100%",defaultValue:"--",canEdit:false },
                 {name: "tmpcopperPercent", showTitle: false,type: 'text', required: false, width: "100%",defaultValue:"--",canEdit:false },
-                {name: "molybdenumContent", showTitle: false,type: 'float', required: false, width: "100%",colSpan:1,canEdit:false },
-                <%--{name: "discountPercent<%=i %>", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",--%>
+                {name: "molybdenumContent", showTitle: false,type: 'currencyFloat3', required: false, width: "100%",colSpan:1,canEdit:false },
+                <%--{name: "discountPercent<%=i %>", showTitle: false,type: 'currencyFloat', required: false, width: "100%",keyPressFilter: "[0-9.]",--%>
                     <%--validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }] },--%>
                 {name: "tmppriceFee", showTitle: false,type: 'text', required: false, width: "100%",defaultValue:"--",canEdit:false,colSpan:2},
-                {name: "commercialInvoceValue", showTitle: false,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false,align:"right" },
+                {name: "commercialInvoceValue", showTitle: false,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,canEdit:false,align:"right" },
                 {
                     name: "paidPercent", title: "<spring:message code='invoice.paidPercent'/>",
-                    type: 'float', required: true, width: "100%",colSpan:1,titleColSpan:5,titleAlign:"right",
+                    type: 'currencyFloat2', required: true, width: "100%",colSpan:1,titleColSpan:5,titleAlign:"right",
                     validators: [
                         {
                             type: "isFloat",
@@ -257,7 +361,7 @@
                 {
                     name: "commercialInvoceValueNet",
                     title: "<spring:message code='invoice.commercialInvoceValueNet'/>",
-                    type: 'float',
+                    type: 'currencyFloat2',
                     required: true,canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:4,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
@@ -275,22 +379,22 @@
                 {name: "up<%=i %>.targetValueCurrency",defaultValue:"USD" , hidden: true},
                 {name: "up<%=i %>.upDown",defaultValue:"up", hidden: true},
                 {name: "up<%=i %>.description",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
-                {name: "up<%=i %>.originValue",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "up<%=i %>.originValue",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumUpMolybdenumAndSet();	} },
                 {name: "up<%=i %>.originValueCurrency",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
-                {name: "up<%=i %>.conversionRate",title:"Rate 2 USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "up<%=i %>.conversionRate",title:"Rate 2 USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumUpMolybdenumAndSet();	} },
                 {name: "up<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
                 {name: "up<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
                 {name: "up<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} ,
                     changed	: function(form, item, value){ sumUpMolybdenumAndSet();	} },
-                {name: "up<%=i %>.targetValue",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
+                {name: "up<%=i %>.targetValue",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2Sign', required: false, width: "100%",colSpan:2,canEdit:false },
    <% } %>
                 {
                     name: "invoiceValueD", title: "<spring:message code='invoice.invoiceValueD'/>",
-                    type: 'float', required: true, width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",canEdit:false,
+                    type: 'currencyFloat2Sign', required: true, width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",canEdit:false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -311,7 +415,7 @@
                 },
                  {
                     name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",keyPressFilter: "[0-9.]",
-                    type: 'float', required: true, width: "100%",colSpan:1,titleColSpan:1,titleAlign:"right",
+                    type: 'currencyFloat2', required: true, width: "100%",colSpan:1,titleColSpan:1,titleAlign:"right",
                     validators: [
                         {
                             type: "isFloat",
@@ -337,7 +441,7 @@
                 {
                     name: "invoiceValueUp",
                     title: "<spring:message code='invoice.invoiceValue'/>",
-                    type: 'float',canEdit:false,
+                    type: 'currencyFloat2Sign',canEdit:false,
                     required: true,
                     width: "100%",colSpan:2,titleColSpan:1,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
@@ -354,23 +458,23 @@
                 {name: "down<%=i %>.version", hidden: true},
                 {name: "down<%=i %>.upDown",defaultValue:"down", hidden: true},
                 {name: "down<%=i %>.description",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
-                {name: "down<%=i %>.originValue",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "down<%=i %>.originValue",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumdownMolybdenumAndSet();	} },
                 {name: "down<%=i %>.originValueCurrency",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
-                {name: "down<%=i %>.conversionRate",title:"Rate2Invoice",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "down<%=i %>.conversionRate",title:"Rate2Invoice",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumdownMolybdenumAndSet();	} },
                 {name: "down<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
                 {name: "down<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
                 {name: "down<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"},
                     changed	: function(form, item, value){ sumdownMolybdenumAndSet();	} },
-                {name: "down<%=i %>.targetValue",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'float', required: false, width: "100%",colSpan:2,canEdit:false },
+                {name: "down<%=i %>.targetValue",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2Sign', required: false, width: "100%",colSpan:2,canEdit:false },
    <% } %>
                 {
                     name: "invoiceValue",
                     title: "<spring:message code='invoice.invoiceValue'/>",
-                    type: 'float',canEdit:false,
+                    type: 'currencyFloat2Sign',canEdit:false,
                     required: true,
                     width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",
                     keyPressFilter: "[0-9.]",

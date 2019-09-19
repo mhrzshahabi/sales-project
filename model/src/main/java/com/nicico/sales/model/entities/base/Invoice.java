@@ -165,34 +165,34 @@ public class Invoice extends Auditable {
 	private Float treatCost;
 
 	@Column(name = "RC_CU")
-	private Float RCCU;
+	private Float refinaryCostCU;
 
 	@Column(name = "RC_CU_PER")
-	private Float RCCUPer;
+	private Float refinaryCostCUPer;
 
 	@Column(name = "RC_CU_CAL")
-	private Float RCCUCal;
+	private Float refinaryCostCUCal;
 
 	@Column(name = "RC_CU_TOT")
-	private Float RCCUTot;
+	private Float refinaryCostCUTot;
 
 	@Column(name = "RG_AG")
-	private Float RCAG;
+	private Float refinaryCostAG;
 
 	@Column(name = "RC_AG_PER")
-	private Float RCAGPer;
+	private Float refinaryCostAGPer;
 
 	@Column(name = "RC_AG_TOT")
-	private Float RCAGTot;
+	private Float refinaryCostAGTot;
 
 	@Column(name = "RC_AU")
-	private Float RCAU;
+	private Float refinaryCostAU;
 
 	@Column(name = "RC_AU_PER")
-	private Float RCAUPer;
+	private Float refinaryCostAUPer;
 
 	@Column(name = "RC_AU_TOT")
-	private Float RCAUTot;
+	private Float refinaryCostAUTot;
 
 	@Column(name = "SUB_TOTAL_DEDUCTION")
 	private Float subTotalDeduction;

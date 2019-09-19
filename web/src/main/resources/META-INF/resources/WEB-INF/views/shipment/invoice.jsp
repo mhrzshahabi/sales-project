@@ -303,9 +303,9 @@
             });
         } else {
             if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
-                DynamicForm_Invoice_Concentrate.setValue("invoiceDateDumy", new Date(record.invoiceDate));
-                DynamicForm_Invoice_Concentrate.setValue("RCCUCal",2204.62);
                 DynamicForm_Invoice_Concentrate.editRecord(record);
+                DynamicForm_Invoice_Concentrate.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+                DynamicForm_Invoice_Concentrate.setValue("refinaryCostCUCal",2204.62);
                 Window_Invoice_Concentrate.show();
                 return;
             } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
@@ -768,22 +768,22 @@
 		                                                        DynamicForm_Invoice_Concentrate_getValue('goldCal') +
 		                                                        DynamicForm_Invoice_Concentrate_getValue('silverCal'));
         if (fld=="copper")
-        	DynamicForm_Invoice_Concentrate_setValue("RCCUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
+        	DynamicForm_Invoice_Concentrate_setValue("refinaryCostCUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
         if (fld=="silverOun")
-        	DynamicForm_Invoice_Concentrate_setValue("RCAGPer",DynamicForm_Invoice_Concentrate.getValue(fld));
+        	DynamicForm_Invoice_Concentrate_setValue("refinaryCostAGPer",DynamicForm_Invoice_Concentrate.getValue(fld));
         if (fld=="goldOun")
-        	DynamicForm_Invoice_Concentrate_setValue("RCAUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
-        if (fld=="RCCUPer")
-        	multiplyAndSet3("RCCUPer","RCCU","RCCUTot",DynamicForm_Invoice_Concentrate.getValue("RCCUCal"));
-        if (fld=="RCAGPer")
-        	multiplyAndSet("RCAGPer","RCAG","RCAGTot");
-        if (fld=="RCAUPer")
-        	multiplyAndSet("RCAUPer","RCAU","RCAUTot");
-		if (fld=="treatCost" || fld=="RCCUTot" || fld=='RCAGTot' || fld=='RCAUTot' )
-		   DynamicForm_Invoice_Concentrate_setValue("subTotalDeduction", DynamicForm_Invoice_Concentrate_getValue("RCCUTot") +
+        	DynamicForm_Invoice_Concentrate_setValue("refinaryCostAUPer",DynamicForm_Invoice_Concentrate.getValue(fld));
+        if (fld=="refinaryCostCUPer" || fld=="refinaryCostCU")
+        	multiplyAndSet3("refinaryCostCUPer","refinaryCostCU","refinaryCostCUTot",DynamicForm_Invoice_Concentrate.getValue("refinaryCostCUCal"));
+        if (fld=="refinaryCostAGPer" || fld=="refinaryCostAG")
+        	multiplyAndSet("refinaryCostAGPer","refinaryCostAG","refinaryCostAGTot");
+        if (fld=="refinaryCostAUPer" || fld=="refinaryCostAU")
+        	multiplyAndSet("refinaryCostAUPer","refinaryCostAU","refinaryCostAUTot");
+		if (fld=="treatCost" || fld=="refinaryCostCUTot" || fld=='refinaryCostAGTot' || fld=='refinaryCostAUTot' )
+		   DynamicForm_Invoice_Concentrate_setValue("subTotalDeduction", DynamicForm_Invoice_Concentrate_getValue("refinaryCostCUTot") +
 		                                                        DynamicForm_Invoice_Concentrate_getValue('treatCost') +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('RCAGTot') +
-		                                                        DynamicForm_Invoice_Concentrate_getValue('RCAUTot'));
+		                                                        DynamicForm_Invoice_Concentrate_getValue('refinaryCostAGTot') +
+		                                                        DynamicForm_Invoice_Concentrate_getValue('refinaryCostAUTot'));
 		if ((fld=="subTotal" || fld=='subTotalDeduction' ) )
 		   DynamicForm_Invoice_Concentrate_setValue("unitPrice", DynamicForm_Invoice_Concentrate_getValue("subTotal") -
 		                                                        DynamicForm_Invoice_Concentrate_getValue('subTotalDeduction')) ;
@@ -1184,7 +1184,7 @@
                     name: "treatCost",
                     title: "<spring:message code='invoice.TC'/>",
                     type: 'float',
-                    canEdit:false,
+                    required: true,// canEdit:false,
                     width: "100%",colSpan:2,titleColSpan:10,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1195,10 +1195,10 @@
                     }]
                 },
                 {
-                    name: "RCCU",
+                    name: "refinaryCostCU",
                     title: "<spring:message code='invoice.RCCU'/>",
                     type: 'float',
-                    canEdit:false,
+                    required: true,// canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1206,10 +1206,14 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+		   			  	DynamicForm_Invoice_Concentrate_setValue("refinaryCostCU",value);
+		   			}
+
                 },
                 {
-                    name: "RCCUPer",
+                    name: "refinaryCostCUPer",
                     title: "<spring:message code='invoice.RCCUPerc'/>",
                     type: 'float',
                     canEdit:false,
@@ -1223,7 +1227,7 @@
                     }]
                 },
                 {
-                    name: "RCCUCal",
+                    name: "refinaryCostCUCal",
                     title: "<spring:message code='invoice.RCCUCal'/>",
                     type: 'float',
                     canEdit:false,
@@ -1237,7 +1241,7 @@
                     }]
                 },
                 {
-                    name: "RCCUTot",
+                    name: "refinaryCostCUTot",
                     title: "<spring:message code='invoice.RCCUTot'/>",
                     type: 'float',
                     canEdit:false,
@@ -1251,10 +1255,10 @@
                     }]
                 },
                 {
-                    name: "RCAG",
+                    name: "refinaryCostAG",
                     title: "<spring:message code='invoice.RCAG'/>",
                     type: 'float',
-                    canEdit:false,
+                    required : true,// canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1262,10 +1266,14 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+		   			  	DynamicForm_Invoice_Concentrate_setValue("refinaryCostAG",value);
+		   			}
+
                 },
                 {
-                    name: "RCAGPer",
+                    name: "refinaryCostAGPer",
                     title: "<spring:message code='invoice.RCCUPerc'/>",
                     type: 'float',
                     canEdit:false,
@@ -1279,7 +1287,7 @@
                     }]
                 },
                 {
-                    name: "RCAGTot",
+                    name: "refinaryCostAGTot",
                     title: "<spring:message code='invoice.RCCUTot'/>",
                     type: 'float',
                     canEdit:false,
@@ -1293,10 +1301,10 @@
                     }]
                 },
                 {
-                    name: "RCAU",
+                    name: "refinaryCostAU",
                     title: "<spring:message code='invoice.RCAU'/>",
                     type: 'float',
-                    canEdit:false,
+                    required : true,// canEdit:false,
                     width: "100%",colSpan:1,titleColSpan:2,titleAlign:"left",
                     keyPressFilter: "[0-9.]",
                     validators: [{
@@ -1304,10 +1312,14 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+		   			  	DynamicForm_Invoice_Concentrate_setValue("refinaryCostAU",value);
+		   			}
+
                 },
                 {
-                    name: "RCAUPer",
+                    name: "refinaryCostAUPer",
                     title: "<spring:message code='invoice.RCCUPerc'/>",
                     type: 'float',
                     canEdit:false,
@@ -1321,7 +1333,7 @@
                     }]
                 },
                 {
-                    name: "RCAUTot",
+                    name: "refinaryCostAUTot",
                     title: "<spring:message code='invoice.RCCUTot'/>",
                     type: 'float',
                     canEdit:false,
@@ -1603,10 +1615,10 @@
 		DynamicForm_Invoice_Concentrate.clearValues();
 		DynamicForm_Invoice_Concentrate.setValue("shipmentId", iidd);
 		DynamicForm_Invoice_Concentrate.setValue("treatCost",109.0);
-		DynamicForm_Invoice_Concentrate.setValue("RCCU",0.109);
-		DynamicForm_Invoice_Concentrate.setValue("RCCUCal",2204.62);
-		DynamicForm_Invoice_Concentrate.setValue("RCAG",0.35);
-		DynamicForm_Invoice_Concentrate.setValue("RCAU",5);
+		DynamicForm_Invoice_Concentrate.setValue("refinaryCostCU",0.109);
+		DynamicForm_Invoice_Concentrate.setValue("refinaryCostCUCal",2204.62);
+		DynamicForm_Invoice_Concentrate.setValue("refinaryCostAG",0.35);
+		DynamicForm_Invoice_Concentrate.setValue("refinaryCostAU",5);
 		Window_Invoice_Concentrate.show();
     }
     var ToolStripButton_Invoice_Edit = isc.ToolStripButton.create({

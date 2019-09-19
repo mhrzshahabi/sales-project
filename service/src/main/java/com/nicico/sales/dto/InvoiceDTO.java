@@ -62,16 +62,16 @@ public class InvoiceDTO {
 	private Float goldCal;
 	private Float subTotal;
 	private Float treatCost;
-	private Float RCCU;
-	private Float RCCUPer;
-	private Float RCCUCal;
-	private Float RCCUTot;
-	private Float RCAG;
-	private Float RCAGPer;
-	private Float RCAGTot;
-	private Float RCAU;
-	private Float RCAUPer;
-	private Float RCAUTot;
+	private Float refinaryCostCU;
+	private Float refinaryCostCUPer;
+	private Float refinaryCostCUCal;
+	private Float refinaryCostCUTot;
+	private Float refinaryCostAG;
+	private Float refinaryCostAGPer;
+	private Float refinaryCostAGTot;
+	private Float refinaryCostAU;
+	private Float refinaryCostAUPer;
+	private Float refinaryCostAUTot;
 	private Float subTotalDeduction;
 
 	// ------------------------------
