@@ -61,11 +61,11 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 		if (invoice.getId() == null) {
 			InvoiceDTO.Create c = new InvoiceDTO.Create();
 			modelMapper.map(invoice, c);
-			invoiceService.create(c);
+			invoice=invoiceService.create(c);
 		} else {
 			InvoiceDTO.Update u = new InvoiceDTO.Update();
 			modelMapper.map(invoice, u);
-			invoiceService.update(u.getId(), u);
+			invoice=invoiceService.update(u.getId(), u);
 		}
 		List<InvoiceMolybdenumDTO.Info> molybdenumInfoList = objectMapper.readValue(data_[0], new TypeReference<List<InvoiceMolybdenumDTO.Info>>() {
 		});
@@ -74,10 +74,12 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 			if (info.getId() == null) {
 				InvoiceMolybdenumDTO.Create cc = new InvoiceMolybdenumDTO.Create();
 				modelMapper.map(info, cc);
+				cc.setInvoiceId(invoice.getId());
 				create(cc);
 			} else {
 				InvoiceMolybdenumDTO.Update uu = new InvoiceMolybdenumDTO.Update();
 				modelMapper.map(info, uu);
+				uu.setInvoiceId(invoice.getId());
 				update(info.getId(), uu);
 			}
 		}
@@ -89,10 +91,12 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 			if (info.getId() == null) {
 				InvoiceItemDTO.Create cc = new InvoiceItemDTO.Create();
 				modelMapper.map(info, cc);
+				cc.setInvoiceId(invoice.getId());
 				invoiceItemService.create(cc);
 			} else {
 				InvoiceItemDTO.Update uu = new InvoiceItemDTO.Update();
 				modelMapper.map(info, uu);
+				uu.setInvoiceId(invoice.getId());
 				invoiceItemService.update(info.getId(), uu);
 			}
 		}
