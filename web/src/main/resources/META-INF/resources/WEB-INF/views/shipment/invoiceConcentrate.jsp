@@ -795,7 +795,7 @@
    <% } %>
                 {
                     name: "invoiceValueD", title: "<spring:message code='invoice.invoiceValueD'/>",
-                    type: 'currencyFloat2Sign', width: "100%",colSpan:2,titleColSpan:2,titleAlign:"right",canEdit:false,
+                    type: 'currencyFloat2Sign', width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",canEdit:false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -908,52 +908,52 @@
 
 <%		loopUp=0;
 		loopDown=0;
-		for(int i=0;i<listItem.size();i++)
-		    if (listItem.get(i).getUpDown().equalsIgnoreCase("up")) { %>
-		        DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.id" , <%=listItem.get(loopUp).getId() %>);
-		        DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.invoiceId" , <%=listItem.get(loopUp).getInvoiceId() %>);
-		        DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.version" , <%=listItem.get(loopUp).getVersion() %>);
-		        DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.upDown" , "<%=listItem.get(loopUp).getUpDown() %>");
-<%  	        if (listItem.get(loopUp).getDescription()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.description", "<%= listItem.get(loopUp).getDescription() %>");
-<%  	        } if (listItem.get(loopUp).getOriginValue()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.originValue", <%= listItem.get(loopUp).getOriginValue() %>);
-<%  	        } if (listItem.get(loopUp).getOriginValueCurrency()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.originValueCurrency", "<%= listItem.get(loopUp).getOriginValueCurrency() %>");
-<%  	        } if (listItem.get(loopUp).getConversionRate()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.conversionRate", <%= listItem.get(loopUp).getConversionRate() %>);
-<%  	        } if (listItem.get(loopUp).getDateRate()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.dateRate", "<%= listItem.get(loopUp).getDateRate() %>");
-<%  	        } if (listItem.get(loopUp).getRateReference()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.rateReference", "<%= listItem.get(loopUp).getRateReference() %>");
-<%  	        } if (listItem.get(loopUp).getLessPlus()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.lessPlus", "<%= listItem.get(loopUp).getLessPlus() %>");
-<%  	        } if (listItem.get(loopUp).getTargetValue()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.targetValue", <%= listItem.get(loopUp).getTargetValue() %>);
+		for(InvoiceItemDTO.Info info : listItem)
+		    if (info.getUpDown().equalsIgnoreCase("up")) { %>
+		        DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.id" , <%=info.getId() %>);
+		        DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.invoiceId" , <%=info.getInvoiceId() %>);
+		        DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.version" , <%=info.getVersion() %>);
+		        DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.upDown" , "<%=info.getUpDown() %>");
+<%  	        if (info.getDescription()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.description", "<%= info.getDescription() %>");
+<%  	        } if (info.getOriginValue()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.originValue", <%= info.getOriginValue() %>);
+<%  	        } if (info.getOriginValueCurrency()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.originValueCurrency", "<%= info.getOriginValueCurrency() %>");
+<%  	        } if (info.getConversionRate()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.conversionRate", <%= info.getConversionRate() %>);
+<%  	        } if (info.getDateRate()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.dateRate", "<%= info.getDateRate() %>");
+<%  	        } if (info.getRateReference()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.rateReference", "<%= info.getRateReference() %>");
+<%  	        } if (info.getLessPlus()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.lessPlus", "<%= info.getLessPlus() %>");
+<%  	        } if (info.getTargetValue()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("up<%=loopUp %>.targetValue", <%= info.getTargetValue() %>);
                <% }
                loopUp++;
                }
 		    else { %>
-		        DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.id" , <%=listItem.get(loopDown).getId() %>);
-		        DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.invoiceId" , <%=listItem.get(loopDown).getInvoiceId() %>);
-		        DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.version" , <%=listItem.get(loopDown).getVersion() %>);
-		        DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.downDown" , "<%=listItem.get(loopDown).getUpDown() %>");
-<%  	        if (listItem.get(loopDown).getDescription()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.description", "<%= listItem.get(loopDown).getDescription() %>");
-<%  	        }if (listItem.get(loopDown).getOriginValue()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.originValue", <%= listItem.get(loopDown).getOriginValue() %>);
-<%  	        }if (listItem.get(loopDown).getOriginValueCurrency()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.originValueCurrency", "<%= listItem.get(loopDown).getOriginValueCurrency() %>");
-<%  	        }if (listItem.get(loopDown).getConversionRate()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.conversionRate", <%= listItem.get(loopDown).getConversionRate() %>);
-<%  	        }if (listItem.get(loopDown).getDateRate()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.dateRate", "<%= listItem.get(loopDown).getDateRate() %>");
-<%  	        }if (listItem.get(loopDown).getRateReference()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.rateReference", "<%= listItem.get(loopDown).getRateReference() %>");
-<%  	        }if (listItem.get(loopDown).getLessPlus()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.lessPlus", "<%= listItem.get(loopDown).getLessPlus() %>");
-<%  	        }if (listItem.get(loopDown).getTargetValue()!=null) { %>
-                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.targetValue", <%= listItem.get(loopDown).getTargetValue() %>);
+		        DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.id" , <%=info.getId() %>);
+		        DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.invoiceId" , <%=info.getInvoiceId() %>);
+		        DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.version" , <%=info.getVersion() %>);
+		        DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.downDown" , "<%=info.getUpDown() %>");
+<%  	        if (info.getDescription()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.description", "<%= info.getDescription() %>");
+<%  	        }if (info.getOriginValue()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.originValue", <%= info.getOriginValue() %>);
+<%  	        }if (info.getOriginValueCurrency()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.originValueCurrency", "<%= info.getOriginValueCurrency() %>");
+<%  	        }if (info.getConversionRate()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.conversionRate", <%= info.getConversionRate() %>);
+<%  	        }if (info.getDateRate()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.dateRate", "<%= info.getDateRate() %>");
+<%  	        }if (info.getRateReference()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.rateReference", "<%= info.getRateReference() %>");
+<%  	        }if (info.getLessPlus()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.lessPlus", "<%= info.getLessPlus() %>");
+<%  	        }if (info.getTargetValue()!=null) { %>
+                   DynamicForm_Invoice_Concentrate.setValue("down<%=loopDown %>.targetValue", <%= info.getTargetValue() %>);
                <% }
                 loopDown++;
             }

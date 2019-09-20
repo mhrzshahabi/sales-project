@@ -386,6 +386,29 @@
         items:
             [ ViewLoader_Concentrate ]
     });
+    var ViewLoader_Cathodes = isc.ViewLoader.create({
+        width: "100%",
+        height: "100%",
+        autoDraw: false,
+        loadingMessage: " <spring:message code='global.loadingMessage'/>",
+    });
+    var Window_Cathodes = isc.Window.create({
+        title: "<spring:message code='issuedInvoices.title'/> ",
+        width: 1100,
+        height: "80%",
+        margin: '10px',
+        autoCenter: true,
+        isModal: true,
+        // showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items:
+            [ ViewLoader_Cathodes ]
+    });
 
 
     var RestDataSource_Invoice = isc.MyRestDataSource.create({
@@ -435,14 +458,10 @@
                         ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/mol");
                         Window_Molybdenum.show();
                         return;
-                DynamicForm_Invoice.getItem("copperUnitPrice").hide();
-                DynamicForm_Invoice.getItem("copper").hide();
-                DynamicForm_Invoice.getItem("goldUnitPrice").hide();
-                DynamicForm_Invoice.getItem("gold").hide();
-                DynamicForm_Invoice.getItem("silverUnitPrice").hide();
-                DynamicForm_Invoice.getItem("silver").hide();
-                DynamicForm_Invoice.getItem("molybdJenumUnitPrice").show();
-                DynamicForm_Invoice.getItem("molybdenum").show();
+            }   else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
+                        ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/cat");
+                        Window_Cathodes.show();
+                        return;
             } else {
                 DynamicForm_Invoice.getItem("copperUnitPrice").show();
                 DynamicForm_Invoice.getItem("copper").show();
@@ -523,14 +542,10 @@
                         ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/0/mol");
                         Window_Molybdenum.show();
                         return;
-                        DynamicForm_Invoice.getItem("copperUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("copper").hide();
-                        DynamicForm_Invoice.getItem("goldUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("gold").hide();
-                        DynamicForm_Invoice.getItem("silverUnitPrice").hide();
-                        DynamicForm_Invoice.getItem("silver").hide();
-                        DynamicForm_Invoice.getItem("molybdJenumUnitPrice").show();
-                        DynamicForm_Invoice.getItem("molybdenum").show();
+                    } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
+                        ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/cat");
+                        Window_Cathodes.show();
+                        return;
                     } else {
                         DynamicForm_Invoice.getItem("copperUnitPrice").show();
                         DynamicForm_Invoice.getItem("copper").show();
@@ -890,10 +905,14 @@
                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/mol");
                        Window_Molybdenum.show();
                         return;
-                }
+                } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
+                    ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/cat");
+                    Window_Cathodes.show();
+               } else {
                 DynamicForm_Invoice.clearValues();
                 DynamicForm_Invoice.setValue("shipmentId", record.id);
                 Window_Invoice.show();
+                }
             }
         }
     });

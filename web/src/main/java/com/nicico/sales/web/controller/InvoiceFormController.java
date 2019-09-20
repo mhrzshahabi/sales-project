@@ -71,6 +71,9 @@ public class InvoiceFormController {
 		if (type.equalsIgnoreCase("mol"))
 			return "shipment/invoiceMolybdenum";
 		else
+			if (type.equalsIgnoreCase("cat"))
+				return "shipment/invoiceCathodes";
+		else
 			return "shipment/invoiceConcentrate";
 
 	}
