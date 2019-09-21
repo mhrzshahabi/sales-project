@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.Date;
 
 
 @Getter
@@ -56,8 +55,8 @@ public class InvoiceItem extends Auditable {
 	@Column(name = "CONVERSION_RATE")
 	private Float conversionRate;
 
-	@Column(name = "RATE_DATE")
-	private Date dateRate;
+	@Column(name = "RATE_DATE", length = 10)
+	private String dateRate;
 
 	@Column(name = "RATE_REFERENCE", length = 100)
 	private String rateReference;

@@ -28,7 +28,7 @@ public class InvoiceItemDTO {
 	private Float targetValue;
 	private String targetValueCurrency;
 	private Float conversionRate;
-	private Date dateRate;
+	private String dateRate;
 	private String rateReference;
 	// ------------------------------
 

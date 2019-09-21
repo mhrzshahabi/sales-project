@@ -394,7 +394,7 @@
     });
     var Window_Cathodes = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
-        width: 1100,
+        width: "95%",
         height: "80%",
         margin: '10px',
         autoCenter: true,
@@ -1154,3 +1154,69 @@
         width: "100%",
         overflow: "hidden"
     });
+
+
+function validatedate(inputText1)
+  {
+  if (inputText1==null || typeof (inputText1)=='undefined' || inputText1=="" )
+  	return false;
+  var inputText=inputText1.substring(0,11);
+  // Match the date format through regular expression
+  if(inputText.length==8 )
+  {
+  // document.form1.text1.focus();
+  //Test which seperator is used '/' or '-'
+
+  console.log("inputText ok="+inputText);
+  // var pdate = inputText.split('/');
+
+  var yy  = parseInt(inputText.substring(0,4));
+  var mm = parseInt(inputText.substring(4,6));
+  var dd = parseInt(inputText.substring(6,8));
+  console.log("date=m"+mm+'d '+dd+'y '+yy)
+  // Create list of days of a month [assume there is no leap year by default]
+if (yy<1990 || yy>2020) {
+	alert('Invalid Year 1990-2020 is ok');
+	return false;
+}
+if (mm<1 || mm>12) {
+	alert('Invalid month');
+	 console.log("month error =m "+mm)
+	return false;
+}
+  var ListofDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+  if (mm==1 || mm>2)
+  	{
+  		if (dd>ListofDays[mm-1])
+  			{
+  			alert('Invalid date format!');
+ 			 return false;
+  			}
+  	}
+  if (mm==2)
+	{
+  		var lyear = false;
+  		if ( (!(yy % 4) && yy % 100) || !(yy % 400))
+  			{
+  			lyear = true;
+  			}
+	  if ((lyear==false) && (dd>=29))
+		{
+		alert('Invalid date format!');
+		return false;
+		}
+	  if ((lyear==true) && (dd>29))
+		{
+		alert('Invalid date format!');
+		return false;
+		}
+	  }
+  }
+  else
+  {
+  alert("Invalid date format!");
+  // document.form1.text1.focus();
+  return false;
+  }
+  return true;
+  }

@@ -282,8 +282,9 @@
                 {name: "up<%=i %>.conversionRate",title:"Rate 2 USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumUpMolybdenumAndSet();	} },
-                {name: "up<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
-                {name: "up<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
+                 {name: "up<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', useTextField:true, required: false, width: "100%",colSpan:1,mask:"####/##/##",
+                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=DynamicForm_Invoice_Cathodes.getValue("up<%=i %>.dateRate");if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
+               {name: "up<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
                 {name: "up<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} ,
                     changed	: function(form, item, value){ sumUpMolybdenumAndSet();	} },
                 {name: "up<%=i %>.targetValue",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2Sign', required: false, width: "100%",colSpan:2,canEdit:false },
@@ -361,7 +362,8 @@
                 {name: "down<%=i %>.conversionRate",title:"Rate2Invoice",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumdownMolybdenumAndSet();	} },
-                {name: "down<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'date', useTextField:true, required: false, width: "100%",colSpan:1 },
+                 {name: "down<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', useTextField:true, required: false, width: "100%",colSpan:1,mask:"####/##/##",
+                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=DynamicForm_Invoice_Cathodes.getValue("up<%=i %>.dateRate");if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
                 {name: "down<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
                 {name: "down<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"},
                     changed	: function(form, item, value){ sumdownMolybdenumAndSet();	} },
@@ -552,11 +554,11 @@
                     	isc.warn("conversionRate  Required", {title: 'هشدار'});
                     	return;
                     }
-                    <%--if (data.up<%=i %>.dateRate==null || data.up<%=i %>.dateRate=="" ) {--%>
-                    	<%--isc.warn("Date Rate  Required", {title: 'هشدار'});--%>
-                    	<%--return;--%>
-                    <%--}--%>
-                    if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
+                    if (data.up<%=i %>.dateRate==null || data.up<%=i %>.dateRate=="" || !validatedate(data.up<%=i %>.dateRate)) {
+                    		isc.warn("Date Rate  Required", {title: 'هشدار'});
+                    		return;
+                    }
+                     if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
                     	isc.warn("less or Plus  Required", {title: 'هشدار'});
                     	return;
                     }
@@ -594,11 +596,11 @@
                     	isc.warn("conversionRate  Required", {title: 'هشدار'});
                     	return;
                     }
-                    <%--if (data.down<%=i %>.dateRate==null || data.down<%=i %>.dateRate=="" ) {--%>
-                    	<%--isc.warn("Date Rate  Required", {title: 'هشدار'});--%>
-                    	<%--return;--%>
-                    <%--}--%>
-                    <%--if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {--%>
+                    if ((data.down<%=i %>.dateRate==null || data.down<%=i %>.dateRate=="" || (!validatedate(data.down<%=i %>.dateRate)) )) {
+                    	isc.warn("Date Rate  Required", {title: 'هشدار'});
+                    	return;
+                    }
+                     <%--if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {--%>
                     	<%--isc.warn("less or Plus  Required", {title: 'هشدار'});--%>
                     	<%--return;--%>
                     <%--}--%>
@@ -629,8 +631,9 @@
     });
     var VLayout_Invoice_Molybdenum_Body = isc.VLayout.create({
         width: "100%",
-        height: "*",
-                autoSize: true,
+        height: "95%",
+                // autoSize: true,
+        overflow :'scroll',
 
         members: [
                 DynamicForm_Invoice_Molybdenum,
