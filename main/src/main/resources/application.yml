@@ -104,7 +104,7 @@ spring:
 spring:
   profiles: Development
   datasource:
-    url: jdbc:oracle:thin:@//172.16.180.22:1521/pdb1.icico.net.ir
+    url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
     username: sales
     password: sales
   redis:

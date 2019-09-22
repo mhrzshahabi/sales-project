@@ -41,8 +41,39 @@ public class InvoiceDTO {
 	private Float silverUnitPrice;
 	private Float goldUnitPrice;
 	private Long bolHeaderId;
+	private String priceBase;
+	private Float molybdenumContent;
+	private Float commercialInvoceValue;
+	private Float commercialInvoceValueNet;
+	private Float invoiceValueD;
+	private String rateBase;
+	private Float rate2dollar;
+	private Float invoiceValueUp;
+	private Float copperIns;
+	private Float copperDed;
+	private Float copperCal;
+	private Float silverIns;
+	private Float silverDed;
+	private Float silverOun;
+	private Float silverCal;
+	private Float goldIns;
+	private Float goldDed;
+	private Float goldOun;
+	private Float goldCal;
+	private Float subTotal;
+	private Float treatCost;
+	private Float refinaryCostCU;
+	private Float refinaryCostCUPer;
+	private Float refinaryCostCUCal;
+	private Float refinaryCostCUTot;
+	private Float refinaryCostAG;
+	private Float refinaryCostAGPer;
+	private Float refinaryCostAGTot;
+	private Float refinaryCostAU;
+	private Float refinaryCostAUPer;
+	private Float refinaryCostAUTot;
+	private Float subTotalDeduction;
 
-	// ------------------------------
 	// ------------------------------
 
 	@Getter

@@ -5,10 +5,13 @@
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 				   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-	<!--<include file="classpath:/db/changelog/changes/liq-activiti.xml"/>-->
-	<!--<include file="classpath:/db/changelog/changes/liq-oauth-01.xml"/>-->
+	<include file="classpath:/db/changelog/changes/liq-activiti.xml"/>
+	<include file="classpath:/db/changelog/changes/liq-oauth-01.xml"/>
 
 	<include file="changes/liq-001.xml" relativeToChangelogFile="true"/>
 	<include file="changes/liq-002.xml" relativeToChangelogFile="true"/>
+	<include file="changes/liq-003.xml" relativeToChangelogFile="true"/>
+	<include file="changes/liq-004.xml" relativeToChangelogFile="true"/>
+	<include file="changes/liq-005.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
