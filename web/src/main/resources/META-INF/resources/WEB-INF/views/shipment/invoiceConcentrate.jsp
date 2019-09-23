@@ -784,11 +784,11 @@
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumUpConcentrateAndSet();	} },
                 {name: "up<%=i %>.originValueCurrency",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
-                {name: "up<%=i %>.conversionRate",title:"Rate 2 USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "up<%=i %>.conversionRate",title:"Rate 2 USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat5', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumUpConcentrateAndSet();	} },
                 {name: "up<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', useTextField:true, required: false, width: "100%",colSpan:1,mask:"####/##/##",
-                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=DynamicForm_Invoice_Cathodes.getValue("up<%=i %>.dateRate");if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
+                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=DynamicForm_Invoice_Concentrate.getValue("up<%=i %>.dateRate");if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
                 {name: "up<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
                 {name: "up<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} ,
                     changed	: function(form, item, value){ sumUpConcentrateAndSet();	} },
@@ -862,11 +862,11 @@
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumdownConcentrateAndSet();	} },
                 {name: "down<%=i %>.originValueCurrency",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
-                {name: "down<%=i %>.conversionRate",title:"Rate2Invoice",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "down<%=i %>.conversionRate",title:"Rate2Invoice",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat5', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumdownConcentrateAndSet();	} },
                  {name: "down<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', useTextField:true, required: false, width: "100%",colSpan:1,mask:"####/##/##",
-                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=DynamicForm_Invoice_Cathodes.getValue("up<%=i %>.dateRate");if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
+                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=DynamicForm_Invoice_Concentrate.getValue("down<%=i %>.dateRate");if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
                 {name: "down<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
                 {name: "down<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"},
                     changed	: function(form, item, value){ sumdownConcentrateAndSet();	} },
@@ -982,39 +982,52 @@
                     data.up<%=i %>.upDown="up";
                     data.up<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
-                    	isc.warn("less or Plus  Required", {title: 'هشدار'});
+                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
                     if (data.up<%=i %>.description==null || data.up<%=i %>.description=="" ) {
-                    	isc.warn("description  Required", {title: 'هشدار'});
+                    	isc.warn("description  Required  (up<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
                     if (data.up<%=i %>.originValue==null || data.up<%=i %>.originValue<=0 ) {
-                    	isc.warn("Origin Value  Required", {title: 'هشدار'});
+                    	isc.warn("Origin Value  Required  (up<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
                     if (data.up<%=i %>.originValueCurrency==null || data.up<%=i %>.originValueCurrency=="" ) {
-                    	isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
-                    	return;
+                        data.up<%=i %>.originValueCurrency='USD';
+                    	// isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
+                    	// return;
                     }
                     if (data.up<%=i %>.conversionRate==null || data.up<%=i %>.conversionRate<=0 ) {
-                    	isc.warn("conversionRate  Required", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Required  (up<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
-                    if (data.up<%=i %>.dateRate==null || data.up<%=i %>.dateRate=="" || !validatedate(data.up<%=i %>.dateRate)) {
-                    		isc.warn("Date Rate  Required", {title: 'هشدار'});
+                    if (data.up<%=i %>.originValueCurrency=='USD' && data.up<%=i %>.conversionRate!=1){
+                    	isc.warn("conversionRate  Must be One  (up<%=i %>)", {title: 'هشدار'});
+                    	return;
+                    }
+                    if (data.up<%=i %>.originValueCurrency!='USD')
+                    if (data.up<%=i %>.dateRate==null || data.up<%=i %>.dateRate=="")  {
+                    		isc.warn("Date Rate  Required  (up<%=i %>)", {title: 'هشدار'});
                     		return;
                     }
+                   if (data.up<%=i %>.dateRate!=null && data.up<%=i %>.dateRate!="" &&  !validatedate(data.up<%=i %>.dateRate)) {
+                    		isc.warn("Date Rate  is rong  (up<%=i %>)", {title: 'هشدار'});
+                    		return;
+                   }
+
                      if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
-                    	isc.warn("less or Plus  Required", {title: 'هشدار'});
+                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
-                    if (data.up<%=i %>.rateReference==null || data.up<%=i %>.rateReference=="" ) {
-                    	isc.warn("Rate Reference  Required", {title: 'هشدار'});
+                    if ((data.up<%=i %>.rateReference==null || data.up<%=i %>.rateReference=="" )&& (data.up<%=i %>.originValueCurrency!='USD')) {
+                    	isc.warn("Rate Reference  Required  (up<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
                     up.add(data.up<%=i %>);
                 }
+                else if ( data.up<%=i %>.id!=null)   up.add(data.up<%=i %>);
+
                 // data.up<%=i %> ='';
           <% } %>
             var down=[];
@@ -1024,39 +1037,50 @@
                     data.down<%=i %>.upDown="down";
                     data.down<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {
-                    	isc.warn("less or Plus  Required", {title: 'هشدار'});
+                    	isc.warn("less or Plus  Required  (down<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
                     if (data.down<%=i %>.description==null || data.down<%=i %>.description=="" ) {
-                    	isc.warn("description  Required", {title: 'هشدار'});
+                    	isc.warn("description  Required  (down<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
                     if (data.down<%=i %>.originValue==null || data.down<%=i %>.originValue<=0 ) {
-                    	isc.warn("Origin Value  Required", {title: 'هشدار'});
+                    	isc.warn("Origin Value  Required  (down<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
-                    if (data.down<%=i %>.originValueCurrency==null || data.down<%=i %>.originValueCurrency=="" ) {
-                    	isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
-                    	return;
+                     if (data.down<%=i %>.originValueCurrency==null || data.down<%=i %>.originValueCurrency=="" ) {
+                        data.down<%=i %>.originValueCurrency=data.invoiceValueCurrency;
+                    	// isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
+                    	// return;
                     }
                     if (data.down<%=i %>.conversionRate==null || data.down<%=i %>.conversionRate<=0 ) {
-                    	isc.warn("conversionRate  Required", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Required  (down<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
-                   if ((data.down<%=i %>.dateRate==null || data.down<%=i %>.dateRate=="" || (!validatedate(data.down<%=i %>.dateRate)) )) {
-                    	isc.warn("Date Rate  Required", {title: 'هشدار'});
+                    if (data.down<%=i %>.originValueCurrency==data.invoiceValueCurrency && data.down<%=i %>.conversionRate!=1){
+                    	isc.warn("conversionRate  Must be One  (down<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
+                    if (data.down<%=i %>.originValueCurrency!= data.invoiceValueCurrency)
+                    if (data.down<%=i %>.dateRate==null || data.down<%=i %>.dateRate=="")  {
+                    		isc.warn("Date Rate  Required  (down<%=i %>)", {title: 'هشدار'});
+                    		return;
+                    }
+                   if (data.down<%=i %>.dateRate!=null && data.down<%=i %>.dateRate!="" &&  !validatedate(data.down<%=i %>.dateRate)) {
+                    		isc.warn("Date Rate  is rong  (down<%=i %>)", {title: 'هشدار'});
+                    		return;
+                   }
                      <%--if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {--%>
                     	<%--isc.warn("less or Plus  Required", {title: 'هشدار'});--%>
                     	<%--return;--%>
                     <%--}--%>
-                    if (data.down<%=i %>.rateReference==null || data.down<%=i %>.rateReference=="" ) {
-                    	isc.warn("Rate Reference  Required", {title: 'هشدار'});
+                    if ((data.down<%=i %>.rateReference==null || data.down<%=i %>.rateReference=="" )&& (data.down<%=i %>.originValueCurrency!=data.invoiceValueCurrency)) {
+                    	isc.warn("Rate Reference  Required (down<%=i %>)", {title: 'هشدار'});
                     	return;
                     }
                     up.add(data.down<%=i %>);
                 }
+                else if ( data.down<%=i %>.id!=null)   up.add(data.down<%=i %>);
                 // data.down<%=i %> ='';
             <% } %>
             var mo=[];
