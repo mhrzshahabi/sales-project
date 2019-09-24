@@ -8,22 +8,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var dollar = {};
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/currency/list",
-            httpMethod: "GET",
-            data: "",
-            callback: function (RpcResponse_o) {
-                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                    var data = JSON.parse(RpcResponse_o.data);
-                    for (x of data) {
-                        dollar[x.nameEn] = x.nameEn;
-                    }
-                } //if rpc
-            } // callback
-        })
-    );
-
 
     var RestDataSource_Shipment_CostHeader = isc.MyRestDataSource.create({
         fields: [
@@ -521,7 +505,7 @@
                     title: "<spring:message		code='cost.sourceInspectionCurrency'/>",
                     type: 'text',
                     width: "100%",
-                    defaultValue: "DOLLAR", valueMap: dollar
+                    defaultValue: "USD", valueMap: dollar
                 },
                 {
                     name: "destinationInspectorId",
@@ -559,7 +543,7 @@
                     title: "<spring:message		code='cost.destinationInspectionCurrency'/>",
                     type: 'text',
                     width: "100%",
-                    defaultValue: "DOLLAR", valueMap: dollar
+                    defaultValue: "USD", valueMap: dollar
                 },
                 {
                     name: "sarcheshmehLabCost",
@@ -592,7 +576,7 @@
                     title: "<spring:message		code='cost.umpireCostCurrency'/>",
                     type: 'text',
                     width: "100%",
-                    defaultValue: "DOLLAR",
+                    defaultValue: "USD",
                     valueMap: dollar
                 },
                 {
@@ -744,7 +728,7 @@
                     title: "<spring:message		code='cost.insuranceCostCurrency'/>",
                     type: 'text',
                     width: "100%",
-                    defaultValue: "DOLLAR", valueMap: dollar
+                    defaultValue: "USD", valueMap: dollar
                 },
                 {
                     name: "insuranceClause",
@@ -772,7 +756,7 @@
                 },
                 {
                     name: "otherCostCurrency", title: "<spring:message		code='cost.otherCostCurrency'/>",
-                    type: 'text', width: "100%", defaultValue: "DOLLAR", valueMap: dollar
+                    type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
                 },
                 {
                     name: "inventortRentCost",
@@ -841,7 +825,7 @@
                 },
                 {
                     name: "demandCurrency", title: "<spring:message		code='cost.demandCurrency'/>",
-                    type: 'text', width: "100%", defaultValue: "DOLLAR", valueMap: dollar
+                    type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
                 },
                 {
                     name: "contractorCost",

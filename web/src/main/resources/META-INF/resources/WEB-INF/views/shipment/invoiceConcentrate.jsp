@@ -8,6 +8,12 @@
 //<script>
 
     <% DateUtil dateUtil = new DateUtil();
+    	Float treatCost= new Float(request.getSession().getAttribute("treatCost").toString());
+    	Float refinaryCost= new Float(request.getSession().getAttribute("refinaryCost").toString());
+    	Float copper= new Float(request.getSession().getAttribute("copper").toString());
+    	Float silver= new Float(request.getSession().getAttribute("silver").toString());
+    	Float gold= new Float(request.getSession().getAttribute("gold").toString());
+
 		String shipmentId= request.getSession().getAttribute("shipmentId").toString();
 		String invoiceId=request.getSession().getAttribute("invoiceId").toString();
 
@@ -836,7 +842,7 @@
                     title: "<spring:message code='invoice.invoiceValueCur'/>",
                     type: 'text',
                     width: "100%",colSpan:1,titleColSpan:1,titleAlign:"center",
-                    defaultValue: "DOLLAR",
+                    defaultValue: "USD",
                     valueMap: dollar
                 },
                 {
@@ -892,14 +898,34 @@
    var record = ListGrid_Invoice.getSelectedRecord();
  <% if (invoiceId.equalsIgnoreCase("0")) { %>
    DynamicForm_Invoice_Concentrate.clearValues();
+
 		DynamicForm_Invoice_Concentrate.clearValues();
-		DynamicForm_Invoice_Concentrate.setValue("treatCost",109.0);
-		DynamicForm_Invoice_Concentrate.setValue("refinaryCostCU",0.109);
+		DynamicForm_Invoice_Concentrate.setValue("treatCost",<%=treatCost %>);
+		DynamicForm_Invoice_Concentrate.setValue("refinaryCostCU",<%=refinaryCost %>);
 		DynamicForm_Invoice_Concentrate.setValue("refinaryCostCUCal",2204.62);
 		DynamicForm_Invoice_Concentrate.setValue("refinaryCostAG",0.35);
 		DynamicForm_Invoice_Concentrate.setValue("refinaryCostAU",5);
+		DynamicForm_Invoice_Concentrate.setValue("copperIns",<%=copper %>);
+		DynamicForm_Invoice_Concentrate.setValue("silverIns",<%=silver %>);
+		DynamicForm_Invoice_Concentrate.setValue("goldIns",<%=gold %>);
  <% } else { %>
    DynamicForm_Invoice_Concentrate.editRecord(record);
+		if (DynamicForm_Invoice_Concentrate.getValue("treatCost")==null )
+			DynamicForm_Invoice_Concentrate.setValue("treatCost",<%=treatCost %>);
+		if (DynamicForm_Invoice_Concentrate.getValue("refinaryCostCU")==null )
+			DynamicForm_Invoice_Concentrate.setValue("refinaryCostCU",<%=refinaryCost %>);
+		if (DynamicForm_Invoice_Concentrate.getValue("refinaryCostCUCal")==null )
+			DynamicForm_Invoice_Concentrate.setValue("refinaryCostCUCal",2204.62);
+		if (DynamicForm_Invoice_Concentrate.getValue("refinaryCostAG")==null )
+			DynamicForm_Invoice_Concentrate.setValue("refinaryCostAG",0.35);
+		if (DynamicForm_Invoice_Concentrate.getValue("refinaryCostAU")==null )
+			DynamicForm_Invoice_Concentrate.setValue("refinaryCostAU",5);
+		if (DynamicForm_Invoice_Concentrate.getValue("copperIns")==null )
+			DynamicForm_Invoice_Concentrate.setValue("copperIns",<%=copper %>);
+		if (DynamicForm_Invoice_Concentrate.getValue("silverIns")==null )
+			DynamicForm_Invoice_Concentrate.setValue("silverIns",<%=silver %>);
+		if (DynamicForm_Invoice_Concentrate.getValue("goldIns")==null )
+			DynamicForm_Invoice_Concentrate.setValue("goldIns",<%=gold %>);
  <% } %>
 
     if (!(record == null || record.id == null))
@@ -1033,7 +1059,7 @@
             var down=[];
             <%	for (int i=0;i<(loopDown==0 ? 3 : loopDown+2 );i++){ %>
                 if ( data.down<%=i %>.description!=null || data.down<%=i %>.originValue!=null || data.down<%=i %>.conversionRate!=null || data.down<%=i %>.rateReference!=null  ){
-                    data.down<%=i %>.targetValueCurrency=DynamicForm_Invoice_Concentrate.getValue("invoiceValueCurrency") ;
+                    // data.down<%=i %>.targetValueCurrency=DynamicForm_Invoice_Concentrate.getValue("invoiceValueCurrency") ;
                     data.down<%=i %>.upDown="down";
                     data.down<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {

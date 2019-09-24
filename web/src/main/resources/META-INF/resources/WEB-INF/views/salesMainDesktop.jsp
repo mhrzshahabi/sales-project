@@ -1438,6 +1438,22 @@
         backgroundColor: "",
         members: [headerLayout, menuTabSet, mainTabSet]
     });
+    var dollar = {};
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: "${contextPath}/api/currency/list",
+            httpMethod: "GET",
+            data: "",
+            callback: function (RpcResponse_o) {
+                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                    var data = JSON.parse(RpcResponse_o.data);
+                    for (x of data) {
+                        dollar[x.nameEn] = x.nameEn;
+                    }
+                } //if rpc
+            } // callback
+        })
+    );
+
 
     // createTab("<spring:message code='workgroups'/>", "/group/showForm")
     Delay();

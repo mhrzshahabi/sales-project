@@ -332,7 +332,7 @@
                     title: "<spring:message code='invoice.invoiceValueCur'/>",
                     type: 'text',
                     width: "100%",colSpan:1,titleColSpan:1,titleAlign:"center",
-                    defaultValue: "DOLLAR",
+                    defaultValue: "USD",
                     valueMap: dollar
                 },
                 {
@@ -586,7 +586,7 @@
             var down=[];
             <%	for (int i=0;i<(loopDown==0 ? 3 : loopDown+2 );i++){ %>
                 if ( data.down<%=i %>.description!=null || data.down<%=i %>.originValue!=null || data.down<%=i %>.conversionRate!=null || data.down<%=i %>.rateReference!=null  ){
-                    data.down<%=i %>.targetValueCurrency=DynamicForm_Invoice_Concentrate.getValue("invoiceValueCurrency") ;
+                    // data.down<%=i %>.targetValueCurrency=DynamicForm_Invoice_Concentrate.getValue("invoiceValueCurrency") ;
                     data.down<%=i %>.upDown="down";
                     data.down<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {

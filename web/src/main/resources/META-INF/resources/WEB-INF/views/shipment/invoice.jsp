@@ -109,23 +109,6 @@
     });
 
 
-    var dollar = {};
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/currency/list",
-            httpMethod: "GET",
-            data: "",
-            callback: function (RpcResponse_o) {
-                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                    var data = JSON.parse(RpcResponse_o.data);
-                    for (x of data) {
-                        dollar[x.nameEn] = x.nameEn;
-                    }
-                } //if rpc
-            } // callback
-        })
-    );
-
-
     var RestDataSource_Shipment_InvoiceHeader = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -455,11 +438,11 @@
                 Window_Invoice_Concentrate.show();
                 return;
             } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
-                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/mol/");
+                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/mol/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Molybdenum.show();
                         return;
             }   else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
-                        ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/cat");
+                        ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/cat/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Cathodes.show();
                         return;
             } else {
@@ -535,15 +518,15 @@
                 click: function () {
                     DynamicForm_Invoice.clearValues();
                     if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '26030090') {
-                        ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/0/con");
+                        ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/0/con/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Invoice_Concentrate.show();
                         return;
                     } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
-                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/0/mol");
+                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/0/mol/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Molybdenum.show();
                         return;
                     } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
-                        ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/cat");
+                        ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/cat/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Cathodes.show();
                         return;
                     } else {
@@ -684,7 +667,7 @@
                     title: "<spring:message code='invoice.unitPriceCurrency'/>",
                     type: 'text',
                     width: "100%",
-                    defaultValue: "DOLLAR",
+                    defaultValue: "USD",
                     valueMap: dollar
                 },
                 {
@@ -761,7 +744,7 @@
                     title: "<spring:message code='invoice.invoiceValueCur'/>",
                     type: 'text',
                     width: "100%",
-                    defaultValue: "DOLLAR",
+                    defaultValue: "USD,
                     valueMap: dollar
                 },
                 {
@@ -898,15 +881,15 @@
                 });
             } else {
                 if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '26030090') {
-                       ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/con");
+                       ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/con/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                        Window_Invoice_Concentrate.show();
                         return;
                 } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
-                       ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/mol");
+                       ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/mol/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                        Window_Molybdenum.show();
                         return;
                 } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
-                    ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/cat");
+                    ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/cat/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                     Window_Cathodes.show();
                } else {
                 DynamicForm_Invoice.clearValues();

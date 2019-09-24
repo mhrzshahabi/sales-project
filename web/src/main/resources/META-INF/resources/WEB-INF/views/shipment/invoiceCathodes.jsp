@@ -8,6 +8,9 @@
 //<script>
 
     <% DateUtil dateUtil = new DateUtil();
+    	Float premium= new Float(request.getSession().getAttribute("premium").toString());
+    	Float discount= new Float(request.getSession().getAttribute("discount").toString());
+
 		String shipmentId= request.getSession().getAttribute("shipmentId").toString();
 		String invoiceId=request.getSession().getAttribute("invoiceId").toString();
 
@@ -170,10 +173,53 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-		   			  	DynamicForm_Invoice_Cathodes_setValue("unitPrice",value);
+		   			  	DynamicForm_Invoice_Cathodes_setValue("unitPrice",value+<%=premium+discount %>);
 
 		   			}
 
+                },
+                 {
+                    name: "premium",
+                    title: "<spring:message code='contract.premium'/>",
+                    type: 'currencyFloat3',
+                    canEdit: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",colSpan:2,titleColSpan:1,titleAlign:"left",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "discount",
+                    title: "<spring:message code='contract.discount'/>",
+                    type: 'currencyFloat3',
+                    canEdit: false,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",colSpan:2,titleColSpan:2,titleAlign:"center",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+
+                },
+                {
+                    name: "unitPrice",
+                    title: "<spring:message code='invoice.unitPrice'/>",
+                    type: 'currencyFloat2',
+                    canEdit:false,
+                    width: "100%",colSpan:2,titleColSpan:3,titleAlign:"right",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                  {
                     name: "grass",
@@ -320,7 +366,7 @@
                     title: "<spring:message code='invoice.invoiceValueCur'/>",
                     type: 'text',
                     width: "100%",colSpan:1,titleColSpan:1,titleAlign:"center",
-                    defaultValue: "DOLLAR",
+                    defaultValue: "USD",
                     valueMap: dollar
                 },
                 {
@@ -385,7 +431,8 @@
        DynamicForm_Invoice_Cathodes.setValue("invoiceDateDumy", new Date(record.invoiceDate));
    var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
    DynamicForm_Invoice_Cathodes.setValue("shipmentId", record.id);
-
+   DynamicForm_Invoice_Cathodes.setValue("discount",<%=discount %>);
+   DynamicForm_Invoice_Cathodes.setValue("premium",<%=premium %>);
 <%		loopUp=0;
 		loopDown=0;
 		for(InvoiceItemDTO.Info info : listItem)
@@ -511,7 +558,7 @@
             var down=[];
             <%	for (int i=0;i<(loopDown==0 ? 3 : loopDown+2 );i++){ %>
                 if ( data.down<%=i %>.description!=null || data.down<%=i %>.originValue!=null || data.down<%=i %>.conversionRate!=null || data.down<%=i %>.rateReference!=null  ){
-                    data.down<%=i %>.targetValueCurrency=DynamicForm_Invoice_Concentrate.getValue("invoiceValueCurrency") ;
+                    // data.down<%=i %>.targetValueCurrency=DynamicForm_Invoice_Concentrate.getValue("invoiceValueCurrency") ;
                     data.down<%=i %>.upDown="down";
                     data.down<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {

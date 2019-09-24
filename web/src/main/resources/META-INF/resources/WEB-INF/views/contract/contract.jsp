@@ -599,7 +599,7 @@
                     name: "prepaidCurrency",
                     title: "<spring:message code='contract.prepaidCurrency'/>",
                     type: 'text',
-                    defaultValue: "DOLLAR", valueMap: {"EURO": "EURO", "DOLLAR": "DOLLAR"},
+                    defaultValue: "USD", valueMap: dollar,
                     width: "100%"
                 },
                 {

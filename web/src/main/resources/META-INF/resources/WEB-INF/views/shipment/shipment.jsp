@@ -12,21 +12,6 @@
     var RestDataSource_ContractPerson;
     var ListGrid_Person_EmailCC;
 
-    var dollar = {};
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/currency/list",
-            httpMethod: "GET",
-            callback: function (RpcResponse_o) {
-                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                    var data = JSON.parse(RpcResponse_o.data);
-                    for (x of data) {
-                        dollar[x.nameEn] = x.nameEn;
-                    }
-                }
-            }
-        })
-    );
-
     var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
         fields:
             [
@@ -705,7 +690,7 @@
                 name: "freightCurrency", colSpan: 1,
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
-                defaultValue: "DOLLAR", valueMap: dollar,
+                defaultValue: "USD", valueMap: dollar,
                 width: "100%",
             },
             {
@@ -740,7 +725,7 @@
                 name: "preFreightCurrency", colSpan: 1,
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
-                defaultValue: "DOLLAR", valueMap: dollar,
+                defaultValue: "USD", valueMap: dollar,
                 width: "100%",
             },
             {
@@ -760,7 +745,7 @@
                 name: "postFreightCurrency", colSpan: 1,
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
-                defaultValue: "DOLLAR", valueMap: dollar,
+                defaultValue: "USD", valueMap: dollar,
                 width: "100%",
             },
             {
