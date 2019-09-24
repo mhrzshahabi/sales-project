@@ -451,11 +451,11 @@
             });
         } else {
             if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '26030090') {
-                ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/con");
+                ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/con/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                 Window_Invoice_Concentrate.show();
                 return;
             } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
-                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/mol");
+                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/mol/");
                         Window_Molybdenum.show();
                         return;
             }   else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {

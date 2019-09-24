@@ -5,6 +5,7 @@ import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.InvoiceItemDTO;
 import com.nicico.sales.dto.InvoiceMolybdenumDTO;
+import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.iservice.IInvoiceItemService;
 import com.nicico.sales.iservice.IInvoiceMolybdenumService;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +30,14 @@ public class InvoiceFormController {
 
 	private final IInvoiceMolybdenumService invoiceMolybdenumService;
 	private final IInvoiceItemService invoiceItemService;
+	private final IContractService contractService;
 
 	@RequestMapping("/showForm/{shipmentId}/{invoiceId}/{type}")
 	public String showInvoiceMolybdenum(HttpServletRequest req, @PathVariable String shipmentId, @PathVariable String invoiceId , @PathVariable String type) {
         String cr="{ \"operator\":\"and\", \"criteria\" : [  { \"fieldName\":\"invoiceId\", \"operator\":\"equals\", \"value\":\"22222\"  }\t] }";
 		final GridResponse<InvoiceMolybdenumDTO.Info> gridResponse = new GridResponse();
 		final GridResponse<InvoiceItemDTO.Info> gridResponseItem = new GridResponse();
-
+//        ContractDTO.Info contract=contractService.get(new Long (contractId));
 		if (!invoiceId.equals("0")) {
 			SearchDTO.CriteriaRq requestCriteriaRq = new SearchDTO.CriteriaRq()
 					.setOperator(EOperator.equals)
