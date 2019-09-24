@@ -1064,7 +1064,7 @@
             // warehousesButton
             , tozinButton
             , tozinSalesButton
-            // , warehousesLotButton
+            , warehousesLotButton
             // , exportButton
             // , salesPlanButton
             // , purchasePlanButton
