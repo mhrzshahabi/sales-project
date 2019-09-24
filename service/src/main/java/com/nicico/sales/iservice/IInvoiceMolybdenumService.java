@@ -3,6 +3,7 @@ package com.nicico.sales.iservice;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.InvoiceMolybdenumDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IInvoiceMolybdenumService {
@@ -10,6 +11,8 @@ public interface IInvoiceMolybdenumService {
 	InvoiceMolybdenumDTO.Info get(Long id);
 
 	List<InvoiceMolybdenumDTO.Info> list();
+
+	void molybdenum(String data) throws IOException;
 
 	InvoiceMolybdenumDTO.Info create(InvoiceMolybdenumDTO.Create request);
 

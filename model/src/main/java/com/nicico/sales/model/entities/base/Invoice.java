@@ -101,4 +101,100 @@ public class Invoice extends Auditable {
 	@Column(name = "BOL_HEADER_ID")
 	private Long bolHeaderId;
 
+	@Column(name = "PRICE_BASE")
+	private String priceBase;
+
+	@Column(name = "MOLYBDENUM_CONTENT")
+	private Float molybdenumContent;
+
+	@Column(name = "COMMERCIAL_INVOICE_VALUE")
+	private Float commercialInvoceValue;
+
+	@Column(name = "COMMERCIAL_INVOICE_VALUE_NET")
+	private Float commercialInvoceValueNet;
+
+	@Column(name = "INVOIVE_VALUE_D")
+	private Float invoiceValueD;
+
+	@Column(name = "RATE_BASE")
+	private String rateBase;
+
+	@Column(name = "RATE2DOLLAR")
+	private Float rate2dollar;
+
+	@Column(name = "INVOIVE_VALUE_UP")
+	private Float invoiceValueUp;
+
+	@Column(name = "COPPER_INS")
+	private Float copperIns;
+
+	@Column(name = "COPPER_DED")
+	private Float copperDed;
+
+	@Column(name = "COPPER_CAL")
+	private Float copperCal;
+
+	@Column(name = "SILVER_INS")
+	private Float silverIns;
+
+	@Column(name = "SILVER_DED")
+	private Float silverDed;
+
+	@Column(name = "SILVER_OZ")
+	private Float silverOun;
+
+	@Column(name = "SILVER_CAL")
+	private Float silverCal;
+
+	@Column(name = "GOLD_INS")
+	private Float goldIns;
+
+	@Column(name = "GOLD_DED")
+	private Float goldDed;
+
+	@Column(name = "GOLD_OZ")
+	private Float goldOun;
+
+	@Column(name = "GOLD_CAL")
+	private Float goldCal;
+
+	@Column(name = "SUB_TOTAL")
+	private Float subTotal;
+
+	@Column(name = "TREAT_COST")
+	private Float treatCost;
+
+	@Column(name = "RC_CU")
+	private Float refinaryCostCU;
+
+	@Column(name = "RC_CU_PER")
+	private Float refinaryCostCUPer;
+
+	@Column(name = "RC_CU_CAL")
+	private Float refinaryCostCUCal;
+
+	@Column(name = "RC_CU_TOT")
+	private Float refinaryCostCUTot;
+
+	@Column(name = "RG_AG")
+	private Float refinaryCostAG;
+
+	@Column(name = "RC_AG_PER")
+	private Float refinaryCostAGPer;
+
+	@Column(name = "RC_AG_TOT")
+	private Float refinaryCostAGTot;
+
+	@Column(name = "RC_AU")
+	private Float refinaryCostAU;
+
+	@Column(name = "RC_AU_PER")
+	private Float refinaryCostAUPer;
+
+	@Column(name = "RC_AU_TOT")
+	private Float refinaryCostAUTot;
+
+	@Column(name = "SUB_TOTAL_DEDUCTION")
+	private Float subTotalDeduction;
+
 }

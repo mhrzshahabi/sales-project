@@ -69,6 +69,7 @@ public class SalesException extends NICICOException {
 		WarehouseLotNotFound(404),
 		CountryNotFound(404),
 		InvoiceMolybdenumNotFound(404),
+		InvoiceItemNotFound(404),
 		BankNotFound(404);
 
 		private final Integer httpStatusCode;
