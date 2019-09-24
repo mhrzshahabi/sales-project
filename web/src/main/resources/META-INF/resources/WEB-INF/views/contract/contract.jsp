@@ -346,7 +346,7 @@
                         {name: "descl", width: 440, align: "center"}
                     ],
                     changed(form, item, value) {
-                        if (item.getSelectedRecord().descl === 'Copper Concentrate') {
+                        if (item.getSelectedRecoParametersrd().descl === 'Copper Concentrate') {
                             form.getItem("copper").show();
                             form.getItem("copperTolorance").show();
                             form.getItem("gold").show();

@@ -1366,6 +1366,7 @@
         ],
         autoDraw: false
     });
+
     financialRibbonBar.addGroup(financialRibbonGroup, 0);
 
     var financialRibbonHLayout = isc.HLayout.create({
@@ -1377,6 +1378,48 @@
         backgroundColor: "#153560",
         members: [financialRibbonBar]
     });
+
+    var issuedInvoicesButtonContract = isc.IconButton.create({
+        title: "<spring:message code='issuedInvoices.titleTest'/>",
+        icon: "financial/issuedInvoices.png",
+        largeIcon: "financial/issuedInvoices.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='issuedInvoices.titleTest'/>", "<spring:url value="/contact/showFormContractNew" />")
+        }
+    });
+
+    var financialRibbonBarContract = isc.RibbonBar.create({
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
+    });
+
+    var financialRibbonGroupContract = isc.RibbonGroup.create({
+        title: "<spring:message code='global.menu.test'/>",
+        numRows: 1,
+        colWidths: [20, "*"],
+        showTitle: false,
+        titleAlign: "left",
+        controls: [
+            issuedInvoicesButtonContract
+        ],
+        autoDraw: false
+    });
+
+    var financialRibbonHLayoutContract = isc.HLayout.create({
+        width: "100%",
+        height: "60",
+        // border: "0px solid green",
+        showResizeBar: false,
+        showShadow: false,
+        backgroundColor: "#153560",
+        members: [financialRibbonBarContract]
+    });
+
+    financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);
+
+
     //---------------------------------------
     var mainTabSet = isc.TabSet.create({
         tabBarPosition: "top",
@@ -1427,8 +1470,8 @@
             {title: "<spring:message code='main.shipmentTab'/>", icon: "", iconSize: 16, pane: shipmentRibbonHLayout},
             <%--{title: "<spring:message code='main.inspectionTab'/>",icon: "",iconSize: 16,pane: inspectionRibbonHLayout},--%>
             <%--{title: "<spring:message code='main.insuranceTab'/>", icon: "", iconSize: 16, pane: insuranceRibbonHLayout},--%>
-            {title: "<spring:message code='main.financialTab'/>", icon: "", iconSize: 16, pane: financialRibbonHLayout}
-
+            {title: "<spring:message code='main.financialTab'/>", icon: "", iconSize: 16, pane: financialRibbonHLayout},
+            {title: "<spring:message code='main.contractsTabNew'/>", icon: "", iconSize: 16, pane: financialRibbonHLayoutContract}
         ]
     });
     isc.VLayout.create({

@@ -11,4 +11,15 @@ public class ContactFormController {
     public String showContact() {
         return "base/contact";
     }
+
+    @RequestMapping("/showFormContractNew")
+	public String showTozinTest() {
+		return "contract/contractNew";
+	}
+
+    @RequestMapping("/contactMolybdenum")
+    public String contactNew() {
+        return "contract/molybdenum/contactMolybdenumPage1";
+    }
+
 }
