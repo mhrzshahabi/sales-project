@@ -744,7 +744,7 @@
                     title: "<spring:message code='invoice.invoiceValueCur'/>",
                     type: 'text',
                     width: "100%",
-                    defaultValue: "USD,
+                    defaultValue: "USD",
                     valueMap: dollar
                 },
                 {

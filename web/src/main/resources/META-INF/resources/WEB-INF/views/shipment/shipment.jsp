@@ -1264,7 +1264,7 @@
         dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: false
     });
     var HLayout_Grid_Shipment = isc.HLayout.create({
         width: "100%",

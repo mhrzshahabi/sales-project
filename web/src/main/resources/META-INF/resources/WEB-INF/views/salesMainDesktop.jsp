@@ -126,9 +126,12 @@
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
 
+
     isc.ListGrid.addProperties({
         dataPageSize: 500,
-        showPrompt: true
+        showPrompt: true,
+        allowFilterExpressions: true,
+		allowAdvancedCriteria: true
     });
 
     isc.ToolStripButton.addProperties({
