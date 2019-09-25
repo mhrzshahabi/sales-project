@@ -36,7 +36,7 @@ public class Material extends Auditable {
 	private String code;
 
 	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "UNIT_ID", nullable = false, insertable = false, updatable = false)
 	private Unit unit;
 

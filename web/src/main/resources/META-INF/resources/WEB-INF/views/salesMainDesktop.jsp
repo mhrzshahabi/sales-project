@@ -18,6 +18,7 @@
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
+    <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
 
@@ -1064,7 +1065,7 @@
             // warehousesButton
             , tozinButton
             , tozinSalesButton
-            // , warehousesLotButton
+            , warehousesLotButton
             // , exportButton
             // , salesPlanButton
             // , purchasePlanButton

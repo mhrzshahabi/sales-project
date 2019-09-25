@@ -365,7 +365,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "loadingLetterNo", title: "<spring:message code='export.loadingLetterNo'/>", align: "center"},
                 {name: "loadingLetterDate", title: "<spring:message code='export.loadingLetterNo'/>", align: "center"},
-                {name: "tblMaterial.descl", title: "<spring:message code='goods.nameLatin'/> "},
+                {name: "material", title: "<spring:message code='goods.nameLatin'/> "},
                 {
                     name: "containerQuantity",
                     title: "<spring:message code='export.containerQuantity'/>",

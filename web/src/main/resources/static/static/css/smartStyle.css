@@ -47,4 +47,6 @@
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
-
+.texttoLable{
+    border:none !important;
+}

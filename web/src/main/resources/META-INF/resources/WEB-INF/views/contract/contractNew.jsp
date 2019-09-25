@@ -27,46 +27,7 @@
                     ViewLoader_createTozin
                     ]
             });
-             var contactTabs = isc.TabSet.create({
-                            width: "100%",
-                            height: "100%",
-                            showTabScroller:true,
-                            tabs: [
-                            {title: "page1", canClose: true,
-                                pane: isc.ViewLoader.create({
-                                    autoDraw:false,
-                                    viewURL:"<spring:url value="/contact/contactMolybdenum" />",
-                                    loadingMessage:"Loading Grid.."
-                                    })
-                            },
-                            {title: "page2", canClose: false,
-                            pane: isc.Img.create({autoDraw: false, width: 48, height: 48, src: "pieces/48/pawn_yellow.png"})},
-                            {title: "page3", canClose: false, ID: "validatedTab",
-                            pane: isc.Img.create({autoDraw: false, width: 48, height: 48, src: "pieces/48/pawn_yellow.png"})},
-                            {title: "page4", canEditTitle: false,
-                            pane: isc.Img.create({autoDraw: false, width: 48, height: 48, src: "pieces/48/pawn_red.png"})}
-                            ]
-                        });
-                    var IButton_Contact_Save = isc.IButton.create({
-                            top: 260,
-                            title: "<spring:message code='global.form.save'/>",
-                            icon: "pieces/16/save.png",
-                            click: function () {
-                                saveContact(DynamicForm_Contact_GeneralInfo.getValues());
-                            }
-                            });
-                    var contactFormButtonLayout = isc.HStack.create({
-                        width: "100%",
-                        height: "3%",
-                        align: "center",
-                        showEdges:true,
-                        backgroundColor:"#CCFFFF",
-                        membersMargin:5,
-                        layoutMargin:10,
-                        members:[
-                                IButton_Contact_Save
-                        ]
-                        });
+
 
         isc.Label.create({ID:"Label_Contact_Type",padding: 20,width: "100%",height: "1%",styleName: "helloWorldText",contents:  'Please select the type of contract.'});
         isc.IButton.create({ID:"Button_Melodin",width: "200",height: "30",title: "Molybdenum",icon: "icons/16/world.png",iconOrientation: "right",click:function () {
@@ -103,7 +64,6 @@
                     title: "<spring:message code='contact.title'/>",
                     width: "98%",
                     height: "80%",
-                  //  backgroundColor:"red",
                     autoCenter: true,
                     isModal: true,
                     showModalMask: true,
@@ -114,8 +74,11 @@
                     this.Super("closeClick", arguments)
                     },
                     items: [
-                    contactTabs,
-                    contactFormButtonLayout
+                    isc.ViewLoader.create({
+                                    autoDraw:false,
+                                    viewURL:"<spring:url value="/contact/contactMolybdenum" />",
+                                    loadingMessage:"Loading Grid.."
+                                    })
                     ]
                     });
 

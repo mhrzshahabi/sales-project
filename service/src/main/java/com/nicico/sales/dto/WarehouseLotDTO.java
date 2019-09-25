@@ -21,7 +21,7 @@ public class WarehouseLotDTO {
 	@ApiModelProperty(required = true)
 	private String warehouseNo;
 	private Material material;
-	@NotNull
+    @NotNull
 	@ApiModelProperty(required = true)
 	private Long materialId;
 	private String plant;
