@@ -86,4 +86,16 @@ public class WarehouseLot extends Auditable {
 	@Column(name = "GROSS_WEIGHT")
 	private Double grossWeight;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLotContract"))
+	private Contract contract;
+
+	@Column(name = "CONTRACT_ID")
+	private Long contractId;
+
+    @Column(name = "USED")
+    private Boolean used;
+
+
+
 }

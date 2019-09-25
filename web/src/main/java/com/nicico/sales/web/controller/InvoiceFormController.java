@@ -3,8 +3,10 @@ package com.nicico.sales.web.controller;
 import com.nicico.copper.common.dto.grid.GridResponse;
 import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.sales.dto.ContractDTO;
 import com.nicico.sales.dto.InvoiceItemDTO;
 import com.nicico.sales.dto.InvoiceMolybdenumDTO;
+import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.iservice.IInvoiceItemService;
 import com.nicico.sales.iservice.IInvoiceMolybdenumService;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +31,14 @@ public class InvoiceFormController {
 
 	private final IInvoiceMolybdenumService invoiceMolybdenumService;
 	private final IInvoiceItemService invoiceItemService;
+	private final IContractService contractService;
 
-	@RequestMapping("/showForm/{shipmentId}/{invoiceId}/{type}")
-	public String showInvoiceMolybdenum(HttpServletRequest req, @PathVariable String shipmentId, @PathVariable String invoiceId , @PathVariable String type) {
+	@RequestMapping("/showForm/{shipmentId}/{invoiceId}/{type}/{contractId}")
+	public String showInvoiceMolybdenum(HttpServletRequest req, @PathVariable String shipmentId, @PathVariable String invoiceId , @PathVariable String type, @PathVariable String contractId) {
         String cr="{ \"operator\":\"and\", \"criteria\" : [  { \"fieldName\":\"invoiceId\", \"operator\":\"equals\", \"value\":\"22222\"  }\t] }";
 		final GridResponse<InvoiceMolybdenumDTO.Info> gridResponse = new GridResponse();
 		final GridResponse<InvoiceItemDTO.Info> gridResponseItem = new GridResponse();
-
+        ContractDTO.Info contract=contractService.get(new Long (contractId));
 		if (!invoiceId.equals("0")) {
 			SearchDTO.CriteriaRq requestCriteriaRq = new SearchDTO.CriteriaRq()
 					.setOperator(EOperator.equals)
@@ -71,13 +74,24 @@ public class InvoiceFormController {
 		if (type.equalsIgnoreCase("mol"))
 			return "shipment/invoiceMolybdenum";
 		else
-			if (type.equalsIgnoreCase("cat"))
+			if (type.equalsIgnoreCase("cat")) {
+				req.getSession().setAttribute("premium",nvl(contract.getPremium()));
+				req.getSession().setAttribute("discount",nvl(contract.getDiscount()));
 				return "shipment/invoiceCathodes";
-		else
-			return "shipment/invoiceConcentrate";
+			}
+		else {
+				req.getSession().setAttribute("treatCost",nvl(contract.getTreatCost()));
+				req.getSession().setAttribute("refinaryCost",nvl(contract.getRefinaryCost()));
+				req.getSession().setAttribute("copper",nvl(contract.getCopper()));
+				req.getSession().setAttribute("silver",nvl(contract.getSilver()));
+				req.getSession().setAttribute("gold",nvl(contract.getGold()));
+				return "shipment/invoiceConcentrate";
+			}
 
 	}
-
+	<T> String  nvl (T  f){
+	   return f==null ? "0.0":f.toString();
+	}
 	@RequestMapping("/print/{type}")
 	public void printInvoice(HttpServletResponse response, @PathVariable String type) throws Exception {
 	}
