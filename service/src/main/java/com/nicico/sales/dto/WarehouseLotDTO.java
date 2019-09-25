@@ -42,6 +42,9 @@ public class WarehouseLotDTO {
 	private Double size2Value;
 	private Double weightKg;
 	private Double grossWeight;
+	private Long contractId;
+    private Boolean used;
+
 	// ------------------------------
 
 	@Getter
@@ -55,6 +58,7 @@ public class WarehouseLotDTO {
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
+		private ContactDTO.ContactInfoTuple contact;
 	}
 
 	// ------------------------------
