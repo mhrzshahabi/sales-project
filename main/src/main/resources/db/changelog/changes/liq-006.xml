@@ -12,4 +12,8 @@
             <column name="USED" type="number(1, 0)"/>
         </addColumn>
     </changeSet>
+	<changeSet author="Admin (generated)" id="1569406986744-167">
+        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="WarehouseLotContract" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
+    </changeSet>
+
  </databaseChangeLog>
