@@ -108,7 +108,6 @@
 
     });
 
-
     var dollar = {};
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/currency/list",
@@ -124,38 +123,48 @@
             } // callback
         })
     );
+/***************************************************************************/
+    var Menu_ListGrid_Mali = isc.Menu.create({
+        data:[
+                {
+                     title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                     click: function() {
+                        //TODO
+                    }
+                },
+                {
+                    title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                    click: function(){
+                        //TODO
+                    }
+                },
+                {
+                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                    click: function(){
+                     //TODO
+                    }
+                },
+            ]});
 
 
-    var RestDataSource_Shipment_InvoiceHeader = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", hidden: true, type: 'long'},
-            {name: "contactId", type: 'long', hidden: true},
-            {name: "contract.contact.nameFA"},
-            {name: "contractId", type: 'long', hidden: true},
-            {name: "contract.contractNo"},
-            {name: "contract.contractDate"},
-            {name: "materialId"},
-            {name: "material.descl"},
-            {name: "material.unit.nameEN"},
-            {name: "amount"},
-            {name: "shipmentType"},
-            {name: "loadingLetter"},
-            {name: "noContainer"},
-            {name: "portByLoading.port"},
-            {name: "portByDischarge.port"},
-            {name: "description"},
-            {name: "contractShipment.sendDate"},
-            {name: "createDate"},
-            {name: "month"},
-            {name: "contactByAgent.nameFA"},
-            {name: "vesselName"},
-            {name: "swb"},
-            {name: "switchPort.port"},
-            {name: "status"}
-        ],
-        fetchDataURL: "${contextPath}/api/shipment/spec-list"
+    var MenuButton_Mali = isc.MenuButton.create({
+        ID: "MenuButton_Mali",
+        autoDraw: false,
+        title: "<spring:message code='tozin.report.betweenComplexes'/>",
+        prompt: "<spring:message code='tozin.report.betweenComplexes.date'/>",
+        width:100,
+        menu:Menu_ListGrid_Mali
     });
+
+/**********************************************************************************************/
+
+
+
+/*Detele Feild Dont use where set in list grid we use just date source*/
+    var RestDataSource_Shipment_InvoiceHeader = isc.MyRestDataSource.create({
+        fetchDataURL: "${contextPath}/api/shipment/spec-list" // just Data source
+    });
+
 
     //---------------------------------------
     var Menu_ListGrid_Shipment_InvoiceHeader = isc.Menu.create({
@@ -189,6 +198,7 @@
         width: "100%",
         members: [
             ToolStripButton_Shipment_InvoiceHeader_Refresh,
+
         ]
     });
     //-------------------
@@ -196,7 +206,7 @@
     var ListGrid_Shipment_InvoiceHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_Shipment_InvoiceHeader,
+        dataSource: RestDataSource_Shipment_InvoiceHeader, //data source
         contextMenu: Menu_ListGrid_Shipment_InvoiceHeader,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -570,7 +580,25 @@
                 click: function () {
                     ListGrid_Invoice_remove();
                 }
-            }
+            },
+            {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    window.open("");
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    window.open(""); //TODO
+                }
+            },
+             {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    window.open(""); //TODO
+                }
+            },
         ]
     });
 
@@ -933,7 +961,7 @@
             ListGrid_Invoice_remove();
         }
     });
-
+/*Test Jalal*/
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -941,7 +969,8 @@
                 ToolStripButton_Invoice_Refresh,
                 ToolStripButton_Invoice_Add,
                 ToolStripButton_Invoice_Edit,
-                ToolStripButton_Invoice_Remove
+                ToolStripButton_Invoice_Remove,
+                MenuButton_Mali // Add By jazad
             ]
     });
 
