@@ -1,9 +1,7 @@
 package com.nicico.sales.web.controller;
 
 import com.google.gson.JsonObject;
-import com.nicico.copper.common.domain.json.ResultSetConverter;
 import com.nicico.sales.iservice.ICreateReportService;
-import com.nicico.sales.iservice.IDailyReportBandarAbbasService;
 import com.nicico.sales.model.entities.base.myModel.WholeDto;
 import com.nicico.sales.util.ResultSetConverterTest;
 import lombok.RequiredArgsConstructor;
@@ -33,9 +31,8 @@ import java.util.Map;
 @RequestMapping("/dailyReportBandarAbbas")
 public class DailyReportBandarAbbasFormController {
 
-    private final IDailyReportBandarAbbasService dailyReportBandarAbbasService;
     private final ResultSetConverterTest resultSetConverter;
-    private  final ICreateReportService createReportService;
+    private final ICreateReportService createReportService;
 
     @RequestMapping("/showForm")
     public String showDailyReportBandarAbbas() {
@@ -45,17 +42,17 @@ public class DailyReportBandarAbbasFormController {
     @RequestMapping("/print/{type}")
     public void printDailyReportBandarAbbas(
             @PathVariable String type,
-            @RequestParam(name = "toDay", required = false) String toDay,
-            @RequestParam(name = "warehouseNo", required = false) String warehouseNo,
+            @RequestParam(name = "toDay") String toDay,
+            @RequestParam(name = "warehouse") String warehouse,
             HttpServletResponse response) {
 
         try {
             Map<String, Object> parametersMap = new HashMap<>();
             parametersMap.put("logo_nicico", "C:\\upload\\report-logo\\nicico-logo.png");
-            List<WholeDto> list = createReportService.createReport(toDay, warehouseNo);
-            // List<Object[]> list = dailyReportBandarAbbasService.findByDateAndWarehouseNo(toDay, warehouseNo);
+            List<WholeDto> list = createReportService.createReport(toDay, warehouse);
+            // List<Object[]> list = dailyReportBandarAbbasService.findByDateAndWarehouse(toDay, warehouse);
             List<JsonObject> jsonArr = resultSetConverter.toJsonArray(list, new String[]
-                    {"warehouseNo", "toDay", "descp", "plant", "packingType", "amountDay",
+                    {"warehouse", "toDay", "descp", "plant", "packingType", "amountDay",
                             "amountImportDay", "amountFirstDay", "amountExportDay", "amountReviseDay",
                             "amountFirstMon", "amountImportMon", "amountExportMon", "amountReviseMon",
                             "amountFirstSal", "amountImportSal", "amountExportSal", "amountReviseSal", "reviseSal", "aa"

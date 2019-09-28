@@ -19,7 +19,7 @@ public class ShipmentHeader extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT_HEADER")
 	@SequenceGenerator(name = "SEQ_SHIPMENT_HEADER", sequenceName = "SEQ_SHIPMENT_HEADER")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Column(name = "DESCRIPTION")

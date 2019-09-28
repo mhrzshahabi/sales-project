@@ -54,7 +54,7 @@ public class ResultSetConverterTest {
 
             /* for (int i = 0; i < 17; ++i) {*/
             // String column_name = columnNames[i];
-            obj.put(columnNames[0], wholeDto.getWarehouseNo());
+            obj.put(columnNames[0], wholeDto.getWarehouse());
             obj.put(columnNames[1], wholeDto.getToDay());
             //obj.put(columnNames[2], wholeDto.getPackingType());
             obj.put(columnNames[2], wholeDto.getDescp());

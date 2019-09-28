@@ -12,7 +12,7 @@ public class ContractItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_ITEM")
 	@SequenceGenerator(name = "SEQ_CONTRACT_ITEM", sequenceName = "SEQ_CONTRACT_ITEM")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

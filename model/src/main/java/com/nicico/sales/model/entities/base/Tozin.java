@@ -20,10 +20,10 @@ public class Tozin extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq")
 	@SequenceGenerator(name = "base_seq")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
-	@Column(name = "PID", precision = 10)
+	@Column(name = "PID")
 	private Long pId;
 
 	@Column(name = "CARD_ID")

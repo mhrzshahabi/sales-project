@@ -19,7 +19,7 @@ public class LME extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_LME")
 	@SequenceGenerator(name = "SEQ_LME", sequenceName = "SEQ_LME")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Column(name = "LME_DATE")

@@ -23,8 +23,8 @@ public interface WholeDtoDAO extends JpaRepository<WholeDto, Long>, JpaSpecifica
             " WHERE To_char(To_date(w.TO_DAY,'YYYY/MM/DD', 'NLS_CALENDAR=''Gregorian'''),'yyyy/mm/dd') BETWEEN :firstOfMonth and :thisdate   and w.DESCP = :descp  and w.packing_Type= :packType and w.PLANT = :plant  ", nativeQuery = true)
     List<WholeDto> findMonthAndValueBetweenTwoDay(@Param("firstOfMonth") String firstOfMonth, @Param("thisdate") String thisdate, @Param("descp") String descp, @Param("packType") String packType, @Param("plant") String plant);
 
-    @Query(value = "select * from TBL_WHOLE_DAily t where  T.warehouse_No = :warehouseNo and T.to_Day= :date",nativeQuery = true)
-    List<WholeDto> findByDateAndWarehouseNo(@Param("date") String date,@Param("warehouseNo") String warehouseNo);
+    @Query(value = "select * from TBL_WHOLE_DAily t where  T.warehouse = :warehouse and T.to_Day= :date",nativeQuery = true)
+    List<WholeDto> findByDateAndWarehouse(@Param("date") String date,@Param("warehouse") String warehouse);
     //calculate total count for mes and tahpatil as date and gdsname becuase all of them are tonaj
     @Query(value = " select * from TBL_WHOLE_DAILY r " +
             " where  R.TO_DAY= :date and R.DESCP like %:gdsname%  and R.PACKING_TYPE like %:packtype% " , nativeQuery = true)

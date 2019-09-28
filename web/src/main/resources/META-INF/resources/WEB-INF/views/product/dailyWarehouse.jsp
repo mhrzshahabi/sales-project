@@ -23,7 +23,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouseNo'/>", align: "center"},
+                {name: "warehouse", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center"},
                 {name: "toDay", title: "<spring:message code='dailyWarehouse.toDay'/>", align: "center"},
                 {name: "tblMaterial.descl", title: "<spring:message code='goods.nameLatin'/> "},
                 {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
@@ -175,8 +175,8 @@
 
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
-                    name: "warehouseNo",
-                    title: "<spring:message code='dailyWarehouse.warehouseNo'/>",
+                    name: "warehouse",
+                    title: "<spring:message code='dailyWarehouse.warehouse'/>",
                     align: "center",
                     width: 400,
                     valueMap: {
@@ -404,7 +404,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouseNo'/>", align: "center"},
+                {name: "warehouse", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center"},
                 {name: "toDay", title: "<spring:message code='dailyWarehouse.toDay'/>", align: "center"},
                 {name: "tblMaterial.descl", title: "<spring:message code='goods.nameLatin'/> "},
                 {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},

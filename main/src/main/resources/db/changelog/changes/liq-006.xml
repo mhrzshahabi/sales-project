@@ -1,0 +1,34 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Reza (generated)" id="1569225918430-167">
+        <createTable tableName="TBL_WHOLE_DAily">
+            <column autoIncrement="true" name="id" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_WHOLE_DAilyPK"/>
+            </column>
+            <column name="aa" type="FLOAT(24)"/>
+            <column name="amount_Day" type="FLOAT(24)"/>
+            <column name="amount_Export_Day" type="FLOAT(24)"/>
+            <column name="amount_Export_Mon" type="FLOAT(24)"/>
+            <column name="amount_Export_Sal" type="FLOAT(24)"/>
+            <column name="amount_First_Day" type="FLOAT(24)"/>
+            <column name="amount_First_Mon" type="FLOAT(24)"/>
+            <column name="amount_First_Sal" type="FLOAT(24)"/>
+            <column name="amount_Import_Day" type="FLOAT(24)"/>
+            <column name="amount_Import_Mon" type="FLOAT(24)"/>
+            <column name="amount_Import_Sal" type="FLOAT(24)"/>
+            <column name="amount_Revise_Day" type="FLOAT(24)"/>
+            <column name="amount_Revise_Mon" type="FLOAT(24)"/>
+            <column name="amount_Revise_Sal" type="FLOAT(24)"/>
+            <column name="descp" type="VARCHAR2(255 CHAR)"/>
+            <column name="packing_Type" type="VARCHAR2(255 CHAR)"/>
+            <column name="plant" type="VARCHAR2(255 CHAR)"/>
+            <column name="revise_Sal" type="FLOAT(24)"/>
+            <column name="to_Day" type="VARCHAR2(255 CHAR)"/>
+            <column name="warehouse" type="VARCHAR2(255 CHAR)"/>
+        </createTable>
+    </changeSet>
+
+ </databaseChangeLog>

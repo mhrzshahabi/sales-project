@@ -21,7 +21,7 @@ public class ContractIncomeCost extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BANK")
 	@SequenceGenerator(name = "SEQ_BANK", sequenceName = "SEQ_BANK")
-    @Column(name = "ID", precision = 10)
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "C_CONTRACT_NO")

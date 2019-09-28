@@ -19,7 +19,7 @@ public class PaymentOptionContract extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_PAYMENT_OPTION")
 	@SequenceGenerator(name = "SEQ_CONTRACT_PAYMENT_OPTION", sequenceName = "SEQ_CONTRACT_PAYMENT_OPTION")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

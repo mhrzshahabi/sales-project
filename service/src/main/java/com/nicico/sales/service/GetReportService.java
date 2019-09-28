@@ -3,49 +3,37 @@ package com.nicico.sales.service;
 
 import com.nicico.sales.iservice.IGetReportService;
 import com.nicico.sales.model.entities.base.myModel.PMPTYPE;
-import com.nicico.sales.model.entities.base.myModel.ReportDetails;
+import com.nicico.sales.model.entities.base.myModel.ReportInfo;
 import com.nicico.sales.repository.MoveDAO;
 import com.nicico.sales.repository.PlantMaterialPackTypeDAO;
 import com.nicico.sales.repository.ReportInfoDAO;
 import com.nicico.sales.repository.projection.IMovement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class GetReportService implements IGetReportService {
 
     final MoveDAO moveRepository;
-
     final PlantMaterialPackTypeDAO plantMaterialPackTypeRepository;
-    final ReportInfoDAO infoRepository;
-
+    final ReportInfoDAO reportInfoDAO;
 
     List<IMovement> movementList = new ArrayList<>();
-    List<ReportDetails> reportDetails = new ArrayList<>();
+    List<ReportInfo> reportDetails = new ArrayList<>();
 
     Long PackType = Long.valueOf(0);
 
-    public GetReportService(MoveDAO moveRepository, PlantMaterialPackTypeDAO plantMaterialPackTypeRepository, ReportInfoDAO infoRepository) {
-        this.moveRepository = moveRepository;
-        this.plantMaterialPackTypeRepository = plantMaterialPackTypeRepository;
-        this.infoRepository = infoRepository;
-    }
-
-
-    /*@PostConstruct
-    public void initialize() {
-       calInit("1398/01/26", new Long(1), new Long(2000));
-    }*/
-
     @Override
-    public List<ReportDetails> getMoveInfo(String date) {
-        if (infoRepository.IfExistenceAnyObjectInDate(date).size() == 0) {
+    public List<ReportInfo> getMovementInfo(String date, String warehouse) {
+        if (reportInfoDAO.IfExistenceAnyObjectInDate(date).size() == 0) {
             movementList = moveRepository.findMovement(date);
 
 
-            PMPTYPE plantMaterialPackType = new PMPTYPE();
+            PMPTYPE plantMaterialPackType;
             ArrayList<Integer> solfor = new ArrayList<Integer>(4);
             ArrayList<Integer> kotod = new ArrayList<Integer>(7);
             kotod.add(9);
@@ -89,7 +77,7 @@ public class GetReportService implements IGetReportService {
                     }
                 } else continue test;
 
-                ReportDetails reportInfo = new ReportDetails();
+                ReportInfo reportInfo = new ReportInfo();
                 Long plant_id = new Long(0);
                 // if plant be meiduk has be maped to sarcheshmeh
                 if (mm.getSpi() == 2)
@@ -100,39 +88,34 @@ public class GetReportService implements IGetReportService {
                 else plant_id = mm.getSpi();
                 plantMaterialPackType = plantMaterialPackTypeRepository.findAllByGDSCODEAndPLANT_IDAndPACK_TYPE(mm.getGDSCODE(), plant_id, getPackType());
 
-                reportInfo.setTzn_date(mm.getTZN_DATE());
+                reportInfo.setTznDate(mm.getTZN_DATE());
                 reportInfo.setValue(mm.getWazn());
 
                 reportInfo.setPMPTYPE_id(plantMaterialPackType.getP_id());
                 if (mm.getCONDITION().substring(0, 4).contains("load")) {
                     reportInfo.setLoadOrUnload(new Long(0));
-                    //   calInput(mm.getTZN_DATE(), plantMaterialPackType.getP_id(), mm.getWazn());
                 } else {
                     reportInfo.setLoadOrUnload(new Long(1));
-                    //  calOutput(mm.getTZN_DATE(), plantMaterialPackType.getP_id(), mm.getWazn());
                 }
                 reportDetails.add(reportInfo);
-                infoRepository.save(reportInfo);
+                reportInfoDAO.save(reportInfo);
 
             }
         }
 
-        reportDetails = infoRepository.IfExistenceAnyObjectInDate(date);
-        //calLast();
+        reportDetails = reportInfoDAO.IfExistenceAnyObjectInDate(date);
         return reportDetails;
 
     }
 
 
-    public Long getPackType() {
+    private Long getPackType() {
         return PackType;
     }
 
-    public void setPackType(Long packType) {
+    private void setPackType(Long packType) {
         PackType = packType;
     }
-
-
 }
 
 

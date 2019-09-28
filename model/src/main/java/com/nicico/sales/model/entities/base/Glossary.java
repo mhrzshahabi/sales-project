@@ -19,7 +19,7 @@ public class Glossary extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_GLOSSARY")
 	@SequenceGenerator(name = "SEQ_GLOSSARY", sequenceName = "SEQ_GLOSSARY")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	//SUMMARY

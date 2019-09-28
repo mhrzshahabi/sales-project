@@ -1,7 +1,5 @@
 package com.nicico.sales.service;
 
-import com.google.gson.JsonObject;
-import com.nicico.copper.common.domain.json.ResultSetConverter;
 import com.nicico.sales.dto.ResponseListDTO;
 import com.nicico.sales.iservice.ICalculateService;
 import com.nicico.sales.iservice.ICreateReportService;
@@ -9,60 +7,45 @@ import com.nicico.sales.iservice.IGetReportService;
 import com.nicico.sales.model.entities.base.myModel.ColumnDto;
 import com.nicico.sales.model.entities.base.myModel.ReportDto;
 import com.nicico.sales.model.entities.base.myModel.WholeDto;
-import com.nicico.sales.repository.MoveDAO;
 import com.nicico.sales.repository.ReportInfoDAO;
 import com.nicico.sales.repository.WholeDtoDAO;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+@RequiredArgsConstructor
+@Slf4j
 @Service
 public class CreateReportService implements ICreateReportService {
 
     private final IGetReportService getReport;
-    private final ResultSetConverter resultSetConverter;
     private final ReportInfoDAO reportInfoRepository;
     private final WholeDtoDAO wholeDtoRepository;
     private final ICalculateService calculateService;
-    static Log log = LogFactory.getLog(CreateReportService.class.getName());
+    private Map<Long, Double> pidinputValueMAp = new HashMap<>();
+    private Map<Long, Double> pidoutputValueMAp = new HashMap<>();
+    private Map<Double, Double> resultinputValueMap = new HashMap<>();
+    private Map<Double, Double> resultoutputValueMap = new HashMap<>();
+    private Map<Double, Double> inpulongList = new HashMap<Double, Double>();
+    private Map<Double, Double> outputlongList = new HashMap<>();
 
-    Map<Long, Double> pidinputValueMAp = new HashMap<>();
-    Map<Long, Double> pidoutputValueMAp = new HashMap<>();
-    Map<Double, Double> resultinputValueMap = new HashMap<>();
-    Map<Double, Double> resultoutputValueMap = new HashMap<>();
-    Map<Double, Double> inpulongList = new HashMap<Double, Double>();
-    Map<Double, Double> outputlongList = new HashMap<>();
+    public List<WholeDto> createReport(String date, String warehouse) {
 
+        getReport.getMovementInfo(date,warehouse);
 
-    public CreateReportService(IGetReportService getReport, ResultSetConverter resultSetConverter, ReportInfoDAO reportInfoRepository, WholeDtoDAO wholeDtoRepository, ICalculateService calculateService) {
-        this.getReport = getReport;
-        this.resultSetConverter = resultSetConverter;
-        this.reportInfoRepository = reportInfoRepository;
-        this.wholeDtoRepository = wholeDtoRepository;
-        this.calculateService = calculateService;
-
-    }
-
-    public List<WholeDto> createReport(String date, String warehouseNo) {
-        List<WholeDto> wholeDtoList = new ArrayList<WholeDto>();
-
-        getReport.getMoveInfo(date);
-
-        wholeDtoList = wholeDtoRepository.findAllByToDay(date);
-
+        List<WholeDto> wholeDtoList = wholeDtoRepository.findAllByToDay(date);
         if (wholeDtoList.size() != 0) return wholeDtoList;
         else {
 
-            Map<String, Object> parametersMap = new HashMap<String, Object>();
-            ArrayList arrayList = new ArrayList();
+            Map<String, Object> parametersMap = new HashMap<>();
             parametersMap.put("logo_nicico", "C:\\upload\\report-logo\\nicico-logo.png");
 
             List<ReportDto> list = reportInfoRepository.getAllInfoReport(date);
-            // outputlongList.replaceAll((k, v) -> 0);
-            /*for (ReportDto reportDto : list) {*/
             for (int k = 0; k < list.size(); k++) {
                 ReportDto reportDto = list.get(k);
 //load=0 means output, unload=1 means input
@@ -177,7 +160,7 @@ public class CreateReportService implements ICreateReportService {
                 wholeDto.setDescp(baseColumnDto.getGDSNAME());
                 wholeDto.setPlant(baseColumnDto.getNAMEFA());
                 wholeDto.setPackingType(baseColumnDto.getPACKNAME());
-                wholeDto.setWarehouseNo("بندرعباس");
+                wholeDto.setWarehouse("بندرعباس");
                 wholeDto.setToDay(date);
                 wholeDtoRepository.save(wholeDto);
                 wholeDtoList.add(wholeDto);
@@ -188,9 +171,7 @@ public class CreateReportService implements ICreateReportService {
 
             //end of calculate wholedtoList
 
-
         }
-
 
     }
 }

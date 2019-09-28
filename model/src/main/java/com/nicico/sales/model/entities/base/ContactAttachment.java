@@ -19,7 +19,7 @@ public class ContactAttachment extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTACT_ATTACHMENT")
 	@SequenceGenerator(name = "SEQ_CONTACT_ATTACHMENT", sequenceName = "SEQ_CONTACT_ATTACHMENT")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

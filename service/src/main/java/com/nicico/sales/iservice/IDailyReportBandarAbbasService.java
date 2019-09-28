@@ -24,5 +24,5 @@ public interface IDailyReportBandarAbbasService {
 	SearchDTO.SearchRs<DailyReportBandarAbbasDTO.Info> search(SearchDTO.SearchRq request);
 
 	@Transactional
-	List<WholeDto> findByDateAndWarehouseNo(String date, String warehouseNo);
+	List<WholeDto> findByDateAndWarehouse(String date, String warehouse);
 }

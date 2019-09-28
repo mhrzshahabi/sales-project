@@ -7,7 +7,5 @@ import java.util.List;
 
 @Service
 public interface ICreateReportService {
-    List<WholeDto> createReport(String date , String warehouseNo);
-
-
+    List<WholeDto> createReport(String date, String warehouse);
 }

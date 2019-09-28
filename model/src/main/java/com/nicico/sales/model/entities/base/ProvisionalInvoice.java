@@ -19,7 +19,7 @@ public class ProvisionalInvoice extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PROVISIONAL_INVOICE")
 	@SequenceGenerator(name = "SEQ_PROVISIONAL_INVOICE", sequenceName = "SEQ_PROVISIONAL_INVOICE")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Column(name = "REF_NO")

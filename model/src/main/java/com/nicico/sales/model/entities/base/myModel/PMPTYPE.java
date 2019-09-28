@@ -24,6 +24,4 @@ public class PMPTYPE {
     private String NAMEFA;
     private String NAMEEN;
     private String PACKNAME;
-
-
 }

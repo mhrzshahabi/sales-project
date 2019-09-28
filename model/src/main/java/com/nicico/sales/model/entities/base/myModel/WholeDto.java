@@ -16,12 +16,12 @@ import javax.persistence.*;
 @Table(name = "TBL_WHOLE_DAily")
 public class WholeDto implements Cloneable {
 
-    /*{"warehouseNo", "toDay", "descp", "plant", "packingType", */
+    /*{"warehouse", "toDay", "descp", "plant", "packingType", */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "warehouse_No")
-    private String warehouseNo;
+    @Column(name = "warehouse")
+    private String warehouse;
     @Column(name = "to_Day")
     private String toDay;
     private String descp;

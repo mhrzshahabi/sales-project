@@ -19,7 +19,7 @@ public class Parameters extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PARAMETER")
 	@SequenceGenerator(name = "SEQ_PARAMETER", sequenceName = "SEQ_PARAMETER")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Column(name = "PARAM_NAME", nullable = false)

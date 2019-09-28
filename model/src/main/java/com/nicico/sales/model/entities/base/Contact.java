@@ -20,7 +20,7 @@ public class Contact extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTACT")
 	@SequenceGenerator(name = "SEQ_CONTACT", sequenceName = "SEQ_CONTACT")
-    @Column(name = "ID", precision = 10)
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "c_CODE", nullable = false)

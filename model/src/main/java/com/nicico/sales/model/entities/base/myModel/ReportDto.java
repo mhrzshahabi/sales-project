@@ -18,8 +18,8 @@ import java.io.Serializable;
 @Table(name = "TBL_REPORT_DTO")
 @Entity
 public class ReportDto {
-    @Column(name = "WAREHOUSENO")
-    private String warehouse_No;
+    @Column(name = "WAREHOUSE")
+    private String warehouse;
     private String tzn_date;
     private String GDSNAME;
     private String NAMEFA;
@@ -29,6 +29,4 @@ public class ReportDto {
     private Long value;
     @Column(name = "LOADORUNLOAD")
     private Long loadOrUnload;
-
-
 }

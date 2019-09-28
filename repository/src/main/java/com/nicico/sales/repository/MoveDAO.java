@@ -3,7 +3,6 @@ package com.nicico.sales.repository;
 
 import com.nicico.sales.model.entities.base.myModel.Movement;
 import com.nicico.sales.repository.projection.IMovement;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +15,6 @@ import java.util.List;
 public interface MoveDAO extends CrudRepository<Movement, RowId> {
 
     String view_tozin = " select " +
-           // " ROW_NUMBER() OVER( ORDER BY k.NAMEFA desc)   AS Row# , " +
             "   m.id as MATERIAL_ID,nvl (v.PACKNAME ,0) as PACKNAME , s.PLANT_ID as spi ,t.PLANT_ID as tpi , v.GDSCODE   " +
             " , v.CONDITION , " +
             " v.TZN_DATE,p.ID ,k.NAMEFA  ,l.namefa snamefa,p.NAMEFA plant,  p.NAMEEN snameen, " +
@@ -40,17 +38,6 @@ public interface MoveDAO extends CrudRepository<Movement, RowId> {
             "    case when instr(v.CARNAME ,'انتينر')>0  then 'ريلی' else 'جاده اي' end  " +
             "    order by  v.tzn_date,p.id,s.PLANT_ID ,t.PLANT_ID,v.GDSCODE ";
 
-
     @Query(value = view_tozin, nativeQuery = true)
-    List<IMovement> findMovement(@Param("tznDate") String tznDate);   //List<Sale> findSale(@Param("date") String date);
-
-    //List<Movement> findMovement(@Param("date") String date);   //List<Sale> findSale(@Param("date") String date);
-/* {"warehouseNo", "toDay", "descp", "plant", "packingType", "amountDay",
-                            "amountImportDay", "amountFirstDay", "amountExportDay", "amountReviseDay",
-                            "amountFirstMon", "amountImportMon", "amountExportMon", "amountReviseMon",
-                            "amountFirstSal", "amountImportSal", "amountExportSal", "amountReviseSal", "reviseSal", "aa"
-                    });*/
-
-    @Query(value = "select * from Tbl_ReportInfo r inner join TBL_Interpreter i on r.  ", nativeQuery = true)
-    List<Object[]> findMailResult();
+    List<IMovement> findMovement(@Param("tznDate") String tznDate);
 }

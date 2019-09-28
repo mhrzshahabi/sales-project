@@ -95,8 +95,8 @@ public class DailyReportBandarAbbasService implements IDailyReportBandarAbbasSer
 		return modelMapper.map(saved, DailyReportBandarAbbasDTO.Info.class);
 	}
 
-	public List<WholeDto> findByDateAndWarehouseNo(String date, String warehouseNo) {
-		return wholeDtoDAO.findByDateAndWarehouseNo(date, warehouseNo);
+	public List<WholeDto> findByDateAndWarehouse(String date, String warehouse) {
+		return wholeDtoDAO.findByDateAndWarehouse(date, warehouse);
 
 	}
 }
