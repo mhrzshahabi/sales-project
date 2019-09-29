@@ -198,7 +198,6 @@
         width: "100%",
         members: [
             ToolStripButton_Shipment_InvoiceHeader_Refresh,
-
         ]
     });
     //-------------------
@@ -206,7 +205,7 @@
     var ListGrid_Shipment_InvoiceHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_Shipment_InvoiceHeader, //data source
+        dataSource: RestDataSource_Shipment_InvoiceHeader,
         contextMenu: Menu_ListGrid_Shipment_InvoiceHeader,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -580,25 +579,7 @@
                 click: function () {
                     ListGrid_Invoice_remove();
                 }
-            },
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
-                click: function () {
-                    window.open("");
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
-                click: function () {
-                    window.open(""); //TODO
-                }
-            },
-             {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
-                click: function () {
-                    window.open(""); //TODO
-                }
-            },
+            }
         ]
     });
 
@@ -961,7 +942,7 @@
             ListGrid_Invoice_remove();
         }
     });
-/*Test Jalal*/
+
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -969,8 +950,7 @@
                 ToolStripButton_Invoice_Refresh,
                 ToolStripButton_Invoice_Add,
                 ToolStripButton_Invoice_Edit,
-                ToolStripButton_Invoice_Remove,
-                MenuButton_Mali // Add By jazad
+                ToolStripButton_Invoice_Remove
             ]
     });
 

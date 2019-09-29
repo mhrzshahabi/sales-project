@@ -77,10 +77,14 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 				cc.setInvoiceId(invoice.getId());
 				create(cc);
 			} else {
-				InvoiceMolybdenumDTO.Update uu = new InvoiceMolybdenumDTO.Update();
-				modelMapper.map(info, uu);
-				uu.setInvoiceId(invoice.getId());
-				update(info.getId(), uu);
+				if (info.getLotNo()==null){
+					delete(info.getId());
+				} else {
+					InvoiceMolybdenumDTO.Update uu = new InvoiceMolybdenumDTO.Update();
+					modelMapper.map(info, uu);
+					uu.setInvoiceId(invoice.getId());
+					update(info.getId(), uu);
+				}
 			}
 		}
 		List<InvoiceItemDTO.Info> upInfoList = objectMapper.readValue(data_[1], new TypeReference<List<InvoiceItemDTO.Info>>() {
@@ -94,10 +98,14 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 				cc.setInvoiceId(invoice.getId());
 				invoiceItemService.create(cc);
 			} else {
-				InvoiceItemDTO.Update uu = new InvoiceItemDTO.Update();
-				modelMapper.map(info, uu);
-				uu.setInvoiceId(invoice.getId());
-				invoiceItemService.update(info.getId(), uu);
+				if (info.getDescription()==null) {
+					invoiceItemService.delete(info.getId());
+				} else {
+					InvoiceItemDTO.Update uu = new InvoiceItemDTO.Update();
+					modelMapper.map(info, uu);
+					uu.setInvoiceId(invoice.getId());
+					invoiceItemService.update(info.getId(), uu);
+				}
 			}
 		}
 	}
