@@ -42,6 +42,8 @@
                 {name: "size2Value", title: "<spring:message code='warehouseLot.size2Value'/>", align: "center"},
                 {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
                 {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
+                {name: "contractId", title: "contractId", align: "center"},
+                {name: "used", title: "used", align: "center"}
             ],
         fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
     });
@@ -600,6 +602,8 @@
                     align: "center",
                     width: 400
                 },
+                {name: "contractId",title: "contractId", align: "center", hidden: true},
+                {name: "used",type:"boolean",title: "used", align: "center", hidden: true}
             ]
     });
 
@@ -764,6 +768,8 @@
                 {name: "size2Value", title: "<spring:message code='warehouseLot.size2Value'/>", align: "center"},
                 {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
                 {name: "grossWeight", title: "<spring:message code='warehouseLot.grossWeight'/>", align: "center"},
+                {name: "contractId",title: "contractId", align: "center"},
+                {name: "used",type:"boolean",title: "used", align: "center"}
             ],
         sortField: 0,
         autoFetchData: true,
