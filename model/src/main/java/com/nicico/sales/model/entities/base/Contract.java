@@ -52,10 +52,10 @@ public class Contract extends Auditable {
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false)
-	private Contact contact;
+	private Contact contact; // contactByBuyer
 
 	@Column(name = "CONTACT_ID")
-	private Long contactId;
+	private Long contactId; // contactByBuyerId
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -75,12 +75,20 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BUYER_ID", insertable = false, updatable = false)
-	private Contact contactByBuyer;
+	@JoinColumn(name = "SELLER_ID", insertable = false, updatable = false)
+	private Contact contactBySeller;
 
-	@Column(name = "BUYER_ID")
-	private Long contactByBuyerId;
+	@Column(name = "SELLER_ID")
+	private Long contactBySellerId;
 
+//	@Setter(AccessLevel.NONE)
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "BUYER_ID", insertable = false, updatable = false)
+//	private Contact contactByBuyer;
+//
+//	@Column(name = "BUYER_ID")
+//	private Long contactByBuyerId;
+//
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DEFINITION_ID", insertable = false, updatable = false)

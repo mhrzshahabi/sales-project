@@ -73,6 +73,12 @@ public class InvoiceDTO {
 	private Float refinaryCostAUPer;
 	private Float refinaryCostAUTot;
 	private Float subTotalDeduction;
+	private String priceReference;
+	private String priceFunction;
+	private String priceFromDate;
+	private String priceToDate;
+	private Long sellerId;
+	private Long buyerId;
 
 	// ------------------------------
 
@@ -87,6 +93,8 @@ public class InvoiceDTO {
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
+		private ContactDTO.ContactInfoTuple seller;
+		private ContactDTO.ContactInfoTuple buyer;
 	}
 
 	// ------------------------------
