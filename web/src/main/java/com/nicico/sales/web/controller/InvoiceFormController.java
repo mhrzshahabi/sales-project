@@ -71,6 +71,14 @@ public class InvoiceFormController {
 		req.getSession().setAttribute("invoiceId",invoiceId);
 		req.getSession().setAttribute("gridResponse",gridResponse);
 		req.getSession().setAttribute("gridResponseItem",gridResponseItem);
+		req.getSession().setAttribute("sellerId",contract.getContactBySellerId());
+		req.getSession().setAttribute("sellerName",contract.getContactBySeller().getNameEN());
+		req.getSession().setAttribute("BuyerId",contract.getContactId());
+		req.getSession().setAttribute("BuyerName",contract.getContact().getNameEN());
+		req.getSession().setAttribute("sellerAgentId",contract.getContactBySellerAgentId());
+		req.getSession().setAttribute("sellerAgentName",contract.getContactBySellerAgent().getNameEN());
+		req.getSession().setAttribute("BuyerAgentId",contract.getContactByBuyerAgentId());
+		req.getSession().setAttribute("BuyerAgentName",contract.getContactByBuyerAgent().getNameEN());
 		if (type.equalsIgnoreCase("mol"))
 			return "shipment/invoiceMolybdenum";
 		else
