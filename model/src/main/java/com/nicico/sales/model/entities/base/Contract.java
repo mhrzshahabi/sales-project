@@ -51,7 +51,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactByBuyer"))
 	private Contact contact; // contactByBuyer
 
 	@Column(name = "CONTACT_ID")
@@ -59,7 +59,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SELLER_AGENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SELLER_AGENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactBySellerAgent"))
 	private Contact contactBySellerAgent;
 
 	@Column(name = "SELLER_AGENT_ID")
@@ -67,7 +67,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BUYER_AGENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "BUYER_AGENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactByBuyerAgent"))
 	private Contact contactByBuyerAgent;
 
 	@Column(name = "BUYER_AGENT_ID")
@@ -75,7 +75,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SELLER_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SELLER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactBySeller"))
 	private Contact contactBySeller;
 
 	@Column(name = "SELLER_ID")
