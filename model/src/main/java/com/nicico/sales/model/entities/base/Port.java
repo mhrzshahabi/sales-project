@@ -23,7 +23,7 @@ public class Port extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PORT")
 	@SequenceGenerator(name = "SEQ_PORT", sequenceName = "SEQ_PORT")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

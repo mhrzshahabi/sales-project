@@ -19,7 +19,7 @@ import java.util.List;
 public class DailyWarehouseDTO {
 	@NotNull
 	@ApiModelProperty(required = true)
-	private String warehouseNo;
+	private String warehouse;
 	private String toDay;
 	private Material tmaterial;
 	private Long materialId;

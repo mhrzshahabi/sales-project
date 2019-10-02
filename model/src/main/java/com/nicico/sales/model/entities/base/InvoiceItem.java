@@ -20,7 +20,7 @@ public class InvoiceItem extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INVOICE")
 	@SequenceGenerator(name = "SEQ_INVOICE", sequenceName = "SEQ_INVOICE")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Setter(AccessLevel.NONE)

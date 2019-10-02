@@ -19,7 +19,7 @@ public class Export extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_EXPORT")
 	@SequenceGenerator(name = "SEQ_EXPORT", sequenceName = "SEQ_EXPORT")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

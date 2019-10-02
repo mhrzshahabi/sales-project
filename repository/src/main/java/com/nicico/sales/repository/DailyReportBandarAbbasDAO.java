@@ -19,5 +19,5 @@ public interface DailyReportBandarAbbasDAO extends JpaRepository<DailyReportBand
 			" join sales.tbl_material m on m.id = dr.MATERIAL_ID " +
 			"WHERE dr.TO_DAY = ?1 and dr.WAREHOUSE_NO = ?2 order by dr.id "
 			, nativeQuery = true)
-	List<Object[]> findByDateAndWarehouseNo(String date, String warehouseNo);
+	List<Object[]> findByDateAndWarehouse(String date, String warehouse);
 }

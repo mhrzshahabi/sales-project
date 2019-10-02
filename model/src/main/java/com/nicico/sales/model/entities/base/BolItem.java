@@ -23,7 +23,7 @@ public class BolItem extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BOL_ITEM")
 	@SequenceGenerator(name = "SEQ_BOL_ITEM", sequenceName = "SEQ_BOL_ITEM")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -19,7 +19,7 @@ public class ShipmentInquiry extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT_INQUIRY")
 	@SequenceGenerator(name = "SEQ_SHIPMENT_INQUIRY", sequenceName = "SEQ_SHIPMENT_INQUIRY")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Setter(AccessLevel.NONE)

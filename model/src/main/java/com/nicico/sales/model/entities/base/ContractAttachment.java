@@ -19,7 +19,7 @@ public class ContractAttachment extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_ATTACHMENT")
 	@SequenceGenerator(name = "SEQ_CONTRACT_ATTACHMENT", sequenceName = "SEQ_CONTRACT_ATTACHMENT")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

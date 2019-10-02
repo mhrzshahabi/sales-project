@@ -26,7 +26,7 @@ public class Country extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_COUNTRY")
 	@SequenceGenerator(name = "SEQ_COUNTRY", sequenceName = "SEQ_COUNTRY")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Column(name = "c_NAME_FA", nullable = false, length = 200)
