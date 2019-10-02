@@ -2,7 +2,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
-
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
@@ -93,11 +92,11 @@
             });
         } else {
             DynamicForm_Contract.editRecord(record);
-            DynamicForm_Contract.setValue("contractDateDumy", new Date(record.contractDate));
+            DynamicForm_Contract.setValue("contractDateDumy", (typeof record.contractDate == 'undefined' ?   new Date()  : new Date(record.contractDate)));
             DynamicForm_Contract.setValue("runEndDateDumy", (record.runEndtDate == null ? null : new Date(record.runEndtDate)));
-            DynamicForm_Contract.setValue("runStartDateDumy", (record.runStartDateDumy == null ? null : new Date(record.runStartDateDumy)));
-            console.log('record.runStartDateDumy');
-            console.log(record.runStartDateDumy);
+            DynamicForm_Contract.setValue("runStartDateDumy", (typeof record.runStartDate == 'undefined' ?   new Date()  : new Date(record.runStartDate)));
+            console.log('record.runStartDate');
+            console.log(record.runStartDate);
             console.log('DynamicForm_Contract.getValue("runStartDateDumy")');
             console.log(DynamicForm_Contract.getValue("runStartDateDumy"));
             if (record.material.descl === 'Copper Concentrate') {

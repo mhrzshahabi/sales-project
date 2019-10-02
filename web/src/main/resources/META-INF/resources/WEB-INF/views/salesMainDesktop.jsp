@@ -1016,42 +1016,6 @@
             <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
         }
     });
-    var salesPlanButton = isc.IconButton.create({
-        title: "<spring:message code='salesPlan.title'/>",
-        icon: "product/salesPlan.png",
-        largeIcon: "product/salesPlan.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var purchasePlanButton = isc.IconButton.create({
-        title: "<spring:message code='purchasePlan.title'/>",
-        icon: "product/purchasePlan.png",
-        largeIcon: "product/purchasePlan.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var deliveryPlanButton = isc.IconButton.create({
-        title: "<spring:message code='deliveryPlan.title'/>",
-        icon: "product/deliveryPlan.png",
-        largeIcon: "product/deliveryPlan.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var productionPlanButton = isc.IconButton.create({
-        title: "<spring:message code='productionPlan.title'/>",
-        icon: "product/productionPlan.png",
-        largeIcon: "product/productionPlan.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
 
     var productRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",

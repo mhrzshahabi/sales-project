@@ -9,7 +9,6 @@
 
     <% DateUtil dateUtil = new DateUtil();
     	Float premium= new Float(request.getSession().getAttribute("premium").toString());
-    	Float discount= new Float(request.getSession().getAttribute("discount").toString());
 
 		String shipmentId= request.getSession().getAttribute("shipmentId").toString();
 		String invoiceId=request.getSession().getAttribute("invoiceId").toString();
@@ -100,6 +99,40 @@
             sumdownCathodesAndSet() ;
 		}
 	}
+//-----------------------------------------------------------------------------------------------------------------------------------
+   var RestDataSource_ContactBySellerCathodes = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "code", title: "<spring:message code='contact.code'/>"},
+                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
+                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
+                {name: "commertialRole"},
+            ],
+        fetchDataURL: "${contextPath}/api/contact/spec-list1"
+    });
+    var RestDataSource_ContactByBuyerCathodes = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "code", title: "<spring:message code='contact.code'/>"},
+                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
+                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
+                {name: "commertialRole"},
+            ],
+        fetchDataURL: "${contextPath}/api/contact/spec-list2"
+    });
+    var RestDataSource_Contact_optionCriteria_seller  = {
+        _constructor: "AdvancedCriteria",
+        operator: "or",
+        criteria: [{fieldName: "seller", operator: "equals", value: true},{fieldName: "agentSeller", operator: "equals", value: true}]
+    };
+    var RestDataSource_Contact_optionCriteria_buyer = {
+        _constructor: "AdvancedCriteria",
+        operator: "or",
+        criteria: [{fieldName: "buyer", operator: "equals", value: true},{fieldName: "agentBuyer", operator: "equals", value: true}]
+    };
+//-----------------------------------------------------------------------------------------------------------------------------------
     var DynamicForm_Invoice_Cathodes = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -147,24 +180,66 @@
                     type: 'date',
                     format: 'DD-MM-YYYY',
                     required: true,
-                    width: "100%",colSpan:3,titleColSpan:1
+                    width: "100%",colSpan:1,titleColSpan:2
                 },
-                {
+                 {
+                    name: "sellerId",
+                    title: "Seller",
+                    type: 'long',
+                    width: "100%",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_ContactBySellerCathodes,
+                    optionCriteria: RestDataSource_Contact_optionCriteria_seller,
+                    displayField: "nameFA",
+                    valueField: "id",
+                    pickListWidth: "500",
+                    pickListHeight: "500",colSpan:2,titleColSpan:2,
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "nameFA", align: "center"},
+                        {name: "nameEN", align: "center"}
+                    ]
+                },
+                 {
+                    name: "buyerId",
+                    title: "Buyer",
+                    type: 'long',
+                    width: "100%",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_ContactByBuyerCathodes,
+                    optionCriteria: RestDataSource_Contact_optionCriteria_buyer,
+                    displayField: "nameFA",
+                    valueField: "id",
+                    pickListWidth: "500",
+                    pickListHeight: "500",colSpan:2,titleColSpan:2,
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [{name: "nameFA", align: "center"}, {
+                        name: "nameEN",
+                        align: "center"
+                    }]
+                },
+               {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Assay calculation in one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - Pricing - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
                  {
                     name: "priceBase",
-                    title: "<spring:message code='invoice.priceBase'/>",
+                    title: "<spring:message code='invoice.priceBase'/>",titleOrientation:'top',
                     type: 'text',
                     required: true,
-                    width: "100%",colSpan:8,titleColSpan:1,
+                    width: "100%",colSpan:5,titleColSpan:1,
                 },
-                {
+                {name: "priceReference",title:"Reference", titleOrientation:'top',type: 'text', required: false, width: "100%",colSpan:1 ,valueMap: {"LME":"LME","PLATTS":"PLATTS","SHFG":"SHFG"} },
+                {name: "priceFunction",title:"function", titleOrientation:'top',type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"Avg":"Avg","Min":"Min","Max":"Max"} },
+                {name: "priceFromDate",title:"From Date", titleOrientation:'top',type: 'text', useTextField:true, required: false, width: "100%",colSpan:1,mask:"####/##/##",
+                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=item.getValue();if (!validatedate(value))	item.setValue("");}  },
+                 {name: "priceToDate",title:"To Date", titleOrientation:'top',type: 'text', useTextField:true, required: false, width: "100%",colSpan:1,mask:"####/##/##",
+                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=item.getValue();if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
+               {
                     name: "copperUnitPrice", title: "<spring:message code='invoice.copperUnitPrice'/>",
                     type: 'currencyFloat2',
                     width: "100%",
-                    colSpan:2,titleColSpan:1,titleAlign:"right",
+                    colSpan:1,titleColSpan:1,titleAlign:"right",titleOrientation:'top',
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
@@ -173,46 +248,31 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
                     changed	: function(form, item, value){
-		   			  	DynamicForm_Invoice_Cathodes_setValue("unitPrice",value+<%=premium+discount %>);
+		   			  	DynamicForm_Invoice_Cathodes_setValue("unitPrice",value+<%=premium %>);
 
 		   			}
 
                 },
                  {
                     name: "premium",
-                    title: "<spring:message code='contract.premium'/>",
+                    title: "<spring:message code='contract.premium'/>",titleOrientation:'top',
                     type: 'currencyFloat3',
                     canEdit: false,
                     width: "100%",
-                    keyPressFilter: "[0-9.]",colSpan:2,titleColSpan:1,titleAlign:"left",
+                    keyPressFilter: "[0-9.]",colSpan:1,titleColSpan:1,titleAlign:"left",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
-                },
-                {
-                    name: "discount",
-                    title: "<spring:message code='contract.discount'/>",
-                    type: 'currencyFloat3',
-                    canEdit: false,
-                    width: "100%",
-                    keyPressFilter: "[0-9.]",colSpan:2,titleColSpan:2,titleAlign:"center",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-
                 },
                 {
                     name: "unitPrice",
-                    title: "<spring:message code='invoice.unitPrice'/>",
+                    title: "<spring:message code='invoice.unitPriceCathode'/>",
                     type: 'currencyFloat2',
                     canEdit:false,
-                    width: "100%",colSpan:2,titleColSpan:3,titleAlign:"right",
+                    width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
@@ -223,7 +283,7 @@
                 },
                  {
                     name: "grass",
-                    title: "<spring:message code='global.grass'/>",
+                    title: "<spring:message code='invoice.grassCathode'/>",
                     type: 'currencyFloat3',
                     required: true,
                     width: "100%",
@@ -237,7 +297,7 @@
                 },
                 {
                     name: "net",
-                    title: "<spring:message code='global.net'/>",
+                    title: "<spring:message code='invoice.netCathode'/>",
                     type: 'currencyFloat3',
                     required: true,
                     width: "100%",
@@ -431,7 +491,6 @@
        DynamicForm_Invoice_Cathodes.setValue("invoiceDateDumy", new Date(record.invoiceDate));
    var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
    DynamicForm_Invoice_Cathodes.setValue("shipmentId", record.id);
-   DynamicForm_Invoice_Cathodes.setValue("discount",<%=discount %>);
    DynamicForm_Invoice_Cathodes.setValue("premium",<%=premium %>);
 <%		loopUp=0;
 		loopDown=0;
