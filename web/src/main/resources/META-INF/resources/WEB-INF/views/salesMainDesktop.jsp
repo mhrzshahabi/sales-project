@@ -109,6 +109,7 @@
         allowCrossDomainCalls: true,
         handleError: function (response, request) {
             const httpResponse = JSON.parse(response.httpResponseText);
+            alert(String(httpResponse.error))
             switch (String(httpResponse.error)) {
                 case "Unauthorized":
                     isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: 'هشدار'});
@@ -1296,6 +1297,16 @@
             createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
         }
     });
+    var issuedInvoiceInternalButton = isc.IconButton.create({
+        title: "<spring:message code='issuedInternalInvoices.title'/>",
+        icon: "financial/issuedInvoices.png",
+        largeIcon: "financial/issuedInvoices.png",
+        orientation: "vertical",
+        click: function () {
+            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='issuedInternalInvoices.title'/>", "<spring:url value="/invoiceInternal/showForm" />")
+        }
+    });
     var receivedInvoicesButton = isc.IconButton.create({
         title: "<spring:message code='receivedInvoices.title'/>",
         icon: "financial/receivedInvoices.png",
@@ -1327,7 +1338,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            issuedInvoicesButton
+            issuedInvoicesButton,issuedInvoiceInternalButton
             // , receivedInvoicesButton
             // , financialBalanceButton
         ],

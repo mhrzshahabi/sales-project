@@ -34,11 +34,12 @@ public class InvoiceFormController {
 	private final IContractService contractService;
 
 	@RequestMapping("/showForm/{shipmentId}/{invoiceId}/{type}/{contractId}")
-	public String showInvoiceMolybdenum(HttpServletRequest req, @PathVariable String shipmentId, @PathVariable String invoiceId , @PathVariable String type, @PathVariable String contractId) {
-        String cr="{ \"operator\":\"and\", \"criteria\" : [  { \"fieldName\":\"invoiceId\", \"operator\":\"equals\", \"value\":\"22222\"  }\t] }";
+	public String showInvoiceMolybdenum(HttpServletRequest req, @PathVariable String shipmentId, @PathVariable String invoiceId, @PathVariable String type, @PathVariable String contractId) {
+
+		String cr = "{ \"operator\":\"and\", \"criteria\" : [  { \"fieldName\":\"invoiceId\", \"operator\":\"equals\", \"value\":\"22222\"  }\t] }";
 		final GridResponse<InvoiceMolybdenumDTO.Info> gridResponse = new GridResponse();
 		final GridResponse<InvoiceItemDTO.Info> gridResponseItem = new GridResponse();
-        ContractDTO.Info contract=contractService.get(new Long (contractId));
+		ContractDTO.Info contract = contractService.get(new Long(contractId));
 		if (!invoiceId.equals("0")) {
 			SearchDTO.CriteriaRq requestCriteriaRq = new SearchDTO.CriteriaRq()
 					.setOperator(EOperator.equals)
@@ -67,39 +68,40 @@ public class InvoiceFormController {
 			gridResponseItem.setData(aa1);
 			gridResponseItem.setStartRow(0).setEndRow(0);
 		}
-		req.getSession().setAttribute("shipmentId",shipmentId);
-		req.getSession().setAttribute("invoiceId",invoiceId);
-		req.getSession().setAttribute("gridResponse",gridResponse);
-		req.getSession().setAttribute("gridResponseItem",gridResponseItem);
-		req.getSession().setAttribute("sellerId",contract.getContactBySellerId());
-		req.getSession().setAttribute("sellerName",contract.getContactBySeller().getNameEN());
-		req.getSession().setAttribute("BuyerId",contract.getContactId());
-		req.getSession().setAttribute("BuyerName",contract.getContact().getNameEN());
-		req.getSession().setAttribute("sellerAgentId",contract.getContactBySellerAgentId());
-		req.getSession().setAttribute("sellerAgentName",contract.getContactBySellerAgent().getNameEN());
-		req.getSession().setAttribute("BuyerAgentId",contract.getContactByBuyerAgentId());
-		req.getSession().setAttribute("BuyerAgentName",contract.getContactByBuyerAgent().getNameEN());
+		req.getSession().setAttribute("shipmentId", shipmentId);
+		req.getSession().setAttribute("invoiceId", invoiceId);
+		req.getSession().setAttribute("gridResponse", gridResponse);
+		req.getSession().setAttribute("gridResponseItem", gridResponseItem);
+		/*req.getSession().setAttribute("sellerId", contract.getContactBySellerId());
+		req.getSession().setAttribute("sellerName", contract.getContactBySeller().getNameEN());
+		req.getSession().setAttribute("BuyerId", contract.getContactId());
+		req.getSession().setAttribute("BuyerName", contract.getContact().getNameEN());
+		req.getSession().setAttribute("sellerAgentId", contract.getContactBySellerAgentId());
+		req.getSession().setAttribute("sellerAgentName", contract.getContactBySellerAgent().getNameEN());
+		req.getSession().setAttribute("BuyerAgentId", contract.getContactByBuyerAgentId());
+		req.getSession().setAttribute("BuyerAgentName", contract.getContactByBuyerAgent().getNameEN());*/
+
 		if (type.equalsIgnoreCase("mol"))
 			return "shipment/invoiceMolybdenum";
-		else
-			if (type.equalsIgnoreCase("cat")) {
-				req.getSession().setAttribute("premium",nvl(contract.getPremium()));
-				req.getSession().setAttribute("discount",nvl(contract.getDiscount()));
-				return "shipment/invoiceCathodes";
-			}
-		else {
-				req.getSession().setAttribute("treatCost",nvl(contract.getTreatCost()));
-				req.getSession().setAttribute("refinaryCost",nvl(contract.getRefinaryCost()));
-				req.getSession().setAttribute("copper",nvl(contract.getCopper()));
-				req.getSession().setAttribute("silver",nvl(contract.getSilver()));
-				req.getSession().setAttribute("gold",nvl(contract.getGold()));
-				return "shipment/invoiceConcentrate";
-			}
+		else if (type.equalsIgnoreCase("cat")) {
+			req.getSession().setAttribute("premium", nvl(contract.getPremium()));
+			req.getSession().setAttribute("discount", nvl(contract.getDiscount()));
+			return "shipment/invoiceCathodes";
+		} else {
+			req.getSession().setAttribute("treatCost", nvl(contract.getTreatCost()));
+			req.getSession().setAttribute("refinaryCost", nvl(contract.getRefinaryCost()));
+			req.getSession().setAttribute("copper", nvl(contract.getCopper()));
+			req.getSession().setAttribute("silver", nvl(contract.getSilver()));
+			req.getSession().setAttribute("gold", nvl(contract.getGold()));
+			return "shipment/invoiceConcentrate";
+		}
 
 	}
-	<T> String  nvl (T  f){
-	   return f==null ? "0.0":f.toString();
+
+	<T> String nvl(T f) {
+		return f == null ? "0.0" : f.toString();
 	}
+
 	@RequestMapping("/print/{type}")
 	public void printInvoice(HttpServletResponse response, @PathVariable String type) throws Exception {
 	}

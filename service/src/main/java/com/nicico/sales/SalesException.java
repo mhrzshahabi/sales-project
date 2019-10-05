@@ -11,6 +11,7 @@ public class SalesException extends NICICOException {
 	@Getter
 	@RequiredArgsConstructor
 	public enum ErrorType implements IErrorCode {
+        DupplicateRecord(403),
         ContractIncomeCostNotFound(404),
 		CostNotFound(404),
 		InvoiceNotFound(404),
@@ -70,6 +71,7 @@ public class SalesException extends NICICOException {
 		CountryNotFound(404),
 		InvoiceMolybdenumNotFound(404),
 		InvoiceItemNotFound(404),
+		InvoiceInternalNotFound(404),
 		BankNotFound(404);
 
 		private final Integer httpStatusCode;

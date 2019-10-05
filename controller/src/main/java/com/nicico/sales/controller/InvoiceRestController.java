@@ -11,6 +11,7 @@ import com.nicico.sales.iservice.IInvoiceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,14 @@ public class InvoiceRestController {
 	private final IInvoiceService invoiceService;
 	private final IInvoiceMolybdenumService invoiceMolybdenumService;
 	private final ObjectMapper objectMapper;
+	private final ModelMapper modelMapper;
 
+	@Loggable
+	@PutMapping
+	@RequestMapping("/sendForm-2accounting/{id}")
+	public ResponseEntity<InvoiceDTO.Info> sendForm2accounting(@PathVariable Long id, @RequestBody String data) {
+	    return new ResponseEntity<InvoiceDTO.Info>(invoiceService.sendForm2accounting(id,data),HttpStatus.OK);
+ 	}
 	// ------------------------------s
 
 	@Loggable
