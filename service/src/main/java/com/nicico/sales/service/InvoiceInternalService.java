@@ -60,9 +60,9 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 	public InvoiceInternalDTO.Info create(InvoiceInternalDTO.Create request) {
 		final InvoiceInternal invoiceInternal = modelMapper.map(request, InvoiceInternal.class);
 
-		final Optional<InvoiceInternal> invoiceInternal1=invoiceInternalDAO.findById(request.getId());
-		if (invoiceInternal!=null)
-		 	throw  new SalesException(SalesException.ErrorType.DupplicateRecord);
+		final Optional<InvoiceInternal> invoiceInternal1 = invoiceInternalDAO.findById(request.getId());
+		if (invoiceInternal != null)
+			throw new SalesException(SalesException.ErrorType.DupplicateRecord);
 
 		return save(invoiceInternal);
 	}
@@ -109,12 +109,14 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
 	@Transactional
 	@Override
-	public InvoiceInternalDTO.Info sendInternalForm2accounting(Long id,String data) {
-		final InvoiceInternal invoice=invoiceInternalDAO.findById(id)
+	public InvoiceInternalDTO.Info sendInternalForm2accounting(Long id, String data) {
+		final InvoiceInternal invoice = invoiceInternalDAO.findById(id)
 				.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
 		ResponseEntity<String> processId = restTemplate.postForEntity(accountingAppUrl + "/rest/workflow/startSalesProcess", data, String.class);
 		System.out.println("#### forObject = " + processId.getBody().toString());
-		return  modelMapper.map(invoice,InvoiceInternalDTO.Info.class);
+		invoice.setInvSented(processId.getBody().toString());
+		//invoiceInternalDAO.sa
+		return modelMapper.map(invoice, InvoiceInternalDTO.Info.class);
 
 	}
 

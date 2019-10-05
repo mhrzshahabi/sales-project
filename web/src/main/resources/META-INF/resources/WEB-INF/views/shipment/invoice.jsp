@@ -1014,14 +1014,13 @@
                         });
                     } else {
                             var data2acc={};
-                            data2acc["documentId"]= record.id+'"';
+                            data2acc["documentId"]= record.id;
                             data2acc["internal"]=  "خارجی";
                             data2acc["documentNo"]=  record.invoiceNo;
                             data2acc["documentDate"]= record.invoiceDate;
                             data2acc["company"]=  ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contact.nameFA+'-'+
                                                          ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contractNo;
                             data2acc["price"]=  record.invoiceValueCurrency+record.invoiceValue;
- // alert(JSON.stringify(data2acc))
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                     actionURL: "${contextPath}/api/invoice/sendForm-2accounting/"+record.id,
                                     httpMethod: "PUT",
