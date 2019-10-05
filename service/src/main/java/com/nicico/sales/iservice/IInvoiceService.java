@@ -20,4 +20,6 @@ public interface IInvoiceService {
 	void delete(InvoiceDTO.Delete request);
 
 	SearchDTO.SearchRs<InvoiceDTO.Info> search(SearchDTO.SearchRq request);
+
+	InvoiceDTO.Info sendForm2accounting(Long id,String data);
 }
