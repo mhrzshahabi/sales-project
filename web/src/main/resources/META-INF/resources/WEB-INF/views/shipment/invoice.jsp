@@ -129,19 +129,23 @@
                 {
                      title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                      click: function() {
-                        //TODO
+                         var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                         window.open("invoice/print/pdf?invoice_no="+invoice_no);
                     }
                 },
                 {
                     title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                     click: function(){
-                        //TODO
+
+                        var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                        window.open("invoice/print/xlsx?invoice_no="+invoice_no);
                     }
                 },
                 {
                  title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                     click: function(){
-                     //TODO
+                            var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                            window.open("invoice/print/html?invoice_no="+invoice_no);
                     }
                 },
             ]});
@@ -198,6 +202,7 @@
         width: "100%",
         members: [
             ToolStripButton_Shipment_InvoiceHeader_Refresh,
+
         ]
     });
     //-------------------
@@ -205,7 +210,7 @@
     var ListGrid_Shipment_InvoiceHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_Shipment_InvoiceHeader,
+        dataSource: RestDataSource_Shipment_InvoiceHeader, //data source
         contextMenu: Menu_ListGrid_Shipment_InvoiceHeader,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -346,31 +351,6 @@
         ]
     });
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    var ViewLoader_Invoice_Attachment = isc.ViewLoader.create({
-        width: "100%",
-        height: "100%",
-        autoDraw: false,
-        loadingMessage: " <spring:message code='global.loadingMessage'/>",
-    });
-     var Window_Invoice_Attachment = isc.Window.create({
-        title: "<spring:message code='global.Attachment'/> ",
-        width: "50%",
-        height: "50%",
-        margin: '1px',
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                ViewLoader_Invoice_Attachment
-            ]
-    });
     var ViewLoader_Molybdenum = isc.ViewLoader.create({
         width: "100%",
         height: "100%",
@@ -454,26 +434,7 @@
 
         fetchDataURL: "${contextPath}/api/invoice/spec-list"
     });
-    function Window_Invoice_Attachment_Open(){
-            var record = ListGrid_Invoice.getSelectedRecord();
 
-            if (record == null || record.id == null) {
-                isc.Dialog.create({
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                    buttonClick: function () {
-                        this.hide();
-                    }
-                });
-            } else {
-                     var dccTableId = record.id;
-                    var dccTableName = "TBL_INVOICE";
-                    ViewLoader_Invoice_Attachment.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
-                    Window_Invoice_Attachment.show();
-            }
-    }
     function ListGrid_Invoice_refresh() {
         ListGrid_Invoice.invalidateCache();
         var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
@@ -624,12 +585,28 @@
                     ListGrid_Invoice_remove();
                 }
             },
+/*JZ*/
             {
-                title: "<spring:message code='global.Attachment'/>", icon: "pieces/512/attachment.png",
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
-                    Window_Invoice_Attachment_Open();
+                var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                window.open("invoice/print/pdf?invoice_no="+invoice_no);
                 }
-            }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/html?invoice_no="+invoice_no);
+                }
+            },
+             {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/xlsx?invoice_no="+invoice_no);
+                }
+            },
         ]
     });
 
@@ -992,14 +969,7 @@
             ListGrid_Invoice_remove();
         }
     });
-
-    var ToolStripButton_Invoice_Attachment = isc.ToolStripButton.create({
-                title: "<spring:message code='global.Attachment'/>", icon: "pieces/512/attachment.png",
-                click: function () {
-                    Window_Invoice_Attachment_Open();
-                }
-    });
-
+/*Test Jalal*/
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -1008,7 +978,8 @@
                 ToolStripButton_Invoice_Add,
                 ToolStripButton_Invoice_Edit,
                 ToolStripButton_Invoice_Remove,
-                ToolStripButton_Invoice_Attachment            ]
+                MenuButton_Mali // Add By jazad
+            ]
     });
 
     var HLayout_Invoice_Actions = isc.HLayout.create({
