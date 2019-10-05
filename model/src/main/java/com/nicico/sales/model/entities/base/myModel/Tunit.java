@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_TOZIN_UNIT")
-public class Unit {
+public class Tunit {
     @Id
     private  Long ID;
     private String PACKNAME;

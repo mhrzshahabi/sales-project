@@ -1,0 +1,41 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Admin (generated)" id="1569908502436-166">
+        <addColumn tableName="TBL_INVOICE">
+            <column name="BUYERID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Admin (generated)" id="1569908502436-167">
+        <addColumn tableName="TBL_INVOICE">
+            <column name="PRICE_FROM_DATE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Admin (generated)" id="1569908502436-168">
+        <addColumn tableName="TBL_INVOICE">
+            <column name="PRICE_FUNCTION" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Admin (generated)" id="1569908502436-169">
+        <addColumn tableName="TBL_INVOICE">
+            <column name="PRICE_REFERENCE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Admin (generated)" id="1569908502436-170">
+        <addColumn tableName="TBL_INVOICE">
+            <column name="PRICE_TO_DATE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Admin (generated)" id="1569908502436-171">
+        <addColumn tableName="TBL_INVOICE">
+            <column name="SELLERID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Admin (generated)" id="1569908502436-10">
+        <dropForeignKeyConstraint baseTableName="TBL_INVOICE" constraintName="FKPK0N72NPBCM78FS1F99W5KKUI"/>
+    </changeSet>
+    <changeSet author="Admin (generated)" id="1569908590072-102">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_INVOICE" constraintName="INVOICE2SHIPMENT" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT"/>
+    </changeSet>
+</databaseChangeLog>

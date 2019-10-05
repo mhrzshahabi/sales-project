@@ -51,15 +51,15 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false)
-	private Contact contact;
+	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactByBuyer"))
+	private Contact contact; // contactByBuyer
 
 	@Column(name = "CONTACT_ID")
-	private Long contactId;
+	private Long contactId; // contactByBuyerId
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SELLER_AGENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SELLER_AGENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactBySellerAgent"))
 	private Contact contactBySellerAgent;
 
 	@Column(name = "SELLER_AGENT_ID")
@@ -67,7 +67,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BUYER_AGENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "BUYER_AGENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactByBuyerAgent"))
 	private Contact contactByBuyerAgent;
 
 	@Column(name = "BUYER_AGENT_ID")
@@ -75,12 +75,20 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BUYER_ID", insertable = false, updatable = false)
-	private Contact contactByBuyer;
+	@JoinColumn(name = "SELLER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactBySeller"))
+	private Contact contactBySeller;
 
-	@Column(name = "BUYER_ID")
-	private Long contactByBuyerId;
+	@Column(name = "SELLER_ID")
+	private Long contactBySellerId;
 
+//	@Setter(AccessLevel.NONE)
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "BUYER_ID", insertable = false, updatable = false)
+//	private Contact contactByBuyer;
+//
+//	@Column(name = "BUYER_ID")
+//	private Long contactByBuyerId;
+//
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DEFINITION_ID", insertable = false, updatable = false)

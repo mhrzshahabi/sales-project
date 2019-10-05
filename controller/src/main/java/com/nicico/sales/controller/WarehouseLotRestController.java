@@ -45,7 +45,6 @@ public class WarehouseLotRestController {
 
 	@Loggable
 	@PostMapping
-	// @PreAuthorize("hasAuthority('c_warehouseLot')")
 	public ResponseEntity<WarehouseLotDTO.Info> create(@Validated @RequestBody WarehouseLotDTO.Create request) {
 		return new ResponseEntity<>(warehouseLotService.create(request), HttpStatus.CREATED);
 	}

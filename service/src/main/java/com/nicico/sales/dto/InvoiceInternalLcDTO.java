@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.Material;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -16,49 +15,49 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WarehouseLotDTO {
+public class InvoiceInternalLcDTO {
 	@NotNull
 	@ApiModelProperty(required = true)
-	private String warehouseNo;
-	private Material material;
-    @NotNull
-	@ApiModelProperty(required = true)
-	private Long materialId;
-	private String plant;
-	private String lotName;
-	private Double cu;
-	private Double ag;
-	private Double au;
-	private Double dmt;
-	private Double mo;
-	private Double si;
-	private Double pb;
-	private Double s;
-	private Double c;
-	private String p;
-	private String size1;
-	private Double size1Value;
-	private String size2;
-	private Double size2Value;
-	private Double weightKg;
-	private Double grossWeight;
-	private Long contractId;
-    private Boolean used;
+	private Long id;
+	private String lcId;
+	private String lcPreFactor;
+	private String lcCustomerId;
+	private String lcCustomerName;
+	private String lcBankLc;
+	private String bankLcDescShobeh;
+	private Long lcGoodsId;
+	private String lcGoodName;
+	private String lcDateSedor;
+	private String lcDateSarreceid;
+	private Long lcMeghdar;
+	private Long lcPrice;
+	private String lcNumber;
+	private Long lcType;
+	private String lcTypeDesc;
+	private Long lcState;
+	private String lcStateDesc;
+	private String lcUser;
+	private String lcUsername;
+	private String lcCodeMarkazHazinehLc;
+	private String  lcBankMoameleh;
+	private String lcBankMoamelehDescShobeh;
+	private String lcBankGroupId;
+	private String lcBankGroupDesc;
+	private String lcStateInOut;
 
 	// ------------------------------
 
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotInfo")
-	public static class Info extends WarehouseLotDTO {
+	@ApiModel("InvoiceInternalLcInfo")
+	public static class Info extends InvoiceInternalLcDTO {
 		private Long id;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
-		private ContactDTO.ContactInfoTuple contact;
 	}
 
 	// ------------------------------
@@ -66,8 +65,8 @@ public class WarehouseLotDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotCreateRq")
-	public static class Create extends WarehouseLotDTO {
+	@ApiModel("InvoiceInternalLcCreateRq")
+	public static class Create extends InvoiceInternalLcDTO {
 	}
 
 	// ------------------------------
@@ -75,8 +74,8 @@ public class WarehouseLotDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotUpdateRq")
-	public static class Update extends WarehouseLotDTO {
+	@ApiModel("InvoiceInternalLcUpdateRq")
+	public static class Update extends InvoiceInternalLcDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
@@ -90,7 +89,7 @@ public class WarehouseLotDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotDeleteRq")
+	@ApiModel("InvoiceInternalLcDeleteRq")
 	public static class Delete {
 		@NotNull
 		@ApiModelProperty(required = true)
@@ -103,8 +102,8 @@ public class WarehouseLotDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("WarehouseLotSpecRs")
-	public static class WarehouseLotSpecRs {
+	@ApiModel("InvoiceInternalLcSpecRs")
+	public static class InvoiceSpecRs {
 		private SpecRs response;
 	}
 
@@ -115,7 +114,7 @@ public class WarehouseLotDTO {
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
-		private List<WarehouseLotDTO.Info> data;
+		private List<InvoiceInternalLcDTO.Info> data;
 		private Integer status;
 		private Integer startRow;
 		private Integer endRow;

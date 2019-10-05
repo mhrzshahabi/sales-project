@@ -223,6 +223,8 @@
                         window.open("dcc/downloadFile?table=" + "instruction" + "&file=" + record.fileNewName);
                     else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
                         window.open("dcc/downloadFile?table=" + "shipment" + "&file=" + record.fileNewName);
+                    else if (record.tblName1 != null && record.tblName1 == "TBL_INVOICE")
+                        window.open("dcc/downloadFile?table=" + "invoice" + "&file=" + record.fileNewName);
                 }
             }
         ]
@@ -289,6 +291,10 @@
             } else if (dccTableName != null && dccTableName === 'TBL_SHIPMENT') {
                 folder = "shipment";
                 dccDynamicForm.setValue("folder", "shipment");
+            }
+            else if (dccTableName != null && dccTableName === 'TBL_INVOICE') {
+                folder = "invoice";
+                dccDynamicForm.setValue("folder", "invoice");
             }
 
             var formData = new FormData();

@@ -320,6 +320,31 @@
         ]
     });
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    var ViewLoader_Invoice_Attachment = isc.ViewLoader.create({
+        width: "100%",
+        height: "100%",
+        autoDraw: false,
+        loadingMessage: " <spring:message code='global.loadingMessage'/>",
+    });
+     var Window_Invoice_Attachment = isc.Window.create({
+        title: "<spring:message code='global.Attachment'/> ",
+        width: "50%",
+        height: "50%",
+        margin: '1px',
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items:
+            [
+                ViewLoader_Invoice_Attachment
+            ]
+    });
     var ViewLoader_Molybdenum = isc.ViewLoader.create({
         width: "100%",
         height: "100%",
@@ -403,7 +428,26 @@
 
         fetchDataURL: "${contextPath}/api/invoice/spec-list"
     });
+    function Window_Invoice_Attachment_Open(){
+            var record = ListGrid_Invoice.getSelectedRecord();
 
+            if (record == null || record.id == null) {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    buttonClick: function () {
+                        this.hide();
+                    }
+                });
+            } else {
+                     var dccTableId = record.id;
+                    var dccTableName = "TBL_INVOICE";
+                    ViewLoader_Invoice_Attachment.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+                    Window_Invoice_Attachment.show();
+            }
+    }
     function ListGrid_Invoice_refresh() {
         ListGrid_Invoice.invalidateCache();
         var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
@@ -552,6 +596,35 @@
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Invoice_remove();
+                }
+            },
+            {
+                title: "<spring:message code='global.Attachment'/>", icon: "pieces/512/attachment.png",
+                click: function () {
+                    Window_Invoice_Attachment_Open();
+                }
+            },
+
+/*JZ*/
+            {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                window.open("invoice/print/pdf?invoice_no="+invoice_no);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/html?invoice_no="+invoice_no);
+                }
+            },
+             {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/xlsx?invoice_no="+invoice_no);
                 }
             }
         ]
@@ -917,6 +990,54 @@
         }
     });
 
+    var ToolStripButton_Invoice_Attachment = isc.ToolStripButton.create({
+                title: "<spring:message code='global.Attachment'/>", icon: "pieces/512/attachment.png",
+                click: function () {
+                    Window_Invoice_Attachment_Open();
+                }
+    });
+
+    var ToolStripButton_Invoice_Send2Accounting = isc.ToolStripButton.create({
+                title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
+                click: function () {
+                    var record = ListGrid_Invoice.getSelectedRecord();
+
+                    if (record == null || record.id == null) {
+                        isc.Dialog.create({
+                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                            icon: "[SKIN]ask.png",
+                            title: "<spring:message code='global.message'/>",
+                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                            buttonClick: function () {
+                                this.hide();
+                            }
+                        });
+                    } else {
+                            var data2acc={};
+                            data2acc["documentId"]= record.id;
+                            data2acc["internal"]=  "خارجی";
+                            data2acc["documentNo"]=  record.invoiceNo;
+                            data2acc["documentDate"]= record.invoiceDate;
+                            data2acc["company"]=  ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contact.nameFA+'-'+
+                                                         ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contractNo;
+                            data2acc["price"]=  record.invoiceValueCurrency+record.invoiceValue;
+                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                    actionURL: "${contextPath}/api/invoice/sendForm-2accounting/"+record.id,
+                                    httpMethod: "PUT",
+                                    data: JSON.stringify(data2acc),
+                                    callback: function (resp) {
+                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                                            ListGrid_InvoiceInternal_refresh();
+                                        } else
+                                            isc.say(RpcResponse_o.data);
+                                    }
+                                })
+                            );
+                    }
+                }
+    });
+
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -924,8 +1045,9 @@
                 ToolStripButton_Invoice_Refresh,
                 ToolStripButton_Invoice_Add,
                 ToolStripButton_Invoice_Edit,
-                ToolStripButton_Invoice_Remove
-            ]
+                ToolStripButton_Invoice_Remove,
+                ToolStripButton_Invoice_Attachment,
+                ToolStripButton_Invoice_Send2Accounting            ]
     });
 
     var HLayout_Invoice_Actions = isc.HLayout.create({

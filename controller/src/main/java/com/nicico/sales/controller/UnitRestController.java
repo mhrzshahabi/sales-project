@@ -76,7 +76,6 @@ public class UnitRestController {
 	@Loggable
 	@GetMapping(value = "/spec-list")
 //    @PreAuthorize("hasAuthority('r_unit')")
-
 	public ResponseEntity<UnitDTO.UnitSpecRs> list(@RequestParam("_startRow") Integer startRow,
 												   @RequestParam("_endRow") Integer endRow,
 												   @RequestParam(value = "_constructor", required = false) String constructor,
@@ -99,22 +98,27 @@ public class UnitRestController {
 			request.setCriteria(criteriaRq);
 		}
 
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
+		final UnitDTO.SpecRs specResponse = new UnitDTO.SpecRs();
 
+		if (startRow != null && endRow != null) {
+			request.setStartIndex(startRow)
+					.setCount(endRow - startRow);
+
+			specResponse.setStartRow(startRow)
+					.setEndRow(endRow);
+		}
 		SearchDTO.SearchRs<UnitDTO.Info> response = unitService.search(request);
 
-		final UnitDTO.SpecRs specResponse = new UnitDTO.SpecRs();
 		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
 				.setTotalRows(response.getTotalCount().intValue());
-
 		final UnitDTO.UnitSpecRs specRs = new UnitDTO.UnitSpecRs();
 		specRs.setResponse(specResponse);
 
+
 		return new ResponseEntity<>(specRs, HttpStatus.OK);
 	}
+
+
 
 	// ------------------------------
 

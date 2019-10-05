@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.Material;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -16,49 +15,35 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WarehouseLotDTO {
+public class InvoiceInternalCustomerDTO {
 	@NotNull
 	@ApiModelProperty(required = true)
-	private String warehouseNo;
-	private Material material;
-    @NotNull
-	@ApiModelProperty(required = true)
-	private Long materialId;
-	private String plant;
-	private String lotName;
-	private Double cu;
-	private Double ag;
-	private Double au;
-	private Double dmt;
-	private Double mo;
-	private Double si;
-	private Double pb;
-	private Double s;
-	private Double c;
-	private String p;
-	private String size1;
-	private Double size1Value;
-	private String size2;
-	private Double size2Value;
-	private Double weightKg;
-	private Double grossWeight;
-	private Long contractId;
-    private Boolean used;
+	private Long id;
+	private String customerId;
+	private String customerName;
+	private String customerAddress;
+	private String customerSharh;
+	private String customerTel;
+	private String customerEghtesadNumber;
+	private String customerSabtNumber;
+	private String customerPostCode;
+	private String customerTelex;
+	private String customerFax;
+	private String customerCodeNosa;
 
 	// ------------------------------
 
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotInfo")
-	public static class Info extends WarehouseLotDTO {
+	@ApiModel("InvoiceInternalCustomerInfo")
+	public static class Info extends InvoiceInternalCustomerDTO {
 		private Long id;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
-		private ContactDTO.ContactInfoTuple contact;
 	}
 
 	// ------------------------------
@@ -66,8 +51,8 @@ public class WarehouseLotDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotCreateRq")
-	public static class Create extends WarehouseLotDTO {
+	@ApiModel("InvoiceInternalCustomerCreateRq")
+	public static class Create extends InvoiceInternalCustomerDTO {
 	}
 
 	// ------------------------------
@@ -75,8 +60,8 @@ public class WarehouseLotDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotUpdateRq")
-	public static class Update extends WarehouseLotDTO {
+	@ApiModel("InvoiceInternalCustomerUpdateRq")
+	public static class Update extends InvoiceInternalCustomerDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
@@ -90,7 +75,7 @@ public class WarehouseLotDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotDeleteRq")
+	@ApiModel("InvoiceInternalCustomerDeleteRq")
 	public static class Delete {
 		@NotNull
 		@ApiModelProperty(required = true)
@@ -103,8 +88,8 @@ public class WarehouseLotDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("WarehouseLotSpecRs")
-	public static class WarehouseLotSpecRs {
+	@ApiModel("InvoiceInternalCustomerSpecRs")
+	public static class InvoiceSpecRs {
 		private SpecRs response;
 	}
 
@@ -115,7 +100,7 @@ public class WarehouseLotDTO {
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
-		private List<WarehouseLotDTO.Info> data;
+		private List<InvoiceInternalCustomerDTO.Info> data;
 		private Integer status;
 		private Integer startRow;
 		private Integer endRow;

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
  @Table(name = "TBL_TOZIN_MATERIAL")
-public class Material {
+public class TMaterial {
     @Id
     private Long ID;
     private Long GDSCODE;

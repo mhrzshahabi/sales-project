@@ -70,6 +70,8 @@ nicico:
   bpmn:
     upload:
       dir: /var/nicico/${spring.application.name}/
+  security:
+    sys-password: password
 
 ---
 
@@ -126,6 +128,9 @@ spring:
             token-uri: http://devapp01.icico.net.ir/oauth/token
             user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
+nicico:
+  apps:
+    accounting: http://devapp01.icico.net.ir/accounting
 
 ---
 
@@ -159,3 +164,5 @@ spring:
 nicico:
   upload:
     dir: c:/upload
+  apps:
+    accounting: http://localhost:8099/accounting
