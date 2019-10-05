@@ -129,19 +129,23 @@
                 {
                      title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                      click: function() {
-                        //TODO
+                         var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                         window.open("invoice/print/pdf?invoice_no="+invoice_no);
                     }
                 },
                 {
                     title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                     click: function(){
-                        //TODO
+
+                        var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                        window.open("invoice/print/xlsx?invoice_no="+invoice_no);
                     }
                 },
                 {
                  title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                     click: function(){
-                     //TODO
+                            var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                            window.open("invoice/print/html?invoice_no="+invoice_no);
                     }
                 },
             ]});
@@ -581,22 +585,26 @@
                     ListGrid_Invoice_remove();
                 }
             },
+/*JZ*/
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
-                    window.open("");
+                var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                window.open("invoice/print/pdf?invoice_no="+invoice_no);
                 }
             },
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
-                    window.open(""); //TODO
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/html?invoice_no="+invoice_no);
                 }
             },
              {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
-                    window.open(""); //TODO
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/xlsx?invoice_no="+invoice_no);
                 }
             },
         ]

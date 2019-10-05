@@ -1,8 +1,10 @@
 package com.nicico.sales.web.controller;
 
+import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.dto.grid.GridResponse;
 import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.InvoiceItemDTO;
 import com.nicico.sales.dto.InvoiceMolybdenumDTO;
 import com.nicico.sales.iservice.IInvoiceItemService;
@@ -11,11 +13,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -26,7 +31,7 @@ public class InvoiceFormController {
 	public String showInvoice() {
 		return "shipment/invoice";
 	}
-
+	private final ReportUtil reportUtil;
 	private final IInvoiceMolybdenumService invoiceMolybdenumService;
 	private final IInvoiceItemService invoiceItemService;
 
@@ -79,6 +84,10 @@ public class InvoiceFormController {
 	}
 
 	@RequestMapping("/print/{type}")
-	public void printInvoice(HttpServletResponse response, @PathVariable String type) throws Exception {
+	public void printInvoice(HttpServletResponse response, @PathVariable String type , @RequestParam ("invoice_no") String invoice_no) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		params.put("INVOICE_NO",invoice_no);
+		params.put(ConstantVARs.REPORT_TYPE, type);
+		reportUtil.export("/reports/A4-P1.jasper", params, response);
 	}
 }
