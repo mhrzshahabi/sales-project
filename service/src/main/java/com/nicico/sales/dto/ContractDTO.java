@@ -19,9 +19,6 @@ public class ContractDTO {
 	private String contractNo;
 	private String contractDate;
 	private String isComplete;
-	@NotNull
-	@ApiModelProperty(required = true)
-	private Long contactId;
 	private Long incotermsId;
 	private Long prepaid;
 	private String prepaidCurrency;
@@ -46,7 +43,12 @@ public class ContractDTO {
 	private Double molybdenumTolorance;
 	private String sideContractNo;
 	private String sideContractDate;
-
+	@NotNull
+	@ApiModelProperty(required = true)
+	private Long contactId; // contactByBuyerId
+	private Long contactByBuyerAgentId;
+	private Long contactBySellerId;
+	private Long contactBySellerAgentId;
 	//------------------------------------------------------
 	@Getter
 	@Setter
@@ -55,6 +57,9 @@ public class ContractDTO {
 		private String contractNo;
 		private String contractDate;
 		private ContactDTO.ContactInfoTuple contact;
+		private ContactDTO.ContactInfoTuple contactBySeller;
+		private ContactDTO.ContactInfoTuple contactBySellerAgent;
+		private ContactDTO.ContactInfoTuple contactByBuyerAgent;
 	}
 	//------------------------------------------------------
 
@@ -65,7 +70,6 @@ public class ContractDTO {
 	public static class Info extends ContractDTO {
 		private UnitDTO unit;
 		private MaterialDTO material;
-		private ContactDTO contact;
 		private IncotermsDTO incoterms;
 		private Long id;
 		private Date createdDate;
@@ -73,7 +77,11 @@ public class ContractDTO {
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
-	}
+		private ContactDTO contact;
+		private ContactDTO contactBySeller;
+		private ContactDTO contactBySellerAgent;
+		private ContactDTO contactByBuyerAgent;
+		}
 
 	// ------------------------------
 

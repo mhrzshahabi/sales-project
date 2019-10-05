@@ -24,7 +24,7 @@ public class Invoice extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "INVOICE2SHIPMENT"))
 	private Shipment Shipment;
 
 	@Column(name = "SHIPMENT_ID", length = 10)
@@ -60,7 +60,7 @@ public class Invoice extends Auditable {
 	@Column(name = "PAID_PERCENT")
 	private Float paidPercent;
 
-	@Column(name = "PAID_STATUS")
+	@Column(name = "PAID_STATUS", length = 10)
 	private String paidStatus;
 
 	@Column(name = "DEPRECIATION")
@@ -101,7 +101,7 @@ public class Invoice extends Auditable {
 	@Column(name = "BOL_HEADER_ID")
 	private Long bolHeaderId;
 
-	@Column(name = "PRICE_BASE")
+	@Column(name = "PRICE_BASE", length = 255)
 	private String priceBase;
 
 	@Column(name = "MOLYBDENUM_CONTENT")
@@ -116,7 +116,7 @@ public class Invoice extends Auditable {
 	@Column(name = "INVOIVE_VALUE_D")
 	private Float invoiceValueD;
 
-	@Column(name = "RATE_BASE")
+	@Column(name = "RATE_BASE", length = 255)
 	private String rateBase;
 
 	@Column(name = "RATE2DOLLAR")
@@ -196,5 +196,33 @@ public class Invoice extends Auditable {
 
 	@Column(name = "SUB_TOTAL_DEDUCTION")
 	private Float subTotalDeduction;
+
+	@Column(name = "PRICE_REFERENCE", length = 255)
+	private String priceReference;
+
+	@Column(name = "PRICE_FUNCTION", length = 255)
+	private String priceFunction;
+
+	@Column(name = "PRICE_FROM_DATE", length = 255)
+	private String priceFromDate;
+
+	@Column(name = "PRICE_TO_DATE", length = 255)
+	private String priceToDate;
+
+	@Column(name = "SELLERID")
+	private Long sellerId;
+
+	@Column(name = "BUYERID")
+	private Long buyerId;
+
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SELLERID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "INVOICE2CONTACT_SELLER"))
+	private Contact seller;
+
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BUYERID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "INVOICE2CONTACT_BUYER"))
+	private Contact buyer;
 
 }

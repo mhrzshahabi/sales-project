@@ -126,6 +126,40 @@
 		}
 
 	}
+//-----------------------------------------------------------------------------------------------------------------------------------
+   var RestDataSource_ContactBySellerMolybdenum = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "code", title: "<spring:message code='contact.code'/>"},
+                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
+                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
+                {name: "commertialRole"},
+            ],
+        fetchDataURL: "${contextPath}/api/contact/spec-list1"
+    });
+    var RestDataSource_ContactByBuyerMolybdenum = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "code", title: "<spring:message code='contact.code'/>"},
+                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
+                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
+                {name: "commertialRole"},
+            ],
+        fetchDataURL: "${contextPath}/api/contact/spec-list2"
+    });
+    var RestDataSource_Contact_optionCriteria_seller_Molybdenum  = {
+        _constructor: "AdvancedCriteria",
+        operator: "or",
+        criteria: [{fieldName: "seller", operator: "equals", value: true},{fieldName: "agentSeller", operator: "equals", value: true}]
+    };
+    var RestDataSource_Contact_optionCriteria_buyer_Molybdenum = {
+        _constructor: "AdvancedCriteria",
+        operator: "or",
+        criteria: [{fieldName: "buyer", operator: "equals", value: true},{fieldName: "agentBuyer", operator: "equals", value: true}]
+    };
+//-----------------------------------------------------------------------------------------------------------------------------------
      var DynamicForm_Invoice_Molybdenum = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -179,14 +213,56 @@
                     required: true,
                     width: "100%",colSpan:3,titleColSpan:1
                 },
-                  {
-                    name: "priceBase",
-                    title: "<spring:message code='invoice.priceBase'/>",
+                 {
+                    name: "sellerId",
+                    title: "Seller",
+                    type: 'long',
+                    width: "100%",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_ContactBySellerMolybdenum,
+                    optionCriteria: RestDataSource_Contact_optionCriteria_seller_Molybdenum,
+                    displayField: "nameFA",
+                    valueField: "id",
+                    pickListWidth: "500",
+                    pickListHeight: "500",colSpan:3,titleColSpan:1,
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "nameFA", align: "center"},
+                        {name: "nameEN", align: "center"}
+                    ]
+                },
+                 {
+                    name: "buyerId",
+                    title: "Buyer",
+                    type: 'long',
+                    width: "100%",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_ContactByBuyerMolybdenum,
+                    optionCriteria: RestDataSource_Contact_optionCriteria_buyer_Molybdenum,
+                    displayField: "nameFA",
+                    valueField: "id",
+                    pickListWidth: "500",
+                    pickListHeight: "500",colSpan:3,titleColSpan:1,
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [{name: "nameFA", align: "center"}, {
+                        name: "nameEN",
+                        align: "center"
+                    }]
+                },
+                {
+                    name: "priceBase",startRow:true,
+                    title: "<spring:message code='invoice.priceBase'/>",titleOrientation:'top',
                     type: 'text',
                     required: true,
-                    width: "100%",colSpan:8,titleColSpan:1,
+                    width: "100%",colSpan:4,titleColSpan:1,
                 },
-                {name: "molybdJenumUnitPrice", title: "MO/Oz USD",type: 'currencyFloat3', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
+                {name: "priceReference",title:"Reference", titleOrientation:'top',type: 'text', required: false, width: "100%",colSpan:1 ,valueMap: {"LME":"LME","PLATTS":"PLATTS","SHFG":"SHFG"} },
+                {name: "priceFunction",title:"function", titleOrientation:'top',type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"Avg":"Avg","Min":"Min","Max":"Max"} },
+                {name: "priceFromDate",title:"From Date", titleOrientation:'top',type: 'text', useTextField:true, required: false, width: "100%",colSpan:2,mask:"####/##/##",
+                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=item.getValue();if (!validatedate(value))	item.setValue("");}  },
+                 {name: "priceToDate",title:"To Date", titleOrientation:'top',type: 'text', useTextField:true, required: false, width: "100%",colSpan:2,mask:"####/##/##",
+                       hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=item.getValue();if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
+                {name: "molybdJenumUnitPrice", title: "MO/Oz USD", titleOrientation:'top',type: 'currencyFloat3', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdJenumUnitPrice","none",-1,3);	} },
               // {
@@ -586,7 +662,6 @@
             var down=[];
             <%	for (int i=0;i<(loopDown==0 ? 3 : loopDown+2 );i++){ %>
                 if ( data.down<%=i %>.description!=null || data.down<%=i %>.originValue!=null || data.down<%=i %>.conversionRate!=null || data.down<%=i %>.rateReference!=null  ){
-                    // data.down<%=i %>.targetValueCurrency=DynamicForm_Invoice_Concentrate.getValue("invoiceValueCurrency") ;
                     data.down<%=i %>.upDown="down";
                     data.down<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {
