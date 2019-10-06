@@ -45,7 +45,7 @@ public class CreateReportService implements ICreateReportService {
             Map<String, Object> parametersMap = new HashMap<>();
             parametersMap.put("logo_nicico", "C:\\upload\\report-logo\\nicico-logo.png");
 
-            List<ReportDto> list = reportInfoRepository.getAllInfoReport(date);
+            List<ReportDto> list = null;
             for (int k = 0; k < list.size(); k++) {
                 ReportDto reportDto = list.get(k);
 //load=0 means output, unload=1 means input
@@ -81,7 +81,7 @@ public class CreateReportService implements ICreateReportService {
             }
 
             for (Double i = 1.0; i <= 27.0; i++) {
-                ColumnDto columnDto = reportInfoRepository.getsearchpmpttype(i.longValue());
+                ColumnDto columnDto = null;
                 ColumnDto baseColumnDto = reportInfoRepository.getPMPTYpe(i.longValue());
                 WholeDto wholeDto = new WholeDto();
                 //calculate to count total

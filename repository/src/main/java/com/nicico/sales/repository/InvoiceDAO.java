@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InvoiceDAO extends JpaRepository<Invoice, Long>, JpaSpecificationExecutor<Invoice> {
 
+    Invoice findByShipmentIdAndInvoiceType(Long id, String provisional);
 }

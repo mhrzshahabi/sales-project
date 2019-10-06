@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MaterialDAO extends JpaRepository<Material, Long>, JpaSpecificationExecutor<Material> {
 
+    Material findByDescl(String s);
 }

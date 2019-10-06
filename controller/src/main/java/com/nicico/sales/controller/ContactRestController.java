@@ -24,125 +24,115 @@ import java.util.List;
 @RequestMapping(value = "/api/contact")
 public class ContactRestController {
 
-	private final IContactService contactService;
-	private final ObjectMapper objectMapper;
-	// ------------------------------s
+    private final IContactService contactService;
+    private final ObjectMapper objectMapper;
 
-	@Loggable
-	@GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('r_contact')")
-	public ResponseEntity<ContactDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(contactService.get(id), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/{id}")
 
-	@Loggable
-	@GetMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('r_contact')")
-	public ResponseEntity<List<ContactDTO.Info>> list() {
-		return new ResponseEntity<>(contactService.list(), HttpStatus.OK);
-	}
+    public ResponseEntity<ContactDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(contactService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PostMapping
-//	@PreAuthorize("hasAuthority('c_contact')")
-	public ResponseEntity<ContactDTO.Info> create(@Validated @RequestBody ContactDTO.Create request) {
-		request.setCommercialRole( (request.getInspector()!=null&&request.getInspector().toString().equalsIgnoreCase("true")?"بازرس , ":"")
-				+(request.getInsurancer()!=null && request.getInsurancer().toString().equalsIgnoreCase("true") ?" بیمه گر ,":"")
-				+(request.getShipper()!=null && request.getShipper().toString().equalsIgnoreCase("true") ?" صاحب کشتی,":"")
-				+(request.getTransporter()!=null && request.getTransporter().toString().equalsIgnoreCase("true") ?" حمل کننده ,":"")
-				+(request.getBuyer()!=null && request.getBuyer().toString().equalsIgnoreCase("true") ?" فروشنده ,":"")
-				+(request.getSeller()!=null && request.getSeller().toString().equalsIgnoreCase("true")?" خریدار ,":"")
-				+(request.getAgentSeller()!=null && request.getAgentSeller().toString().equalsIgnoreCase("true")?" نماینده فروشنده ,":"")
-				+(request.getAgentBuyer()!=null && request.getAgentBuyer().toString().equalsIgnoreCase("true")?" نماینده خریدار ,":"")
-		);
-		return new ResponseEntity<>(contactService.create(request), HttpStatus.CREATED);
-	}
+    @Loggable
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<ContactDTO.Info>> list() {
+        return new ResponseEntity<>(contactService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PutMapping
-//	@PreAuthorize("hasAuthority('u_contact')")
-	public ResponseEntity<ContactDTO.Info> update(@RequestBody ContactDTO.Update request) {
-		request.setCommercialRole( (request.getInspector()!=null&&request.getInspector().toString().equalsIgnoreCase("true")?"بازرس , ":"")
-				+(request.getInsurancer()!=null && request.getInsurancer().toString().equalsIgnoreCase("true") ?" بیمه گر ,":"")
-				+(request.getShipper()!=null && request.getShipper().toString().equalsIgnoreCase("true") ?" صاحب کشتی,":"")
-				+(request.getTransporter()!=null && request.getTransporter().toString().equalsIgnoreCase("true") ?" حمل کننده ,":"")
-				+(request.getBuyer()!=null && request.getBuyer().toString().equalsIgnoreCase("true") ?" فروشنده ,":"")
-				+(request.getSeller()!=null && request.getSeller().toString().equalsIgnoreCase("true")?" خریدار ,":"")
-				+(request.getAgentSeller()!=null && request.getAgentSeller().toString().equalsIgnoreCase("true")?" نماینده فروشنده ,":"")
-				+(request.getAgentBuyer()!=null && request.getAgentBuyer().toString().equalsIgnoreCase("true")?" نماینده خریدار ,":"")
-		);
+    @Loggable
+    @PostMapping
+    public ResponseEntity<ContactDTO.Info> create(@Validated @RequestBody ContactDTO.Create request) {
+        request.setCommercialRole((request.getInspector() != null && request.getInspector().toString().equalsIgnoreCase("true") ? "بازرس , " : "")
+                + (request.getInsurancer() != null && request.getInsurancer().toString().equalsIgnoreCase("true") ? " بیمه گر ," : "")
+                + (request.getShipper() != null && request.getShipper().toString().equalsIgnoreCase("true") ? " صاحب کشتی," : "")
+                + (request.getTransporter() != null && request.getTransporter().toString().equalsIgnoreCase("true") ? " حمل کننده ," : "")
+                + (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
+                + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
+                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
+                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
+        );
+        return new ResponseEntity<>(contactService.create(request), HttpStatus.CREATED);
+    }
 
-		return new ResponseEntity<>(contactService.update(request.getId(), request), HttpStatus.OK);
-	}
+    @Loggable
+    @PutMapping
+    public ResponseEntity<ContactDTO.Info> update(@RequestBody ContactDTO.Update request) {
+        request.setCommercialRole((request.getInspector() != null && request.getInspector().toString().equalsIgnoreCase("true") ? "بازرس , " : "")
+                + (request.getInsurancer() != null && request.getInsurancer().toString().equalsIgnoreCase("true") ? " بیمه گر ," : "")
+                + (request.getShipper() != null && request.getShipper().toString().equalsIgnoreCase("true") ? " صاحب کشتی," : "")
+                + (request.getTransporter() != null && request.getTransporter().toString().equalsIgnoreCase("true") ? " حمل کننده ," : "")
+                + (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
+                + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
+                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
+                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
+        );
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_contact')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		contactService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+        return new ResponseEntity<>(contactService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_contact')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody ContactDTO.Delete request) {
-		contactService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        contactService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping( {"/spec-list","/spec-list1","/spec-list2","/spec-list3","/spec-list4"})
-//	@PreAuthorize("hasAuthority('r_contact')")
-	public ResponseEntity<ContactDTO.ContactSpecRs> list(@RequestParam(value = "_startRow", required = false) Integer startRow,
-														 @RequestParam(value = "_endRow", required = false) Integer endRow,
-														 @RequestParam(value = "_constructor", required = false) String constructor,
-														 @RequestParam(value = "operator", required = false) String operator,
-														 @RequestParam(value = "_sortBy", required = false) String sortBy,
-														 @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		SearchDTO.CriteriaRq criteriaRq;
-		if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
-			criteria = "[" + criteria + "]";
-			criteriaRq = new SearchDTO.CriteriaRq();
-			criteriaRq.setOperator(EOperator.valueOf(operator))
-					.setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
-					}));
+    @Loggable
+    @DeleteMapping(value = "/list")
+    public ResponseEntity<Void> delete(@Validated @RequestBody ContactDTO.Delete request) {
+        contactService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-			if (StringUtils.isNotEmpty(sortBy)) {
-				request.setSortBy(sortBy);
-			}
+    @Loggable
+    @GetMapping({"/spec-list", "/spec-list1", "/spec-list2", "/spec-list3", "/spec-list4"})
+    public ResponseEntity<ContactDTO.ContactSpecRs> list(@RequestParam(value = "_startRow", required = false) Integer startRow,
+                                                         @RequestParam(value = "_endRow", required = false) Integer endRow,
+                                                         @RequestParam(value = "_constructor", required = false) String constructor,
+                                                         @RequestParam(value = "operator", required = false) String operator,
+                                                         @RequestParam(value = "_sortBy", required = false) String sortBy,
+                                                         @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
+        SearchDTO.SearchRq request = new SearchDTO.SearchRq();
+        SearchDTO.CriteriaRq criteriaRq;
+        if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
+            criteria = "[" + criteria + "]";
+            criteriaRq = new SearchDTO.CriteriaRq();
+            criteriaRq.setOperator(EOperator.valueOf(operator))
+                    .setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
+                    }));
 
-			request.setCriteria(criteriaRq);
-		}
+            if (StringUtils.isNotEmpty(sortBy)) {
+                request.setSortBy(sortBy);
+            }
 
-		final ContactDTO.SpecRs specResponse = new ContactDTO.SpecRs();
+            request.setCriteria(criteriaRq);
+        }
+
+        final ContactDTO.SpecRs specResponse = new ContactDTO.SpecRs();
 
         if (startRow != null && endRow != null) {
-			request.setStartIndex(startRow)
-					.setCount(endRow - startRow);
+            request.setStartIndex(startRow)
+                    .setCount(endRow - startRow);
 
-			specResponse.setStartRow(startRow)
-					.setEndRow(endRow);
-		}
+            specResponse.setStartRow(startRow)
+                    .setEndRow(endRow);
+        }
 
-		SearchDTO.SearchRs<ContactDTO.Info> response = contactService.search(request);
+        SearchDTO.SearchRs<ContactDTO.Info> response = contactService.search(request);
 
-		specResponse.setData(response.getList())
-				.setTotalRows(response.getTotalCount().intValue());
+        specResponse.setData(response.getList())
+                .setTotalRows(response.getTotalCount().intValue());
 
-		final ContactDTO.ContactSpecRs specRs = new ContactDTO.ContactSpecRs();
-		specRs.setResponse(specResponse);
+        final ContactDTO.ContactSpecRs specRs = new ContactDTO.ContactSpecRs();
+        specRs.setResponse(specResponse);
 
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
-	}
+        return new ResponseEntity<>(specRs, HttpStatus.OK);
+    }
 
-	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_contact')")
-	public ResponseEntity<SearchDTO.SearchRs<ContactDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(contactService.search(request), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/search")
+    public ResponseEntity<SearchDTO.SearchRs<ContactDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
+        return new ResponseEntity<>(contactService.search(request), HttpStatus.OK);
+    }
 }

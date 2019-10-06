@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Table(name = "TBL_REPORT_DTO")
 @Entity
 public class ReportDto {
-    @Column(name = "WAREHOUSE")
+    @Column(name = "WAREHOUSENO")
     private String warehouse;
     private String tzn_date;
     private String GDSNAME;

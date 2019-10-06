@@ -24,97 +24,87 @@ import java.util.List;
 @RequestMapping(value = "/api/contactAccount")
 public class ContactAccountRestController {
 
-	private final IContactAccountService contactAccountService;
-	private final ObjectMapper objectMapper;
-	// ------------------------------s
+    private final IContactAccountService contactAccountService;
+    private final ObjectMapper objectMapper;
 
-	@Loggable
-	@GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('r_contactAccount')")
-	public ResponseEntity<ContactAccountDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(contactAccountService.get(id), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ContactAccountDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(contactAccountService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('r_contactAccount')")
-	public ResponseEntity<List<ContactAccountDTO.Info>> list() {
-		return new ResponseEntity<>(contactAccountService.list(), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<ContactAccountDTO.Info>> list() {
+        return new ResponseEntity<>(contactAccountService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PostMapping
-//    @PreAuthorize("hasAuthority('c_contactAccount')")
-	public ResponseEntity<ContactAccountDTO.Info> create(@Validated @RequestBody ContactAccountDTO.Create request) {
-		return new ResponseEntity<>(contactAccountService.create(request), HttpStatus.CREATED);
-	}
+    @Loggable
+    @PostMapping
+    public ResponseEntity<ContactAccountDTO.Info> create(@Validated @RequestBody ContactAccountDTO.Create request) {
+        return new ResponseEntity<>(contactAccountService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PutMapping
-//    @PreAuthorize("hasAuthority('u_contactAccount')")
-	public ResponseEntity<ContactAccountDTO.Info> update(@RequestBody ContactAccountDTO.Update request) {
-		return new ResponseEntity<>(contactAccountService.update(request.getId(), request), HttpStatus.OK);
-	}
+    @Loggable
+    @PutMapping
+    public ResponseEntity<ContactAccountDTO.Info> update(@RequestBody ContactAccountDTO.Update request) {
+        return new ResponseEntity<>(contactAccountService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('d_contactAccount')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		contactAccountService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        contactAccountService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('d_contactAccount')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody ContactAccountDTO.Delete request) {
-		contactAccountService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/list")
+    public ResponseEntity<Void> delete(@Validated @RequestBody ContactAccountDTO.Delete request) {
+        contactAccountService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-//    @PreAuthorize("hasAuthority('r_contactAccount')")
-	public ResponseEntity<ContactAccountDTO.ContactAccountSpecRs> list(@RequestParam("_startRow") Integer startRow,
-																	   @RequestParam("_endRow") Integer endRow,
-																	   @RequestParam(value = "_constructor", required = false) String constructor,
-																	   @RequestParam(value = "operator", required = false) String operator,
-																	   @RequestParam(value = "_sortBy", required = false) String sortBy,
-																	   @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		SearchDTO.CriteriaRq criteriaRq;
-		if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
-			criteria = "[" + criteria + "]";
-			criteriaRq = new SearchDTO.CriteriaRq();
-			criteriaRq.setOperator(EOperator.valueOf(operator))
-					.setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
-					}));
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<ContactAccountDTO.ContactAccountSpecRs> list(@RequestParam("_startRow") Integer startRow,
+                                                                       @RequestParam("_endRow") Integer endRow,
+                                                                       @RequestParam(value = "_constructor", required = false) String constructor,
+                                                                       @RequestParam(value = "operator", required = false) String operator,
+                                                                       @RequestParam(value = "_sortBy", required = false) String sortBy,
+                                                                       @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
+        SearchDTO.SearchRq request = new SearchDTO.SearchRq();
+        SearchDTO.CriteriaRq criteriaRq;
+        if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
+            criteria = "[" + criteria + "]";
+            criteriaRq = new SearchDTO.CriteriaRq();
+            criteriaRq.setOperator(EOperator.valueOf(operator))
+                    .setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
+                    }));
 
-			if (StringUtils.isNotEmpty(sortBy)) {
-				request.setSortBy(sortBy);
-			}
+            if (StringUtils.isNotEmpty(sortBy)) {
+                request.setSortBy(sortBy);
+            }
 
-			request.setCriteria(criteriaRq);
-		}
+            request.setCriteria(criteriaRq);
+        }
 
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
+        request.setStartIndex(startRow)
+                .setCount(endRow - startRow);
 
-		SearchDTO.SearchRs<ContactAccountDTO.Info> response = contactAccountService.search(request);
+        SearchDTO.SearchRs<ContactAccountDTO.Info> response = contactAccountService.search(request);
 
-		final ContactAccountDTO.SpecRs specResponse = new ContactAccountDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
+        final ContactAccountDTO.SpecRs specResponse = new ContactAccountDTO.SpecRs();
+        specResponse.setData(response.getList())
+                .setStartRow(startRow)
+                .setEndRow(startRow + response.getTotalCount().intValue())
+                .setTotalRows(response.getTotalCount().intValue());
 
-		final ContactAccountDTO.ContactAccountSpecRs specRs = new ContactAccountDTO.ContactAccountSpecRs();
-		specRs.setResponse(specResponse);
+        final ContactAccountDTO.ContactAccountSpecRs specRs = new ContactAccountDTO.ContactAccountSpecRs();
+        specRs.setResponse(specResponse);
 
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
-	}
-
-	// ------------------------------
+        return new ResponseEntity<>(specRs, HttpStatus.OK);
+    }
 
 	/*@Loggable
 	@GetMapping(value = "/search")

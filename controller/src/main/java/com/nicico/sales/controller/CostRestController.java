@@ -24,102 +24,91 @@ import java.util.List;
 @RequestMapping(value = "/api/cost")
 public class CostRestController {
 
-	private final ICostService costService;
-	private final ObjectMapper objectMapper;
-	// ------------------------------s
+    private final ICostService costService;
+    private final ObjectMapper objectMapper;
 
-	@Loggable
-	@GetMapping(value = "/{id}")
-	// @PreAuthorize("hasAuthority('r_cost')")
-	public ResponseEntity<CostDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(costService.get(id), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<CostDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(costService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
-	// @PreAuthorize("hasAuthority('r_cost')")
-	public ResponseEntity<List<CostDTO.Info>> list() {
-		return new ResponseEntity<>(costService.list(), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<CostDTO.Info>> list() {
+        return new ResponseEntity<>(costService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PostMapping
-	// @PreAuthorize("hasAuthority('c_cost')")
-	public ResponseEntity<CostDTO.Info> create(@Validated @RequestBody CostDTO.Create request) {
-		return new ResponseEntity<>(costService.create(request), HttpStatus.CREATED);
-	}
+    @Loggable
+    @PostMapping
+    public ResponseEntity<CostDTO.Info> create(@Validated @RequestBody CostDTO.Create request) {
+        return new ResponseEntity<>(costService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PutMapping
-	// @PreAuthorize("hasAuthority('u_cost')")
-	public ResponseEntity<CostDTO.Info> update(@RequestBody CostDTO.Update request) {
-		return new ResponseEntity<>(costService.update(request.getId(), request), HttpStatus.OK);
-	}
+    @Loggable
+    @PutMapping
+    public ResponseEntity<CostDTO.Info> update(@RequestBody CostDTO.Update request) {
+        return new ResponseEntity<>(costService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
-	// @PreAuthorize("hasAuthority('d_cost')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		costService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        costService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
-	// @PreAuthorize("hasAuthority('d_cost')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody CostDTO.Delete request) {
-		costService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/list")
+    public ResponseEntity<Void> delete(@Validated @RequestBody CostDTO.Delete request) {
+        costService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-	// @PreAuthorize("hasAuthority('r_cost')")
-	public ResponseEntity<CostDTO.CostSpecRs> list(@RequestParam("_startRow") Integer startRow,
-												   @RequestParam("_endRow") Integer endRow,
-												   @RequestParam(value = "_constructor", required = false) String constructor,
-												   @RequestParam(value = "operator", required = false) String operator,
-												   @RequestParam(value = "_sortBy", required = false) String sortBy,
-												   @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		SearchDTO.CriteriaRq criteriaRq;
-		if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
-			criteria = "[" + criteria + "]";
-			criteriaRq = new SearchDTO.CriteriaRq();
-			criteriaRq.setOperator(EOperator.valueOf(operator))
-					.setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
-					}));
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<CostDTO.CostSpecRs> list(@RequestParam("_startRow") Integer startRow,
+                                                   @RequestParam("_endRow") Integer endRow,
+                                                   @RequestParam(value = "_constructor", required = false) String constructor,
+                                                   @RequestParam(value = "operator", required = false) String operator,
+                                                   @RequestParam(value = "_sortBy", required = false) String sortBy,
+                                                   @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
+        SearchDTO.SearchRq request = new SearchDTO.SearchRq();
+        SearchDTO.CriteriaRq criteriaRq;
+        if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
+            criteria = "[" + criteria + "]";
+            criteriaRq = new SearchDTO.CriteriaRq();
+            criteriaRq.setOperator(EOperator.valueOf(operator))
+                    .setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
+                    }));
 
-			if (StringUtils.isNotEmpty(sortBy)) {
-				request.setSortBy(sortBy);
-			}
+            if (StringUtils.isNotEmpty(sortBy)) {
+                request.setSortBy(sortBy);
+            }
 
-			request.setCriteria(criteriaRq);
-		}
+            request.setCriteria(criteriaRq);
+        }
 
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
+        request.setStartIndex(startRow)
+                .setCount(endRow - startRow);
 
-		SearchDTO.SearchRs<CostDTO.Info> response = costService.search(request);
+        SearchDTO.SearchRs<CostDTO.Info> response = costService.search(request);
 
-		final CostDTO.SpecRs specResponse = new CostDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
+        final CostDTO.SpecRs specResponse = new CostDTO.SpecRs();
+        specResponse.setData(response.getList())
+                .setStartRow(startRow)
+                .setEndRow(startRow + response.getTotalCount().intValue())
+                .setTotalRows(response.getTotalCount().intValue());
 
-		final CostDTO.CostSpecRs specRs = new CostDTO.CostSpecRs();
-		specRs.setResponse(specResponse);
+        final CostDTO.CostSpecRs specRs = new CostDTO.CostSpecRs();
+        specRs.setResponse(specResponse);
 
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
-	}
+        return new ResponseEntity<>(specRs, HttpStatus.OK);
+    }
 
-	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
-	// @PreAuthorize("hasAuthority('r_cost')")
-	public ResponseEntity<SearchDTO.SearchRs<CostDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(costService.search(request), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/search")
+    public ResponseEntity<SearchDTO.SearchRs<CostDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
+        return new ResponseEntity<>(costService.search(request), HttpStatus.OK);
+    }
 }

@@ -22,7 +22,7 @@ public class DailyReportBandarAbbas extends Auditable {
 	@Column(name = "ID")
 	private Long id;
 
-	@Column(name = "WAREHOUSE", nullable = false, length = 20)
+	@Column(name = "WAREHOUSE_NO", nullable = false, length = 20)
 	private String warehouse;
 
 	@Column(name = "TO_DAY", nullable = false, length = 20)

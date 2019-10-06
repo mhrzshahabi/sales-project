@@ -20,7 +20,7 @@ public class WholeDto implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "warehouse")
+    @Column(name = "warehouse_no")
     private String warehouse;
     @Column(name = "to_Day")
     private String toDay;

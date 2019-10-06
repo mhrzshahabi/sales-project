@@ -21,5 +21,9 @@ public interface ShipmentDAO extends JpaRepository<Shipment, Long>, JpaSpecifica
             "					  join tbl_incoterms i on c.INCOTERMS_ID = i.ID " +
             "                      where cs.id not in (select  xs.contract_shipment_id from tbl_shipment xs where  xs.contract_shipment_id=cs.id) and cs.DISCHARGE IS NOT NULL" +
             "                      and to_char(sysdate+15,'yyyy/mm/dd') > cs.SEND_DATE   ", nativeQuery = true)
-    public List<Object[]> pickListShipment();
+    List<Object[]> pickListShipment();
+
+    Shipment findByBlDate(String blDate);
+
+    Shipment findByLoadingLetterAndBlNumbersIsNotNull(String loadingLetter);
 }

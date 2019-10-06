@@ -26,7 +26,6 @@ public class ContractRestController {
 
     private final IContractService contractService;
     private final ObjectMapper objectMapper;
-    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")

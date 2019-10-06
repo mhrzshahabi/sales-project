@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContractIncomeCostDTO;
@@ -20,27 +19,21 @@ import java.util.List;
 public class ContractIncomeCostRestController {
 
     private final IContractIncomeCostService contractIncomeCostService;
-    private final ObjectMapper objectMapper;
-
-    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('r_contractIncomeCost')")
     public ResponseEntity<ContractIncomeCostDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(contractIncomeCostService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('r_contractIncomeCost')")
     public ResponseEntity<List<ContractIncomeCostDTO.Info>> list() {
         return new ResponseEntity<>(contractIncomeCostService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/spec-list")
-//    @PreAuthorize("hasAuthority('r_contractIncomeCost')")
     public ResponseEntity<ContractIncomeCostDTO.ContractIncomeCostSpecRs> list(
             @RequestParam("_startRow") Integer startRow,
             @RequestParam("_endRow") Integer endRow,
@@ -67,7 +60,6 @@ public class ContractIncomeCostRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//    @PreAuthorize("hasAuthority('r_contractIncomeCost')")
     public ResponseEntity<SearchDTO.SearchRs<ContractIncomeCostDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(contractIncomeCostService.search(request), HttpStatus.OK);
     }

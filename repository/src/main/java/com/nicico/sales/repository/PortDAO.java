@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PortDAO extends JpaRepository<Port, Long>, JpaSpecificationExecutor<Port> {
 
+    Port findByPort(String s);
 }

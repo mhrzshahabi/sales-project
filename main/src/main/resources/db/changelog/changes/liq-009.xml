@@ -138,4 +138,7 @@
             <column name="USERNAME" type="VARCHAR2(500 CHAR)"/>
         </createTable>
     </changeSet>
+    <changeSet author="Mazloom" id="1570183214180-171">
+        <createSequence sequenceName="SEQ_REPORT_INFO_ID"/>
+    </changeSet>
 </databaseChangeLog>
