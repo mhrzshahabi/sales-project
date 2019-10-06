@@ -46,7 +46,7 @@
                 {name: "groupGoodsNosa"},
                 {name: "groupGoodName"},
                 {name: "lcDateSarReceid"},
-           ],
+            ],
 
         fetchDataURL: "${contextPath}/api/invoiceInternal/spec-list"
     });
@@ -102,7 +102,7 @@
                     this.hide();
                     if (index == 0) {
                         var InvoiceInternalId = record.id;
-    return;
+                        return;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/invoiceInternal0000/" + InvoiceInternalId,
                                 httpMethod: "DELETE",
@@ -151,19 +151,22 @@
                 }
             }, {isSeparator: true},
             {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png", click: function () {
-                    "<spring:url value="/bank/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}');
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    var inv_id = ListGrid_InvoiceInternal.getSelectedRecord().invId;
+                    window.open("invoiceInternal/print/pdf?inv_id="+inv_id);
                 }
             }, {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png", click: function () {
-                    "<spring:url value="/bank/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}');
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    var inv_id = ListGrid_InvoiceInternal.getSelectedRecord().invId;
+                    window.open("invoiceInternal/print/excel?inv_id="+inv_id);
                 }
             }, {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg", click: function () {
-                    "<spring:url value="/bank/print/html" var="printUrl"/>"
-                    window.open('${printUrl}');
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var inv_id = ListGrid_InvoiceInternal.getSelectedRecord().invId;
+                    window.open("invoiceInternal/print/html?inv_id="+inv_id);
                 }
             }
         ]
@@ -186,17 +189,22 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "invDate",title: "<spring:message code='invoice.invDate'/>"},
-                {name: "havalehId",title: "<spring:message code='invoice.havalehId'/>"},
-                {name: "customerName",title: "<spring:message code='invoice.customerName'/>"},
-                {name: "shomarehSoratHesab",title: "<spring:message code='invoice.shomarehSoratHesab'/>"},
-                {name: "gdsName",title: "<spring:message code='invoice.gdsName'/>"},
-                {type: 'integer', name: "typeForosh",valueMap: {"2": "اعتباری", "1": "نقدی"},title: "<spring:message code='invoice.typeForosh'/>"},
-                {type: 'float', name: "ghematUnit",title: "<spring:message code='invoice.ghematUnit'/>"},
-                {type: 'float', name: "weightReal",title: "<spring:message code='invoice.weightReal'/>"},
-                {type: 'float', name: "mablaghKol",title: "<spring:message code='invoice.mablaghKol'/>"},
-                {type: 'float', name: "totalKosorat",title: "<spring:message code='invoice.totalKosorat'/>"},
-                {name: "bankGroupDesc",title: "<spring:message code='invoice.bankGroupDesc'/>"},
+                {name: "invDate", title: "<spring:message code='invoice.invDate'/>"},
+                {name: "havalehId", title: "<spring:message code='invoice.havalehId'/>"},
+                {name: "customerName", title: "<spring:message code='invoice.customerName'/>"},
+                {name: "shomarehSoratHesab", title: "<spring:message code='invoice.shomarehSoratHesab'/>"},
+                {name: "gdsName", title: "<spring:message code='invoice.gdsName'/>"},
+                {
+                    type: 'integer',
+                    name: "typeForosh",
+                    valueMap: {"2": "اعتباری", "1": "نقدی"},
+                    title: "<spring:message code='invoice.typeForosh'/>"
+                },
+                {type: 'float', name: "ghematUnit", title: "<spring:message code='invoice.ghematUnit'/>"},
+                {type: 'float', name: "weightReal", title: "<spring:message code='invoice.weightReal'/>"},
+                {type: 'float', name: "mablaghKol", title: "<spring:message code='invoice.mablaghKol'/>"},
+                {type: 'float', name: "totalKosorat", title: "<spring:message code='invoice.totalKosorat'/>"},
+                {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
             ]
     });
 
@@ -235,21 +243,21 @@
     });
 
     var ToolStripButton_InvoiceInternal_Send2Accounting = isc.ToolStripButton.create({
-                title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
-                click: function () {
-                    var record = ListGrid_InvoiceInternal.getSelectedRecord();
+        title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
+        click: function () {
+            var record = ListGrid_InvoiceInternal.getSelectedRecord();
 
-                    if (record == null || record.id == null) {
-                        isc.Dialog.create({
-                            message: "<spring:message code='global.grid.record.not.selected'/>",
-                            icon: "[SKIN]ask.png",
-                            title: "<spring:message code='global.message'/>",
-                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                            buttonClick: function () {
-                                this.hide();
-                            }
-                        });
-                    } else {
+            if (record == null || record.id == null) {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    buttonClick: function () {
+                        this.hide();
+                    }
+                });
+            } else {
 // invoice.invDate= Date
 // invoice.havalehId= Invoice
 // invoice.customerName= Buyer
@@ -262,30 +270,30 @@
 // invoice.totalKosorat= Tax+Cost
 // invoice.bankGroupDesc= LC Bank
 //
-                            var data2acc={};
-                            data2acc["documentId"]= record.id+'"';
-                            data2acc["internal"]=  "داخلی";
-                            data2acc["documentNo"]=  record.havalehId;
-                            data2acc["documentDate"]= record.invDate;
-                            data2acc["company"]=  record.customerName+'-'+
-                                                         record.shomarehSoratHesab;
-                            data2acc["price"]=  (record.typeForosh==2 ?  "اعتباری " : " ")+record.mablaghKol;
- // alert(JSON.stringify(data2acc))
-                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                    actionURL: "${contextPath}/api/invoiceInternal/sendForm-2accounting/"+record.id,
-                                    httpMethod: "PUT",
-                                    data: JSON.stringify(data2acc),
-                                    callback: function (resp) {
-                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                            isc.say("<spring:message code='global.form.request.successful'/>.");
-                                            ListGrid_InvoiceInternal_refresh();
-                                        } else
-                                            isc.say(RpcResponse_o.data);
-                                    }
-                                })
-                            );
-                    }
-                }
+                var data2acc = {};
+                data2acc["documentId"] = record.id + '"';
+                data2acc["internal"] = "داخلی";
+                data2acc["documentNo"] = record.havalehId;
+                data2acc["documentDate"] = record.invDate;
+                data2acc["company"] = record.customerName + '-' +
+                    record.shomarehSoratHesab;
+                data2acc["price"] = (record.typeForosh == 2 ? "اعتباری " : " ") + record.mablaghKol;
+                // alert(JSON.stringify(data2acc))
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: "${contextPath}/api/invoiceInternal/sendForm-2accounting/" + record.id,
+                        httpMethod: "PUT",
+                        data: JSON.stringify(data2acc),
+                        callback: function (resp) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                isc.say("<spring:message code='global.form.request.successful'/>.");
+                                ListGrid_InvoiceInternal_refresh();
+                            } else
+                                isc.say(RpcResponse_o.data);
+                        }
+                    })
+                );
+            }
+        }
     });
 
     var ToolStrip_Actions_InvoiceInternal = isc.ToolStrip.create({
@@ -316,7 +324,7 @@
             DynamicForm_InvoiceInternal.validate();
             if (DynamicForm_InvoiceInternal.hasErrors())
                 return;
-    return;
+            return;
             var data = DynamicForm_InvoiceInternal.getValues();
             var method = "PUT";
             if (data.id == null)
@@ -384,18 +392,23 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "invDate",title: "<spring:message code='invoice.invDate'/>"},
-                {name: "havalehId",title: "<spring:message code='invoice.havalehId'/>"},
-                {name: "customerName",title: "<spring:message code='invoice.customerName'/>"},
-                {name: "shomarehSoratHesab",title: "<spring:message code='invoice.shomarehSoratHesab'/>"},
-                {name: "gdsName",title: "<spring:message code='invoice.gdsName'/>"},
-                {type: 'integer', name: "typeForosh",valueMap: {"2": "اعتباری", "1": "نقدی"},title: "<spring:message code='invoice.typeForosh'/>"},
-                {type: 'float', name: "ghematUnit",title: "<spring:message code='invoice.ghematUnit'/>"},
-                {type: 'float', name: "weightReal",title: "<spring:message code='invoice.weightReal'/>"},
-                {type: 'float', name: "mablaghKol",title: "<spring:message code='invoice.mablaghKol'/>"},
-                {type: 'float', name: "totalKosorat",title: "<spring:message code='invoice.totalKosorat'/>"},
-                {name: "bankGroupDesc",title: "<spring:message code='invoice.bankGroupDesc'/>"},
-           ],
+                {name: "invDate", title: "<spring:message code='invoice.invDate'/>"},
+                {name: "havalehId", title: "<spring:message code='invoice.havalehId'/>"},
+                {name: "customerName", title: "<spring:message code='invoice.customerName'/>"},
+                {name: "shomarehSoratHesab", title: "<spring:message code='invoice.shomarehSoratHesab'/>"},
+                {name: "gdsName", title: "<spring:message code='invoice.gdsName'/>"},
+                {
+                    type: 'integer',
+                    name: "typeForosh",
+                    valueMap: {"2": "اعتباری", "1": "نقدی"},
+                    title: "<spring:message code='invoice.typeForosh'/>"
+                },
+                {type: 'float', name: "ghematUnit", title: "<spring:message code='invoice.ghematUnit'/>"},
+                {type: 'float', name: "weightReal", title: "<spring:message code='invoice.weightReal'/>"},
+                {type: 'float', name: "mablaghKol", title: "<spring:message code='invoice.mablaghKol'/>"},
+                {type: 'float', name: "totalKosorat", title: "<spring:message code='invoice.totalKosorat'/>"},
+                {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
+            ],
         sortField: 0,
         autoFetchData: true,
         showFilterEditor: true,
