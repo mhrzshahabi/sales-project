@@ -32,10 +32,10 @@ public class InvoiceInternalFormController {
     }
 
     @RequestMapping("/print/{type}")
-    public void printInvoice(HttpServletResponse response, @PathVariable String type, @RequestParam("inv_id") String inv_id) throws SQLException, IOException, JRException {
+    public void printInvoice(HttpServletResponse response, @PathVariable String type, @RequestParam("rowId") String rowId) throws SQLException, IOException, JRException {
         Map<String, Object> params = new HashMap<>();
         params.put(ConstantVARs.REPORT_TYPE, type);
-        params.put("inv_id", inv_id);
+        params.put("rowId", rowId);
         reportUtil.export("/reports/invoice_dakheli.jasper", params, response);
     }
 }

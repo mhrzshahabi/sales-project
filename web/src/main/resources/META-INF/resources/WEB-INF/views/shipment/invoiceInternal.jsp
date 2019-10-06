@@ -153,20 +153,20 @@
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
-                    var inv_id = ListGrid_InvoiceInternal.getSelectedRecord().invId;
-                    window.open("invoiceInternal/print/pdf?inv_id="+inv_id);
+                    var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
+                    window.open("invoiceInternal/print/pdf?rowId="+rowId);
                 }
             }, {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
-                    var inv_id = ListGrid_InvoiceInternal.getSelectedRecord().invId;
-                    window.open("invoiceInternal/print/excel?inv_id="+inv_id);
+                    var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
+                    window.open("invoiceInternal/print/excel?rowId="+rowId);
                 }
             }, {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
-                    var inv_id = ListGrid_InvoiceInternal.getSelectedRecord().invId;
-                    window.open("invoiceInternal/print/html?inv_id="+inv_id);
+                    var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
+                    window.open("invoiceInternal/print/html?rowId="+rowId);
                 }
             }
         ]

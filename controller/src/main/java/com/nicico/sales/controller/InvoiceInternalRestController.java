@@ -107,11 +107,11 @@ public class InvoiceInternalRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/report/{type}/{invoiceId}")
-    public void report(HttpServletResponse response, @PathVariable String type, @PathVariable String invoiceId) throws SQLException, IOException, JRException {
+    @GetMapping(value = "/report/{type}/{rowId}")
+    public void report(HttpServletResponse response, @PathVariable String type, @PathVariable String rowId) throws SQLException, IOException, JRException {
         Map<String, Object> params = new HashMap<>();
         params.put(ConstantVARs.REPORT_TYPE, type);
-        params.put("inv_id", invoiceId);
+        params.put("rowId", rowId);
         reportUtil.export("/reports/invoice_dakheli.jasper", params, response);
     }
 }
