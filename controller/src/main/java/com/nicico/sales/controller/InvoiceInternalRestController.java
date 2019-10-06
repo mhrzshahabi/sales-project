@@ -108,7 +108,7 @@ public class InvoiceInternalRestController {
 
     @Loggable
     @GetMapping(value = "/report/{type}/{invoiceId}")
-    public void report(HttpServletResponse response, @RequestParam String type, @RequestParam String invoiceId) throws SQLException, IOException, JRException {
+    public void report(HttpServletResponse response, @PathVariable String type, @PathVariable String invoiceId) throws SQLException, IOException, JRException {
         Map<String, Object> params = new HashMap<>();
         params.put(ConstantVARs.REPORT_TYPE, type);
         params.put("inv_id", invoiceId);
