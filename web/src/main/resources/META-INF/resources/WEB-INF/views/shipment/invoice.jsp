@@ -595,22 +595,22 @@
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
-                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
-                    window.open("invoice/print/pdf?invoice_no="+invoice_no);
+                    var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                    window.open("invoice/print/pdf/" + rowId);
                 }
             },
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
-                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
-                    window.open("invoice/print/html?invoice_no="+invoice_no);
+                    var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                    window.open("invoice/print/html/" + rowId);
                 }
             },
             {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
-                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
-                    window.open("invoice/print/xlsx?invoice_no="+invoice_no);
+                    var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                    window.open("invoice/print/xlsx/" + rowId);
                 }
             }
         ]
