@@ -632,42 +632,6 @@
         ]
     });
 
-    /*ADD JZ*/
-    var Menu_ListGrid_Mali = isc.Menu.create({
-        data: [
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
-                click: function () {
-                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
-                    window.open("invoice/print/pdf?invoice_no=" + invoice_no);
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
-                click: function () {
-
-                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
-                    window.open("invoice/print/xlsx?invoice_no=" + invoice_no);
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
-                click: function () {
-                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
-                    window.open("invoice/print/html?invoice_no=" + invoice_no);
-                }
-            },
-        ]
-    });
-    var MenuButton_Mali = isc.MenuButton.create({
-        ID: "MenuButton_Mali",
-        autoDraw: false,
-        title: "<spring:message code='tozin.report.betweenComplexes'/>",
-        prompt: "<spring:message code='tozin.report.betweenComplexes.date'/>",
-        width:100,
-        menu:Menu_ListGrid_Mali
-    });
-
     var DynamicForm_Invoice = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -1085,9 +1049,7 @@
                 ToolStripButton_Invoice_Edit,
                 ToolStripButton_Invoice_Remove,
                 ToolStripButton_Invoice_Attachment,
-                ToolStripButton_Invoice_Send2Accounting,
-                MenuButton_Mali,
-
+                ToolStripButton_Invoice_Send2Accounting
             ]
     });
 
