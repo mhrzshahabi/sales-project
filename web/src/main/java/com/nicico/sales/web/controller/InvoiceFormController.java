@@ -11,11 +11,12 @@ import com.nicico.sales.dto.InvoiceMolybdenumDTO;
 import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.iservice.IInvoiceItemService;
 import com.nicico.sales.iservice.IInvoiceMolybdenumService;
+import com.nicico.sales.service.InvoiceService;
+import com.nicico.sales.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,54 +30,57 @@ import java.util.Map;
 @RequestMapping("/invoice")
 public class InvoiceFormController {
 
-	@RequestMapping("/showForm")
-	public String showInvoice() {
-		return "shipment/invoice";
-	}
-	private final ReportUtil reportUtil;
-	private final IInvoiceMolybdenumService invoiceMolybdenumService;
-	private final IInvoiceItemService invoiceItemService;
-	private final IContractService contractService;
+    private final ReportUtil reportUtil;
+    private final IInvoiceMolybdenumService invoiceMolybdenumService;
+    private final IInvoiceItemService invoiceItemService;
+    private final IContractService contractService;
+    private final InvoiceService invoiceService;
+    private final ShipmentService shipmentService;
 
-	@RequestMapping("/showForm/{shipmentId}/{invoiceId}/{type}/{contractId}")
-	public String showInvoiceMolybdenum(HttpServletRequest req, @PathVariable String shipmentId, @PathVariable String invoiceId, @PathVariable String type, @PathVariable String contractId) {
+    @RequestMapping("/showForm")
+    public String showInvoice() {
+        return "shipment/invoice";
+    }
 
-		String cr = "{ \"operator\":\"and\", \"criteria\" : [  { \"fieldName\":\"invoiceId\", \"operator\":\"equals\", \"value\":\"22222\"  }\t] }";
-		final GridResponse<InvoiceMolybdenumDTO.Info> gridResponse = new GridResponse();
-		final GridResponse<InvoiceItemDTO.Info> gridResponseItem = new GridResponse();
-		ContractDTO.Info contract = contractService.get(new Long(contractId));
-		if (!invoiceId.equals("0")) {
-			SearchDTO.CriteriaRq requestCriteriaRq = new SearchDTO.CriteriaRq()
-					.setOperator(EOperator.equals)
-					.setFieldName("invoiceId")
-					.setValue(invoiceId);
-			final SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-			request.setCriteria(requestCriteriaRq);
-			request.setSortBy("id");
+    @RequestMapping("/showForm/{shipmentId}/{invoiceId}/{type}/{contractId}")
+    public String showInvoiceMolybdenum(HttpServletRequest req, @PathVariable String shipmentId, @PathVariable String invoiceId, @PathVariable String type, @PathVariable String contractId) {
 
-			if (type.equalsIgnoreCase("mol")) {
+        String cr = "{ \"operator\":\"and\", \"criteria\" : [  { \"fieldName\":\"invoiceId\", \"operator\":\"equals\", \"value\":\"22222\"  }\t] }";
+        final GridResponse<InvoiceMolybdenumDTO.Info> gridResponse = new GridResponse();
+        final GridResponse<InvoiceItemDTO.Info> gridResponseItem = new GridResponse();
+        ContractDTO.Info contract = contractService.get(new Long(contractId));
+        if (!invoiceId.equals("0")) {
+            SearchDTO.CriteriaRq requestCriteriaRq = new SearchDTO.CriteriaRq()
+                    .setOperator(EOperator.equals)
+                    .setFieldName("invoiceId")
+                    .setValue(invoiceId);
+            final SearchDTO.SearchRq request = new SearchDTO.SearchRq();
+            request.setCriteria(requestCriteriaRq);
+            request.setSortBy("id");
 
-				final SearchDTO.SearchRs<InvoiceMolybdenumDTO.Info> response = invoiceMolybdenumService.search(request);
-				gridResponse.setData(response.getList());
-				gridResponse.setStartRow(0).setEndRow(response.getTotalCount().intValue()).setTotalRows(response.getTotalCount().intValue());
-			}
+            if (type.equalsIgnoreCase("mol")) {
 
-			final SearchDTO.SearchRs<InvoiceItemDTO.Info> responseItem = invoiceItemService.search(request);
+                final SearchDTO.SearchRs<InvoiceMolybdenumDTO.Info> response = invoiceMolybdenumService.search(request);
+                gridResponse.setData(response.getList());
+                gridResponse.setStartRow(0).setEndRow(response.getTotalCount().intValue()).setTotalRows(response.getTotalCount().intValue());
+            }
 
-			gridResponseItem.setData(responseItem.getList());
-			gridResponseItem.setStartRow(0).setEndRow(responseItem.getTotalCount().intValue()).setTotalRows(responseItem.getTotalCount().intValue());
-		} else {
-			List<InvoiceMolybdenumDTO.Info> aa = new ArrayList<>();
-			gridResponse.setData(aa);
-			gridResponse.setStartRow(0).setEndRow(0);
-			List<InvoiceItemDTO.Info> aa1 = new ArrayList<>();
-			gridResponseItem.setData(aa1);
-			gridResponseItem.setStartRow(0).setEndRow(0);
-		}
-		req.getSession().setAttribute("shipmentId", shipmentId);
-		req.getSession().setAttribute("invoiceId", invoiceId);
-		req.getSession().setAttribute("gridResponse", gridResponse);
-		req.getSession().setAttribute("gridResponseItem", gridResponseItem);
+            final SearchDTO.SearchRs<InvoiceItemDTO.Info> responseItem = invoiceItemService.search(request);
+
+            gridResponseItem.setData(responseItem.getList());
+            gridResponseItem.setStartRow(0).setEndRow(responseItem.getTotalCount().intValue()).setTotalRows(responseItem.getTotalCount().intValue());
+        } else {
+            List<InvoiceMolybdenumDTO.Info> aa = new ArrayList<>();
+            gridResponse.setData(aa);
+            gridResponse.setStartRow(0).setEndRow(0);
+            List<InvoiceItemDTO.Info> aa1 = new ArrayList<>();
+            gridResponseItem.setData(aa1);
+            gridResponseItem.setStartRow(0).setEndRow(0);
+        }
+        req.getSession().setAttribute("shipmentId", shipmentId);
+        req.getSession().setAttribute("invoiceId", invoiceId);
+        req.getSession().setAttribute("gridResponse", gridResponse);
+        req.getSession().setAttribute("gridResponseItem", gridResponseItem);
 		/*req.getSession().setAttribute("sellerId", contract.getContactBySellerId());
 		req.getSession().setAttribute("sellerName", contract.getContactBySeller().getNameEN());
 		req.getSession().setAttribute("BuyerId", contract.getContactId());
@@ -86,39 +90,40 @@ public class InvoiceFormController {
 		req.getSession().setAttribute("BuyerAgentId", contract.getContactByBuyerAgentId());
 		req.getSession().setAttribute("BuyerAgentName", contract.getContactByBuyerAgent().getNameEN());*/
 
-		if (type.equalsIgnoreCase("mol"))
-			return "shipment/invoiceMolybdenum";
-		else if (type.equalsIgnoreCase("cat")) {
-			req.getSession().setAttribute("premium", nvl(contract.getPremium()));
-			req.getSession().setAttribute("discount", nvl(contract.getDiscount()));
-			return "shipment/invoiceCathodes";
-		} else {
-			req.getSession().setAttribute("treatCost", nvl(contract.getTreatCost()));
-			req.getSession().setAttribute("refinaryCost", nvl(contract.getRefinaryCost()));
-			req.getSession().setAttribute("copper", nvl(contract.getCopper()));
-			req.getSession().setAttribute("silver", nvl(contract.getSilver()));
-			req.getSession().setAttribute("gold", nvl(contract.getGold()));
-			return "shipment/invoiceConcentrate";
-		}
+        if (type.equalsIgnoreCase("mol"))
+            return "shipment/invoiceMolybdenum";
+        else if (type.equalsIgnoreCase("cat")) {
+            req.getSession().setAttribute("premium", nvl(contract.getPremium()));
+            req.getSession().setAttribute("discount", nvl(contract.getDiscount()));
+            return "shipment/invoiceCathodes";
+        } else {
+            req.getSession().setAttribute("treatCost", nvl(contract.getTreatCost()));
+            req.getSession().setAttribute("refinaryCost", nvl(contract.getRefinaryCost()));
+            req.getSession().setAttribute("copper", nvl(contract.getCopper()));
+            req.getSession().setAttribute("silver", nvl(contract.getSilver()));
+            req.getSession().setAttribute("gold", nvl(contract.getGold()));
+            return "shipment/invoiceConcentrate";
+        }
 
-	}
+    }
 
-	<T> String nvl(T f) {
-		return f == null ? "0.0" : f.toString();
-	}
+    <T> String nvl(T f) {
+        return f == null ? "0.0" : f.toString();
+    }
 
-	@RequestMapping("/print/{contractType}/{type}")
-	public void printInvoice(HttpServletResponse response,@PathVariable String contractType, @PathVariable String type , @RequestParam("rowId") String rowId) throws Exception {
-		Map<String, Object> params = new HashMap<>();
-		params.put("ID", rowId);
-		params.put(ConstantVARs.REPORT_TYPE, type);
-		switch (contractType){
-			case "Molybdenum Oxide":
-				reportUtil.export("/reports/Mo_Ox.jasper", params, response);
-			case "CAD":
-				reportUtil.export("/reports/CAD.jasper", params, response);
-			case "conc":
-				reportUtil.export("/reports/Conc.jasper", params, response);
-		}
-	}
+    @RequestMapping("/print/{type}/{rowId}")
+    public void printInvoice(HttpServletResponse response, @PathVariable String type, @PathVariable String rowId) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("ID", rowId);
+        params.put(ConstantVARs.REPORT_TYPE, type);
+        Long shipmentId = invoiceService.get(Long.valueOf(rowId)).getShipmentId();
+        String description = shipmentService.get(shipmentId).getMaterial().getDescl();
+        if (description.contains("Molybdenum")) {
+            reportUtil.export("/reports/Mo_Ox.jasper", params, response);
+        } else if (description.contains("Cathode")) {
+            reportUtil.export("/reports/CAD.jasper", params, response);
+        } else if (description.contains("Concentrate")) {
+            reportUtil.export("/reports/Conc.jasper", params, response);
+        }
+    }
 }
