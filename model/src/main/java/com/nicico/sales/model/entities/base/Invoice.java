@@ -225,4 +225,8 @@ public class Invoice extends Auditable {
 	@JoinColumn(name = "BUYERID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "INVOICE2CONTACT_BUYER"))
 	private Contact buyer;
 
+	@Column(name = "PROCESSID")
+	private String processId;
+
+
 }

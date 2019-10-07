@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-//<script>
+ //      <script>
 
     <% DateUtil dateUtil = new DateUtil();%>
 
@@ -186,17 +186,14 @@
             {name: "contractShipmentId", hidden: true, type: 'long'},
             {name: "contactId", type: 'long', hidden: true},
             {
-                name: "contract.contact.nameFA", title: "<spring:message
-		code='contact.name'/>", type: 'text', width: "20%", align: "center", showHover: true
+                name: "contract.contact.nameFA", title: "<spring:message		code='contact.name'/>", type: 'text', width: "20%", align: "center", showHover: true
             },
             {name: "contractId", type: 'long', hidden: true},
             {
-                name: "contract.contractNo", title: "<spring:message
-		code='contract.contractNo'/>", type: 'text', width: "10%", showHover: true
+                name: "contract.contractNo", title: "<spring:message		code='contract.contractNo'/>", type: 'text', width: "10%", showHover: true
             },
             {
-                name: "contract.contractDate", title: "<spring:message
-		code='contract.contractDate'/>", type: 'text', width: "10%", showHover: true
+                name: "contract.contractDate", title: "<spring:message		code='contract.contractDate'/>", type: 'text', width: "10%", showHover: true
             },
             {
                 name: "materialId",
@@ -206,81 +203,70 @@
                 showHover: true
             },
             {
-                name: "material.descl", title: "<spring:message
-		code='material.descl'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "material.descl", title: "<spring:message		code='material.descl'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
             {
-                name: "material.unit.nameEN", title: "<spring:message
-		code='unit.nameEN'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "material.unit.nameEN", title: "<spring:message		code='unit.nameEN'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
             {
-                name: "amount", title: "<spring:message
-		code='global.amount'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "amount", title: "<spring:message		code='global.amount'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
             {
-                name: "shipmentType", title: "<spring:message
-		code='shipment.shipmentType'/>", type: 'text', width: "10%", showHover: true
+                name: "shipmentType", title: "<spring:message		code='shipment.shipmentType'/>", type: 'text', width: "10%", showHover: true
             },
             {
-                name: "loadingLetter", title: "<spring:message
-		code='shipment.loadingLetter'/>", type: 'text', width: "10%", showHover: true
+                name: "loadingLetter", title: "<spring:message		code='shipment.loadingLetter'/>", type: 'text', width: "10%", showHover: true
             },
             {
-                name: "noContainer", title: "<spring:message
-		code='shipment.noContainer'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "noContainer", title: "<spring:message		code='shipment.noContainer'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
             <%--{name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},--%>
             {
-                name: "portByLoading.port", title: "<spring:message
-		code='shipment.loading'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "portByLoading.port", title: "<spring:message		code='shipment.loading'/>", type: 'text', required: true, width: "10%", showHover: true
             },
             {
-                name: "portByDischarge.port", title: "<spring:message
-		code='shipment.discharge'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "portByDischarge.port", title: "<spring:message		code='shipment.discharge'/>", type: 'text', required: true, width: "10%", showHover: true
             },
-// {name: "dischargeAddress", title:"<spring:message
-		code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
-            {
-                name: "description", title: "<spring:message
-		code='shipment.description'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
-            },
-            {
-                name: "contractShipment.sendDate", title: "<spring:message
-		code='global.sendDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
-            },
-            {
-                name: "createDate", title: "<spring:message
-		code='global.createDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
-            },
+<%--// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},--%>
+            <%--{--%>
+                <%--name: "description", title: "<spring:message--%>
+		<%--code='shipment.description'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true--%>
+            <%--},--%>
+            <%--{--%>
+                <%--name: "contractShipment.sendDate", title: "<spring:message--%>
+		<%--code='global.sendDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true--%>
+            <%--},--%>
+            <%--{--%>
+                <%--name: "createDate", title: "<spring:message--%>
+		<%--code='global.createDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true--%>
+            <%--},--%>
             {
                 name: "month", title: "<spring:message
 		code='shipment.month'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
             },
+            <%--{--%>
+                <%--name: "contactByAgent.nameFA", title: "<spring:message--%>
+		<%--code='shipment.agent'/>", type: 'text', width: "20%", align: "center", showHover: true--%>
+            <%--},--%>
+            <%--{--%>
+                <%--name: "vesselName", title: "<spring:message--%>
+		<%--code='shipment.vesselName'/>", type: 'text', required: true, width: "10%", showHover: true--%>
+            <%--},--%>
+            <%--{--%>
+                <%--name: "swb",--%>
+                <%--title: "<spring:message code='shipment.SWB'/>",--%>
+                <%--type: 'text',--%>
+                <%--required: true,--%>
+                <%--width: "10%",--%>
+                <%--showHover: true--%>
+            <%--},--%>
+            <%--{--%>
+                <%--name: "switchPort.port", title: "<spring:message--%>
+		<%--code='port.switchPort'/>", type: 'text', required: true, width: "10%", showHover: true--%>
+            <%--},--%>
             {
-                name: "contactByAgent.nameFA", title: "<spring:message
-		code='shipment.agent'/>", type: 'text', width: "20%", align: "center", showHover: true
-            },
-            {
-                name: "vesselName", title: "<spring:message
-		code='shipment.vesselName'/>", type: 'text', required: true, width: "10%", showHover: true
-            },
-            {
-                name: "swb",
-                title: "<spring:message code='shipment.SWB'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "switchPort.port", title: "<spring:message
-		code='port.switchPort'/>", type: 'text', required: true, width: "10%", showHover: true
-            },
-            {
-                name: "status", title: "<spring:message
-		code='shipment.staus'/>", type: 'text', width: "10%", align: "center", valueMap: {
-                    "Load Ready": "<spring:message
-		code='shipment.loadReady'/>", "Resource": "<spring:message code='shipment.resource'/>"
+                name: "status", title: "<spring:message		code='shipment.staus'/>", type: 'text', width: "10%", align: "center", valueMap: {
+                    "Load Ready": "<spring:message	code='shipment.loadReady'/>", "Resource": "<spring:message code='shipment.resource'/>"
                 }, showHover: true
             },
 
@@ -1012,11 +998,11 @@
                                 this.hide();
                             }
                         });
-                    } else {
-                            var data2acc={};
-                            data2acc["documentId"]= record.id;
+                    } else if (record.processId== null || typeof record.processId == 'undefined' ) {
+                            var data2acc={}; var iiid=record.id; var iiinvoice=record.invoiceNo;
+                            data2acc["documentId"]= iiid.toString();
                             data2acc["internal"]=  "خارجی";
-                            data2acc["documentNo"]=  record.invoiceNo;
+                            data2acc["documentNo"]=  iiinvoice.toString();
                             data2acc["documentDate"]= record.invoiceDate;
                             data2acc["company"]=  ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contact.nameFA+'-'+
                                                          ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contractNo;
@@ -1028,13 +1014,22 @@
                                     callback: function (resp) {
                                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                             isc.say("<spring:message code='global.form.request.successful'/>.");
-                                            ListGrid_InvoiceInternal_refresh();
+                                            ListGrid_Invoice_refresh();
                                         } else
                                             isc.say(RpcResponse_o.data);
                                     }
                                 })
                             );
-                    }
+                    } else isc.Dialog.create({
+                            message: "<spring:message code='invoice.alreadyStarted'/>",
+                            icon: "[SKIN]ask.png",
+                            title: "<spring:message code='global.message'/>",
+                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                            buttonClick: function () {
+                                this.hide();
+                            }
+                        });
+
                 }
     });
 
@@ -1138,6 +1133,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "processId", title: "<spring:message code='invoice.processId'/>", width: "10%"},
                 {name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>", width: "10%"},
                 {
                     name: "invoiceDate",
@@ -1185,32 +1181,32 @@
                     type: 'float',
                     width: "10%"
                 },
-                {name: "otherCost", title: "<spring:message code='invoice.otherCost'/>", type: 'float', width: "10%"},
-                {
-                    name: "copperUnitPrice",
-                    title: "<spring:message code='invoice.copperUnitPrice'/>",
-                    type: 'float',
-                    width: "10%"
-                },
-                {name: "copper", title: "<spring:message code='invoice.copper'/>", type: 'float', width: "10%"},
-                {
-                    name: "goldUnitPrice",
-                    title: "<spring:message code='invoice.goldUnitPrice'/>",
-                    type: 'float',
-                    width: "10%"
-                },
-                {name: "gold", title: "<spring:message code='invoice.gold'/>", type: 'float', width: "10%"},
-                {
-                    name: "silverUnitPrice",
-                    title: "<spring:message code='invoice.silverUnitPrice'/>",
-                    type: 'float',
-                    width: "10%"
-                },
-                {name: "silver", title: "<spring:message code='invoice.silver'/>", type: 'float', width: "10%"},
-                {
-                    name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>", type: 'float', width: "10%"
-                },
-                {name: "molybdenum", title: "<spring:message code='invoice.molybdenum'/>", type: 'float', width: "10%"},
+                <%--{name: "otherCost", title: "<spring:message code='invoice.otherCost'/>", type: 'float', width: "10%"},--%>
+                <%--{--%>
+                    <%--name: "copperUnitPrice",--%>
+                    <%--title: "<spring:message code='invoice.copperUnitPrice'/>",--%>
+                    <%--type: 'float',--%>
+                    <%--width: "10%"--%>
+                <%--},--%>
+                <%--{name: "copper", title: "<spring:message code='invoice.copper'/>", type: 'float', width: "10%"},--%>
+                <%--{--%>
+                    <%--name: "goldUnitPrice",--%>
+                    <%--title: "<spring:message code='invoice.goldUnitPrice'/>",--%>
+                    <%--type: 'float',--%>
+                    <%--width: "10%"--%>
+                <%--},--%>
+                <%--{name: "gold", title: "<spring:message code='invoice.gold'/>", type: 'float', width: "10%"},--%>
+                <%--{--%>
+                    <%--name: "silverUnitPrice",--%>
+                    <%--title: "<spring:message code='invoice.silverUnitPrice'/>",--%>
+                    <%--type: 'float',--%>
+                    <%--width: "10%"--%>
+                <%--},--%>
+                <%--{name: "silver", title: "<spring:message code='invoice.silver'/>", type: 'float', width: "10%"},--%>
+                <%--{--%>
+                    <%--name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>", type: 'float', width: "10%"--%>
+                <%--},--%>
+                <%--{name: "molybdenum", title: "<spring:message code='invoice.molybdenum'/>", type: 'float', width: "10%"},--%>
             ],
         sortField: 0,
         autoFetchData: false,

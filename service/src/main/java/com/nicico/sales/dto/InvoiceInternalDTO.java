@@ -56,6 +56,9 @@ public class InvoiceInternalDTO {
 	private String groupGoodsNosa;
 	private String groupGoodName;
 	private String lcDateSarReceid;
+	private String processId;
+
+
 
 	// ------------------------------
 
@@ -70,6 +73,10 @@ public class InvoiceInternalDTO {
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
+		private InvoiceInternalLcDTO.Info lc;
+		private InvoiceInternalCustomerDTO.Info lcBank;
+		private InvoiceInternalCustomerDTO.Info seller;
+		private InvoiceInternalCustomerDTO.Info buyer;
 	}
 
 	// ------------------------------
