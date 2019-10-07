@@ -156,7 +156,8 @@
                     var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
                     window.open("invoiceInternal/print/pdf?rowId="+rowId);
                 }
-            }, {
+
+                }, {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
                     var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
