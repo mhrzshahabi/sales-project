@@ -1358,7 +1358,7 @@
         members: [financialRibbonBar]
     });
 
-    var issuedInvoicesButtonContract = isc.IconButton.create({
+    /*var issuedInvoicesButtonContract = isc.IconButton.create({
         title: "<spring:message code='issuedInvoices.titleTest'/>",
         icon: "financial/issuedInvoices.png",
         largeIcon: "financial/issuedInvoices.png",
@@ -1366,7 +1366,7 @@
         click: function () {
             createTab("<spring:message code='issuedInvoices.titleTest'/>", "<spring:url value="/contact/showFormContractNew" />")
         }
-    });
+    });*/
 
     var financialRibbonBarContract = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
@@ -1374,7 +1374,7 @@
         groupTitleOrientation: "top"
     });
 
-    var financialRibbonGroupContract = isc.RibbonGroup.create({
+    /*var financialRibbonGroupContract = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.test'/>",
         numRows: 1,
         colWidths: [20, "*"],
@@ -1384,9 +1384,9 @@
             issuedInvoicesButtonContract
         ],
         autoDraw: false
-    });
+    });*/
 
-    var financialRibbonHLayoutContract = isc.HLayout.create({
+    /*var financialRibbonHLayoutContract = isc.HLayout.create({
         width: "100%",
         height: "60",
         // border: "0px solid green",
@@ -1394,9 +1394,9 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [financialRibbonBarContract]
-    });
+    });*/
 
-    financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);
+    /*financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);*/
 
 
     //---------------------------------------
@@ -1449,36 +1449,36 @@
             {title: "<spring:message code='main.shipmentTab'/>", icon: "", iconSize: 16, pane: shipmentRibbonHLayout},
             <%--{title: "<spring:message code='main.inspectionTab'/>",icon: "",iconSize: 16,pane: inspectionRibbonHLayout},--%>
             <%--{title: "<spring:message code='main.insuranceTab'/>", icon: "", iconSize: 16, pane: insuranceRibbonHLayout},--%>
-            {title: "<spring:message code='main.financialTab'/>", icon: "", iconSize: 16, pane: financialRibbonHLayout},
-            {title: "<spring:message code='main.contractsTabNew'/>", icon: "", iconSize: 16, pane: financialRibbonHLayoutContract}
-        ]
-    });
-    isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        // border: "0px solid blue",
-        backgroundColor: "",
-        members: [headerLayout, menuTabSet, mainTabSet]
-    });
-    var dollar = {};
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/currency/list",
-            httpMethod: "GET",
-            data: "",
-            callback: function (RpcResponse_o) {
-                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                    var data = JSON.parse(RpcResponse_o.data);
-                    for (x of data) {
-                        dollar[x.nameEn] = x.nameEn;
-                    }
-                } //if rpc
-            } // callback
-        })
-    );
+            {title: "<spring:message code='main.financialTab'/>", icon: "", iconSize: 16, pane: financialRibbonHLayout}
+            <%--{title: "<spring:message code='main.contractsTabNew'/>", icon: "", iconSize: 16, pane: financialRibbonHLayoutContract}--%>
+]
+});
+isc.VLayout.create({
+width: "100%",
+height: "100%",
+// border: "0px solid blue",
+backgroundColor: "",
+members: [headerLayout, menuTabSet, mainTabSet]
+});
+var dollar = {};
+isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+ actionURL: "${contextPath}/api/currency/list",
+ httpMethod: "GET",
+ data: "",
+ callback: function (RpcResponse_o) {
+     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+         var data = JSON.parse(RpcResponse_o.data);
+         for (x of data) {
+             dollar[x.nameEn] = x.nameEn;
+         }
+     } //if rpc
+ } // callback
+})
+);
 
 
-    // createTab("<spring:message code='workgroups'/>", "/group/showForm")
-    Delay();
+// createTab("<spring:message code='workgroups'/>", "/group/showForm")
+Delay();
 </script>
 </body>
 </html>

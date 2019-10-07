@@ -3,56 +3,56 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="A4-P1" pageWidth="595" pageHeight="841" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Error" uuid="d3631ea2-a27a-4699-bef0-6b50e1608cf3">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter-Js-1.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="463"/>
-	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="523"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="513"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="473"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="338"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="651"/>
 	<parameter name="logo_nicico" class="java.lang.Object"/>
-	<parameter name="INVOICE_NO" class="java.lang.String"/>
+	<parameter name="ID" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
-    m.invoic_date,
-    ct.c_contract_no,
-    cn.c_address,
-    cn.c_phone,
-    cn.c_branch_name,
-    mt.c_descl,
-    sh.vessel_name,
-    sh.bl_numbers,
-    sh.switch_bl_numbers,
-    sh.bl_date,
-    shipment_type,
-    tp.c_port,
-    tp2.c_port,
-    m.grass,
-    m.net,
-    sh.no_bundle,
-    inc.code,
-    m.price_base,
-    m.unit_price,
-    ct.premium,
-    m.copper_unit_price,
-    m.molybdenum_content,
-    it.description,
-    m.id,
-    m.invoice_no,
-    m.invoice_type,
-    m.invoive_value_d,
-    m.rate_base,
-    m.rate2dollar,
-    invoive_value_up,
-    m.COMMERCIAL_INVOICE_VALUE_NET
+   		 NVL(m.invoic_date,'') 							AS 	invoic_date,
+   		 NVL( ct.c_contract_no,'')						AS 	c_contract_no ,
+     	 NVL( cn.c_address,'') 							AS 	c_address,
+      	 NVL(  cn.c_phone,'') 							AS 	c_phone,
+     	 NVL(  cn.c_branch_name,'') 					AS 	c_branch_name ,
+     	 NVL(  mt.c_descl,'') 								AS 	c_descl,
+         NVL( sh.vessel_name,'') 							AS 	vessel_name,
+         NVL( sh.bl_numbers,'') 							AS 	bl_numbers,
+         NVL(sh.switch_bl_numbers,'') 						AS 	switch_bl_numbers ,
+     	 NVL( sh.bl_date,'') 								AS 	bl_date,
+       	 NVL(shipment_type,'') 								AS 	shipment_type ,
+       	 NVL(tp.c_port,'') 									AS 	c_port,
+      	 NVL(tp2.c_port,'') 								AS 	c_port,
+         NVL( m.grass,'0') 									AS 	grass ,
+         NVL( m.net,'0') 									AS 	net,
+         NVL(sh.no_bundle,'') 								AS 	no_bundle,
+         NVL(inc.code,'') 									AS 	code  ,
+         NVL( m.price_base,'')  							AS 	price_base,
+         NVL(m.unit_price,'') 								AS 	unit_price ,
+         NVL(ct.premium,'0') 								AS 	premium,
+         NVL(m.copper_unit_price,'0') 						AS 	copper_unit_price ,
+         NVL( m.molybdenum_content,'0')	AS 	molybdenum_content,
+         NVL(it.description,'') 							AS 	description ,
+         NVL( m.id,'0') 										AS 	id ,
+         NVL(m.invoice_no,'') 							AS 	invoice_no ,
+         NVL( m.invoice_type,'') 						AS 	invoice_type ,
+         NVL(m.invoive_value_d,'0') 				AS  	invoive_value_d,
+         NVL(m.rate_base,'') 							AS 	rate_base ,
+         NVL(m.rate2dollar,'0') 						AS 	rate2dollar ,
+         NVL(invoive_value_up,'0') 					AS 	invoive_value_up ,
+         NVL(m.COMMERCIAL_INVOICE_VALUE_NET,'0') 	AS	COMMERCIAL_INVOICE_VALUE_NET
 FROM
     tbl_invoice        m
-    LEFT JOIN tbl_shipment       sh ON m.shipment_id = sh.id
-    LEFT JOIN tbl_contract       ct ON sh.contract_id = ct.id
-    LEFT JOIN tbl_contact        cn ON ct.contact_id = cn.id
-    LEFT JOIN tbl_material       mt ON sh.material_id = mt.id
-    LEFT JOIN tbl_port           tp ON sh.loading = tp.id
-    LEFT JOIN tbl_port           tp2 ON sh.discharge = tp2.id
-    LEFT JOIN tbl_incoterms      inc ON ct.incoterms_id = inc.id
-    LEFT JOIN tbl_invoice_item   it ON it.invoice_id = m.id
-	where   m.INVOICE_NO = $P{INVOICE_NO}]]>
+    LEFT JOIN tbl_shipment        	sh 	ON m.shipment_id 	= 		sh.id
+    LEFT JOIN tbl_contract       		ct 	ON sh.contract_id 	= 		ct.id
+    LEFT JOIN tbl_contact        		cn 	ON ct.contact_id 		= 		cn.id
+    LEFT JOIN tbl_material       		mt 	ON sh.material_id 	= 		mt.id
+    LEFT JOIN tbl_port           		tp 	ON sh.loading 			= 		tp.id
+    LEFT JOIN tbl_port           		tp2 	ON sh.discharge 		= 		tp2.id
+    LEFT JOIN tbl_incoterms      	inc 	ON ct.incoterms_id 	=  	inc.id
+    LEFT JOIN tbl_invoice_item    it 		ON it.invoice_id 		= 		m.id
+	where   m.id = $P{ID}]]>
 	</queryString>
 	<field name="INVOIC_DATE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="INVOIC_DATE"/>
@@ -93,10 +93,10 @@ FROM
 	<field name="COLUMN_13" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="C_PORT"/>
 	</field>
-	<field name="GRASS" class="java.lang.Double">
+	<field name="GRASS" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="GRASS"/>
 	</field>
-	<field name="NET" class="java.lang.Double">
+	<field name="NET" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="NET"/>
 	</field>
 	<field name="NO_BUNDLE" class="java.lang.String">
@@ -108,16 +108,16 @@ FROM
 	<field name="PRICE_BASE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="PRICE_BASE"/>
 	</field>
-	<field name="UNIT_PRICE" class="java.lang.Double">
+	<field name="UNIT_PRICE" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="UNIT_PRICE"/>
 	</field>
-	<field name="PREMIUM" class="java.lang.Double">
+	<field name="PREMIUM" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="PREMIUM"/>
 	</field>
-	<field name="COPPER_UNIT_PRICE" class="java.lang.Double">
+	<field name="COPPER_UNIT_PRICE" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="COPPER_UNIT_PRICE"/>
 	</field>
-	<field name="MOLYBDENUM_CONTENT" class="java.lang.Double">
+	<field name="MOLYBDENUM_CONTENT" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="MOLYBDENUM_CONTENT"/>
 	</field>
 	<field name="DESCRIPTION" class="java.lang.String">
@@ -132,26 +132,26 @@ FROM
 	<field name="INVOICE_TYPE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="INVOICE_TYPE"/>
 	</field>
-	<field name="INVOIVE_VALUE_D" class="java.lang.Double">
+	<field name="INVOIVE_VALUE_D" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="INVOIVE_VALUE_D"/>
 	</field>
 	<field name="RATE_BASE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="RATE_BASE"/>
 	</field>
-	<field name="RATE2DOLLAR" class="java.lang.Double">
+	<field name="RATE2DOLLAR" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="RATE2DOLLAR"/>
 	</field>
-	<field name="INVOIVE_VALUE_UP" class="java.lang.Double">
+	<field name="INVOIVE_VALUE_UP" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="INVOIVE_VALUE_UP"/>
 	</field>
-	<field name="COMMERCIAL_INVOICE_VALUE_NET" class="java.lang.Double">
+	<field name="COMMERCIAL_INVOICE_VALUE_NET" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="COMMERCIAL_INVOICE_VALUE_NET"/>
 	</field>
 	<variable name="multuple" class="java.lang.Double">
-		<variableExpression><![CDATA[$F{NET} * $F{UNIT_PRICE}]]></variableExpression>
+		<variableExpression><![CDATA[PRODUCT($F{NET} ,$F{UNIT_PRICE})]]></variableExpression>
 	</variable>
 	<variable name="jam" class="java.lang.Double">
-		<variableExpression><![CDATA[$F{PREMIUM} + $F{COPPER_UNIT_PRICE}]]></variableExpression>
+		<variableExpression><![CDATA[SUM($F{PREMIUM} , $F{COPPER_UNIT_PRICE})]]></variableExpression>
 	</variable>
 	<pageHeader>
 		<band height="121">
@@ -273,7 +273,7 @@ FROM
 			</textField>
 			<textField pattern="#,##0.###">
 				<reportElement x="428" y="386" width="100" height="30" uuid="eafc11ed-df9a-4e32-b751-d6fafd242450"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="styled">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COMMERCIAL_INVOICE_VALUE_NET}]]></textFieldExpression>
@@ -512,7 +512,7 @@ FROM
 				<text><![CDATA[DELIVERY TERMS:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="104" y="256" width="48" height="20" uuid="bb4b32e9-37a6-4da5-aa36-7cb184434570"/>
+				<reportElement x="104" y="241" width="48" height="20" uuid="bb4b32e9-37a6-4da5-aa36-7cb184434570"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -526,7 +526,7 @@ FROM
 				<text><![CDATA[BASIS]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="152" y="259" width="64" height="14" uuid="231c65b4-50e5-4a85-80df-e173a074bd9f"/>
+				<reportElement x="159" y="240" width="64" height="14" uuid="231c65b4-50e5-4a85-80df-e173a074bd9f"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -665,7 +665,7 @@ FROM
 				</textElement>
 				<text><![CDATA[REF.NO.]]></text>
 			</staticText>
-			<textField>
+			<textField evaluationTime="Report">
 				<reportElement x="449" y="35" width="84" height="30" uuid="7c4f4c3a-0f2f-4851-bee0-8c0451b4b0b2"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{INVOICE_NO}]]></textFieldExpression>
