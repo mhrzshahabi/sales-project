@@ -595,8 +595,8 @@
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
-                var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
-                window.open("invoice/print/pdf?invoice_no="+invoice_no);
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/pdf?invoice_no="+invoice_no);
                 }
             },
             {
@@ -606,7 +606,7 @@
                     window.open("invoice/print/html?invoice_no="+invoice_no);
                 }
             },
-             {
+            {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
                     var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
