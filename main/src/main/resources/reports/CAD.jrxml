@@ -205,9 +205,6 @@ FROM
 			</staticText>
 			<textField>
 				<reportElement x="46" y="97" width="100" height="17" uuid="723c142d-f819-4bd4-9aaf-143d1430dfaf"/>
-				<textElement>
-					<font pdfFontName="" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-				</textElement>
 				<textFieldExpression><![CDATA[$F{INVOIC_DATE}]]></textFieldExpression>
 			</textField>
 			<textField>
