@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="discount_item" pageWidth="594" pageHeight="200" orientation="Landscape" columnWidth="554" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b406affb-f615-4ee3-83ed-d11a4bb5ebfe">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Mo_OX.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="ID" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT DISTINCT
+    nvl(discount_percent,0) AS disc,
+    (CASE discount_percent
+            WHEN 17.5   THEN '2.90<CU<=3.50%'
+            WHEN 18   THEN '3.50<CU<=3.85%'
+        END) as disdic
+FROM
+    tbl_invoice_molybdenum
+WHERE
+    invoice_id = $P{ID}]]>
+	</queryString>
+	<field name="DISC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="DISC"/>
+	</field>
+	<field name="DISDIC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DISDIC"/>
+	</field>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="-13" y="-12" width="236" height="12" uuid="44934b8c-ed4a-496f-bf38-60398032ce21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["*"+$F{DISC}+"%  "+"DISCOUNT FOR"+"   "+$F{DISDIC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

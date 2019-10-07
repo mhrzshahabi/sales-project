@@ -14,12 +14,18 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="ID" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[select DESCRIPTION,ORIGIN_VALUE,TARGET_VALUE_CUR,ORIGIN_VALUE_CUR from TBL_INVOICE_ITEM where INVOICE_ID=$P{ID}]]>
+		<![CDATA[select 
+			NVL(DESCRIPTION,'') AS DESCRIPTION,
+			NVL(ORIGIN_VALUE,0) as ORIGIN_VALUE,
+			NVL(TARGET_VALUE_CUR,'') as TARGET_VALUE_CUR,
+			NVL(ORIGIN_VALUE_CUR,'') as ORIGIN_VALUE_CUR
+ from TBL_INVOICE_ITEM 
+ where INVOICE_ID=$P{ID}]]>
 	</queryString>
 	<field name="DESCRIPTION" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="DESCRIPTION"/>
 	</field>
-	<field name="ORIGIN_VALUE" class="java.lang.Double">
+	<field name="ORIGIN_VALUE" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="ORIGIN_VALUE"/>
 	</field>
 	<field name="TARGET_VALUE_CUR" class="java.lang.String">
@@ -31,7 +37,7 @@
 	<detail>
 		<band height="19" splitType="Stretch">
 			<textField>
-				<reportElement x="-13" y="-12" width="202" height="12" uuid="f65508c4-d75a-4288-aadd-949640e13f81"/>
+				<reportElement stretchType="ElementGroupHeight" x="-13" y="-12" width="202" height="12" uuid="f65508c4-d75a-4288-aadd-949640e13f81"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
