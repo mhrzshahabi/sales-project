@@ -606,7 +606,7 @@ where invoice_id=$P{ID}]]>
 					<subreportParameterExpression><![CDATA[$P{ID}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["item_mo.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["reports/item_mo.jasper"]]></subreportExpression>
 			</subreport>
 			<componentElement>
 				<reportElement positionType="Float" x="37" y="162" width="490" height="57" uuid="891b2b7d-2f7e-4b45-b943-a08c506ceb8a">
@@ -967,7 +967,7 @@ where invoice_id=$P{ID}]]>
 					<subreportParameterExpression><![CDATA[$P{ID}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["discount_item.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["reports/discount_item.jasper"]]></subreportExpression>
 			</subreport>
 			<textField>
 				<reportElement x="6" y="387" width="548" height="14" uuid="4b23d3aa-3284-4b5b-bb89-def47f4361a3"/>

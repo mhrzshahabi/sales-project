@@ -1,5 +1,6 @@
 package com.nicico.sales.web.controller;
 
+import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.dto.grid.GridResponse;
 import com.nicico.copper.common.dto.search.EOperator;
@@ -14,12 +15,16 @@ import com.nicico.sales.iservice.IInvoiceMolybdenumService;
 import com.nicico.sales.service.InvoiceService;
 import com.nicico.sales.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
