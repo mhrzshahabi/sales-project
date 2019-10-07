@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="item_mo" pageWidth="594" pageHeight="595" orientation="Landscape" columnWidth="554" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="1c31d693-04d0-451b-b664-aae79f7f32cf">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="item_mo" pageWidth="594" pageHeight="595" orientation="Landscape" columnWidth="554" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1c31d693-04d0-451b-b664-aae79f7f32cf">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Mo_OX.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -35,7 +35,7 @@
 		<property name="com.jaspersoft.studio.field.label" value="ORIGIN_VALUE_CUR"/>
 	</field>
 	<detail>
-		<band height="19" splitType="Stretch">
+		<band height="10" splitType="Stretch">
 			<textField>
 				<reportElement stretchType="ElementGroupHeight" x="-13" y="-12" width="202" height="12" uuid="f65508c4-d75a-4288-aadd-949640e13f81"/>
 				<textElement>

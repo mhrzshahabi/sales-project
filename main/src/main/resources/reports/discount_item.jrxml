@@ -32,7 +32,7 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="DISDIC"/>
 	</field>
 	<detail>
-		<band height="15" splitType="Stretch">
+		<band height="10" splitType="Stretch">
 			<textField>
 				<reportElement x="-13" y="-12" width="236" height="12" uuid="44934b8c-ed4a-496f-bf38-60398032ce21"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
