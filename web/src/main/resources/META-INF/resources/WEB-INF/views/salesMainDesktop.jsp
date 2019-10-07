@@ -1449,36 +1449,36 @@
             {title: "<spring:message code='main.shipmentTab'/>", icon: "", iconSize: 16, pane: shipmentRibbonHLayout},
             <%--{title: "<spring:message code='main.inspectionTab'/>",icon: "",iconSize: 16,pane: inspectionRibbonHLayout},--%>
             <%--{title: "<spring:message code='main.insuranceTab'/>", icon: "", iconSize: 16, pane: insuranceRibbonHLayout},--%>
-            {title: "<spring:message code='main.financialTab'/>", icon: "", iconSize: 16, pane: financialRibbonHLayout},
-            {title: "<spring:message code='main.contractsTabNew'/>", icon: "", iconSize: 16, pane: financialRibbonHLayoutContract}
-        ]
-    });
-    isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        // border: "0px solid blue",
-        backgroundColor: "",
-        members: [headerLayout, menuTabSet, mainTabSet]
-    });
-    var dollar = {};
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/currency/list",
-            httpMethod: "GET",
-            data: "",
-            callback: function (RpcResponse_o) {
-                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                    var data = JSON.parse(RpcResponse_o.data);
-                    for (x of data) {
-                        dollar[x.nameEn] = x.nameEn;
-                    }
-                } //if rpc
-            } // callback
-        })
-    );
+            {title: "<spring:message code='main.financialTab'/>", icon: "", iconSize: 16, pane: financialRibbonHLayout}
+            <%--{title: "<spring:message code='main.contractsTabNew'/>", icon: "", iconSize: 16, pane: financialRibbonHLayoutContract}--%>
+]
+});
+isc.VLayout.create({
+width: "100%",
+height: "100%",
+// border: "0px solid blue",
+backgroundColor: "",
+members: [headerLayout, menuTabSet, mainTabSet]
+});
+var dollar = {};
+isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+ actionURL: "${contextPath}/api/currency/list",
+ httpMethod: "GET",
+ data: "",
+ callback: function (RpcResponse_o) {
+     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+         var data = JSON.parse(RpcResponse_o.data);
+         for (x of data) {
+             dollar[x.nameEn] = x.nameEn;
+         }
+     } //if rpc
+ } // callback
+})
+);
 
 
-    // createTab("<spring:message code='workgroups'/>", "/group/showForm")
-    Delay();
+// createTab("<spring:message code='workgroups'/>", "/group/showForm")
+Delay();
 </script>
 </body>
 </html>
