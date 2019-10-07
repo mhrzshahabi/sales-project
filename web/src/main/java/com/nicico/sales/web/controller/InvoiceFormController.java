@@ -107,11 +107,18 @@ public class InvoiceFormController {
 		return f == null ? "0.0" : f.toString();
 	}
 
-	@RequestMapping("/print/{type}")
-	public void printInvoice(HttpServletResponse response, @PathVariable String type , @RequestParam ("invoice_no") String invoice_no) throws Exception {
+	@RequestMapping("/print/{contractType}/{type}")
+	public void printInvoice(HttpServletResponse response,@PathVariable String contractType, @PathVariable String type , @RequestParam("rowId") String rowId) throws Exception {
 		Map<String, Object> params = new HashMap<>();
-		params.put("INVOICE_NO",invoice_no);
+		params.put("ID", rowId);
 		params.put(ConstantVARs.REPORT_TYPE, type);
-		reportUtil.export("/reports/A4-P1.jasper", params, response);
+		switch (contractType){
+			case "Molybdenum Oxide":
+				reportUtil.export("/reports/Mo_Ox.jasper", params, response);
+			case "cad":
+				reportUtil.export("/reports/A4-P1.jasper", params, response);
+			case "conc":
+				reportUtil.export("/reports/A4-P1.jasper", params, response);
+		}
 	}
 }
