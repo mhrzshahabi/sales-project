@@ -115,10 +115,10 @@ public class InvoiceFormController {
 		switch (contractType){
 			case "Molybdenum Oxide":
 				reportUtil.export("/reports/Mo_Ox.jasper", params, response);
-			case "cad":
-				reportUtil.export("/reports/A4-P1.jasper", params, response);
+			case "CAD":
+				reportUtil.export("/reports/CAD.jasper", params, response);
 			case "conc":
-				reportUtil.export("/reports/A4-P1.jasper", params, response);
+				reportUtil.export("/reports/Conc.jasper", params, response);
 		}
 	}
 }
