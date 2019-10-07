@@ -9,101 +9,101 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.SimpleType.create({
-        name:"currencyFloat2",
-        inheritsFrom:"float",
+        name: "currencyFloat2",
+        inheritsFrom: "float",
 
-        normalDisplayFormatter:function(value) {
+        normalDisplayFormatter: function (value) {
             return isc.isA.Number(value) ? value.toCurrencyString() : value;
         },
-        shortDisplayFormatter:function(value) {
+        shortDisplayFormatter: function (value) {
             return isc.isA.Number(value) ? value.toCurrencyString() : value;
         },
-        editFormatter:function (value) {
+        editFormatter: function (value) {
             return isc.isA.Number(value) ? value.toFixed(2) : value;
         },
-        parseInput:function(value) {
+        parseInput: function (value) {
             var fVal = parseFloat(value);
             if (!isNaN(fVal)) return fVal;
             return value;
         },
 
-        validators:[
-            {type:"floatRange", min:0, errorMessage:"notValid"},
-            {type:"floatPrecision", precision:2, roundToPrecision:true}
+        validators: [
+            {type: "floatRange", min: 0, errorMessage: "notValid"},
+            {type: "floatPrecision", precision: 2, roundToPrecision: true}
         ]
 
     });
     isc.SimpleType.create({
-        name:"currencyFloat2Sign",
-        inheritsFrom:"float",
+        name: "currencyFloat2Sign",
+        inheritsFrom: "float",
 
-        normalDisplayFormatter:function(value) {
+        normalDisplayFormatter: function (value) {
             return isc.isA.Number(value) ? value.toCurrencyString() : value;
         },
-        shortDisplayFormatter:function(value) {
+        shortDisplayFormatter: function (value) {
             return isc.isA.Number(value) ? value.toCurrencyString() : value;
         },
-        editFormatter:function (value) {
+        editFormatter: function (value) {
             return isc.isA.Number(value) ? value.toFixed(2) : value;
         },
-        parseInput:function(value) {
+        parseInput: function (value) {
             var fVal = parseFloat(value);
             if (!isNaN(fVal)) return fVal;
             return value;
         },
 
-        validators:[
-            {type:"floatPrecision", precision:2, roundToPrecision:true}
+        validators: [
+            {type: "floatPrecision", precision: 2, roundToPrecision: true}
         ]
 
     });
     isc.SimpleType.create({
-    name:"currencyFloat3",
-        inheritsFrom:"float",
+        name: "currencyFloat3",
+        inheritsFrom: "float",
 
-        normalDisplayFormatter:function(value) {
+        normalDisplayFormatter: function (value) {
             return isc.isA.Number(value) ? value.toCurrencyString() : value;
         },
-        shortDisplayFormatter:function(value) {
+        shortDisplayFormatter: function (value) {
             return isc.isA.Number(value) ? value.toCurrencyString() : value;
         },
-        editFormatter:function (value) {
+        editFormatter: function (value) {
             return isc.isA.Number(value) ? value.toFixed(3) : value;
         },
-        parseInput:function(value) {
+        parseInput: function (value) {
             var fVal = parseFloat(value);
             if (!isNaN(fVal)) return fVal;
             return value;
         },
 
-        validators:[
-            {type:"floatRange", min:0, errorMessage:"notValid"},
-            {type:"floatPrecision", precision:3, roundToPrecision:true}
+        validators: [
+            {type: "floatRange", min: 0, errorMessage: "notValid"},
+            {type: "floatPrecision", precision: 3, roundToPrecision: true}
         ]
 
     });
     isc.SimpleType.create({
-        name:"currencyFloat5",
-        inheritsFrom:"float",
+        name: "currencyFloat5",
+        inheritsFrom: "float",
 
-        normalDisplayFormatter:function(value) {
+        normalDisplayFormatter: function (value) {
             return isc.isA.Number(value) ? value.toCurrencyString() : value;
         },
-        shortDisplayFormatter:function(value) {
+        shortDisplayFormatter: function (value) {
             return isc.isA.Number(value) ? value.toCurrencyString() : value;
         },
-        editFormatter:function (value) {
+        editFormatter: function (value) {
             return isc.isA.Number(value) ? value.toFixed(5) : value;
         },
-        parseInput:function(value) {
+        parseInput: function (value) {
             var fVal = parseFloat(value);
             if (!isNaN(fVal)) return fVal;
             return value;
         },
 
-        validators:[
-            {type:"floatRange", min:0, errorMessage:"notValid"},
-            {type:"floatPrecision", precision:5, roundToPrecision:true}
+        validators: [
+            {type: "floatRange", min: 0, errorMessage: "notValid"},
+            {type: "floatPrecision", precision: 5, roundToPrecision: true}
         ]
 
     });
@@ -326,7 +326,7 @@
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>",
     });
-     var Window_Invoice_Attachment = isc.Window.create({
+    var Window_Invoice_Attachment = isc.Window.create({
         title: "<spring:message code='global.Attachment'/> ",
         width: "50%",
         height: "50%",
@@ -351,7 +351,7 @@
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>",
     });
-     var Window_Molybdenum = isc.Window.create({
+    var Window_Molybdenum = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
         width: 1500,
         height: "90%",
@@ -392,7 +392,7 @@
             this.Super("closeClick", arguments)
         },
         items:
-            [ ViewLoader_Concentrate ]
+            [ViewLoader_Concentrate]
     });
     var ViewLoader_Cathodes = isc.ViewLoader.create({
         width: "100%",
@@ -415,7 +415,7 @@
             this.Super("closeClick", arguments)
         },
         items:
-            [ ViewLoader_Cathodes ]
+            [ViewLoader_Cathodes]
     });
 
 
@@ -428,26 +428,28 @@
 
         fetchDataURL: "${contextPath}/api/invoice/spec-list"
     });
-    function Window_Invoice_Attachment_Open(){
-            var record = ListGrid_Invoice.getSelectedRecord();
 
-            if (record == null || record.id == null) {
-                isc.Dialog.create({
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                    buttonClick: function () {
-                        this.hide();
-                    }
-                });
-            } else {
-                     var dccTableId = record.id;
-                    var dccTableName = "TBL_INVOICE";
-                    ViewLoader_Invoice_Attachment.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
-                    Window_Invoice_Attachment.show();
-            }
+    function Window_Invoice_Attachment_Open() {
+        var record = ListGrid_Invoice.getSelectedRecord();
+
+        if (record == null || record.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        } else {
+            var dccTableId = record.id;
+            var dccTableName = "TBL_INVOICE";
+            ViewLoader_Invoice_Attachment.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+            Window_Invoice_Attachment.show();
+        }
     }
+
     function ListGrid_Invoice_refresh() {
         ListGrid_Invoice.invalidateCache();
         var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
@@ -478,17 +480,17 @@
             });
         } else {
             if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '26030090') {
-                ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/con/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
+                ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/" + record.id + "/con/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                 Window_Invoice_Concentrate.show();
                 return;
             } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
-                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/mol/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
-                        Window_Molybdenum.show();
-                        return;
-            }   else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
-                        ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/cat/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
-                        Window_Cathodes.show();
-                        return;
+                ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/" + record.id + "/mol/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
+                Window_Molybdenum.show();
+                return;
+            } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
+                ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/" + record.id + "/cat/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
+                Window_Cathodes.show();
+                return;
             } else {
                 DynamicForm_Invoice.getItem("copperUnitPrice").show();
                 DynamicForm_Invoice.getItem("copper").show();
@@ -532,7 +534,7 @@
                     this.hide();
                     if (index == 0) {
                         var InvoiceId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/invoice/" + record.id,
                             httpMethod: "DELETE",
                             callback: function (resp) {
@@ -562,15 +564,15 @@
                 click: function () {
                     DynamicForm_Invoice.clearValues();
                     if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '26030090') {
-                        ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/0/con/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
+                        ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/0/con/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Invoice_Concentrate.show();
                         return;
                     } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
-                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/0/mol/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
+                        ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/0/mol/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Molybdenum.show();
                         return;
                     } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
-                        ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id+"/"+record.id+"/cat/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
+                        ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/" + record.id + "/cat/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Cathodes.show();
                         return;
                     } else {
@@ -605,29 +607,65 @@
                 }
             },
 
-/*JZ*/
+            /*JZ*/
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
-                var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                window.open("invoice/print/pdf/"+rowId);
+                    var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                    window.open("invoice/print/pdf/" + rowId);
                 }
             },
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
                     var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                    window.open("invoice/print/html/"+rowId);
+                    window.open("invoice/print/html/" + rowId);
                 }
             },
-             {
+            {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
                     var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                    window.open("invoice/print/xlsx/"+rowId);
+                    window.open("invoice/print/xlsx/" + rowId);
                 }
             }
         ]
+    });
+
+    /*ADD JZ*/
+    var Menu_ListGrid_Mali = isc.Menu.create({
+        data: [
+            {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/pdf?invoice_no=" + invoice_no);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/xlsx?invoice_no=" + invoice_no);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var invoice_no = ListGrid_Invoice.getSelectedRecord().invoiceNo;
+                    window.open("invoice/print/html?invoice_no=" + invoice_no);
+                }
+            },
+        ]
+    });
+    var MenuButton_Mali = isc.MenuButton.create({
+        ID: "MenuButton_Mali",
+        autoDraw: false,
+        title: "<spring:message code='tozin.report.betweenComplexes'/>",
+        prompt: "<spring:message code='tozin.report.betweenComplexes.date'/>",
+        width:100,
+        menu:Menu_ListGrid_Mali
     });
 
     var DynamicForm_Invoice = isc.DynamicForm.create({
@@ -954,20 +992,20 @@
                 });
             } else {
                 if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '26030090') {
-                       ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/con/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
-                       Window_Invoice_Concentrate.show();
-                        return;
+                    ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/" + record.id + "/0/con/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
+                    Window_Invoice_Concentrate.show();
+                    return;
                 } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
-                       ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/mol/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
-                       Window_Molybdenum.show();
-                        return;
+                    ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/" + record.id + "/0/mol/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
+                    Window_Molybdenum.show();
+                    return;
                 } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
-                    ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/"+record.id+"/0/cat/"+ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
+                    ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/" + record.id + "/0/cat/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                     Window_Cathodes.show();
-               } else {
-                DynamicForm_Invoice.clearValues();
-                DynamicForm_Invoice.setValue("shipmentId", record.id);
-                Window_Invoice.show();
+                } else {
+                    DynamicForm_Invoice.clearValues();
+                    DynamicForm_Invoice.setValue("shipmentId", record.id);
+                    Window_Invoice.show();
                 }
             }
         }
@@ -991,51 +1029,51 @@
     });
 
     var ToolStripButton_Invoice_Attachment = isc.ToolStripButton.create({
-                title: "<spring:message code='global.Attachment'/>", icon: "pieces/512/attachment.png",
-                click: function () {
-                    Window_Invoice_Attachment_Open();
-                }
+        title: "<spring:message code='global.Attachment'/>", icon: "pieces/512/attachment.png",
+        click: function () {
+            Window_Invoice_Attachment_Open();
+        }
     });
 
     var ToolStripButton_Invoice_Send2Accounting = isc.ToolStripButton.create({
-                title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
-                click: function () {
-                    var record = ListGrid_Invoice.getSelectedRecord();
+        title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
+        click: function () {
+            var record = ListGrid_Invoice.getSelectedRecord();
 
-                    if (record == null || record.id == null) {
-                        isc.Dialog.create({
-                            message: "<spring:message code='global.grid.record.not.selected'/>",
-                            icon: "[SKIN]ask.png",
-                            title: "<spring:message code='global.message'/>",
-                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                            buttonClick: function () {
-                                this.hide();
-                            }
-                        });
-                    } else {
-                            var data2acc={};
-                            data2acc["documentId"]= record.id;
-                            data2acc["internal"]=  "خارجی";
-                            data2acc["documentNo"]=  record.invoiceNo;
-                            data2acc["documentDate"]= record.invoiceDate;
-                            data2acc["company"]=  ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contact.nameFA+'-'+
-                                                         ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contractNo;
-                            data2acc["price"]=  record.invoiceValueCurrency+record.invoiceValue;
-                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                    actionURL: "${contextPath}/api/invoice/sendForm-2accounting/"+record.id,
-                                    httpMethod: "PUT",
-                                    data: JSON.stringify(data2acc),
-                                    callback: function (resp) {
-                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                            isc.say("<spring:message code='global.form.request.successful'/>.");
-                                            ListGrid_InvoiceInternal_refresh();
-                                        } else
-                                            isc.say(RpcResponse_o.data);
-                                    }
-                                })
-                            );
+            if (record == null || record.id == null) {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    buttonClick: function () {
+                        this.hide();
                     }
-                }
+                });
+            } else {
+                var data2acc = {};
+                data2acc["documentId"] = record.id;
+                data2acc["internal"] = "خارجی";
+                data2acc["documentNo"] = record.invoiceNo;
+                data2acc["documentDate"] = record.invoiceDate;
+                data2acc["company"] = ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contact.nameFA + '-' +
+                    ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contract.contractNo;
+                data2acc["price"] = record.invoiceValueCurrency + record.invoiceValue;
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: "${contextPath}/api/invoice/sendForm-2accounting/" + record.id,
+                        httpMethod: "PUT",
+                        data: JSON.stringify(data2acc),
+                        callback: function (resp) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                isc.say("<spring:message code='global.form.request.successful'/>.");
+                                ListGrid_InvoiceInternal_refresh();
+                            } else
+                                isc.say(RpcResponse_o.data);
+                        }
+                    })
+                );
+            }
+        }
     });
 
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
@@ -1047,7 +1085,10 @@
                 ToolStripButton_Invoice_Edit,
                 ToolStripButton_Invoice_Remove,
                 ToolStripButton_Invoice_Attachment,
-                ToolStripButton_Invoice_Send2Accounting            ]
+                ToolStripButton_Invoice_Send2Accounting,
+                MenuButton_Mali,
+
+            ]
     });
 
     var HLayout_Invoice_Actions = isc.HLayout.create({
@@ -1076,7 +1117,7 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/invoice/",
                 httpMethod: method,
                 data: JSON.stringify(data),
@@ -1208,7 +1249,10 @@
                 },
                 {name: "silver", title: "<spring:message code='invoice.silver'/>", type: 'float', width: "10%"},
                 {
-                    name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>", type: 'float', width: "10%"
+                    name: "molybdJenumUnitPrice",
+                    title: "<spring:message code='invoice.molybdJenumUnitPrice'/>",
+                    type: 'float',
+                    width: "10%"
                 },
                 {name: "molybdenum", title: "<spring:message code='invoice.molybdenum'/>", type: 'float', width: "10%"},
             ],
@@ -1261,67 +1305,57 @@
     });
 
 
-function validatedate(inputText1)
-  {
-  if (inputText1==null || typeof (inputText1)=='undefined' || inputText1=="" )
-  	return false;
-  var inputText=inputText1.substring(0,11);
-  // Match the date format through regular expression
-  if(inputText.length==8 )
-  {
-  // document.form1.text1.focus();
-  //Test which seperator is used '/' or '-'
+    function validatedate(inputText1) {
+        if (inputText1 == null || typeof (inputText1) == 'undefined' || inputText1 == "")
+            return false;
+        var inputText = inputText1.substring(0, 11);
+        // Match the date format through regular expression
+        if (inputText.length == 8) {
+            // document.form1.text1.focus();
+            //Test which seperator is used '/' or '-'
 
-  console.log("inputText ok="+inputText);
-  // var pdate = inputText.split('/');
+            console.log("inputText ok=" + inputText);
+            // var pdate = inputText.split('/');
 
-  var yy  = parseInt(inputText.substring(0,4));
-  var mm = parseInt(inputText.substring(4,6));
-  var dd = parseInt(inputText.substring(6,8));
-  console.log("date=m"+mm+'d '+dd+'y '+yy)
-  // Create list of days of a month [assume there is no leap year by default]
-if (yy<1990 || yy>2020) {
-	alert('Invalid Year 1990-2020 is ok');
-	return false;
-}
-if (mm<1 || mm>12) {
-	alert('Invalid month');
-	 console.log("month error =m "+mm)
-	return false;
-}
-  var ListofDays = [31,28,31,30,31,30,31,31,30,31,30,31];
-  if (mm==1 || mm>2)
-  	{
-  		if (dd>ListofDays[mm-1])
-  			{
-  			alert('Invalid date format!');
- 			 return false;
-  			}
-  	}
-  if (mm==2)
-	{
-  		var lyear = false;
-  		if ( (!(yy % 4) && yy % 100) || !(yy % 400))
-  			{
-  			lyear = true;
-  			}
-	  if ((lyear==false) && (dd>=29))
-		{
-		alert('Invalid date format!');
-		return false;
-		}
-	  if ((lyear==true) && (dd>29))
-		{
-		alert('Invalid date format!');
-		return false;
-		}
-	  }
-  }
-  else
-  {
-  alert("Invalid date format!");
-  // document.form1.text1.focus();
-  return false;
-  }
-  return true;
-  }
+            var yy = parseInt(inputText.substring(0, 4));
+            var mm = parseInt(inputText.substring(4, 6));
+            var dd = parseInt(inputText.substring(6, 8));
+            console.log("date=m" + mm + 'd ' + dd + 'y ' + yy)
+            // Create list of days of a month [assume there is no leap year by default]
+            if (yy < 1990 || yy > 2020) {
+                alert('Invalid Year 1990-2020 is ok');
+                return false;
+            }
+            if (mm < 1 || mm > 12) {
+                alert('Invalid month');
+                console.log("month error =m " + mm)
+                return false;
+            }
+            var ListofDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            if (mm == 1 || mm > 2) {
+                if (dd > ListofDays[mm - 1]) {
+                    alert('Invalid date format!');
+                    return false;
+                }
+            }
+            if (mm == 2) {
+                var lyear = false;
+                if ((!(yy % 4) && yy % 100) || !(yy % 400)) {
+                    lyear = true;
+                }
+                if ((lyear == false) && (dd >= 29)) {
+                    alert('Invalid date format!');
+                    return false;
+                }
+                if ((lyear == true) && (dd > 29)) {
+                    alert('Invalid date format!');
+                    return false;
+                }
+            }
+        } else {
+            alert("Invalid date format!");
+            // document.form1.text1.focus();
+            return false;
+        }
+        return true;
+    }
