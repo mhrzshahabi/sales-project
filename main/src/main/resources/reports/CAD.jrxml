@@ -8,7 +8,7 @@
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="338"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="651"/>
 	<parameter name="logo_nicico" class="java.lang.Object"/>
-	<parameter name="INVOICE_NO" class="java.lang.String"/>
+	<parameter name="ID" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
     m.invoic_date,
@@ -52,7 +52,7 @@ FROM
     LEFT JOIN tbl_port           tp2 ON sh.discharge = tp2.id
     LEFT JOIN tbl_incoterms      inc ON ct.incoterms_id = inc.id
     LEFT JOIN tbl_invoice_item   it ON it.invoice_id = m.id
-	where   m.INVOICE_NO = $P{INVOICE_NO}]]>
+	where   m.id = $P{ID}]]>
 	</queryString>
 	<field name="INVOIC_DATE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="INVOIC_DATE"/>
@@ -273,7 +273,7 @@ FROM
 			</textField>
 			<textField pattern="#,##0.###">
 				<reportElement x="428" y="386" width="100" height="30" uuid="eafc11ed-df9a-4e32-b751-d6fafd242450"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="styled">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COMMERCIAL_INVOICE_VALUE_NET}]]></textFieldExpression>
@@ -512,7 +512,7 @@ FROM
 				<text><![CDATA[DELIVERY TERMS:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="104" y="256" width="48" height="20" uuid="bb4b32e9-37a6-4da5-aa36-7cb184434570"/>
+				<reportElement x="104" y="241" width="48" height="20" uuid="bb4b32e9-37a6-4da5-aa36-7cb184434570"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -526,7 +526,7 @@ FROM
 				<text><![CDATA[BASIS]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="152" y="259" width="64" height="14" uuid="231c65b4-50e5-4a85-80df-e173a074bd9f"/>
+				<reportElement x="159" y="240" width="64" height="14" uuid="231c65b4-50e5-4a85-80df-e173a074bd9f"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -665,7 +665,7 @@ FROM
 				</textElement>
 				<text><![CDATA[REF.NO.]]></text>
 			</staticText>
-			<textField>
+			<textField evaluationTime="Report">
 				<reportElement x="449" y="35" width="84" height="30" uuid="7c4f4c3a-0f2f-4851-bee0-8c0451b4b0b2"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{INVOICE_NO}]]></textFieldExpression>

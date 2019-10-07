@@ -610,22 +610,21 @@
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
                 var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                var material = ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.descl;
-                window.open("invoice/print/"+material+"/pdf?rowId="+rowId);
+                window.open("invoice/print/pdf/"+rowId);
                 }
             },
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
                     var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                    window.open("invoice/print/html?rowId="+rowId);
+                    window.open("invoice/print/html/"+rowId);
                 }
             },
              {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
                     var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                    window.open("invoice/print/xlsx?rowId="+rowId);
+                    window.open("invoice/print/xlsx/"+rowId);
                 }
             }
         ]
