@@ -266,7 +266,7 @@
 // invoice.totalKosorat= Tax+Cost
 // invoice.bankGroupDesc= LC Bank
 //
-                            var data2acc={}; var iiid=record.id; var iiinvoice=record.record.havalehId;
+                            var data2acc={}; var iiid=record.id; var iiinvoice=record.havalehId;
                             data2acc["documentId"]= iiid.toString();
                             data2acc["internal"]=  "داخلی";
                             data2acc["documentNo"]= iiinvoice.toString() ;
