@@ -442,7 +442,7 @@
             }
             isc.Dialog.create({
                 message: "مجموع برای " + record.length + "  رکورد مقداربارگیری(" + sum1 + ") و تخلیه مقدار (" + sum2 + ") می باشد",
-                title: "مجموع حمل",
+                title: "<spring:message code='shipment.total'/>",
             });
             // isc.ask("جمع تخلیه "+record.length+" رکورد مقدار"+sum+" می باشد");
             if (selectedAtFirst == 0) {

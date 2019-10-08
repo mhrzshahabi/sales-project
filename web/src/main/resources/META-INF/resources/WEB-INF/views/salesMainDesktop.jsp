@@ -110,16 +110,17 @@
         allowCrossDomainCalls: true,
         handleError: function (response, request) {
             const httpResponse = JSON.parse(response.httpResponseText);
-            alert(String(httpResponse.error))
             switch (String(httpResponse.error)) {
                 case "Unauthorized":
-                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: 'هشدار'});
+                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: "<spring:message code='global.warning'/>"});
                     break;
                 case "DataIntegrityViolation_Unique":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: 'هشدار'});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: "<spring:message code='global.warning'/>"});
                     break;
                 case "DataIntegrityViolation_FK":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: 'هشدار'});
+                case "DataIntegrityViolation":
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='global.warning'/>"});
                     break;
             }
         }
@@ -127,7 +128,6 @@
 
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
-
 
     isc.ListGrid.addProperties({
         dataPageSize: 500,

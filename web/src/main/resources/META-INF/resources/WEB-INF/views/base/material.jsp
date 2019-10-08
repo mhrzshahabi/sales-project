@@ -252,7 +252,7 @@
                     title: "<spring:message code='material.code'/>",
                     required: true,
                     width: 400,
-                    length: "20",
+                    length: "15",
                     keyPressFilter: "[0-9]",
                     validators: [{
                         type: "isInteger",
@@ -457,6 +457,26 @@
         }, {operationId: "00"});
     };
 
+    function ListGrid_MaterialFeature_add() {
+        var record = ListGrid_Material.getSelectedRecord();
+
+        if (record == null || record.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        } else {
+            DynamicForm_MaterialFeature.clearValues();
+            DynamicForm_MaterialFeature.setValue("materialId", record.id);
+            Window_MaterialFeature.show();
+        }
+    };
+
     function ListGrid_MaterialFeature_edit() {
         var record = ListGrid_MaterialFeature.getSelectedRecord();
 
@@ -536,8 +556,7 @@
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
-                    DynamicForm_MaterialFeature.clearValues();
-                    Window_MaterialFeature.show();
+                    ListGrid_MaterialFeature_add();
                 }
             },
             {
@@ -738,23 +757,7 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-            var record = ListGrid_Material.getSelectedRecord();
-
-            if (record == null || record.id == null) {
-                isc.Dialog.create({
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                    buttonClick: function () {
-                        this.hide();
-                    }
-                });
-            } else {
-                DynamicForm_MaterialFeature.clearValues();
-                DynamicForm_MaterialFeature.setValue("materialId", record.id);
-                Window_MaterialFeature.show();
-            }
+            ListGrid_MaterialFeature_add();
         }
     });
 
@@ -805,9 +808,6 @@
             var data = DynamicForm_MaterialFeature.getValues();
             var minValue = DynamicForm_MaterialFeature.getValue("minValue");
             var maxValue = DynamicForm_MaterialFeature.getValue("maxValue");
-            console.log(minValue);
-            console.log(maxValue);
-            console.log(DynamicForm_MaterialFeature);
             if (minValue > maxValue) {
                 isc.say("<spring:message code='MaterialFeature.minValue.Error'/>.");
                 return;

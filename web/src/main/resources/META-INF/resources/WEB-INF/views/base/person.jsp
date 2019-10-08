@@ -112,21 +112,16 @@
             {type: "RowSpacerItem"},
             {
                 name: "contactId",
-                title: "<spring:message code='contact.name'/>"
-                ,
+                title: "<spring:message code='contact.name'/>",
                 width: "100%", wrapTitle: false, required: true,
                 editorType: "SelectItem",
-                type: 'long'
-                ,
+                type: 'long',
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA"
-                ,
+                displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: 500,
                 pickListHeight: 500,
-                pickListProperties: {showFilterEditor: true}
-
-                ,
+                pickListProperties: {showFilterEditor: true},
                 pickListFields: [{name: "id", width: 50, align: "center"}, {
                     name: "nameFA",
                     width: 150,
@@ -437,7 +432,13 @@
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contactId"},
-            {name: "contact.nameFA"},
+            {
+                name: "contact.nameFA",
+                title: "<spring:message code='contact.name'/>",
+                type: 'text',
+                width: 120,
+                align: "center"
+            },
             {
                 name: "fullName",
                 title: "<spring:message code='person.fullName'/>",
@@ -484,7 +485,7 @@
             {
                 name: "contact.nameFA",
                 title: "<spring:message code='contact.name'/>",
-                type: 'long',
+                type: 'text',
                 width: 120,
                 align: "center"
             },

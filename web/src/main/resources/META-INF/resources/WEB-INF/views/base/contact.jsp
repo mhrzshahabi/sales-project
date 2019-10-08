@@ -513,7 +513,7 @@
 
     function ListGrid_Contact_refresh() {
         ListGrid_Contact.invalidateCache();
-        commercialParty.setTitle('طرف حساب تجاری');
+        commercialParty.setTitle("<spring:message code='commercialParty.title'/>");
     }
 
     function ListGrid_Contact_remove() {
