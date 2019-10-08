@@ -208,7 +208,6 @@
 
 
     function createPasteDialog() {
-        alert("asas");
         isc.Window.create({
             ID: "Window_WarehouseLot_Paste",
             title: "<spring:message code='global.form.pasteCells'/>",
@@ -461,12 +460,10 @@
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.data == 'success') {
-                                    alert("okkk");
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     ListGrid_WarehouseLot_refresh();
                                 } else {
                                     alert(RpcResponse_o.data);
-                                    alert("nok");
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     ListGrid_WarehouseLot_refresh();
                                 }
@@ -686,7 +683,6 @@
             if (DynamicForm_WarehouseLot.hasErrors())
                 return;
             var data = DynamicForm_WarehouseLot.getValues();
-            alert(JSON.stringify(data));
             var method = "PUT";
             if (data.id == null)
              method = "POST";

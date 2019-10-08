@@ -140,7 +140,7 @@
                         });
 
            function saveContact(value){
-                alert(JSON.stringify(value));
+                // alert(JSON.stringify(value));
                 var contactData = Object.assign(value);
                 httpMethod = "POST";
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {

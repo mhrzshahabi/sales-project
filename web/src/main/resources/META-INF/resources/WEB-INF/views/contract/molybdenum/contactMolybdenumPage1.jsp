@@ -1968,9 +1968,9 @@ var dynamicForm_article7_number39_number40 = isc.DynamicForm.create({
                             title: "<spring:message code='global.form.save'/>",
                             icon: "pieces/16/save.png",
                             click: function () {
-                            alert(JSON.stringify(contactHeaderBody1.getValues()));
-                            alert(JSON.stringify(contactHeader.getValues()));
-                            alert(JSON.stringify(contactHeaderBody2.getValues()));
+                            // alert(JSON.stringify(contactHeaderBody1.getValues()));
+                            // alert(JSON.stringify(contactHeader.getValues()));
+                            // alert(JSON.stringify(contactHeaderBody2.getValues()));
                             }
                             });
 
