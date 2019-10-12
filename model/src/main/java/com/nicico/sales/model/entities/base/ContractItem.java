@@ -1,10 +1,19 @@
 package com.nicico.sales.model.entities.base;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 import javax.persistence.*;
 
 /**
  * EMAMI
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
+@EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTRACT_ITEM")
 public class ContractItem {
@@ -69,139 +78,4 @@ public class ContractItem {
 	@Column(name = "PLANT")
 	private String plant;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Contract getContract() {
-		return contract;
-	}
-
-	public void setContract(Contract contract) {
-		this.contract = contract;
-	}
-
-	public String getIsComplate() {
-		return isComplate;
-	}
-
-	public void setIsComplate(String isComplate) {
-		this.isComplate = isComplate;
-	}
-
-	public Long getItemRow() {
-		return itemRow;
-	}
-
-	public void setItemRow(Long itemRow) {
-		this.itemRow = itemRow;
-	}
-
-	public Material getTblMaterial() {
-		return tblMaterial;
-	}
-
-	public void setTblMaterial(Material tblMaterial) {
-		this.tblMaterial = tblMaterial;
-	}
-
-	public Double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
-
-	public Unit getUnit() {
-		return unit;
-	}
-
-	public void setUnit(Unit unit) {
-		this.unit = unit;
-	}
-
-	public Double getNbl() {
-		return nbl;
-	}
-
-	public void setNbl(Double nbl) {
-		this.nbl = nbl;
-	}
-
-	public String getDescl() {
-		return descl;
-	}
-
-	public void setDescl(String descl) {
-		this.descl = descl;
-	}
-
-	public String getRevisory() {
-		return revisory;
-	}
-
-	public void setRevisory(String revisory) {
-		this.revisory = revisory;
-	}
-
-	public Double getTolorance() {
-		return tolorance;
-	}
-
-	public void setTolorance(Double tolorance) {
-		this.tolorance = tolorance;
-	}
-
-	public Rate getRate() {
-		return rate;
-	}
-
-	public void setRate(Rate rate) {
-		this.rate = rate;
-	}
-
-	public String getOptional() {
-		return optional;
-	}
-
-	public void setOptional(String option) {
-		this.optional = optional;
-	}
-
-	public Contact getTblContactByInspection() {
-		return tblContactByInspection;
-	}
-
-	public void setTblContactByInspection(Contact tblContactByInspection) {
-		this.tblContactByInspection = tblContactByInspection;
-	}
-
-	public Long getPackSize() {
-		return packSize;
-	}
-
-	public void setPackSize(Long packSize) {
-		this.packSize = packSize;
-	}
-
-	public String getPlant() {
-		return plant;
-	}
-
-	public void setPlant(String plant) {
-		this.plant = plant;
-	}
-
-	public String getPriceRefrence() {
-		return priceRefrence;
-	}
-
-	public void setPriceRefrence(String priceRefrence) {
-		this.priceRefrence = priceRefrence;
-	}
 }
