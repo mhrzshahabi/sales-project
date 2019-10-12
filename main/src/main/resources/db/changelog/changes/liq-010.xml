@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Admin (generated)" id="1570297406896-169">
+        <addColumn tableName="TBL_INVOICE">
+            <column name="PROCESSID" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Admin (generated)" id="1570297406896-170">
+        <addColumn tableName="TBL_INVOICE_INTERNAL">
+            <column name="PROCESSID" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

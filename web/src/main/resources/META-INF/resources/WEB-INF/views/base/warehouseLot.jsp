@@ -25,7 +25,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouseNo'/>", align: "center"},
+                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center"},
                 {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
                 {name: "material.descl", title: "<spring:message code='goods.nameLatin'/> "},
                 {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center"},
@@ -56,7 +56,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouseNo'/>", align: "center"},
+                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center"},
                 {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
                 {name: "tblMaterial.id", title: "<spring:message code='goods.nameLatin'/> "},
                 {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center"},
@@ -208,7 +208,6 @@
 
 
     function createPasteDialog() {
-        alert("asas");
         isc.Window.create({
             ID: "Window_WarehouseLot_Paste",
             title: "<spring:message code='global.form.pasteCells'/>",
@@ -238,7 +237,7 @@
                             fields: [
                                 {
                                     name: "warehouseNo",
-                                    title: "<spring:message code='dailyWarehouse.warehouseNo'/>",
+                                    title: "<spring:message code='dailyWarehouse.warehouse'/>",
                                     colSpan: 6
                                 },
                                 {
@@ -461,12 +460,10 @@
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.data == 'success') {
-                                    alert("okkk");
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     ListGrid_WarehouseLot_refresh();
                                 } else {
                                     alert(RpcResponse_o.data);
-                                    alert("nok");
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     ListGrid_WarehouseLot_refresh();
                                 }
@@ -540,7 +537,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "warehouseNo",
-                    title: "<spring:message code='dailyWarehouse.warehouseNo'/>",
+                    title: "<spring:message code='dailyWarehouse.warehouse'/>",
                     align: "center",
                     width: 400,
                         },
@@ -686,7 +683,6 @@
             if (DynamicForm_WarehouseLot.hasErrors())
                 return;
             var data = DynamicForm_WarehouseLot.getValues();
-            alert(JSON.stringify(data));
             var method = "PUT";
             if (data.id == null)
              method = "POST";
@@ -751,7 +747,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouseNo'/>", align: "center"},
+                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center"},
                 {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
                 {name: "material.descl", title: "<spring:message code='goods.nameLatin'/> ", canEdit: false},
                 {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center"},
@@ -806,4 +802,3 @@
             HLayout_WarehouseLot_Actions, HLayout_WarehouseLot_Grid
         ]
     });
-

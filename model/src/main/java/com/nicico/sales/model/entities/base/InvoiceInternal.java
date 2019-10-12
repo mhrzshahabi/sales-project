@@ -95,5 +95,8 @@ public class InvoiceInternal extends Auditable {
 	private String groupGoodName;
 	@Column(name = "LC_DATESARRESED", length = 100)
 	private String lcDateSarReceid;
+	@Column(name = "PROCESSID")
+	private String processId;
+
 
 }

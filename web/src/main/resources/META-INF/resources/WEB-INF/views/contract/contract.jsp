@@ -95,10 +95,6 @@
             DynamicForm_Contract.setValue("contractDateDumy", (typeof record.contractDate == 'undefined' ?   new Date()  : new Date(record.contractDate)));
             DynamicForm_Contract.setValue("runEndDateDumy", (record.runEndtDate == null ? null : new Date(record.runEndtDate)));
             DynamicForm_Contract.setValue("runStartDateDumy", (typeof record.runStartDate == 'undefined' ?   new Date()  : new Date(record.runStartDate)));
-            console.log('record.runStartDate');
-            console.log(record.runStartDate);
-            console.log('DynamicForm_Contract.getValue("runStartDateDumy")');
-            console.log(DynamicForm_Contract.getValue("runStartDateDumy"));
             if (record.material.descl === 'Copper Concentrate') {
                 DynamicForm_Contract.getItem("copper").show();
                 DynamicForm_Contract.getItem("copperTolorance").show();

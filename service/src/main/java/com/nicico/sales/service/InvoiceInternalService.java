@@ -10,7 +10,9 @@ import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InvoiceInternalDTO;
 import com.nicico.sales.iservice.IInvoiceInternalService;
 import com.nicico.sales.model.entities.base.InvoiceInternal;
+import com.nicico.sales.repository.InvoiceInternalCustomerDAO;
 import com.nicico.sales.repository.InvoiceInternalDAO;
+import com.nicico.sales.repository.InvoiceInternalLcDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -30,6 +32,8 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 	private final ModelMapper modelMapper;
 	private final ObjectMapper objectMapper;
 	private final InvoiceInternalDAO invoiceInternalDAO;
+	private final InvoiceInternalLcDAO invoiceInternalLcDAO;
+	private final InvoiceInternalCustomerDAO invoiceInternalCustomerDAO;
 	private final OAUserDAO oaUserDAO;
 
 	private final OAuth2RestTemplate restTemplate;
@@ -42,7 +46,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 	public InvoiceInternalDTO.Info get(Long id) {
 		final InvoiceInternal invoiceInternal = invoiceInternalDAO.findById(id)
 				.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalNotFound));
-
+//        List  <InvoiceInternalLc> lc=invoiceInternalLcDAO.findAllByLcId( invoiceInternal.getLcId());
 		return modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class);
 	}
 
@@ -114,9 +118,8 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 				.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
 		ResponseEntity<String> processId = restTemplate.postForEntity(accountingAppUrl + "/rest/workflow/startSalesProcess", data, String.class);
 		System.out.println("#### forObject = " + processId.getBody().toString());
-		invoice.setInvSented(processId.getBody().toString());
-		//invoiceInternalDAO.sa
-		return modelMapper.map(invoice, InvoiceInternalDTO.Info.class);
+		invoice.setProcessId(processId.getBody().toString());
+		return save(invoice);
 
 	}
 

@@ -79,6 +79,8 @@ public class InvoiceDTO {
 	private String priceToDate;
 	private Long sellerId;
 	private Long buyerId;
+	private String processId;
+
 
 	// ------------------------------
 

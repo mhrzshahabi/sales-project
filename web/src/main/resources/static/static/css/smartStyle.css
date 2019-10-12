@@ -1,40 +1,17 @@
+@font-face {
+    font-family: B Titr;
+    src: url('../font/BTitrBold.woff2') format('woff2'),
+    url('../font/BTitrBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
 .mainHeaderStyleOnline {
     background-color: #153560;
     font-size: 14px;
     color: white;
-    line-height: 16px;
     padding: 4px;
-    border: 0 dotted black;
-}
-
-.mainHeaderStyleLegal {
-    color: black;
-    background-color: white;
-    font-family: times new roman, times, serif;
-    font-size: 12px;
-    text-align: justify;
-    padding-left: 4px;
-    border-left: 1px solid black;
-    padding-right: 4px;
-    border-right: 1px solid black;
-}
-
-.mainHeaderStyleButton {
-    font-family: B Titr, lucida console, bitstream vera sans mono, courier new, monospace;
-    font-size: 14px;
-    font-weight: bold;
-    color: red;
-    padding: 8px;
-}
-
-.mainHeaderStyleInformal {
-    font-family: lucida handwriting, cursive;
-    font-size: 14px;
-    line-height: 22px;
-    color: midnightblue;
-    background-color: oldlace;
-    padding: 8px;
-    border: 2px solid midnightblue;
+    font-family: B Titr, serif;
 }
 
 .myBoxedGridCell {
@@ -47,12 +24,26 @@
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
-.texttoLable{
-    border:none !important;
+
+.texttoLable {
+    border: none !important;
 }
-.box-shaddow:hover{
-    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+
+.box-shaddow:hover {
+    -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
     background: rgba(255, 255, 255, 0.7);
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    padding: 50px 0;
+    justify-content: center;
+    align-items: center;
+    font-family: IRANSans, tahoma, serif;
+    color: #060790;
+    text-align: center;
 }
