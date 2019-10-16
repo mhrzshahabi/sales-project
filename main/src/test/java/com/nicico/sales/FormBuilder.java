@@ -77,8 +77,6 @@ public class FormBuilder {
 										fields[fieldsSize++] = s;
 								}
 								String newWord = rs.getString("new_word");
-								String newWord1 = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
-								ResultSet tempRs = statementC.executeQuery(" select fun_ADD_PERMISSION('" + newWord1 + "') from dual  ");
 								exceptionFields[exceptionFieldsLoop++] = "        " + newWord + "NotFound(404),";
 							} catch (FileNotFoundException e) {
 								System.err.println("File not found.  file:" + oldFileName[folderLoop]);
@@ -93,6 +91,8 @@ public class FormBuilder {
 							String newWord = rs.getString("new_word"); //@@@@@@@@@@@@@@@@@@@@@@@
 							String oldWord1 = oldWord.substring(0, 1).toLowerCase() + oldWord.substring(1);
 							String newWord1 = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+							String oldWord2 = oldWord.toUpperCase();
+							String newWord2 = newWord.toUpperCase();
 							nfn = nfn.replaceAll(oldWord, newWord);
 							File output = new File(folders[folderLoop] + "\\" + nfn);
 							if (!output.exists()) {
@@ -103,6 +103,7 @@ public class FormBuilder {
 									Boolean is = (fieldsSize > 0 && s.contains("public class " + oldWords[folderLoop] + "DTO"));
 									s = s.replaceAll(oldWord, newWord);
 									s = s.replaceAll(oldWord1, newWord1);
+									s = s.replaceAll(oldWord2, newWord2);
 									printer.println(s);
 									if (is)
 										for (int k = 0; k < fieldsSize; k++)
@@ -114,11 +115,10 @@ public class FormBuilder {
 							System.err.println("File not found.  file:" + oldFileName[folderLoop]);
 						}
 					}
-					String myStatement = "update tbl_clone_name set shod='shod' where id= ?";
+					/*String myStatement = "update tbl_clone_name set shod='shod' where id= ?";
 					PreparedStatement update = connection.prepareStatement(myStatement);
 					update.setString(1, (rs.getString("id")));
-					update.executeUpdate();
-
+					update.executeUpdate();*/
 				}
 				connection.close();
 				if (exceptionFieldsLoop > 0 && !exceptionFile.isEmpty()) {  // update Exception File
