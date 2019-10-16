@@ -115,10 +115,10 @@ public class FormBuilder {
 							System.err.println("File not found.  file:" + oldFileName[folderLoop]);
 						}
 					}
-					/*String myStatement = "update tbl_clone_name set shod='shod' where id= ?";
+					String myStatement = "update tbl_clone_name set shod='shod' where id= ?";
 					PreparedStatement update = connection.prepareStatement(myStatement);
 					update.setString(1, (rs.getString("id")));
-					update.executeUpdate();*/
+					update.executeUpdate();
 				}
 				connection.close();
 				if (exceptionFieldsLoop > 0 && !exceptionFile.isEmpty()) {  // update Exception File
