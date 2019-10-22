@@ -45,14 +45,12 @@
          NVL( m.id,'0') 									AS 	id ,
          NVL(m.invoice_no,'') 							    AS 	invoice_no ,
          NVL( m.invoice_type,'') 						    AS 	invoice_type ,
-         NVL(m.invoive_value_d,'0') 				        AS  invoive_value_d,
          NVL(m.rate_base,'') 							    AS 	rate_base ,
          NVL(m.rate2dollar,'0') 						    AS 	rate2dollar ,
-         NVL(invoive_value_up,'0') 					        AS 	invoive_value_up ,
          NVL(m.COMMERCIAL_INVOICE_VALUE_NET,'0') 	        AS	COMMERCIAL_INVOICE_VALUE_NET,
          
          
-        CASE WHEN invoive_value_d         < 0 THEN          '('|| TO_CHAR(ABS(invoive_value_d),     '999,999,999.99')  ||')' ELSE   TO_CHAR(invoive_value_d,'999,999,999.99')     END AS INVD,
+        CASE WHEN invoive_value_d         <  0 THEN          '('|| TO_CHAR(ABS(invoive_value_d),     '999,999,999.99')  ||')'  ELSE   TO_CHAR(invoive_value_d,'999,999,999.99')     END AS INVD,
         
         CASE WHEN invoive_value_up        < 0 THEN          '('|| TO_CHAR(ABS(invoive_value_up),    '999,999,999.99')  ||')' ELSE   TO_CHAR(invoive_value_up,'999,999,999.99')    END AS INVU
          
@@ -147,17 +145,11 @@ FROM
 	<field name="INVOICE_TYPE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="INVOICE_TYPE"/>
 	</field>
-	<field name="INVOIVE_VALUE_D" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.label" value="INVOIVE_VALUE_D"/>
-	</field>
 	<field name="RATE_BASE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="RATE_BASE"/>
 	</field>
 	<field name="RATE2DOLLAR" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="RATE2DOLLAR"/>
-	</field>
-	<field name="INVOIVE_VALUE_UP" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.label" value="INVOIVE_VALUE_UP"/>
 	</field>
 	<field name="COMMERCIAL_INVOICE_VALUE_NET" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="COMMERCIAL_INVOICE_VALUE_NET"/>
