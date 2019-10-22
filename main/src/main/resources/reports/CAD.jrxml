@@ -7,15 +7,23 @@
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="473"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="338"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="651"/>
+	<style name="Style1" pattern="">
+		<box>
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
 	<parameter name="logo_nicico" class="java.lang.Object"/>
 	<parameter name="ID" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
-   		 NVL(m.invoic_date,'') 							AS 	invoic_date,
-   		 NVL( ct.c_contract_no,'')						AS 	c_contract_no ,
-     	 NVL( cn.c_address,'') 							AS 	c_address,
-      	 NVL(  cn.c_phone,'') 							AS 	c_phone,
-     	 NVL(  cn.c_branch_name,'') 					AS 	c_branch_name ,
+   		 NVL(m.invoic_date,'') 								AS 	invoic_date,
+   		 NVL( ct.c_contract_no,'')						    AS 	c_contract_no ,
+     	 NVL( cn.c_address,'') 							    AS 	c_address,
+      	 NVL(  cn.c_phone,'') 							    AS 	c_phone,
+     	 NVL(  cn.c_branch_name,'') 					    AS 	c_branch_name ,
      	 NVL(  mt.c_descl,'') 								AS 	c_descl,
          NVL( sh.vessel_name,'') 							AS 	vessel_name,
          NVL( sh.bl_numbers,'') 							AS 	bl_numbers,
@@ -32,26 +40,33 @@
          NVL(m.unit_price,'') 								AS 	unit_price ,
          NVL(ct.premium,'0') 								AS 	premium,
          NVL(m.copper_unit_price,'0') 						AS 	copper_unit_price ,
-         NVL( m.molybdenum_content,'0')	AS 	molybdenum_content,
+         NVL( m.molybdenum_content,'0')	                    AS 	molybdenum_content,
          NVL(it.description,'') 							AS 	description ,
-         NVL( m.id,'0') 										AS 	id ,
-         NVL(m.invoice_no,'') 							AS 	invoice_no ,
-         NVL( m.invoice_type,'') 						AS 	invoice_type ,
-         NVL(m.invoive_value_d,'0') 				AS  	invoive_value_d,
-         NVL(m.rate_base,'') 							AS 	rate_base ,
-         NVL(m.rate2dollar,'0') 						AS 	rate2dollar ,
-         NVL(invoive_value_up,'0') 					AS 	invoive_value_up ,
-         NVL(m.COMMERCIAL_INVOICE_VALUE_NET,'0') 	AS	COMMERCIAL_INVOICE_VALUE_NET
+         NVL( m.id,'0') 									AS 	id ,
+         NVL(m.invoice_no,'') 							    AS 	invoice_no ,
+         NVL( m.invoice_type,'') 						    AS 	invoice_type ,
+         NVL(m.invoive_value_d,'0') 				        AS  invoive_value_d,
+         NVL(m.rate_base,'') 							    AS 	rate_base ,
+         NVL(m.rate2dollar,'0') 						    AS 	rate2dollar ,
+         NVL(invoive_value_up,'0') 					        AS 	invoive_value_up ,
+         NVL(m.COMMERCIAL_INVOICE_VALUE_NET,'0') 	        AS	COMMERCIAL_INVOICE_VALUE_NET,
+         
+         
+        CASE WHEN invoive_value_d         < 0 THEN          '('|| TO_CHAR(ABS(invoive_value_d),     '999,999,999.99')  ||')' ELSE   TO_CHAR(invoive_value_d,'999,999,999.99')     END AS INVD,
+        
+        CASE WHEN invoive_value_up        < 0 THEN          '('|| TO_CHAR(ABS(invoive_value_up),    '999,999,999.99')  ||')' ELSE   TO_CHAR(invoive_value_up,'999,999,999.99')    END AS INVU
+         
+                 
 FROM
     tbl_invoice        m
-    LEFT JOIN tbl_shipment        	sh 	ON m.shipment_id 	= 		sh.id
-    LEFT JOIN tbl_contract       		ct 	ON sh.contract_id 	= 		ct.id
-    LEFT JOIN tbl_contact        		cn 	ON ct.contact_id 		= 		cn.id
-    LEFT JOIN tbl_material       		mt 	ON sh.material_id 	= 		mt.id
-    LEFT JOIN tbl_port           		tp 	ON sh.loading 			= 		tp.id
+    LEFT JOIN tbl_shipment        	    sh 	    ON m.shipment_id 	    = 		sh.id
+    LEFT JOIN tbl_contract       		ct 	    ON sh.contract_id 	    = 		ct.id
+    LEFT JOIN tbl_contact        		cn 	    ON ct.contact_id 		= 		cn.id
+    LEFT JOIN tbl_material       		mt 	    ON sh.material_id 	    = 		mt.id
+    LEFT JOIN tbl_port           		tp 	    ON sh.loading 			= 		tp.id
     LEFT JOIN tbl_port           		tp2 	ON sh.discharge 		= 		tp2.id
-    LEFT JOIN tbl_incoterms      	inc 	ON ct.incoterms_id 	=  	inc.id
-    LEFT JOIN tbl_invoice_item    it 		ON it.invoice_id 		= 		m.id
+    LEFT JOIN tbl_incoterms      	    inc 	ON ct.incoterms_id 	    =  	    inc.id
+    LEFT JOIN tbl_invoice_item          it 		ON it.invoice_id 		= 		m.id
 	where   m.id = $P{ID}]]>
 	</queryString>
 	<field name="INVOIC_DATE" class="java.lang.String">
@@ -146,6 +161,12 @@ FROM
 	</field>
 	<field name="COMMERCIAL_INVOICE_VALUE_NET" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="COMMERCIAL_INVOICE_VALUE_NET"/>
+	</field>
+	<field name="INVD" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INVD"/>
+	</field>
+	<field name="INVU" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INVU"/>
 	</field>
 	<variable name="multuple" class="java.lang.Double">
 		<variableExpression><![CDATA[PRODUCT($F{NET} ,$F{UNIT_PRICE})]]></variableExpression>
@@ -258,28 +279,21 @@ FROM
 				<textFieldExpression><![CDATA[$F{C_PHONE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="282" y="542" width="94" height="18" uuid="9aec2d4c-73e8-4675-bd2c-332327176913"/>
+				<reportElement x="309" y="542" width="69" height="20" uuid="9aec2d4c-73e8-4675-bd2c-332327176913"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RATE2DOLLAR}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
-				<reportElement x="442" y="517" width="111" height="16" uuid="12fe576c-3cb7-499a-b42a-1859fdd159dd"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{INVOIVE_VALUE_D}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.###">
-				<reportElement x="442" y="493" width="111" height="16" uuid="eafc11ed-df9a-4e32-b751-d6fafd242450"/>
+				<reportElement x="420" y="493" width="129" height="16" uuid="eafc11ed-df9a-4e32-b751-d6fafd242450"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="styled">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COMMERCIAL_INVOICE_VALUE_NET}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
-				<reportElement x="264" y="439" width="75" height="20" uuid="5952b375-89ab-4f7c-a7f7-7350d298e1cf"/>
+				<reportElement x="264" y="438" width="75" height="20" uuid="5952b375-89ab-4f7c-a7f7-7350d298e1cf"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -582,14 +596,14 @@ FROM
 				<text><![CDATA[CONSIGNMENT VALUE :]]></text>
 			</staticText>
 			<textField pattern="#,##0.###">
-				<reportElement x="442" y="439" width="111" height="20" uuid="dd97b375-3371-4ca7-a008-e39391b24a2f"/>
+				<reportElement x="420" y="439" width="129" height="20" uuid="dd97b375-3371-4ca7-a008-e39391b24a2f"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{multuple}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
-				<reportElement x="137" y="443" width="36" height="12" uuid="29ac23b6-6739-472b-b974-ffec90a7b5b3"/>
+				<reportElement x="137" y="439" width="36" height="20" uuid="29ac23b6-6739-472b-b974-ffec90a7b5b3"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -610,14 +624,14 @@ FROM
 				<text><![CDATA[US.$/MT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="305" y="439" width="20" height="20" uuid="5a827f9d-6558-43f0-9e21-43e5be602aac"/>
+				<reportElement x="304" y="438" width="20" height="20" uuid="5a827f9d-6558-43f0-9e21-43e5be602aac"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[=]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="415" y="441" width="22" height="16" uuid="0674406b-e6c9-4d08-86dc-12456fc3a2f2"/>
+				<reportElement x="397" y="439" width="22" height="20" uuid="0674406b-e6c9-4d08-86dc-12456fc3a2f2"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -638,14 +652,14 @@ FROM
 				<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
-				<reportElement x="442" y="467" width="111" height="18" uuid="e53fd5da-7aa9-4c39-a85a-54abe035193a"/>
+				<reportElement x="420" y="467" width="129" height="18" uuid="e53fd5da-7aa9-4c39-a85a-54abe035193a"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{multuple}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="415" y="469" width="22" height="16" uuid="338dcc1d-9aaf-48a8-9478-1afa4e0205cd"/>
+				<reportElement x="397" y="467" width="22" height="18" uuid="338dcc1d-9aaf-48a8-9478-1afa4e0205cd"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -683,11 +697,11 @@ FROM
 				<textFieldExpression><![CDATA[$F{INVOIC_DATE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="180" y="536" width="84" height="30" uuid="05e60228-2a80-483a-afaf-641df687348b"/>
+				<reportElement x="178" y="542" width="167" height="20" uuid="05e60228-2a80-483a-afaf-641df687348b"/>
 				<textElement verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
+					<font size="9" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{RATE_BASE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{RATE_BASE} + "="]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="542" width="178" height="20" uuid="bf66b2e5-c32f-4e02-867f-851b88ff4a8a"/>
@@ -697,35 +711,21 @@ FROM
 				<text><![CDATA[TOTAL CONSIGNMENT VALUE IN EURO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="263" y="545" width="19" height="15" uuid="580ecbc3-c58b-425a-8071-08443ffd120b"/>
-				<textElement textAlignment="Center">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[=]]></text>
-			</staticText>
-			<textField pattern="#,##0.###">
-				<reportElement x="442" y="539" width="111" height="19" uuid="2afb9759-978f-41e3-89b6-bebaa642342c"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="10" isBold="true" isItalic="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[ $F{INVOIVE_VALUE_UP}  ]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="415" y="493" width="22" height="16" uuid="82a82be3-361a-44f7-9b0d-1fd0c6102d6d"/>
+				<reportElement x="397" y="493" width="22" height="16" uuid="82a82be3-361a-44f7-9b0d-1fd0c6102d6d"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[US]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="415" y="517" width="22" height="16" uuid="84620417-72e0-4d98-a39b-c70ecdbafe26"/>
+				<reportElement x="397" y="518" width="22" height="15" uuid="84620417-72e0-4d98-a39b-c70ecdbafe26"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[US]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="415" y="540" width="23" height="16" uuid="8ec2f099-b2e3-4441-b678-acc49cd95851"/>
+				<reportElement x="397" y="542" width="22" height="14" uuid="8ec2f099-b2e3-4441-b678-acc49cd95851"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -752,6 +752,20 @@ FROM
 				</textElement>
 				<text><![CDATA[TEL:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="420" y="542" width="129" height="14" uuid="b8db2d3e-0270-427a-b417-106205736cca"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INVU}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="518" width="129" height="15" uuid="6b7b39ea-5b5e-4bc1-9419-50f656f060f1"/>
+				<textElement textAlignment="Left">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INVD}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
