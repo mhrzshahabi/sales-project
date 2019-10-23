@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -17,18 +18,24 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractDetailDTO {
 
-	@ApiModelProperty(required = true)
-	private String contractDetailName;
-	@ApiModelProperty(required = true)
-	private Long countryId;
-	@ApiModelProperty(required = true)
-	private String contractDetailCode;
-	@ApiModelProperty(required = true)
-	private String enContractDetailName;
-	@ApiModelProperty(required = true)
-	private String address;
-	@ApiModelProperty(required = true)
-	private String coreBranch;
+	private String name_ContactAgentSeller;
+	private String phone_ContactAgentSeller;
+	private String mobile_ContactAgentSeller;
+	private String address_ContactAgentSeller;
+	private String name_ContactContactSeller;
+	private String phone_ContactContactSeller;
+	private String mobile_ContactContactSeller;
+	private String address_ContactContactSeller;
+	private String name_ContactContactAgentBuyer;
+	private String phone_ContactContactAgentBuyer;
+	private String mobile_ContactContactAgentBuyer;
+	private String address_ContactContactAgentBuyer;
+	private String name_ContactContactBuyer;
+	private String phone_ContactContactBuyer;
+	private String mobile_ContactContactBuyer;
+	private String address_ContactContactBuyer;
+	private String FEILD_ALL_DEFINITIONS_SAVE;
+
 
 	// ------------------------------
 

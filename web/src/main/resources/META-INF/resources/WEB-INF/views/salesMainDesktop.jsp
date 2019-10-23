@@ -915,6 +915,15 @@
             createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
         }
     });
+    var BijackButton = isc.IconButton.create({
+        title: "<spring:message code='bijack'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
+        }
+    });
     var exportButton = isc.IconButton.create({
         title: "<spring:message code='export.title'/>",
         icon: "license/exportLicense.png",
@@ -972,6 +981,7 @@
             tozinButton,
             tozinSalesButton,
             warehousesLotButton,
+            BijackButton
             // exportButton,
             // salesPlanButton,
             // purchasePlanButton,
