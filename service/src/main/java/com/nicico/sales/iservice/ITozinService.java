@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.TozinDTO;
 
@@ -20,6 +22,8 @@ public interface ITozinService {
 	void delete(TozinDTO.Delete request);
 
 	SearchDTO.SearchRs<TozinDTO.Info> search(SearchDTO.SearchRq request);
+
+	TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria);
 
 	List<Object[]> findTransport2Plants(String date, String plantId);
 

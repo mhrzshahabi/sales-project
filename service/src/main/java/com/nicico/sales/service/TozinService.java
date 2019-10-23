@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinDTO;
@@ -79,6 +81,13 @@ public class TozinService implements ITozinService {
 	@Override
 	public SearchDTO.SearchRs<TozinDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(tozinDAO, request, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+	public  TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria) {
+		return SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
 	}
 
 	// ------------------------------
