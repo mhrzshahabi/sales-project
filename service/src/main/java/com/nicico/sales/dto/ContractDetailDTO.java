@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -15,28 +16,34 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BankDTO {
+public class ContractDetailDTO {
 
-	@ApiModelProperty(required = true)
-	private String bankName;
-	@ApiModelProperty(required = true)
-	private Long countryId;
-	@ApiModelProperty(required = true)
-	private String bankCode;
-	@ApiModelProperty(required = true)
-	private String enBankName;
-	@ApiModelProperty(required = true)
-	private String address;
-	@ApiModelProperty(required = true)
-	private String coreBranch;
+	private String name_ContactAgentSeller;
+	private String phone_ContactAgentSeller;
+	private String mobile_ContactAgentSeller;
+	private String address_ContactAgentSeller;
+	private String name_ContactContactSeller;
+	private String phone_ContactContactSeller;
+	private String mobile_ContactContactSeller;
+	private String address_ContactContactSeller;
+	private String name_ContactContactAgentBuyer;
+	private String phone_ContactContactAgentBuyer;
+	private String mobile_ContactContactAgentBuyer;
+	private String address_ContactContactAgentBuyer;
+	private String name_ContactContactBuyer;
+	private String phone_ContactContactBuyer;
+	private String mobile_ContactContactBuyer;
+	private String address_ContactContactBuyer;
+	private String FEILD_ALL_DEFINITIONS_SAVE;
+
 
 	// ------------------------------
 
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("BankInfo")
-	public static class Info extends BankDTO {
+	@ApiModel("ContractDetailInfo")
+	public static class Info extends ContractDetailDTO {
 		private Long id;
 		private CountryDTO country;
 		private Date createdDate;
@@ -51,8 +58,8 @@ public class BankDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("BankCreateRq")
-	public static class Create extends BankDTO {
+	@ApiModel("ContractDetailCreateRq")
+	public static class Create extends ContractDetailDTO {
 	}
 
 	// ------------------------------
@@ -60,8 +67,8 @@ public class BankDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("BankUpdateRq")
-	public static class Update extends BankDTO {
+	@ApiModel("ContractDetailUpdateRq")
+	public static class Update extends ContractDetailDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
@@ -72,7 +79,7 @@ public class BankDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("BankDeleteRq")
+	@ApiModel("ContractDetailDeleteRq")
 	public static class Delete {
 		@NotNull
 		@ApiModelProperty(required = true)
@@ -85,8 +92,8 @@ public class BankDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("BankSpecRs")
-	public static class BankSpecRs {
+	@ApiModel("ContractDetailSpecRs")
+	public static class ContractDetailSpecRs {
 		private SpecRs response;
 	}
 
@@ -97,7 +104,7 @@ public class BankDTO {
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
-		private List<BankDTO.Info> data;
+		private List<ContractDetailDTO.Info> data;
 		private Integer status;
 		private Integer startRow;
 		private Integer endRow;

@@ -11,7 +11,11 @@ public class SalesException extends NICICOException {
 	@Getter
 	@RequiredArgsConstructor
 	public enum ErrorType implements IErrorCode {
-        DupplicateRecord(403),
+		ContractDetailNotFound(404),
+        WarehouseCADItemNotFound(404),
+        WarehouseCADNotFound(404),
+        BijackNotFound(404),
+		DuplicateRecord(403),
         ContractIncomeCostNotFound(404),
 		CostNotFound(404),
 		InvoiceNotFound(404),

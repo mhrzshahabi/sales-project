@@ -25,7 +25,7 @@ public class WarehouseLot extends Auditable {
 	@Column(name = "c_WAREHOUSE_NO", nullable = false, length = 20)
 	private String warehouseNo;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
 	private Material material;
 

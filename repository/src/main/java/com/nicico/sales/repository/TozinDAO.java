@@ -25,4 +25,10 @@ public interface TozinDAO extends JpaRepository<Tozin, Long>, JpaSpecificationEx
 			"select to_char(id)||','||namefa from sales.tbl_tozin_plant order by id   ", nativeQuery = true)
 	String[] findPlants();
 
+	@Query(value = "select * from view_tozin where target_plant_id=3 and tozine_id like '3%'", nativeQuery = true)
+	List<Tozin> destinationBandarAbbasTozinOther();
+
+	@Query(value = "select * from view_tozin where target_plant_id=3 and tozine_id not like '3%'", nativeQuery = true)
+	List<Tozin> destinationBandarAbbasTozinBandarAbbas();
+
 }
