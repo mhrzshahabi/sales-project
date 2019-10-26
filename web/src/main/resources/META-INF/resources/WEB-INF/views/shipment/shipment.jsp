@@ -262,7 +262,15 @@
                 click: function () {
                     ListGrid_Shipment_remove();
                 }
+            }, {isSeparator: true},
+            {
+                title: "<spring:message code='global.form.print'/>", icon: "icon/print.png", click: function () {
+                    var record = ListGrid_Shipment.getSelectedRecord();
+                    "<spring:url value="/shipment/print/" var="printUrl"/>"
+                    window.open('${printUrl}'+record.id);
+                }
             }
+
         ]
     });
 

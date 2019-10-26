@@ -78,7 +78,7 @@ public class ShipmentDTO {
 		private PortDTO.PortInfoTuple switchPort;
 		//		private ShipmentHeaderDTO shipmentHeader;
 		private ContractDTO.ContractInfoTuple contract;
-		private MaterialDTO material;
+		private MaterialDTO.MaterialTuple material;
 
 		private Long id;
 		private Date createdDate;

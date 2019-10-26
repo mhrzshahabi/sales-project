@@ -8,7 +8,7 @@ var MyRestDataSource_ShipmentMoistureHeader = isc.MyRestDataSource.create({
     [
 		{name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},
 		{name: "shipmentId", title: "id", canEdit:false},
-		{name: "shipment.tblContract.contractNo", title: "contractNo", canEdit:false, hidden: true},
+		{name: "shipment.contract.contractNo", title: "contractNo", canEdit:false, hidden: true},
 		{name: "inspectionByContactId", title:"<spring:message code='shipment.MoistureInspectionCompany'/>", type:'text' },
 		{name: "inspectionByContact.nameEn", title:"<spring:message code='shipment.Moisture.inspectionCompany'/>", type:'text', canEdit:false },
 		{name: "description", title:"<spring:message code='shipment.Moisture.capacity'/>", type:'text' },
@@ -88,32 +88,42 @@ var MyRestDataSource_ShipmentMoistureItem = isc.MyRestDataSource.create({
 //*******************************************************************************
     var MyRestDataSource_ShipmentByMoistureHeader = isc.MyRestDataSource.create({
     fields: [
-        {name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},
-        {name: "contractItemShipmentId", title:"<spring:message code='contact.name'/>", type:'long', hidden: true },
-        {name: "contactId",  type:'long', hidden: true },
-        {name: "contact.nameFA", title:"<spring:message code='contact.name'/>", type:'text' },
-        {name: "contractId",  type:'long', hidden: true },
-        {name: "contract.contractNo", title:"<spring:message code='contract.contractNo'/>", type:'text' , width: 180},
-        {name: "contract.contractDate", title:"<spring:message code='contract.contractDate'/>", type:'text' , width: 180},
-        {name: "materialId", title:"<spring:message code='contact.name'/>", type:'long', hidden: true },
-        {name: "material.descl", title:"<spring:message code='material.descl'/>", type:'text' },
-        {name: "material.tblUnit.nameEN", title:"<spring:message code='unit.nameEN'/>", type:'text' },
-        {name: "amount", title:"<spring:message code='global.amount'/>", type:'float'},
-        {name: "noContainer", title:"<spring:message code='shipment.noContainer'/>", type:'integer'},
-        {name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",},
-        {name: "shipmentType", title:"<spring:message code='shipment.shipmentType'/>", type:'text', width: 400  ,valueMap:{"b":"bulk", "c":"container"}},
-        {name: "loading", title:"<spring:message code='global.address'/>", type:'text', width: "10%" },
-        {name: "portByLoadingId", title:"<spring:message code='shipment.loading'/>", type:'text', required: true, width: "10%" },
-        {name: "portByLoading.port", title:"<spring:message code='shipment.loading'/>", type:'text', required: true, width: "10%" },
-        {name: "portByDischargeId", title:"<spring:message code='shipment.discharge'/>", type:'text', required: true, width: "10%" },
-        {name: "portByDischarge.port", title:"<spring:message code='shipment.discharge'/>", type:'text', required: true, width: "10%" },
-        {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" },
-        {name: "description", title:"<spring:message code='shipment.description'/>", type:'text', required: true, width: "10%" },
-        {name: "SWB", title:"<spring:message code='shipment.SWB'/>", type:'text', required: true, width: "10%" },
-        {name: "switchPort.port", title:"<spring:message code='port.switchPort'/>", type:'text', required: true, width: "10%" },
-        {name: "month", title:"<spring:message code='shipment.month'/>", type:'text', required: true, width: "10%" },
-        {name: "status", title:"<spring:message code='shipment.staus'/>", type:'text', width: "10%" ,valueMap:{"Load Ready":"<spring:message code='shipment.loadReady'/>","Resource":"<spring:message code='shipment.resource'/>"}},
-        {name: "createDate", title:"<spring:message code='shipment.createDate'/>", type:'text', required: true, width: "10%" },
+            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+            {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
+            {name: "contactId", type: 'long', hidden: true},
+            {name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
+            {name: "contractId", type: 'long', hidden: true},
+            {name: "contract.contractNo",title: "<spring:message code='contract.contractNo'/>",type: 'text',width: 180 },
+            {name: "contract.contractDate",title: "<spring:message code='contract.contractDate'/>",type: 'text',width: 180},
+            {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
+            {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
+            {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
+            {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
+            {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
+            {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
+            {name: "laycan",title: "<spring:message code='shipmentContract.laycanStart'/>",type: 'integer',width: "10%",align: "center"},
+            {name: "shipmentType",title: "<spring:message code='shipment.shipmentType'/>",type: 'text',width: 400,valueMap: {"b": "bulk", "c": "container"}},
+            {name: "loadingLetter",title: "<spring:message code='shipment.loadingLetter'/>",type: 'text',width: "10%",showHover: true},
+            {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
+            {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", type: 'text', width: "10%"},
+            {name: "portByLoading.port",title: "<spring:message code='shipment.loading'/>",type: 'text',width: "10%"},
+            {name: "portByDischargeId",title: "<spring:message code='shipment.discharge'/>",type: 'text',width: "10%"},
+            {name: "portByDischarge.port",title: "<spring:message code='shipment.discharge'/>",type: 'text',width: "10%"},
+            {name: "dischargeAddress", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
+            {name: "description", title: "<spring:message code='shipment.description'/>", type: 'text', width: "10%"},
+            {name: "swb", title: "<spring:message code='shipment.SWB'/>", type: 'text', width: "10%"},
+            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "10%"},
+            {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
+            {name: "status",title: "<spring:message code='shipment.staus'/>",type: 'text',width: "10%",
+                valueMap: {
+                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                    "Resource": "<spring:message code='shipment.resource'/>"
+                }
+            },
+            {name: "contractShipment.sendDate",title: "<spring:message code='global.sendDate'/>",type: 'text',required: true,width: "10%",align: "center",showHover: true},
+            {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
+            {name: "contactByAgent.nameFA",align: "center",showHover: true},
+            {name: "vesselName",title: "<spring:message	code='shipment.vesselName'/>",type: 'text',required: true,width: "10%",showHover: true}
     ],
  // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
@@ -298,35 +308,196 @@ var ToolStripButton_ShipmentMoistureItem_Paste = isc.ToolStripButton.create({
     height: "100%",
     dataSource: MyRestDataSource_ShipmentByMoistureHeader,
     fields:[
-        {name:"id", title:"id", primaryKey:true, canEdit:false, hidden: true},
-        {name: "contractItemShipmentId", hidden: true, type:'long' ,align:"center" },
-        {name: "contractItemShipment.tblContractItem.tblContractId",  type:'long', hidden: true ,align:"center" },
-        {name: "contactId",  type:'long', hidden: true },
-        {name: "contact.nameFA", title:"<spring:message code='contact.name'/>", type:'text' , width: "20%" , align: "center",showHover:true},
-        {name: "contractId",  type:'long', hidden: true },
-        {name: "contract.contractNo", title:"<spring:message code='contract.contractNo'/>", type:'text' , width: "10%",showHover:true,align:"center" },
-        {name: "contract.contractDate", title:"<spring:message code='contract.contractDate'/>", type:'text' , width: "10%",showHover:true,align:"center" },
-        {name: "materialId", title:"<spring:message code='contact.name'/>", type:'long', hidden: true ,showHover:true,align:"center" },
-        {name: "material.descl", title:"<spring:message code='material.descl'/>", type:'text' , width: "10%" , align: "center",showHover:true},
-        {name: "material.tblUnit.nameEN", title:"<spring:message code='unit.nameEN'/>", type:'text' , width: "10%" , align: "center",showHover:true},
-        {name: "amount", title:"<spring:message code='global.amount'/>", type:'float', width: "10%" , align: "center",showHover:true},
-        {name: "shipmentType", title:"<spring:message code='shipment.shipmentType'/>", type:'text', width: "10%"  ,valueMap:{"b":"bulk", "c":"container"},showHover:true,align:"center" },
-        {name: "noContainer", title:"<spring:message code='shipment.noContainer'/>", type:'integer', width: "10%" , align: "center",showHover:true},
-        {name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},
-        {name: "portByLoading.port", title:"<spring:message code='shipment.loading'/>", type:'text', required: true, width: "10%" ,showHover:true,align:"center" },
-        {name: "portByDischarge.port", title:"<spring:message code='shipment.discharge'/>", type:'text', required: true, width: "10%" ,showHover:true,align:"center" },
-        {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true,align:"center" },
-        {name: "description", title:"<spring:message code='shipment.description'/>", type:'text', required: true, width: "10%" , align: "center" ,showHover:true},
-        {name: "month", title:"<spring:message code='shipment.month'/>", type:'text', required: true, width: "10%" , align: "center" ,showHover:true},
-        {name: "SWB", title:"<spring:message code='shipment.SWB'/>", type:'text', required: true, width: "10%" ,showHover:true,align:"center" },
-        {name: "switchPort.port", title:"<spring:message code='port.switchPort'/>", type:'text', required: true, width: "10%" ,showHover:true,align:"center" },
-        {name: "status", title:"<spring:message code='shipment.staus'/>", type:'text', width: "10%" , align: "center", valueMap:{"Load Ready":"<spring:message code='shipment.loadReady'/>","Resource":"<spring:message code='shipment.resource'/>"},showHover:true},
+            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+            {name: "contractShipmentId", hidden: true, type: 'long'},
+            {name: "contactId", type: 'long', hidden: true},
+            {
+                name: "contract.contact.nameFA",
+                title: "<spring:message code='contact.name'/>",
+                type: 'text',
+                width: "20%",
+                align: "center",
+                showHover: true
+            },
+            {name: "contractId", type: 'long', hidden: true},
+            {
+                name: "contract.contractNo",
+                title: "<spring:message code='contract.contractNo'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
+            },
+            {
+                name: "contract.contractDate",
+                title: "<spring:message code='contract.contractDate'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
+            },
+            {
+                name: "materialId",
+                title: "<spring:message code='contact.name'/>",
+                type: 'long',
+                hidden: true,
+                showHover: true
+            },
+            {
+                name: "material.descl",
+                title: "<spring:message code='material.descl'/>",
+                type: 'text',
+                width: "10%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "material.unit.nameEN",
+                title: "<spring:message code='unit.nameEN'/>",
+                type: 'text',
+                width: "10%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "amount",
+                title: "<spring:message code='global.amount'/>",
+                type: 'text',
+                width: "10%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "shipmentType",
+                title: "<spring:message code='shipment.shipmentType'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
+            },
+            {
+                name: "loadingLetter",
+                title: "<spring:message code='shipment.loadingLetter'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
+            },
+            {
+                name: "noContainer",
+                title: "<spring:message code='shipment.noContainer'/>",
+                type: 'text',
+                width: "10%",
+                align: "center",
+                showHover: true
+            },
+            <%--{name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},--%>
+            {
+                name: "portByLoading.port",
+                title: "<spring:message	code='shipment.loading'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
+            },
+            {
+                name: "portByDischarge.port",
+                title: "<spring:message code='shipment.discharge'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
+            },
+// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
+            {
+                name: "description",
+                title: "<spring:message code='shipment.description'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "contractShipment.sendDate",
+                title: "<spring:message code='global.sendDate'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "createDate",
+                title: "<spring:message code='global.createDate'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "month",
+                title: "<spring:message code='shipment.month'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "contactByAgent.nameFA",
+                title: "<spring:message code='shipment.agent'/>",
+                type: 'text',
+                width: "20%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "vesselName",
+                title: "<spring:message	code='shipment.vesselName'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
+            },
+            {
+                name: "swb",
+                title: "<spring:message code='shipment.SWB'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
+            },
+            {
+                name: "switchPort.port",
+                title: "<spring:message code='port.switchPort'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
+            },
+            {
+                name: "status",
+                title: "<spring:message	code='shipment.staus'/>",
+                type: 'text',
+                width: "10%",
+                align: "center",
+                valueMap: {
+                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                    "Resource": "<spring:message code='shipment.resource'/>"
+                },
+                showHover: true
+            }
     ],
     recordClick 			:	"this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
     updateDetails 			: function (viewer, record1, recordNum, field, fieldNum, value, rawValue)
     {
         var record = this.getSelectedRecord();
-        ListGrid_ShipmentMoistureHeader.fetchData({"shipment.id":record.id},function (dsResponse, data, dsRequest) {ListGrid_ShipmentMoistureHeader.setData(data);});
+            var criteria1 = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
+            };
+            ListGrid_ShipmentMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                ListGrid_ShipmentMoistureHeader.setData(data);
+            });
     },
     dataArrived 			: 	function (startRow, endRow) {
     },
@@ -448,7 +619,7 @@ var Menu_ListGrid_ShipmentMoistureHeader = isc.Menu.create({
         }
 
         var record = ListGrid_ShipmentByMoistureHeader.getSelectedRecord();
-        DynamicForm_ShipmentMoistureHeader.setValue("shipment.id",record.id);
+        DynamicForm_ShipmentMoistureHeader.setValue("shipmentId",record.id);
 
         var data = DynamicForm_ShipmentMoistureHeader.getValues();
 
@@ -521,23 +692,21 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 					if (index == 0) {
 
 						var shipmentId = record.id;
- // ######@@@@###&&@@###
-var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
-						isc.RPCManager.sendRequest({
- // ######@@@@###&&@@### pls correct callback
-actionURL: "${contextPath}/api/shipmentMoistureHeader/" + shipmentId,
-httpMethod: "DELETE",
-							callback: function (RpcResponse_o) {
- // ######@@@@###&&@@###
- // 								if(RpcResponse_o.data == 'success'){
-   if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-									ListGrid_ShipmentMoistureHeader.invalidateCache();
-									isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-								} else {
-									isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-								}
-							}
-						});
+
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                actionURL: "${contextPath}/api/shipmentMoistureHeader/" + shipmentId,
+                                httpMethod: "DELETE",
+                                callback: function (RpcResponse_o) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                        ListGrid_ShipmentMoistureHeader.invalidateCache();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
+                                }
+                            })
+                        );
+
 					}
 				}
 			});
@@ -558,7 +727,7 @@ httpMethod: "DELETE",
 					this.hide();
 					}
             });
-        } else if(record.tblShipment != null )
+        } else if(record.shipmentId != null )
         {
             DynamicForm_ShipmentMoistureHeader.editRecord(record);
             DynamicForm_ShipmentMoistureHeader.setValue("inspectionDateDummy",new Date(record.inspectionDate));
@@ -600,7 +769,7 @@ httpMethod: "DELETE",
         title: "<spring:message code='global.form.edit'/>",
         click: function(){
             var record = ListGrid_ShipmentMoistureHeader.getSelectedRecord();
-            if(record.tblShipment !=null ){
+            if(record.shipmentId !=null ){
                 ListGrid_ShipmentMoistureHeader_edit();
             }
         }
@@ -647,7 +816,7 @@ httpMethod: "DELETE",
     fields:[
 		{name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},
 		{name: "shipmentId", title: "id", canEdit:false, hidden: true},
-		{name: "shipment.tblContract.contractNo", title: "contractNo", canEdit:false, hidden: true},
+		{name: "shipment.contract.contractNo", title: "contractNo", canEdit:false, hidden: true},
 		{name: "inspectionByContactId", title:"<spring:message code='shipment.MoistureInspectionCompany'/>", type:'text',hidden:true },
 		{name: "inspectionByContact.nameEN", title:"<spring:message code='shipment.Moisture.inspectionCompany'/>", type:'text',align:"center" },
 		{name: "description", title:"<spring:message code='shipment.Moisture.description'/>", type:'text' ,align:"center" },
@@ -661,7 +830,14 @@ httpMethod: "DELETE",
     recordClick 			:	"this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
     updateDetails 			: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
         var record = this.getSelectedRecord();
-        ListGrid_ShipmentMoistureItem.fetchData({"shipmentMoistureHeader.id":record.id},function (dsResponse, data, dsRequest) {ListGrid_ShipmentMoistureItem.setData(data);});
+            var criteria1 = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{fieldName: "shipmentMoistureHeader", operator: "equals", value: record.id}]
+            };
+            ListGrid_ShipmentMoistureItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                ListGrid_ShipmentMoistureItem.setData(data);
+            });
     },
     dataArrived 			: 	function (startRow, endRow) {},
     sortField: 0,
@@ -768,30 +944,28 @@ var Menu_ListGrid_ShipmentMoistureItem = isc.Menu.create({
         }
 
         var record = ListGrid_ShipmentMoistureHeader.getSelectedRecord();
-        DynamicForm_ShipmentMoistureItem.setValue("shipmentMoistureHeader.id",record.id);
+        DynamicForm_ShipmentMoistureItem.setValue("shipmentMoistureHeaderId",record.id);
 
         var data = DynamicForm_ShipmentMoistureItem.getValues();
 
  // ######@@@@###&&@@###
 var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
-        isc.RPCManager.sendRequest({
- // ######@@@@###&&@@### pls correct callback
-actionURL: "${contextPath}/api/shipmentMoistureItem/" ,
-httpMethod: methodXXXX,
-            data: JSON.stringify(data),
-            callback: function (RpcResponse_o) {
- // ######@@@@###&&@@###
- //             if(RpcResponse_o.data == 'success'){
-   if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                    isc.say("<spring:message code='global.form.request.successful'/>");
-                    ListGrid_ShipmentMoistureItem_refresh();
-                    Window_ShipmentMoistureItem.close();
-                }
-                else {
-                    isc.say(RpcResponse_o.data);
-                }
-            }
-            });
+
+
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/shipmentMoistureItem/",
+                    httpMethod: methodXXXX,
+                    data: JSON.stringify(data),
+                    callback: function (resp) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_ShipmentMoistureItem_refresh();
+                            Window_ShipmentMoistureItem.close();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                })
+            );
     }
     });
     var Window_ShipmentMoistureItem = isc.Window.create({
@@ -843,23 +1017,20 @@ httpMethod: methodXXXX,
 					if (index == 0) {
 
 						var shipmentId = record.id;
- // ######@@@@###&&@@###
-var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
-						isc.RPCManager.sendRequest({
- // ######@@@@###&&@@### pls correct callback
-actionURL: "${contextPath}/api/shipmentMoistureItem/" + shipmentId,
-httpMethod: "DELETE",
-							callback: function (RpcResponse_o) {
- // ######@@@@###&&@@###
- // 								if(RpcResponse_o.data == 'success'){
-   if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-									ListGrid_ShipmentMoistureItem.invalidateCache();
-									isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-								} else {
-									isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-								}
-							}
-						});
+
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                actionURL: "${contextPath}/api/shipmentMoistureItem/" + shipmentId,
+                                httpMethod: "DELETE",
+                                callback: function (RpcResponse_o) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                        ListGrid_ShipmentMoistureItem.invalidateCache();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
+                                }
+                            })
+                        );
 					}
 				}
 			});

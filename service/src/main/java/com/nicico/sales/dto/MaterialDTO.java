@@ -56,6 +56,7 @@ public class MaterialDTO {
 		private String descp;
 		private String code;
 		private Long unitId;
+		private UnitDTO unit;
 	}
 
 	// ------------------------------
