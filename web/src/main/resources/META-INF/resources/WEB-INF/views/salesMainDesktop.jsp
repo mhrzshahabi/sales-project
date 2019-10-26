@@ -110,16 +110,17 @@
         allowCrossDomainCalls: true,
         handleError: function (response, request) {
             const httpResponse = JSON.parse(response.httpResponseText);
-            alert(String(httpResponse.error))
             switch (String(httpResponse.error)) {
                 case "Unauthorized":
-                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: 'هشدار'});
+                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: "<spring:message code='global.warning'/>"});
                     break;
                 case "DataIntegrityViolation_Unique":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: 'هشدار'});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: "<spring:message code='global.warning'/>"});
                     break;
                 case "DataIntegrityViolation_FK":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: 'هشدار'});
+                case "DataIntegrityViolation":
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='global.warning'/>"});
                     break;
             }
         }
@@ -127,7 +128,6 @@
 
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
-
 
     isc.ListGrid.addProperties({
         dataPageSize: 500,
@@ -1150,7 +1150,7 @@
         click: function () {
             <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
         }
-    });
+    });*/
     var inspectionMoistureResultButton = isc.IconButton.create({
         title: "<spring:message code='inspectionMoistureResults.title'/>",
         icon: "inspection/inspectionResult.png",
@@ -1168,7 +1168,7 @@
         click: function () {
             createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")
         }
-    });
+    });/*
     var inspectionCostButton = isc.IconButton.create({
         title: "<spring:message code='inspectionCost.title'/>",
         icon: "inspection/inspectionCost.png",
@@ -1177,7 +1177,7 @@
         click: function () {
             <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
         }
-    });
+    });*/
 
     var inspectionRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
@@ -1185,16 +1185,16 @@
         groupTitleOrientation: "top"
     });
     var inspectionRibbonGroup = isc.RibbonGroup.create({
-        title: "بازرسی",
+        title: "<spring:message code='inspection.title'/>",
         numRows: 1,
         colWidths: [20, "*"],
         showTitle: false,
         titleAlign: "left",
         controls: [
-            inspectorAppointmentButton
-            , inspectionMoistureResultButton
+            // inspectorAppointmentButton
+              inspectionMoistureResultButton
             , inspectionAssayResultButton
-            , inspectionCostButton
+            // , inspectionCostButton
         ],
         autoDraw: false
     });
@@ -1210,7 +1210,7 @@
         members: [inspectionRibbonBar]
     });
     /!*-------------------insurance---------------------------*!/
-    var insurerNominationButton = isc.IconButton.create({
+ /*   var insurerNominationButton = isc.IconButton.create({
         title: "<spring:message code='insurerNomination.title'/>",
         icon: "insurance/insurerNomination.png",
         largeIcon: "insurance/insurerNomination.png",
@@ -1447,7 +1447,7 @@
             {title: "<spring:message code='main.contractsTab'/>", icon: "", iconSize: 16, pane: contractRibbonHLayout},
             {title: "<spring:message code='main.productTab'/>", icon: "", iconSize: 16, pane: productRibbonHLayout},
             {title: "<spring:message code='main.shipmentTab'/>", icon: "", iconSize: 16, pane: shipmentRibbonHLayout},
-            <%--{title: "<spring:message code='main.inspectionTab'/>",icon: "",iconSize: 16,pane: inspectionRibbonHLayout},--%>
+            {title: "<spring:message code='main.inspectionTab'/>",icon: "",iconSize: 16,pane: inspectionRibbonHLayout},
             <%--{title: "<spring:message code='main.insuranceTab'/>", icon: "", iconSize: 16, pane: insuranceRibbonHLayout},--%>
             {title: "<spring:message code='main.financialTab'/>", icon: "", iconSize: 16, pane: financialRibbonHLayout}
             <%--{title: "<spring:message code='main.contractsTabNew'/>", icon: "", iconSize: 16, pane: financialRibbonHLayoutContract}--%>
