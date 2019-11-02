@@ -73,6 +73,21 @@
         }
     });
 
+    isc.ViewLoader.addMethods({
+		handleError: function (rq, rs) {
+			console.log("Global ViewLoader Error: ", rq, rs);
+			if (rs.httpResponseCode === 403) { // Forbidden
+				nicico.error("Access Denied");  //TODO: I18N message key
+			} else {
+				redirectLogin();
+			}
+			return false;
+		},
+		handleSuccess: function(rq, rs){
+		    alert(12345);
+		}
+	});
+
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,

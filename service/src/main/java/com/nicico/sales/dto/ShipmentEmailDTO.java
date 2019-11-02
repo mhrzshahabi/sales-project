@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.Shipment;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -17,7 +16,6 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentEmailDTO {
-	private Shipment shipment;
 	@NotNull
 	@ApiModelProperty(required = true)
 	private Long shipmentId;
@@ -36,6 +34,7 @@ public class ShipmentEmailDTO {
 	@ApiModel("ShipmentEmailInfo")
 	public static class Info extends ShipmentEmailDTO {
 		private Long id;
+		private ShipmentDTO.Info shipment;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;
