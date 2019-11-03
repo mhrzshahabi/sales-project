@@ -62,8 +62,8 @@
                             });
              var Window_Contact = isc.Window.create({
                     title: "<spring:message code='contact.title'/>",
-                    width: "98%",
-                    height: "80%",
+width: "100%",
+height: "100%",
                     autoCenter: true,
                     isModal: true,
                     showModalMask: true,

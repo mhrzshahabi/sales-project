@@ -80,11 +80,12 @@ public class WarehouseLotService implements IWarehouseLotService {
 	public SearchDTO.SearchRs<WarehouseLotDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(warehouseLotDAO, request, warehouseLot -> modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class));
 	}
-
 	// ------------------------------
 
 	private WarehouseLotDTO.Info save(WarehouseLot warehouseLot) {
 		final WarehouseLot saved = warehouseLotDAO.saveAndFlush(warehouseLot);
 		return modelMapper.map(saved, WarehouseLotDTO.Info.class);
 	}
+
+
 }

@@ -123,3 +123,5 @@ public class WarehouseLotRestController {
 		return new ResponseEntity<>(warehouseLotService.search(request), HttpStatus.OK);
 	}
 }
+
+
