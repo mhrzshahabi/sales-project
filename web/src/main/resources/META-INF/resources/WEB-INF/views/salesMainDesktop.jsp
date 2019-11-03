@@ -14,10 +14,12 @@
     <link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
+
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
     <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
+
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
     <script src=isomorphic/system/modules/ISC_Foundation.js></script>
@@ -68,6 +70,7 @@
 
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+
     isc.FileLoader.loadLocale("fa");
 
     /*fix(Persion) right click on ListGrid*/
@@ -110,6 +113,21 @@
         }
     });
 
+    isc.ViewLoader.addMethods({
+		handleError: function (rq, rs) {
+			console.log("Global ViewLoader Error: ", rq, rs);
+			if (rs.httpResponseCode === 403) { // Forbidden
+				nicico.error("Access Denied");  //TODO: I18N message key
+			} else {
+				redirectLogin();
+			}
+			return false;
+		},
+		handleSuccess: function(rq, rs){
+		    alert(12345);
+		}
+	});
+
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
@@ -137,6 +155,9 @@
                     break;
                 case "DataIntegrityViolation_FK":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
+                    break;
+                case "DataIntegrityViolation":
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
         }
@@ -951,6 +972,15 @@
             createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
         }
     });
+    var BijackButton = isc.IconButton.create({
+        title: "<spring:message code='bijack'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
+        }
+    });
     var exportButton = isc.IconButton.create({
         title: "<spring:message code='export.title'/>",
         icon: "license/exportLicense.png",
@@ -1008,6 +1038,7 @@
             tozinButton,
             tozinSalesButton,
             warehousesLotButton,
+            BijackButton
             // exportButton,
             // salesPlanButton,
             // purchasePlanButton,
@@ -1127,7 +1158,7 @@
         click: function () {
             <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
         }
-    });
+    });*/
     var inspectionMoistureResultButton = isc.IconButton.create({
         title: "<spring:message code='inspectionMoistureResults.title'/>",
         icon: "inspection/inspectionResult.png",
@@ -1145,7 +1176,7 @@
         click: function () {
             createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")
         }
-    });
+    });/*
     var inspectionCostButton = isc.IconButton.create({
         title: "<spring:message code='inspectionCost.title'/>",
         icon: "inspection/inspectionCost.png",
@@ -1154,7 +1185,7 @@
         click: function () {
             <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
         }
-    });
+    });*/
 
     var inspectionRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
@@ -1162,16 +1193,16 @@
         groupTitleOrientation: "top"
     });
     var inspectionRibbonGroup = isc.RibbonGroup.create({
-        title: "بازرسی",
+        title: "<spring:message code='inspection.title'/>",
         numRows: 1,
         colWidths: [20, "*"],
         showTitle: false,
         titleAlign: "left",
         controls: [
-            inspectorAppointmentButton
-            , inspectionMoistureResultButton
+            // inspectorAppointmentButton
+              inspectionMoistureResultButton
             , inspectionAssayResultButton
-            , inspectionCostButton
+            // , inspectionCostButton
         ],
         autoDraw: false
     });
@@ -1187,7 +1218,7 @@
         members: [inspectionRibbonBar]
     });
     /!*-------------------insurance---------------------------*!/
-    var insurerNominationButton = isc.IconButton.create({
+ /*   var insurerNominationButton = isc.IconButton.create({
         title: "<spring:message code='insurerNomination.title'/>",
         icon: "insurance/insurerNomination.png",
         largeIcon: "insurance/insurerNomination.png",
@@ -1378,7 +1409,7 @@
             {title: "<spring:message code='main.contractsTab'/>", pane: contractRibbonHLayout},
             {title: "<spring:message code='main.productTab'/>", pane: productRibbonHLayout},
             {title: "<spring:message code='main.shipmentTab'/>", pane: shipmentRibbonHLayout},
-            <%--{title: "<spring:message code='main.inspectionTab'/>", pane: inspectionRibbonHLayout},--%>
+            {title: "<spring:message code='main.inspectionTab'/>", pane: inspectionRibbonHLayout},
             <%--{title: "<spring:message code='main.insuranceTab'/>", pane: insuranceRibbonHLayout},--%>
             {title: "<spring:message code='main.financialTab'/>", pane: financialRibbonHLayout}
             <%--{title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}--%>

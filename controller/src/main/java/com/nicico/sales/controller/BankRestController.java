@@ -1,6 +1,8 @@
 package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.BankDTO;
 import com.nicico.sales.iservice.IBankService;
@@ -8,10 +10,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,6 +25,8 @@ import java.util.List;
 public class BankRestController {
 
     private final IBankService bankService;
+
+    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -47,43 +54,26 @@ public class BankRestController {
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         bankService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/list")
-    public ResponseEntity<Void> delete(@Validated @RequestBody BankDTO.Delete request) {
+    public ResponseEntity delete(@Validated @RequestBody BankDTO.Delete request) {
         bankService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/spec-list")
-    public ResponseEntity<BankDTO.BankSpecRs> list(
-            @RequestParam("_startRow") Integer startRow,
-            @RequestParam("_endRow") Integer endRow,
-            @RequestParam(value = "operator", required = false) String operator,
-            @RequestParam(value = "criteria", required = false) String criteria
-    ) {
-        SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-        request.setStartIndex(startRow)
-                .setCount(endRow - startRow);
-
-        SearchDTO.SearchRs<BankDTO.Info> response = bankService.search(request);
-
-        final BankDTO.SpecRs specResponse = new BankDTO.SpecRs();
-        specResponse.setData(response.getList())
-                .setStartRow(startRow)
-                .setEndRow(startRow + response.getTotalCount().intValue())
-                .setTotalRows(response.getTotalCount().intValue());
-
-        final BankDTO.BankSpecRs specRs = new BankDTO.BankSpecRs();
-        specRs.setResponse(specResponse);
-
-        return new ResponseEntity<>(specRs, HttpStatus.OK);
+    public ResponseEntity<TotalResponse<BankDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(bankService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

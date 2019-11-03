@@ -66,7 +66,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
 		final Optional<InvoiceInternal> invoiceInternal1 = invoiceInternalDAO.findById(request.getId());
 		if (invoiceInternal != null)
-			throw new SalesException(SalesException.ErrorType.DupplicateRecord);
+			throw new SalesException(SalesException.ErrorType.DuplicateRecord);
 
 		return save(invoiceInternal);
 	}

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -15,30 +16,36 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ShipmentMoistureHeaderDTO {
+public class ContractDetailDTO {
 
-	@NotNull
-	@ApiModelProperty(required = true)
-	private Long shipmentId;
-	private Long inspectionByContactId;
-	private String description;
-	private String location;
-	private String inspectionDate;
-	private Double totalWetWeight;
-	private Double averageMoisturePercent;
-	private Double totalDryWeight;
-	private Double totalH2oWeight;
+	private String name_ContactAgentSeller;
+	private String phone_ContactAgentSeller;
+	private String mobile_ContactAgentSeller;
+	private String address_ContactAgentSeller;
+	private String name_ContactContactSeller;
+	private String phone_ContactContactSeller;
+	private String mobile_ContactContactSeller;
+	private String address_ContactContactSeller;
+	private String name_ContactContactAgentBuyer;
+	private String phone_ContactContactAgentBuyer;
+	private String mobile_ContactContactAgentBuyer;
+	private String address_ContactContactAgentBuyer;
+	private String name_ContactContactBuyer;
+	private String phone_ContactContactBuyer;
+	private String mobile_ContactContactBuyer;
+	private String address_ContactContactBuyer;
+	private String FEILD_ALL_DEFINITIONS_SAVE;
+
 
 	// ------------------------------
 
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("ShipmentMoistureHeaderInfo")
-	public static class Info extends ShipmentMoistureHeaderDTO {
+	@ApiModel("ContractDetailInfo")
+	public static class Info extends ContractDetailDTO {
 		private Long id;
-		private ContactDTO inspectionByContact;
-		private ShipmentDTO shipment;
+		private CountryDTO country;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;
@@ -51,8 +58,8 @@ public class ShipmentMoistureHeaderDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("ShipmentMoistureHeaderCreateRq")
-	public static class Create extends ShipmentMoistureHeaderDTO {
+	@ApiModel("ContractDetailCreateRq")
+	public static class Create extends ContractDetailDTO {
 	}
 
 	// ------------------------------
@@ -60,14 +67,11 @@ public class ShipmentMoistureHeaderDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("ShipmentMoistureHeaderUpdateRq")
-	public static class Update extends ShipmentMoistureHeaderDTO {
+	@ApiModel("ContractDetailUpdateRq")
+	public static class Update extends ContractDetailDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	// ------------------------------
@@ -75,7 +79,7 @@ public class ShipmentMoistureHeaderDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("ShipmentMoistureHeaderDeleteRq")
+	@ApiModel("ContractDetailDeleteRq")
 	public static class Delete {
 		@NotNull
 		@ApiModelProperty(required = true)
@@ -88,8 +92,8 @@ public class ShipmentMoistureHeaderDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("ShipmentMoistureHeaderSpecRs")
-	public static class ShipmentMoistureHeaderSpecRs {
+	@ApiModel("ContractDetailSpecRs")
+	public static class ContractDetailSpecRs {
 		private SpecRs response;
 	}
 
@@ -100,7 +104,7 @@ public class ShipmentMoistureHeaderDTO {
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
-		private List<ShipmentMoistureHeaderDTO.Info> data;
+		private List<ContractDetailDTO.Info> data;
 		private Integer status;
 		private Integer startRow;
 		private Integer endRow;

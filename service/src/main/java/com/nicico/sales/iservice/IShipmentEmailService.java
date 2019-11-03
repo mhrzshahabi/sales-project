@@ -1,8 +1,10 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ShipmentEmailDTO;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 public interface IShipmentEmailService {
@@ -11,7 +13,7 @@ public interface IShipmentEmailService {
 
 	List<ShipmentEmailDTO.Info> list();
 
-	ShipmentEmailDTO.Info create(ShipmentEmailDTO.Create request);
+	ShipmentEmailDTO.Info create(ShipmentEmailDTO.Create request) throws MessagingException;
 
 	ShipmentEmailDTO.Info update(Long id, ShipmentEmailDTO.Update request);
 
@@ -19,5 +21,5 @@ public interface IShipmentEmailService {
 
 	void delete(ShipmentEmailDTO.Delete request);
 
-	SearchDTO.SearchRs<ShipmentEmailDTO.Info> search(SearchDTO.SearchRq request);
+	TotalResponse<ShipmentEmailDTO.Info> search(NICICOCriteria criteria);
 }
