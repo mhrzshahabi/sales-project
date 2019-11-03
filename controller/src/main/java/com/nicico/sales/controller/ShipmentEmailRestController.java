@@ -1,16 +1,19 @@
 package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ShipmentEmailDTO;
 import com.nicico.sales.iservice.IShipmentEmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @Slf4j
@@ -40,7 +43,7 @@ public class ShipmentEmailRestController {
 	@Loggable
 	@PostMapping
 	//@PreAuthorize("hasAuthority('c_shipmentEmail')")
-	public ResponseEntity<ShipmentEmailDTO.Info> create(@Validated @RequestBody ShipmentEmailDTO.Create request) {
+	public ResponseEntity<ShipmentEmailDTO.Info> create(@Validated @RequestBody ShipmentEmailDTO.Create request) throws MessagingException {
 		return new ResponseEntity<>(shipmentEmailService.create(request), HttpStatus.CREATED);
 	}
 
@@ -69,32 +72,10 @@ public class ShipmentEmailRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-//	@PreAuthorize("hasAuthority('r_shipmentEmail')")
-	public ResponseEntity<ShipmentEmailDTO.ShipmentEmailSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
-
-		SearchDTO.SearchRs<ShipmentEmailDTO.Info> response = shipmentEmailService.search(request);
-
-		final ShipmentEmailDTO.SpecRs specResponse = new ShipmentEmailDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final ShipmentEmailDTO.ShipmentEmailSpecRs specRs = new ShipmentEmailDTO.ShipmentEmailSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
+//	@PreAuthorize("hasAuthority('r_instruction')")
+	public ResponseEntity<TotalResponse<ShipmentEmailDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+		return new ResponseEntity<>(shipmentEmailService.search(nicicoCriteria), HttpStatus.OK);
 	}
 
-	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
-	// @PreAuthorize("hasAuthority('r_shipmentEmail')")
-	public ResponseEntity<SearchDTO.SearchRs<ShipmentEmailDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(shipmentEmailService.search(request), HttpStatus.OK);
-	}
 }

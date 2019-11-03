@@ -11,7 +11,7 @@
     font-size: 14px;
     color: white;
     padding: 4px;
-    font-family: B Titr, serif;
+    font-family: B Titr, serif !important;
 }
 
 .myBoxedGridCell {
@@ -47,3 +47,35 @@ body {
     color: #060790;
     text-align: center;
 }
+
+/*Fix Bug*/
+.checkboxFalse{
+    max-width: 100% !important;
+}
+
+span {
+    display: inline-flex !important;
+}
+
+span:hover{
+    display: inline-flex !important;
+}
+
+
+.formTitleRTL{
+    white-space: nowrap !important;
+}
+
+.dateChooserBorder{
+    position: fixed !important;
+    left: 815px !important;
+    top: 161px !important;
+    margin: 10% auto !important;
+}
+
+
+
+
+
+/*End Fix Bug*/
+

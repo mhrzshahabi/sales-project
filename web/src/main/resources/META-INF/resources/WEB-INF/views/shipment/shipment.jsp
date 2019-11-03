@@ -115,7 +115,7 @@
             },
             {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
-            {name: "material.tblUnit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
+            {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
             {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
             {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
@@ -262,7 +262,15 @@
                 click: function () {
                     ListGrid_Shipment_remove();
                 }
+            }, {isSeparator: true},
+            {
+                title: "<spring:message code='global.form.print'/>", icon: "icon/print.png", click: function () {
+                    var record = ListGrid_Shipment.getSelectedRecord();
+                    "<spring:url value="/shipment/print/" var="printUrl"/>"
+                    window.open('${printUrl}'+record.id);
+                }
             }
+
         ]
     });
 
@@ -1253,10 +1261,15 @@
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
-            contractId = record.contractId;
-            ListGrid_ShipmentEmail.fetchData({"shipment.id": record.id}, function (dsResponse, data, dsRequest) {
+            var criteria1 = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
+            };
+            ListGrid_ShipmentEmail.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                 ListGrid_ShipmentEmail.setData(data);
-            }, {operationId: "00"});
+            });
+            contractId = record.contractId;
         },
         dataArrived: function (startRow, endRow) {
         },
@@ -1297,7 +1310,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentId", title: "<spring:message code='contact.name'/>", align: "center", hidden: true},
                 {
-                    name: "shipment.tblContact.nameEN",
+                    name: "shipment.contact.nameEN",
                     title: "<spring:message code='contact.name'/>",
                     align: "center",
                     width: "10%"
@@ -1373,9 +1386,15 @@
         var record = ListGrid_Shipment.getSelectedRecord();
         if (record == null || record.id == null)
             return;
-        ListGrid_ShipmentEmail.fetchData({"shipment.id": record.id}, function (dsResponse, data, dsRequest) {
+        var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
+        };
+        ListGrid_ShipmentEmail.fetchData(criteria1, function (dsResponse, data, dsRequest) {
             ListGrid_ShipmentEmail.setData(data);
-        }, {operationId: "00"});
+        });
+
     }
 
     function ListGrid_ShipmentEmail_edit() {
@@ -1598,21 +1617,30 @@
                 });
             } else {
                 DynamicForm_ShipmentEmail.clearValues();
-                DynamicForm_ShipmentEmail.setValue("shipment.id", record.id);
+                DynamicForm_ShipmentEmail.setValue("shipmentId", record.id);
                 DynamicForm_ShipmentEmail.setValue("emailType", record.status);
-                DynamicForm_ShipmentEmail.setValue("emailSubject", "Cnt." + contractNo + "-" + record.month + "Quota-" + record.tblMaterial.descl + "-NICICO/" + record.tblContact.nameFA + "===" + record.status);
+                DynamicForm_ShipmentEmail.setValue("emailSubject", "Cnt." + contractNo + "-" + record.month + "Quota-" + record.material.descl + "-NICICO/" + record.contract.contact.nameFA + "===" + record.status);
                 DynamicForm_ShipmentEmail.setValue("emailBody", ",Dear Sir/Sirs \n According to our settled contract No." + contractNo
-                    + ",please kindly note that " + record.amount + " " + record.tblMaterial.tblUnit.nameEN
-                    + " " + record.tblMaterial.descl + " for " + record.month + " quota is load ready at " + record.loading
+                    + ",please kindly note that " + record.amount + " " + record.material.unit.nameEN
+                    + " " + record.material.descl + " for " + record.month + " quota is load ready at " + record.portByLoading.port
                     + "\n .Please kindly confirm enabling us to do the needful \n\n Best Regards \n Signature"
                 );
-                RestDataSource_ContractPerson.fetchData({contractId: contractId}, function (dsResponse, data, dsRequest) {
+                var criteria1 = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{fieldName: "contractId", operator: "equals", value: contractId}]
+                };
+                RestDataSource_ContractPerson.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                     DynamicForm_ShipmentEmail.setValue("emailCC", data[0].emailCC);
                 });
-                RestDataSource_Contact__SHIPMENT.fetchData({"id": record.tblContactId}, function (dsResponse, data, dsRequest) {
+                var criteria1 = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{fieldName: "id", operator: "equals", value:  record.contract.contact.id}]
+                };
+                RestDataSource_Contact__SHIPMENT.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                     DynamicForm_ShipmentEmail.setValue("emailTo", data[0].email);
                 });
-
                 Window_ShipmentEmail.show();
             }
         }
@@ -1672,7 +1700,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentId", title: "<spring:message code='contact.name'/>", align: "center", hidden: true},
                 {
-                    name: "shipment.tblContact.nameEN",
+                    name: "shipment.contract.contact.nameFA",
                     title: "<spring:message code='contact.name'/>",
                     align: "center",
                     width: "10%"
@@ -1745,8 +1773,7 @@
         ID: "Shipment_Section_Stack",
         sections:
             [
-                {title: "<spring:message code='Shipment.title'/>", items: VLayout_Body_Shipment, expanded: true},
-                {title: "<spring:message code='global.email'/>", items: VLayout_ShipmentEmail_Body, expanded: true,hidden: true}
+                {title: "<spring:message code='Shipment.title'/>", items: VLayout_Body_Shipment, expanded: true}
             ],
         visibilityMode: "multiple",
         animateSections: true,
@@ -1793,7 +1820,8 @@
                                 var dccTableName = "TBL_SHIPMENT";
                                 ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                             }
-                        }
+                        },
+                         {title: "<spring:message code='global.email'/>", pane: VLayout_ShipmentEmail_Body, }
                     ]
             })
         ]

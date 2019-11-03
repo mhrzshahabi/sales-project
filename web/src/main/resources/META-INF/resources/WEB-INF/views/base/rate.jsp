@@ -51,7 +51,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
 
         fields: [
             {name: "id", hidden: true,},
@@ -69,6 +69,8 @@
             {
                 name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400,
                 keyPressFilter: "[0-4]", length: "1",
+                hint: "دقت اعشار بین 0 تا 4 است",
+                showHintInField: true,
                 validators: [{
                     type: "isInteger",
                     validateOnExit: true,

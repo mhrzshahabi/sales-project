@@ -56,6 +56,7 @@ public class ContactDTO {
     @Setter
     @ApiModel("ContactInfoTuple")
     public static class ContactInfoTuple {
+        private Long id;
         private String nameFA;
         private String nameEN;
     }

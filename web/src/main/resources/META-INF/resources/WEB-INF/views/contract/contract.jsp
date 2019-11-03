@@ -708,7 +708,7 @@
             }
 
             if (dre < drs) {
-                isc.warn("<spring:message code='contract.date.validation'/>", {title: 'هشدار'});
+                isc.warn("<spring:message code='contract.date.validation'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
                 return;
             }
 
@@ -1220,7 +1220,7 @@
             console.log(DynamicForm_ContractShipment.getValue("contractDate"));
             var contractDate = DynamicForm_ContractShipment.getValue("contractDate").split("/");
             if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
-                isc.warn("<spring:message code='shipment.date.validation'/>", {title: 'هشدار'});
+                isc.warn("<spring:message code='shipment.date.validation'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
                 return;
             }
 

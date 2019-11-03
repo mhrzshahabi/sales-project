@@ -1,16 +1,19 @@
 package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ContractPersonDTO;
 import com.nicico.sales.iservice.IContractPersonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -67,34 +70,11 @@ public class ContractPersonRestController {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-	// @PreAuthorize("hasAuthority('r_contractPerson')")
-	public ResponseEntity<ContractPersonDTO.ContractPersonSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<ContractPersonDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contractPersonService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
-		SearchDTO.SearchRs<ContractPersonDTO.Info> response = contractPersonService.search(request);
-
-		final ContractPersonDTO.SpecRs specResponse = new ContractPersonDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final ContractPersonDTO.ContractPersonSpecRs specRs = new ContractPersonDTO.ContractPersonSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
-	}
-
-	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
-	// @PreAuthorize("hasAuthority('r_contractPerson')")
-	public ResponseEntity<SearchDTO.SearchRs<ContractPersonDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(contractPersonService.search(request), HttpStatus.OK);
-	}
 }

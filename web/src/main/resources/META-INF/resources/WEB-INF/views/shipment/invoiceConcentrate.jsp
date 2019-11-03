@@ -1084,46 +1084,46 @@
                     data.up<%=i %>.upDown="up";
                     data.up<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
-                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.description==null || data.up<%=i %>.description=="" ) {
-                    	isc.warn("description  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("description  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.originValue==null || data.up<%=i %>.originValue<=0 ) {
-                    	isc.warn("Origin Value  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("Origin Value  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.originValueCurrency==null || data.up<%=i %>.originValueCurrency=="" ) {
                         data.up<%=i %>.originValueCurrency='USD';
-                    	// isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
+                    	<%--// isc.warn("Origin Value Currency  Required", {"<spring:message code='dialog_WarnTitle'/>"});--%>
                     	// return;
                     }
                     if (data.up<%=i %>.conversionRate==null || data.up<%=i %>.conversionRate<=0 ) {
-                    	isc.warn("conversionRate  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.originValueCurrency=='USD' && data.up<%=i %>.conversionRate!=1){
-                    	isc.warn("conversionRate  Must be One  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Must be One  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.originValueCurrency!='USD')
                     if (data.up<%=i %>.dateRate==null || data.up<%=i %>.dateRate=="")  {
-                    		isc.warn("Date Rate  Required  (up<%=i %>)", {title: 'هشدار'});
+                    		isc.warn("Date Rate  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     		return;
                     }
                    if (data.up<%=i %>.dateRate!=null && data.up<%=i %>.dateRate!="" &&  !validatedate(data.up<%=i %>.dateRate)) {
-                    		isc.warn("Date Rate  is rong  (up<%=i %>)", {title: 'هشدار'});
+                    		isc.warn("Date Rate  is rong  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     		return;
                    }
 
                      if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
-                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if ((data.up<%=i %>.rateReference==null || data.up<%=i %>.rateReference=="" )&& (data.up<%=i %>.originValueCurrency!='USD')) {
-                    	isc.warn("Rate Reference  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("Rate Reference  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     up.add(data.up<%=i %>);
@@ -1139,45 +1139,45 @@
                     data.down<%=i %>.upDown="down";
                     data.down<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {
-                    	isc.warn("less or Plus  Required  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("less or Plus  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.down<%=i %>.description==null || data.down<%=i %>.description=="" ) {
-                    	isc.warn("description  Required  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("description  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.down<%=i %>.originValue==null || data.down<%=i %>.originValue<=0 ) {
-                    	isc.warn("Origin Value  Required  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("Origin Value  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                      if (data.down<%=i %>.originValueCurrency==null || data.down<%=i %>.originValueCurrency=="" ) {
                         data.down<%=i %>.originValueCurrency=data.invoiceValueCurrency;
-                    	// isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
+                    	<%--// isc.warn("Origin Value Currency  Required", {title:"<spring:message code='dialog_WarnTitle'/>"});--%>
                     	// return;
                     }
                     if (data.down<%=i %>.conversionRate==null || data.down<%=i %>.conversionRate<=0 ) {
-                    	isc.warn("conversionRate  Required  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.down<%=i %>.originValueCurrency==data.invoiceValueCurrency && data.down<%=i %>.conversionRate!=1){
-                    	isc.warn("conversionRate  Must be One  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Must be One  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.down<%=i %>.originValueCurrency!= data.invoiceValueCurrency)
                     if (data.down<%=i %>.dateRate==null || data.down<%=i %>.dateRate=="")  {
-                    		isc.warn("Date Rate  Required  (down<%=i %>)", {title: 'هشدار'});
+                    		isc.warn("Date Rate  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     		return;
                     }
                    if (data.down<%=i %>.dateRate!=null && data.down<%=i %>.dateRate!="" &&  !validatedate(data.down<%=i %>.dateRate)) {
-                    		isc.warn("Date Rate  is rong  (down<%=i %>)", {title: 'هشدار'});
+                    		isc.warn("Date Rate  is rong  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     		return;
                    }
                      <%--if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {--%>
-                    	<%--isc.warn("less or Plus  Required", {title: 'هشدار'});--%>
+                    	<%--isc.warn("less or Plus  Required", {title:"<spring:message code='dialog_WarnTitle'/>"});--%>
                     	<%--return;--%>
                     <%--}--%>
                     if ((data.down<%=i %>.rateReference==null || data.down<%=i %>.rateReference=="" )&& (data.down<%=i %>.originValueCurrency!=data.invoiceValueCurrency)) {
-                    	isc.warn("Rate Reference  Required (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("Rate Reference  Required (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     up.add(data.down<%=i %>);
@@ -1207,13 +1207,13 @@
         width: "100%",
         height: "100%",
         showScrollbar: true,
-        overflow :'scroll',
+        overflow :'hidden', //Fix bug (Width)
                 // autoSize: true,
 
         members: [
                 DynamicForm_Invoice_Concentrate,
                 isc.HLayout.create({
-                    width: "100%", align: "center", height: "20",
+                    width: 1600, align: "center", height: "20",
                     members:
                         [
                             IButton_Invoice_Concentrate_Save,

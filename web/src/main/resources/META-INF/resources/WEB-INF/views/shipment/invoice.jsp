@@ -28,7 +28,7 @@
         },
 
         validators:[
-            {type:"floatRange", min:0, errorMessage:"notValid"},
+            {type:"floatRange", min:0, errorMessage:"<spring:message code='notValid.all'/>"},
             {type:"floatPrecision", precision:2, roundToPrecision:true}
         ]
 
@@ -305,6 +305,7 @@
             ToolStrip_Actions_Shipment_InvoiceHeader, HLayout_Grid_Shipment_InvoiceHeader
         ]
     });
+
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     var ViewLoader_Invoice_Attachment = isc.ViewLoader.create({
         width: "100%",
@@ -348,6 +349,7 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
+
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
@@ -364,13 +366,15 @@
     });
     var Window_Invoice_Concentrate = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
-        width: 1100,
+        width: 1500,
         height: "100%",
-        margin: '10px',
+        margin: "15px",
+
         // autoSize: true,
         autoCenter: true,
         isModal: true,
         // showModalMask: true,
+
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
@@ -983,6 +987,47 @@
                 }
     });
 
+
+    /*Add by JZ */
+    var ToolStripButton_Invoice_Pdf = isc.ToolStripButton.create({
+                    title: "<spring:message code='global.form.print.pdf'/>",
+                    icon: "icon/pdf.png",
+                     click: function () {
+                      var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                      window.open("invoice/print/pdf/" + rowId);
+       }
+    });
+
+    var ToolStripButton_Invoice_excel = isc.ToolStripButton.create({
+                title: "<spring:message code='global.form.print.excel'/>",
+                icon: "icon/excel.png",
+                 click: function () {
+                  var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                  window.open("invoice/print/xlsx/" + rowId);
+}
+    });
+
+    var ToolStripButton_Invoice_html = isc.ToolStripButton.create({
+                title: "<spring:message code='global.form.print.html'/>",
+                icon: "icon/html.jpg",
+                click: function () {
+                 var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                 window.open("invoice/print/html/" + rowId);
+        }});
+
+    /*End JZ*/
+
+
+
+
+
+
+
+
+
+
+
+
     var ToolStripButton_Invoice_Send2Accounting = isc.ToolStripButton.create({
                 title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
                 click: function () {
@@ -1033,6 +1078,7 @@
                 }
     });
 
+    /*Edit By Jalal */
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -1042,7 +1088,11 @@
                 ToolStripButton_Invoice_Edit,
                 ToolStripButton_Invoice_Remove,
                 ToolStripButton_Invoice_Attachment,
-                ToolStripButton_Invoice_Send2Accounting            ]
+                ToolStripButton_Invoice_Send2Accounting ,
+                ToolStripButton_Invoice_Pdf,
+                ToolStripButton_Invoice_excel,
+                ToolStripButton_Invoice_html,
+                 ] //Add Print
     });
 
     var HLayout_Invoice_Actions = isc.HLayout.create({

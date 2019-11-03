@@ -97,4 +97,11 @@ public class ShipmentMoistureItemRestController {
 	public ResponseEntity<SearchDTO.SearchRs<ShipmentMoistureItemDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(shipmentMoistureItemService.search(request), HttpStatus.OK);
 	}
+
+    @RequestMapping(value = {"/addMoisturePaste"}, method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<String> createAddMoisturePaste(@RequestBody String data) {
+    	return new ResponseEntity<>(shipmentMoistureItemService.createAddMoisturePaste(data), HttpStatus.OK);
+    }
+
 }
