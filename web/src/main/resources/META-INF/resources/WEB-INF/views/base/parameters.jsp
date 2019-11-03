@@ -119,7 +119,7 @@
     });
 
     var DynamicForm_Parameters = isc.DynamicForm.create({
-        width: "100%",
+        width: 650,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -139,20 +139,20 @@
                 {
                     name: "paramName",
                     title: "<spring:message code='parameters.paramName'/>",
-                    width: "100%",
+                    width: 500,
                     required: true,
                     type: "text"
                 },
                 {
                     name: "paramType",
                     title: "<spring:message code='parameters.paramType'/>",
-                    width: "100%",
+                    width: 500,
                     required: true,
                     type: "text"
                 },
                 {
                     name: "paramValue", title: "<spring:message	code='parameters.paramValue'/>",
-                    width: "100%", type: "textArea", required: true
+                    width: 500, type: "textArea", required: true
                 },
                 {type: "RowSpacerItem"}
             ]

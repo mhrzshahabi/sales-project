@@ -105,7 +105,7 @@
     });
 
     var DynamicForm_PaymentOption = isc.DynamicForm.create({
-        width: "100%",
+        width: 700,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -117,7 +117,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
         fields:
             [
                 {name: "id", hidden: true,},
@@ -126,7 +126,7 @@
                     name: "namePay",
                     title: "<spring:message code='paymentOption.payName'/>",
                     type: 'text',
-                    width: "480",
+                    width: 500,
                     required: true,
                     length: "255"
                 },
@@ -142,6 +142,7 @@
         }
     });
 
+
     var ToolStripButton_PaymentOption_Add = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -150,6 +151,7 @@
             Window_PaymentOption.show();
         }
     });
+
 
     var ToolStripButton_PaymentOption_Edit = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/edit.png",
