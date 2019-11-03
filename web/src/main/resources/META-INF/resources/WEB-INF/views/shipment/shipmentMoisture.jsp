@@ -238,7 +238,8 @@ function createPasteDialog () {
                                     fields                  : [
 										{name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true,align:"center" },
 										{name: "shipmentMoistureHeaderId", title: "id", canEdit:false, hidden:true,align:"center" },
-										{name: "lotNo", title:"<spring:message code='shipment.Moisture.lotNo'/>", type:'text' ,align:"center" },
+										{name: "lotNo", title:"<spring:message code='shipment.Moisture.lotNo'/>"
+										   , type:'integer', validators : [{type: "isInteger", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}],align:"center" },
 										{name: "wetWeight", title:"<spring:message code='shipment.Moisture.wetWeight'/>"
 										   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}],align:"center" },
 										{name: "moisturePercent", title:"<spring:message code='shipment.Moisture.moisturePercent'/>"
@@ -269,7 +270,7 @@ function createPasteDialog () {
  // ######@@@@###&&@@###
 var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/shipmentMoistureItem/",
+                    actionURL: "${contextPath}/api/shipmentMoistureItem/addMoisturePaste",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (resp) {

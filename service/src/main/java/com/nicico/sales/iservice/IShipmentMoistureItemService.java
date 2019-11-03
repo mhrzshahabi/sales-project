@@ -20,4 +20,6 @@ public interface IShipmentMoistureItemService {
 	void delete(ShipmentMoistureItemDTO.Delete request);
 
 	SearchDTO.SearchRs<ShipmentMoistureItemDTO.Info> search(SearchDTO.SearchRq request);
+
+	String createAddMoisturePaste( String data) ;
 }
