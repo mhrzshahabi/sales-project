@@ -148,7 +148,7 @@
     });
 
     var DynamicForm_Bank = isc.DynamicForm.create({
-        width: "100%",
+        width: 650,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -168,28 +168,28 @@
                 {
                     name: "bankCode",
                     title: "<spring:message code='bank.bankCode'/>",
-                    width: "100%",
+                    width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1, keyPressFilter: "[0-9]", length: "15"
                 },
                 {
                     name: "bankName",
                     title: "<spring:message code='bank.nameFa'/>",
-                    width: "100%",
+                    width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1
                 },
                 {
                     name: "enBankName",
                     title: "<spring:message code='bank.nameEn'/>",
-                    width: "100%",
+                    width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1
                 },
                 {
                     name: "address",
                     title: "<spring:message code='bank.address'/>",
-                    width: "100%",
+                    width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1
                 },
