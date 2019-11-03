@@ -19,9 +19,31 @@
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
     <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
-    <script src="<spring:url value='/static/script/js/jquery.min.js' />">${contextPath}/isomorphic/
-    locales / frameworkMessages.properties
-    ",
+    <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
+
+    <script>var isomorphicDir = "isomorphic/";</script>
+    <script src=isomorphic/system/modules/ISC_Core.js></script>
+    <script src=isomorphic/system/modules/ISC_Foundation.js></script>
+    <script src=isomorphic/system/modules/ISC_Containers.js></script>
+    <script src=isomorphic/system/modules/ISC_Grids.js></script>
+    <script src=isomorphic/system/modules/ISC_Forms.js></script>
+    <script src=isomorphic/system/modules/ISC_DataBinding.js></script>
+    <script src=isomorphic/system/modules/ISC_Drawing.js></script>
+    <script src=isomorphic/system/modules/ISC_Charts.js></script>
+    <script src=isomorphic/system/modules/ISC_Analytics.js></script>
+    <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
+    <script src=isomorphic/skins/Tahoe/load_skin.js></script>
+    <script src=isomorphic/locales/frameworkMessages.properties type="application/json"></script>
+    <script type="application/javascript">
+
+        (function loadFrameworkMessageFa() {
+            window.onload = () => isc.RPCManager.sendRequest({
+                httpMethod: "GET",
+                showPrompt: false,
+                useSimpleHttp: true,
+                serverOutputAsString: false,
+                contentType: "application/json; charset=utf-8",
+                actionURL: "${pageContext.servletContext.contextPath}/isomorphic/locales/frameworkMessages.properties",
                 callback: function (RpcResponse_o) {
                     eval(RpcResponse_o.data);
                 }
@@ -42,10 +64,21 @@
 </c:otherwise>
 </c:choose>
 
-<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-<form action="logout" <spring:message code="global.grid.sortFieldAscendingText"/>;
-      method="get" id="logoutForm">
-    <spring:message code="global.grid.sortFieldDescendingText"/>',
+<form action="logout" method="get" id="logoutForm">
+</form>
+
+<script type="application/javascript">
+
+
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+
+    isc.FileLoader.loadLocale("fa");
+
+    /*fix(Persion) right click on ListGrid*/
+
+    isc.ListGrid.addProperties({
+        sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
+        sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
         configureSortText: '<spring:message code="global.grid.configureSortText" />',
         autoFitAllText: '<spring:message code="global.grid.autoFitAllText" />',
         autoFitFieldText: '<spring:message code="global.grid.autoFitFieldText" />',
@@ -82,19 +115,19 @@
     });
 
     isc.ViewLoader.addMethods({
-		handleError: function (rq, rs) {
-			console.log("Global ViewLoader Error: ", rq, rs);
-			if (rs.httpResponseCode === 403) { // Forbidden
-				nicico.error("Access Denied");  //TODO: I18N message key
-			} else {
-				redirectLogin();
-			}
-			return false;
-		},
-		handleSuccess: function(rq, rs){
-		    alert(12345);
-		}
-	});
+        handleError: function (rq, rs) {
+            console.log("Global ViewLoader Error: ", rq, rs);
+            if (rs.httpResponseCode === 403) { // Forbidden
+                nicico.error("Access Denied");  //TODO: I18N message key
+            } else {
+                redirectLogin();
+            }
+            return false;
+        },
+        handleSuccess: function(rq, rs){
+            alert(12345);
+        }
+    });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -275,7 +308,7 @@
 
     var headerLayout = isc.HLayout.create({
         width: "100%",
-    height: "3%",
+        height: "3%",
         backgroundColor: "#153560",
         members: [salesIcon, emptyLabel_Before, emptyLabel_After, label_Username, languageForm, logoutButton]
     });
@@ -1162,32 +1195,32 @@
     });
     var inspectionRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='inspection.title'/>",
-    numRows: 1,
-    colWidths: [20, "*"],
-    showTitle: false,
-    titleAlign: "left",
-    controls: [
-    // inspectorAppointmentButton
-    inspectionMoistureResultButton
-    , inspectionAssayResultButton
-    // , inspectionCostButton
-    ],
-    autoDraw: false
+        numRows: 1,
+        colWidths: [20, "*"],
+        showTitle: false,
+        titleAlign: "left",
+        controls: [
+            // inspectorAppointmentButton
+            inspectionMoistureResultButton
+            , inspectionAssayResultButton
+            // , inspectionCostButton
+        ],
+        autoDraw: false
     });
     inspectionRibbonBar.addGroup(inspectionRibbonGroup, 0);
 
     var inspectionRibbonHLayout = isc.HLayout.create({
-    width: "100%",
-    height: "60",
-    // border: "0px solid green",
-    showResizeBar: false,
-    showShadow: false,
-    backgroundColor: "#153560",
-    members: [inspectionRibbonBar]
+        width: "100%",
+        height: "60",
+        // border: "0px solid green",
+        showResizeBar: false,
+        showShadow: false,
+        backgroundColor: "#153560",
+        members: [inspectionRibbonBar]
     });
     /!*-------------------insurance---------------------------*!/
-    /* var insurerNominationButton = isc.IconButton.create({
-    title: "<spring:message code='insurerNomination.title'/>",
+    /*   var insurerNominationButton = isc.IconButton.create({
+           title: "<spring:message code='insurerNomination.title'/>",
         icon: "insurance/insurerNomination.png",
         largeIcon: "insurance/insurerNomination.png",
         orientation: "vertical",
@@ -1302,19 +1335,19 @@
     });
 
     var issuedInvoicesButtonContract = isc.IconButton.create({
-    title: "<spring:message code='main.contractsTab'/>",
-    icon: "financial/issuedInvoices.png",
-    largeIcon: "financial/issuedInvoices.png",
-    orientation: "vertical",
-    click: function () {
-    createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")
-    }
+        title: "<spring:message code='main.contractsTab'/>",
+        icon: "financial/issuedInvoices.png",
+        largeIcon: "financial/issuedInvoices.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")
+        }
     });
 
     var financialRibbonBarContract = isc.RibbonBar.create({
-    backgroundColor: "#f0f0f0",
-    groupTitleAlign: "center",
-    groupTitleOrientation: "top"
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
     });
 
     var financialRibbonGroup = isc.RibbonGroup.create({
@@ -1338,6 +1371,31 @@
     });
     financialRibbonBar.addGroup(financialRibbonGroup, 0);
 
+    var financialRibbonGroupContract = isc.RibbonGroup.create({
+        title: "<spring:message code='global.menu.test'/>",
+        numRows: 1,
+        colWidths: [20, "*"],
+        showTitle: false,
+        titleAlign: "left",
+        controls: [
+            issuedInvoicesButtonContract
+        ],
+        autoDraw: false
+    });
+
+
+    var financialRibbonHLayoutContract = isc.HLayout.create({
+        width: "100%",
+        height: "60",
+        // border: "0px solid green",
+        showResizeBar: false,
+        showShadow: false,
+        backgroundColor: "#153560",
+        members: [financialRibbonBarContract]
+    });
+
+    financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);
+
 
     var financialRibbonHLayout = isc.HLayout.create({
         width: "100%",
@@ -1348,37 +1406,11 @@
         members: [financialRibbonBar]
     });
 
-    var financialRibbonGroupContract = isc.RibbonGroup.create({
-    title: "<spring:message code='global.menu.test'/>",
-    numRows: 1,
-    colWidths: [20, "*"],
-    showTitle: false,
-    titleAlign: "left",
-    controls: [
-    issuedInvoicesButtonContract
-    ],
-    autoDraw: false
-    });
-
-
-    var financialRibbonHLayoutContract = isc.HLayout.create({
-    width: "100%",
-    height: "60",
-    // border: "0px solid green",
-    showResizeBar: false,
-    showShadow: false,
-    backgroundColor: "#153560",
-    members: [financialRibbonBarContract]
-    });
-
-    financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);
-
-
     //---------------------------------------
     var mainTabSet = isc.TabSet.create({
         tabBarPosition: "top",
         width: "100%",
-    height: "78%",
+        height: "100%",
         tabs: [],
         tabBarControls: [
             isc.IButton.create({
@@ -1408,7 +1440,7 @@
         ID: "menuTabSet",
         tabBarPosition: "top",
         width: "100%",
-    height: "15%",
+        height: "18%",
         tabs: [
             <%--{title: "<spring:message code='main.cartableTab'/>", pane: cartableRibbonHLayout},--%>
             {title: "<spring:message code='main.reportTab'/>", pane: reportRibbonHLayout},
@@ -1422,32 +1454,32 @@
             {title: "<spring:message code='main.shipmentTab'/>", pane: shipmentRibbonHLayout},
             {title: "<spring:message code='main.inspectionTab'/>", pane: inspectionRibbonHLayout},
             <%--{title: "<spring:message code='main.insuranceTab'/>", pane: insuranceRibbonHLayout},--%>
-    {title: "<spring:message code='main.financialTab'/>", pane: financialRibbonHLayout},
-    {title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}
-    ]
+            {title: "<spring:message code='main.financialTab'/>", pane: financialRibbonHLayout},
+            {title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}
+        ]
     });
 
     isc.VLayout.create({
-    width: "100%",
-    height: "100%",
-    backgroundColor: "",
-    members: [headerLayout, menuTabSet, mainTabSet]
+        width: "100%",
+        height: "100%",
+        backgroundColor: "",
+        members: [headerLayout, menuTabSet, mainTabSet]
     });
 
     var dollar = {};
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-    actionURL: "${contextPath}/api/currency/list",
-    httpMethod: "GET",
-    data: "",
-    callback: function (RpcResponse_o) {
-    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-    var data = JSON.parse(RpcResponse_o.data);
-    for (x of data) {
-    dollar[x.nameEn] = x.nameEn;
-    }
-    } //if rpc
-    } // callback
-    })
+            actionURL: "${contextPath}/api/currency/list",
+            httpMethod: "GET",
+            data: "",
+            callback: function (RpcResponse_o) {
+                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                    var data = JSON.parse(RpcResponse_o.data);
+                    for (x of data) {
+                        dollar[x.nameEn] = x.nameEn;
+                    }
+                } //if rpc
+            } // callback
+        })
     );
 
 
