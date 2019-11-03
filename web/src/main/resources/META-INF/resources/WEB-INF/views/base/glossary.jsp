@@ -105,7 +105,7 @@
     });
 
     var DynamicForm_Glossary = isc.DynamicForm.create({
-        width: "100%",
+        width: 700,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -117,7 +117,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
         fields:
             [
                 {name: "id", hidden: true,},

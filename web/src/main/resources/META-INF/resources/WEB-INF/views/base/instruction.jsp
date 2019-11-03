@@ -118,7 +118,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
         fields:
             [
                 {name: "id", hidden: true},
@@ -231,7 +231,7 @@
             DynamicForm_Instruction.setValue("runDate", datestringRun);
 
             if (d < dRun) {
-                isc.warn("<spring:message code='instruction.date.validation'/>", {title: 'هشدار'});
+                isc.warn("<spring:message code='instruction.date.validation'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                 return;
             }
 
