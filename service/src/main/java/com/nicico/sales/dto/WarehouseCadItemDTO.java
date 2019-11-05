@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.base.WarehouseCad;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -43,6 +44,9 @@ public class WarehouseCadItemDTO {
     @Accessors(chain = true)
     @ApiModel("WarehouseCadItemCreateRq")
     public static class Create extends WarehouseCadItemDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long warehouseCadId;
     }
 
     // ------------------------------

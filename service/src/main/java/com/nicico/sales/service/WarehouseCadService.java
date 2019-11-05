@@ -9,7 +9,6 @@ import com.nicico.sales.dto.WarehouseCadDTO;
 import com.nicico.sales.iservice.IWarehouseCadService;
 import com.nicico.sales.model.entities.base.WarehouseCad;
 import com.nicico.sales.model.entities.base.WarehouseCadItem;
-import com.nicico.sales.repository.TozinDAO;
 import com.nicico.sales.repository.WarehouseCadDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,14 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class WarehouseCadService implements IWarehouseCadService {
 
     private final WarehouseCadDAO warehouseCadDAO;
-    private final TozinDAO tozinDAO;
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
@@ -69,7 +66,6 @@ public class WarehouseCadService implements IWarehouseCadService {
         modelMapper.map(warehouseCad, updating);
         modelMapper.map(request, updating);
 
-        updating.getWarehouseCadItems().forEach(warehouseCadItem -> warehouseCadItem.setWarehouseCad(updating));
         return save(updating);
     }
 

@@ -19,7 +19,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseCadDTO {
     private String warehouseNo;
-    private Long materialId;
+    private String material;
     private String plant;
     private Double weightKg;
     private String bijackNo;
@@ -30,7 +30,10 @@ public class WarehouseCadDTO {
     private String containerNo;
     private String rahahanPolompNo;
     private String herasatPolompNo;
-    private String sourceBundleSum;
+    private Integer sourceSerialSum;
+    private Integer destinationSerialSum;
+    private Integer sourceNoSum;
+    private Integer destinationNoSum;
     private String sourceTozinPlantId;
     private String destinationTozinPlantId;
 
@@ -42,7 +45,6 @@ public class WarehouseCadDTO {
     @ApiModel("WarehouseCadInfo")
     public static class Info extends WarehouseCadDTO {
         private Long id;
-        private MaterialDTO material;
         private List<WarehouseCadItemDTO.Info> warehouseCadItems;
         private Date createdDate;
         private String createdBy;
@@ -71,8 +73,6 @@ public class WarehouseCadDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-
-        private List<WarehouseCadItemDTO.Update> warehouseCadItems;
     }
 
     // ------------------------------

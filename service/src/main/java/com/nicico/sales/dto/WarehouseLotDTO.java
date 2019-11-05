@@ -20,7 +20,6 @@ public class WarehouseLotDTO {
 	@NotNull
 	@ApiModelProperty(required = true)
 	private String warehouseNo;
-	private Material material;
     @NotNull
 	@ApiModelProperty(required = true)
 	private Long materialId;
@@ -53,6 +52,7 @@ public class WarehouseLotDTO {
 	@ApiModel("WarehouseLotInfo")
 	public static class Info extends WarehouseLotDTO {
 		private Long id;
+		private MaterialDTO.Info material;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;

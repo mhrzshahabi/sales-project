@@ -8,7 +8,9 @@ import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseCadItemDTO;
 import com.nicico.sales.iservice.IWarehouseCadItemService;
+import com.nicico.sales.model.entities.base.WarehouseCad;
 import com.nicico.sales.model.entities.base.WarehouseCadItem;
+import com.nicico.sales.repository.WarehouseCadDAO;
 import com.nicico.sales.repository.WarehouseCadItemDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -29,6 +31,7 @@ import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
 public class WarehouseCadItemService implements IWarehouseCadItemService {
 
     private final WarehouseCadItemDAO warehouseCadItemDAO;
+    private final WarehouseCadDAO warehouseCadDAO;
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
@@ -55,6 +58,9 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 //    @PreAuthorize("hasAuthority('C_WAREHOUSECADITEM')")
     public WarehouseCadItemDTO.Info create(WarehouseCadItemDTO.Create request) {
         final WarehouseCadItem warehouseCadItem = modelMapper.map(request, WarehouseCadItem.class);
+        Optional<WarehouseCad> byId = warehouseCadDAO.findById(request.getWarehouseCadId());
+        final WarehouseCad warehouseCad = byId.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
+        warehouseCadItem.setWarehouseCad(warehouseCad);
 
         return save(warehouseCadItem);
     }
