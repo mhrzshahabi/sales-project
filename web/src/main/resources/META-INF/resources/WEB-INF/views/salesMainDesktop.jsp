@@ -1343,7 +1343,7 @@
         }
     });
 
-    var issuedInvoicesButtonContract = isc.IconButton.create({
+   /* var issuedInvoicesButtonContract = isc.IconButton.create({
         title: "<spring:message code='main.contractsTab'/>",
         icon: "financial/issuedInvoices.png",
         largeIcon: "financial/issuedInvoices.png",
@@ -1351,7 +1351,7 @@
         click: function () {
             createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")
         }
-    });
+    });*/
 
     var financialRibbonBarContract = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
@@ -1380,7 +1380,7 @@
     });
     financialRibbonBar.addGroup(financialRibbonGroup, 0);
 
-    var financialRibbonGroupContract = isc.RibbonGroup.create({
+    /*var financialRibbonGroupContract = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.test'/>",
         numRows: 1,
         colWidths: [20, "*"],
@@ -1390,10 +1390,10 @@
             issuedInvoicesButtonContract
         ],
         autoDraw: false
-    });
+    });*/
 
 
-    var financialRibbonHLayoutContract = isc.HLayout.create({
+   /* var financialRibbonHLayoutContract = isc.HLayout.create({
         width: "100%",
         height: "60",
         // border: "0px solid green",
@@ -1401,9 +1401,9 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [financialRibbonBarContract]
-    });
+    });*/
 
-    financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);
+  /*  financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);*/
 
 
     var financialRibbonHLayout = isc.HLayout.create({
