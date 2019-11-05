@@ -93,6 +93,7 @@ public class ContractDetailDTO {
     private String article9_number54_1;
     private String article9_number55;
     private String article9_ImportantNote;
+    private String string_Currency;
 
 
     // ------------------------------
