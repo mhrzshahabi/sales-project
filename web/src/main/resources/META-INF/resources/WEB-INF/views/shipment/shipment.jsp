@@ -264,7 +264,8 @@
                 }
             }, {isSeparator: true},
             {
-                title: "<spring:message code='global.form.print'/>", icon: "icon/print.png", click: function () {
+                /*Change logo */
+                title: "<spring:message code='global.form.print.word'/>", icon: "icon/word.png", click: function () {
                     var record = ListGrid_Shipment.getSelectedRecord();
                     "<spring:url value="/shipment/print/" var="printUrl"/>"
                     window.open('${printUrl}'+record.id);

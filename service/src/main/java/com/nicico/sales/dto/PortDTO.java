@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
@@ -13,13 +14,18 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PortDTO {
+
 	@NotNull
 	@ApiModelProperty(required = true)
 	private String port;
 	private Long countryId;
+
+
+
 	private String loa;
 	private String beam;
 	private String arrival;
@@ -28,6 +34,7 @@ public class PortDTO {
 	@Getter
 	@Setter
 	@ApiModel("PortInfoTuple")
+	@ToString
 	public static class PortInfoTuple {
 		private String port;
 	}

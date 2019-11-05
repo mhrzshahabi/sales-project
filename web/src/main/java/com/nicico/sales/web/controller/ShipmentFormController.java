@@ -4,6 +4,10 @@ import com.nicico.copper.common.util.date.DateUtil;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IShipmentService;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
@@ -31,38 +35,72 @@ public class ShipmentFormController {
 	@RequestMapping("/print/{shipmentId}")
     public void printDocx(HttpServletRequest request, HttpServletResponse response,@PathVariable String shipmentId) {
 
-        try {
-            XWPFDocument doc;
-            InputStream is = new ClassPathResource("Shipment_Cat.docx").getInputStream();
+             InputStream stream;
 
-            ServletOutputStream out = response.getOutputStream();
-            doc = (XWPFDocument) new XWPFDocument(is);
+
+
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFFont font = workbook.createFont();
+            font.setFontName("B Nazanin");
+            XWPFDocument doc;
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ShipmentDTO.Info shipment = shipmentService.get(Long.valueOf(shipmentId));
+            ShipmentDTO.Info
 
-//            replaceDynamicTable(doc,shipment);
+              shipment = shipmentService.get(Long.valueOf(shipmentId));
+              String description = shipment.getMaterial().getDescl();
+               String shiptype = shipment.getShipmentType().toLowerCase();
+                if(description.contains("Copper Cathode Leaching") || description.contains("Copper Cathode") || description.contains("cat")  ){
+                    if(shiptype.contains("bulk")){
 
-            replacePOI(doc,"vessel_name", shipment.getVesselName());
-            replacePOI(doc,"agent", shipment.getContactByAgent().getNameFA());
-            replacePOI(doc,"contract_amount", shipment.getAmount().toString());
-            replacePOI(doc,"unitNameFa", shipment.getMaterial().getUnit().getNameFA());
-            replacePOI(doc,"descp", shipment.getMaterial().getDescp());
-            replacePOI(doc,"tolorance", "-/+%5");
-            replacePOI(doc,"contract_no", shipment.getContract().getContractNo().toString());
+                        stream = new ClassPathResource("Ship_Cat_bulk.docx").getInputStream();
+                        ServletOutputStream out = response.getOutputStream();
+                        doc = (XWPFDocument) new XWPFDocument(stream);
+                        replacePOI(doc,"vessel_name", shipment.getVesselName());
+                        replacePOI(doc,"agent", shipment.getContactByAgent().getNameFA());
+                        replacePOI(doc,"contract_amount", shipment.getAmount().toString());
+                        replacePOI(doc,"unitNameFa", shipment.getMaterial().getUnit().getNameFA());
+                        replacePOI(doc,"descp", shipment.getMaterial().getDescp());
+                        replacePOI(doc,"tolorance", "-/+%5");
+                        replacePOI(doc,"contract_no", shipment.getContract().getContractNo());
+                        replacePOI(doc, "port",shipment.getPortByDischarge().getPort());
+                        replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
 
-            response.setHeader("Content-Disposition", "attachment; filename=\"Test.doc\"");
-            response.setContentType("application/vnd.ms-word");
-            doc.write(out);
-            baos.writeTo(out);
-            // out.close();
-            out.flush();
+                        response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_bulk.doc\"");
+                        response.setContentType("application/vnd.ms-word");
+                        doc.write(out);
+                        baos.writeTo(out);
+                        out.flush();
+                    } else if (shiptype.contains("container")){
 
+                        stream = new ClassPathResource("Ship_Cat_Container.docx").getInputStream();
+                        ServletOutputStream out = response.getOutputStream();
+                        doc = (XWPFDocument) new XWPFDocument(stream);
 
-        } catch (Exception ex) {
+                        replacePOI(doc,"contract_amount", shipment.getAmount().toString());
+                        replacePOI(doc,"unitNameFa", shipment.getMaterial().getUnit().getNameFA());
+                        replacePOI(doc,"descp", shipment.getMaterial().getDescp());
+                        replacePOI(doc,"tolorance", "-/+%5");
+                        replacePOI(doc,"contract_no", shipment.getContract().getContractNo());
+                        replacePOI(doc,"noContainer", String.valueOf(shipment.getNoContainer()));
+                        replacePOI(doc, "port",shipment.getPortByDischarge().getPort());
+                        replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
+                        response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_Container.doc\"");
+                        response.setContentType("application/vnd.ms-word");
+                        doc.write(out);
+                        baos.writeTo(out);
+                        out.flush();
+
+                    }
+        }
+
+        }
+        catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
+
     }
     //****************************************************************************************************************
     private static XWPFDocument replaceDynamicTable(XWPFDocument doc,ShipmentDTO.Info shipment) throws NumberFormatException, Exception {
