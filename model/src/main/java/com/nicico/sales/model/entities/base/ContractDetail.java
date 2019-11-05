@@ -172,6 +172,8 @@ public class ContractDetail extends Auditable {
     private String article9_number55;
     @Column(name = "ARTICLE9_IMPORTANTNOTE", length = 500)
     private String article9_ImportantNote;
+    @Column(name = "STRING_CURRENCY", length = 500)
+    private String string_Currency;
 
 
 }

@@ -30,18 +30,14 @@
 
 
         isc.Label.create({ID:"Label_Contact_Type",padding: 20,width: "100%",height: "1%",styleName: "helloWorldText",contents:  'Please select the type of contract.'});
-        isc.IButton.create({ID:"Button_Melodin",width: "200",height: "30",title: "Molybdenum",icon: "icons/16/world.png",iconOrientation: "right",click:function () {
+        isc.IButton.create({ID:"Button_MO_OX",width: "200",height: "30",title: "Molybdenum",icon: "icons/16/world.png",iconOrientation: "right",click:function () {
                 Window_SelectTypeContact.close();
                 Window_Contact.animateShow();
         }})
 
-        isc.IButton.create({ID:"Button_Melodin1",width: "200",height: "30",title: "TYPE 1",icon: "icons/16/world.png",iconOrientation: "right",click: "isc.say('Under Construction')"})
-        isc.IButton.create({ID:"Button_Melodin2",width: "200",height: "30",title: "TYPE 2",icon: "icons/16/world.png",iconOrientation: "right",click: "isc.say('Under Construction')"})
 
-        isc.HLayout.create({ID:"HLayout_button_TypeMoliden",align: "center",width: "30%",height: "20%",align: "center",members:[Button_Melodin]});
-        isc.HLayout.create({ID:"HLayout_button_TypeMoliden1",align: "center",width: "30%",height: "20%",align: "center",members:[Button_Melodin1]});
-        isc.HLayout.create({ID:"HLayout_button_TypeMoliden2",align: "center",width: "30%",height: "20%",align: "center",members:[Button_Melodin2]});
-        isc.HStack.create({ID:"HLayout_button_TypeMoliden3",layoutMargin:10,align: "center",width: "100%",height: "80%",align: "center",members:[HLayout_button_TypeMoliden,HLayout_button_TypeMoliden1,HLayout_button_TypeMoliden2]});
+        isc.HLayout.create({ID:"HLayout_button_TypeMoliden",align: "center",width: "30%",height: "20%",align: "center",members:[Button_MO_OX]});
+        isc.HStack.create({ID:"HLayout_button_TypeMoliden3",layoutMargin:10,align: "center",width: "100%",height: "80%",align: "center",members:[HLayout_button_TypeMoliden]});
         isc.VLayout.create({ID:"button_VLayout",width: "100%",height: "100%",align: "center",members:[Label_Contact_Type,HLayout_button_TypeMoliden3]});
 
               var Window_SelectTypeContact = isc.Window.create({
@@ -62,8 +58,8 @@
                             });
              var Window_Contact = isc.Window.create({
                     title: "<spring:message code='contact.title'/>",
-width: "100%",
-height: "100%",
+                    width: "100%",
+                    height: "100%",
                     autoCenter: true,
                     isModal: true,
                     showModalMask: true,

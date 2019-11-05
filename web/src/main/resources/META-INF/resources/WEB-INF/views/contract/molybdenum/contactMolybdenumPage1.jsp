@@ -73,10 +73,7 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "value", title: "<spring:message code='contractPenalty.value'/>", width: 200},
-                {
-                    name: "tblContractItemFeature.tblFeature.nameFA", title: "<spring:message
-        code='contractPenalty.feature'/>", width: 200
-                },
+                {name: "tblContractItemFeature.tblFeature.nameFA", title: "<spring:message code='contractPenalty.feature'/>", width: 200 },
                 {name: "operation", title: "<spring:message code='contractPenalty.operation'/>", width: 200},
                 {name: "deduction", title: "<spring:message code='contractPenalty.deduction'/>", width: 200}
             ],
@@ -206,7 +203,9 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
                 {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
-                {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
+                {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200},
+                {name: "contractId", title: "<spring:message code='parameters.paramValue'/>", width: 200},
+                {name: "categoryValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
             ],
         fetchDataURL: "${contextPath}/api/parameters/spec-list"
     });
@@ -285,11 +284,23 @@
         criteria: [{fieldName: "used", operator: "notEqual", value: 1}]
     };
 
+var RestDataSource_Criteria_Parameters;
+function advancedCriteria_Parameters(fieldName,operator,valueCriteria){
+            RestDataSource_Criteria_Parameters = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{fieldName: "contractId", operator: "equals", value: 1},
+                                {fieldName: fieldName, operator: operator, value: valueCriteria }]
+                    }
+}
+
+
 
     //START PAGE ONE
     factoryLableHedear("LablePage", '<b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b>', "100%", "2%", 20)
     factoryLable("lableNameContact", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
     factoryLable("lableArticle2", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
+    factoryLable("lableTitleTypical", '<b><font size=2px>Prefix -  value</font><b>', "100%", '4%', 20);
     /*factoryLable("lableArticle3",'<b><font size=4px>ARTICLE 3 -QUANTITY :</font><b>',"100%",'4%',20);*/
     factoryLable("lableImportantNote", '<b><font size=2px>IMPORTANT Note :</font><b>', "100%", '4%', 20);
     factoryLableArticle("lableArticle1", '<b><font size=4px>ARTICLE 1 -</font><b>', "30", 5)
@@ -358,7 +369,6 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "80",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
@@ -576,11 +586,12 @@
             }
         ]
     });
+advancedCriteria_Parameters("categoryValue","equals",1);
     isc.DynamicForm.create({
         ID: "DynamicForm_ContactParameter_ValueNumber8",
         valuesManager: "valuesManagerArticle1",
         height: "20",
-        width: "80%",
+        width: "100%",
         wrapItemTitles: true,
         items: [
             {name: "feild_all_defintitons_save", showIf: "false"},
@@ -590,6 +601,7 @@
                 startRow: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Parameters,
+                optionCriteria: RestDataSource_Criteria_Parameters,
                 displayField: "paramValue",
                 valueField: "paramValue",
                 showTitle: false,
@@ -599,14 +611,22 @@
                     {name: "paramType", width: "20%", align: "center"},
                     {name: "paramValue", width: "60%", align: "center"}
                 ],
-                colSpan: 2,
-                width: "*",
+                width: "1500",
                 height: "30",
                 title: "NAME",
                 changed: function (form, item, value) {
                     DynamicForm_ContactParameter_ValueNumber8.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue)
                 }
-            }
+                },{
+                    name:"button",
+                    type: "button",
+                    width: "10%",
+                    height: "30",
+                    title: "Remove",
+                    startRow: false,
+                    icon: "icons/16/message.png",
+                    click: function(){DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");DynamicForm_ContactParameter_ValueNumber8.removeField("button")}
+                    }
         ]
     })
     var itemsDefinitionsCount = 0;
@@ -675,7 +695,9 @@
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}
-                ]
+                ],changed: function (form, item, value) {
+                    dynamicForm_article3_3.setValue("article3_number17_13",article2.getItem("unitId").getDisplayValue(value));
+                }
             },
             {
                 type: "text",
@@ -686,6 +708,9 @@
                 keyPressFilter: "[0-9]", //article2_13
                 changed: function (form, item, value) {
                     article2_1.setValue("article2_13_1", value);
+                    dynamicForm_article3_3.setValue("article3_number17_4",value);
+                    dynamicForm_article3.setValue("article3_number17_9", value);
+                    dynamicForm_article5_number29_1.setValue("article5_number29_3", value);
                 }
             },
             {
@@ -755,7 +780,7 @@
                     title: "<spring:message code='dailyWarehouse.warehouseNo'/>",
                     align: "center"
                 },
-                {name: "plant", canEdit: true, title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
+                {name: "plant", canEdit: false, title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
                 {name: "material.descl", canEdit: false, title: "<spring:message code='goods.nameLatin'/> "},
                 {
                     name: "lotName",
@@ -847,6 +872,43 @@
     factoryLableArticle("lableArticle3Typicall", '<b><font size=4px>TYPICAL ANALYSIS: </font><b>', '5%', 1);
     factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - </font><b>', '2%', 1);
     factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - </font><b>', "20", 1)
+
+advancedCriteria_Parameters("categoryValue","equals",3);
+    var dynamicForm_article3_1 = isc.DynamicForm.create({
+        valuesManager: "valuesManagerArticle3",
+        height: "20",
+        wrapItemTitles: false,
+        items: [
+            {
+                name: "contactInspectionId", ///article3_number17_1
+                showHover: true,
+                autoFetchData: false,
+                title: "",
+                hint: "AHK",
+                width: "150",
+                showHintInField: true,
+                showTitle: false,
+                required: true,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Parameters,
+                optionCriteria: RestDataSource_Criteria_Parameters,
+                displayField: "paramName",
+                valueField: "paramName",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "paramName", width: "45%", align: "center"},
+                    {name: "paramType", width: "45%", align: "center"},
+                    {name: "paramValue", width: "10%", align: "center"}
+                ],
+                changed: function (form, item, value) {
+                    alert(value);
+                    dynamicForm_article3.setValue("article3_number17",value);
+                    dynamicForm_article3.setValue("quantity_number17_11", value);
+                }
+            }
+        ]
+    })
+
     var dynamicForm_article3 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3",
         height: "4%",
@@ -911,38 +973,6 @@
 
     dynamicForm_article3.setValue("quantity_number17_7", "ANALYSIS RESULTS FOR THE REMAINING QUANTITY(");
 
-    var dynamicForm_article3_1 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle3",
-        height: "20",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "contactInspectionId", ///article3_number17_1
-                showHover: true,
-                autoFetchData: false,
-                title: "",
-                hint: "AHK",
-                width: "150",
-                showHintInField: true,
-                showTitle: false,
-                required: true,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                displayField: "paramName",
-                valueField: "paramName",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "paramName", width: "45%", align: "center"},
-                    {name: "paramType", width: "45%", align: "center"},
-                    {name: "paramValue", width: "10%", align: "center"}
-                ],
-                changed: function (form, item, value) {
-                    dynamicForm_article3.setValue("quantity_number17", value);
-                    dynamicForm_article3.setValue("quantity_number17_11", value);
-                }
-            }
-        ]
-    })
     var dynamicForm_article3_2 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3",
         height: "20",
@@ -975,12 +1005,33 @@
     var dynamicForm_article3_Typicall = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3",
         height: "20",
+        numCols: 10,
         wrapItemTitles: false,
         items: [
-            {name: "copper", title: "CU", keyPressFilter: "[0-9]"}, //CU
-            {name: "gold", title: "AG", keyPressFilter: "[0-9]"}, //AG
-            {name: "silver", title: "AU", keyPressFilter: "[0-9]"}, //AU
-            {name: "molybdenum", title: "MO", keyPressFilter: "[0-9]"} //MO
+            {name: "molybdenum", title: "MO", keyPressFilter: "[0-9]",startRow:true}, //CU copper
+            {name: "PrefixMO",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "valueMO",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceMO",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "copper", title: "CU", keyPressFilter: "[0-9]",startRow:true}, //AG gold
+            {name: "PrefixCU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "valueCU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceCU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "silver", title: "C", keyPressFilter: "[0-9]",startRow:true}, //AU silver
+            {name: "PrefixC",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "valueC",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceC",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "S", title: "S", keyPressFilter: "[0-9]",startRow:true}, //MO molybdenum
+            {name: "PrefixS",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "valueS",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceS",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "Pb", title: "Pb", keyPressFilter: "[0-9]",startRow:true}, //pb
+            {name: "PrefixPb",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "valuePb",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "tolerancePb",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "Si", title: "Si", keyPressFilter: "[0-9]",startRow:true}, //Si
+            {name: "PrefixSi",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "valueSi",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceSi",title: "",width:"100",showTitle: false,startRow:false}
         ]
     })
     var dynamicForm_article3_3 = isc.DynamicForm.create({
@@ -1003,7 +1054,17 @@
                     dynamicForm_article3.setValue("article3_number17_8", value);
                     dynamicForm_article5_number29_1.setValue("article5_number29_2", value);
                 }
-            }, {
+            },{
+                type: "text",
+                name: "article3_number17_13",  ////to do new
+                showTitle: false,
+                length: 100,
+                width: "100",
+                showHintInField: true,
+                startRow: false,
+                title: '',
+            }
+                , {
                 type: "text",
                 name: "article3_number17_4",
                 showTitle: true,
@@ -1127,7 +1188,6 @@
                 changed: function (form, item, value) {
                     dynamicForm_article9_number46.setValue("article9_number22", value);
                     dynamicForm_article9_number46.setValue("article9_Englishi_number22", numberToEnglish(value) + " PERCENT");
-                    alert(value);
                     dynamicForm_article9_number46_number47_number48_number49.setValue("article9_number22", value);
                     dynamicForm_article9_number46_number47_number48_number49.setValue("article9_Englishi_number22", value);
                 }
@@ -1218,7 +1278,7 @@
                 {
                     name: "plan",
                     title: "<spring:message
-        code='shipment.plan'/>",
+                    code='shipment.plan'/>",
                     type: 'text',
                     width: 140,
                     valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},
@@ -1329,6 +1389,7 @@ title: ')SHALL BE SHIPPED UP TO'
 }
 ]
 })*/
+advancedCriteria_Parameters("categoryValue","equals",5);
     var dynamicForm_article5_Note2_number30 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticleNote5",
         height: "20",
@@ -1345,9 +1406,11 @@ title: ')SHALL BE SHIPPED UP TO'
                 wrap: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Parameters,
+                optionCriteria: RestDataSource_Criteria_Parameters,
                 displayField: "paramValue",
                 valueField: "paramName",
                 showTitle: false,
+                pickListWidth: "800",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "paramName", width: "25%", align: "center"},
@@ -1365,12 +1428,23 @@ title: ')SHALL BE SHIPPED UP TO'
                 type: "text",
                 length: 3000,
                 showTitle: false,
+                startRow: true,
                 wrap: false,
-                colSpan: 2,
+                width: "1500",
+                height: "80",
                 defaultValue: "MAXIMUM ONE WEEK AFTER CONTRACT SIGNATURE/STAMP BUYER IS OBLIGED TO INFORM SELLER OF ITS SHIPMENT SCHEDULE FOR THE REMAINING QUANTITY I.E",
                 title: "article5_Note1",
-                width: "*"
-            }
+            },
+                {
+                    name:"button",
+                    type: "button",
+                    width: "10%",
+                    height: "30",
+                    title: "Remove",
+                    startRow: false,
+                    icon: "icons/16/message.png",
+                    click: function(){dynamicForm_article5_Note2_number30.removeFields(["article5_Note1_lable", "article5_Note1_value","button"])}
+                    }
         ]
     })
     var i = 0;
@@ -1716,6 +1790,7 @@ title: ')SHALL BE SHIPPED UP TO'
             isc.HLayout.create({align: "left", members: [dynamicForm_article3_1, dynamicForm_article3_2]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3_3]}),
             isc.HLayout.create({height: "30", align: "left", members: [lableArticle3Typicall]}),
+            isc.HLayout.create({height: "30", left:"250",align: "left", members: [lableTitleTypical]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3_Typicall]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3]})
         ]
@@ -1813,9 +1888,9 @@ title: ')SHALL BE SHIPPED UP TO'
                 defaultValue: "MOLYBDENUM OXIDE",
                 title: 'PRICE FOR',
                 changed: function (form, item, value) {
-                    dynamicForm_article7_number3.setValue("article7_number3_1", value);
-                    dynamicForm_article8_3.setValue("article8_3", value);
-                }
+dynamicForm_article7_number3.setValue("article7_number3_1", value);
+dynamicForm_article8_3.setValue("article8_3", value);
+}
             }, {
                 name: "article7_number37",
                 width: "250",
@@ -1863,6 +1938,7 @@ title: ')SHALL BE SHIPPED UP TO'
                 width: "350",
                 showTitle: false,
                 startRow: false,
+                defaultValue: "OF PLATTS METALS WEEK THE HEADING ",
                 title: 'article7_number39_1'
             }, {
                 name: "reportTitle", //article7_number40
@@ -1902,10 +1978,21 @@ title: ')SHALL BE SHIPPED UP TO'
                 name: "article7_number40_3",
                 type: "text",
                 height: "100",
-                length: 3000,
+                length: 4000,
                 defaultValue: "",
                 showTitle: false,
                 colSpan: 4,
+                startRow: false,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Parameters,
+                displayField: "paramValue",
+                valueField: "paramValue",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "paramName", width: "20%", align: "center"},
+                    {name: "paramType", width: "20%", align: "center"},
+                    {name: "paramValue", width: "60%", align: "center"}
+                ],
                 title: "article7_number40_3",
                 width: "*"
             }
@@ -2021,13 +2108,12 @@ title: ')SHALL BE SHIPPED UP TO'
     var dynamicForm_article9_number46_number47_number48_number49 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle9",
         height: "20",
-        numCols: 10,
+        numCols: 8,
         wrapItemTitles: false,
-        padding: 5,
+        padding: 2,
         items: [
             {
                 name: "prepaid", //article9_number45_number46
-                width: "200",
                 showTitle: true,
                 title: '1.BUYER SHALL PAY',
                 showHintInField: true,
@@ -2036,28 +2122,27 @@ title: ')SHALL BE SHIPPED UP TO'
             },
             {
                 name: "article9_number22",
-                width: "100",
                 showTitle: false,
                 showHintInField: true,
                 hint: "105",
                 title: 'article9_number22',
-                startRow: false
+                startRow: false,
+                changed: function (form, item, value) {
+                    dynamicForm_article9_number46_number47_number48_number49.setValue("article9_Englishi_number22",numberToEnglish(value));
+                }
             }, {
                 name: "article9_Englishi_number22",
                 disabled: "true",
-                width: "200",
                 showTitle: false,
                 title: 'article9_Englishi_number22',
                 startRow: false
             }, {
                 name: "article9_number23",
-                width: "200",
                 showTitle: true,
                 title: 'OF',
                 startRow: false
             }, {
                 name: "prepaidCurrency", //article9_number47
-                width: "100",
                 showTitle: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Currency_list,
@@ -2072,7 +2157,6 @@ title: ')SHALL BE SHIPPED UP TO'
                 title: 'INVOICE VALUE AMOUNT IN'
             }, {
                 name: "article9_number48",
-                width: "100",
                 showTitle: true,
                 startRow: false,
                 editorType: "SelectItem",
@@ -2087,7 +2171,6 @@ title: ')SHALL BE SHIPPED UP TO'
                 title: 'OF'
             }, {
                 name: "payTime", ///article9_number48 ///****article9_number49
-                width: "250",
                 showTitle: false,
                 showHintInField: true,
                 startRow: false,        /// TO DO PAYMENT OPTION
@@ -2098,7 +2181,6 @@ title: ')SHALL BE SHIPPED UP TO'
                 }
             }, {
                 name: "article9_number49_1",
-                width: "300",
                 showTitle: true,
                 defaultValue: "IRREVOCABLE LETTER OF CREDIT AT SIGHT",
                 startRow: false,
@@ -2191,6 +2273,17 @@ title: ')SHALL BE SHIPPED UP TO'
                 length: 3000,
                 defaultValue: "",
                 showTitle: false,
+                startRow: false,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Parameters,
+                displayField: "paramValue",
+                valueField: "paramValue",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "paramName", width: "20%", align: "center"},
+                    {name: "paramType", width: "20%", align: "center"},
+                    {name: "paramValue", width: "60%", align: "center"}
+                ],
                 colSpan: 2,
                 title: "article9_number55",
                 width: "*"
@@ -2210,8 +2303,18 @@ title: ')SHALL BE SHIPPED UP TO'
                 type: "text",
                 height: "100",
                 length: 3000,
-                defaultValue: "",
+                startRow: false,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Parameters,
+                displayField: "paramValue",
+                valueField: "paramValue",
                 showTitle: false,
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "paramName", width: "20%", align: "center"},
+                    {name: "paramType", width: "20%", align: "center"},
+                    {name: "paramValue", width: "60%", align: "center"}
+                ],
                 colSpan: 2,
                 title: "article9_ImportantNote",
                 width: "*"
@@ -2322,10 +2425,6 @@ title: ')SHALL BE SHIPPED UP TO'
             {
                 title: "page3", canClose: false,
                 pane: VLayout_PageThree_Contract
-            },
-            {
-                title: "page4", canEditTitle: false,
-                pane: ""
             }
         ]
     });
@@ -2386,6 +2485,7 @@ title: ')SHALL BE SHIPPED UP TO'
 
 
     function manageNote(value, id) {
+        advancedCriteria_Parameters("categoryValue","equals",5);
         if (value == 'Add') {
             dynamicForm_article5_Note2_number30.addFields([
                 {
@@ -2396,9 +2496,11 @@ title: ')SHALL BE SHIPPED UP TO'
                     wrap: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Parameters,
+                    optionCriteria: RestDataSource_Criteria_Parameters,
                     displayField: "paramValue",
                     valueField: "paramName",
                     showTitle: false,
+                    pickListWidth:"700",
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                         {name: "paramName", width: "25%", align: "center"},
@@ -2415,16 +2517,27 @@ title: ')SHALL BE SHIPPED UP TO'
                     length: 3000,
                     showTitle: false,
                     wrap: false,
-                    colSpan: 2,
+                    startRow: true,
+                    width: "1500",
+                    height: "80",
                     defaultValue: "MAXIMUM ONE WEEK AFTER CONTRACT SIGNATURE/STAMP BUYER IS OBLIGED TO INFORM SELLER OF ITS SHIPMENT SCHEDULE FOR THE REMAINING QUANTITY I.E",
                     title: "article5_Note1",
-                    width: "*"
-                }
+                },
+                {
+                    name:"button"+id,
+                    type: "button",
+                    width: "10%",
+                    height: "30",
+                    title: "Remove",
+                    startRow: false,
+                    icon: "icons/16/message.png",
+                    click: function(){dynamicForm_article5_Note2_number30.removeFields(["article5_Note1_lable" + id, "article5_Note1_value" + id,"button"+id])}
+                    }
             ]);
             i++;
         } else {
             --i;
-            dynamicForm_article5_Note2_number30.removeFields(["article5_Note1_lable" + i, "article5_Note1_value" + i]);
+            dynamicForm_article5_Note2_number30.removeFields(["article5_Note1_lable" + i, "article5_Note1_value" + i,"button"+i]);
         }
     }
 
@@ -2463,7 +2576,7 @@ title: ')SHALL BE SHIPPED UP TO'
             ]
         });
         vlayoutCurrency.addMember("dynamicForm_Currency" + id, id);
-        dynamicForm_article10_number56.clearValues()
+        dynamicForm_article10_number56.clearValues();
     }
 
 
@@ -2530,6 +2643,7 @@ title: ')SHALL BE SHIPPED UP TO'
     };
 
     function itemsDefinitions(value, id) {
+        advancedCriteria_Parameters("categoryValue","equals",1);
         if (value == 'Add') {
             DynamicForm_ContactParameter_ValueNumber8.addFields([
                 {
@@ -2538,6 +2652,7 @@ title: ')SHALL BE SHIPPED UP TO'
                     length: 5000,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Parameters,
+                    optionCriteria: RestDataSource_Criteria_Parameters,
                     displayField: "paramValue",
                     valueField: "paramValue",
                     showTitle: false,
@@ -2549,25 +2664,36 @@ title: ')SHALL BE SHIPPED UP TO'
                     ],
                     showTitle: false,
                     startRow: false,
-                    colSpan: 2,
-                    width: "*",
+                    width: "1500",
                     height: "30",
                     title: "NAME",
                     changed: function (form, item, value) {
                         DynamicForm_ContactParameter_ValueNumber8.setValue("valueNumber8" + id, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
                     }
-                }
+                },{
+                    name:"button"+id,
+                    type: "button",
+                    width: "10%",
+                    height: "30",
+                    title: "Remove",
+                    startRow: false,
+                    icon: "icons/16/message.png",
+                    click: function(){DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)}
+                    }
             ]);
             itemsDefinitionsCount++;
         } else {
             --itemsDefinitionsCount;
             DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + itemsDefinitionsCount);
+            DynamicForm_ContactParameter_ValueNumber8.removeField("button" +itemsDefinitionsCount);
         }
     }
 
-    function saveCotractDetails(data, contractID) {
+function saveCotractDetails(data, contractID) {
         data.contract_id = contractID;
         var allData = Object.assign(data, valuesManagerArticle1.getValues())
+        allData.string_Currency=JSON.stringify(valuesManagerArticle10.getValues());
+        alert(JSON.stringify(allData.String_Currency));
         method = "POST";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",
@@ -2576,6 +2702,9 @@ title: ')SHALL BE SHIPPED UP TO'
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     saveValuelotListForADD(contractID);
+                    saveListGrid_ContractItemShipment(contractID);
+                    saveContractCurrency(contractID);
+                    isc.say("<spring:message code='global.form.request.successful'/>.");
                 } else
                     isc.say(RpcResponse_o.data);
             }
@@ -2584,7 +2713,7 @@ title: ')SHALL BE SHIPPED UP TO'
 
     }
 
-    function saveValuelotListForADD(contractID) {
+function saveValuelotListForADD(contractID) {
         lotList.selectAllRecords();
         lotList.getAllEditRows().forEach(function (element) {
             var data_lotList = lotList.getEditedRecord(element);
@@ -2595,16 +2724,16 @@ title: ')SHALL BE SHIPPED UP TO'
                 data: JSON.stringify(data_lotList),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.warehouseLot.successful'/>.");
-                        saveListGrid_ContractItemShipment(contractID);
-                    } else
+                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                    } else{
                         isc.say(RpcResponse_o.data);
+                        }
                 }
             }))
         })
     };
 
-    function saveListGrid_ContractItemShipment(contractID) {
+function saveListGrid_ContractItemShipment(contractID) {
         ListGrid_ContractItemShipment.selectAllRecords();
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             var data_ContractItemShipment = ListGrid_ContractItemShipment.getEditedRecord(element);
@@ -2623,3 +2752,20 @@ title: ')SHALL BE SHIPPED UP TO'
             }))
         })
     };
+
+
+function saveContractCurrency(contractID){
+    var currencyData =valuesManagerArticle10.getValues();
+    currencyData.contractId=contractID
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contractCurrency/",
+                httpMethod: "POST",
+                data: JSON.stringify(currencyData),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }))
+    }

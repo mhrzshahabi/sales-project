@@ -867,6 +867,15 @@
             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
         }
     });
+    var salesContractMoButton = isc.IconButton.create({
+        title: "salesContractMoButton",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")
+        }
+    });
     var purchaseContractButton = isc.IconButton.create({
         title: "<spring:message code='purchaseContract.title'/>",
         icon: "contract/purchaseContract.png",
@@ -911,7 +920,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            salesContractButton
+            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
@@ -1454,8 +1463,8 @@
             {title: "<spring:message code='main.shipmentTab'/>", pane: shipmentRibbonHLayout},
             {title: "<spring:message code='main.inspectionTab'/>", pane: inspectionRibbonHLayout},
             <%--{title: "<spring:message code='main.insuranceTab'/>", pane: insuranceRibbonHLayout},--%>
-            {title: "<spring:message code='main.financialTab'/>", pane: financialRibbonHLayout},
-            {title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}
+            {title: "<spring:message code='main.financialTab'/>", pane: financialRibbonHLayout}
+           /* {title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}*/
         ]
     });
 
