@@ -49,8 +49,8 @@ public class ContactRestController {
                 + (request.getTransporter() != null && request.getTransporter().toString().equalsIgnoreCase("true") ? " حمل کننده ," : "")
                 + (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
                 + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
-                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
-                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
+                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
+                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
         );
         return new ResponseEntity<>(contactService.create(request), HttpStatus.CREATED);
     }
@@ -64,8 +64,8 @@ public class ContactRestController {
                 + (request.getTransporter() != null && request.getTransporter().toString().equalsIgnoreCase("true") ? " حمل کننده ," : "")
                 + (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
                 + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
-                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
-                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
+                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
+                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
         );
 
         return new ResponseEntity<>(contactService.update(request.getId(), request), HttpStatus.OK);

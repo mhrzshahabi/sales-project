@@ -64,7 +64,7 @@ var MyRestDataSource_ShipmentMoistureItem = isc.MyRestDataSource.create({
                 title: "<spring:message code='contact.type'/>",
                 valueMap: {"true": "<spring:message code='contact.type.real'/>", "false": "<spring:message code='contact.type.legal'/>"}
             },
-            {name: "nationalcode", title: "<spring:message code='contact.nationalcode'/>"},
+            {name: "nationalcode", title: "<spring:message code='contact.nationalCode'/>"},
             {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
             {name: "bankAccount", title: "<spring:message code='contact.bankAccount'/>"},
             {name: "bankShaba", title: "<spring:message code='contact.bankShaba'/>"},
@@ -255,7 +255,9 @@ function createPasteDialog () {
                     }),
                     isc.ToolStripButton.create({
                       title:"<spring:message code='global.form.save'/>",
+                      prompt: "<spring:message code='shipment.Moisture.saveButton'/>",
                       icon: "pieces/16/save.png",
+                      width : 120,
                       click:function() {
 						resultsForm.validate();
 						if (resultsForm.hasErrors())
@@ -498,13 +500,26 @@ var ToolStripButton_ShipmentMoistureItem_Paste = isc.ToolStripButton.create({
             };
             ListGrid_ShipmentMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                 ListGrid_ShipmentMoistureHeader.setData(data);
+                var recordH = ListGrid_ShipmentMoistureHeader.getRecord(0);
+                if (ListGrid_ShipmentMoistureHeader.getRecord(0) !=null )
+                    criteria1 = {_constructor: "AdvancedCriteria",
+                            operator: "and",
+                            criteria: [{fieldName: "shipmentMoistureHeader", operator: "equals", value: recordH.id}]  };
+                else
+                    criteria1 = {_constructor: "AdvancedCriteria",
+                            operator: "and",
+                            criteria: [{fieldName: "shipmentMoistureHeader", operator: "equals", value: -999999999 }]  };
+
+                ListGrid_ShipmentMoistureItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                            ListGrid_ShipmentMoistureItem.setData(data);
+                        });
             });
     },
     dataArrived 			: 	function (startRow, endRow) {
     },
     sortField: 0,
     dataPageSize: 50,
-    autoFetchData: true,
+    autoFetchData: false,
     showFilterEditor: true,
     filterOnKeypress: true,
     sortFieldAscendingText: "مرتب سازی صعودی",
@@ -563,6 +578,11 @@ var Menu_ListGrid_ShipmentMoistureHeader = isc.Menu.create({
 
     var ValuesManager_ShipmentMoistureHeader = isc.ValuesManager.create({
     });
+var criteria1Inspector = {
+	_constructor: "AdvancedCriteria",
+	operator: "and",
+	criteria: [{fieldName: "inspector", operator: "equals", value: true}]
+};
 
   var DynamicForm_ShipmentMoistureHeader = isc.DynamicForm.create({
     width: "100%",
@@ -586,7 +606,7 @@ var Menu_ListGrid_ShipmentMoistureHeader = isc.Menu.create({
 		{name: "shipmentId", title: "id", canEdit:false, hidden:true},
 		{name: "inspectionByContactId", title:"<spring:message code='shipment.MoistureInspectionCompany'/>", type:'long'
 			 ,editorType: "SelectItem",colSpan :1 ,titleColSpan :1
-			, optionDataSource:MyRestDataSource_Contact ,displayField:"nameEN",wrapTitle: false,optionCriteria:{"inspector":"1"}
+			, optionDataSource:MyRestDataSource_Contact ,displayField:"nameEN",wrapTitle: false,optionCriteria : criteria1Inspector
 			, valueField:"id" ,pickListWidth:"450",pickListheight:"500" ,pickListProperties: {showFilterEditor:true}
 			,pickListFields:[{name:"nameFA",width:150,align:"center"},{name:"nameEN",width:150,align:"center"},{name:"code",width:150,align:"center"}] },
 		{name: "location", title:"<spring:message code='shipment.Moisture.location'/>", type:'text' ,
@@ -668,7 +688,14 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
         var record = ListGrid_ShipmentByMoistureHeader.getSelectedRecord();
         if (record==null || record.id==null)
         return;
-        ListGrid_ShipmentMoistureHeader.fetchData({"shipment.id":record.id},function (dsResponse, data, dsRequest) {ListGrid_ShipmentMoistureHeader.setData(data);});
+       var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
+        };
+        ListGrid_ShipmentMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            ListGrid_ShipmentMoistureHeader.setData(data);
+        });
     };
 	function ListGrid_ShipmentMoistureHeader_remove() {
 		var record = ListGrid_ShipmentMoistureHeader.getSelectedRecord();
@@ -699,7 +726,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                        ListGrid_ShipmentMoistureHeader.invalidateCache();
+                                        ListGrid_ShipmentMoistureHeader_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
@@ -992,8 +1019,15 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
         ListGrid_ShipmentMoistureItem.invalidateCache();
         var record = ListGrid_ShipmentMoistureHeader.getSelectedRecord();
         if (record==null || record.id==null)
-        return;
-        ListGrid_ShipmentMoistureItem.fetchData({"shipmentMoistureHeader.id":record.id},function (dsResponse, data, dsRequest) {ListGrid_ShipmentMoistureItem.setData(data);});
+            return;
+       var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "shipmentMoistureHeaderId", operator: "equals", value: record.id}]
+        };
+        ListGrid_ShipmentMoistureItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            ListGrid_ShipmentMoistureItem.setData(data);
+        });
     };
 	function ListGrid_ShipmentMoistureItem_remove() {
 		var record = ListGrid_ShipmentMoistureItem.getSelectedRecord();
@@ -1024,7 +1058,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                        ListGrid_ShipmentMoistureItem.invalidateCache();
+                                        ListGrid_ShipmentMoistureItem_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
@@ -1186,15 +1220,15 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
         ]
     });
 
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
 isc.SectionStack.create({
     ID:"ShipmentMoistureHeader_Section_Stack",
     sections:
     [
          {title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_ShipmentByMoistureHeader  ,expanded:true}
-        ,{title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_ShipmentMoistureHeader ,expanded:true}
-        ,{title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_ShipmentMoistureItem ,expanded:true}
+        ,{title:"<spring:message code='Shipment.titleMoistureHeader'/>", items:VLayout_Body_ShipmentMoistureHeader ,expanded:true}
+        ,{title:"<spring:message code='Shipment.titleMoistureItem'/>", items:VLayout_Body_ShipmentMoistureItem ,expanded:true}
     ],
     visibilityMode:"multiple",
     animateSections:true,
@@ -1202,3 +1236,11 @@ isc.SectionStack.create({
     width:"100%",
     overflow:"hidden"
 });
+var criteria1 = {
+	_constructor: "AdvancedCriteria",
+	operator: "and",
+	criteria: [{fieldName: "material.code", operator: "equals", value: "26030090"}]
+};
+ListGrid_ShipmentByMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+	ListGrid_ShipmentByMoistureHeader.setData(data);
+	});

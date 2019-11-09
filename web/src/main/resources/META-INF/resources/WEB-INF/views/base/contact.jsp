@@ -253,6 +253,22 @@
                 wrapTitle: false
             },
             {
+                name: "agentSeller",
+                title: "<spring:message code='contact.commercialRole.agentSeller'/>",
+                type: 'checkbox',
+                width: 50,
+                colSpan: 1, titleColSpan: 1,
+                wrapTitle: false
+            },
+           {
+                name: "agentBuyer",
+                title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
+                type: 'checkbox',
+                width: 50,
+                colSpan: 1, titleColSpan: 1,
+                wrapTitle: false
+            },
+           {
                 name: "transporter",
                 title: "<spring:message code='contact.commercialRole.transporter'/>",
                 type: 'checkbox',
@@ -279,22 +295,6 @@
             {
                 name: "insurancer",
                 title: "<spring:message code='contact.commercialRole.insurancer'/>",
-                type: 'checkbox',
-                width: 50,
-                colSpan: 1, titleColSpan: 1,
-                wrapTitle: false
-            },
-            {
-                name: "agentBuyer",
-                title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
-                type: 'checkbox',
-                width: 50,
-                colSpan: 1, titleColSpan: 1,
-                wrapTitle: false
-            },
-            {
-                name: "agentSeller",
-                title: "<spring:message code='contact.commercialRole.agentSeller'/>",
                 type: 'checkbox',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,

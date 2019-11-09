@@ -1,13 +1,15 @@
 package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ShipmentMoistureItemDTO;
 import com.nicico.sales.iservice.IShipmentMoistureItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,34 +71,13 @@ public class ShipmentMoistureItemRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	//	@PreAuthorize("hasAuthority('r_shipmentMoistureItem')")
-	public ResponseEntity<ShipmentMoistureItemDTO.ShipmentMoistureItemSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
-
-		SearchDTO.SearchRs<ShipmentMoistureItemDTO.Info> response = shipmentMoistureItemService.search(request);
-
-		final ShipmentMoistureItemDTO.SpecRs specResponse = new ShipmentMoistureItemDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final ShipmentMoistureItemDTO.ShipmentMoistureItemSpecRs specRs = new ShipmentMoistureItemDTO.ShipmentMoistureItemSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
+//	@PreAuthorize("hasAuthority('r_instruction')")
+	public ResponseEntity<TotalResponse<ShipmentMoistureItemDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+		return new ResponseEntity<>(shipmentMoistureItemService.search(nicicoCriteria), HttpStatus.OK);
 	}
 
 	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
-	//	@PreAuthorize("hasAuthority('r_shipmentMoistureItem')")
-	public ResponseEntity<SearchDTO.SearchRs<ShipmentMoistureItemDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(shipmentMoistureItemService.search(request), HttpStatus.OK);
-	}
 
     @RequestMapping(value = {"/addMoisturePaste"}, method = RequestMethod.POST)
     public @ResponseBody

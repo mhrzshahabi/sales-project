@@ -1,6 +1,7 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ShipmentMoistureItemDTO;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface IShipmentMoistureItemService {
 
 	void delete(ShipmentMoistureItemDTO.Delete request);
 
-	SearchDTO.SearchRs<ShipmentMoistureItemDTO.Info> search(SearchDTO.SearchRq request);
+	public TotalResponse<ShipmentMoistureItemDTO.Info> search(NICICOCriteria criteria) ;
 
 	String createAddMoisturePaste( String data) ;
 }

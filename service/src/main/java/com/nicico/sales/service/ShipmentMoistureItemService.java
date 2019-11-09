@@ -1,8 +1,9 @@
 package com.nicico.sales.service;
 
 import com.google.gson.Gson;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ShipmentMoistureItemDTO;
 import com.nicico.sales.iservice.IShipmentMoistureItemService;
@@ -84,8 +85,8 @@ public class ShipmentMoistureItemService implements IShipmentMoistureItemService
 
 	@Transactional(readOnly = true)
 	@Override
-	public SearchDTO.SearchRs<ShipmentMoistureItemDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(shipmentMoistureItemDAO, request, shipmentMoistureItem -> modelMapper.map(shipmentMoistureItem, ShipmentMoistureItemDTO.Info.class));
+	public TotalResponse<ShipmentMoistureItemDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(shipmentMoistureItemDAO, criteria, shipmentMoistureItem -> modelMapper.map(shipmentMoistureItem, ShipmentMoistureItemDTO.Info.class));
 	}
 
 	// ------------------------------
@@ -102,7 +103,7 @@ public class ShipmentMoistureItemService implements IShipmentMoistureItemService
 		Map<String, Object> map = gson.fromJson(data, Map.class);
 
 		ArrayList lotTransmitters = null;
-		Long ShipmentMoistureHeaderId = new Long(map.get("ShipmentMoistureHeaderId").toString());
+		Long ShipmentMoistureHeaderId = new Long(map.get("ShipmentMoistureHeaderId").toString().split("[.]")[0]);
 		ShipmentMoistureHeader tblShipmentMoistureHeader = shipmentMoistureHeaderDAO.findById(ShipmentMoistureHeaderId) .orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));;
 
 		lotTransmitters = (ArrayList) map.get("selected");
@@ -113,7 +114,7 @@ public class ShipmentMoistureItemService implements IShipmentMoistureItemService
 				tblShipmentMoistureItem.setShipmentMoistureHeader(tblShipmentMoistureHeader);
 				tblShipmentMoistureItem.setShipmentMoistureHeaderId(tblShipmentMoistureHeader.getId());
 
-				tblShipmentMoistureItem.setLotNo(new Long(itemObj.get("lotNo").toString()));
+				tblShipmentMoistureItem.setLotNo(new Long(itemObj.get("lotNo").toString().split("[.]")[0]));
 
 				if (itemObj.get("dryWeight") != null) {
 					tblShipmentMoistureItem.setDryWeight(new Double(itemObj.get("dryWeight").toString()));

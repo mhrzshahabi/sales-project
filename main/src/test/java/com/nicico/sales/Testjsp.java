@@ -1,4 +1,4 @@
-package myMain;
+package com.nicico.sales;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,7 +17,7 @@ public class Testjsp {
 
     public static void main(String[] args) {
         try {
-            String fileName = "D:\\NICICO-Workspace\\sales\\web\\src\\main\\resources\\META-INF\\resources\\WEB-INF\\views\\shipment\\shipmentMoisture.jsp";
+            String fileName = "D:\\NICICO-Workspace\\sales\\web\\src\\main\\resources\\META-INF\\resources\\WEB-INF\\views\\shipment\\shipmentAssay.jsp";
             List<String> lines = new ArrayList<String>();
             boolean ok=false;
             try {
