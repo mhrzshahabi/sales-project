@@ -93,7 +93,7 @@
     var ValuesManager_Person = isc.ValuesManager.create({});
     var DynamicForm_Person = isc.DynamicForm.create({
         valuesManager: ValuesManager_Person,
-        width: "100%",
+        width: 700,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -112,22 +112,22 @@
             {type: "RowSpacerItem"},
             {
                 name: "contactId",
-                title: "<spring:message code='contact.name'/>"
-                ,
-                width: "100%", wrapTitle: false, required: true,
+                title: "<spring:message code='contact.name'/>",
+                width: 500, wrapTitle: false, required: true,
                 editorType: "SelectItem",
-                type: 'long'
+                type: 'text',
+                sortField:1
                 ,
                 optionDataSource: RestDataSource_Contact,
                 displayField: "nameFA"
                 ,
                 valueField: "id",
-                pickListWidth: 500,
-                pickListHeight: 500,
+                pickListWidth: 450,
+                pickListHeight: 400,
                 pickListProperties: {showFilterEditor: true}
 
                 ,
-                pickListFields: [{name: "id", width: 50, align: "center"}, {
+                pickListFields: [{name: "id", width: 50, align: "center" , hidden:true}, {
                     name: "nameFA",
                     width: 150,
                     align: "center"
@@ -138,21 +138,21 @@
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text', wrapTitle: false,
                 required: true, length: "200",
-                width: "100%",
+                width: 500,
             },
             {
                 name: "jobTitle",
                 title: "<spring:message code='person.jobTitle'/>",
                 length: "200",
                 type: 'text',
-                width: "100%",
+                width: 500,
                 wrapTitle: false
             },
             {
                 name: "title",
                 title: "<spring:message code='person.title'/>",
                 type: 'text', wrapTitle: false,
-                width: "100%",
+                width: 500,
                 valueMap: {
                     "MR": "<spring:message code='global.MR'/>",
                     "MIS": "<spring:message code='global.MIS'/>",
@@ -164,74 +164,105 @@
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: true,
-                width: "100%",
-                wrapTitle: false
+                width: 500,
+                wrapTitle: false,
+                validateOnExit: true,
+                length:20,
+                /*Fix bug For Regex email */
+                validators:[
+                {
+                type:"regexp",
+                expression:".+\\@.+\\..+",
+                }
+                ],
+                /*End Fix bug For Regex email */
             },
             {
                 name: "email1",
                 title: "<spring:message code='person.email1'/>",
                 type: 'text',
-                width: "100%",
-                wrapTitle: false
+                width: 500,
+                wrapTitle: false,
+                length:20,
+                validators:[
+                {
+                type:"regexp",
+                expression:".+\\@.+\\..+",
+                }
+                ],
+
             },
             {
                 name: "email2",
                 title: "<spring:message code='person.email2'/>",
                 type: 'text',
-                width: "100%",
-                wrapTitle: false
+                width: 500,
+                wrapTitle: false,
+                length:20,
+                validators:[
+                {
+                type:"regexp",
+                expression:".+\\@.+\\..+",
+                }
+                ],
             },
             {
                 name: "webAddress",
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
-                width: "100%",
-                wrapTitle: false
+                width: 500,
+                length:20,
+                wrapTitle: false,
+                id: "emailtest"
+
             },
             {
-                name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: "100%",
+                name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 500,
                 wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
-                name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: "100%",
+                name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 500,
                 wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
                 name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", length: "20", type: 'text',
-                width: "100%", wrapTitle: false, keyPressFilter: "[0-9.+]"
+                width: 500, wrapTitle: false, keyPressFilter: "[0-9.+]"
             },
             {
                 name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text',
-                width: "100%", wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
+                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
                 name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text',
-                width: "100%", wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
+                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
                 name: "whatsApp",
                 title: "<spring:message code='person.whatsApp'/>",
                 type: 'text',
-                width: "100%",
+                width: 500,
                 wrapTitle: false
             },
             {
                 name: "weChat",
                 title: "<spring:message code='person.weChat'/>",
                 type: 'text',
-                width: "100%",
+                width: 500,
                 wrapTitle: false
             },
             {
                 name: "address",
                 title: "<spring:message code='person.address'/>",
                 type: 'text',
-                width: "100%",
+                width: 500,
                 wrapTitle: false,
                 length: "1000"
             },
         ]
     });
+
+
+
 
     var IButton_Person_Save = isc.IButton.create({
         top: 260,
@@ -241,6 +272,8 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
+
+
             ValuesManager_Person.validate();
             DynamicForm_Person.validate();
             if (DynamicForm_Person.hasErrors()) {
@@ -457,7 +490,7 @@
                     "MS": "<spring:message code='global.MRS'/>",
                 }
             },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400},
+            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400,regex:"^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"},
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400},
             {name: "webAddress", title: "<spring:message code='person.webAddress'/>", type: 'text', width: 400},
@@ -486,7 +519,7 @@
                 title: "<spring:message code='contact.name'/>",
                 type: 'long',
                 width: 120,
-                align: "center"
+                align: "center",
             },
             {
                 name: "fullName",
@@ -521,12 +554,12 @@
             {name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: 150},
 
         ],
-        sortField: 0,
+        sortField: 2,
+        sortDirection: "descending",
         dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt"
     });
 
 

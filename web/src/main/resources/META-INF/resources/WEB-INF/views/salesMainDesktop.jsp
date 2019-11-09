@@ -13,6 +13,7 @@
 
     <link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
+    <link rel="stylesheet" href="<spring:url value='/static/css/smartStylebutton.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
@@ -32,7 +33,24 @@
     <script src=isomorphic/system/modules/ISC_Analytics.js></script>
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
     <script src=isomorphic/skins/Tahoe/load_skin.js></script>
-    <script src=isomorphic/locales/frameworkMessages_fa.properties type="application/json"></script>
+    <script src=isomorphic/locales/frameworkMessages.properties type="application/json"></script>
+    <script type="application/javascript">
+
+        (function loadFrameworkMessageFa() {
+            window.onload = () => isc.RPCManager.sendRequest({
+                httpMethod: "GET",
+                showPrompt: false,
+                useSimpleHttp: true,
+                serverOutputAsString: false,
+                contentType: "application/json; charset=utf-8",
+                actionURL: "${pageContext.servletContext.contextPath}/isomorphic/locales/frameworkMessages.properties",
+                callback: function (RpcResponse_o) {
+                    eval(RpcResponse_o.data);
+                }
+            });
+        })()
+
+    </script>
 
 </head>
 
@@ -51,9 +69,32 @@
 
 <script type="application/javascript">
 
+
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.FileLoader.loadLocale("fa");
+
+    /*fix(Persion) right click on ListGrid*/
+
+    isc.ListGrid.addProperties({
+        sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
+        sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
+        configureSortText: '<spring:message code="global.grid.configureSortText" />',
+        autoFitAllText: '<spring:message code="global.grid.autoFitAllText" />',
+        autoFitFieldText: '<spring:message code="global.grid.autoFitFieldText" />',
+        filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
+        fieldVisibilitySubmenuTitle:'<spring:message code="listGrid_fieldVisibilitySubmenuTitle" />',
+        groupByText: '<spring:message code="global.grid.groupByText" />',
+        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
+        iBetweenTitle:'<spring:message code="operators_iBetweenTitle" />',
+        iStartsWithTitle:'<spring:message code="global.grid.A.iStartsWithTitle" />',
+    });
+
+
+
+
+
+
 
     isc.defineClass("MyRestDataSource", RestDataSource);
 
@@ -73,20 +114,20 @@
         }
     });
 
-    // isc.ViewLoader.addMethods({
-	// 	handleError: function (rq, rs) {
-	// 		console.log("Global ViewLoader Error: ", rq, rs);
-	// 		if (rs.httpResponseCode === 403) { // Forbidden
-	// 			nicico.error("Access Denied");  //TODO: I18N message key
-	// 		} else {
-	// 			redirectLogin();
-	// 		}
-	// 		return false;
-	// 	},
-	// 	handleSuccess: function(rq, rs){
-	// 	    alert(12345);
-	// 	}
-	// });
+    isc.ViewLoader.addMethods({
+        handleError: function (rq, rs) {
+            console.log("Global ViewLoader Error: ", rq, rs);
+            if (rs.httpResponseCode === 403) { // Forbidden
+                nicico.error("Access Denied");  //TODO: I18N message key
+            } else {
+                redirectLogin();
+            }
+            return false;
+        },
+        handleSuccess: function(rq, rs){
+            alert(12345);
+        }
+    });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -108,15 +149,16 @@
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
                 case "Unauthorized":
-                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: "<spring:message code='global.warning'/>"});
+                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     break;
                 case "DataIntegrityViolation_Unique":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: "<spring:message code='global.warning'/>"});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     break;
                 case "DataIntegrityViolation_FK":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: 'هشدار'});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
+                    break;
                 case "DataIntegrityViolation":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='global.warning'/>"});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
         }
@@ -266,7 +308,7 @@
 
     var headerLayout = isc.HLayout.create({
         width: "100%",
-        height: "30",
+        height: "3%",
         backgroundColor: "#153560",
         members: [salesIcon, emptyLabel_Before, emptyLabel_After, label_Username, languageForm, logoutButton]
     });
@@ -710,7 +752,7 @@
 
     /*-------------------license---------------------------
     var boardCertificateButton = isc.IconButton.create({
-        title: "<spring:message code='boardCertificate.title'/>",
+        <%--title: "<spring:message code='boardCertificate.title'/>",--%>
         icon: "license/boardCertificate.png",
         largeIcon: "license/boardCertificate.png",
         orientation: "vertical",
@@ -825,6 +867,15 @@
             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
         }
     });
+    var salesContractMoButton = isc.IconButton.create({
+        title: "salesContractMoButton",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")
+        }
+    });
     var purchaseContractButton = isc.IconButton.create({
         title: "<spring:message code='purchaseContract.title'/>",
         icon: "contract/purchaseContract.png",
@@ -869,7 +920,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            salesContractButton
+            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
@@ -1159,7 +1210,7 @@
         titleAlign: "left",
         controls: [
             // inspectorAppointmentButton
-              inspectionMoistureResultButton
+            inspectionMoistureResultButton
             , inspectionAssayResultButton
             // , inspectionCostButton
         ],
@@ -1177,8 +1228,8 @@
         members: [inspectionRibbonBar]
     });
     /!*-------------------insurance---------------------------*!/
- /*   var insurerNominationButton = isc.IconButton.create({
-        title: "<spring:message code='insurerNomination.title'/>",
+    /*   var insurerNominationButton = isc.IconButton.create({
+           title: "<spring:message code='insurerNomination.title'/>",
         icon: "insurance/insurerNomination.png",
         largeIcon: "insurance/insurerNomination.png",
         orientation: "vertical",
@@ -1292,6 +1343,22 @@
         }
     });
 
+   /* var issuedInvoicesButtonContract = isc.IconButton.create({
+        title: "<spring:message code='main.contractsTab'/>",
+        icon: "financial/issuedInvoices.png",
+        largeIcon: "financial/issuedInvoices.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")
+        }
+    });*/
+
+    var financialRibbonBarContract = isc.RibbonBar.create({
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
+    });
+
     var financialRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.financial'/>",
         numRows: 1,
@@ -1312,6 +1379,32 @@
         groupTitleOrientation: "top"
     });
     financialRibbonBar.addGroup(financialRibbonGroup, 0);
+
+    /*var financialRibbonGroupContract = isc.RibbonGroup.create({
+        title: "<spring:message code='global.menu.test'/>",
+        numRows: 1,
+        colWidths: [20, "*"],
+        showTitle: false,
+        titleAlign: "left",
+        controls: [
+            issuedInvoicesButtonContract
+        ],
+        autoDraw: false
+    });*/
+
+
+   /* var financialRibbonHLayoutContract = isc.HLayout.create({
+        width: "100%",
+        height: "60",
+        // border: "0px solid green",
+        showResizeBar: false,
+        showShadow: false,
+        backgroundColor: "#153560",
+        members: [financialRibbonBarContract]
+    });*/
+
+  /*  financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);*/
+
 
     var financialRibbonHLayout = isc.HLayout.create({
         width: "100%",
@@ -1356,7 +1449,7 @@
         ID: "menuTabSet",
         tabBarPosition: "top",
         width: "100%",
-        height: "130",
+        height: "18%",
         tabs: [
             <%--{title: "<spring:message code='main.cartableTab'/>", pane: cartableRibbonHLayout},--%>
             {title: "<spring:message code='main.reportTab'/>", pane: reportRibbonHLayout},
@@ -1371,7 +1464,7 @@
             {title: "<spring:message code='main.inspectionTab'/>", pane: inspectionRibbonHLayout},
             <%--{title: "<spring:message code='main.insuranceTab'/>", pane: insuranceRibbonHLayout},--%>
             {title: "<spring:message code='main.financialTab'/>", pane: financialRibbonHLayout}
-            <%--{title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}--%>
+           /* {title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}*/
         ]
     });
 
@@ -1397,6 +1490,80 @@
             } // callback
         })
     );
+
+
+
+
+    /*Fix Farsi click*/
+    isc.defineClass("Operators", "Class");
+    isc.A = isc.Operators;
+    isc.A.equalsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iEqualsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notEqualTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iNotEqualTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.greaterThanTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.lessThanTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.greaterOrEqualTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.lessOrEqualTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.betweenTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iBetweenTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.betweenInclusiveTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iBetweenInclusiveTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.startsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iStartsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.endsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iEndsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.containsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iContainsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notContainsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iNotContainsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notStartsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iNotStartsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notEndsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iNotEndsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.regexpTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iregexpTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.matchesPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iMatchesPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.containsPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iContainsPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.equalsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iEqualsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notEqualFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iNotEqualFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.greaterThanFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.lessThanFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.greaterOrEqualFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.lessOrEqualFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.containsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iContainsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.startsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iStartsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.endsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iEndsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notContainsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iNotContainsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notStartsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iNotStartsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notEndsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iNotEndsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.startsWithPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iStartsWithPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.endsWithPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.iEndsWithPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.andTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.orTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.inSetTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notInSetTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.isBlankTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notBlankTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.isNullTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    isc.A.notNullTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
+    /*End Fix(Persion)*/
+
+
+
 
 </script>
 </body>

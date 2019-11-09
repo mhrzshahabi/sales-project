@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class PMPTYPE {
     @Id
     private Long p_id;
-    private  Long GDSCODE;
+    private Long GDSCODE;
     private Long PACK_TYPE;
     private Long PLANT_ID;
     private String GDSNAME;

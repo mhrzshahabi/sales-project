@@ -113,9 +113,13 @@
                             Window_Material.close();
                         } else
                             isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
+
+                    },
+
+
+                }),
+
+            )
         }
     });
 
@@ -188,8 +192,11 @@
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
-                                }
+                                },
+
                             })
+
+
                         );
                     }
                 }
@@ -198,7 +205,7 @@
     };
 
     var Menu_ListGrid_Material = isc.Menu.create({
-        width: 150,
+        width: 100,
         data:
             [
                 {
@@ -242,7 +249,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
         fields:
             [
                 {name: "id", hidden: true},
@@ -255,11 +262,13 @@
                     length: "20",
                     keyPressFilter: "[0-9]",
                     validators: [{
-                        type: "isInteger",
+                        type: "number", //Fix
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    hint: "تا 20 رقم قابل قبول می باشد",
+                    showHintInField: true,
                 },
                 {
                     name: "descl",
@@ -350,6 +359,7 @@
                 ToolStrip_Actions_Material
             ]
     });
+
     var Window_Material = isc.Window.create({
         title: "<spring:message code='material.title'/> ",
         width: 580,
@@ -516,7 +526,8 @@
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
-                                }
+                                },
+
                             })
                         );
                     }
@@ -555,7 +566,7 @@
         ]
     });
     var DynamicForm_MaterialFeature = isc.DynamicForm.create({
-        width: "100%",
+        width: 750,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -567,7 +578,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
         fields:
             [
                 {name: "id", hidden: true,},
@@ -577,27 +588,29 @@
                     name: "itemRow",
                     title: "<spring:message code='contractItem.itemRow'/>",
                     required: true, wrapTitle: false, keyPressFilter: "[0-9]", length: "15",
-                    width: 400,
+                    width: 300,
+                    hint: "تا 15 رقم قابل قبول است",
+                    showHintInField: true,
 
-                },
+},
                 {
                     name: "featureId",
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'long', wrapTitle: false,
-                    width: 400, required: true,
+                    width: 300, required: true,
                     editorType: "SelectItem"
                     ,
                     optionDataSource: RestDataSource_Feature,
                     displayField: "nameFA"
                     ,
                     valueField: "id",
-                    pickListWidth: "500",
-                    pickListHeight: "500",
+                    pickListWidth: 750,
+                    pickListHeight: "650",
                     pickListProperties: {showFilterEditor: true}
                     ,
-                    pickListFields: [{name: "id", width: 50, align: "center"}, {
+                    pickListFields: [{name: "id", width: 50, align: "center" , hidden: true}, {
                         name: "nameFA",
-                        width: 150,
+                        width: 300,
                         align: "center"
                     }, {name: "nameEN", width: 150, align: "center"}, {name: "code", width: 150, align: "center"}]
                 },
@@ -605,7 +618,9 @@
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
-                    width: 400,
+                    width: 300,
+                    hint: "تا 15 رقم قابل قبول است",
+                    showHintInField: true,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -617,7 +632,9 @@
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
-                    width: 400,
+                    width: 300,
+                    hint: "تا 15 رقم قابل قبول است",
+                    showHintInField: true,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -630,7 +647,9 @@
                     name: "avgValue",
                     title: "<spring:message code='MaterialFeature.avgValue'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
-                    width: 400,
+                    width: 300,
+                    hint: "تا 15 رقم قابل قبول است",
+                    showHintInField: true,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -642,7 +661,7 @@
                     name: "tolorance",
                     title: "<spring:message code='MaterialFeature.tolorance'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
-                    width: 400,
+                    width: 300,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -654,7 +673,7 @@
                     name: "rateId",
                     title: "<spring:message code='rate.nameFa'/>",
                     type: 'long', wrapTitle: false,
-                    width: 400,
+                    width: 300,
                     editorType: "SelectItem"
                     ,
                     optionDataSource: RestDataSource_Rate,
@@ -665,9 +684,9 @@
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true}
                     ,
-                    pickListFields: [{name: "id", width: 50, align: "center"}, {
+                    pickListFields: [{name: "id", width: 50, align: "center" , hidden: true}, {
                         name: "nameFA",
-                        width: 150,
+                        width: 300,
                         align: "center"
                     }, {name: "nameEN", width: 150, align: "center"}, {name: "code", width: 150, align: "center"}]
                 },
@@ -676,7 +695,9 @@
                     name: "payableIfGraterThan",
                     title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
-                    width: 400,
+                    width: 300,
+                    hint: "تا 15 رقم قابل قبول است",
+                    showHintInField: true,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -688,7 +709,9 @@
                     name: "paymentPercent",
                     title: "<spring:message code='MaterialFeature.paymentPercent'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
-                    width: 400,
+                    width: 300,
+                    hint: "تا 15 رقم قابل قبول است",
+                    showHintInField: true,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -700,7 +723,9 @@
                     name: "treatCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
                     type: 'float', keyPressFilter: "[0-9.]", length: "15",
-                    width: 400,
+                    width: 300,
+                    hint: "تا 15 رقم قابل قبول است",
+                    showHintInField: true,
                     wrapTitle: false,
                     validators: [{
                         type: "isFloat",
@@ -713,7 +738,9 @@
                     name: "refineryCost",
                     title: "<spring:message code='MaterialFeature.RC'/>",
                     type: 'float', keyPressFilter: "[0-9.]", length: "15",
-                    width: 400,
+                    width: 300,
+                    hint: "تا 15 رقم قابل قبول است",
+                    showHintInField: true,
                     wrapTitle: false,
                     validators: [{
                         type: "isFloat",
@@ -825,7 +852,8 @@
                             Window_MaterialFeature.close();
                         } else
                             isc.say(RpcResponse_o.data);
-                    }
+                    },
+
                 })
             );
         }
@@ -879,6 +907,7 @@
         height: "100%",
         dataSource: RestDataSource_MaterialFeature,
         contextMenu: Menu_ListGrid_MaterialFeature,
+        numCols: 2,
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true}, {name: "materialId", type: "long", hidden: true},
@@ -886,91 +915,91 @@
                     name: "itemRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: "3%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "feature.nameFA",
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'text',
-                    width: "12%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "feature.nameEN",
                     title: "<spring:message code='feature.nameEN'/>",
                     type: 'text',
-                    width: "12%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     type: 'float',
-                    width: "5%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     type: 'float',
-                    width: "5%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "avgValue",
                     title: "<spring:message code='MaterialFeature.avgValue'/>",
                     type: 'float',
-                    width: "5%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "tolorance",
                     title: "<spring:message code='MaterialFeature.tolorance'/>",
                     type: 'float',
-                    width: "5%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "rate.nameFA",
                     title: "<spring:message code='rate.nameFa'/>",
                     type: 'text',
-                    width: "8%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "rate.nameEN",
                     title: "<spring:message code='rate.nameEN'/>",
                     type: 'text',
-                    width: "10%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "payableIfGraterThan",
                     title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
                     type: 'text',
-                    width: "10%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "paymentPercent",
                     title: "<spring:message code='MaterialFeature.paymentPercent'/>",
                     type: 'text',
-                    width: "12%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "treatCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
                     type: 'text',
-                    width: "10%",
+                    width: 400,
                     align: "center"
                 },
                 {
                     name: "refineryCost",
                     title: "<spring:message code='MaterialFeature.RC'/>",
                     type: 'text',
-                    width: "10%",
+                    width: 400,
                     align: "center"
                 },
             ],

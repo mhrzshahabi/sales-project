@@ -19,8 +19,21 @@ public class ContractDTO {
 	private String contractNo;
 	private String contractDate;
 	private String isComplete;
+    private String incotermsText;
+    private String officeSource;
+    private String priceCalPeriod;
+    private String publishTime;
+    private String reportTitle;
+    private String delay;
+    private String payTime;
+    private String pricePeriod;
+    private String eventPayment;
+    private String contentType;
+    private String amount_en;
+    private String prefixPayment;
 	private Long incotermsId;
 	private Long prepaid;
+    private Long portByPortSourceId;
 	private String prepaidCurrency;
 	private String runFrom;
 	private String runStartDate;
@@ -43,6 +56,12 @@ public class ContractDTO {
 	private Double molybdenumTolorance;
 	private String sideContractNo;
 	private String sideContractDate;
+    private String plant;
+    private String timeIssuance;
+    private String invoiceType;
+    private Integer optional;
+    private long contactInspectionId;
+    private Double mo_amount;
 	@NotNull
 	@ApiModelProperty(required = true)
 	private Long contactId; // contactByBuyerId

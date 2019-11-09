@@ -140,7 +140,7 @@
     });
 
     var DynamicForm_Port = isc.DynamicForm.create({
-        width: "100%",
+        width: 700,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -159,7 +159,7 @@
                 {
                     name: "port",
                     title: "<spring:message code='port.port'/>",
-                    width: "100%", required: true, length: "4000",
+                    width: 450, required: true, length: "4000",
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false
@@ -167,7 +167,7 @@
                 {
                     name: "loa",
                     title: "<spring:message code='port.loa'/>",
-                    width: "100%",
+                    width: 450,
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
@@ -182,7 +182,7 @@
                 {
                     name: "beam",
                     title: "<spring:message code='port.beam'/>",
-                    width: "100%",
+                    width: 450,
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
@@ -197,7 +197,7 @@
                 {
                     name: "arrival",
                     title: "<spring:message code='port.arrival'/>",
-                    width: "100%",
+                    width: 450,
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
@@ -213,7 +213,7 @@
                     name: "countryId",
                     title: "<spring:message code='country.nameFa'/>",
                     type: 'long',
-                    width: "100%",
+                    width: 450,
                     editorType: "SelectItem",
                     colSpan: 1, required: true,
                     titleColSpan: 1,
@@ -221,8 +221,8 @@
                     displayField: "nameFa",
                     wrapTitle: false,
                     valueField: "id",
-                    pickListWidth: "500",
-                    pickListheight: "500",
+                    pickListWidth: 450,
+                    pickListheight: 450,
                     pickListProperties: {showFilterEditor: true}
                     ,
                     pickListFields: [

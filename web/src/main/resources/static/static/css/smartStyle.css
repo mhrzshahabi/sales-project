@@ -11,7 +11,7 @@
     font-size: 14px;
     color: white;
     padding: 4px;
-    font-family: B Titr, serif;
+    font-family: B Titr, serif !important;
 }
 
 .myBoxedGridCell {
@@ -30,20 +30,53 @@
 }
 
 .box-shaddow:hover {
-    -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);
     background: rgba(255, 255, 255, 0.7);
 }
 
+
 body {
-    width: 100%;
-    height: 100vh;
     display: flex;
-    padding: 50px 0;
     justify-content: center;
     align-items: center;
     font-family: IRANSans, tahoma, serif;
     color: #060790;
     text-align: center;
 }
+
+/*Fix Bug*/
+.checkboxFalse {
+    max-width: 100% !important;
+}
+
+span {
+    display: inline-flex !important;
+}
+
+span:hover {
+    display: inline-flex !important;
+}
+
+
+.formTitleRTL {
+    white-space: nowrap !important;
+}
+
+.dateChooserBorder {
+    position: fixed !important;
+    left: 815px !important;
+    top: 161px !important;
+    margin: 10% auto !important;
+}
+
+.comboBoxItemPicker, .comboBoxItemPickerOver, .comboBoxItemPickerFocused, .comboBoxItemPickerFocusedOver, .comboBoxItemPickerDisabledrtl, .comboBoxItemPickerrtl, .comboBoxItemPickerOverrtl, .comboBoxItemPickerFocusedrtl, .comboBoxItemPickerFocusedOverrtl {
+    position: absolute !important;
+    left: 3px !important;
+}
+.selectItemPickerIcon, .selectItemPickerIconOver, .selectItemPickerIconRTL, .selectItemPickerIconOverRTL, .selectItemPickerIconFocused, .selectItemPickerIconFocusedRTL, .selectItemPickerIconDisabled, .selectItemPickerIconDisabledRTL, .selectItemPickerIconError, .selectItemPickerIconErrorOver, .selectItemPickerIconErrorRTL, .selectItemPickerIconErrorOverRTL, .selectItemPickerIconErrorFocused, .selectItemPickerIconErrorFocusedRTL, .selectItemPickerIconErrorFocusedOver, .selectItemPickerIconErrorFocusedOverRTL{
+    position: relative !important;
+}
+/*End Fix Bug*/
+
