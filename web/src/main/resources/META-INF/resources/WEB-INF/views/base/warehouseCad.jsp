@@ -167,7 +167,7 @@
     });
 
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
-        width: "90%",
+        width: "100%",
         height: "200",
         modalEditing: true,
         canEdit: true,
@@ -179,10 +179,10 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bundleSerial", title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: 150, summaryFunction:"count"},
-                {name: "sheetNo", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: 150, summaryFunction:"sum"},
-                {name: "weightKg", title: "<spring:message code='warehouseCadItem.weightKg'/>", width: 150},
-                {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: 150}
+                {name: "bundleSerial", title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "25%", summaryFunction:"count"},
+                {name: "sheetNo", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: "25%", summaryFunction:"sum"},
+                {name: "weightKg", title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "25%"},
+                {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "25%"}
             ],
         saveEdits: function () {
                 var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
@@ -285,6 +285,7 @@
                 },
                 {
                     name: "sourceTozinPlantId",
+                    required: true,
                     colSpan: 3,
                     titleColSpan: 1,
                     showHover: true,
@@ -320,6 +321,7 @@
                 },
                 {
                     name: "destinationTozinPlantId",
+                    required: true,
                     colSpan: 3,
                     titleColSpan: 1,
                     showHover: true,
