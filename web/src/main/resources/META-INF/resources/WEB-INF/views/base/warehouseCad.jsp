@@ -162,6 +162,14 @@
                 click: function () {
                     ListGrid_warehouseCAD_remove();
                 }
+            },
+            {
+                /*Change logo */
+                title: "<spring:message code='global.form.print'/>", icon: "icon/word.png", click: function () {
+                    var record = ListGrid_warehouseCAD.getSelectedRecord();
+                    "<spring:url value="/warehouseCad/print/" var="printUrl"/>"
+                    window.open('${printUrl}'+record.id);
+                }
             }
         ]
     });
@@ -179,7 +187,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bundleSerial", title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "25%", summaryFunction:"count"},
+                {name: "bundleSerial", validators:[{type:"required"}], title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "25%", summaryFunction:"count"},
                 {name: "sheetNo", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: "25%", summaryFunction:"sum"},
                 {name: "weightKg", title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "25%"},
                 {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "25%"}
@@ -260,6 +268,7 @@
                 {type: "RowSpacerItem"},
                 {
                     name: "bijackNo",
+                    required: true,
                     title: "<spring:message code='warehouseCad.bijackNo'/>",
                     type: 'text'
                 },
@@ -352,49 +361,59 @@
                 {
                     name: "yard",
                     title: "<spring:message code='warehouseCad.yard'/>",
-                    width: 200,
+                    width: 250,
                     colSpan: 1,
                     titleColSpan: 1
                 },
                 {
                     name: "sourceLoadDate",
                     title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
-                    width: 200,
+                    width: 250,
+                    disabled: true,
                     colSpan: 1,
                     titleColSpan: 1
                 },
                 {
                     name: "destinationUnloadDate",
                     title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
-                    width: 200,
+                    width: 250,
+                    disabled: true,
                     colSpan: 1,
                     titleColSpan: 1
                 },
                 {
                     name: "rahahanPolompNo",
                     title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
-                    width: 200,
+                    width: 250,
                     colSpan: 1,
                     titleColSpan: 1
                 },
                 {
                     name: "herasatPolompNo",
                     title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
-                    width: 200,
+                    width: 250,
                     colSpan: 1,
                     titleColSpan: 1
                 },
                 {
                     name: "containerNo",
                     title: "<spring:message code='warehouseCad.containerNo'/>",
-                    width: 200,
+                    width: 250,
                     colSpan: 1,
                     titleColSpan: 1
                 },
-                {name: "sourceSerialSum", title: "<spring:message code='warehouseCad.sourceSerialSum'/>", width: 200},
-                {name: "destinationSerialSum", title: "<spring:message code='warehouseCad.destinationSerialSum'/>", width: 200},
-                {name: "sourceNoSum", title: "<spring:message code='warehouseCad.sourceNoSum'/>", width: 200},
-                {name: "destinationNoSum", title: "<spring:message code='warehouseCad.destinationNoSum'/>", width: 200}
+                {name: "sourceSerialSum", title: "<spring:message code='warehouseCad.sourceSerialSum'/>", width: 250,colSpan: 1,
+titleColSpan: 1},
+                {name: "destinationSerialSum", title: "<spring:message code='warehouseCad.destinationSerialSum'/>", width: 250,colSpan: 1,
+titleColSpan: 1},
+                {name: "sourceNoSum", title: "<spring:message code='warehouseCad.sourceNoSum'/>", width: 250,colSpan: 1,
+titleColSpan: 1},
+                {name: "destinationNoSum", title: "<spring:message code='warehouseCad.destinationNoSum'/>", width: 250,colSpan: 1,
+titleColSpan: 1},
+                {
+                    type: "Header",
+                    defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"
+                }
             ]
     });
 
@@ -498,7 +517,7 @@
 
     var Window_warehouseCAD = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
-        width: 800,
+        width: 810,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -544,15 +563,15 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>", width: 200},
-                {name: "material", title: "<spring:message code='material.descp'/>", width: 200},
-                {name: "movementType", title: "<spring:message code='warehouseCad.movementType'/>", width: 200},
-                {name: "plant", title: "<spring:message code='warehouseCad.plant'/>", width: 200},
-                {name: "sourceLoadDate", title: "<spring:message code='warehouseCad.sourceLoadDate'/>", width: 200},
+                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>", width: "16.66%"},
+                {name: "material", title: "<spring:message code='material.descp'/>", width: "16.66%"},
+                {name: "movementType", title: "<spring:message code='warehouseCad.movementType'/>", width: "16.66%"},
+                {name: "plant", title: "<spring:message code='warehouseCad.plant'/>", width: "16.66%"},
+                {name: "sourceLoadDate", title: "<spring:message code='warehouseCad.sourceLoadDate'/>", width: "16.66%"},
                 {
                     name: "destinationUnloadDate",
                     title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
-                    width: 200
+                    width: "16.66%"
                 }
             ],
         sortField: 0,

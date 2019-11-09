@@ -914,7 +914,7 @@
                     width: 400,
                     format: 'DD-MM-YYYY HH:mm:ss'
                 },
-                {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
+                {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400}
             ],
         // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
