@@ -69,8 +69,11 @@ public class Shipment extends Auditable {
 	@Column(name = "AMOUNT", nullable = false)
 	private Double amount;
 
-	@Column(name = "CONTAINER", length = 4)
+	@Column(name = "CONTAINER")
 	private Long noContainer;
+
+	@Column(name = "CONTAINER_TYPE", length = 20)
+	private String containerType;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -25,6 +25,7 @@ public class ShipmentDTO {
 	private Long materialId;
 	private Double amount;
 	private Long noContainer;
+	private String containerType;
 	private Long portByLoadingId;
 	private Long portByDischargeId;
 	private String dischargeAddress;
