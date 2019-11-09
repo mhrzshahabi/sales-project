@@ -333,16 +333,16 @@
             ]
     });
     var ViewLoader_Molybdenum = isc.ViewLoader.create({
-        width: "100%",
+        width: 1600,
         height: "100%",
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>",
     });
      var Window_Molybdenum = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
-        width: 1500,
-        height: "90%",
-        margin: '1px',
+        width: 1600,
+        height: 800,
+
         autoCenter: true,
         isModal: true,
         showModalMask: true,
@@ -359,21 +359,19 @@
             ]
     });
     var ViewLoader_Concentrate = isc.ViewLoader.create({
-        width: "100%",
-        height: "100%",
+        width: 1600,
+        height: 800,
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>",
     });
     var Window_Invoice_Concentrate = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
-        width: 1500,
-        height: "100%",
-        margin: "15px",
-
-        // autoSize: true,
+        width: 1600,
+        height: 800,
+        autoSize:true,
         autoCenter: true,
         isModal: true,
-        // showModalMask: true,
+
 
         align: "center",
         autoDraw: false,
@@ -385,16 +383,16 @@
             [ ViewLoader_Concentrate ]
     });
     var ViewLoader_Cathodes = isc.ViewLoader.create({
-        width: "100%",
-        height: "100%",
+        width: 1600,
+        height: 800,
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>",
     });
     var Window_Cathodes = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
-        width: "95%",
-        height: "80%",
-        margin: '10px',
+        width: 1600,
+        height: 800,
+
         autoCenter: true,
         isModal: true,
         // showModalMask: true,
@@ -816,7 +814,7 @@
                 },
                 {
                     name: "copperUnitPrice", title: "<spring:message code='invoice.copperUnitPrice'/>",
-                    type: 'float', required: false, width: "100%",
+                    type: 'float', required: false, width: "204px",
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",

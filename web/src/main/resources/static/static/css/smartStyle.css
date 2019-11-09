@@ -30,11 +30,12 @@
 }
 
 .box-shaddow:hover {
-    -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);
     background: rgba(255, 255, 255, 0.7);
 }
+
 
 body {
     display: flex;
@@ -46,7 +47,7 @@ body {
 }
 
 /*Fix Bug*/
-.checkboxFalse{
+.checkboxFalse {
     max-width: 100% !important;
 }
 
@@ -54,25 +55,28 @@ span {
     display: inline-flex !important;
 }
 
-span:hover{
+span:hover {
     display: inline-flex !important;
 }
 
 
-.formTitleRTL{
+.formTitleRTL {
     white-space: nowrap !important;
 }
 
-.dateChooserBorder{
+.dateChooserBorder {
     position: fixed !important;
     left: 815px !important;
     top: 161px !important;
     margin: 10% auto !important;
 }
 
-
-
-
-
+.comboBoxItemPicker, .comboBoxItemPickerOver, .comboBoxItemPickerFocused, .comboBoxItemPickerFocusedOver, .comboBoxItemPickerDisabledrtl, .comboBoxItemPickerrtl, .comboBoxItemPickerOverrtl, .comboBoxItemPickerFocusedrtl, .comboBoxItemPickerFocusedOverrtl {
+    position: absolute !important;
+    left: 3px !important;
+}
+.selectItemPickerIcon, .selectItemPickerIconOver, .selectItemPickerIconRTL, .selectItemPickerIconOverRTL, .selectItemPickerIconFocused, .selectItemPickerIconFocusedRTL, .selectItemPickerIconDisabled, .selectItemPickerIconDisabledRTL, .selectItemPickerIconError, .selectItemPickerIconErrorOver, .selectItemPickerIconErrorRTL, .selectItemPickerIconErrorOverRTL, .selectItemPickerIconErrorFocused, .selectItemPickerIconErrorFocusedRTL, .selectItemPickerIconErrorFocusedOver, .selectItemPickerIconErrorFocusedOverRTL{
+    position: relative !important;
+}
 /*End Fix Bug*/
 
