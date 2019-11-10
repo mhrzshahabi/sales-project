@@ -174,6 +174,190 @@ public class ContractDetail extends Auditable {
     private String article9_ImportantNote;
     @Column(name = "STRING_CURRENCY", length = 500)
     private String string_Currency;
+    @Column(name = "TYPICAL_C", length = 500)
+    private Integer typical_c;
+    @Column(name = "TYPICAL_S", length = 500)
+    private Integer typical_s;
+    @Column(name = "TYPICAL_PB", length = 500)
+    private Integer typical_pb;
+    @Column(name = "TYPICAL_P", length = 500)
+    private Integer typical_p;
+    @Column(name = "TYPICAL_SI", length = 500)
+    private Integer Typical_Si;
+    @Column(name = "TYPICAL_SIZE_MIN", length = 500)
+    private String typical_size_min;
+    @Column(name = "PREFIXMOLYBDENUM", length = 500)
+    private String PrefixMolybdenum;
+    @Column(name = "PREFIXCOPPER", length = 500)
+    private String PrefixCopper;
+    @Column(name = "PREFIXC", length = 500)
+    private String PrefixC;
+    @Column(name = "PREFIXS", length = 500)
+    private String PrefixS;
+    @Column(name = "PREFIXPB", length = 500)
+    private String PrefixPb;
+    @Column(name = "PREFIXP", length = 500)
+    private String PrefixP;
+    @Column(name = "PREFIXSI", length = 500)
+    private String PrefixSi;
+    @Column(name = "TOLERANCEMO", length = 500)
+    private Integer toleranceMO;
+    @Column(name = "TOLERANCECU", length = 500)
+    private Integer toleranceCU;
+    @Column(name = "TOLERANCEC", length = 500)
+    private Integer toleranceC;
+    @Column(name = "TOLERANCES", length = 500)
+    private Integer toleranceS;
+    @Column(name = "TOLERANCEPB", length = 500)
+    private Integer tolerancePb;
+    @Column(name = "TOLERANCEP", length = 500)
+    private Integer toleranceP;
+    @Column(name = "TOLERANCESI", length = 500)
+    private Integer toleranceSi;
+    @Column(name = "TYPICAL_UNITMO", length = 500)
+    private String typical_unitMO;
+    @Column(name = "TYPICAL_UNITCU", length = 500)
+    private String typical_unitCU;
+    @Column(name = "TYPICAL_UNITC", length = 500)
+    private String typical_unitC;
+    @Column(name = "TYPICAL_UNITS", length = 500)
+    private String typical_unitS;
+    @Column(name = "TYPICAL_UNITPB", length = 500)
+    private String typical_unitPb;
+    @Column(name = "TYPICAL_UNITP", length = 500)
+    private String typical_unitP;
+    @Column(name = "TYPICAL_UNITSI", length = 500)
+    private String typical_unitSi;
+    @Column(name = "DISCOUNTVALUEONE", length = 500)
+    private Integer discountValueOne;
+    @Column(name = "DISCOUNTVALUEONE_1", length = 500)
+    private Integer discountValueOne_1;
+    @Column(name = "DISCOUNTVALUEONE_2", length = 500)
+    private Integer discountValueOne_2;
+    @Column(name = "DISCOUNTVALUETWO", length = 500)
+    private Integer discountValueTwo;
+    @Column(name = "DISCOUNTVALUETWO_1", length = 500)
+    private Integer discountValueTwo_1;
+    @Column(name = "DISCOUNTVALUETWO_2", length = 500)
+    private Integer discountValueTwo_2;
+    @Column(name = "DISCOUNTVALUETHREE", length = 500)
+    private Integer discountValueThree;
+    @Column(name = "DISCOUNTVALUETHREE_1", length = 500)
+    private Integer discountValueThree_1;
+    @Column(name = "DISCOUNTVALUETHREE_2", length = 500)
+    private Integer discountValueThree_2;
+    @Column(name = "DISCOUNTVALUEFOUR", length = 500)
+    private Integer discountValueFour;
+    @Column(name = "DISCOUNTVALUEFOUR_1", length = 500)
+    private Integer discountValueFour_1;
+    @Column(name = "DISCOUNTVALUEFOUR_2", length = 500)
+    private Integer discountValueFour_2;
+    @Column(name = "DISCOUNTVALUEFIVE", length = 500)
+    private Integer discountValueFive;
+    @Column(name = "DISCOUNTVALUEFIVE_1", length = 500)
+    private Integer discountValueFive_1;
+    @Column(name = "DISCOUNTVALUEFIVE_2", length = 500)
+    private Integer discountValueFive_2;
+    @Column(name = "DISCOUNTVALUESIX", length = 500)
+    private Integer discountValueSix;
+    @Column(name = "DISCOUNTVALUESIX_1", length = 500)
+    private Integer discountValueSix_1;
+    @Column(name = "DISCOUNTVALUESIX_2", length = 500)
+    private Integer discountValueSix_2;
+    @Column(name = "DISCOUNTVALUESEVEN", length = 500)
+    private Integer discountValueSeven;
+    @Column(name = "DISCOUNTVALUESEVEN_1", length = 500)
+    private Integer discountValueSeven_1;
+    @Column(name = "DISCOUNTVALUESEVEN_2", length = 500)
+    private Integer discountValueSeven_2;
+    @Column(name = "DISCOUNTVALUEEIGHT", length = 500)
+    private Integer discountValueEight;
+    @Column(name = "DISCOUNTVALUEEIGHT_1", length = 500)
+    private Integer discountValueEight_1;
+    @Column(name = "DISCOUNTVALUEEIGHT_2", length = 500)
+    private Integer discountValueEight_2;
+    @Column(name = "DISCOUNTVALUENINE", length = 500)
+    private Integer discountValueNine;
+    @Column(name = "DISCOUNTVALUENINE_1", length = 500)
+    private Integer discountValueNine_1;
+    @Column(name = "DISCOUNTVALUENINE_2", length = 500)
+    private Integer discountValueNine_2;
+    @Column(name = "DISCOUNTVALUETEN", length = 500)
+    private Integer discountValueTen;
+    @Column(name = "DISCOUNTVALUETEN_1", length = 500)
+    private Integer discountValueTen_1;
+    @Column(name = "DISCOUNTVALUETEN_2", length = 500)
+    private Integer discountValueTen_2;
+    @Column(name = "DISCOUNTVALUEELEVEN", length = 500)
+    private Integer discountValueEleven;
+    @Column(name = "DISCOUNTVALUEELEVEN_1", length = 500)
+    private Integer discountValueEleven_1;
+    @Column(name = "DISCOUNTVALUEELEVEN_2", length = 500)
+    private Integer discountValueEleven_2;
+    @Column(name = "DISCOUNTFOR", length = 500)
+    private String discountFor;
+    @Column(name = "DISCOUNTPERFIXONE", length = 500)
+    private String discountPerfixOne;
+    @Column(name = "DISCOUNTUNITONE", length = 500)
+    private String discountUnitOne;
+    @Column(name = "DISCOUNTPERFIXONE_1", length = 500)
+    private String discountPerfixOne_1;
+    @Column(name = "DISCOUNTPERFIXTWO", length = 500)
+    private String discountPerfixTwo;
+    @Column(name = "DISCOUNTUNITTWO", length = 500)
+    private String discountUnitTwo;
+    @Column(name = "DISCOUNTPERFIXTWO_1", length = 500)
+    private String discountPerfixTwo_1;
+    @Column(name = "DISCOUNTPERFIXTHREE", length = 500)
+    private String discountPerfixThree;
+    @Column(name = "DISCOUNTPERFIXTHREE_1", length = 500)
+    private String discountPerfixThree_1;
+    @Column(name = "DISCOUNTUNITFOUR", length = 500)
+    private String discountUnitFour;
+    @Column(name = "DISCOUNTPERFIXFOUR_1", length = 500)
+    private String discountPerfixFour_1;
+    @Column(name = "DISCOUNTPERFIXFIVE", length = 500)
+    private String discountPerfixFive;
+    @Column(name = "DISCOUNTUNITFIVE", length = 500)
+    private String discountUnitFive;
+    @Column(name = "DISCOUNTPERFIXFIVE_1", length = 500)
+    private String discountPerfixFive_1;
+    @Column(name = "DISCOUNTPERFIXSIX", length = 500)
+    private String discountPerfixSix;
+    @Column(name = "DISCOUNTUNITSIX", length = 500)
+    private String discountUnitSix;
+    @Column(name = "DISCOUNTPERFIXSIX_1", length = 500)
+    private String discountPerfixSix_1;
+    @Column(name = "DISCOUNTPERFIXSEVEN", length = 500)
+    private String discountPerfixSeven;
+    @Column(name = "DISCOUNTUNITSEVEN", length = 500)
+    private String discountUnitSeven;
+    @Column(name = "DISCOUNTPERFIXSEVEN_1", length = 500)
+    private String discountPerfixSeven_1;
+    @Column(name = "DISCOUNTPERFIXEIGHT", length = 500)
+    private String discountPerfixEight;
+    @Column(name = "DISCOUNTUNITEIGHT", length = 500)
+    private String discountUnitEight;
+    @Column(name = "DISCOUNTPERFIXEIGHT_1", length = 500)
+    private String discountPerfixEight_1;
+    @Column(name = "DISCOUNTPERFIXNINE", length = 500)
+    private String discountPerfixNine;
+    @Column(name = "DISCOUNTUNITNINE", length = 500)
+    private String discountUnitNine;
+    @Column(name = "DISCOUNTPERFIXNINE_1", length = 500)
+    private String discountPerfixNine_1;
+    @Column(name = "DISCOUNTPERFIXTEN", length = 500)
+    private String discountPerfixTen;
+    @Column(name = "DISCOUNTUNITTEN", length = 500)
+    private String discountUnitTen;
+    @Column(name = "DISCOUNTPERFIXTEN_1", length = 500)
+    private String discountPerfixTen_1;
+    @Column(name = "DISCOUNTPERFIXELEVEN", length = 500)
+    private String discountPerfixEleven;
+    @Column(name = "DISCOUNTUNITELEVEN", length = 500)
+    private String discountUnitEleven;
+    @Column(name = "DISCOUNTPERFIXELEVEN_1", length = 500)
+    private String discountPerfixEleven_1;
 
 
 }

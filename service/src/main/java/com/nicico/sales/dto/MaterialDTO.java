@@ -25,7 +25,6 @@ public class MaterialDTO {
 	@NotNull
 	@ApiModelProperty(required = true)
 	private String code;
-
 	private Long unitId;
 
 	// ------------------------------

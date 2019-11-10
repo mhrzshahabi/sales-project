@@ -5,6 +5,7 @@
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
+
             var ViewLoader_createTozin = isc.ViewLoader.create({
                         width: "100%",
                         height: "100%",
@@ -83,15 +84,44 @@
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
                                 Window_SelectTypeContact.animateShow();
-                              //  Window_Contact.animateShow();
                             }
                     });
+                    var ToolStripButton_Contact_Edit = isc.ToolStripButton.create({
+                            icon: "[SKIN]/actions/edit.png",
+                            title: "<spring:message code='global.form.edit'/>",
+                            click: function () {
+                                var record = ListGrid_Tozin.getSelectedRecord();
+                                if (record == null || record.id == null) {
+                                    isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }});
+                            } else {
+                                    contactHeader.editRecord(record);
+                                    contactHeaderAgent.editRecord(record);
+                                    valuesManagerArticle1.editRecord(record);
+                                    valuesManagerArticle2.editRecord(record);
+                                    valuesManagerArticle3.editRecord(record);
+                                    valuesManagerArticle4.editRecord(record);
+                                    valuesManagerArticle5.editRecord(record);
+                                    valuesManagerArticle6.editRecord(record);
+                                    valuesManagerArticle7.editRecord(record);
+                                    valuesManagerArticle8.editRecord(record);
+                                    valuesManagerArticle9.editRecord(record);
+                                    valuesManagerArticle10.editRecord(record);
+                                Window_Contact.show();
+                                    }
+                            }});
 
                     var ToolStrip_Actions_Contact = isc.ToolStrip.create({
                         width: "100%",
                         height: "100%",
                         members: [
-                             ToolStripButton_Contact_Add
+                             ToolStripButton_Contact_Add,ToolStripButton_Contact_Edit
                         ]
                         });
                     var HLayout_Actions_Contact = isc.HLayout.create({
@@ -100,28 +130,37 @@
                          ToolStrip_Actions_Contact
                         ]
                     });
-            var RestDataSource_Contact = isc.MyRestDataSource.create({
-                        fields: [
-                        {name: "id", primaryKey: true, canEdit: false, hidden: true},
-                        {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-                        {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-                        {name: "code", title: "<spring:message code='contact.code'/>"}
-                        ],
-                        fetchDataURL: "${contextPath}/api/contact/spec-list"
-                        });
-
+             var RestDataSource_Contract = isc.MyRestDataSource.create({
+             fields:
+                [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "contractNo", title: "<spring:message code='contract.contractNo'/>"},
+                {name: "contractDate", title: "<spring:message code='contract.contractDate'/>"},
+                {name: "contactId", title: "<spring:message code='contact.name'/>"},
+                {name: "contact.nameFA", title: "<spring:message code='contact.name'/>"},
+                {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
+                {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
+                {name: "amount", title: "<spring:message code='global.amount'/>"},
+                {name: "sideContractDate", ID: "sideContractDate"},
+                {name: "refinaryCost", ID: "refinaryCost"},
+                {name: "treatCost", ID: "treatCost"},
+                ],
+                // ######@@@@###&&@@###
+                fetchDataURL: "${contextPath}/api/contract/spec-list"
+            });
             var ListGrid_Tozin = isc.ListGrid.create({
                         width: "100%",
                         height: "100%",
-                        dataSource: RestDataSource_Contact,
+                        dataSource: RestDataSource_Contract,
                         dataPageSize: 50,
+                        showFilterEditor: true,
                         autoFetchData: true,
                         fields:
                         [
-                {name: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>", align: "center",canEdit: true}  ,
-                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>", align: "center"},
-                {name: "code", title: "<spring:message code='contact.code'/>", align: "center"}
+                            {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                            {name: "contractNo",width: "10%", title: "<spring:message code='contact.no'/>", align: "center",canEdit: false}  ,
+                            {name: "contractDate",width: "10%", title: "<spring:message code='contract.contractDate'/>", align: "center",canEdit: true}  ,
+                            {name: "contact.nameFA",width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
                         ]
                         });
 

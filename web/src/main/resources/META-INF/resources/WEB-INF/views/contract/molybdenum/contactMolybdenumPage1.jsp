@@ -6,25 +6,6 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
 
-    function ValuesManager(valueId) {
-        isc.ValuesManager.create({
-            ID: valueId
-        })
-    }
-
-    ValuesManager("contactHeader");
-    ValuesManager("contactHeaderAgent");
-    ValuesManager("valuesManagerArticle1");
-    ValuesManager("valuesManagerArticle2");
-    ValuesManager("valuesManagerArticle3");
-    ValuesManager("valuesManagerArticle4");
-    ValuesManager("valuesManagerArticle5");
-    ValuesManager("valuesManagerArticle6");
-    ValuesManager("valuesManagerArticle7");
-    ValuesManager("valuesManagerArticle8");
-    ValuesManager("valuesManagerArticle9");
-    ValuesManager("valuesManagerArticle10");
-
     function factoryLableHedear(id, contents, width, height, padding) {
         isc.Label.create({
             ID: id,
@@ -278,21 +259,11 @@
         operator: "and",
         criteria: [{fieldName: "agentSeller", operator: "equals", value: true}]
     };
-    var RestDataSource_ShipmentContractUSed = {
+    var RestDataSource_ShipmentContractUsed = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [{fieldName: "used", operator: "notEqual", value: 1}]
     };
-
-var RestDataSource_Criteria_Parameters;
-function advancedCriteria_Parameters(fieldName,operator,valueCriteria){
-            RestDataSource_Criteria_Parameters = {
-                    _constructor: "AdvancedCriteria",
-                    operator: "and",
-                    criteria: [{fieldName: "contractId", operator: "equals", value: 1},
-                                {fieldName: fieldName, operator: operator, value: valueCriteria }]
-                    }
-}
 
 
 
@@ -300,10 +271,8 @@ function advancedCriteria_Parameters(fieldName,operator,valueCriteria){
     factoryLableHedear("LablePage", '<b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b>', "100%", "2%", 20)
     factoryLable("lableNameContact", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
     factoryLable("lableArticle2", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
-    factoryLable("lableTitleTypical", '<b><font size=2px>Prefix -  value</font><b>', "100%", '4%', 20);
-    /*factoryLable("lableArticle3",'<b><font size=4px>ARTICLE 3 -QUANTITY :</font><b>',"100%",'4%',20);*/
     factoryLable("lableImportantNote", '<b><font size=2px>IMPORTANT Note :</font><b>', "100%", '4%', 20);
-    factoryLableArticle("lableArticle1", '<b><font size=4px>ARTICLE 1 -</font><b>', "30", 5)
+    factoryLableArticle("lableArticle1", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUANTITY</font><b>', "30", 5)
     factoryLableArticle("lableArticle6", '<b><font size=4px>ARTICLE 6 -</font><b>', "30", 5)
     factoryLableArticle("lableArticle7", '<b><font size=4px>ARTICLE 7 -</font><b>', '30', 5);
@@ -349,6 +318,7 @@ function advancedCriteria_Parameters(fieldName,operator,valueCriteria){
             {
                 name: "contractNo",
                 title: "<spring:message code='contact.no'/>",
+                requiredMessage: "<spring:message code='validator.field.is.required'/>",
                 required: true,
                 readonly: true,
                 width: "90%",
@@ -376,14 +346,16 @@ function advancedCriteria_Parameters(fieldName,operator,valueCriteria){
             {
                 name: "contactId",
                 showHover: true,
+                required: true,
                 autoFetchData: false,
                 title: "<spring:message code='contact.name'/>",
-                required: true,
+                required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactBUYER_optionCriteria,
                 displayField: "nameFA",
                 valueField: "id",
+                pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
@@ -419,12 +391,13 @@ function advancedCriteria_Parameters(fieldName,operator,valueCriteria){
                 showHover: true,
                 autoFetchData: false,
                 title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
-                required: true,
+                required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactAgentBuyer_optionCriteria,
                 displayField: "nameFA",
                 valueField: "id",
+                pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
@@ -480,12 +453,13 @@ function advancedCriteria_Parameters(fieldName,operator,valueCriteria){
                 showHover: true,
                 autoFetchData: false,
                 title: "Seller",
-                required: true,
+                required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_Contact_optionCriteria,
                 displayField: "nameFA",
                 valueField: "id",
+                pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
@@ -522,12 +496,13 @@ function advancedCriteria_Parameters(fieldName,operator,valueCriteria){
                 showHover: true,
                 autoFetchData: false,
                 title: "Agent Seller",
-                required: true,
+                required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactAgentSeller_optionCriteria,
                 displayField: "nameFA",
                 valueField: "id",
+                pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
@@ -561,32 +536,6 @@ function advancedCriteria_Parameters(fieldName,operator,valueCriteria){
         ]
     });
 
-    var dynamicForm_Article1_ContactParameter_number8 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle1",
-        padding: 5,
-        width: "100%",
-        height: "100%",
-        numCols: 4,
-        setMethod: 'POST',
-        align: "left",
-        canSubmit: true,
-        showInlineErrors: true,
-        wrapItemTitles: false,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        fields: [
-            {
-                name: "parameter",
-                showTitle: false,
-                title: "Parameter",
-                defaultValue: "DEFINITIONS:"
-            }
-        ]
-    });
-advancedCriteria_Parameters("categoryValue","equals",1);
     isc.DynamicForm.create({
         ID: "DynamicForm_ContactParameter_ValueNumber8",
         valuesManager: "valuesManagerArticle1",
@@ -601,7 +550,6 @@ advancedCriteria_Parameters("categoryValue","equals",1);
                 startRow: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Parameters,
-                optionCriteria: RestDataSource_Criteria_Parameters,
                 displayField: "paramValue",
                 valueField: "paramValue",
                 showTitle: false,
@@ -611,6 +559,10 @@ advancedCriteria_Parameters("categoryValue","equals",1);
                     {name: "paramType", width: "20%", align: "center"},
                     {name: "paramValue", width: "60%", align: "center"}
                 ],
+                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                    {fieldName: "contractId", operator: "equals", value: 1},
+                    {fieldName:"categoryValue",operator:"equals",value:1}]
+                    },
                 width: "1500",
                 height: "30",
                 title: "NAME",
@@ -763,11 +715,11 @@ advancedCriteria_Parameters("categoryValue","equals",1);
             }
         ]
     })
-    var lotList = isc.ListGrid.create({
-        dataSource: RestDataSource_WarehouseLot,
+var lotList = isc.ListGrid.create({
         width: "100%",
         height: "180",
-        initialCriteria: RestDataSource_ShipmentContractUSed,
+        dataSource: RestDataSource_WarehouseLot,
+        initialCriteria: RestDataSource_ShipmentContractUsed,
         dataPageSize: 50,
         autoSaveEdits: false,
         autoFetchData: true,
@@ -778,9 +730,9 @@ advancedCriteria_Parameters("categoryValue","equals",1);
                     name: "warehouseNo",
                     canEdit: false,
                     title: "<spring:message code='dailyWarehouse.warehouseNo'/>",
-                    align: "center"
+                    align: "center",hidden: true
                 },
-                {name: "plant", canEdit: false, title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
+                {name: "plant", canEdit: false, title: "<spring:message code='dailyWarehouse.plant'/>", align: "center",hidden: true},
                 {name: "material.descl", canEdit: false, title: "<spring:message code='goods.nameLatin'/> "},
                 {
                     name: "lotName",
@@ -796,7 +748,6 @@ advancedCriteria_Parameters("categoryValue","equals",1);
                 {name: "c", canEdit: false, title: "<spring:message code='warehouseLot.c'/>", align: "center"},
                 {name: "p", canEdit: false, title: "<spring:message code='warehouseLot.p'/>", align: "center"},
                 {name: "used", type: "boolean", title: "used", canEdit: true, align: "center"}
-
             ]
     });
 
@@ -805,7 +756,7 @@ advancedCriteria_Parameters("categoryValue","equals",1);
     var dynamicForm3 = isc.HLayout.create({align: "center", members: []});
     var dynamicForm4 = isc.HLayout.create({align: "center", members: []});
 
-    var vlayoutBody = isc.VLayout.create({
+var vlayoutBody = isc.VLayout.create({
         width: "100%",
         height: "8%",
         styleName: "box-shaddow",
@@ -818,19 +769,19 @@ advancedCriteria_Parameters("categoryValue","equals",1);
             isc.HLayout.create({ID: "dynamicForm3And4", align: "center", members: [dynamicForm3, dynamicForm4]})
         ]
     });
-    var vlayoutArticle1 = isc.VLayout.create({
+var vlayoutArticle1 = isc.VLayout.create({
         width: "100%",
         height: "30%",
         styleName: "box-shaddow",
         members: [
             isc.HLayout.create({
                 align: "left",
-                members: [lableArticle1, dynamicForm_Article1_ContactParameter_number8]
+                members: [lableArticle1]
             }),
             isc.HLayout.create({align: "left", members: [VLayout_ContactParameter_ValueNumber8]})
         ]
     });
-    var vlayoutArticle2 = isc.VLayout.create({
+var vlayoutArticle2 = isc.VLayout.create({
         width: "100%",
         height: "30%",
         styleName: "box-shaddow",
@@ -840,7 +791,7 @@ advancedCriteria_Parameters("categoryValue","equals",1);
             isc.HLayout.create({align: "left", members: [article2_1, lable_article2_1]})
         ]
     });
-    var vlayoutArticle3 = isc.VLayout.create({
+var vlayoutArticle3 = isc.VLayout.create({
         width: "100%",
         height: "30%",
         styleName: "box-shaddow",
@@ -873,8 +824,7 @@ advancedCriteria_Parameters("categoryValue","equals",1);
     factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - </font><b>', '2%', 1);
     factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - </font><b>', "20", 1)
 
-advancedCriteria_Parameters("categoryValue","equals",3);
-    var dynamicForm_article3_1 = isc.DynamicForm.create({
+var dynamicForm_article3_1 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3",
         height: "20",
         wrapItemTitles: false,
@@ -888,10 +838,9 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                 width: "150",
                 showHintInField: true,
                 showTitle: false,
-                required: true,
+                required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Parameters,
-                optionCriteria: RestDataSource_Criteria_Parameters,
                 displayField: "paramName",
                 valueField: "paramName",
                 pickListProperties: {showFilterEditor: true},
@@ -900,8 +849,11 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                     {name: "paramType", width: "45%", align: "center"},
                     {name: "paramValue", width: "10%", align: "center"}
                 ],
+                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                    {fieldName: "contractId", operator: "equals", value: 1},
+                    {fieldName:"categoryValue",operator:"equals",value:3}]
+                    },
                 changed: function (form, item, value) {
-                    alert(value);
                     dynamicForm_article3.setValue("article3_number17",value);
                     dynamicForm_article3.setValue("quantity_number17_11", value);
                 }
@@ -985,7 +937,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                 length: 150,
                 showTitle: false,
                 colSpan: 2,
-                required: true,
+                required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Parameters,
                 displayField: "paramValue",
@@ -1008,36 +960,106 @@ advancedCriteria_Parameters("categoryValue","equals",3);
         numCols: 10,
         wrapItemTitles: false,
         items: [
-            {name: "molybdenum", title: "MO", keyPressFilter: "[0-9]",startRow:true}, //CU copper
-            {name: "PrefixMO",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "valueMO",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "title",disabled:"false",defaultValue:"Prefix",width:"80",title: "TITLE",startRow:true},       //title
+            {name: "titleValue",disabled:"false",defaultValue:"Value",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
+            {name: "titleTolerance",disabled:"false",defaultValue:"Tolerance",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "titleUnit",disabled:"false",defaultValue:"Unit",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "PrefixMolybdenum",width:"80",title: "MO",defaultValue: "64(+-)4",startRow:true},       //molybdenum
+            {name: "molybdenum",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
             {name: "toleranceMO",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "copper", title: "CU", keyPressFilter: "[0-9]",startRow:true}, //AG gold
-            {name: "PrefixCU",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "valueCU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_unitMO",title:"",width:"100",showTitle:false,startRow:false,editorType: "SelectItem",optionDataSource: RestDataSource_Unit,
+                displayField: "nameEN",
+                valueField: "id",
+                pickListWidth: "500",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "nameEN", width: 440, align: "center"}]},
+            {name: "PrefixCopper",width:"80",defaultValue: "<=1.7",title: "CU",startRow:true},           //copper
+            {name: "copper",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
             {name: "toleranceCU",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "silver", title: "C", keyPressFilter: "[0-9]",startRow:true}, //AU silver
-            {name: "PrefixC",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "valueC",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_unitCU",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+                displayField: "nameEN",
+                valueField: "id",
+                autoFetchData: false,
+                pickListWidth: "500",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "nameEN", width: 440, align: "center"}]},
+            {name: "PrefixC",width:"80",defaultValue: "<=0.04", title: "C",startRow:true},            //C
+            {name: "typical_c",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
             {name: "toleranceC",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "S", title: "S", keyPressFilter: "[0-9]",startRow:true}, //MO molybdenum
-            {name: "PrefixS",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "valueS",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_unitC",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+                displayField: "nameEN",
+                valueField: "id",
+                autoFetchData: false,
+                pickListWidth: "500",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "nameEN", width: 440, align: "center"}]},
+            {name: "PrefixS",width:"80",defaultValue: "<=0.12",title: "S",startRow:true},                 //S
+            {name: "typical_s",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
             {name: "toleranceS",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "Pb", title: "Pb", keyPressFilter: "[0-9]",startRow:true}, //pb
-            {name: "PrefixPb",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "valuePb",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_unitS",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+                displayField: "nameEN",
+                valueField: "id",
+                autoFetchData: false,
+                pickListWidth: "500",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "nameEN", width: 440, align: "center"}]},
+            {name: "PrefixPb",width:"80",defaultValue: "<=0.12", title: "Pb",startRow:true},               //Pb
+            {name: "typical_pb",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
             {name: "tolerancePb",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "Si", title: "Si", keyPressFilter: "[0-9]",startRow:true}, //Si
-            {name: "PrefixSi",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "valueSi",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "toleranceSi",title: "",width:"100",showTitle: false,startRow:false}
+            {name: "typical_unitPb",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+                displayField: "nameEN",
+                valueField: "id",
+                autoFetchData: false,
+                pickListWidth: "500",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "nameEN", width: 440, align: "center"}]},
+            {name: "PrefixP",width:"80",defaultValue: "<=0.04", title: "P",startRow:true},               //P
+            {name: "typical_p",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
+            {name: "toleranceP",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_unitP",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+                displayField: "nameEN",
+                valueField: "id",
+                autoFetchData: false,
+                pickListWidth: "500",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "nameEN", width: 440, align: "center"}]},
+            {name: "PrefixSi",width:"80", defaultValue: "<=1.1",title: "Si",startRow:true},               //Si
+            {name: "Typical_Si",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
+            {name: "toleranceSi",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_unitSi",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+                displayField: "nameEN",
+                valueField: "id",
+                autoFetchData: false,
+                pickListWidth: "500",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "nameEN", width: 440, align: "center"}]}
         ]
     })
     var dynamicForm_article3_3 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3",
         height: "50",
-        numCols: 8,
+        numCols: 10,
         wrapItemTitles: false,
         items: [
             {
@@ -1046,7 +1068,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                 showTitle: true,
                 length: 100,
                 width: "100",
-                hint: "210MT",
+                defaultValue: "210",
                 showHintInField: true, keyPressFilter: "[0-9]",
                 startRow: false,
                 title: '- ',
@@ -1070,7 +1092,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                 showTitle: true,
                 length: 100,
                 width: "100",
-                hint: "10%",
+                defaultValue: "10",
                 showHintInField: true,
                 startRow: false,
                 title: '+/-', keyPressFilter: "[0-9]",
@@ -1086,20 +1108,35 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                 wrap: false,
                 startRow: false,
                 title: 'quantity_number17_5'
-            }, {
-                type: "text",
+            },{
+                type: "selectItem",
                 name: "article3_number17_6",
                 showTitle: false,
-                width: "500",
-                hint: "TILL 15 MARCH 2019",
+                width: "100",
+                defult: "TILL",
                 showHintInField: true,
                 startRow: false,
                 title: 'quantity_number17_6',
-                changed: function (form, item, value) {
+                valueMap: {
+                    "AFTER": "AFTER",
+                    "TILL": "TILL",
+                    "BEFORE": "BEFORE"
+                },changed: function (form, item, value) {
                     dynamicForm_article5_number24_number25_number26.setValue("article5_number26", value);
                     dynamicForm_article5_number29_1.setValue("article5_number29_5", value);
                 }
-            }
+            },
+              {
+                name: "DateDumy",           // to do new
+                title: "<spring:message code='contact.date'/>",
+                defaultValue: "<%=dateUtil.todayDate()%>",
+                type: "date",
+                format: 'DD-MM-YYYY',
+                required: false,
+                startRow: false,
+                wrapTitle: false,
+                showTitle: false
+            },
         ]
     })
     var dynamicForm_article4_number18 = isc.DynamicForm.create({
@@ -1134,7 +1171,8 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                 name: "mo_amount", //amount_number19
                 showTitle: false,
                 width: "70",
-                hint: "220", keyPressFilter: "[0-9]",
+                defaultValue: "220",
+                keyPressFilter: "[0-9]",
                 showHintInField: true,
                 startRow: false,
                 title: ''
@@ -1156,7 +1194,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
             {
                 name: "shipment_number20",
                 showTitle: false,
-                hint: "SHIPMENT",
+                defaultValue: "SHIPMENT",
                 showHintInField: true,
                 width: "100",
                 startRow: false
@@ -1172,7 +1210,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
             {
                 name: "timeIssuance", //article5_number21
                 showTitle: true,
-                hint: "AFTER RECEIPT",
+                defaultValue: "AFTER RECEIPT",
                 showHintInField: true,
                 width: "150",
                 startRow: false,
@@ -1181,7 +1219,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                 name: "prefixPayment", //article5_number22
                 showTitle: true,
                 width: "100",
-                hint: "105%",
+                defaultValue: "105%",
                 showHintInField: true,
                 startRow: false,
                 title: 'OF',
@@ -1195,7 +1233,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                 name: "invoiceType", //article5_number23
                 showTitle: true,
                 width: "250",
-                hint: "PROFORMA/PROVISIONAL",
+                defaultValue: "PROFORMA/PROVISIONAL",
                 showHintInField: true,
                 startRow: false,
                 title: 'OF VALUE AMOUNT OF ',
@@ -1207,7 +1245,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                 name: "article5_number21_6",
                 showTitle: false,
                 width: "150",
-                hint: " INVOICE PRIOR EACH",
+                defaultValue: " INVOICE PRIOR EACH",
                 showHintInField: true,
                 startRow: false
             }
@@ -1222,31 +1260,39 @@ advancedCriteria_Parameters("categoryValue","equals",3);
             {
                 name: "runStartDate", //article5_number24_number25
                 width: "250",
-                hint: "NOVEMBER/DECEMBER 2018",
-                showHintInField: true,
-                startRow: false,
-                showTitle: true,
                 title: 'SHIPMENT COMMENCING FROM ',
-                changed: function (form, item, value) {
-// dynamicForm_article5_number28_number29.setValue("article5_number28",value);
-                }
-            }, {
+                defaultValue: "<%=dateUtil.todayDate()%>",
+                type: "date",
+                format: 'DD-MM-YYYY',
+                required: false,
+                startRow: false,
+                wrapTitle: false,
+                showTitle: true
+            },{
                 name: "runTill", ///article5_number26
-                width: "150",
-                hint: "TILL",
-                showHintInField: true,
                 showTitle: false,
-                startRow: false,
-                title: ''
-            }, , {
-                name: "runEndtDate", ///article5_number26
-                width: "150",
-                hint: " 15 MARCH 2019",
+                width: "170",
+                defult: "TILL",
                 showHintInField: true,
                 startRow: false,
-                showTitle: false,
+                valueMap: {
+                    "AFTER": "AFTER",
+                    "TILL": "TILL",
+                    "BEFORE": "BEFORE"
+                },
                 title: ''
-            }, {
+            },
+              {
+                name: "runEndtDate",
+                title: "<spring:message code='contact.date'/>",
+                defaultValue: "<%=dateUtil.todayDate()%>",
+                type: "date",
+                format: 'DD-MM-YYYY',
+                required: false,
+                startRow: false,
+                wrapTitle: false,
+                showTitle: false
+            },{
                 name: "article5_number26_1",
                 width: "200",
                 showTitle: false,
@@ -1264,7 +1310,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
     })
     ///*//*** to do
     var ListGrid_ContractItemShipment = isc.ListGrid.create({
-        width: "80%",
+        width: "77%",
         height: "200",
         modalEditing: true,
         canEdit: true,
@@ -1301,7 +1347,7 @@ advancedCriteria_Parameters("categoryValue","equals",3);
                     name: "address",
                     title: "<spring:message code='global.address'/>",
                     type: 'text',
-                    width: 400,
+                    width: 392,
                     align: "center"
                 },
                 {
@@ -1330,66 +1376,6 @@ advancedCriteria_Parameters("categoryValue","equals",3);
         }
     });
     var vlayout_ContractItemShipment = isc.VLayout.create({align: "center", members: [ListGrid_ContractItemShipment]});
-    ////********to do
-    /*var dynamicForm_article5_number28_number29 = isc.DynamicForm.create({
-valuesManager:"vm",
-height: "20",
-wrapItemTitles:false,
-numCols: 4,
-items:[
-{
-name: "article5_number28",
-width: "250",
-showTitle:true,
-hint: "NOVEMBER/DECEMBER 2018",
-showHintInField: true,
-startRow: false,
-title: '-'
-},{
-name: "article5_number29",
-width: "100",
-showTitle:false,
-hint: "90MT +/-10",
-showHintInField: true,
-startRow: false,
-title: '-'
-}
-]
-})*/
-    /*var dynamicForm_article5_number29_1 = isc.DynamicForm.create({
-valuesManager:"vm",
-height: "20",
-wrapItemTitles:false,
-numCols: 10,
-items:[
-{
-name: "article5_number29_2",
-width: "50",
-showTitle:true,
-hint: "210MT",
-showHintInField: true,
-startRow: false,
-title: '- REMAINING QUANTITY('
-},{
-name: "article5_number29_3",
-width: "50",
-showTitle:true,
-hint: "10",
-showHintInField: true,
-startRow: false,
-title: '+/-'
-},{
-name: "article5_number29_5",
-width: "150",
-showTitle:true,
-hint: "15 MARCH 2019",
-showHintInField: true,
-startRow: false,
-title: ')SHALL BE SHIPPED UP TO'
-}
-]
-})*/
-advancedCriteria_Parameters("categoryValue","equals",5);
     var dynamicForm_article5_Note2_number30 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticleNote5",
         height: "20",
@@ -1406,7 +1392,6 @@ advancedCriteria_Parameters("categoryValue","equals",5);
                 wrap: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Parameters,
-                optionCriteria: RestDataSource_Criteria_Parameters,
                 displayField: "paramValue",
                 valueField: "paramName",
                 showTitle: false,
@@ -1417,6 +1402,10 @@ advancedCriteria_Parameters("categoryValue","equals",5);
                     {name: "paramType", width: "25%", align: "center"},
                     {name: "paramValue", width: "50%", align: "center"}
                 ],
+                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                    {fieldName: "contractId", operator: "equals", value: 1},
+                    {fieldName:"categoryValue",operator:"equals",value:5}]
+                    },
                 changed: function (form, item, value) {
                     dynamicForm_article5_Note2_number30.setValue("article5_Note1_value", item.getSelectedRecord().paramValue);
                 },
@@ -1520,7 +1509,7 @@ advancedCriteria_Parameters("categoryValue","equals",5);
                 showHover: true,
                 showHintInField: true,
                 hint: "FOB",
-                required: true,
+                required: false,
                 title: "<spring:message code='incoterms.name'/>",
                 type: 'long',
                 numCols: 4,
@@ -1580,7 +1569,7 @@ advancedCriteria_Parameters("categoryValue","equals",5);
                 width: "250",
                 showTitle: false,
                 showHintInField: true,
-                hint: "(INCOTERMS 2010).",
+                defaultValue: "(INCOTERMS 2010).",
                 startRow: false,
                 title: ''
             }
@@ -1723,7 +1712,7 @@ advancedCriteria_Parameters("categoryValue","equals",5);
                 showHover: true,
                 showHintInField: true,
                 hint: "FOB",
-                required: true,
+                required: false,
                 title: "<spring:message code='incoterms.name'/>",
                 type: 'long',
                 numCols: 4,
@@ -1790,7 +1779,6 @@ advancedCriteria_Parameters("categoryValue","equals",5);
             isc.HLayout.create({align: "left", members: [dynamicForm_article3_1, dynamicForm_article3_2]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3_3]}),
             isc.HLayout.create({height: "30", align: "left", members: [lableArticle3Typicall]}),
-            isc.HLayout.create({height: "30", left:"250",align: "left", members: [lableTitleTypical]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3_Typicall]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3]})
         ]
@@ -1973,32 +1961,94 @@ dynamicForm_article8_3.setValue("article8_3", value);
                 defaultValue: "OF MOLYBDENUM CONTENT WITH DISCOUNTS AS BELOW",
                 startRow: false,
                 title: ''
-            },
-            {
-                name: "article7_number40_3",
-                type: "text",
-                height: "100",
-                length: 4000,
-                defaultValue: "",
-                showTitle: false,
-                colSpan: 4,
-                startRow: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                displayField: "paramValue",
-                valueField: "paramValue",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
-                ],
-                title: "article7_number40_3",
-                width: "*"
             }
         ]
     });
-
+     var dynamicForm_article7_discount = isc.DynamicForm.create({
+        valuesManager: "valuesManagerArticle7",
+        height: "20",
+        numCols: 10,
+        wrapItemTitles: false,
+        items: [
+            {name: "discountValueOne",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueOne
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueOne_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixOne",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitOne",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixOne_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueOne_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueTwo",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueTwo
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueTwo_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixTwo",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitTwo",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixTwo_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueTwo_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueThree",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueThree
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueThree_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixThree",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitThree",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixThree_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueThree_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueFour",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueFour
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueFour_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixFour",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitFour",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixFour_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueFour_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+             {name: "discountValueFive",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueFive
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueFive_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixFive",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitFive",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixFive_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueFive_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+             {name: "discountValueSix",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueSix
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueSix_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixSix",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitSix",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixSix_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueSix_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+               {name: "discountValueSeven",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueSeven
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueSeven_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixSeven",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitSeven",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixSeven_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueSeven_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueEight",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueEight
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueEight_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixEight",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitEight",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixEight_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueEight_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueNine",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueNine
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueNine_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixNine",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitNine",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixNine_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueNine_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+                 {name: "discountValueTen",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueTen
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueTen_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixTen",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitTen",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixTen_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueTen_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueEleven",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueEleven
+            {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
+            {name: "discountValueEleven_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixEleven",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountUnitEleven",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountPerfixEleven_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueEleven_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false}
+            ]
+    });
     var vlayoutArticle7 = isc.VLayout.create({
         width: "100%",
         styleName: "box-shaddow",
@@ -2010,7 +2060,8 @@ dynamicForm_article8_3.setValue("article8_3", value);
                 members: [dynamicForm_article7_number3_number37_number38]
             }),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_number39_number40]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_number40_2]})
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_number40_2]}),
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_discount]})
         ]
     });
 
@@ -2357,7 +2408,7 @@ dynamicForm_article8_3.setValue("article8_3", value);
                 showHover: true,
                 autoFetchData: false,
                 title: "currency",
-                required: true,
+                required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Currency_list,
                 displayField: "nameEn",
@@ -2435,13 +2486,15 @@ dynamicForm_article8_3.setValue("article8_3", value);
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
+            DynamicForm_ContactHeader.validate();
+            DynamicForm_ContactCustomer.validate();
             DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
             var drs = contactHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_ContactHeader.setValue("contractDate", contractTrueDate);
             var data = Object.assign(contactHeader.getValues(), contactHeaderAgent.getValues(), valuesManagerArticle2.getValues(),
                 valuesManagerArticle3.getValues(), valuesManagerArticle4.getValues(), valuesManagerArticle5.getValues(),
-                valuesManagerArticle6.getValues(), valuesManagerArticle7.getValues(), valuesManagerArticle8.getValues(), valuesManagerArticle9.getValues(), valuesManagerArticle10.getValues())
+                valuesManagerArticle6.getValues(), valuesManagerArticle7.getValues(), valuesManagerArticle8.getValues(), valuesManagerArticle9.getValues(), valuesManagerArticle10.getValues());
             method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
@@ -2485,7 +2538,6 @@ dynamicForm_article8_3.setValue("article8_3", value);
 
 
     function manageNote(value, id) {
-        advancedCriteria_Parameters("categoryValue","equals",5);
         if (value == 'Add') {
             dynamicForm_article5_Note2_number30.addFields([
                 {
@@ -2496,7 +2548,6 @@ dynamicForm_article8_3.setValue("article8_3", value);
                     wrap: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Parameters,
-                    optionCriteria: RestDataSource_Criteria_Parameters,
                     displayField: "paramValue",
                     valueField: "paramName",
                     showTitle: false,
@@ -2507,6 +2558,10 @@ dynamicForm_article8_3.setValue("article8_3", value);
                         {name: "paramType", width: "25%", align: "center"},
                         {name: "paramValue", width: "50%", align: "center"}
                     ],
+                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName:"categoryValue",operator:"equals",value:5}]
+                    },
                     changed: function (form, item, value) {
                         dynamicForm_article5_Note2_number30.setValue("article5_Note1_value" + id, item.getSelectedRecord().paramValue);
                     },
@@ -2643,7 +2698,6 @@ dynamicForm_article8_3.setValue("article8_3", value);
     };
 
     function itemsDefinitions(value, id) {
-        advancedCriteria_Parameters("categoryValue","equals",1);
         if (value == 'Add') {
             DynamicForm_ContactParameter_ValueNumber8.addFields([
                 {
@@ -2652,7 +2706,6 @@ dynamicForm_article8_3.setValue("article8_3", value);
                     length: 5000,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Parameters,
-                    optionCriteria: RestDataSource_Criteria_Parameters,
                     displayField: "paramValue",
                     valueField: "paramValue",
                     showTitle: false,
@@ -2662,6 +2715,10 @@ dynamicForm_article8_3.setValue("article8_3", value);
                         {name: "paramType", width: "25%", align: "center"},
                         {name: "paramValue", width: "50%", align: "center"}
                     ],
+                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName:"categoryValue",operator:"equals",value:1}]
+                    },
                     showTitle: false,
                     startRow: false,
                     width: "1500",
@@ -2693,7 +2750,6 @@ function saveCotractDetails(data, contractID) {
         data.contract_id = contractID;
         var allData = Object.assign(data, valuesManagerArticle1.getValues())
         allData.string_Currency=JSON.stringify(valuesManagerArticle10.getValues());
-        alert(JSON.stringify(allData.String_Currency));
         method = "POST";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",
@@ -2704,6 +2760,8 @@ function saveCotractDetails(data, contractID) {
                     saveValuelotListForADD(contractID);
                     saveListGrid_ContractItemShipment(contractID);
                     saveContractCurrency(contractID);
+                    Window_Contact.close();
+                    ListGrid_Tozin.invalidateCache();
                     isc.say("<spring:message code='global.form.request.successful'/>.");
                 } else
                     isc.say(RpcResponse_o.data);

@@ -69,6 +69,25 @@
 
 <script type="application/javascript">
 
+   function ValuesManager(valueId) {
+        isc.ValuesManager.create({
+            ID: valueId
+        })
+    }
+
+    ValuesManager("contactHeader");
+    ValuesManager("contactHeaderAgent");
+    ValuesManager("valuesManagerArticle1");
+    ValuesManager("valuesManagerArticle2");
+    ValuesManager("valuesManagerArticle3");
+    ValuesManager("valuesManagerArticle4");
+    ValuesManager("valuesManagerArticle5");
+    ValuesManager("valuesManagerArticle6");
+    ValuesManager("valuesManagerArticle7");
+    ValuesManager("valuesManagerArticle8");
+    ValuesManager("valuesManagerArticle9");
+    ValuesManager("valuesManagerArticle10");
+
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
@@ -869,7 +888,7 @@
         }
     });
     var salesContractMoButton = isc.IconButton.create({
-        title: "salesContractMoButton",
+        title: "<spring:message code='salesContractMoButton.title'/>",
         icon: "contract/salesContract.png",
         largeIcon: "contract/salesContract.png",
         orientation: "vertical",
