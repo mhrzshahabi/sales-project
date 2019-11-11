@@ -5,51 +5,121 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
-
-    function factoryLableHedear(id, contents, width, height, padding) {
-        isc.Label.create({
-            ID: id,
-            width: width,
-            height: height,
-            styleName: "helloWorldText",
-            padding: padding,
-            backgroundColor: "#a5ecff",
-            align: "center",
-            valign: "center",
-            wrap: false,
-            showEdges: true,
-            showShadow: true,
-            icon: "icons/16/world.png",
-            contents: contents
-        });
+ var contractIdEdit;
+ var Window_Contact;
+ var VLayout_contactMain;
+ var itemsDefinitionsCount = 0;
+ var imanageNote = 0;
+ var methodUrl="POST";
+ var lotList;
+ var ListGrid_ContractItemShipment;
+ function ValuesManager(valueId) {
+                isc.ValuesManager.create({
+                ID: valueId
+            })
     }
 
-    function factoryLable(id, contents, width, height, padding) {
-        isc.Label.create({
-            ID: id,
-            width: width,
-            height: height,
-            padding: padding,
-            align: "left",
-            valign: "left",
-            wrap: false,
-            contents: contents
-        })
-    }
+    ValuesManager("contactHeader");
+    ValuesManager("contactHeaderAgent");
+    ValuesManager("valuesManagerArticle1");
+    ValuesManager("valuesManagerArticle2");
+    ValuesManager("valuesManagerArticle3");
+    ValuesManager("valuesManagerArticle4");
+    ValuesManager("valuesManagerArticle5");
+    ValuesManager("valuesManagerArticle6");
+    ValuesManager("valuesManagerArticle7");
+    ValuesManager("valuesManagerArticle8");
+    ValuesManager("valuesManagerArticle9");
+    ValuesManager("valuesManagerArticle10");
 
-    function factoryLableArticle(id, contents, height, padding) {
-        isc.Label.create({
-            ID: id,
-            height: height,
-            padding: padding,
-            align: "left",
-            valign: "left",
-            wrap: false,
-            contents: contents
-        })
-    }
+ var RestDataSource_Parameters = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
+                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
+                {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200},
+                {name: "contractId", title: "<spring:message code='parameters.paramValue'/>", width: 200},
+                {name: "categoryValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
+            ],
+        fetchDataURL: "${contextPath}/api/parameters/spec-list"
+    });
 
-    var RestDataSource_ContractPenalty = isc.RestDataSource.create({
+    var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouseNo'/>", align: "center"},
+                {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
+                {name: "material.descl", title: "<spring:message code='goods.nameLatin'/> "},
+                {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center"},
+                {name: "mo", title: "<spring:message code='warehouseLot.mo'/>", align: "center"},
+                {name: "cu", title: "<spring:message code='warehouseLot.cu'/>", align: "center"},
+                {name: "si", title: "<spring:message code='warehouseLot.si'/>", align: "center"},
+                {name: "pb", title: "<spring:message code='warehouseLot.pb'/>", align: "center"},
+                {name: "s", title: "<spring:message code='warehouseLot.s'/>", align: "center"},
+                {name: "c", title: "<spring:message code='warehouseLot.c'/>", align: "center"},
+                {name: "p", title: "<spring:message code='warehouseLot.p'/>", align: "center"},
+                {name: "size1", title: "<spring:message code='warehouseLot.size1'/>", align: "center"},
+                {name: "size1Value", title: "<spring:message code='warehouseLot.size1Value'/>", align: "center"},
+                {name: "size2", title: "<spring:message code='warehouseLot.size2'/>", align: "center"},
+                {name: "size2Value", title: "<spring:message code='warehouseLot.size2Value'/>", align: "center"},
+                {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
+                {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
+                {name: "contractId", title: "contractId", align: "center"},
+                {name: "used", type: "boolean", title: "used", canEdit: true, align: "center"}
+            ],
+        fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
+    });
+
+    var RestDataSource_Unit = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "code", title: "<spring:message code='unit.code'/> "},
+                {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
+                {name: "nameEN", title: "<spring:message code='unit.nameEN'/> "},
+                {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
+                {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
+            ],
+        fetchDataURL: "${contextPath}/api/unit/spec-list"
+    });
+
+    var RestDataSource_Incoterms = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "code", title: "<spring:message code='goods.code'/> "},
+            ],
+        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+    });
+    var RestDataSource_Contact_optionCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "seller", operator: "equals", value: true}]
+    };
+    var RestDataSource_ContactBUYER_optionCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "buyer", operator: "equals", value: true}]
+    };
+    var RestDataSource_ContactAgentBuyer_optionCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "agentBuyer", operator: "equals", value: true}]
+    };
+    var RestDataSource_ContactAgentSeller_optionCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "agentSeller", operator: "equals", value: true}]
+    };
+    var RestDataSource_ShipmentContractUsed = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "used", operator: "notEqual", value: 1}]
+    };
+
+       var RestDataSource_ContractPenalty = isc.RestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -174,101 +244,253 @@
                 },
                 {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
             ],
-// ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
-
-    var RestDataSource_Parameters = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
-                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
-                {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200},
-                {name: "contractId", title: "<spring:message code='parameters.paramValue'/>", width: 200},
-                {name: "categoryValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/parameters/spec-list"
+    var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
+        fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
 
-    var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouseNo'/>", align: "center"},
-                {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
-                {name: "material.descl", title: "<spring:message code='goods.nameLatin'/> "},
-                {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center"},
-                {name: "mo", title: "<spring:message code='warehouseLot.mo'/>", align: "center"},
-                {name: "cu", title: "<spring:message code='warehouseLot.cu'/>", align: "center"},
-                {name: "si", title: "<spring:message code='warehouseLot.si'/>", align: "center"},
-                {name: "pb", title: "<spring:message code='warehouseLot.pb'/>", align: "center"},
-                {name: "s", title: "<spring:message code='warehouseLot.s'/>", align: "center"},
-                {name: "c", title: "<spring:message code='warehouseLot.c'/>", align: "center"},
-                {name: "p", title: "<spring:message code='warehouseLot.p'/>", align: "center"},
-                {name: "size1", title: "<spring:message code='warehouseLot.size1'/>", align: "center"},
-                {name: "size1Value", title: "<spring:message code='warehouseLot.size1Value'/>", align: "center"},
-                {name: "size2", title: "<spring:message code='warehouseLot.size2'/>", align: "center"},
-                {name: "size2Value", title: "<spring:message code='warehouseLot.size2Value'/>", align: "center"},
-                {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
-                {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
-                {name: "contractId", title: "contractId", align: "center"},
-                {name: "used", type: "boolean", title: "used", canEdit: true, align: "center"}
-            ],
-        fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
-    });
-
-    var RestDataSource_Unit = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='unit.code'/> "},
-                {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
-                {name: "nameEN", title: "<spring:message code='unit.nameEN'/> "},
-                {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
-                {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
-            ],
-        fetchDataURL: "${contextPath}/api/unit/spec-list"
-    });
-
-    var RestDataSource_Incoterms = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-            ],
-        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
-    });
-    var RestDataSource_Contact_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "seller", operator: "equals", value: true}]
-    };
-    var RestDataSource_ContactBUYER_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "buyer", operator: "equals", value: true}]
-    };
-    var RestDataSource_ContactAgentBuyer_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "agentBuyer", operator: "equals", value: true}]
-    };
-    var RestDataSource_ContactAgentSeller_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "agentSeller", operator: "equals", value: true}]
-    };
-    var RestDataSource_ShipmentContractUsed = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "used", operator: "notEqual", value: 1}]
-    };
+    var ViewLoader_createTozin = isc.ViewLoader.create({
+                        width: "100%",
+                        height: "100%",
+                        autoDraw: false,
+                        loadingMessage: " <spring:message code='global.loadingMessage'/>"
+                });
+    isc.Window.create({
+                    title: "<spring:message code='dailyReport.DailyReportBandarAbbasTest'/> ",
+                    width: "100%",
+                    height: "100%",
+                    autoCenter: true,
+                    align: "center",
+                    autoDraw: false,
+                    dismissOnEscape: true,
+                    closeClick: function () {
+                    this.Super("closeClick", arguments)
+                    },
+                    items:
+                    [
+                    ViewLoader_createTozin
+                    ]
+            });
 
 
 
+        isc.Label.create({ID:"Label_Contact_Type",padding: 20,width: "100%",height: "1%",styleName: "helloWorldText",contents:  'Please select the type of contract.'});
+        isc.IButton.create({ID:"Button_MO_OX",width: "200",height: "30",title: "Molybdenum",icon: "icons/16/world.png",iconOrientation: "right",click:function () {
+                contactHeader.clearValues();
+                contactHeaderAgent.clearValues();
+                valuesManagerArticle1.clearValues();
+                valuesManagerArticle2.clearValues();
+                valuesManagerArticle3.clearValues();
+                valuesManagerArticle4.clearValues();
+                valuesManagerArticle5.clearValues();
+                valuesManagerArticle6.clearValues();
+                valuesManagerArticle7.clearValues();
+                valuesManagerArticle8.clearValues();
+                valuesManagerArticle9.clearValues();
+                valuesManagerArticle10.clearValues();
+                pageMolibdenAll("POST");
+                lotList.fetchData(RestDataSource_ShipmentContractUsed);
+                Window_SelectTypeContact.close();
+
+        }})
+        isc.HLayout.create({ID:"HLayout_button_TypeMoliden",align: "center",width: "30%",height: "20%",align: "center",members:[Button_MO_OX]});
+        isc.HStack.create({ID:"HLayout_button_TypeMoliden3",layoutMargin:10,align: "center",width: "100%",height: "80%",align: "center",members:[HLayout_button_TypeMoliden]});
+        isc.VLayout.create({ID:"button_VLayout",width: "100%",height: "100%",align: "center",members:[Label_Contact_Type,HLayout_button_TypeMoliden3]});
+
+        var Window_SelectTypeContact = isc.Window.create({
+                            title: "Type Contact",
+                            width: "50%",
+                            height: "20%",
+                            autoCenter: true,
+                            isModal: true,
+                            showModalMask: true,
+                            align: "center",
+                            autoDraw: false,
+                            closeClick: function () {
+                            this.Super("closeClick", arguments)
+                            },
+                            items: [
+                                button_VLayout
+                            ]
+                            });
+                    var ToolStripButton_Contact_Add = isc.ToolStripButton.create({
+                            icon: "[SKIN]/actions/add.png",
+                            title: "<spring:message code='global.form.new'/>",
+                            click: function () {
+                                Window_SelectTypeContact.animateShow();
+
+                            }
+                    });
+                    var ToolStripButton_Contact_Edit = isc.ToolStripButton.create({
+                            icon: "[SKIN]/actions/edit.png",
+                            title: "<spring:message code='global.form.edit'/>",
+                            click: function () {
+                                var record = ListGrid_Tozin.getSelectedRecord();
+                                contractIdEdit=record.id;
+                                if (record == null || record.id == null) {
+                                    isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }});
+                            } else {
+                            var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
+                            var criterialotList={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
+                                    RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
+                                    var feild_all_defintitons_save =   JSON.parse(data[0].feild_all_defintitons_save)
+                                    contactHeaderAgent.editRecord(data[0]);
+                                    valuesManagerArticle1.editRecord(data[0]);
+                                    for (const [key, value] of Object.entries(feild_all_defintitons_save)) {
+                                        valuesManagerArticle1.setValue(key,value);
+                                        if(key != 'definitionsOne' && key != 'feild_all_defintitons_save'){
+                                            itemsEditDefinitions(key,value,itemsDefinitionsCount)
+                                          }
+                                    }
+                                    contactHeader.editRecord(record);
+                                    valuesManagerArticle2.editRecord(Object.assign(data[0],record));
+                                    valuesManagerArticle3.editRecord(Object.assign(data[0],record));
+                                    valuesManagerArticle4.editRecord(Object.assign(data[0],record));
+                                    valuesManagerArticle5.editRecord(Object.assign(data[0],record));
+                                    valuesManagerArticle6.editRecord(Object.assign(data[0],record));
+                                    valuesManagerArticle7.editRecord(Object.assign(data[0],record));
+                                    valuesManagerArticle8.editRecord(Object.assign(data[0],record));
+                                    valuesManagerArticle9.editRecord(Object.assign(data[0],record));
+                                    valuesManagerArticle10.editRecord(Object.assign(data[0],record));
+                                    })
+                                pageMolibdenAll("PUT");
+                                alert(record.id);
+                                lotList.fetchData(criterialotList);
+                            }
+                            }});
+
+                    var ToolStrip_Actions_Contact = isc.ToolStrip.create({
+                        width: "100%",
+                        height: "100%",
+                        members: [
+                             ToolStripButton_Contact_Add,ToolStripButton_Contact_Edit
+                        ]
+                        });
+                    var HLayout_Actions_Contact = isc.HLayout.create({
+                         width: "100%",
+                         members: [
+                         ToolStrip_Actions_Contact
+                        ]
+                    });
+             var RestDataSource_Contract = isc.MyRestDataSource.create({
+             fields:
+                [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "contractNo", title: "<spring:message code='contract.contractNo'/>"},
+                {name: "contractDate", title: "<spring:message code='contract.contractDate'/>"},
+                {name: "contactId", title: "<spring:message code='contact.name'/>"},
+                {name: "contact.nameFA", title: "<spring:message code='contact.name'/>"},
+                {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
+                {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
+                {name: "amount", title: "<spring:message code='global.amount'/>"},
+                {name: "sideContractDate", ID: "sideContractDate"},
+                {name: "refinaryCost", ID: "refinaryCost"},
+                {name: "treatCost", ID: "treatCost"},
+                ],
+                // ######@@@@###&&@@###
+                fetchDataURL: "${contextPath}/api/contract/spec-list"
+            });
+            var ListGrid_Tozin = isc.ListGrid.create({
+                        width: "100%",
+                        height: "100%",
+                        dataSource: RestDataSource_Contract,
+                        dataPageSize: 50,
+                        showFilterEditor: true,
+                        autoFetchData: true,
+                        fields:
+                        [
+                            {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                            {name: "contractNo",width: "10%", title: "<spring:message code='contact.no'/>", align: "center",canEdit: false}  ,
+                            {name: "contractDate",width: "10%", title: "<spring:message code='contract.contractDate'/>", align: "center",canEdit: true}  ,
+                            {name: "contact.nameFA",width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
+                        ]
+                        });
+
+           isc.VLayout.create({
+                        ID:"VLayout_Tozin_Grid",
+                        width: "100%",
+                        height: "100%",
+                        members: [
+                        HLayout_Actions_Contact,
+                        ListGrid_Tozin
+                        ]
+                        });
+
+/////////////////////////////////////////////////
+
+
+
+function factoryLableHedear(id, contents, width, height, padding) {
+        isc.Label.create({
+            ID: id,
+            width: width,
+            height: height,
+            styleName: "helloWorldText",
+            padding: padding,
+            backgroundColor: "#84c1ed",
+            align: "center",
+            valign: "center",
+            wrap: false,
+            showEdges: true,
+            showShadow: true,
+            icon: "icons/16/world.png",
+            contents: contents
+        });
+    }
+
+    function factoryLable(id, contents, width, height, padding) {
+        isc.Label.create({
+            ID: id,
+            width: width,
+            height: height,
+            padding: padding,
+            align: "left",
+            valign: "left",
+            wrap: false,
+            contents: contents
+        })
+    }
+
+    function factoryLableArticle(id, contents, height, padding) {
+        isc.Label.create({
+            ID: id,
+            height: height,
+            padding: padding,
+            align: "left",
+            valign: "left",
+            wrap: false,
+            contents: contents
+        })
+    }
+function pageMolibdenAll(method){
+methodUrl=method;
+Window_Contact = isc.Window.create({
+                title: "<spring:message code='contact.title'/>",
+                width: "100%",
+                height: "100%",
+                autoCenter: true,
+                isModal: true,
+                showModalMask: true,
+                align: "center",
+                autoDraw: false,
+                autoScroller:true,
+                closeClick: function () {
+                this.Super("closeClick", arguments);
+                },
+                items: [
+
+                ]
+                });
     //START PAGE ONE
-    factoryLableHedear("LablePage", '<b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b>', "100%", "2%", 20)
+    factoryLableHedear("LablePage", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
     factoryLable("lableNameContact", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
     factoryLable("lableArticle2", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
     factoryLable("lableImportantNote", '<b><font size=2px>IMPORTANT Note :</font><b>', "100%", '4%', 20);
@@ -326,7 +548,11 @@
             }
         ]
     });
-    var DynamicForm_ContactCustomer = isc.DynamicForm.create({
+    var dynamicForm1 = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm2 = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm3 = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm4 = isc.HLayout.create({align: "center", members: []});
+var DynamicForm_ContactCustomer = isc.DynamicForm.create({
         setMethod: 'POST',
         valuesManager: "contactHeader",
         width: "100%",
@@ -349,7 +575,6 @@
                 required: true,
                 autoFetchData: false,
                 title: "<spring:message code='contact.name'/>",
-                required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactBUYER_optionCriteria,
@@ -363,7 +588,6 @@
                     {name: "code", width: "10%", align: "center"}
                 ],
                 changed: function (form, item, value) {
-                    makeBodyDynamicFormPage1(1, "ContactBuyer");
                     var address = "";
                     var name = "";
                     var phone = "";
@@ -405,7 +629,6 @@
                     {name: "code", width: "10%", align: "center"}
                 ],
                 changed: function (form, item, value) {
-                    makeBodyDynamicFormPage1(2, "ContactAgentBuyer");
                     var address = "";
                     var name = "";
                     var phone = "";
@@ -430,6 +653,98 @@
             }
         ]
     });
+    isc.DynamicForm.create({
+                                ID: "Contact_ContactBuyer",
+                                valuesManager: "contactHeaderAgent",
+                                height: "20",
+                                width: "50%",
+                                disabled: "true",
+                                wrapItemTitles: true,
+                                items: [
+                                    {
+                                        name: "name_ContactBuyer",
+                                        type: "text",
+                                        length: 250,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        width: "*",
+                                        title: "NAME"
+                                    }
+                                    , {
+                                        name: "phone_ContactBuyer",
+                                        type: "text",
+                                        length: 100,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Phone",
+                                        width: "*"
+                                    }, {
+                                        name: "mobile_ContactBuyer",
+                                        type: "text",
+                                        length: 100,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Mobile",
+                                        width: "*"
+                                    },
+                                    {
+                                        name: "address_ContactBuyer",
+                                        type: "text",
+                                        length: 5000,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Address",
+                                        width: "*"
+                                    }
+                                ]
+                            })
+    dynamicForm1.addMember("Contact_ContactBuyer",1);
+    isc.DynamicForm.create({
+                                ID: "Contact_ContactAgentBuyer",
+                                valuesManager: "contactHeaderAgent",
+                                height: "20",
+                                width: "50%",
+                                disabled: "true",
+                                wrapItemTitles: true,
+                                items: [
+                                    {
+                                        name: "name_ContactAgentBuyer",
+                                        type: "text",
+                                        length: 250,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        width: "*",
+                                        title: "NAME"
+                                    }
+                                    , {
+                                        name: "phone_ContactAgentBuyer",
+                                        type: "text",
+                                        length: 100,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Phone",
+                                        width: "*"
+                                    }, {
+                                        name: "mobile_ContactAgentBuyer",
+                                        type: "text",
+                                        length: 100,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Mobile",
+                                        width: "*"
+                                    },
+                                    {
+                                        name: "address_ContactAgentBuyer",
+                                        type: "text",
+                                        length: 5000,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Address",
+                                        width: "*"
+                                    }
+                                ]
+                            })
+    dynamicForm2.addMember("Contact_ContactAgentBuyer",2);
     var DynamicForm_ContactSeller = isc.DynamicForm.create({
         valuesManager: "contactHeader",
         width: "100%",
@@ -453,7 +768,7 @@
                 showHover: true,
                 autoFetchData: false,
                 title: "Seller",
-                required: false,
+                required: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_Contact_optionCriteria,
@@ -467,7 +782,6 @@
                     {name: "code", width: "10%", align: "center"}
                 ],
                 changed: function (form, item, value) {
-                    makeBodyDynamicFormPage1(3, "ContactSeller");
                     var address = "";
                     var name = "";
                     var phone = "";
@@ -510,7 +824,6 @@
                     {name: "code", width: "10%", align: "center"}
                 ],
                 changed: function (form, item, value) {
-                    makeBodyDynamicFormPage1(4, "ContactAgentSeller");
                     var address = "";
                     var name = "";
                     var phone = "";
@@ -537,7 +850,100 @@
     });
 
     isc.DynamicForm.create({
-        ID: "DynamicForm_ContactParameter_ValueNumber8",
+                                ID: "Contact_ContactSeller",
+                                valuesManager: "contactHeaderAgent",
+                                height: "20",
+                                width: "50%",
+                                disabled: "true",
+                                wrapItemTitles: true,
+                                items: [
+                                    {
+                                        name: "name_ContactSeller",
+                                        type: "text",
+                                        length: 250,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        width: "*",
+                                        title: "NAME"
+                                    }
+                                    , {
+                                        name: "phone_ContactSeller",
+                                        type: "text",
+                                        length: 100,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Phone",
+                                        width: "*"
+                                    }, {
+                                        name: "mobile_ContactSeller",
+                                        type: "text",
+                                        length: 100,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Mobile",
+                                        width: "*"
+                                    },
+                                    {
+                                        name: "address_ContactSeller",
+                                        type: "text",
+                                        length: 5000,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Address",
+                                        width: "*"
+                                    }
+                                ]
+                            })
+    dynamicForm3.addMember("Contact_ContactSeller",3);
+    isc.DynamicForm.create({
+                                ID: "Contact_ContactAgentSeller",
+                                valuesManager: "contactHeaderAgent",
+                                height: "20",
+                                width: "50%",
+                                disabled: "true",
+                                wrapItemTitles: true,
+                                items: [
+                                    {
+                                        name: "name_ContactAgentSeller",
+                                        type: "text",
+                                        length: 250,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        width: "*",
+                                        title: "NAME"
+                                    }
+                                    , {
+                                        name: "phone_ContactAgentSeller",
+                                        type: "text",
+                                        length: 100,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Phone",
+                                        width: "*"
+                                    }, {
+                                        name: "mobile_ContactAgentSeller",
+                                        type: "text",
+                                        length: 100,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Mobile",
+                                        width: "*"
+                                    },
+                                    {
+                                        name: "address_ContactAgentSeller",
+                                        type: "text",
+                                        length: 5000,
+                                        showTitle: true,
+                                        colSpan: 2,
+                                        title: "Address",
+                                        width: "*"
+                                    }
+                                ]
+                            })
+     dynamicForm4.addMember("Contact_ContactAgentSeller",4);
+
+isc.DynamicForm.create({
+        ID:"DynamicForm_ContactParameter_ValueNumber8",
         valuesManager: "valuesManagerArticle1",
         height: "20",
         width: "100%",
@@ -581,7 +987,7 @@
                     }
         ]
     })
-    var itemsDefinitionsCount = 0;
+
     HLayout_button_ValueNumber8 = isc.HLayout.create({
         members: [
             isc.Label.create({
@@ -590,7 +996,7 @@
                 valign: "center",
                 wrap: false,
                 contents: "Add",
-                click: "itemsDefinitions('Add',itemsDefinitionsCount)"
+                click: function(){itemsDefinitions('Add',itemsDefinitionsCount)}
             }),
             isc.Label.create({
                 styleName: "buttonHtml buttonHtml3",
@@ -598,7 +1004,7 @@
                 valign: "center",
                 wrap: false,
                 contents: "Remove",
-                click: "itemsDefinitions('Remove',itemsDefinitionsCount)"
+                click: function(){itemsDefinitions('Remove',itemsDefinitionsCount)}
             })
         ]
     })
@@ -715,17 +1121,17 @@
             }
         ]
     })
-var lotList = isc.ListGrid.create({
+lotList = isc.ListGrid.create({
         width: "100%",
         height: "180",
         dataSource: RestDataSource_WarehouseLot,
-        initialCriteria: RestDataSource_ShipmentContractUsed,
         dataPageSize: 50,
         autoSaveEdits: false,
-        autoFetchData: true,
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "contractId", title: "contractId",canEdit: false, hidden: true},
                 {
                     name: "warehouseNo",
                     canEdit: false,
@@ -751,10 +1157,7 @@ var lotList = isc.ListGrid.create({
             ]
     });
 
-    var dynamicForm1 = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm2 = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm3 = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm4 = isc.HLayout.create({align: "center", members: []});
+
 
 var vlayoutBody = isc.VLayout.create({
         width: "100%",
@@ -808,7 +1211,7 @@ var vlayoutArticle3 = isc.VLayout.create({
         overflow: "scroll",
 // backgroundImage: "backgrounds/leaves.jpg",
         members: [
-            LablePage,
+            isc.HStack.create({height: "10",width: "100%",align: "center",members: [LablePage]}),
             vlayoutBody,
             vlayoutArticle1,
             vlayoutArticle2,
@@ -1309,7 +1712,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
         ]
     })
     ///*//*** to do
-    var ListGrid_ContractItemShipment = isc.ListGrid.create({
+ListGrid_ContractItemShipment = isc.ListGrid.create({
         width: "77%",
         height: "200",
         modalEditing: true,
@@ -1436,7 +1839,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     }
         ]
     })
-    var i = 0;
+
     isc.HLayout.create({
         ID: "buttonNote", width: "100%", height: "100%", membersMargin: 20,
         members: [
@@ -1446,7 +1849,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 valign: "center",
                 wrap: false,
                 contents: "Add",
-                click: "manageNote('Add',i)"
+                click: function(){manageNote('Add',imanageNote)}
             }),
             isc.Label.create({
                 styleName: "buttonHtml buttonHtml3",
@@ -1454,7 +1857,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 valign: "center",
                 wrap: false,
                 contents: "Remove",
-                click: "manageNote('Remove',i)"
+                click: function(){manageNote('Remove',imanageNote)}
             })
         ]
     })
@@ -1876,8 +2279,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 defaultValue: "MOLYBDENUM OXIDE",
                 title: 'PRICE FOR',
                 changed: function (form, item, value) {
-dynamicForm_article7_number3.setValue("article7_number3_1", value);
-dynamicForm_article8_3.setValue("article8_3", value);
+                            dynamicForm_article7_number3.setValue("article7_number3_1", value);
+                            dynamicForm_article8_3.setValue("article8_3", value);
 }
             }, {
                 name: "article7_number37",
@@ -2461,7 +2864,7 @@ dynamicForm_article8_3.setValue("article8_3", value);
     //END PAGE THREE
     //START PAGE Four
     //END PAGE Four
-    var contactTabs = isc.TabSet.create({
+var contactTabs = isc.TabSet.create({
         width: "100%",
         height: "97%",
         tabs: [
@@ -2481,13 +2884,14 @@ dynamicForm_article8_3.setValue("article8_3", value);
     });
 
 
-    var IButton_Contact_Save = isc.IButton.create({
+var IButton_Contact_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
+            contactHeader.validate();
             DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
             var drs = contactHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
@@ -2495,14 +2899,15 @@ dynamicForm_article8_3.setValue("article8_3", value);
             var data = Object.assign(contactHeader.getValues(), contactHeaderAgent.getValues(), valuesManagerArticle2.getValues(),
                 valuesManagerArticle3.getValues(), valuesManagerArticle4.getValues(), valuesManagerArticle5.getValues(),
                 valuesManagerArticle6.getValues(), valuesManagerArticle7.getValues(), valuesManagerArticle8.getValues(), valuesManagerArticle9.getValues(), valuesManagerArticle10.getValues());
-            method = "POST";
+            if(methodUrl=='PUT'){data.id=contractIdEdit;}
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
-                httpMethod: method,
+                httpMethod: methodUrl,
                 data: JSON.stringify(data),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         var contractID = (JSON.parse(resp.data)).id;
+
                         saveCotractDetails(data, (JSON.parse(resp.data)).id);
                     } else
                         isc.say(RpcResponse_o.data);
@@ -2511,7 +2916,7 @@ dynamicForm_article8_3.setValue("article8_3", value);
         }
     });
 
-    var contactFormButtonSaveLayout = isc.HStack.create({
+var contactFormButtonSaveLayout = isc.HStack.create({
         width: "100%",
         height: "3%",
         align: "center",
@@ -2524,20 +2929,33 @@ dynamicForm_article8_3.setValue("article8_3", value);
         ]
     });
 
-    isc.VLayout.create({
-        ID: "VLayout_contactMain",
-        width: "100%",
-        height: "100%",
-        align: "center",
-        overflow: "scroll",
-        members: [
+
+VLayout_contactMain=isc.VLayout.create({
+            width: "100%",
+            height: "100%",
+            align: "center",
+            overflow: "scroll",
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            autoScroller:true,
+            closeClick: function () {
+            this.Super("closeClick", arguments);
+            },
+            members: [
             contactTabs,
             contactFormButtonSaveLayout
-        ]
-    });
+            ]
+            })
+
+Window_Contact.addItems([VLayout_contactMain]);
+Window_Contact.show();
+
+}
+/////////////////////////// end function()
 
 
-    function manageNote(value, id) {
+function manageNote(value, id) {
         if (value == 'Add') {
             dynamicForm_article5_Note2_number30.addFields([
                 {
@@ -2596,7 +3014,7 @@ dynamicForm_article8_3.setValue("article8_3", value);
         }
     }
 
-    function makeBodyDynamicFormCurrency(value, id) {
+function makeBodyDynamicFormCurrency(value, id) {
         isc.DynamicForm.create({
             ID: "dynamicForm_Currency" + id,
             valuesManager: "valuesManagerArticle10",
@@ -2635,69 +3053,8 @@ dynamicForm_article8_3.setValue("article8_3", value);
     }
 
 
-    function makeBodyDynamicFormPage1(value, title) {
-        isc.DynamicForm.create({
-            ID: "Contact_" + title,
-            valuesManager: "contactHeaderAgent",
-            height: "20",
-            width: "50%",
-            disabled: "true",
-            wrapItemTitles: true,
-            items: [
-                {
-                    name: "name_" + title,
-                    type: "text",
-                    length: 250,
-                    showTitle: true,
-                    colSpan: 2,
-                    width: "*",
-                    title: "NAME"
-                }
-                , {
-                    name: "phone_" + title,
-                    type: "text",
-                    length: 100,
-                    showTitle: true,
-                    colSpan: 2,
-                    title: "Phone",
-                    width: "*"
-                }, {
-                    name: "mobile_" + title,
-                    type: "text",
-                    length: 100,
-                    showTitle: true,
-                    colSpan: 2,
-                    title: "Mobile",
-                    width: "*"
-                },
-                {
-                    name: "address_" + title,
-                    type: "text",
-                    length: 5000,
-                    showTitle: true,
-                    colSpan: 2,
-                    title: "Address",
-                    width: "*"
-                }
-            ]
-        })
-        switch (value) {
-            case 1:
-                dynamicForm1.addMember("Contact_" + title, value);
-                break;
-            case 2:
-                dynamicForm2.addMember("Contact_" + title, value);
-                break;
-            case 3:
-                dynamicForm3.addMember("Contact_" + title, value);
-                break;
-            case 4:
-                dynamicForm4.addMember("Contact_" + title, value);
-                break;
-        }
-    };
 
-    function itemsDefinitions(value, id) {
+function itemsDefinitions(value, id) {
         if (value == 'Add') {
             DynamicForm_ContactParameter_ValueNumber8.addFields([
                 {
@@ -2750,10 +3107,9 @@ function saveCotractDetails(data, contractID) {
         data.contract_id = contractID;
         var allData = Object.assign(data, valuesManagerArticle1.getValues())
         allData.string_Currency=JSON.stringify(valuesManagerArticle10.getValues());
-        method = "POST";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",
-            httpMethod: method,
+            httpMethod: methodUrl,
             data: JSON.stringify(allData),
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
@@ -2767,8 +3123,43 @@ function saveCotractDetails(data, contractID) {
                     isc.say(RpcResponse_o.data);
             }
         }))
+    }
+
+function saveListGrid_ContractItemShipment(contractID) {
+        ListGrid_ContractItemShipment.selectAllRecords();
+        ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
+            var data_ContractItemShipment = ListGrid_ContractItemShipment.getEditedRecord(element);
+            data_ContractItemShipment.contractId = contractID;
+            data_ContractItemShipment.dischargeId = 11022;
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contractShipment/",
+                httpMethod: methodUrl,
+                data: JSON.stringify(data_ContractItemShipment),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }))
+        })
+};
 
 
+function saveContractCurrency(contractID){
+    var currencyData =valuesManagerArticle10.getValues();
+    currencyData.contractId=contractID
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contractCurrency/",
+                httpMethod: methodUrl,
+                data: JSON.stringify(currencyData),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }))
     }
 
 function saveValuelotListForADD(contractID) {
@@ -2776,7 +3167,7 @@ function saveValuelotListForADD(contractID) {
         lotList.getAllEditRows().forEach(function (element) {
             var data_lotList = lotList.getEditedRecord(element);
             data_lotList.contractId = contractID;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                 actionURL: "${contextPath}/api/warehouseLot/",
                 httpMethod: "PUT",
                 data: JSON.stringify(data_lotList),
@@ -2790,40 +3181,46 @@ function saveValuelotListForADD(contractID) {
             }))
         })
     };
-
-function saveListGrid_ContractItemShipment(contractID) {
-        ListGrid_ContractItemShipment.selectAllRecords();
-        ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            var data_ContractItemShipment = ListGrid_ContractItemShipment.getEditedRecord(element);
-            data_ContractItemShipment.contractId = contractID;
-            data_ContractItemShipment.dischargeId = 11022;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractShipment/",
-                httpMethod: "POST",
-                data: JSON.stringify(data_ContractItemShipment),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-        })
-    };
-
-
-function saveContractCurrency(contractID){
-    var currencyData =valuesManagerArticle10.getValues();
-    currencyData.contractId=contractID
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractCurrency/",
-                httpMethod: "POST",
-                data: JSON.stringify(currencyData),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
+function itemsEditDefinitions(key,value,id) {
+       DynamicForm_ContactParameter_ValueNumber8.addFields([
+                {
+                    name: key,
+                    type: "text",
+                    length: 5000,
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Parameters,
+                    defaultValue:value,
+                    displayField: "paramValue",
+                    valueField: "paramValue",
+                    showTitle: false,
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "paramName", width: "25%", align: "center"},
+                        {name: "paramType", width: "25%", align: "center"},
+                        {name: "paramValue", width: "50%", align: "center"}
+                    ],
+                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName:"categoryValue",operator:"equals",value:1}]
+                    },
+                    showTitle: false,
+                    startRow: false,
+                    width: "1500",
+                    height: "30",
+                    title: "NAME",
+                    changed: function (form, item, value) {
+                        DynamicForm_ContactParameter_ValueNumber8.setValue(key, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
+                    }
+                },{
+                    name:"button"+id,
+                    type: "button",
+                    width: "10%",
+                    height: "30",
+                    title: "Remove",
+                    startRow: false,
+                    icon: "icons/16/message.png",
+                    click: function(){DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)}
+                    }
+            ]);
+       itemsDefinitionsCount++;
     }
