@@ -316,7 +316,8 @@
                         {name: "packName"},
                         {name: "source"},
                         {name: "target"},
-                        {name: "tozinDate"}
+                        {name: "tozinDate"},
+                        {name: "tozinPlantId"}
                     ],
                     changed(form, item, value) {
                         DynamicForm_warehouseCAD.setValue("plant", item.getSelectedRecord().source);
@@ -352,7 +353,8 @@
                         {name: "packName"},
                         {name: "source"},
                         {name: "target"},
-                        {name: "tozinDate"}
+                        {name: "tozinDate"},
+                        {name: "tozinPlantId"}
                     ],
                     changed(form, item, value) {
                         DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
@@ -563,6 +565,7 @@ titleColSpan: 1},
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "bijackNo", title: "<spring:message code='warehouseCad.bijackNo'/>", width: "16.66%"},
                 {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>", width: "16.66%"},
                 {name: "material", title: "<spring:message code='material.descp'/>", width: "16.66%"},
                 {name: "movementType", title: "<spring:message code='warehouseCad.movementType'/>", width: "16.66%"},
