@@ -592,6 +592,15 @@
             createTab("<spring:message code='bank.title'/>", "<spring:url value="/bank/showForm" />")
         }
     });
+    var warehouseYardButton = isc.IconButton.create({
+        title: "<spring:message code='warehouseYard.title'/>",
+        icon: "basicTables/warehouseYard.png",
+        largeIcon: "basicTables/warehouseYard.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='warehouseYard.title'/>", "<spring:url value="/warehouseYard/showForm" />")
+        }
+    });
     var countryButton = isc.IconButton.create({
         title: "<spring:message code='country.title'/>",
         icon: "basicTables/country.png",
@@ -692,7 +701,8 @@
             portButton,
             dccButton,
             instructionButton,
-            paymentOpftionButton
+            paymentOpftionButton,
+            warehouseYardButton
         ],
         autoDraw: false
     });

@@ -56,6 +56,17 @@
         fetchDataURL: "${contextPath}/api/feature/spec-list"
     });
 
+    var RestDataSource_MaterialItem = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "gdsCode", title: "<spring:message code='MaterialItem.gdsCode'/> "},
+                {name: "gdsName", title: "<spring:message code='MaterialItem.gdsName'/> "},
+                {name: "materialId", hidden: true},
+            ],
+        fetchDataURL: "${contextPath}/api/materialItem/spec-list"
+    });
+
     var RestDataSource_MaterialFeature = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -429,6 +440,9 @@
             };
             ListGrid_MaterialFeature.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                 ListGrid_MaterialFeature.setData(data);
+            }, {operationId: "00"});
+            ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                ListGrid_MaterialItem.setData(data);
             }, {operationId: "00"});
         },
         dataArrived: function (startRow, endRow) {
@@ -1023,16 +1037,333 @@
         ]
     });
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    isc.SectionStack.create({
+     // ----------------------------------------------------------------------------------------------------------------------
+    function ListGrid_MaterialItem_refresh() {
+        ListGrid_MaterialItem.invalidateCache();
+        var record = ListGrid_Material.getSelectedRecord();
+        if (record == null || record.id == null)
+            return;
+        var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "materialId", operator: "equals", value: record.id}]
+        };
+        ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            ListGrid_MaterialItem.setData(data);
+        }, {operationId: "00"});
+    };
+
+    function ListGrid_MaterialItem_edit() {
+        var record = ListGrid_MaterialItem.getSelectedRecord();
+
+        if (record == null || record.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        } else {
+            DynamicForm_MaterialItem.editRecord(record);
+            Window_MaterialItem.show();
+        }
+    };
+
+    function ListGrid_MaterialItem_remove() {
+
+        var record = ListGrid_MaterialItem.getSelectedRecord();
+
+        if (record == null || record.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        } else {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                    title: "<spring:message
+		code='global.no'/>"
+                })],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index == 0) {
+                        var MaterialItemId = record.id;
+// ######@@@@###&&@@###
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+// ######@@@@###&&@@### pls correct callback
+                                actionURL: "${contextPath}/api/materialItem/" + MaterialItemId,
+                                httpMethod: "DELETE",
+                                callback: function (RpcResponse_o) {
+// ######@@@@###&&@@###
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                        ListGrid_MaterialItem_refresh();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
+                                },
+
+                            })
+                        );
+                    }
+                }
+            });
+        }
+    };
+    var Menu_ListGrid_MaterialItem = isc.Menu.create({
+        width: 150,
+        data: [
+            {
+                title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
+                click: function () {
+                    ListGrid_MaterialItem_refresh();
+                }
+            },
+            {
+                title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
+                click: function () {
+                    DynamicForm_MaterialItem.clearValues();
+                    Window_MaterialItem.show();
+                }
+            },
+            {
+                title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
+                click: function () {
+                    ListGrid_MaterialItem_edit();
+                }
+            },
+            {
+                title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
+                click: function () {
+                    ListGrid_MaterialItem_remove();
+                }
+            }
+        ]
+    });
+    var DynamicForm_MaterialItem = isc.DynamicForm.create({
+        width: 750,
+        height: "100%",
+        setMethod: 'POST',
+        align: "center",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "100",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 2,
+        fields:
+            [
+                {name: "id", hidden: true,},
+                {name: "materialId", type: "long", hidden: true, wrapTitle: false},
+                {type: "RowSpacerItem"},
+                 {name: "gdsCode", width: "300", title: "<spring:message code='MaterialItem.gdsCode'/> "},
+                {name: "gdsName", width: "300", title: "<spring:message code='MaterialItem.gdsName'/> "},
+            ]
+    });
+
+    var ToolStripButton_MaterialItem_Refresh = isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/refresh.png",
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+            ListGrid_MaterialItem_refresh();
+        }
+    });
+
+    var ToolStripButton_MaterialItem_Add = isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/add.png",
+        title: "<spring:message code='global.form.new'/>",
+        click: function () {
+            var record = ListGrid_Material.getSelectedRecord();
+
+            if (record == null || record.id == null) {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    buttonClick: function () {
+                        this.hide();
+                    }
+                });
+            } else {
+                DynamicForm_MaterialItem.clearValues();
+                DynamicForm_MaterialItem.setValue("materialId", record.id);
+                Window_MaterialItem.show();
+            }
+        }
+    });
+
+    var ToolStripButton_MaterialItem_Edit = isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/edit.png",
+        title: "<spring:message code='global.form.edit'/>",
+        click: function () {
+            DynamicForm_MaterialItem.clearValues();
+            ListGrid_MaterialItem_edit();
+        }
+    });
+
+    var ToolStripButton_MaterialItem_Remove = isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/remove.png",
+        title: "<spring:message code='global.form.remove'/>",
+        click: function () {
+            ListGrid_MaterialItem_remove();
+        }
+    });
+
+    var ToolStrip_Actions_MaterialItem = isc.ToolStrip.create({
+        width: "100%",
+        members:
+            [
+                ToolStripButton_MaterialItem_Refresh,
+                ToolStripButton_MaterialItem_Add,
+                ToolStripButton_MaterialItem_Edit,
+                ToolStripButton_MaterialItem_Remove
+            ]
+    });
+
+    var HLayout_MaterialItem_Actions = isc.HLayout.create({
+        width: "100%",
+        members:
+            [
+                ToolStrip_Actions_MaterialItem
+            ]
+    });
+
+    var IButton_MaterialItem_Save = isc.IButton.create({
+        top: 260,
+        title: "<spring:message code='global.form.save'/>",
+        icon: "pieces/16/save.png",
+        click: function () {
+            DynamicForm_MaterialItem.validate();
+            if (DynamicForm_MaterialItem.hasErrors())
+                return;
+            var data = DynamicForm_MaterialItem.getValues();
+            var minValue = DynamicForm_MaterialItem.getValue("minValue");
+            var maxValue = DynamicForm_MaterialItem.getValue("maxValue");
+            console.log(minValue);
+            console.log(maxValue);
+            console.log(DynamicForm_MaterialItem);
+            if (minValue > maxValue) {
+                isc.say("<spring:message code='MaterialItem.minValue.Error'/>.");
+                return;
+            }
+            var methodXXXX = "PUT";
+            if (data.id == null) methodXXXX = "POST";
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/materialItem/",
+                    httpMethod: methodXXXX,
+                    data: JSON.stringify(data),
+                    callback: function (RpcResponse_o) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_MaterialItem_refresh();
+                            Window_MaterialItem.close();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    },
+
+                })
+            );
+        }
+    });
+
+    var MaterialItemCancelBtn = isc.IButton.create({
+        top: 260,
+        layoutMargin: 5,
+        membersMargin: 5,
+        width: 120,
+        title: "<spring:message code='global.cancel'/>",
+        icon: "pieces/16/icon_delete.png",
+        click: function () {
+            Window_MaterialItem.close();
+        }
+    });
+
+    var HLayout_MaterialItem_IButton = isc.HLayout.create({
+        layoutMargin: 5,
+        membersMargin: 5,
+        width: "100%",
+        members: [
+            IButton_MaterialItem_Save,
+            MaterialItemCancelBtn
+        ]
+    });
+
+    var Window_MaterialItem = isc.Window.create({
+        title: "<spring:message code='MaterialItem.title'/> ",
+        width: 580,
+        // height: 500,
+        autoSize: true,
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items:
+            [
+                DynamicForm_MaterialItem,
+                HLayout_MaterialItem_IButton
+            ]
+    });
+
+    var ListGrid_MaterialItem = isc.ListGrid.create({
+        width: "100%",
+        height: "100%",
+        dataSource: RestDataSource_MaterialItem,
+        contextMenu: Menu_ListGrid_MaterialItem,
+        numCols: 2,
+        fields:
+            [
+                {name: "id", hidden: true, primaryKey: true},
+                {name: "materialId", type: "long", hidden: true},
+                {name: "gdsCode", width: "10%", title: "<spring:message code='MaterialItem.gdsCode'/> "},
+                {name: "gdsName", width: "10%", title: "<spring:message code='MaterialItem.gdsName'/> "},
+            ],
+        sortField: 0,
+        autoFetchData: false,
+        showFilterEditor: true,
+        filterOnKeypress: true
+    });
+    var HLayout_MaterialItem_Grid = isc.HLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+            ListGrid_MaterialItem
+        ]
+    });
+    var VLayout_MaterialItem_Body = isc.VLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+            HLayout_MaterialItem_Actions, HLayout_MaterialItem_Grid
+        ]
+    });
+    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+   isc.SectionStack.create({
         ID: "Material_Section_Stack",
         sections:
             [
                 {title: "<spring:message code='Product'/>", items: VLayout_Material_Body, expanded: true}
-                , {
-                title: "<spring:message code='ProductFeature'/>",
-                items: VLayout_MaterialFeature_Body,
-                expanded: true
-            }
+                , {title: "<spring:message code='ProductFeature'/>",items: VLayout_MaterialItem_Body,expanded: true}
+                , {title: "<spring:message code='ProductFeature'/>",items: VLayout_MaterialFeature_Body,expanded: true}
             ],
         visibilityMode: "multiple",
         animateSections: true,

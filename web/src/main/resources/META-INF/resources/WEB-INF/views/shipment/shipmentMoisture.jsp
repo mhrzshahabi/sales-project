@@ -203,24 +203,35 @@ function createPasteDialog () {
                     isc.HLayout.create({
                         membersMargin  : 3,
                         width          :"100%",
+                        height         :"100%",
                         alignLayout    :"center",
                         members        : [
 
                                 isc.DynamicForm.create({
                                     ID:"resultsForm",
                                     numCols: 6,
-                                    width: 600,
-                                    height: 300,
+                                    width: "100%",
+                                    height:  "90%",
                                     autoFocus: true,
                                     fields: [
-                                                {type: "text", name: "guidance",colSpan:6, showTitle: false,  editorType: "StaticTextItem", value: "Press Ctrl-V (\u2318V on Mac) or right click (Control-click on Mac) to paste values, then click \"Apply\"."},
-                                                {type: "text", name: "textArea", canEdit: true,colSpan:6, showTitle: false,  height: "*",  width: "*", editorType: "TextAreaItem" },
-                                                {type : "text", name : "apply" , editorType: "ButtonItem", title: "Apply",
-                                                   click: function (form) {
-                                                        pasteText(form.getValue("textArea"));
-                                                        ListGrid_ShipmentMoistureItemPaste.saveAllEdits();
-                                                    }
-                                                 }
+                                                {
+                                                    type: "text",
+                                                    name: "guidance",
+                                                    colSpan:6,
+                                                    showTitle: false,
+                                                    editorType: "StaticTextItem",
+                                                    value: "Press Ctrl-V or right click to paste values, then click \"Apply\"."
+                                                },
+                                                {
+                                                    type: "text",
+                                                    name: "textArea",
+                                                    canEdit: true,
+                                                    colSpan:6,
+                                                    showTitle: false,
+                                                    height: "*",
+                                                    width: "*",
+                                                    editorType: "TextAreaItem"
+                                                },
                                              ]
 
 
@@ -229,7 +240,7 @@ function createPasteDialog () {
                                     dataSource				: ClientDataSource_ShipmentMoistureItem ,
                                     sortDirection			: "descending",
                                     width                   : "100%",
-                                    height                  : "90%",
+                                    height                  :  "90%",
                                     canEdit                 : true,
                                     autoFetchData           : true,
                                     canDragSelect           : true,
@@ -253,43 +264,53 @@ function createPasteDialog () {
 
                         ]
                     }),
-                    isc.ToolStripButton.create({
-                      title:"<spring:message code='global.form.save'/>",
-                      prompt: "<spring:message code='shipment.Moisture.saveButton'/>",
-                      icon: "pieces/16/save.png",
-                      width : 120,
-                      click:function() {
-						resultsForm.validate();
-						if (resultsForm.hasErrors())
-							return;
-						var selected = ListGrid_ShipmentMoistureItemPaste.getSelection();
+                    isc.HLayout.create({
+                        membersMargin  : 3,
+                        width          :"100%",
+                        alignLayout    :"center",
+                        members        :
+                        [
+                            isc.Button.create({
+                               title: "Apply", width : 300,
+                               click: function (form) {
+                                    pasteText(resultsForm.getValue("textArea"));
+                                    ListGrid_ShipmentMoistureItemPaste.saveAllEdits();
+                                }
+                             }),
 
-                            resultsForm.setValue("selected",selected)
+                            isc.Button.create({
+                              title:"<spring:message code='global.form.save'/>",
+                              prompt: "<spring:message code='shipment.Moisture.saveButton'/>",
+                              icon: "pieces/16/save.png",
+                              width : 300,
+                              click:function() {
+                                resultsForm.validate();
+                                if (resultsForm.hasErrors())
+                                    return;
+                                var selected = ListGrid_ShipmentMoistureItemPaste.getSelection();
 
-                            resultsForm.setValue("ShipmentMoistureHeaderId",ShipmentMoistureHeaderId);
-                            var data = resultsForm.getValues();
+                                resultsForm.setValue("selected",selected)
 
- // ######@@@@###&&@@###
-var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/shipmentMoistureItem/addMoisturePaste",
-                    httpMethod: methodXXXX,
-                    data: JSON.stringify(data),
-                    callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
-                                            ListGrid_ShipmentMoistureItem_refresh();
-                                            PasteDialogShipmentMoistureItem_windows.close();
-                        } else
-                            isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
-
-
-                        }
-                    })
-
+                                resultsForm.setValue("ShipmentMoistureHeaderId",ShipmentMoistureHeaderId);
+                                var data = resultsForm.getValues();
+                                var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
+                                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                        actionURL: "${contextPath}/api/shipmentMoistureItem/addMoisturePaste",
+                                        httpMethod: methodXXXX,
+                                        data: JSON.stringify(data),
+                                        callback: function (resp) {
+                                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                                isc.say("<spring:message code='global.form.request.successful'/>.");
+                                                                ListGrid_ShipmentMoistureItem_refresh();
+                                                                PasteDialogShipmentMoistureItem_windows.close();
+                                            } else
+                                                isc.say(RpcResponse_o.data);
+                                        }
+                                    }) );
+                                }
+                            }),
+                        ]
+                     })
                 ]
      }); /* windows*/
 
@@ -604,24 +625,24 @@ var criteria1Inspector = {
         {type:"RowSpacerItem"},
 		{name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},
 		{name: "shipmentId", title: "id", canEdit:false, hidden:true},
-		{name: "inspectionByContactId", title:"<spring:message code='shipment.MoistureInspectionCompany'/>", type:'long'
+		{name: "inspectionByContactId", title:"<spring:message code='shipment.MoistureInspectionCompany'/>", type:'long',wrapTitle: false
 			 ,editorType: "SelectItem",colSpan :1 ,titleColSpan :1
 			, optionDataSource:MyRestDataSource_Contact ,displayField:"nameEN",wrapTitle: false,optionCriteria : criteria1Inspector
 			, valueField:"id" ,pickListWidth:"450",pickListheight:"500" ,pickListProperties: {showFilterEditor:true}
 			,pickListFields:[{name:"nameFA",width:150,align:"center"},{name:"nameEN",width:150,align:"center"},{name:"code",width:150,align:"center"}] },
-		{name: "location", title:"<spring:message code='shipment.Moisture.location'/>", type:'text' ,
+		{name: "location", title:"<spring:message code='shipment.Moisture.location'/>", type:'text' ,wrapTitle: false,
                 valueMap: {"source": "source", "destination": "destination"}},
 		{name: "inspectionDate", title:"<spring:message code='shipment.Moisture.inspectionDate'/>", type:'text',hidden:true },
-		{name: "inspectionDateDummy", title:"<spring:message code='shipment.Moisture.inspectionDate'/>", type:'date' },
-		{name: "totalWetWeight", title:"<spring:message code='shipment.Moisture.totalWetWeight'/>"
-		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}]},
-		{name: "averageMoisturePercent", title:"<spring:message code='shipment.Moisture.averageMoisturePercent'/>"
-		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}]},
-		{name: "totalDryWeight", title:"<spring:message code='shipment.Moisture.totalDryWeight'/>"
-		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}]},
-		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>"
-		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}]},
-		{name: "description", title:"<spring:message code='shipment.Moisture.description'/>", type:'textArea',width:"400",colSpan:4 },
+		{name: "inspectionDateDummy", title:"<spring:message code='shipment.Moisture.inspectionDate'/>", type:'date',wrapTitle: false, },
+		{name: "totalWetWeight", title:"<spring:message code='shipment.Moisture.totalWetWeight'/>",wrapTitle: false
+		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
+		{name: "averageMoisturePercent", title:"<spring:message code='shipment.Moisture.averageMoisturePercent'/>",wrapTitle: false
+		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
+		{name: "totalDryWeight", title:"<spring:message code='shipment.Moisture.totalDryWeight'/>",wrapTitle: false
+		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
+		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>",wrapTitle: false
+		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
+		{name: "description", title:"<spring:message code='shipment.Moisture.description'/>", type:'textArea',width:"600",colSpan:4 },
 	]
     });
     var IButton_Shipment_Save_MoistureHeader = isc.IButton.create({
@@ -666,7 +687,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
     });
     var Window_ShipmentMoistureHeader = isc.Window.create({
     title: "<spring:message code='shipment.MoistureHeader'/>",
-    width: "28%",
+    width: "50%",
     hight: "30%",
     autoSize:true,
     autoCenter: true,
@@ -853,7 +874,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 		{name: "totalWetWeight", title:"<spring:message code='shipment.Moisture.totalWetWeight'/>", type:'text' ,align:"center" },
 		{name: "averageMoisturePercent", title:"<spring:message code='shipment.Moisture.averageMoisturePercent'/>", type:'text' ,align:"center" },
 		{name: "totalDryWeight", title:"<spring:message code='shipment.Moisture.totalDryWeight'/>", type:'text' ,align:"center" },
-		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>", type:'text' ,align:"center" },
+		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>", type:'text' ,align:"center",wrapTitle: false },
     ],
     recordClick 			:	"this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
     updateDetails 			: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
@@ -950,15 +971,15 @@ var Menu_ListGrid_ShipmentMoistureItem = isc.Menu.create({
         {type:"RowSpacerItem"},
 		{name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},
 		{name: "shipmentMoistureHeaderId", title: "id", canEdit:false, hidden:true},
-		{name: "lotNo", title:"<spring:message code='shipment.Moisture.lotNo'/>", type:'text' },
-		{name: "wetWeight", title:"<spring:message code='shipment.Moisture.wetWeight'/>"
-		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}]},
-		{name: "moisturePercent", title:"<spring:message code='shipment.Moisture.moisturePercent'/>"
-		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}]},
-		{name: "dryWeight", title:"<spring:message code='shipment.Moisture.dryWeight'/>"
-		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}]},
-		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>"
-		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}]},
+		{name: "lotNo", title:"<spring:message code='shipment.Moisture.lotNo'/>", type:'text', wrapTitle: false,},
+		{name: "wetWeight", title:"<spring:message code='shipment.Moisture.wetWeight'/>",wrapTitle: false
+				   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
+		{name: "moisturePercent", title:"<spring:message code='shipment.Moisture.moisturePercent'/>",wrapTitle: false
+		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
+		{name: "dryWeight", title:"<spring:message code='shipment.Moisture.dryWeight'/>",wrapTitle: false
+		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
+		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>",wrapTitle: false
+		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
 	]
     });
     var IButton_Shipment_Save_MoistureItem = isc.IButton.create({
@@ -998,7 +1019,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
     });
     var Window_ShipmentMoistureItem = isc.Window.create({
     title: "<spring:message code='shipment.MoistureItem'/>",
-    width: "28%",
+    width: "50%",
     hight: "30%",
     autoSize:true,
     autoCenter: true,
@@ -1030,8 +1051,8 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
         });
     };
 	function ListGrid_ShipmentMoistureItem_remove() {
-		var record = ListGrid_ShipmentMoistureItem.getSelectedRecord();
-		if(record == null || record.id == null){
+		var selected = ListGrid_ShipmentMoistureItem.getSelection();
+		if(selected == null || selected.length==0){
 			isc.Dialog.create({
 			message : "<spring:message code='global.grid.record.not.selected'/>. !",
 			icon:"[SKIN]ask.png",
@@ -1041,35 +1062,38 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 			hide();
 			}
 			});
-		} else {
-			isc.Dialog.create({
-				message : "<spring:message code='global.grid.record.remove.ask'/>",
-				icon:"[SKIN]ask.png",
-				title : "<spring:message code='global.grid.record.remove.ask.title'/>",
-				buttons : [ isc.Button.create({ title:"<spring:message code='global.yes'/>" }), isc.Button.create({ title:"<spring:message code='global.no'/>" })],
-				buttonClick : function (button, index) {
-					this.hide();
-					if (index == 0) {
-
-						var shipmentId = record.id;
-
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${contextPath}/api/shipmentMoistureItem/" + shipmentId,
-                                httpMethod: "DELETE",
-                                callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                        ListGrid_ShipmentMoistureItem_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
-					}
-				}
-			});
+			return;
 		}
+         var ids="";
+         for (var i = 0; i < selected.length; i++)
+            ids +=','+selected.get(i).id;
+        isc.Dialog.create({
+            message : "<spring:message code='global.grid.record.remove.ask'/>",
+            icon:"[SKIN]ask.png",
+            title : "<spring:message code='global.grid.record.remove.ask.title'/>",
+            buttons : [
+                isc.Button.create({ title:"<spring:message code='global.yes'/>" }),
+                isc.Button.create({ title:"<spring:message code='global.no'/>" })
+                ],
+            buttonClick : function (button, index) {
+                this.hide();
+                if (index == 0) {
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/shipmentMoistureItem/list/" + ids ,
+                            httpMethod: "DELETE",
+                            callback: function (RpcResponse_o) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                    ListGrid_ShipmentMoistureItem_refresh();
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                }
+                            }
+                        })
+                    );
+                }
+            }
+        });
     };
 
     function ListGrid_ShipmentMoistureItem_edit() {
@@ -1178,13 +1202,13 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 		{name: "shipmentMoistureHeaderId", title: "id", canEdit:false, hidden:true},
 		{name: "lotNo", title:"<spring:message code='shipment.Moisture.lotNo'/>", type:'text' ,align:"center" },
 		{name: "wetWeight", title:"<spring:message code='shipment.Moisture.wetWeight'/>"
-		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}],align:"center" },
+		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}],align:"center" },
 		{name: "moisturePercent", title:"<spring:message code='shipment.Moisture.moisturePercent'/>"
-		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}],align:"center" },
+		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}],align:"center" },
 		{name: "dryWeight", title:"<spring:message code='shipment.Moisture.dryWeight'/>"
-		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}],align:"center" },
+		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}],align:"center" },
 		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>"
-		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}],align:"center" },
+		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}],align:"center" },
     ],
     recordClick 			:	"this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
     updateDetails 			: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {},
