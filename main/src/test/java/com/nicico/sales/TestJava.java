@@ -93,7 +93,10 @@ public class TestJava {
                             String newWord1 = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
                             String oldWord2 = oldWord.toUpperCase();
                             String newWord2 = newWord.toUpperCase();
-                            nfn = nfn.replaceAll(oldWord, newWord);
+                            if (nfn.contains(".jsp"))
+                                nfn=newWord.substring(0, 1).toLowerCase() + newWord.substring(1)+".jsp";
+                            else
+                                nfn = nfn.replaceAll(oldWord, newWord);
                             File output = new File(folders[folderLoop] + "\\" + nfn);
                             if (!output.exists()) {
                                 Scanner sc = new Scanner(input);
