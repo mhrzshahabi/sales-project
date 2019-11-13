@@ -1048,6 +1048,15 @@
             createTab("<spring:message code='Shipment.titleWarehouseIssueCons'/>", "<spring:url value="/warehouseIssueCons/showForm" />")
         }
     });
+    var WarehouseIssueMoButton = isc.IconButton.create({
+        title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
+        }
+    });
     var exportButton = isc.IconButton.create({
         title: "<spring:message code='export.title'/>",
         icon: "license/exportLicense.png",
@@ -1108,7 +1117,8 @@
             BijackButton,
             WarehouseStockButton,
             WarehouseIssueCathodeButton,
-            WarehouseIssueConsButton
+            WarehouseIssueConsButton,
+            WarehouseIssueMoButton
             // exportButton,
             // salesPlanButton,
             // purchasePlanButton,

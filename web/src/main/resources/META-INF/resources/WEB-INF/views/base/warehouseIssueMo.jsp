@@ -9,30 +9,33 @@
         fields:
             [
                 {name: "shipmentId"},
-                {name: "bijak"},
+                {name: "WarehouseLotId"},
                 {name: "containerNo"},
-                {name: "amountCustom"},
-                {name: "amountPms"},
-                {name: "sealedCustom"},
-                {name: "sealedShip"},
                 {name: "emptyWeight"},
-                {name: "bundle"},
-                {name: "sheet"},
-                {name: "totalAmount"},
+                {name: "amountCustom"},
+                {name: "sealedCustom"},
+                {name: "sealedInspector"},
+                {name: "sealedShip"},
                 {name: "id"},
              ],
 
         fetchDataURL: "${contextPath}/api/warehouseIssueMo/spec-list"
     });
 
-    var RestDataSource_WarehouseIssueMo_WarehouseCad = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseIssueMo_WarehouseLot = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bijackNo"},
-                {name: "yard.nameFA"},
-            ],
-        fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
+                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center"},
+                {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
+                {name: "material.descl", title: "<spring:message code='goods.nameLatin'/> "},
+                {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center"},
+                {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
+                {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
+                {name: "contractId", title: "contractId", align: "center"},
+                {name: "used", title: "used", align: "center"}
+            ],allowAdvancedCriteria: true,
+        fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
     });
 
 //*******************************************************************************
@@ -374,6 +377,22 @@
             });
         }
     }
+    function DynamicForm_WarehouseIssueMo_clearValues (){
+        var record = ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord();
+        var RestDataSource_WarehouseIssueMo_optionCriteria = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [
+                {fieldName: "contractId", operator: "equals", value: record.contractId},
+            ]
+        };
+        DynamicForm_WarehouseIssueMo.clearValues ();
+        // RestDataSource_WarehouseIssueMo_WarehouseLot.fetchData(
+        DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.fetchData(
+                    RestDataSource_WarehouseIssueMo_optionCriteria,
+                    function (dsResponse, data, dsRequest) { DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.setData(data)  ;  } );
+
+    }
 
     var Menu_ListGrid_WarehouseIssueMo = isc.Menu.create({
         width: 150,
@@ -387,7 +406,7 @@
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
-                    DynamicForm_WarehouseIssueMo.clearValues();
+                    DynamicForm_WarehouseIssueMo_clearValues();
                     Window_WarehouseIssueMo.show();
                 }
             },
@@ -421,6 +440,7 @@
             }
         ]
     });
+    //DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot
 
     var DynamicForm_WarehouseIssueMo = isc.DynamicForm.create({
         width: 650,
@@ -442,13 +462,13 @@
                 {name: "shipmentId", hidden: true},
                 {type: "RowSpacerItem"},
                {
-                    name: "bijak",
+                    name: "WarehouseLotId",ID:"DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot",
                     title: "<spring:message code='warehouseIssueMo.bijak'/>",
                     type: 'text',
                     width: 500, required: false,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_WarehouseIssueMo_WarehouseCad,
-                    displayField: "bijackNo",
+                    optionDataSource: RestDataSource_WarehouseIssueMo_WarehouseLot,
+                    displayField: "lotName",
                     valueField: "id",
                     colSpan: 1,
                     titleColSpan: 1,
@@ -458,11 +478,10 @@
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                         {name: "id", width: 50, align: "center", colSpan: 1, titleColSpan: 1},
-                        {name: "bijackNo", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
-                        {name: "yard.nameFA", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
+                        {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center", width: 150}
                     ]
                 },
-                {name: "containerNo",title: "<spring:message code='warehouseIssueMo.containerNo'/>",width: 500,required: true, length: "15"},
+               {name: "containerNo",title: "<spring:message code='warehouseIssueMo.containerNo'/>",width: 500,required: true, length: "15"},
                 {name: "emptyWeight",title: "<spring:message code='warehouseIssueMo.emptyWeight'/>",width: 500,required: true, length: "15",
                    validators: [{
                         type: "isFloat",
@@ -488,6 +507,7 @@
                     }]
                 },
                 {name: "sealedCustom",title: "<spring:message code='warehouseIssueMo.sealedCustom'/>",width: 500,required: true, length: "15"},
+                {name: "sealedInspector",title: "<spring:message code='warehouseIssueMo.sealedInspector'/>",width: 500,required: true, length: "15"},
                 {name: "sealedShip",title: "<spring:message code='warehouseIssueMo.sealedShip'/>",width: 500,required: true, length: "15"},
                 <%--{name: "bundle",title: "<spring:message code='warehouseIssueMo.bundle'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
                 <%--{name: "sheet",title: "<spring:message code='warehouseIssueMo.sheet'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
@@ -521,7 +541,7 @@
                 });
                 return;
             }
-            DynamicForm_WarehouseIssueMo.clearValues();
+            DynamicForm_WarehouseIssueMo_clearValues();
             DynamicForm_WarehouseIssueMo.setValue("shipmentId", record.id);
             Window_WarehouseIssueMo.show();
         }
@@ -531,7 +551,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
-            DynamicForm_WarehouseIssueMo.clearValues();
+            DynamicForm_WarehouseIssueMo_clearValues();
             ListGrid_WarehouseIssueMo_edit();
         }
     });

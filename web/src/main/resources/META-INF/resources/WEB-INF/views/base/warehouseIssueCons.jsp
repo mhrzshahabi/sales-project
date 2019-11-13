@@ -437,7 +437,7 @@
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true},
                 {type: "RowSpacerItem"},
-                {name: "amountSarcheshmeh",title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",width: 500,required: true, length: "15",
+                {name: "amountSarcheshmeh",title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",width: 500,required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -445,7 +445,7 @@
                         errorMessage: "!"
                     }]
                 },
-                {name: "amountMiduk",title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",width: 500,required: true, length: "15",
+                {name: "amountMiduk",title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",width: 500,required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -453,7 +453,7 @@
                         errorMessage: "!"
                     }]
                 },
-                {name: "amountSungon",title: "<spring:message code='warehouseIssueCons.amountSungon'/>",width: 500,required: true, length: "15",
+                {name: "amountSungon",title: "<spring:message code='warehouseIssueCons.amountSungon'/>",width: 500,required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -461,7 +461,7 @@
                         errorMessage: "!"
                     }]
                 },
-                {name: "amountPms",title: "<spring:message code='warehouseIssueCons.amountPms'/>",width: 500,required: true, length: "15",
+                {name: "amountPms",title: "<spring:message code='warehouseIssueCons.amountPms'/>",width: 500,required: true, length: "15",wrapTitle : false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -469,7 +469,7 @@
                         errorMessage: "!"
                     }]
                 },
-                {name: "amountDraft",title: "<spring:message code='warehouseIssueCons.amountDraft'/>",width: 500,required: true, length: "15",
+                {name: "amountDraft",title: "<spring:message code='warehouseIssueCons.amountDraft'/>",width: 500,required: true, length: "15",wrapTitle : false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,

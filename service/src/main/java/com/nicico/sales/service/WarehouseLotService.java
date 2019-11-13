@@ -1,7 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseLotDTO;
 import com.nicico.sales.iservice.IWarehouseLotService;
@@ -77,9 +78,10 @@ public class WarehouseLotService implements IWarehouseLotService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public SearchDTO.SearchRs<WarehouseLotDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(warehouseLotDAO, request, warehouseLot -> modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class));
+	public TotalResponse<WarehouseLotDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(warehouseLotDAO, criteria, warehouseLot -> modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class));
 	}
+
 	// ------------------------------
 
 	private WarehouseLotDTO.Info save(WarehouseLot warehouseLot) {
