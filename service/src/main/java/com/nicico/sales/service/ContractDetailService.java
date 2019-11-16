@@ -49,7 +49,6 @@ public class ContractDetailService implements IContractDetailService {
 //    @PreAuthorize("hasAuthority('C_CONTRACTDETAIL')")
     public ContractDetailDTO.Info create(ContractDetailDTO.Create request) {
         final ContractDetail contractDetail = modelMapper.map(request, ContractDetail.class);
-
         return save(contractDetail);
     }
 

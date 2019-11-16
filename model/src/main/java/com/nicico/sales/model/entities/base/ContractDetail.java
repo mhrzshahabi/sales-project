@@ -183,7 +183,7 @@ public class ContractDetail extends Auditable {
     @Column(name = "TYPICAL_P", length = 500)
     private Integer typical_p;
     @Column(name = "TYPICAL_SI", length = 500)
-    private Integer Typical_Si;
+    private Integer typical_Si;
     @Column(name = "TYPICAL_SIZE_MIN", length = 500)
     private String typical_size_min;
     @Column(name = "PREFIXMOLYBDENUM", length = 500)
@@ -358,6 +358,18 @@ public class ContractDetail extends Auditable {
     private String discountUnitEleven;
     @Column(name = "DISCOUNTPERFIXELEVEN_1", length = 500)
     private String discountPerfixEleven_1;
+    @Column(name = "ARTICLE10_NUMBER56", length = 500)
+    private String article10_number56;
+    @Column(name = "ARTICLE10_NUMBER57", length = 500)
+    private String article10_number57;
+    @Column(name = "ARTICLE10_NUMBER58", length = 500)
+    private String article10_number58;
+    @Column(name = "ARTICLE10_NUMBER59", length = 500)
+    private String article10_number59;
+    @Column(name = "ARTICLE10_NUMBER60", length = 500)
+    private String article10_number60;
+    @Column(name = "ARTICLE10_NUMBER61", length = 500)
+    private Float article10_number61;
 
 
 }

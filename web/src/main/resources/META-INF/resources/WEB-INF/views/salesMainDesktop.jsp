@@ -69,26 +69,6 @@
 
 <script type="application/javascript">
 
-   function ValuesManager(valueId) {
-        isc.ValuesManager.create({
-            ID: valueId
-        })
-    }
-
-    ValuesManager("contactHeader");
-    ValuesManager("contactHeaderAgent");
-    ValuesManager("valuesManagerArticle1");
-    ValuesManager("valuesManagerArticle2");
-    ValuesManager("valuesManagerArticle3");
-    ValuesManager("valuesManagerArticle4");
-    ValuesManager("valuesManagerArticle5");
-    ValuesManager("valuesManagerArticle6");
-    ValuesManager("valuesManagerArticle7");
-    ValuesManager("valuesManagerArticle8");
-    ValuesManager("valuesManagerArticle9");
-    ValuesManager("valuesManagerArticle10");
-
-
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.FileLoader.loadLocale("fa");
@@ -903,7 +883,16 @@
         largeIcon: "contract/salesContract.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")
+            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+        }
+    });
+    var salesContractCADButton = isc.IconButton.create({
+        title: "<spring:message code='salesContractCADButton.title'/>",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/cadMain"/>")
         }
     });
     var purchaseContractButton = isc.IconButton.create({
@@ -950,7 +939,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton]})
+            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton,salesContractCADButton]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton

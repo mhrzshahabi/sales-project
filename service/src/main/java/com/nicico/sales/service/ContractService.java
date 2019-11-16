@@ -10,7 +10,6 @@ import com.nicico.sales.repository.ContractDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,7 +61,6 @@ public class ContractService implements IContractService {
         Contract updating = new Contract();
         modelMapper.map(contract, updating);
         modelMapper.map(request, updating);
-
         return save(updating);
     }
 
