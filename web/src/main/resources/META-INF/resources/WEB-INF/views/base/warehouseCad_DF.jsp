@@ -64,7 +64,7 @@
             ],
         saveEdits: function () {
                 var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
-                if(ListGrid_warehouseCAD.getSelectedRecord() === null)
+                if(DynamicForm_warehouseCAD.getValues().edit === undefined)
                     return;
                 warehouseCadItem.warehouseCadId = ListGrid_warehouseCAD.getSelectedRecord().id;
 
@@ -119,8 +119,6 @@
     });
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
         setMethod: 'POST',
         align: "center",
         canSubmit: true,
@@ -324,7 +322,6 @@ titleColSpan: 1},
                     callback: function (resp) {
                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
-                            ListGrid_warehouseCAD_refresh();
                             Window_Bijack.close();
                         } else
                             isc.say(RpcResponse_o.data);
@@ -343,11 +340,8 @@ titleColSpan: 1},
     DynamicForm_warehouseCAD.setValue("containerNo",ListGrid_Tozin.getSelectedRecord().containerId);
 
     isc.VLayout.create({
-        width: "100%",
-        height: "95%",
-                // autoSize: true,
-        overflow :'scroll',
-
+        width: 810,
+        height: 800,
         members: [
                 DynamicForm_warehouseCAD,
                 add_bundle_button,

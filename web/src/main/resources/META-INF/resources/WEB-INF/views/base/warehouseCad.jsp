@@ -194,7 +194,7 @@
             ],
         saveEdits: function () {
                 var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
-                if(ListGrid_warehouseCAD.getSelectedRecord() === null)
+                if(DynamicForm_warehouseCAD.getValues().edit === undefined)
                     return;
                 warehouseCadItem.warehouseCadId = ListGrid_warehouseCAD.getSelectedRecord().id;
 
@@ -441,6 +441,7 @@ titleColSpan: 1},
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            DynamicForm_warehouseCAD.setValues("edit","edit");
             ListGrid_warehouseCAD_edit();
         }
     });
