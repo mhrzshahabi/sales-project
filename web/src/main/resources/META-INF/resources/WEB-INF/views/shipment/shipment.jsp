@@ -1605,7 +1605,6 @@
         title: "<spring:message code='shipment.email.createAndSend'/>",
         click: function () {
             var record = ListGrid_Shipment.getSelectedRecord();
-            var contractNo = record.contract.contractNo;
             if (record == null || record.id == null) {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -1617,6 +1616,7 @@
                     }
                 });
             } else {
+                 var contractNo = record.contract.contractNo;
                 DynamicForm_ShipmentEmail.clearValues();
                 DynamicForm_ShipmentEmail.setValue("shipmentId", record.id);
                 DynamicForm_ShipmentEmail.setValue("emailType", record.status);

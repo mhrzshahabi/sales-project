@@ -13,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -62,9 +63,18 @@ public class ShipmentMoistureItemRestController {
 	}
 
 	@Loggable
-	@DeleteMapping(value = "/list")
-	//	@PreAuthorize("hasAuthority('d_shipmentMoistureItem')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentMoistureItemDTO.Delete request) {
+	@DeleteMapping(value = "/list/{ids}")
+	//	@PreAuthorize("hasAuthority('d_shipmentAssayItem')")
+	public ResponseEntity<Void> delete(@PathVariable  String ids) {
+	    List<Long> i= new ArrayList<>();
+
+	    String [] sIds=ids.split(",");
+	    for (int j =1 ; j<sIds.length;j++)
+	        i.add(new Long(sIds[j]));
+
+	    ShipmentMoistureItemDTO.Delete request= new ShipmentMoistureItemDTO.Delete();
+	    request.setIds(i);
+
 		shipmentMoistureItemService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
 	}

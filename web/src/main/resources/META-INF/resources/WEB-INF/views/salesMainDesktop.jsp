@@ -133,20 +133,20 @@
         }
     });
 
-    isc.ViewLoader.addMethods({
-        handleError: function (rq, rs) {
-            console.log("Global ViewLoader Error: ", rq, rs);
-            if (rs.httpResponseCode === 403) { // Forbidden
-                nicico.error("Access Denied");  //TODO: I18N message key
-            } else {
-                redirectLogin();
-            }
-            return false;
-        },
-        handleSuccess: function(rq, rs){
-            alert(12345);
-        }
-    });
+    // isc.ViewLoader.addMethods({
+    //     handleError: function (rq, rs) {
+    //         console.log("Global ViewLoader Error: ", rq, rs);
+    //         if (rs.httpResponseCode === 403) { // Forbidden
+    //             nicico.error("Access Denied");  //TODO: I18N message key
+    //         } else {
+    //             redirectLogin();
+    //         }
+    //         return false;
+    //     },
+    //     handleSuccess: function(rq, rs){
+    //         alert(12345);
+    //     }
+    // });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -592,6 +592,15 @@
             createTab("<spring:message code='bank.title'/>", "<spring:url value="/bank/showForm" />")
         }
     });
+    var warehouseYardButton = isc.IconButton.create({
+        title: "<spring:message code='warehouseYard.title'/>",
+        icon: "basicTables/warehouseYard.png",
+        largeIcon: "basicTables/warehouseYard.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='warehouseYard.title'/>", "<spring:url value="/warehouseYard/showForm" />")
+        }
+    });
     var countryButton = isc.IconButton.create({
         title: "<spring:message code='country.title'/>",
         icon: "basicTables/country.png",
@@ -692,7 +701,8 @@
             portButton,
             dccButton,
             instructionButton,
-            paymentOpftionButton
+            paymentOpftionButton,
+            warehouseYardButton
         ],
         autoDraw: false
     });
@@ -1011,6 +1021,42 @@
             createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
         }
     });
+    var WarehouseStockButton = isc.IconButton.create({
+        title: "<spring:message code='warehouseStock'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
+        }
+    });
+    var WarehouseIssueCathodeButton = isc.IconButton.create({
+        title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='Shipment.titleWarehouseIssueCathode'/>", "<spring:url value="/warehouseIssueCathode/showForm" />")
+        }
+    });
+    var WarehouseIssueConsButton = isc.IconButton.create({
+        title: "<spring:message code='Shipment.titleWarehouseIssueCons'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='Shipment.titleWarehouseIssueCons'/>", "<spring:url value="/warehouseIssueCons/showForm" />")
+        }
+    });
+    var WarehouseIssueMoButton = isc.IconButton.create({
+        title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
+        }
+    });
     var exportButton = isc.IconButton.create({
         title: "<spring:message code='export.title'/>",
         icon: "license/exportLicense.png",
@@ -1068,7 +1114,11 @@
             tozinButton,
             tozinSalesButton,
             warehousesLotButton,
-            BijackButton
+            BijackButton,
+            WarehouseStockButton,
+            WarehouseIssueCathodeButton,
+            WarehouseIssueConsButton,
+            WarehouseIssueMoButton
             // exportButton,
             // salesPlanButton,
             // purchasePlanButton,
