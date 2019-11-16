@@ -117,8 +117,14 @@ public class TozinRestController {
 	@Loggable
 	@GetMapping(value = {"/search-tozin","/spec-list"})
 	public ResponseEntity<TotalResponse<TozinDTO.Info>> searchTozin(@RequestParam MultiValueMap<String, String> criteria) {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(tozinService.searchTozin(nicicoCriteria), HttpStatus.OK);
+		if(criteria.containsKey("criteria") && criteria.get("criteria").get(0).contains("mazloom")){
+			criteria.get("criteria").remove(0);
+			final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+			return new ResponseEntity<>(tozinService.searchTozinOnTheWay(nicicoCriteria), HttpStatus.OK);
+		} else {
+			final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+			return new ResponseEntity<>(tozinService.searchTozin(nicicoCriteria), HttpStatus.OK);
+		}
 	}
 
 	//---------------------------------------------------------------

@@ -62,17 +62,17 @@ public class WarehouseCad extends Auditable {
     @Column(name = "HERASAT_POLOMP_NO")
     private String herasatPolompNo;
 
-    @Column(name = "SOURCE_SERIAL_SUM")
-    private String sourceSerialSum;
+    @Column(name = "SOURCE_BUNDLE_SUM")
+    private String sourceBundleSum;
 
-    @Column(name = "DESTINATION_SERIAL_SUM")
-    private String destinationSerialSum;
+    @Column(name = "DESTINATION_BUNDLE_SUM")
+    private String destinationBundleSum;
 
-    @Column(name = "SOURCE_NO_SUM")
-    private String sourceNoSum;
+    @Column(name = "SOURCE_SHEET_SUM")
+    private String sourceSheetSum;
 
-    @Column(name = "DESTINATION_NO_SUM")
-    private String destinationNoSum;
+    @Column(name = "DESTINATION_SHEET_SUM")
+    private String destinationSheetSum;
 
     @Column(name = "SOURCE_TOZIN_PLANT_ID")
     private String sourceTozinPlantId;

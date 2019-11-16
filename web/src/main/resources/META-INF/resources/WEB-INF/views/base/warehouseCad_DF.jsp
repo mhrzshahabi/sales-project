@@ -5,22 +5,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    warehouseCadItemUrl = "${contextPath}/api/warehouseCadItem/spec-list";
-
-    var RestDataSource_WarehouseCad = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo"},
-                {name: "material"},
-                {name: "movementType"},
-                {name: "plant"},
-                {name: "sourceLoadDate"},
-                {name: "destinationUnloadDate"}
-            ],
-        fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
-    });
-
     var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
         fields:
             [
@@ -30,7 +14,7 @@
                 {name: "weightKg"},
                 {name: "description"}
             ],
-        fetchDataURL: warehouseCadItemUrl
+        fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
     });
 
     var RestDataSource_tozin = isc.MyRestDataSource.create({
@@ -59,120 +43,6 @@
             {fieldName: "tozinId", operator: "contains", value: '3%'}
         ]
     };
-
-    function ListGrid_warehouseCAD_refresh() {
-        ListGrid_warehouseCAD.invalidateCache();
-    }
-
-    function ListGrid_warehouseCAD_edit() {
-        var record = ListGrid_warehouseCAD.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            ListGrid_WarehouseCadItem.setData([]);
-            ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id}, function (dsResponse, data, dsRequest) {
-                ListGrid_WarehouseCadItem.setData(data);
-            });
-
-            DynamicForm_warehouseCAD.clearValues();
-            DynamicForm_warehouseCAD.editRecord(record);
-            Window_warehouseCAD.show();
-        }
-    }
-
-    function ListGrid_warehouseCAD_remove() {
-
-        var record = ListGrid_warehouseCAD.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
-                ],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index == 0) {
-                        var warehouseCADId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${contextPath}/api/warehouseCad/" + warehouseCADId,
-                                httpMethod: "DELETE",
-                                callback: function (resp) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                        ListGrid_warehouseCAD_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
-                    }
-                }
-            });
-        }
-    }
-
-    var Menu_ListGrid_warehouseCAD = isc.Menu.create({
-        width: 150,
-        data: [
-            {
-                title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
-                click: function () {
-                    ListGrid_warehouseCAD_refresh();
-                }
-            },
-            {
-                title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-                click: function () {
-                    DynamicForm_warehouseCAD.clearValues();
-                    Window_warehouseCAD.show();
-                }
-            },
-            {
-                title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-                click: function () {
-                    ListGrid_warehouseCAD_edit();
-                }
-            },
-            {
-                title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-                click: function () {
-                    ListGrid_warehouseCAD_remove();
-                }
-            },
-            {
-                /*Change logo */
-                title: "<spring:message code='global.form.print'/>", icon: "icon/word.png", click: function () {
-                    var record = ListGrid_warehouseCAD.getSelectedRecord();
-                    "<spring:url value="/warehouseCad/print/" var="printUrl"/>"
-                    window.open('${printUrl}'+record.id);
-                }
-            }
-        ]
-    });
 
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
         width: "100%",
@@ -419,59 +289,6 @@ titleColSpan: 1},
             ]
     });
 
-    var ToolStripButton_warehouseCAD_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-            ListGrid_warehouseCAD_refresh();
-        }
-    });
-
-    var ToolStripButton_warehouseCAD_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.form.new'/>",
-        click: function () {
-            DynamicForm_warehouseCAD.clearValues();
-            ListGrid_WarehouseCadItem.setData([]);
-            Window_warehouseCAD.show();
-        }
-    });
-
-    var ToolStripButton_warehouseCAD_Edit = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/edit.png",
-        title: "<spring:message code='global.form.edit'/>",
-        click: function () {
-            ListGrid_warehouseCAD_edit();
-        }
-    });
-
-    var ToolStripButton_warehouseCAD_Remove = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/remove.png",
-        title: "<spring:message code='global.form.remove'/>",
-        click: function () {
-            ListGrid_warehouseCAD_remove();
-        }
-    });
-
-    var ToolStrip_Actions_warehouseCAD = isc.ToolStrip.create({
-        width: "100%",
-        members:
-            [
-                ToolStripButton_warehouseCAD_Refresh,
-                ToolStripButton_warehouseCAD_Add,
-                ToolStripButton_warehouseCAD_Edit,
-                ToolStripButton_warehouseCAD_Remove
-            ]
-    });
-
-    var HLayout_warehouseCAD_Actions = isc.HLayout.create({
-        width: "100%",
-        members:
-            [
-                ToolStrip_Actions_warehouseCAD
-            ]
-    });
-
     var IButton_warehouseCAD_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -508,7 +325,7 @@ titleColSpan: 1},
                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_warehouseCAD_refresh();
-                            Window_warehouseCAD.close();
+                            Window_Bijack.close();
                         } else
                             isc.say(RpcResponse_o.data);
                     }
@@ -517,21 +334,21 @@ titleColSpan: 1},
         }
     });
 
-    var Window_warehouseCAD = isc.Window.create({
-        title: "<spring:message code='bijack'/> ",
-        width: 810,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
+    DynamicForm_warehouseCAD.setValue("material",ListGrid_Tozin.getSelectedRecord().nameKala);
+    DynamicForm_warehouseCAD.setValue("plant",ListGrid_Tozin.getSelectedRecord().source);
+    DynamicForm_warehouseCAD.setValue("warehouseNo","بندرعباس");
+    DynamicForm_warehouseCAD.setValue("movementType",DynamicForm_DailyReport_Tozin4.getValues().type);
+    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId",ListGrid_Tozin.getSelectedRecord().tozinPlantId);
+    DynamicForm_warehouseCAD.setValue("sourceLoadDate",ListGrid_Tozin.getSelectedRecord().tozinDate);
+    DynamicForm_warehouseCAD.setValue("containerNo",ListGrid_Tozin.getSelectedRecord().containerId);
+
+    isc.VLayout.create({
+        width: "100%",
+        height: "95%",
+                // autoSize: true,
+        overflow :'scroll',
+
+        members: [
                 DynamicForm_warehouseCAD,
                 add_bundle_button,
                 ListGrid_WarehouseCadItem,
@@ -550,56 +367,10 @@ titleColSpan: 1},
                                 icon: "pieces/16/icon_delete.png",
                                 orientation: "vertical",
                                 click: function () {
-                                    Window_warehouseCAD.close();
+                                    Window_Bijack.close();
                                 }
                             })
                         ]
                 })
-            ]
-    });
-    var ListGrid_warehouseCAD = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_WarehouseCad,
-        contextMenu: Menu_ListGrid_warehouseCAD,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bijackNo", title: "<spring:message code='warehouseCad.bijackNo'/>", width: "16.66%"},
-                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>", width: "16.66%"},
-                {name: "material", title: "<spring:message code='material.descp'/>", width: "16.66%"},
-                {name: "movementType", title: "<spring:message code='warehouseCad.movementType'/>", width: "16.66%"},
-                {name: "plant", title: "<spring:message code='warehouseCad.plant'/>", width: "16.66%"},
-                {name: "sourceLoadDate", title: "<spring:message code='warehouseCad.sourceLoadDate'/>", width: "16.66%"},
-                {
-                    name: "destinationUnloadDate",
-                    title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
-                    width: "16.66%"
-                }
-            ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
-    });
-
-    var HLayout_warehouseCAD_Grid = isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ListGrid_warehouseCAD
-        ]
-    });
-
-    isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            HLayout_warehouseCAD_Actions, HLayout_warehouseCAD_Grid
-        ]
+       ]
     });

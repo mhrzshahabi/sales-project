@@ -53,10 +53,10 @@ public class WarehouseCadFormController {
             replacePOI(doc, "containerNo", warehouseCad.getContainerNo());
             replacePOI(doc, "sourceLoadDate", warehouseCad.getSourceLoadDate());
             replacePOI(doc, "herasatPolompNo", warehouseCad.getHerasatPolompNo());
-            replacePOI(doc, "sourceNoSum", warehouseCad.getSourceNoSum().toString());
-            replacePOI(doc, "sourceSerialSum", warehouseCad.getSourceSerialSum().toString());
-            replacePOI(doc, "destinationNoSum", warehouseCad.getDestinationNoSum().toString());
-            replacePOI(doc, "destinationSerialSum", warehouseCad.getDestinationSerialSum().toString());
+            replacePOI(doc, "sourceSheetSum", warehouseCad.getSourceSheetSum().toString());
+            replacePOI(doc, "sourceBundleSum", warehouseCad.getSourceBundleSum().toString());
+            replacePOI(doc, "destinationSheetSum", warehouseCad.getDestinationSheetSum().toString());
+            replacePOI(doc, "destinationBundleSum", warehouseCad.getDestinationBundleSum().toString());
 
             response.setHeader("Content-Disposition", "attachment; filename=\"bijack.doc\"");
             response.setContentType("application/vnd.ms-word");

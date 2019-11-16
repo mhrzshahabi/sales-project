@@ -25,6 +25,8 @@ public interface ITozinService {
 
 	TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria);
 
+	TotalResponse<TozinDTO.Info> searchTozinOnTheWay(NICICOCriteria criteria);
+
 	List<Object[]> findTransport2Plants(String date, String plantId);
 
 	String[] findPlants();
