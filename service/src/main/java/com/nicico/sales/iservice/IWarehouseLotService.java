@@ -1,6 +1,7 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.WarehouseLotDTO;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface IWarehouseLotService {
 
 	void delete(WarehouseLotDTO.Delete request);
 
-	SearchDTO.SearchRs<WarehouseLotDTO.Info> search(SearchDTO.SearchRq request);
+	TotalResponse<WarehouseLotDTO.Info> search(NICICOCriteria criteria);
 }
