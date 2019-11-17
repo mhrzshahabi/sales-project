@@ -790,25 +790,6 @@ Window_Contact = isc.Window.create({
 
                 ]
                 });
-var formSave = isc.DynamicForm.create({
-    autoDraw: false,
-    items: [{
-        name: "saveForm",
-        title: "save avaliye?",
-        wrapTitle: false,
-        editorType: "RadioGroupItem",
-        vertical: false,
-        valueMap: {
-            "true": "Yes",
-            "false": "No"
-        },
-        defaultValue: false,
-        changed : function (form, item, value) {
-
-        }
-    }
-    ]
-});
     //START PAGE ONE
     factoryLableHedear("LablePage", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
     factoryLable("lableNameContact", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
@@ -1486,7 +1467,6 @@ var vlayoutBody = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContact]}),
-            isc.HLayout.create({align: "left", members: [formSave]}),
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2", align: "center", members: [dynamicForm1, dynamicForm2]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
@@ -1530,7 +1510,6 @@ var vlayoutArticle3 = isc.VLayout.create({
         height: "100%",
         align: "center",
         overflow: "scroll",
-// backgroundImage: "backgrounds/leaves.jpg",
         members: [
             isc.HStack.create({height: "10",width: "100%",align: "center",members: [LablePage]}),
             vlayoutBody,
@@ -2034,7 +2013,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
     })
     ///*//*** to do
 ListGrid_ContractItemShipment = isc.ListGrid.create({
-        width: "87%",
+        width: "79%",
         height: "200",
         modalEditing: true,
         canEdit: true,
@@ -2977,6 +2956,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 startRow: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Currency_list,
+                autoFetchData: false,
                 displayField: "nameEn",
                 valueField: "nameEn",
                 pickListProperties: {showFilterEditor: true},
