@@ -994,6 +994,15 @@
             createTab("<spring:message code='tozin.title'/>", "<spring:url value="/tozin/showForm" />")
         }
     });
+    var OnWayProductButton = isc.IconButton.create({
+        title: "<spring:message code='tozin.onWay'/>",
+        icon: "product/forklift.png",
+        largeIcon: "product/forklift.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showForm" />")
+        }
+    });
     var tozinSalesButton = isc.IconButton.create({
         title: "<spring:message code='tozinSales.title'/>",
         icon: "product/tozin.png",
@@ -1112,6 +1121,7 @@
         controls: [
             // warehousesButton,
             tozinButton,
+            OnWayProductButton,
             tozinSalesButton,
             warehousesLotButton,
             BijackButton,
