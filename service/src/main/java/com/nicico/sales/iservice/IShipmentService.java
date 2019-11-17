@@ -22,4 +22,7 @@ public interface IShipmentService {
 	SearchDTO.SearchRs<ShipmentDTO.Info> search(SearchDTO.SearchRq request);
 
 	List<Object[]> pickListShipment();
+
+	List<String> findLotname(String id ); //Add by jalal
+
 }

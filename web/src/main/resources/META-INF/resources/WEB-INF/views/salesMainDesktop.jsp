@@ -69,6 +69,7 @@
 
 <script type="application/javascript">
 
+
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.FileLoader.loadLocale("fa");
@@ -877,6 +878,17 @@
             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
         }
     });
+/*Add By JZ*/
+    var salesContractCharterButton = isc.IconButton.create({
+        title: "<spring:message code='salesContract.title'/>",
+        icon: "contract/charter.png",
+        largeIcon: "contract/charter.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/charter/showForm" />")
+        }
+    });
+
     var salesContractMoButton = isc.IconButton.create({
         title: "<spring:message code='salesContractMoButton.title'/>",
         icon: "contract/salesContract.png",
@@ -939,7 +951,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton,salesContractCADButton]})
+            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton,salesContractCADButton,salesContractCharterButton]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
