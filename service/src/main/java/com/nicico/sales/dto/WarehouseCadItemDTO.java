@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.WarehouseCad;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -30,6 +29,7 @@ public class WarehouseCadItemDTO {
     @ApiModel("WarehouseCadItemInfo")
     public static class Info extends WarehouseCadItemDTO {
         private Long id;
+        private WarehouseCadDTO warehouseCad;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
