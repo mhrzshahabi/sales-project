@@ -309,7 +309,7 @@
 
     var headerLayout = isc.HLayout.create({
         width: "100%",
-        height: "3%",
+        height: 35,
         backgroundColor: "#153560",
         members: [salesIcon, emptyLabel_Before, emptyLabel_After, label_Username, languageForm, logoutButton]
     });
@@ -997,11 +997,11 @@
     });
     var OnWayProductButton = isc.IconButton.create({
         title: "<spring:message code='tozin.onWay'/>",
-        icon: "product/forklift.png",
-        largeIcon: "product/forklift.png",
+        icon: "product/deliveryPlan.png",
+        largeIcon: "product/deliveryPlan.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showForm" />")
+            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
         }
     });
     var tozinSalesButton = isc.IconButton.create({

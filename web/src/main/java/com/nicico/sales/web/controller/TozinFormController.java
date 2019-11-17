@@ -39,9 +39,24 @@ public class TozinFormController {
 		return "product/tozin";
 	}
 
+	@RequestMapping("/showOnWayProductForm")
+	public String showOnWayProductForm() {
+		return "product/onWayProduct";
+	}
+
 	@RequestMapping("/showWarehouseCadForm")
 	public String showWarehouseCadForm() {
 		return "base/warehouseCad_DF";
+	}
+
+	@RequestMapping("/showWarehouseMoForm")
+	public String showWarehouseMoForm() {
+		return "base/warehouseMo_DF";
+	}
+
+	@RequestMapping("/showWarehouseConcForm")
+	public String showWarehouseConcForm() {
+		return "base/warehouseConc_DF";
 	}
 
 	@RequestMapping(value = {"/showTransport2Plants/{date}"})
