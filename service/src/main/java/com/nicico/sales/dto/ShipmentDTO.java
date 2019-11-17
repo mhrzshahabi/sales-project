@@ -71,6 +71,8 @@ public class ShipmentDTO {
 	@ApiModel("ShipmentInfo")
 	public static class Info extends ShipmentDTO {
 		private ContactDTO.ContactInfoTuple contactByAgent;
+		private ContactDTO.ContactInfoTuple contact; // Add By Jalal Buyer
+		private ContactDTO.ContactInfoTuple container;
 		private PortDTO.PortInfoTuple portByLoading;
 		private PortDTO.PortInfoTuple portByDischarge;
 		private ContractShipmentDTO contractShipment;
@@ -79,7 +81,7 @@ public class ShipmentDTO {
 		//		private ShipmentHeaderDTO shipmentHeader;
 		private ContractDTO.ContractInfoTuple contract;
 		private MaterialDTO.MaterialTuple material;
-
+        private String containerType;
 		private Long id;
 		private Date createdDate;
 		private String createdBy;
@@ -89,6 +91,8 @@ public class ShipmentDTO {
 	}
 
 	// ------------------------------
+
+
 
 	@Getter
 	@Setter

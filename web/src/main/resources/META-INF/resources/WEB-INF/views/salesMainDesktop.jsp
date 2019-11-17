@@ -867,6 +867,17 @@
             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
         }
     });
+/*Add By JZ*/
+    var salesContractCharterButton = isc.IconButton.create({
+        title: "<spring:message code='salesContract.title'/>",
+        icon: "contract/charter.png",
+        largeIcon: "contract/charter.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/charter/showForm" />")
+        }
+    });
+
     var salesContractMoButton = isc.IconButton.create({
         title: "salesContractMoButton",
         icon: "contract/salesContract.png",
@@ -920,7 +931,10 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton]})
+            isc.HLayout.create({align: "left", members:
+                    [salesContractButton,
+                     salesContractMoButton, salesContractCharterButton
+                    ]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton

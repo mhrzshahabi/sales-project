@@ -26,4 +26,10 @@ public interface ShipmentDAO extends JpaRepository<Shipment, Long>, JpaSpecifica
     Shipment findByBlDate(String blDate);
 
     Shipment findByLoadingLetterAndBlNumbersIsNotNull(String loadingLetter);
+
+/*Add By Jalal For */
+    @Query(value = "select wl.lot_name from tbl_warehouse_lot wl where wl.contract_id = :id ", nativeQuery = true)
+    List<String> findLotname(String id );
+
+
 }

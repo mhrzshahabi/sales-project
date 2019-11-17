@@ -31,6 +31,10 @@ public class Shipment extends Auditable {
 	@JoinColumn(name = "CONTRACT_SHIPMENT_ID", insertable = false, updatable = false)
 	private ContractShipment contractShipment;
 
+
+	@Column(name = "CONTAINER_TYPE", length = 20)
+	private String containerType;
+
 	@Column(name = "CONTRACT_SHIPMENT_ID")
 	private Long contractShipmentId;
 
