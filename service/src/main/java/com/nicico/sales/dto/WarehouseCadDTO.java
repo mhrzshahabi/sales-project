@@ -1,14 +1,12 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.WarehouseCadItem;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -30,10 +28,10 @@ public class WarehouseCadDTO {
     private String containerNo;
     private String rahahanPolompNo;
     private String herasatPolompNo;
-    private Integer sourceSerialSum;
-    private Integer destinationSerialSum;
-    private Integer sourceNoSum;
-    private Integer destinationNoSum;
+    private Integer sourceBundleSum;
+    private Integer destinationBundleSum;
+    private Integer sourceSheetSum;
+    private Integer destinationSheetSum;
     private String sourceTozinPlantId;
     private String destinationTozinPlantId;
 

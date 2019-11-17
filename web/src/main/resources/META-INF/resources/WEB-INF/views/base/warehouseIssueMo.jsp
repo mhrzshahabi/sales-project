@@ -34,7 +34,7 @@
                 {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
                 {name: "contractId", title: "contractId", align: "center"},
                 {name: "used", title: "used", align: "center"}
-            ],allowAdvancedCriteria: true,
+            ],
         fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
     });
 
@@ -387,6 +387,7 @@
             ]
         };
         DynamicForm_WarehouseIssueMo.clearValues ();
+        DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.pickListCriteria=RestDataSource_WarehouseIssueMo_optionCriteria;
         // RestDataSource_WarehouseIssueMo_WarehouseLot.fetchData(
         DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.fetchData(
                     RestDataSource_WarehouseIssueMo_optionCriteria,
@@ -463,9 +464,9 @@
                 {type: "RowSpacerItem"},
                {
                     name: "WarehouseLotId",ID:"DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot",
-                    title: "<spring:message code='warehouseIssueMo.bijak'/>",
+                    title: "<spring:message code='warehouseIssueMo.WarehouseLotId'/>",
                     type: 'text',
-                    width: 500, required: false,
+                    width: 500, required: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_WarehouseIssueMo_WarehouseLot,
                     displayField: "lotName",
@@ -498,16 +499,8 @@
                         errorMessage: "!"
                     }]
                 },
-                {name: "amountPms",title: "<spring:message code='warehouseIssueMo.amountPms'/>",width: 500,required: true, length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "!"
-                    }]
-                },
-                {name: "sealedCustom",title: "<spring:message code='warehouseIssueMo.sealedCustom'/>",width: 500,required: true, length: "15"},
                 {name: "sealedInspector",title: "<spring:message code='warehouseIssueMo.sealedInspector'/>",width: 500,required: true, length: "15"},
+                {name: "sealedCustom",title: "<spring:message code='warehouseIssueMo.sealedCustom'/>",width: 500,required: true, length: "15"},
                 {name: "sealedShip",title: "<spring:message code='warehouseIssueMo.sealedShip'/>",width: 500,required: true, length: "15"},
                 <%--{name: "bundle",title: "<spring:message code='warehouseIssueMo.bundle'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
                 <%--{name: "sheet",title: "<spring:message code='warehouseIssueMo.sheet'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>

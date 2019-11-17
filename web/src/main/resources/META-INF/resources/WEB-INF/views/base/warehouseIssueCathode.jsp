@@ -79,6 +79,20 @@
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
 
+
+    var RestDataSource_WarehouseCadITEMByWarehouseIssueCathode = isc.MyRestDataSource.create({
+        fields:
+            [
+                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "warehouseCad.yard",title:"<spring:message code='warehouseCad.yard'/>"},
+                {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
+                {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
+                {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
+            ],
+        fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
+    });
+
+
     var ListGrid_ShipmentByWarehouseIssueCathode  = isc.ListGrid.create({
     width: "100%",
     height: "100%",
@@ -422,6 +436,122 @@
         ]
     });
 
+    function warehouseIssueCathode_bijak () {
+
+        var ClientData_WarehouseCadITEMByWarehouseIssueCathode = [];
+        // for (i = 0; i < 100; i++) {
+        //     ClientData_WarehouseCadITEMByWarehouseIssueCathode.add({id:i});
+        // }
+
+        var ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode = isc.MyRestDataSource.create({
+            fields:
+            [
+                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
+                {name: "warehouseCad.yard",title:"<spring:message code='warehouseCad.yard'/>"},
+                {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
+                {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
+            ],
+            testData: ClientData_WarehouseCadITEMByWarehouseIssueCathode,
+            clientOnly:true
+        });
+        /* ****************** */
+
+    var ListGrid_WarehouseCadITEMByWarehouseIssueCathode  = isc.ListGrid.create({
+        width: "100%",
+        height: "100%",
+        dataSource: RestDataSource_WarehouseCadITEMByWarehouseIssueCathode ,
+        sortField: 0,
+        canDragRecordsOut: true,
+        canReorderRecords: true,
+        dataPageSize: 50,
+        autoFetchData: false,
+        showFilterEditor: true,
+        filterOnKeypress: true
+    });
+    var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.create({
+        width: "100%",
+        height: "100%",
+        dataSource: ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode ,
+        sortField: 0,
+        canReorderRecords: true,
+        canRemoveRecords: true,
+        canAcceptDroppedRecords: true,
+        dataPageSize: 50,
+        autoFetchData: false,
+        showFilterEditor: true,
+        filterOnKeypress: true
+    });
+
+      var Window_warehouseIssueCathode_bijak = isc.Window.create({
+        title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/> ",
+        width: "800",
+        height: "700",
+        autoSize: false,
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items:
+            [
+                isc.VLayout.create({
+                    width: "100%",
+                    height: "100%",
+                    members:
+                        [
+                            isc.HLayout.create({
+                                width: "100%",
+                                height: "100%",
+                                members:
+                                    [
+                                    ListGrid_WarehouseCadITEMByWarehouseIssueCathode,
+                                    ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected,
+                                    ]
+                                }),
+                            isc.Button.create({
+                                title: "<spring:message code='global.ok'/>",
+                                click: function () {
+                                    var selectedPerson = ListGrid_Person_EmailCC.getSelection();
+                                    if (selectedPerson.length == 0) {
+                                        Window_ShipmentEmailCC.close();
+                                        return;
+                                    }
+                                    var persons = "";
+                                    var oldPersons;
+                                    var check = false;
+                                    if (typeof (DynamicForm_ShipmentEmail.getValue("emailCC")) != 'undefined' && DynamicForm_ShipmentEmail.getValue("emailCC") != null) {
+                                        persons = DynamicForm_ShipmentEmail.getValue("emailCC");
+                                        oldPersons = persons.split(",");
+                                        check = true;
+                                    }
+                                    for (i = 0; i < selectedPerson.length; i++) {
+                                        notIn = true;
+                                        if (check)
+                                            for (j = 0; j < oldPersons.size(); j++)
+                                                if (oldPersons[j] == selectedPerson[i].email)
+                                                    notIn = false;
+                                        if (notIn)
+                                            persons = (persons == "" ? persons : persons + ",") + selectedPerson[i].email;
+                                    }
+                                    DynamicForm_ShipmentEmail.setValue("emailCC", persons);
+                                    Window_ShipmentEmailCC.close();
+                                }
+                            })
+                        ]
+                })
+
+            ]
+    });
+
+    ListGrid_WarehouseCadITEMByWarehouseIssueCathode.fetchData();
+    Window_warehouseIssueCathode_bijak.show();
+    }
+
     var DynamicForm_WarehouseIssueCathode = isc.DynamicForm.create({
         width: 650,
         height: "100%",
@@ -460,7 +590,14 @@
                         {name: "id", width: 50, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "bijackNo", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "yard.nameFA", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
-                    ]
+                    ],
+                    icons: [{
+                        src: "icon/search.png",
+                        click: function (form, item) {
+                            warehouseIssueCathode_bijak();
+
+                        }
+                    }]
                 },
                 {name: "containerNo",title: "<spring:message code='warehouseIssueCathode.containerNo'/>",width: 500,required: true, length: "15"},
                 {name: "emptyWeight",title: "<spring:message code='warehouseIssueCathode.emptyWeight'/>",width: 500,required: true, length: "15",
