@@ -18,6 +18,7 @@ import java.util.List;
 public class WarehouseIssueCathodeDTO {
 	private Long shipmentId;
 	private String bijak;
+	private String bijakIds;
 	private String containerNo;
 	private Double amountCustom;
 	private Double amountPms;

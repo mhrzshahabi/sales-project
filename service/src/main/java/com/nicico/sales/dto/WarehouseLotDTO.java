@@ -43,7 +43,7 @@ public class WarehouseLotDTO {
 	private Long contractId;
     private Boolean used;
 	private String bokkingNo;
-	
+
 	// ------------------------------
 
 	@Getter

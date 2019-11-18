@@ -30,8 +30,11 @@ public class WarehouseIssueCathode extends Auditable {
 	@Column(name = "SHIPMENT_ID")
 	private Long shipmentId;
 
-	@Column(name = "BIJAK")
+	@Column(name = "BIJAK",length=300)
 	private String bijak;
+
+	@Column(name = "BIJAK_IDS",length = 4000)
+	private String bijakIds;
 
 	@Column(name = "CONTAINER_NO",length = 50)
 	private String containerNo;

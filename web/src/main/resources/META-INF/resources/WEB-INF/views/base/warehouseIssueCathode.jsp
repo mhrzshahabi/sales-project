@@ -10,6 +10,7 @@
             [
                 {name: "shipmentId"},
                 {name: "bijak"},
+                {name: "bijakIds"},
                 {name: "containerNo"},
                 {name: "amountCustom"},
                 {name: "amountPms"},
@@ -439,11 +440,34 @@
     function warehouseIssueCathode_bijak () {
 
         var ClientData_WarehouseCadITEMByWarehouseIssueCathode = [];
-        // for (i = 0; i < 100; i++) {
-        //     ClientData_WarehouseCadITEMByWarehouseIssueCathode.add({id:i});
-        // }
+        var ids= DynamicForm_WarehouseIssueCathode.getValue("bijakIds");
+        if (typeof(ids) != 'undefined' && ids.length > 0) {
+            console.log('ids');
+            console.log(ids);
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/warehouseCadItem/spec-list-ids/" + ids,
+                    httpMethod: "GET",
+                    callback: function (RpcResponse_o) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            // console.log(JSON.parse(RpcResponse_o));
+                            var data = JSON.parse(RpcResponse_o.data);
+                            // console.log('data');
+                            // console.log(data);
+                            // for (x of data) { // console.log(x);
+                            //     ClientData_WarehouseCadITEMByWarehouseIssueCathode.push(x);
+                            //     // dollar[x.nameEn] = x.nameEn;
+                            // }
+                            //  // console.log('client');
+                            // console.log(ClientData_WarehouseCadITEMByWarehouseIssueCathode);
+                            warehouseIssueCathode_bijak_show(data);
+                       } //if rpc
+                    } // callback
+                })
+            );
+        } else warehouseIssueCathode_bijak_show(ClientData_WarehouseCadITEMByWarehouseIssueCathode);
 
-        var ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode = isc.MyRestDataSource.create({
+    function warehouseIssueCathode_bijak_show(ClientData_WarehouseCadITEMByWarehouseIssueCathode){
+        var ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode = isc.DataSource.create({
             fields:
             [
                  {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -456,13 +480,13 @@
             clientOnly:true
         });
         /* ****************** */
-
     var ListGrid_WarehouseCadITEMByWarehouseIssueCathode  = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_WarehouseCadITEMByWarehouseIssueCathode ,
         sortField: 0,
         canDragRecordsOut: true,
+        dragDataAction: "copy",
         canReorderRecords: true,
         dataPageSize: 50,
         autoFetchData: false,
@@ -473,6 +497,7 @@
         width: "100%",
         height: "100%",
         dataSource: ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode ,
+        data: ClientData_WarehouseCadITEMByWarehouseIssueCathode ,
         sortField: 0,
         canReorderRecords: true,
         canRemoveRecords: true,
@@ -516,30 +541,39 @@
                             isc.Button.create({
                                 title: "<spring:message code='global.ok'/>",
                                 click: function () {
-                                    var selectedPerson = ListGrid_Person_EmailCC.getSelection();
-                                    if (selectedPerson.length == 0) {
-                                        Window_ShipmentEmailCC.close();
+                                    selectedTotalRows=ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.getTotalRows();
+                                    if (selectedTotalRows == 0) {
+                                        DynamicForm_WarehouseIssueCathode.setValue("bijakIds","");
+                                        DynamicForm_WarehouseIssueCathode.setValue("bijak","");
+                                        Window_warehouseIssueCathode_bijak.close();
                                         return;
                                     }
-                                    var persons = "";
-                                    var oldPersons;
-                                    var check = false;
-                                    if (typeof (DynamicForm_ShipmentEmail.getValue("emailCC")) != 'undefined' && DynamicForm_ShipmentEmail.getValue("emailCC") != null) {
-                                        persons = DynamicForm_ShipmentEmail.getValue("emailCC");
-                                        oldPersons = persons.split(",");
-                                        check = true;
+
+                                    bijakIds="";
+                                    bijak=[];bijakIdx=[];
+                                    for (i = 0; i < selectedTotalRows; i++) {
+                                        bijakIds+=(i==0 ? '':',')+ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).id;
+                                        bjNo=ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).warehouseCad.bijackNo;
+                                        console.log(bjNo);
+                                        var d=-1; c = bijak.find( function(b,i) { if (b== bjNo ) {d=i; return true;}   });
+                                        if (d==-1) {
+                                            j=bijak.push(bjNo);
+                                            bijakIdx.push(1);
+                                        } else {
+                                            bijakIdx[d]++;
+                                        }
+                                     }
+                                     console.log(bijak);
+                                    if (bijak.length > 0){
+                                        bj="";
+                                        for (i=0;i<bijak.length;i++) {
+                                            bj+= (i==0 ? '' : '- ')+bijak[i]+'('+bijakIdx[i]+')';
+                                        }
                                     }
-                                    for (i = 0; i < selectedPerson.length; i++) {
-                                        notIn = true;
-                                        if (check)
-                                            for (j = 0; j < oldPersons.size(); j++)
-                                                if (oldPersons[j] == selectedPerson[i].email)
-                                                    notIn = false;
-                                        if (notIn)
-                                            persons = (persons == "" ? persons : persons + ",") + selectedPerson[i].email;
-                                    }
-                                    DynamicForm_ShipmentEmail.setValue("emailCC", persons);
-                                    Window_ShipmentEmailCC.close();
+                                    DynamicForm_WarehouseIssueCathode.setValue("bijakIds",bijakIds);
+                                    DynamicForm_WarehouseIssueCathode.setValue("bijak",bj);
+                                    Window_warehouseIssueCathode_bijak.close();
+                                    return;
                                 }
                             })
                         ]
@@ -550,8 +584,8 @@
 
     ListGrid_WarehouseCadITEMByWarehouseIssueCathode.fetchData();
     Window_warehouseIssueCathode_bijak.show();
-    }
-
+    } //show func
+    } // main func
     var DynamicForm_WarehouseIssueCathode = isc.DynamicForm.create({
         width: 650,
         height: "100%",
@@ -591,6 +625,9 @@
                         {name: "bijackNo", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "yard.nameFA", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
                     ],
+                    changed(form, item, value) {
+                        DynamicForm_WarehouseIssueCathode.setValue("bijakIds", item.getSelectedRecord().id);
+                    },
                     icons: [{
                         src: "icon/search.png",
                         click: function (form, item) {
