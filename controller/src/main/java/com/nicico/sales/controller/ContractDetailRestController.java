@@ -41,7 +41,7 @@ public class ContractDetailRestController {
 
     @Loggable
     @PostMapping
-    public ResponseEntity<ContractDetailDTO.Info> create(@Validated @RequestBody ContractDetailDTO.Create request) {
+    public ResponseEntity<ContractDetailDTO.Info> create(@RequestBody ContractDetailDTO.Create request) {
         return new ResponseEntity<>(contractDetailService.create(request), HttpStatus.CREATED);
     }
 

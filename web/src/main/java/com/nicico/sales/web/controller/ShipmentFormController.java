@@ -1,11 +1,9 @@
 package com.nicico.sales.web.controller;
 
-import com.nicico.copper.common.util.date.DateUtil;
+import com.github.mfathi91.time.PersianDate;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IShipmentService;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.*;
@@ -13,12 +11,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,7 +26,7 @@ public class ShipmentFormController {
 	    private final IShipmentService shipmentService;
 	@RequestMapping("/showForm")
 	public String showShipment() {
-		DateUtil a;
+
 		return "shipment/shipment";
 	}
 
@@ -37,7 +35,10 @@ public class ShipmentFormController {
 
              InputStream stream;
 
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        dtf.format(PersianDate.now());
 
+       String dateday =  PersianDate.now().format(dtf).toString();
 
         try {
             XSSFWorkbook workbook = new XSSFWorkbook();
@@ -48,9 +49,20 @@ public class ShipmentFormController {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ShipmentDTO.Info
 
-              shipment = shipmentService.get(Long.valueOf(shipmentId));
-              String description = shipment.getMaterial().getDescl();
-               String shiptype = shipment.getShipmentType().toLowerCase();
+
+
+
+
+
+               shipment = shipmentService.get(Long.valueOf(shipmentId));
+
+
+
+
+               String description = shipment.getMaterial().getDescl();
+               String shiptype = shipment.getShipmentType();
+
+
                 if(description.contains("Copper Cathode Leaching") || description.contains("Copper Cathode") || description.contains("cat")  ){
                     if(shiptype.contains("bulk")){
 
@@ -61,47 +73,191 @@ public class ShipmentFormController {
                         replacePOI(doc,"agent", shipment.getContactByAgent().getNameFA());
                         replacePOI(doc,"contract_amount", shipment.getAmount().toString());
                         replacePOI(doc,"unitNameFa", shipment.getMaterial().getUnit().getNameFA());
-                        replacePOI(doc,"descp", shipment.getMaterial().getDescp());
-                        replacePOI(doc,"tolorance", "-/+%5");
+                        replacePOI(doc,"descp",  shipment.getMaterial().getDescp());
+                        replacePOI(doc,"tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%" );
                         replacePOI(doc,"contract_no", shipment.getContract().getContractNo());
-                        replacePOI(doc, "port",shipment.getPortByDischarge().getPort());
-                        replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
+
+                        String[] loa = shipment.getPortByLoading().getPort().split(",");
+                        replacePOI(doc, "loa", loa[0]);
+
+
+
+                        String[] port = shipment.getPortByDischarge().getPort().split(",");
+                        replacePOI(doc, "port", "به مقصد " + port[1] );
+
+
+                        String[] portw = shipment.getPortByDischarge().getPort().split(",");
+                        replacePOI(doc, "comp", "به مقصد بندر " + port[0] + "در کشور " + port[1] );
+
+
+                        /*Date */
+                        replacePOI(doc, "dateday", dateday );
+                        /*End Date*/
 
                         response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_bulk.doc\"");
                         response.setContentType("application/vnd.ms-word");
                         doc.write(out);
                         baos.writeTo(out);
                         out.flush();
-                    } else if (shiptype.contains("container")){
+                    } else if (shiptype.contains("container") ){
 
                         stream = new ClassPathResource("Ship_Cat_Container.docx").getInputStream();
                         ServletOutputStream out = response.getOutputStream();
                         doc = (XWPFDocument) new XWPFDocument(stream);
 
+                        replacePOI(doc,"agent", shipment.getContactByAgent().getNameFA());
                         replacePOI(doc,"contract_amount", shipment.getAmount().toString());
                         replacePOI(doc,"unitNameFa", shipment.getMaterial().getUnit().getNameFA());
-                        replacePOI(doc,"descp", shipment.getMaterial().getDescp());
-                        replacePOI(doc,"tolorance", "-/+%5");
+                        replacePOI(doc,"descp",    shipment.getMaterial().getDescp() );
+                        replacePOI(doc,"tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%" );
                         replacePOI(doc,"contract_no", shipment.getContract().getContractNo());
+
+
+
+
+
                         replacePOI(doc,"noContainer", String.valueOf(shipment.getNoContainer()));
-                        replacePOI(doc, "port",shipment.getPortByDischarge().getPort());
+
                         replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
+
+                        String[] port = shipment.getPortByDischarge().getPort().split(",");
+                        replacePOI(doc, "port", "به مقصد " + port[1] );
+
+
+                        String[] portw = shipment.getPortByDischarge().getPort().split(",");
+                        replacePOI(doc, "comp", "به مقصد بندر " + port[0] + "در کشور " + port[1] );
+
+
+
+                        replacePOI(doc, "containerType", shipment.getContainerType());
+                        replacePOI(doc, "blNumbers" ,  shipment.getBlNumbers());
+
+                        /*Date*/
+                        replacePOI(doc, "dateday", dateday );
+                        /*End Date*/
+
+
                         response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_Container.doc\"");
                         response.setContentType("application/vnd.ms-word");
                         doc.write(out);
                         baos.writeTo(out);
                         out.flush();
-
                     }
         }
 
+        if(description.contains("Copper Concentrate")){
+            if(shiptype.contains("bulk")){
+
+                stream = new ClassPathResource("Copper_Concentrate_bulk.docx").getInputStream();
+                ServletOutputStream out = response.getOutputStream();
+                doc = (XWPFDocument) new XWPFDocument(stream);
+
+                replacePOI(doc,"tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%" );
+                replacePOI(doc,"vessel_name", shipment.getVesselName());
+                replacePOI(doc,"contract_amount", shipment.getAmount().toString());
+                replacePOI(doc,"descp",    shipment.getMaterial().getDescp() );
+                replacePOI(doc,"unitNameFa", shipment.getMaterial().getUnit().getNameFA());
+                replacePOI(doc,"contract_no", shipment.getContract().getContractNo());
+                replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
+                replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
+                replacePOI(doc, "company", shipment.getContact().getNameFA());
+
+
+                /*N*/
+                    String[] port = shipment.getPortByDischarge().getPort().split(",");
+                    replacePOI(doc, "port", "به مقصد " + port[1] );
+
+
+                    String[] portw = shipment.getPortByDischarge().getPort().split(",");
+                    replacePOI(doc, "comp", "به مقصد بندر " + port[0] + "در کشور " + port[1] );
+
+                    /*Date*/
+                replacePOI(doc, "dateday", dateday );
+                    /*End Date*/
+
+                response.setHeader("Content-Disposition", "attachment; filename=\"Copper_Concentrate_bulk.doc\"");
+                response.setContentType("application/vnd.ms-word");
+                doc.write(out);
+                baos.writeTo(out);
+                out.flush();
+            }
+
         }
+
+        if(description.contains("Molybdenum Oxide")){
+            if(shiptype.contains("container")){
+
+
+                stream = new ClassPathResource("Molybdenum Oxide.docx").getInputStream();
+                ServletOutputStream out = response.getOutputStream();
+                doc = (XWPFDocument) new XWPFDocument(stream);
+                /*Date*/
+                replacePOI(doc, "dateday", dateday );
+                /*End Date*/
+
+                replacePOI(doc,"contract_amount", shipment.getAmount().toString());
+                replacePOI(doc,"unitNameFa", shipment.getMaterial().getUnit().getNameFA());
+                replacePOI(doc,"descp",    shipment.getMaterial().getDescp() );
+                replacePOI(doc,"contract_no", shipment.getContract().getContractNo());
+                replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
+                replacePOI(doc,"tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%" );
+                replacePOI(doc, "containerType",    shipment.getContainerType() +  "فوت"   );
+                replacePOI(doc, "buyer",     shipment.getContact().getNameEN());
+                replacePOI(doc, "company", shipment.getContactByAgent().getNameEN());
+                replacePOI(doc, "ffff", shipment.getContact().getNameFA());
+
+
+                String[] portw = shipment.getPortByDischarge().getPort().split(",");
+                replacePOI(doc, "comp", "به مقصد بندر " + portw[0] + "در کشور " + portw[1] );
+
+
+
+                //***************************************************************************************************************************
+                /*Add By Jalal Don't Forget To Add Moli */
+
+                String shipId = shipment.getContract().getId();
+                List<String> strings = shipmentService.findLotname(shipId);
+
+                for(int i = 0 ; i < strings.size() ; i++ )
+                {
+                    for(int j = 0 ; j < i ; j++){
+                        replacePOI(doc,"lot",   strings.get(i)  + " & " + strings.get(j) );
+
+                        replacePOI(doc,"lone",   strings.get(i));
+                        replacePOI(doc,"ltwo",   strings.get(j));
+
+                    }
+                }
+
+
+
+                int size = strings.size();
+                replacePOI(doc,"ola", String.valueOf(size));
+
+                replacePOI(doc,"nocont",  shipment.getNoContainer().toString());
+
+
+                /*End By Jalal For Lot */
+//*****************************************************************************************************************************
+
+                response.setHeader("Content-Disposition", "attachment; filename=\"Molybdenum Oxide.doc\"");
+                response.setContentType("application/vnd.ms-word");
+                doc.write(out);
+                baos.writeTo(out);
+                out.flush();
+
+            }
+        }
+
+        }
+
         catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
 
     }
+
     //****************************************************************************************************************
     private static XWPFDocument replaceDynamicTable(XWPFDocument doc,ShipmentDTO.Info shipment) throws NumberFormatException, Exception {
         List<XWPFTable> tables = doc.getTables();

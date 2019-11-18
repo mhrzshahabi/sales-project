@@ -21,5 +21,9 @@ public class ContactFormController {
     public String contactNew() {
         return "contract/molybdenum/contactMolybdenumPage1";
     }
+    @RequestMapping("/cadMain")
+    public String contactCad() {
+        return "contract/cad/cadMain";
+    }
 
 }

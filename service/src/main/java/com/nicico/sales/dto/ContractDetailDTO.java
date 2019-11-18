@@ -70,7 +70,7 @@ public class ContractDetailDTO {
     private String article6_Containerized_number37_3;
     private String article6_Containerized_number32;
     private String article6_Containerized_4;
-    private String ARTICLE6_CONTAINERIZED_5;
+    private String article6_Containerized_5;
     private String article7_number41;
     private String article7_number3;
     private String article7_number37;
@@ -93,8 +93,14 @@ public class ContractDetailDTO {
     private String article9_number54_1;
     private String article9_number55;
     private String article9_ImportantNote;
+    private String article10_number56;
+    private String article10_number57;
+    private String article10_number58;
+    private String article10_number59;
+    private String article10_number60;
+    private Float article10_number61;
     private String string_Currency;
-    private String PrefixMolybdenum;
+    private String Prefixmolybdenum;
     private String PrefixCopper;
     private String PrefixC;
     private String PrefixS;
@@ -105,7 +111,7 @@ public class ContractDetailDTO {
     private Integer typical_s;
     private Integer typical_pb;
     private Integer typical_p;
-    private Integer Typical_Si;
+    private Integer typical_Si;
     private Integer typical_size_min;
     private Integer toleranceMO;
     private Integer toleranceCU;
@@ -114,13 +120,13 @@ public class ContractDetailDTO {
     private Integer tolerancePb;
     private Integer toleranceP;
     private Integer toleranceSi;
-    private Integer typical_unitMO;
-    private Integer typical_unitCU;
-    private Integer typical_unitC;
-    private Integer typical_unitS;
-    private Integer typical_unitPb;
-    private Integer typical_unitP;
-    private Integer typical_unitSi;
+    private String typical_unitMO;
+    private String typical_unitCU;
+    private String typical_unitC;
+    private String typical_unitS;
+    private String typical_unitPb;
+    private String typical_unitP;
+    private String typical_unitSi;
 ////
      private Integer discountValueOne;
      private Integer discountValueOne_1;

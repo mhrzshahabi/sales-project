@@ -42,8 +42,8 @@ public class WarehouseLotDTO {
 	private Double grossWeight;
 	private Long contractId;
     private Boolean used;
-	private String bokkingNo;
-
+	private String bookingNo;
+	
 	// ------------------------------
 
 	@Getter

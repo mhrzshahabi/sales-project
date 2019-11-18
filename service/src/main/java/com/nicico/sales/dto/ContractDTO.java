@@ -74,6 +74,7 @@ public class ContractDTO {
 	@ApiModel("ContractInfoTuple")
 	public static class ContractInfoTuple {
 		private String contractNo;
+		private String id;
 		private String contractDate;
 		private ContactDTO.ContactInfoTuple contact;
 		private ContactDTO.ContactInfoTuple contactBySeller;
@@ -121,9 +122,6 @@ public class ContractDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	// ------------------------------

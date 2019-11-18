@@ -31,6 +31,7 @@ public class ContractShipmentService implements IContractShipmentService {
 		return modelMapper.map(contractShipment, ContractShipmentDTO.Info.class);
 	}
 
+
 	@Transactional(readOnly = true)
 	@Override
 	public List<ContractShipmentDTO.Info> list() {
