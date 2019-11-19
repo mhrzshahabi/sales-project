@@ -18,13 +18,13 @@ import java.util.List;
 public class WarehouseStockDTO {
 	private String warehouseNo;
 	private String plant;
-	private Long yardId;
+	private Long warehouseYardId;
 	private Long sheet;
 	private Long bundle;
 	private Double amount;
 	private Long barrel;
 	private Long lot;
-	private Long materialId;
+	private Long materialItemId;
 
 	// ------------------------------
 
@@ -34,7 +34,8 @@ public class WarehouseStockDTO {
 	@ApiModel("WarehouseStockInfo")
 	public static class Info extends WarehouseStockDTO {
 		private Long id;
-		private MaterialItemDTO materialItemDTO;
+		private MaterialItemDTO materialItem;
+		private WarehouseYardDTO warehouseYard;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;
