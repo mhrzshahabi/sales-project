@@ -18,13 +18,12 @@ import java.util.List;
 public class WarehouseStockDTO {
 	private String warehouseNo;
 	private String plant;
-	private String yard;
-	private String sheetNo;
-	private String bundleNo;
-	private String gross;
-	private String net;
-	private String barrelNo;
-	private String lotNo;
+	private Long yardId;
+	private Long sheet;
+	private Long bundle;
+	private Double amount;
+	private Long barrel;
+	private Long lot;
 	private Long materialId;
 
 	// ------------------------------
