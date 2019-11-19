@@ -43,7 +43,12 @@
                 {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
                 {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
                 {name: "contractId", title: "contractId", align: "center"},
-                {name: "used", title: "used", align: "center"}
+                {name: "used", title: "used", align: "center"},
+                {name: "bookingNo", title: "bookingNo", align: "center"}
+
+
+
+
             ],
         fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
     });
@@ -62,8 +67,8 @@
                 {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center"},
                 {
                     name: "mo",
-                    title: "<spring:message
-		code='warehouseLot.mo'/>",
+                    title: "<spring:message code='warehouseLot.mo'/>",
+
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -74,8 +79,8 @@
                 },
                 {
                     name: "cu",
-                    title: "<spring:message
-		code='warehouseLot.cu'/>",
+                    title: "<spring:message code='warehouseLot.cu'/>",
+
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -86,8 +91,7 @@
                 },
                 {
                     name: "si",
-                    title: "<spring:message
-		code='warehouseLot.si'/>",
+                    title: "<spring:message code='warehouseLot.si'/>",
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -98,8 +102,7 @@
                 },
                 {
                     name: "pb",
-                    title: "<spring:message
-		code='warehouseLot.pb'/>",
+                    title: "<spring:message code='warehouseLot.pb'/>",
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -110,8 +113,7 @@
                 },
                 {
                     name: "s",
-                    title: "<spring:message
-		code='warehouseLot.s'/>",
+                    title: "<spring:message code='warehouseLot.s'/>",
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -122,8 +124,7 @@
                 },
                 {
                     name: "c",
-                    title: "<spring:message
-		code='warehouseLot.c'/>",
+                    title: "<spring:message code='warehouseLot.c'/>",
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -136,8 +137,7 @@
                 {name: "size1", title: "<spring:message code='warehouseLot.size1'/>", align: "center"},
                 {
                     name: "size1Value",
-                    title: "<spring:message
-		code='warehouseLot.size1Value'/>",
+                    title: "<spring:message code='warehouseLot.size1Value'/>",
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -149,8 +149,7 @@
                 {name: "size2", title: "<spring:message code='warehouseLot.size2'/>", align: "center"},
                 {
                     name: "size2Value",
-                    title: "<spring:message
-		code='warehouseLot.size2Value'/>",
+                    title: "<spring:message code='warehouseLot.size2Value'/>",
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -161,8 +160,7 @@
                 },
                 {
                     name: "weightKg",
-                    title: "<spring:message
-		code='warehouseLot.weightKg'/>",
+                    title: "<spring:message code='warehouseLot.weightKg'/>",
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -173,8 +171,7 @@
                 },
                 {
                     name: "grossWeight",
-                    title: "<spring:message
-		code='warehouseLot.grossWeight'/>",
+                    title: "<spring:message code='warehouseLot.grossWeight'/>",
                     align: "center",
                     validators: [{
                         type: "isFloat",
@@ -183,6 +180,18 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
+                {
+                    name: "bookingNo",
+                    title: "<spring:message code='warehouseLot.bookingNo'/>",
+                    align: "center",
+                    validators:[{
+                    type:"text",
+                    validateOnExit:true,
+                    stopOnError:true,
+                    errorMessage:"<spring:message code='global.form.bookingNo'/>"
+                }]
+                },
+
             ],
         testData: WarehouseLotData,
         clientOnly: true
@@ -295,6 +304,7 @@
 
 
                         }) /* dynamic Form */
+
                         , ListGrid_WarehouseLotPaste = isc.ListGrid.create({
                             dataSource: ClientDataSource_WarehouseLot,
                             sortDirection: "descending",
@@ -319,6 +329,8 @@
                                 {name: "c", title: "<spring:message code='warehouseLot.c'/>", align: "center"},
                                 {name: "p", title: "<spring:message code='warehouseLot.p'/>", align: "center"},
                                 {name: "size1", title: "<spring:message code='warehouseLot.size1'/>", align: "center"},
+                                {name: "bookingNo", title: "<spring:message code='warehouseLot.bookingNo'/>", align: "center"},
+
                                 {
                                     name: "size1Value",
                                     title: "<spring:message code='warehouseLot.size1Value'/>",
@@ -599,6 +611,16 @@
                     align: "center",
                     width: 400
                 },
+
+                /*Add By JZ*/
+                {
+                    name: "bookingNo",
+                    title: "<spring:message code='warehouseLot.bookingNo'/>",
+                    align: "center",
+                    width: 400
+                },
+                /*End Jz*/
+
                 {name: "contractId",title: "contractId", align: "center", hidden: true},
                 {name: "used",type:"boolean",title: "used", align: "center", hidden: true}
             ]
@@ -765,7 +787,10 @@
                 {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
                 {name: "grossWeight", title: "<spring:message code='warehouseLot.grossWeight'/>", align: "center"},
                 {name: "contractId",title: "contractId", align: "center"},
-                {name: "used",type:"boolean",title: "used", align: "center"}
+                {name: "bookingNo",type:"text",title: "<spring:message code='warehouseLot.bookingNo'/>", align: "center"}  ,
+                {name: "used",type:"boolean",title: "used", align: "center"},
+
+
             ],
         sortField: 0,
         autoFetchData: true,

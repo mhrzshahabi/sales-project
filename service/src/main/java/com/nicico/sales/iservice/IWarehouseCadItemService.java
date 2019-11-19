@@ -1,6 +1,5 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.WarehouseCadItemDTO;
@@ -25,4 +24,6 @@ public interface IWarehouseCadItemService {
 	TotalResponse<WarehouseCadItemDTO.Info> search(MultiValueMap<String, String> criteria);
 
 	SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(SearchDTO.SearchRq request);
+
+	SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(WarehouseCadItemDTO.Delete request);
 }

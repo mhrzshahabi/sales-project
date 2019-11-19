@@ -97,7 +97,7 @@ public class WarehouseLot extends Auditable {
     private Boolean used;
 
     @Column(name = "BOOKING_NO")
-    private String bokkingNo;
+    private String bookingNo;
 
 
 
