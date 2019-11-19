@@ -5,6 +5,29 @@
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
+var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
+    fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
+});
+
+function ValuesManager(valueId) {
+            isc.ValuesManager.create({
+            ID: valueId
+        })
+}
+var DynamicForm_ContactParameter_ValueNumber8;
+
+    ValuesManager("contactHeader");
+    ValuesManager("contactHeaderAgent");
+    ValuesManager("valuesManagerArticle1");
+    ValuesManager("valuesManagerArticle2");
+    ValuesManager("valuesManagerArticle3");
+    ValuesManager("valuesManagerArticle4");
+    ValuesManager("valuesManagerArticle5");
+    ValuesManager("valuesManagerArticle6");
+    ValuesManager("valuesManagerArticle7");
+    ValuesManager("valuesManagerArticle8");
+    ValuesManager("valuesManagerArticle9");
+    ValuesManager("valuesManagerArticle10");
 
             var ViewLoader_createTozin = isc.ViewLoader.create({
                         width: "100%",
@@ -33,7 +56,7 @@
         isc.Label.create({ID:"Label_Contact_Type",padding: 20,width: "100%",height: "1%",styleName: "helloWorldText",contents:  'Please select the type of contract.'});
         isc.IButton.create({ID:"Button_MO_OX",width: "200",height: "30",title: "Molybdenum",icon: "icons/16/world.png",iconOrientation: "right",click:function () {
                 Window_SelectTypeContact.close();
-                Window_Contact.animateShow();
+                Window_Contact.show();
         }})
 
 
@@ -102,17 +125,29 @@
                                         }});
                             } else {
                                     contactHeader.editRecord(record);
-                                    contactHeaderAgent.editRecord(record);
-                                    valuesManagerArticle1.editRecord(record);
-                                    valuesManagerArticle2.editRecord(record);
-                                    valuesManagerArticle3.editRecord(record);
-                                    valuesManagerArticle4.editRecord(record);
-                                    valuesManagerArticle5.editRecord(record);
-                                    valuesManagerArticle6.editRecord(record);
-                                    valuesManagerArticle7.editRecord(record);
-                                    valuesManagerArticle8.editRecord(record);
-                                    valuesManagerArticle9.editRecord(record);
-                                    valuesManagerArticle10.editRecord(record);
+
+                            var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
+                                        RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
+                                    console.log();
+                                    var feild_all_defintitons_save =   JSON.parse(data[0].feild_all_defintitons_save)
+                                    contactHeaderAgent.editRecord(data[0]);
+                                    valuesManagerArticle1.editRecord(data[0]);
+                                    for (const [key, value] of Object.entries(feild_all_defintitons_save)) {
+                                    valuesManagerArticle1.setValue(key,value);
+                                    if(key != 'definitionsOne'){
+                                        itemsEditDefinitions(key,value)
+                                      }
+                                    }
+                                    valuesManagerArticle2.editRecord(data);
+                                    valuesManagerArticle3.editRecord(data);
+                                    valuesManagerArticle4.editRecord(data);
+                                    valuesManagerArticle5.editRecord(data);
+                                    valuesManagerArticle6.editRecord(data);
+                                    valuesManagerArticle7.editRecord(data);
+                                    valuesManagerArticle8.editRecord(data);
+                                    valuesManagerArticle9.editRecord(data);
+                                    valuesManagerArticle10.editRecord(data);
+                                    })
                                 Window_Contact.show();
                                     }
                             }});
@@ -174,21 +209,38 @@
                         ]
                         });
 
-           function saveContact(value){
-                // alert(JSON.stringify(value));
-                var contactData = Object.assign(value);
-                httpMethod = "POST";
-                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/contact",
-                    httpMethod: httpMethod,
-                    data: JSON.stringify(contactData),
-                    callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                    ListGrid_Contact.invalidateCache();
-                    isc.say("<spring:message code='global.form.request.successful'/>");
-                    Window_Contact.close();
-                    } else
-                    isc.say(RpcResponse_o.data);
+
+function itemsEditDefinitions(key,value) {
+        alert(value);
+       DynamicForm_ContactParameter_ValueNumber8.addFields([
+                {
+                    name: key,
+                    type: "text",
+                    length: 5000,
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Parameters,
+                    defaultValue:value,
+                    displayField: "paramValue",
+                    valueField: "paramValue",
+                    showTitle: false,
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "paramName", width: "25%", align: "center"},
+                        {name: "paramType", width: "25%", align: "center"},
+                        {name: "paramValue", width: "50%", align: "center"}
+                    ],
+                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName:"categoryValue",operator:"equals",value:1}]
+                    },
+                    showTitle: false,
+                    startRow: false,
+                    width: "1500",
+                    height: "30",
+                    title: "NAME",
+                    changed: function (form, item, value) {
+                        DynamicForm_ContactParameter_ValueNumber8.setValue(key, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
                     }
-                }))
-            };
+                }
+            ]);
+    }

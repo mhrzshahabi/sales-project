@@ -288,7 +288,7 @@
 
 
         isc.Label.create({ID:"Label_Contact_Type",padding: 20,width: "100%",height: "1%",styleName: "helloWorldText",contents:  'Please select the type of contract.'});
-        isc.IButton.create({ID:"Button_MO_OX",width: "200",height: "30",title: "Molybdenum",icon: "icons/16/world.png",iconOrientation: "right",click:function () {
+        isc.IButton.create({ID:"Button_MO_OX",width: "200",height: "30",title: "Molybdenum",iconOrientation: "right",click:function () {
                 contactHeader.clearValues();
                 contactHeaderAgent.clearValues();
                 valuesManagerArticle1.clearValues();
@@ -738,7 +738,7 @@ function factoryLableHedear(id, contents, width, height, padding) {
             wrap: false,
             showEdges: true,
             showShadow: true,
-            icon: "icons/16/world.png",
+            icon: "",
             contents: contents
         });
     }
@@ -1816,7 +1816,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 name: "article3_number17_6",
                 showTitle: false,
                 width: "100",
-                defult: "TILL",
+                default: "TILL",
                 showHintInField: true,
                 startRow: false,
                 title: 'quantity_number17_6',
@@ -1975,7 +1975,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 name: "runTill", ///article5_number26
                 showTitle: false,
                 width: "170",
-                defult: "TILL",
+                default: "TILL",
                 showHintInField: true,
                 startRow: false,
                 valueMap: {

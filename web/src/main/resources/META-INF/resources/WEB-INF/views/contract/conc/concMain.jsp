@@ -22,80 +22,14 @@
         // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
-    var RestDataSource_Parameters = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
-                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
-                {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200},
-                {name: "contractId", title: "<spring:message code='parameters.paramValue'/>", width: 200},
-                {name: "categoryValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/parameters/spec-list"
-    });
-    var RestDataSource_Contact = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='contact.code'/>"},
-            {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-            {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-            {name: "phone", title: "<spring:message code='contact.phone'/>"},
-            {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
-            {name: "fax", title: "<spring:message code='contact.fax'/>"},
-            {name: "address", title: "<spring:message code='contact.address'/>"},
-            {name: "webSite", title: "<spring:message code='contact.webSite'/>"},
-            {name: "email", title: "<spring:message code='contact.email'/>"},
-            {
-                name: "type",
-                title: "<spring:message code='contact.type'/>",
-                valueMap: {
-                    "true": "<spring:message code='contact.type.real'/>",
-                    "false": "<spring:message code='contact.type.legal'/>"
-                }
-            },
-            {name: "nationalCode", title: "<spring:message code='contact.nationalCode'/>"},
-            {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
-            {name: "bankAccount", title: "<spring:message code='contact.bankAccount'/>"},
-            {name: "bankShaba", title: "<spring:message code='contact.bankShaba'/>"},
-            {name: "bankSwift", title: "<spring:message code='contact.bankShaba'/>"},
-            {name: "ceoPassportNo"},
-            {name: "ceo"},
-            {name: "commercialRole"},
-            {
-                name: "status",
-                title: "<spring:message code='contact.status'/>",
-                valueMap: {"true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"}
-            },
-            {name: "tradeMark"},
-            {name: "commercialRegistration"},
-            {name: "branchName"},
-            {name: "countryId", title: "<spring:message code='country.nameFa'/>", type: 'long'},
-            {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
-            {name: "contactAccounts"}
-        ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list"
-    });
 
-    var RestDataSource_Unit = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='unit.code'/> "},
-                {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
-                {name: "nameEN", title: "<spring:message code='unit.nameEN'/> "},
-                {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
-                {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
-            ],
-        fetchDataURL: "${contextPath}/api/unit/spec-list"
-    });
-    var criteriaCad = {
+    var criteriaConc = {
         _constructor: "AdvancedCriteria",
         operator: "and",
-        criteria: [{fieldName: "materialId", operator: "equals", value: 952}]
+        criteria: [{fieldName: "materialId", operator: "equals", value: -42}]
     };
 
-    var ViewLoader_createCad = isc.ViewLoader.create({
+    var ViewLoader_createConc = isc.ViewLoader.create({
         width: "100%",
         height: "100%",
         autoDraw: false,
@@ -115,11 +49,11 @@
         },
         items:
             [
-                ViewLoader_createCad
+                ViewLoader_createConc
             ]
     });
 
-    var Window_ContactCad = isc.Window.create({
+    var Window_ContactConc = isc.Window.create({
         title: "<spring:message code='contact.title'/>",
         width: "100%",
         height: "100%",
@@ -145,7 +79,7 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-            Window_ContactCad.animateShow();
+            Window_ContactConc.animateShow();
         }
     });
 
@@ -170,17 +104,17 @@
             ToolStripButton_Contact_Add, ToolStripButton_Contact_Edit, ToolStripButton_Contact_Remove
         ]
     });
-    var HLayout_Actions_ContactCad = isc.HLayout.create({
+    var HLayout_Actions_Contact = isc.HLayout.create({
         width: "100%",
         members: [
             ToolStrip_Actions_Contact
         ]
     });
-    var ListGrid_Cad = isc.ListGrid.create({
+    var ListGrid_Conc = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Contract,
-        initialCriteria: criteriaCad,
+        initialCriteria: criteriaConc,
         dataPageSize: 50,
         showFilterEditor: true,
         autoFetchData: true,
@@ -206,11 +140,11 @@
     });
 
     isc.VLayout.create({
-        ID: "VLayout_Cad",
+        ID: "VLayout_Conc",
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Actions_ContactCad,
-            ListGrid_Cad
+            HLayout_Actions_Contact,
+            ListGrid_Conc
         ]
     });

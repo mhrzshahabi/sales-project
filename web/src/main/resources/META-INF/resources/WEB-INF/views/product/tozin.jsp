@@ -763,7 +763,7 @@
     );
 
 
-    var VLayout_Tozin_Grid = isc.VLayout.create({
+    var VLayout_conc = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
@@ -776,6 +776,6 @@
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Tozin_Actions, VLayout_Tozin_Grid
+            HLayout_Tozin_Actions, VLayout_conc
         ]
     });
