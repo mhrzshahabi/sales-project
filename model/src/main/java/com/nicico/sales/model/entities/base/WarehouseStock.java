@@ -28,8 +28,8 @@ public class WarehouseStock extends Auditable {
 	@Column(name = "PLANT")
 	private String plant;
 
-	@Column(name = "YARD")
-	private String yard;
+	@Column(name = "YARD_ID")
+	private String yardId;
 
 	@Column(name = "SHEET_NO")
 	private String sheetNo;
