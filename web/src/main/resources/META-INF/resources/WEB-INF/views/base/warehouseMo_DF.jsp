@@ -9,12 +9,23 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bundleSerial"},
-                {name: "sheetNo"},
-                {name: "weightKg"},
-                {name: "description"}
+                {name: "lotName",title: "<spring:message code='warehouseCadItem.lotName'/>", width: "25%", summaryFunction:"count"},
+                {name: "barrelNo", title: "<spring:message code='warehouseCadItem.barrelNo'/>", width: "25%", summaryFunction:"sum"},
+                {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "25%"},
+                {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "25%"}
             ],
         fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
+    });
+
+    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "nameFA",title: "<spring:message code='warehouseCad.yard'/>", width: "25%", },
+                {name: "nameEN", title: "<spring:message code='warehouseCad.yard'/>", width: "25%"},
+                {name: "warehouseNo", title: "<spring:message code='warehouseCadItem.description'/>"}
+            ],
+        fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
 
     var RestDataSource_tozin = isc.MyRestDataSource.create({
@@ -57,13 +68,17 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "LotName", validators:[{type:"required"}], title: "<spring:message code='warehouseCadItem.lotName'/>", width: "25%", summaryFunction:"count"},
-                {name: "barrelNo", title: "<spring:message code='warehouseCadItem.barrelNo'/>", width: "25%", summaryFunction:"sum"},
-                {name: "weightKg", title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "25%"},
-                {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "25%"}
+                {name: "lotName"},
+                {name: "barrelNo"},
+                {name: "weightKg"},
+                {name: "description"}
             ],
         saveEdits: function () {
                 var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
+                if(warehouseCadItem.lotName === undefined || warehouseCadItem.barrelNo === undefined || warehouseCadItem.weightKg === undefined){
+                    isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
+                    return;
+                }
                 if(DynamicForm_warehouseCAD.getValues().edit === undefined)
                     return;
                 warehouseCadItem.warehouseCadId = ListGrid_warehouseCAD.getSelectedRecord().id;
@@ -132,11 +147,9 @@
         numCols: 4,
         fields:
             [
-                {name: "id", hidden: true,},
-                {type: "RowSpacerItem"},
+                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "bijackNo",
-                    required: true,
                     title: "<spring:message code='warehouseCad.bijackNo'/>",
                     type: 'text'
                 },
@@ -180,10 +193,6 @@
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                         {name: "carName"},
-                        {name: "nameKala"},
-                        {name: "packName"},
-                        {name: "source"},
-                        {name: "target"},
                         {name: "tozinDate"},
                         {name: "tozinPlantId"}
                     ],
@@ -217,10 +226,6 @@
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                         {name: "carName"},
-                        {name: "nameKala"},
-                        {name: "packName"},
-                        {name: "source"},
-                        {name: "target"},
                         {name: "tozinDate"},
                         {name: "tozinPlantId"}
                     ],
@@ -230,16 +235,28 @@
                 },
                 {
                     name: "yard",
-                    title: "<spring:message code='warehouseCad.yard'/>",
-                    width: 250,
+                    required: true,
                     colSpan: 1,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    showHover: true,
+                    autoFetchData: false,
+                    title: "<spring:message code='warehouseCad.yard'/>",
+                    type: 'string',
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_WarehouseYard,
+                    displayField: "nameFA",
+                    valueField: "id",
+                    pickListWidth: "215",
+                    pickListHeight: "215",
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "nameFA"}
+                    ]
                 },
                 {
                     name: "sourceLoadDate",
                     title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
                     width: 250,
-                    disabled: true,
                     colSpan: 1,
                     titleColSpan: 1
                 },
@@ -247,40 +264,21 @@
                     name: "destinationUnloadDate",
                     title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
                     width: 250,
-                    disabled: true,
                     colSpan: 1,
                     titleColSpan: 1
                 },
                 {
-                    name: "rahahanPolompNo",
-                    title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
+                    name: "lotName",
+                    title: "<spring:message code='warehouseCadItem.lotName'/>",
                     width: 250,
                     colSpan: 1,
                     titleColSpan: 1
                 },
-                {
-                    name: "herasatPolompNo",
-                    title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
-                    width: 250,
-                    colSpan: 1,
-                    titleColSpan: 1
-                },
-                {
-                    name: "containerNo",
-                    title: "<spring:message code='warehouseCad.containerNo'/>",
-                    width: 250,
-                    colSpan: 1,
-                    titleColSpan: 1
-                },
-                {name: "sourceBundleSum", title: "<spring:message code='warehouseCad.sourceBundleSum'/>", width: 250,colSpan: 1,
-titleColSpan: 1},
-                {name: "destinationBundleSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,
-titleColSpan: 1},
-                {name: "sourceSheetSum", title: "<spring:message code='warehouseCad.sourceSheetSum'/>", width: 250,colSpan: 1,
-titleColSpan: 1},
-                {name: "destinationSheetSum", title: "<spring:message code='warehouseCad.destinationSheetSum'/>", width: 250,colSpan: 1,
-titleColSpan: 1},
-                {
+                {name: "sourceBarrelSum", title: "<spring:message code='warehouseCad.sourceBarrelSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "destinationBarrelSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "sourceWeight", title: "<spring:message code='warehouseCad.sourceWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "destinationWeight", title: "<spring:message code='warehouseCad.destinationWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                 {
                     type: "Header",
                     defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"
                 }

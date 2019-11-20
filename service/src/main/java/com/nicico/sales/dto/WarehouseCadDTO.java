@@ -17,7 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseCadDTO {
     private String warehouseNo;
-    private String material;
+    private Long materialItemId;
     private String plant;
     private Double weightKg;
     private String bijackNo;
@@ -34,6 +34,8 @@ public class WarehouseCadDTO {
     private Integer destinationSheetSum;
     private String sourceTozinPlantId;
     private String destinationTozinPlantId;
+    private Double sourceWeight;
+    private Double destinationWeight;
 
     // ------------------------------
 

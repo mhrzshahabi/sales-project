@@ -344,7 +344,7 @@ record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || 
                         BijackViewLoader.setViewURL("tozin/showWarehouseCadForm");
                         Window_Bijack.show();
                     }
-                    if (record.codeKala === 97 ) {
+                    if (record.codeKala === 97 || record.codeKala === 100) {
                         BijackViewLoader.setViewURL("tozin/showWarehouseMoForm");
                         Window_Bijack.show();
                     }

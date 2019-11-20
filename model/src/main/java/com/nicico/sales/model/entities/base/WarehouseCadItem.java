@@ -28,7 +28,13 @@ public class WarehouseCadItem extends Auditable {
     private String bundleSerial;
 
     @Column(name = "SHEET_NO")
-    private String sheetNo;
+    private Long sheetNo;
+
+    @Column(name = "LOT_NAME")
+    private String lotName;
+
+    @Column(name = "BARREL_NO")
+    private Long barrelNo;
 
     @Column(name = "WEIGHT_KG")
     private Double weightKg;

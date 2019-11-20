@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WarehouseCadDAO extends JpaRepository<WarehouseCad, Long>, JpaSpecificationExecutor<WarehouseCad> {
-
 }

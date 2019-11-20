@@ -10,8 +10,10 @@ import com.nicico.sales.dto.WarehouseCadItemDTO;
 import com.nicico.sales.iservice.IWarehouseCadItemService;
 import com.nicico.sales.model.entities.base.WarehouseCad;
 import com.nicico.sales.model.entities.base.WarehouseCadItem;
+import com.nicico.sales.repository.MaterialItemDAO;
 import com.nicico.sales.repository.WarehouseCadDAO;
 import com.nicico.sales.repository.WarehouseCadItemDAO;
+import com.nicico.sales.repository.WarehouseStockDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -31,9 +33,11 @@ import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
 @Service
 public class WarehouseCadItemService implements IWarehouseCadItemService {
 
-	private final WarehouseCadItemDAO warehouseCadItemDAO;
-	private final WarehouseCadDAO warehouseCadDAO;
-	private final ModelMapper modelMapper;
+    private final WarehouseStockDAO warehouseStockDAO;
+    private final WarehouseCadItemDAO warehouseCadItemDAO;
+    private final WarehouseCadDAO warehouseCadDAO;
+    private final MaterialItemDAO materialItemDAO;
+    private final ModelMapper modelMapper;
 
 	@Transactional(readOnly = true)
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECADITEM')")
@@ -136,11 +140,6 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 		return SearchUtil.search(warehouseCadItemDAO, request, entity -> modelMapper.map(entity, WarehouseCadItemDTO.Info.class));
 	}
 
-	private WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem) {
-		final WarehouseCadItem saved = warehouseCadItemDAO.saveAndFlush(warehouseCadItem);
-		return modelMapper.map(saved, WarehouseCadItemDTO.Info.class);
-	}
-
 	@Transactional(readOnly = true)
 	@Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECATHODE')")
@@ -168,4 +167,23 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 	}
 
 
+    private WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem) {
+		/*if(warehouseCadItem.getId() == null){ //create
+
+		} else{
+			WarehouseCadItem warehouseCadItemById = warehouseCadItemDAO.findById(warehouseCadItem.getId()).get();
+					String sheet = warehouseCadItemById.getSheetNo();
+					Double weight = warehouseCadItemById.getWeightKg();
+
+		}*/
+        /*Optional<WarehouseCad> byId = warehouseCadDAO.findById(warehouseCadItem.getWarehouseCad().getId());
+        MaterialItem byGdsName = materialItemDAO.findByGdsName(byId.get().getMaterial());
+        WarehouseStock warehouseStock = warehouseStockDAO.findByMaterialIdAndYardId(byGdsName.getId(), byId.get().getYard());
+        warehouseStock.setBundleNo(String.valueOf(Integer.parseInt(warehouseStock.getBundleNo()) + 1));
+        warehouseStock.setNet(String.valueOf(Double.valueOf(warehouseStock.getNet()) + warehouseCadItem.getWeightKg()));
+        warehouseStock.setSheetNo(String.valueOf(Integer.parseInt(warehouseStock.getSheetNo()) + Integer.parseInt(warehouseCadItem.getSheetNo())));
+        warehouseStockDAO.save(warehouseStock);*/
+        final WarehouseCadItem saved = warehouseCadItemDAO.saveAndFlush(warehouseCadItem);
+        return modelMapper.map(saved, WarehouseCadItemDTO.Info.class);
+    }
 }

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MaterialItemDAO extends JpaRepository<MaterialItem, Long>, JpaSpecificationExecutor<MaterialItem> {
-
+    MaterialItem findByGdsName(String gdsName);
 }
