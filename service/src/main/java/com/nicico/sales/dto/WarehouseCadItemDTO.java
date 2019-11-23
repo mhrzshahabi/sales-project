@@ -18,6 +18,7 @@ import java.util.List;
 public class WarehouseCadItemDTO {
     private String bundleSerial;
     private Long sheetNo;
+    private Long warehouseCadId;
     private String lotName;
     private Long barrelNo;
     private Double weightKg;

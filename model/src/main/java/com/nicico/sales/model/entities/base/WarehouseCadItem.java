@@ -45,12 +45,12 @@ public class WarehouseCadItem extends Auditable {
     @Column(name = "ISSUE_ID")
     private Long issueId;
 
+    @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "WAREHOUSE_CAD_ID")
+    @JoinColumn(name = "WAREHOUSE_CAD_ID", insertable = false,updatable = false)
     private WarehouseCad warehouseCad;
 
-    @Setter(AccessLevel.NONE)
-    @Column(name = "WAREHOUSE_CAD_ID", insertable = false,updatable = false)
+    @Column(name = "WAREHOUSE_CAD_ID")
     private Long warehouseCadId;
 
 }

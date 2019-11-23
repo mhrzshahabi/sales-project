@@ -154,7 +154,7 @@
                     type: 'text'
                 },
                 {
-                    name: "material",
+                    name: "materialItemId",
                     title: "<spring:message code='contractItem.material'/>",
                     type: 'text'
                 },
@@ -192,6 +192,8 @@
                     pickListHeight: "700",
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
+                        {name: "containerId"},
+                        {name: "plak"},
                         {name: "carName"},
                         {name: "tozinDate"},
                         {name: "tozinPlantId"}
@@ -201,7 +203,7 @@
                         DynamicForm_warehouseCAD.setValue("warehouseNo", "بندرعباس");
                         DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().carName);
                         DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().carName);
-                        DynamicForm_warehouseCAD.setValue("material", item.getSelectedRecord().nameKala);
+                        DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().codeKala);
                         DynamicForm_warehouseCAD.setValue("sourceLoadDate", item.getSelectedRecord().tozinDate);
                         DynamicForm_warehouseCAD.setValue("containerNo", item.getSelectedRecord().containerId);
                     }
@@ -225,6 +227,8 @@
                     pickListHeight: "700",
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
+                        {name: "containerId"},
+                        {name: "plak"},
                         {name: "carName"},
                         {name: "tozinDate"},
                         {name: "tozinPlantId"}
@@ -234,7 +238,7 @@
                     }
                 },
                 {
-                    name: "yard",
+                    name: "warehouseYardId",
                     required: true,
                     colSpan: 1,
                     titleColSpan: 1,
@@ -312,6 +316,10 @@
             var warehouseCadItems = [];
 
             ListGrid_WarehouseCadItem.selectAllRecords();
+            if (ListGrid_WarehouseCadItem.data.length == 0 ) {
+               isc.warn("no items");
+               return;
+            }
 
             ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function(element) {
                 warehouseCadItems.add(element);
@@ -343,7 +351,7 @@
         }
     });
 
-    DynamicForm_warehouseCAD.setValue("material",ListGrid_Tozin.getSelectedRecord().nameKala);
+    DynamicForm_warehouseCAD.setValue("materialItemId",ListGrid_Tozin.getSelectedRecord().codeKala);
     DynamicForm_warehouseCAD.setValue("plant",ListGrid_Tozin.getSelectedRecord().source);
     DynamicForm_warehouseCAD.setValue("warehouseNo","بندرعباس");
     DynamicForm_warehouseCAD.setValue("movementType",DynamicForm_DailyReport_Tozin4.getValues().type);

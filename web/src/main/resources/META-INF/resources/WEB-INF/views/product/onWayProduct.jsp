@@ -567,7 +567,7 @@ record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || 
                                     {fieldName: "tozinDate", operator: "lessOrEqual", value: DynamicForm_DailyReport_Tozin1.getValues().toDay},
                                     {fieldName: "codeKala", operator: "equals", value: DynamicForm_DailyReport_Tozin2.getValues().materialId},
                                     {fieldName: "tozinPlantId", operator: "contains", value: DynamicForm_DailyReport_Tozin3.getValues().type},
-                                    {fieldName: "targetPlantId", operator: "equals", value: 3},
+                                    {"fieldName":"target","operator":"iContains","value":"رجا"},
                                     {fieldName: "carName", operator: "notContains", value: 'انتينر'}
                                     ]
                             };
@@ -583,7 +583,7 @@ record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || 
                                     {fieldName: "tozinDate", operator: "lessOrEqual", value: DynamicForm_DailyReport_Tozin1.getValues().toDay},
                                     {fieldName: "codeKala", operator: "equals", value: DynamicForm_DailyReport_Tozin2.getValues().materialId},
                                     {fieldName: "tozinPlantId", operator: "contains", value: DynamicForm_DailyReport_Tozin3.getValues().type},
-                                    {fieldName: "targetPlantId", operator: "equals", value: 3},
+                                    {"fieldName":"target","operator":"iContains","value":"رجا"},
                                     {fieldName: "carName", operator: "contains", value: 'انتينر'}
                                     ]
                             };

@@ -49,8 +49,13 @@ public class WarehouseCad extends Auditable {
     @Column(name = "MOVEMENT_TYPE")
     private String movementType;
 
-    @Column(name = "YARD")
-    private String yard;
+    @Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false)
+	private WarehouseYard warehouseYard;
+
+	@Column(name = "YARD_ID")
+	private Long warehouseYardId;
 
     @Column(name = "SOURCE_LOAD_DATE")
     private String sourceLoadDate;
