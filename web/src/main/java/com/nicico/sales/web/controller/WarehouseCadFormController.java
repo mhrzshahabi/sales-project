@@ -31,6 +31,21 @@ public class WarehouseCadFormController {
         return "base/warehouseCad";
     }
 
+    @RequestMapping("/showWarehouseCadForm")
+    public String showWarehouseCadForm() {
+        return "base/warehouseCad_DF_Inner";
+    }
+
+    @RequestMapping("/showWarehouseMoForm")
+    public String showWarehouseMoForm() {
+        return "base/warehouseCad";
+    }
+
+    @RequestMapping("/showWarehouseConcForm")
+    public String showWarehouseConcForm() {
+        return "base/warehouseCad";
+    }
+
     @RequestMapping("/print/{id}")
     public void printDocx(HttpServletRequest request, HttpServletResponse response, @PathVariable String id) {
 

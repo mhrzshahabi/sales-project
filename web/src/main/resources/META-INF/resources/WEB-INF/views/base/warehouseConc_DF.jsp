@@ -9,8 +9,6 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bundleSerial",title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "25%", summaryFunction:"count"},
-                {name: "sheetNo", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: "25%", summaryFunction:"sum"},
                 {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "25%"},
                 {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "25%"}
             ],
@@ -68,14 +66,12 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bundleSerial"},
-                {name: "sheetNo"},
                 {name: "weightKg"},
                 {name: "description"}
             ],
         saveEdits: function () {
                 var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
-                if(warehouseCadItem.bundleSerial === undefined || warehouseCadItem.sheetNo === undefined || warehouseCadItem.weightKg === undefined){
+                if(warehouseCadItem.weightKg === undefined){
                     isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
                     return;
                 }
@@ -134,8 +130,6 @@
     });
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
         setMethod: 'POST',
         align: "center",
         canSubmit: true,
@@ -290,10 +284,8 @@
                     colSpan: 1,
                     titleColSpan: 1
                 },
-                {name: "sourceBundleSum", title: "<spring:message code='warehouseCad.sourceBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationBundleSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "sourceSheetSum", title: "<spring:message code='warehouseCad.sourceSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationSheetSum", title: "<spring:message code='warehouseCad.destinationSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "sourceWeight", title: "<spring:message code='warehouseCad.sourceWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "destinationWeight", title: "<spring:message code='warehouseCad.destinationWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
                  {
                     type: "Header",
                     defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"

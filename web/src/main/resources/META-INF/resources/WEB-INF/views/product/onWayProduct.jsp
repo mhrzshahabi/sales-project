@@ -5,29 +5,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var ViewLoader_createTozin = isc.ViewLoader.create({
-        width: "100%",
-        height: "100%",
-        autoDraw: false,
-        loadingMessage: " <spring:message code='global.loadingMessage'/>"
-    });
-    isc.Window.create({
-        title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
-        width: "1560",
-        height: "95%",
-        autoCenter: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                ViewLoader_createTozin
-            ]
-    });
-
     function ListGrid_Tozin_refresh() {
         ListGrid_Tozin.invalidateCache();
     }
