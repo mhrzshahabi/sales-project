@@ -46,6 +46,7 @@ public class WarehouseCadDTO {
     public static class Info extends WarehouseCadDTO {
         private Long id;
         private List<WarehouseCadItemDTO.Info> warehouseCadItems;
+        private MaterialItemDTO materialItem;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;

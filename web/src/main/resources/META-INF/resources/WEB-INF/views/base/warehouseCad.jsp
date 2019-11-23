@@ -15,7 +15,7 @@
                     type: 'text'
                 },
                 {
-                    name: "material",
+                    name: "materialItem.gdsName",
                     title: "<spring:message code='contractItem.material'/>",
                     type: 'text'
                 },
@@ -140,6 +140,33 @@
         ]
     };
 
+    isc.ViewLoader.create({
+        ID: "BijackViewLoader",
+        width: 830,
+        height: 660,
+        autoDraw: false,
+        loadingMessage: " <spring:message code='global.loadingMessage'/>"
+    });
+
+    var Window_Bijack = isc.Window.create({
+        title: "<spring:message code='bijack'/> ",
+        width: 830,
+        height: 660,
+        autoSize:true,
+        autoCenter: true,
+        isModal: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items:
+            [
+                BijackViewLoader
+            ]
+    });
+
     function ListGrid_warehouseCAD_refresh() {
         ListGrid_warehouseCAD.invalidateCache();
     }
@@ -166,7 +193,22 @@
             DynamicForm_warehouseCAD.clearValues();
             DynamicForm_warehouseCAD.editRecord(record);
             DynamicForm_warehouseCAD.setValue("edit","edit");
-            Window_warehouseCAD.show();
+
+             if (record.materialItemId === 9 || record.materialItemId === 10 ||  record.materialItemId === 11 ||
+                record.materialItemId === 114 || record.materialItemId === 129 || record.materialItemId === 86 ||
+                record.materialItemId === 90 || record.materialItemId === 95 ) {
+
+                        BijackViewLoader.setViewURL("warehouseCad/showWarehouseCadForm");
+                        Window_Bijack.show();
+                    }
+                    if (record.materialItemId === 97 || record.materialItemId === 100) {
+                        BijackViewLoader.setViewURL("warehouseCad/showWarehouseMoForm");
+                        Window_Bijack.show();
+                    }
+                    if (record.materialItemId === 8 ) {
+                        BijackViewLoader.setViewURL("warehouseCad/showWarehouseConcForm");
+                        Window_Bijack.show();
+                    }
         }
     }
 
@@ -326,8 +368,6 @@
     });
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
         setMethod: 'POST',
         align: "center",
         canSubmit: true,
@@ -341,7 +381,7 @@
         numCols: 4,
         fields:
             [
-                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "bijackNo",
                     title: "<spring:message code='warehouseCad.bijackNo'/>",
@@ -630,7 +670,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "bijackNo", width: "16.66%"},
                 {name: "warehouseNo" , width: "16.66%"},
-                {name: "material", width: "16.66%"},
+                {name: "materialItem.gdsName", width: "16.66%"},
                 {name: "movementType", width: "16.66%"},
                 {name: "plant", width: "16.66%"},
                 {name: "sourceLoadDate", width: "16.66%"},
