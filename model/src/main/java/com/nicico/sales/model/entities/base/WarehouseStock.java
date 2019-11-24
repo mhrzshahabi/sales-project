@@ -25,29 +25,31 @@ public class WarehouseStock extends Auditable {
 	@Column(name = "WAREHOUSE_NO", length = 20)
 	private String warehouseNo;
 
-	@Column(name = "PLANT")
+	@Column(name = "PLANT", length = 20)
 	private String plant;
 
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false)
+	private WarehouseYard warehouseYard;
+
 	@Column(name = "YARD_ID")
-	private String yardId;
+	private Long warehouseYardId;
 
-	@Column(name = "SHEET_NO")
-	private String sheetNo;
+	@Column(name = "SHEET")
+	private Long sheet;
 
-	@Column(name = "BUNDLE_NO")
-	private String bundleNo;
+	@Column(name = "BUNDLE")
+	private Long bundle;
 
-	@Column(name = "GROSS_NO")
-	private String gross;
+	@Column(name = "AMOUNT")
+	private Double amount;
 
-	@Column(name = "NET_NO")
-	private String net;
+	@Column(name = "BARREL")
+	private Long barrel;
 
-	@Column(name = "BARREL_NO")
-	private String barrelNo;
-
-	@Column(name = "LOT_NO")
-	private String lotNo;
+	@Column(name = "LOT")
+	private Long lot;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -55,6 +57,6 @@ public class WarehouseStock extends Auditable {
 	private MaterialItem materialItem;
 
 	@Column(name = "MATERIAL_ITEM_ID")
-	private Long materialId;
+	private Long materialItemId;
 
 }

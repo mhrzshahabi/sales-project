@@ -9,16 +9,16 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='warehouseStock.warehouseStockCode'/>", width: 200},
-                {name: "plant", title: "<spring:message code='warehouseStock.nameFa'/>", width: 200},
-                {name: "yard", title: "<spring:message code='warehouseStock.nameEn'/>", width: 200},
-                {name: "sheetNo", title: "<spring:message code='warehouseStock.address'/>", width: 200},
-                {name: "bundleNo", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "gross", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "net", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "barrelNo", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "lotNo", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "materialItem.nameFa", title: "<spring:message code='materialItem.nameFa'/>", width: 200}
+                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>"},
+                {name: "plant", title: "<spring:message code='warehouseCad.plant'/>"},
+                {name: "warehouseYardId"},
+                {name: "warehouseYard.nameFA", title: "<spring:message code='warehouseCad.yard'/>"},
+                {name: "sheet", title: "<spring:message code='warehouseCadItem.sheetNo'/>"},
+                {name: "bundle", title: "<spring:message code='warehouseStock.bundle'/>"},
+                {name: "amount", title: "<spring:message code='warehouseCadItem.weightKg'/>"},
+                {name: "barrel", title: "<spring:message code='warehouseCadItem.barrelNo'/>"},
+                {name: "lot", title: "<spring:message code='warehouseStock.lot'/>"},
+                {name: "materialItem.gdsName", title: "<spring:message code='material.descp'/>"}
             ],
 
         fetchDataURL: "${contextPath}/api/warehouseStock/spec-list"
@@ -110,19 +110,27 @@
             },
              {isSeparator: true},
             {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png", click: function () {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    var toDay = "1398/08/30".replaceAll("/", "");
                     "<spring:url value="/warehouseStock/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}');
+                    window.open('${printUrl}' + '/' + toDay);
                 }
-            }, {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png", click: function () {
+            },
+            {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    var toDay = "1398/08/30".replaceAll("/", "");
                     "<spring:url value="/warehouseStock/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}');
+                    window.open('${printUrl}' + '/' + toDay);
                 }
-            }, {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg", click: function () {
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var toDay = "1398/08/30".replaceAll("/", "");
                     "<spring:url value="/warehouseStock/print/html" var="printUrl"/>"
-                    window.open('${printUrl}');
+                    window.open('${printUrl}' + '/' + toDay);
                 }
             }
         ]
@@ -144,19 +152,18 @@
         numCols: 2,
         fields:
             [
-                {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='warehouseStock.warehouseStockCode'/>", width: 200},
-                {name: "plant", title: "<spring:message code='warehouseStock.nameFa'/>", width: 200},
-                {name: "yard", title: "<spring:message code='warehouseStock.nameEn'/>", width: 200},
-                {name: "sheetNo", title: "<spring:message code='warehouseStock.address'/>", width: 200},
-                {name: "bundleNo", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "gross", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "net", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "barrelNo", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "lotNo", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "materialItem.nameFa", title: "<spring:message code='materialItem.nameFa'/>", width: 200}
+                {name: "warehouseNo", },
+                {name: "plant"},
+                {name: "warehouseYardId", hidden: true},
+                {name: "warehouseYard.nameFA"},
+                {name: "sheet"},
+                {name: "bundle"},
+                {name: "amount"},
+                {name: "barrel"},
+                {name: "lot",},
+                {name: "materialItem.gdsName"}
             ]
     });
 
@@ -292,16 +299,16 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='warehouseStock.warehouseStockCode'/>", width: 200},
-                {name: "plant", title: "<spring:message code='warehouseStock.nameFa'/>", width: 200},
-                {name: "yard", title: "<spring:message code='warehouseStock.nameEn'/>", width: 200},
-                {name: "sheetNo", title: "<spring:message code='warehouseStock.address'/>", width: 200},
-                {name: "bundleNo", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "gross", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "net", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "barrelNo", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "lotNo", title: "<spring:message code='warehouseStock.coreBranch'/>", width: 200},
-                {name: "materialItem.nameFa", title: "<spring:message code='materialItem.nameFa'/>", width: 200}
+                {name: "warehouseNo"},
+                {name: "plant"},
+                {name: "warehouseYardId"},
+                {name: "warehouseYard.nameFA"},
+                {name: "sheet"},
+                {name: "bundle"},
+                {name: "amount"},
+                {name: "barrel"},
+                {name: "lot"},
+                {name: "materialItem.gdsName"}
             ],
         sortField: 0,
         autoFetchData: true,

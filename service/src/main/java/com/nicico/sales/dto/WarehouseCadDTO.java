@@ -17,12 +17,12 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseCadDTO {
     private String warehouseNo;
-    private String material;
+    private Long materialItemId;
     private String plant;
     private Double weightKg;
     private String bijackNo;
     private String movementType;
-    private String yard;
+    private Long warehouseYardId;
     private String sourceLoadDate;
     private String destinationUnloadDate;
     private String containerNo;
@@ -34,6 +34,8 @@ public class WarehouseCadDTO {
     private Integer destinationSheetSum;
     private String sourceTozinPlantId;
     private String destinationTozinPlantId;
+    private Double sourceWeight;
+    private Double destinationWeight;
 
     // ------------------------------
 
@@ -44,6 +46,8 @@ public class WarehouseCadDTO {
     public static class Info extends WarehouseCadDTO {
         private Long id;
         private List<WarehouseCadItemDTO.Info> warehouseCadItems;
+        private MaterialItemDTO materialItem;
+        private WarehouseYardDTO warehouseYard;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;

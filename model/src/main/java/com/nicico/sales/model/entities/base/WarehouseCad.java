@@ -26,8 +26,13 @@ public class WarehouseCad extends Auditable {
     @Column(name = "WAREHOUSE_NO")
     private String warehouseNo;
 
-    @Column(name = "MATERIAL")
-    private String material;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MATERIAL_ITEM_ID", nullable = false, insertable = false, updatable = false)
+    private MaterialItem materialItem;
+
+    @Column(name = "MATERIAL_ITEM_ID")
+    private Long materialItemId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "warehouseCad", cascade = CascadeType.ALL)
     private List<WarehouseCadItem> warehouseCadItems;
@@ -44,8 +49,13 @@ public class WarehouseCad extends Auditable {
     @Column(name = "MOVEMENT_TYPE")
     private String movementType;
 
-    @Column(name = "YARD")
-    private String yard;
+    @Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false)
+	private WarehouseYard warehouseYard;
+
+	@Column(name = "YARD_ID")
+	private Long warehouseYardId;
 
     @Column(name = "SOURCE_LOAD_DATE")
     private String sourceLoadDate;
@@ -80,4 +90,9 @@ public class WarehouseCad extends Auditable {
     @Column(name = "DESTINATION_TOZIN_PLANT_ID")
     private String destinationTozinPlantId;
 
+    @Column(name = "SOURCE_WEIGHT")
+    private Double sourceWeight;
+
+    @Column(name = "DESTINATION_WEIGHT")
+    private Double destinationWeight;
 }

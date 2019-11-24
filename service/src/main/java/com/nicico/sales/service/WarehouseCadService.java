@@ -6,9 +6,11 @@ import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseCadDTO;
+import com.nicico.sales.iservice.IWarehouseCadItemService;
 import com.nicico.sales.iservice.IWarehouseCadService;
+import com.nicico.sales.model.entities.base.MaterialItem;
 import com.nicico.sales.model.entities.base.WarehouseCad;
-import com.nicico.sales.model.entities.base.WarehouseCadItem;
+import com.nicico.sales.repository.MaterialItemDAO;
 import com.nicico.sales.repository.WarehouseCadDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,6 +26,8 @@ import java.util.Optional;
 public class WarehouseCadService implements IWarehouseCadService {
 
     private final WarehouseCadDAO warehouseCadDAO;
+    private final MaterialItemDAO materialItemDAO;
+    private final IWarehouseCadItemService warehouseCadItemService;
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
@@ -50,9 +54,14 @@ public class WarehouseCadService implements IWarehouseCadService {
 //    @PreAuthorize("hasAuthority('C_WAREHOUSECAD')")
     public WarehouseCadDTO.Info create(WarehouseCadDTO.Create request) {
         final WarehouseCad warehouseCad = modelMapper.map(request, WarehouseCad.class);
-        warehouseCad.getWarehouseCadItems().forEach(warehouseCadItem -> warehouseCadItem.setWarehouseCad(warehouseCad));
-
-        return save(warehouseCad);
+        MaterialItem materialItem = materialItemDAO.findByGdsCode(String.valueOf(request.getMaterialItemId()));
+        warehouseCad.setMaterialItemId(materialItem.getId());
+        WarehouseCadDTO.Info saved=save(warehouseCad);
+        warehouseCad.getWarehouseCadItems().forEach(warehouseCadItem -> {
+            warehouseCadItem.setWarehouseCadId(saved.getId());
+            warehouseCadItemService.save(warehouseCadItem,null);
+        });
+        return saved;
     }
 
     @Transactional

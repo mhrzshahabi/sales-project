@@ -328,7 +328,7 @@
             });
         } else {
             DynamicForm_WarehouseIssueMo.editRecord(record);
-            Window_WarehouseIssueMo.show();
+            Window_WarehouseIssueMo.animateShow();
         }
     }
 
@@ -408,7 +408,7 @@
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     DynamicForm_WarehouseIssueMo_clearValues();
-                    Window_WarehouseIssueMo.show();
+                    Window_WarehouseIssueMo.animateShow();
                 }
             },
             {
@@ -453,10 +453,10 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100",
+        titleWidth: "150",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,
+        numCols: 2,backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true,},
@@ -502,6 +502,8 @@
                 {name: "sealedInspector",title: "<spring:message code='warehouseIssueMo.sealedInspector'/>",width: 500,required: true, length: "15"},
                 {name: "sealedCustom",title: "<spring:message code='warehouseIssueMo.sealedCustom'/>",width: 500,required: true, length: "15"},
                 {name: "sealedShip",title: "<spring:message code='warehouseIssueMo.sealedShip'/>",width: 500,required: true, length: "15"},
+                {type: "RowSpacerItem"},
+                {type: "RowSpacerItem"},
                 <%--{name: "bundle",title: "<spring:message code='warehouseIssueMo.bundle'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
                 <%--{name: "sheet",title: "<spring:message code='warehouseIssueMo.sheet'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
                 <%--{name: "totalAmount",title: "<spring:message code='warehouseIssueMo.totalAmount'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
@@ -536,7 +538,7 @@
             }
             DynamicForm_WarehouseIssueMo_clearValues();
             DynamicForm_WarehouseIssueMo.setValue("shipmentId", record.id);
-            Window_WarehouseIssueMo.show();
+            Window_WarehouseIssueMo.animateShow();
         }
     });
 
@@ -624,7 +626,7 @@
             [
                 DynamicForm_WarehouseIssueMo,
                 isc.HLayout.create({
-                    width: "100%",
+                    width: "100%",align: "center",
                     members:
                         [
                             IButton_WarehouseIssueMo_Save,

@@ -321,7 +321,7 @@
             });
         } else {
             DynamicForm_WarehouseIssueCons.editRecord(record);
-            Window_WarehouseIssueCons.show();
+            Window_WarehouseIssueCons.animateShow();
         }
     }
 
@@ -384,7 +384,7 @@
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     DynamicForm_WarehouseIssueCons.clearValues();
-                    Window_WarehouseIssueCons.show();
+                    Window_WarehouseIssueCons.animateShow();
                 }
             },
             {
@@ -428,10 +428,10 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100",
+        titleWidth: "150",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,
+        numCols: 2,backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true,},
@@ -477,6 +477,8 @@
                         errorMessage: "!"
                     }]
                 },
+                {type: "RowSpacerItem"},
+                {type: "RowSpacerItem"}
              ]
     });
 
@@ -508,7 +510,7 @@
             }
             DynamicForm_WarehouseIssueCons.clearValues();
             DynamicForm_WarehouseIssueCons.setValue("shipmentId", record.id);
-            Window_WarehouseIssueCons.show();
+            Window_WarehouseIssueCons.animateShow();
         }
     });
 
@@ -596,7 +598,7 @@
             [
                 DynamicForm_WarehouseIssueCons,
                 isc.HLayout.create({
-                    width: "100%",
+                    width: "100%",align: "center",
                     members:
                         [
                             IButton_WarehouseIssueCons_Save,

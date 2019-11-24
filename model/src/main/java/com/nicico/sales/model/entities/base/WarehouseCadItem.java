@@ -28,7 +28,13 @@ public class WarehouseCadItem extends Auditable {
     private String bundleSerial;
 
     @Column(name = "SHEET_NO")
-    private String sheetNo;
+    private Long sheetNo;
+
+    @Column(name = "LOT_NAME")
+    private String lotName;
+
+    @Column(name = "BARREL_NO")
+    private Long barrelNo;
 
     @Column(name = "WEIGHT_KG")
     private Double weightKg;
@@ -39,12 +45,12 @@ public class WarehouseCadItem extends Auditable {
     @Column(name = "ISSUE_ID")
     private Long issueId;
 
+    @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "WAREHOUSE_CAD_ID")
+    @JoinColumn(name = "WAREHOUSE_CAD_ID", insertable = false,updatable = false)
     private WarehouseCad warehouseCad;
 
-    @Setter(AccessLevel.NONE)
-    @Column(name = "WAREHOUSE_CAD_ID", insertable = false,updatable = false)
+    @Column(name = "WAREHOUSE_CAD_ID")
     private Long warehouseCadId;
 
 }
