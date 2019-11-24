@@ -317,17 +317,18 @@
                 click: function () {
                     var record = ListGrid_Tozin.getSelectedRecord();
                      if (record.codeKala === 9 || record.codeKala === 10 ||  record.codeKala === 11 ||
-record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || record.codeKala === 90 || record.codeKala === 95 ) {
-                        BijackViewLoader.setViewURL("tozin/showWarehouseCadForm");
-                        Window_Bijack.show();
+                        record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 ||
+                        record.codeKala === 90 || record.codeKala === 95 ) {
+                            BijackViewLoader.setViewURL("tozin/showWarehouseCadForm");
+                            Window_Bijack.show();
                     }
                     if (record.codeKala === 97 || record.codeKala === 100) {
-                        BijackViewLoader.setViewURL("tozin/showWarehouseMoForm");
-                        Window_Bijack.show();
+                            BijackViewLoader.setViewURL("tozin/showWarehouseMoForm");
+                            Window_Bijack.show();
                     }
                     if (record.codeKala === 8 ) {
-                        BijackViewLoader.setViewURL("tozin/showWarehouseConcForm");
-                        Window_Bijack.show();
+                            BijackViewLoader.setViewURL("tozin/showWarehouseConcForm");
+                            Window_Bijack.show();
                     }
                 }
             }

@@ -200,7 +200,7 @@
                     ],
                     changed(form, item, value) {
                         DynamicForm_warehouseCAD.setValue("plant", item.getSelectedRecord().source);
-                        DynamicForm_warehouseCAD.setValue("warehouseNo", "بندرعباس");
+                        DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
                         DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().carName);
                         DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().carName);
                         DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().codeKala);
@@ -262,14 +262,16 @@
                     title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
                     width: 250,
                     colSpan: 1,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    disabled: true
                 },
                 {
                     name: "destinationUnloadDate",
                     title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
                     width: 250,
                     colSpan: 1,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    disabled: true
                 },
                 {
                     name: "rahahanPolompNo",
@@ -312,6 +314,7 @@
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
 
+            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             var warehouseCadItems = [];
 
@@ -351,9 +354,9 @@
         }
     });
 
-    DynamicForm_warehouseCAD.setValue("materialItemId",ListGrid_Tozin.getSelectedRecord().codeKala);
+    DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().nameKala);
     DynamicForm_warehouseCAD.setValue("plant",ListGrid_Tozin.getSelectedRecord().source);
-    DynamicForm_warehouseCAD.setValue("warehouseNo","بندرعباس");
+    DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
     DynamicForm_warehouseCAD.setValue("movementType",DynamicForm_DailyReport_Tozin4.getValues().type);
     DynamicForm_warehouseCAD.setValue("sourceTozinPlantId",ListGrid_Tozin.getSelectedRecord().tozinPlantId);
     DynamicForm_warehouseCAD.setValue("sourceLoadDate",ListGrid_Tozin.getSelectedRecord().tozinDate);

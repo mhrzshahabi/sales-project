@@ -9,16 +9,16 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='warehouseStock.warehouseNo'/>"},
-                {name: "plant", title: "<spring:message code='warehouseStock.plant'/>"},
+                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>"},
+                {name: "plant", title: "<spring:message code='warehouseCad.plant'/>"},
                 {name: "warehouseYardId"},
-                {name: "warehouseYard.nameFA", title: "<spring:message code='warehouseYard.nameFA'/>"},
-                {name: "sheet", title: "<spring:message code='warehouseStock.sheet'/>"},
+                {name: "warehouseYard.nameFA", title: "<spring:message code='warehouseCad.yard'/>"},
+                {name: "sheet", title: "<spring:message code='warehouseCadItem.sheetNo'/>"},
                 {name: "bundle", title: "<spring:message code='warehouseStock.bundle'/>"},
-                {name: "amount", title: "<spring:message code='warehouseStock.amount'/>"},
-                {name: "barrel", title: "<spring:message code='warehouseStock.barrel'/>"},
+                {name: "amount", title: "<spring:message code='warehouseCadItem.weightKg'/>"},
+                {name: "barrel", title: "<spring:message code='warehouseCadItem.barrelNo'/>"},
                 {name: "lot", title: "<spring:message code='warehouseStock.lot'/>"},
-                {name: "materialItem.gdsName", title: "<spring:message code='materialItem.gdsName'/>"}
+                {name: "materialItem.gdsName", title: "<spring:message code='material.descp'/>"}
             ],
 
         fetchDataURL: "${contextPath}/api/warehouseStock/spec-list"

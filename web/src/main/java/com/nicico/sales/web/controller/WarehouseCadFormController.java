@@ -33,17 +33,17 @@ public class WarehouseCadFormController {
 
     @RequestMapping("/showWarehouseCadForm")
     public String showWarehouseCadForm() {
-        return "base/warehouseCad_DF_Inner";
+        return "base/warehouseCad_Bijack";
     }
 
     @RequestMapping("/showWarehouseMoForm")
     public String showWarehouseMoForm() {
-        return "base/warehouseCad";
+        return "base/warehouseMo_Bijack";
     }
 
     @RequestMapping("/showWarehouseConcForm")
     public String showWarehouseConcForm() {
-        return "base/warehouseCad";
+        return "base/warehouseConc_Bijack";
     }
 
     @RequestMapping("/print/{id}")
