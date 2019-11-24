@@ -41,7 +41,7 @@
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {fieldName: "targetPlantId", operator: "equals", value: 3},
+            {"fieldName":"target","operator":"iContains","value":"رجا"},
             {fieldName: "tozinId", operator: "notContains", value: '3%'}
         ]
     };
@@ -50,7 +50,7 @@
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {fieldName: "targetPlantId", operator: "equals", value: 3},
+            {"fieldName":"target","operator":"iContains","value":"رجا"},
             {fieldName: "tozinId", operator: "contains", value: '3%'}
         ]
     };
@@ -79,8 +79,10 @@
                     isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
                     return;
                 }
+                alert(DynamicForm_warehouseCAD.getValues().edit)
                 if(DynamicForm_warehouseCAD.getValues().edit === undefined)
                     return;
+                warehouseCadItem.warehouseCadId = ListGrid_warehouseCAD.getSelectedRecord().id;
                 warehouseCadItem.warehouseCadId = ListGrid_warehouseCAD.getSelectedRecord().id;
 
                 var method = "PUT";
@@ -353,6 +355,15 @@
             );
         }
     });
+
+    ListGrid_WarehouseCadItem.setData([]);
+    ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id},
+        function (dsResponse, data, dsRequest) {
+            ListGrid_WarehouseCadItem.setData(data);
+        });
+
+    DynamicForm_warehouseCAD.clearValues();
+    DynamicForm_warehouseCAD.editRecord(ListGrid_warehouseCAD.getSelectedRecord());
 
     DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().nameKala);
     DynamicForm_warehouseCAD.setValue("plant",ListGrid_Tozin.getSelectedRecord().source);
