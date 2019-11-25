@@ -575,8 +575,8 @@
     });
     var warehouseYardButton = isc.IconButton.create({
         title: "<spring:message code='warehouseYard.title'/>",
-        icon: "basicTables/warehouseYard.png",
-        largeIcon: "basicTables/warehouseYard.png",
+        icon: "basicTables/warehouse.png",
+        largeIcon: "basicTables/warehouse.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='warehouseYard.title'/>", "<spring:url value="/warehouseYard/showForm" />")
@@ -925,6 +925,7 @@
             createTab("<spring:message code='shipmentContract.title'/>", "<spring:url value="/shipmentContract/showForm" />")
         }
     });
+
     var inspectionContractButton = isc.IconButton.create({
         title: "<spring:message code='inspectionContract.title'/>",
         icon: "contract/inspectionContract.png",
@@ -979,8 +980,8 @@
     /*-------------------Product---------------------------*/
     var warehousesButton = isc.IconButton.create({
         title: "<spring:message code='warehouses.title'/>",
-        icon: "product/warehouses.png",
-        largeIcon: "product/warehouses.png",
+        icon: "product/warehouse.png",
+        largeIcon: "product/warehouse.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='warehouses.title'/>", "<spring:url value="/dailyWarehouse/showForm" />")
@@ -1250,6 +1251,10 @@
             <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
         }
     });*/
+
+
+
+    /*InspectionContract*/
     var inspectionMoistureResultButton = isc.IconButton.create({
         title: "<spring:message code='inspectionMoistureResults.title'/>",
         icon: "inspection/inspectionResult.png",
@@ -1259,24 +1264,49 @@
             createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")
         }
     });
+
+/*JZ*/
+    var inspectionContractResultButton = isc.IconButton.create({
+        title: "<spring:message code='inspection.contract.form'/>",
+        icon: "inspection/inspectionContract.png",
+        largeIcon: "inspection/inspectionContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='inspection.contract.form'/>", "<spring:url value="/inspectionContract/showForm" />")
+        }
+    });
+
+
+    <%--var inspectionAssayResultButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='inspectionAssayResults.title'/>",--%>
+    <%--    icon: "inspection/inspectionResult.png",--%>
+    <%--    largeIcon: "inspection/inspectionResult.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />" )--%>
+    <%--    }--%>
+    <%--});--%>
+
+
     var inspectionAssayResultButton = isc.IconButton.create({
         title: "<spring:message code='inspectionAssayResults.title'/>",
         icon: "inspection/inspectionResult.png",
         largeIcon: "inspection/inspectionResult.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")
+            createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />" )
         }
-    });/*
-    var inspectionCostButton = isc.IconButton.create({
-        title: "<spring:message code='inspectionCost.title'/>",
-        icon: "inspection/inspectionCost.png",
-        largeIcon: "inspection/inspectionCost.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });*/
+    });
+    <%--/*--%>
+    <%--var inspectionCostButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='inspectionCost.title'/>",--%>
+    <%--    icon: "inspection/inspectionCost.png",--%>
+    <%--    largeIcon: "inspection/inspectionCost.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        &lt;%&ndash;createTab("<spring:message code='organization.title'/>", "/department/showForm")&ndash;%&gt;--%>
+    <%--    }--%>
+    <%--});*/--%>
 
     var inspectionRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
@@ -1292,7 +1322,9 @@
         controls: [
             // inspectorAppointmentButton
             inspectionMoistureResultButton
-            , inspectionAssayResultButton
+            , inspectionAssayResultButton ,
+            inspectionContractResultButton   //Add By jz
+
             // , inspectionCostButton
         ],
         autoDraw: false
