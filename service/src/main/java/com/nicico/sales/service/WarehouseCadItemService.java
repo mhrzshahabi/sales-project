@@ -10,9 +10,11 @@ import com.nicico.sales.dto.WarehouseCadItemDTO;
 import com.nicico.sales.iservice.IWarehouseCadItemService;
 import com.nicico.sales.model.entities.base.WarehouseCad;
 import com.nicico.sales.model.entities.base.WarehouseCadItem;
+import com.nicico.sales.model.entities.base.WarehouseLot;
 import com.nicico.sales.model.entities.base.WarehouseStock;
 import com.nicico.sales.repository.WarehouseCadDAO;
 import com.nicico.sales.repository.WarehouseCadItemDAO;
+import com.nicico.sales.repository.WarehouseLotDAO;
 import com.nicico.sales.repository.WarehouseStockDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -37,6 +39,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 	private final WarehouseCadItemDAO warehouseCadItemDAO;
 	private final WarehouseCadDAO warehouseCadDAO;
 	private final ModelMapper modelMapper;
+	private final WarehouseLotDAO warehouseLotDAO;
 
 	@Transactional(readOnly = true)
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECADITEM')")
@@ -229,6 +232,23 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 					stock.setSheet(stock.getSheet() + sheetDiff);
 					warehouseStockDAO.saveAndFlush(stock);
 				}
+			}
+		}
+		// update WarehouseLot if Material is MO
+		if (bijak.getMaterialItemId() == 13) {
+			WarehouseLot warehouseLot = warehouseLotDAO.findByLotName(warehouseCadItem.getLotName());
+			if (warehouseLot == null) {
+				WarehouseLot wh = new WarehouseLot();
+				wh.setLotName(warehouseCadItem.getLotName());
+				wh.setMaterialId(bijak.getMaterialItem().getMaterial().getId());
+				wh.setPlant(bijak.getPlant());
+				wh.setWarehouseNo("3");
+				wh.setWeightKg(warehouseCadItem.getWeightKg());
+				warehouseLotDAO.saveAndFlush(wh);
+			} else {
+				warehouseLot.setPlant(bijak.getPlant());
+				warehouseLot.setWarehouseNo("3");
+				warehouseLotDAO.saveAndFlush(warehouseLot);
 			}
 		}
 		final WarehouseCadItem saved = warehouseCadItemDAO.saveAndFlush(warehouseCadItem);
