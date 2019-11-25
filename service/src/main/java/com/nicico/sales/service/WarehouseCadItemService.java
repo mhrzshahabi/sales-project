@@ -10,8 +10,12 @@ import com.nicico.sales.dto.WarehouseCadItemDTO;
 import com.nicico.sales.iservice.IWarehouseCadItemService;
 import com.nicico.sales.model.entities.base.WarehouseCad;
 import com.nicico.sales.model.entities.base.WarehouseCadItem;
+import com.nicico.sales.model.entities.base.WarehouseLot;
+import com.nicico.sales.model.entities.base.WarehouseStock;
 import com.nicico.sales.repository.WarehouseCadDAO;
 import com.nicico.sales.repository.WarehouseCadItemDAO;
+import com.nicico.sales.repository.WarehouseLotDAO;
+import com.nicico.sales.repository.WarehouseStockDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -31,9 +35,11 @@ import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
 @Service
 public class WarehouseCadItemService implements IWarehouseCadItemService {
 
+	private final WarehouseStockDAO warehouseStockDAO;
 	private final WarehouseCadItemDAO warehouseCadItemDAO;
 	private final WarehouseCadDAO warehouseCadDAO;
 	private final ModelMapper modelMapper;
+	private final WarehouseLotDAO warehouseLotDAO;
 
 	@Transactional(readOnly = true)
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECADITEM')")
@@ -59,11 +65,11 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 //    @PreAuthorize("hasAuthority('C_WAREHOUSECADITEM')")
 	public WarehouseCadItemDTO.Info create(WarehouseCadItemDTO.Create request) {
 		final WarehouseCadItem warehouseCadItem = modelMapper.map(request, WarehouseCadItem.class);
-		Optional<WarehouseCad> byId = warehouseCadDAO.findById(request.getWarehouseCadId());
-		final WarehouseCad warehouseCad = byId.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
-		warehouseCadItem.setWarehouseCad(warehouseCad);
+//		Optional<WarehouseCad> byId = warehouseCadDAO.findById(request.getWarehouseCadId());
+//		final WarehouseCad warehouseCad = byId.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
+		warehouseCadItem.setWarehouseCadId(request.getWarehouseCadId());
 
-		return save(warehouseCadItem);
+		return save(warehouseCadItem, null);
 	}
 
 	@Transactional
@@ -77,13 +83,30 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 		modelMapper.map(warehouseCadItem, updating);
 		modelMapper.map(request, updating);
 
-		return save(updating);
+		return save(updating, warehouseCadItem);
 	}
 
 	@Transactional
 	@Override
 //    @PreAuthorize("hasAuthority('D_WAREHOUSECADITEM')")
 	public void delete(Long id) {
+		final WarehouseCadItem warehouseCadItem = warehouseCadItemDAO.findById(id)
+		.orElseThrow(()->new SalesException(SalesException.ErrorType.WarehouseCadItemNotFound));
+		final WarehouseCad bijak = warehouseCadDAO.findById(warehouseCadItem.getWarehouseCadId())
+				.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
+		WarehouseStock stock = warehouseStockDAO.findByMaterialItemIdAndWarehouseYardIdAndPlantAndWarehouseNo(
+				bijak.getMaterialItemId(),
+				bijak.getWarehouseYardId(),
+				bijak.getPlant(),
+				bijak.getWarehouseNo());
+
+		stock.setAmount(stock.getAmount() - warehouseCadItem.getWeightKg());
+		stock.setBundle(warehouseCadItem.getBundleSerial() == null ? stock.getBundle() : stock.getBundle() - 1L);
+		stock.setLot(warehouseCadItem.getLotName() == null ? stock.getLot() : stock.getLot() - 1L);
+		stock.setSheet(stock.getSheet() - warehouseCadItem.getSheetNo());
+		stock.setBarrel(stock.getBarrel() - warehouseCadItem.getBarrelNo());
+		warehouseStockDAO.saveAndFlush(stock);
+
 		warehouseCadItemDAO.deleteById(id);
 	}
 
@@ -136,11 +159,6 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 		return SearchUtil.search(warehouseCadItemDAO, request, entity -> modelMapper.map(entity, WarehouseCadItemDTO.Info.class));
 	}
 
-	private WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem) {
-		final WarehouseCadItem saved = warehouseCadItemDAO.saveAndFlush(warehouseCadItem);
-		return modelMapper.map(saved, WarehouseCadItemDTO.Info.class);
-	}
-
 	@Transactional(readOnly = true)
 	@Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECATHODE')")
@@ -168,4 +186,112 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 	}
 
 
+	public WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem, WarehouseCadItem oldCadItem) {
+
+		final WarehouseCad bijak = warehouseCadDAO.findById(warehouseCadItem.getWarehouseCadId())
+				.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
+		if (oldCadItem == null) {
+			if (warehouseCadItem.getSheetNo() == null) warehouseCadItem.setSheetNo(0L);
+			if (warehouseCadItem.getBarrelNo() == null) warehouseCadItem.setBarrelNo(0L);
+		}
+		WarehouseStock stock = warehouseStockDAO.findByMaterialItemIdAndWarehouseYardIdAndPlantAndWarehouseNo(
+				bijak.getMaterialItemId(),
+				bijak.getWarehouseYardId(),
+				bijak.getPlant(),
+				bijak.getWarehouseNo());
+
+		if (stock == null) {
+			WarehouseStock warehouseStock = new WarehouseStock();
+			warehouseStock.setMaterialItemId(bijak.getMaterialItemId());
+			warehouseStock.setWarehouseYardId(bijak.getWarehouseYardId());
+			warehouseStock.setPlant(bijak.getPlant());
+			warehouseStock.setWarehouseNo(bijak.getWarehouseNo());
+
+			warehouseStock.setAmount(warehouseCadItem.getWeightKg());
+			warehouseStock.setBarrel(warehouseCadItem.getBarrelNo());
+			warehouseStock.setBundle(warehouseCadItem.getBundleSerial() != null ? 1L : 0L);
+			warehouseStock.setLot(warehouseCadItem.getLotName() != null ? 1L : 0L);
+			warehouseStock.setSheet(warehouseCadItem.getSheetNo());
+
+			warehouseStockDAO.saveAndFlush(warehouseStock);
+		} else {
+			if (oldCadItem == null) {  // eslahyeh nist
+				stock.setAmount(stock.getAmount() + warehouseCadItem.getWeightKg());
+				stock.setBundle(warehouseCadItem.getBundleSerial() == null ? stock.getBundle() : stock.getBundle() + 1L);
+				stock.setLot(warehouseCadItem.getLotName() == null ? stock.getLot() : stock.getLot() + 1L);
+				stock.setSheet(stock.getSheet() + warehouseCadItem.getSheetNo());
+				stock.setBarrel(stock.getBarrel() + warehouseCadItem.getBarrelNo());
+				warehouseStockDAO.saveAndFlush(stock);
+			} else { //eslahyeh
+				Double amountDiff = warehouseCadItem.getWeightKg() - oldCadItem.getWeightKg();
+				Long barrelDiff = warehouseCadItem.getBarrelNo() - oldCadItem.getBarrelNo();
+				Long sheetDiff = warehouseCadItem.getSheetNo() - oldCadItem.getSheetNo();
+				if (!(amountDiff.equals(0L) && barrelDiff.equals(0L) && sheetDiff.equals(0L))) {
+					stock.setAmount(stock.getAmount() + amountDiff);
+					stock.setBarrel(stock.getBarrel() + barrelDiff);
+					stock.setSheet(stock.getSheet() + sheetDiff);
+					warehouseStockDAO.saveAndFlush(stock);
+				}
+			}
+		}
+		// update WarehouseLot if Material is MO
+		if (bijak.getMaterialItemId() == 13) {
+			WarehouseLot warehouseLot = warehouseLotDAO.findByLotName(warehouseCadItem.getLotName());
+			if (warehouseLot == null) {
+				WarehouseLot wh = new WarehouseLot();
+				wh.setLotName(warehouseCadItem.getLotName());
+				wh.setMaterialId(bijak.getMaterialItem().getMaterial().getId());
+				wh.setPlant(bijak.getPlant());
+				wh.setWarehouseNo("3");
+				wh.setWeightKg(warehouseCadItem.getWeightKg());
+				warehouseLotDAO.saveAndFlush(wh);
+			} else {
+				warehouseLot.setPlant(bijak.getPlant());
+				warehouseLot.setWarehouseNo("3");
+				warehouseLotDAO.saveAndFlush(warehouseLot);
+			}
+		}
+		final WarehouseCadItem saved = warehouseCadItemDAO.saveAndFlush(warehouseCadItem);
+		return modelMapper.map(saved, WarehouseCadItemDTO.Info.class);
+	}
+
+	public WarehouseCadItemDTO.Info saveIssue(WarehouseCadItem warehouseCadItem, Long issueId) {
+
+		if ((warehouseCadItem.getIssueId() == null && issueId==null) ||
+		     (warehouseCadItem.getIssueId() != null && issueId!=null && warehouseCadItem.getIssueId().equals(issueId)))
+			return modelMapper.map(warehouseCadItem, WarehouseCadItemDTO.Info.class);
+		else if (issueId != null && warehouseCadItem.getIssueId() != null) {
+			warehouseCadItem.setIssueId(issueId);
+			final WarehouseCadItem saved = warehouseCadItemDAO.saveAndFlush(warehouseCadItem);
+			return modelMapper.map(saved, WarehouseCadItemDTO.Info.class);
+		}
+
+	    final WarehouseCad bijak=warehouseCadDAO.findById(warehouseCadItem.getWarehouseCadId())
+	    								.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
+		WarehouseStock stock = warehouseStockDAO.findByMaterialItemIdAndWarehouseYardIdAndPlantAndWarehouseNo(
+				bijak.getMaterialItemId(),
+				bijak.getWarehouseYardId(),
+				bijak.getPlant(),
+				bijak.getWarehouseNo());
+
+		 if (issueId != null && warehouseCadItem.getIssueId() == null) { // kasr az mojodi
+					stock.setAmount(stock.getAmount() - warehouseCadItem.getWeightKg());
+					stock.setBarrel(stock.getBarrel() - warehouseCadItem.getBarrelNo());
+					stock.setSheet(stock.getSheet() - warehouseCadItem.getSheetNo());
+					stock.setBundle(warehouseCadItem.getBundleSerial() == null ? stock.getBundle() : stock.getBundle() - 1L);
+					stock.setLot(warehouseCadItem.getLotName() == null ? stock.getLot() : stock.getLot() - 1L);
+
+		} else if(issueId == null && warehouseCadItem.getIssueId()!=null ) { // ezafeh be mojodi
+					stock.setAmount(stock.getAmount() + warehouseCadItem.getWeightKg());
+					stock.setBarrel(stock.getBarrel() + warehouseCadItem.getBarrelNo());
+					stock.setSheet(stock.getSheet() + warehouseCadItem.getSheetNo());
+					stock.setBundle(warehouseCadItem.getBundleSerial() == null ? stock.getBundle() : stock.getBundle() + 1L);
+					stock.setLot(warehouseCadItem.getLotName() == null ? stock.getLot() : stock.getLot() + 1L);
+		}
+		warehouseStockDAO.saveAndFlush(stock);
+
+		warehouseCadItem.setIssueId(issueId);
+		final WarehouseCadItem saved = warehouseCadItemDAO.saveAndFlush(warehouseCadItem);
+		return modelMapper.map(saved, WarehouseCadItemDTO.Info.class);
+	}
 }

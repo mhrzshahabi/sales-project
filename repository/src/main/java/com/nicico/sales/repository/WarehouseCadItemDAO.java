@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WarehouseCadItemDAO extends JpaRepository<WarehouseCadItem, Long>, JpaSpecificationExecutor<WarehouseCadItem> {
-
+    WarehouseCadItem findByWarehouseCadId(Long warehouseCadId);
 }

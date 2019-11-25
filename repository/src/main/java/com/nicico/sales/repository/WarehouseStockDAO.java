@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WarehouseStockDAO extends JpaRepository<WarehouseStock, Long>, JpaSpecificationExecutor<WarehouseStock> {
-
+    WarehouseStock findByMaterialItemIdAndWarehouseYardIdAndPlantAndWarehouseNo(Long materialItemId, Long warehouseYardId,String plant,String warehouseNo);
 }

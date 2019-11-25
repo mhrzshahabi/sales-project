@@ -85,7 +85,7 @@
         fields:
             [
                  {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseCad.yard",title:"<spring:message code='warehouseCad.yard'/>"},
+                {name: "warehouseCad.warehouseYardId",title:"<spring:message code='warehouseCad.yard'/>"},
                 {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
                 {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
                 {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
@@ -442,8 +442,8 @@
         var ClientData_WarehouseCadITEMByWarehouseIssueCathode = [];
         var ids= DynamicForm_WarehouseIssueCathode.getValue("bijakIds");
         if (typeof(ids) != 'undefined' && ids.length > 0) {
-            console.log('ids');
-            console.log(ids);
+            // console.log('ids');
+            // console.log(ids);
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/warehouseCadItem/spec-list-ids/" + ids,
                     httpMethod: "GET",
@@ -472,7 +472,7 @@
             [
                  {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
-                {name: "warehouseCad.yard",title:"<spring:message code='warehouseCad.yard'/>"},
+                {name: "warehouseCad.warehouseYardId",title:"<spring:message code='warehouseCad.yard'/>"},
                 {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
                 {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
             ],
@@ -526,10 +526,43 @@
             [
                 isc.VLayout.create({
                     width: "100%",
-                    height: "100%",
+                    height: "100%",backgroundImage: "backgrounds/leaves.jpg",align: "center",
                     members:
                         [
-                            isc.HLayout.create({
+							 isc.HLayout.create({
+								ID: "hLayoutLayoutSpacers",
+								autoDraw: true,
+								// Specifying the width creates space for the LayoutSpacers to distribute.
+								width: "100%",
+								layoutMargin: 6,
+								membersMargin: 6,
+								border: "1px dashed blue",
+								// Note no alignment property! It's all done with LayoutSpacers
+								members: [
+									isc.Label.create({
+										height: 40,
+										width: "33%",
+										padding: 10,
+										backgroundColor: "green",
+										contents: "<b>INVENTORY انبار</b>"
+									}),
+									isc.Label.create({
+										height: 40,
+										width: "33%",
+										padding: 10,
+										backgroundColor: "white",
+										contents: "<b>ِDrag </b>from INVENTORY to SELECTED"
+									}),
+									isc.Label.create({
+										height: 40,
+										width: "33%",
+										padding: 10,
+										backgroundColor: "red",
+										contents: "<b>SELECTED انتخاب شده</b>"
+									}),
+								]
+							}),
+                           isc.HLayout.create({
                                 width: "100%",
                                 height: "100%",
                                 members:
@@ -538,44 +571,52 @@
                                     ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected,
                                     ]
                                 }),
-                            isc.Button.create({
-                                title: "<spring:message code='global.ok'/>",
-                                click: function () {
-                                    selectedTotalRows=ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.getTotalRows();
-                                    if (selectedTotalRows == 0) {
-                                        DynamicForm_WarehouseIssueCathode.setValue("bijakIds","");
-                                        DynamicForm_WarehouseIssueCathode.setValue("bijak","");
-                                        Window_warehouseIssueCathode_bijak.close();
-                                        return;
-                                    }
 
-                                    bijakIds="";
-                                    bijak=[];bijakIdx=[];
-                                    for (i = 0; i < selectedTotalRows; i++) {
-                                        bijakIds+=(i==0 ? '':',')+ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).id;
-                                        bjNo=ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).warehouseCad.bijackNo;
-                                        console.log(bjNo);
-                                        var d=-1; c = bijak.find( function(b,i) { if (b== bjNo ) {d=i; return true;}   });
-                                        if (d==-1) {
-                                            j=bijak.push(bjNo);
-                                            bijakIdx.push(1);
-                                        } else {
-                                            bijakIdx[d]++;
-                                        }
-                                     }
-                                     console.log(bijak);
-                                    if (bijak.length > 0){
-                                        bj="";
-                                        for (i=0;i<bijak.length;i++) {
-                                            bj+= (i==0 ? '' : '- ')+bijak[i]+'('+bijakIdx[i]+')';
-                                        }
-                                    }
-                                    DynamicForm_WarehouseIssueCathode.setValue("bijakIds",bijakIds);
-                                    DynamicForm_WarehouseIssueCathode.setValue("bijak",bj);
-                                    Window_warehouseIssueCathode_bijak.close();
-                                    return;
-                                }
-                            })
+                           isc.HLayout.create({
+                                width: "100%",
+                                align: "center",
+                                members:
+                                    [
+ 			                           isc.Button.create({
+											title: "<spring:message code='global.ok'/>",
+											click: function () {
+												selectedTotalRows=ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.getTotalRows();
+												if (selectedTotalRows == 0) {
+													DynamicForm_WarehouseIssueCathode.setValue("bijakIds","");
+													DynamicForm_WarehouseIssueCathode.setValue("bijak","");
+													Window_warehouseIssueCathode_bijak.close();
+													return;
+												}
+
+												bijakIds="";
+												bijak=[];bijakIdx=[];
+												for (i = 0; i < selectedTotalRows; i++) {
+													bijakIds+=(i==0 ? '':',')+ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).id;
+													bjNo=ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).warehouseCad.bijackNo;
+													// console.log(bjNo);
+													var d=-1; c = bijak.find( function(b,i) { if (b== bjNo ) {d=i; return true;}   });
+													if (d==-1) {
+														j=bijak.push(bjNo);
+														bijakIdx.push(1);
+													} else {
+														bijakIdx[d]++;
+													}
+												 }
+												 // console.log(bijak);
+												if (bijak.length > 0){
+													bj="";
+													for (i=0;i<bijak.length;i++) {
+														bj+= (i==0 ? '' : '- ')+bijak[i]+'('+bijakIdx[i]+')';
+													}
+												}
+												DynamicForm_WarehouseIssueCathode.setValue("bijakIds",bijakIds);
+												DynamicForm_WarehouseIssueCathode.setValue("bijak",bj);
+												Window_warehouseIssueCathode_bijak.close();
+												return;
+											}
+										})
+									]
+								})
                         ]
                 })
 
@@ -583,7 +624,7 @@
     });
 
     ListGrid_WarehouseCadITEMByWarehouseIssueCathode.fetchData();
-    Window_warehouseIssueCathode_bijak.show();
+    Window_warehouseIssueCathode_bijak.animateShow();
     } //show func
     } // main func
     var DynamicForm_WarehouseIssueCathode = isc.DynamicForm.create({
@@ -596,10 +637,10 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100",
+        titleWidth: "150",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,
+        numCols: 2,backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true,},
@@ -626,7 +667,13 @@
                         {name: "yard.nameFA", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
                     ],
                     changed(form, item, value) {
-                        DynamicForm_WarehouseIssueCathode.setValue("bijakIds", item.getSelectedRecord().id);
+                    	// console.log(item.getSelectedRecord().warehouseCadItems);
+                    	ids="";
+                    	for (x of  item.getSelectedRecord().warehouseCadItems) {
+                    	    // console.log(x);
+                    	    ids+=','+x.id;
+                    	}
+                        DynamicForm_WarehouseIssueCathode.setValue("bijakIds", ids.substring(1));
                     },
                     icons: [{
                         src: "icon/search.png",
@@ -663,6 +710,8 @@
                 },
                 {name: "sealedCustom",title: "<spring:message code='warehouseIssueCathode.sealedCustom'/>",width: 500,required: true, length: "15"},
                 {name: "sealedShip",title: "<spring:message code='warehouseIssueCathode.sealedShip'/>",width: 500,required: true, length: "15"},
+                {type: "RowSpacerItem"},
+                {type: "RowSpacerItem"},
                 <%--{name: "bundle",title: "<spring:message code='warehouseIssueCathode.bundle'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
                 <%--{name: "sheet",title: "<spring:message code='warehouseIssueCathode.sheet'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
                 <%--{name: "totalAmount",title: "<spring:message code='warehouseIssueCathode.totalAmount'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
@@ -697,7 +746,7 @@
             }
             DynamicForm_WarehouseIssueCathode.clearValues();
             DynamicForm_WarehouseIssueCathode.setValue("shipmentId", record.id);
-            Window_WarehouseIssueCathode.show();
+            Window_WarehouseIssueCathode.animateShow();
         }
     });
 
@@ -785,7 +834,7 @@
             [
                 DynamicForm_WarehouseIssueCathode,
                 isc.HLayout.create({
-                    width: "100%",
+                    width: "100%",align: "center",
                     members:
                         [
                             IButton_WarehouseIssueCathode_Save,
@@ -796,7 +845,6 @@
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
-                                orientation: "vertical",
                                 click: function () {
                                     Window_WarehouseIssueCathode.close();
                                 }

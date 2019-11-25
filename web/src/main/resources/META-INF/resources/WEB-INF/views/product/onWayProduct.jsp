@@ -5,29 +5,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var ViewLoader_createTozin = isc.ViewLoader.create({
-        width: "100%",
-        height: "100%",
-        autoDraw: false,
-        loadingMessage: " <spring:message code='global.loadingMessage'/>"
-    });
-    isc.Window.create({
-        title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
-        width: "1560",
-        height: "95%",
-        autoCenter: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                ViewLoader_createTozin
-            ]
-    });
-
     function ListGrid_Tozin_refresh() {
         ListGrid_Tozin.invalidateCache();
     }
@@ -340,17 +317,18 @@
                 click: function () {
                     var record = ListGrid_Tozin.getSelectedRecord();
                      if (record.codeKala === 9 || record.codeKala === 10 ||  record.codeKala === 11 ||
-record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || record.codeKala === 90 || record.codeKala === 95 ) {
-                        BijackViewLoader.setViewURL("tozin/showWarehouseCadForm");
-                        Window_Bijack.show();
+                        record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 ||
+                        record.codeKala === 90 || record.codeKala === 95 ) {
+                            BijackViewLoader.setViewURL("tozin/showWarehouseCadForm");
+                            Window_Bijack.show();
                     }
-                    if (record.codeKala === 97 ) {
-                        BijackViewLoader.setViewURL("tozin/showWarehouseMoForm");
-                        Window_Bijack.show();
+                    if (record.codeKala === 97 || record.codeKala === 100) {
+                            BijackViewLoader.setViewURL("tozin/showWarehouseMoForm");
+                            Window_Bijack.show();
                     }
                     if (record.codeKala === 8 ) {
-                        BijackViewLoader.setViewURL("tozin/showWarehouseConcForm");
-                        Window_Bijack.show();
+                            BijackViewLoader.setViewURL("tozin/showWarehouseConcForm");
+                            Window_Bijack.show();
                     }
                 }
             }
@@ -360,7 +338,7 @@ record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || 
     isc.ViewLoader.create({
         ID: "BijackViewLoader",
         width: 830,
-        height: 660,
+        height: 700,
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
@@ -368,7 +346,7 @@ record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || 
     var Window_Bijack = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
         width: 830,
-        height: 660,
+        height: 700,
         autoSize:true,
         autoCenter: true,
         isModal: true,
@@ -392,77 +370,6 @@ record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || 
         width: 100,
         menu: Menu_ListGrid_Tozin
     });
-
-    function ListGrid_Tozin_edit() {
-
-        var record = ListGrid_Tozin.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            DynamicForm_Tozin.editRecord(record);
-            Window_Tozin.show();
-        }
-    }
-
-    function ListGrid_Tozin_remove() {
-
-        var record = ListGrid_Tozin.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-                    title: "<spring:message
-		code='global.no'/>"
-                })],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index == 0) {
-                        var TozinId = record.id;
-// ######@@@@###&&@@###
-                        var methodXXXX = "PUT";
-                        if (data.id == null) methodXXXX = "POST";
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
-                                actionURL: "${contextPath}/api/tozin/" + TozinId,
-                                httpMethod: "DELETE",
-                                callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
-                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                        ListGrid_Tozin_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
-                    }
-                }
-            });
-        }
-    }
 
     var DynamicForm_Tozin = isc.DynamicForm.create({
         width: "100%",
@@ -590,7 +497,7 @@ record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || 
                                     {fieldName: "tozinDate", operator: "lessOrEqual", value: DynamicForm_DailyReport_Tozin1.getValues().toDay},
                                     {fieldName: "codeKala", operator: "equals", value: DynamicForm_DailyReport_Tozin2.getValues().materialId},
                                     {fieldName: "tozinPlantId", operator: "contains", value: DynamicForm_DailyReport_Tozin3.getValues().type},
-                                    {fieldName: "targetPlantId", operator: "equals", value: 3},
+                                    {fieldName: "target","operator":"iContains","value":"رجا"},
                                     {fieldName: "carName", operator: "notContains", value: 'انتينر'}
                                     ]
                             };
@@ -606,7 +513,7 @@ record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || 
                                     {fieldName: "tozinDate", operator: "lessOrEqual", value: DynamicForm_DailyReport_Tozin1.getValues().toDay},
                                     {fieldName: "codeKala", operator: "equals", value: DynamicForm_DailyReport_Tozin2.getValues().materialId},
                                     {fieldName: "tozinPlantId", operator: "contains", value: DynamicForm_DailyReport_Tozin3.getValues().type},
-                                    {fieldName: "targetPlantId", operator: "equals", value: 3},
+                                    {fieldName: "target","operator":"iContains","value":"رجا"},
                                     {fieldName: "carName", operator: "contains", value: 'انتينر'}
                                     ]
                             };
@@ -704,7 +611,7 @@ record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 || 
                                     {fieldName: "tozinDate", operator: "lessOrEqual", value: DynamicForm_DailyReport_Tozin1.getValues().toDay},
                                     {fieldName: "codeKala", operator: "equals", value: DynamicForm_DailyReport_Tozin2.getValues().materialId},
                                     {fieldName: "tozinPlantId", operator: "contains", value: DynamicForm_DailyReport_Tozin3.getValues().type},
-                                    {fieldName: "targetPlantId", operator: "equals", value: 3},
+                                    {"fieldName":"target","operator":"iContains","value":"رجا"},
                                     {fieldName: "carName", operator: "contains", value: 'انتينر'}
                                     ]
     };

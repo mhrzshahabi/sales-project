@@ -17,8 +17,12 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseCadItemDTO {
     private String bundleSerial;
-    private String sheetNo;
+    private Long sheetNo;
+    private Long warehouseCadId;
+    private String lotName;
+    private Long barrelNo;
     private Double weightKg;
+    private Double issueId;
     private Double description;
 
     // ------------------------------
