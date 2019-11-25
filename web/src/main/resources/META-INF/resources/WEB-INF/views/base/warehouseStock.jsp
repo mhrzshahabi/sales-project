@@ -154,16 +154,16 @@
             [
                 {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", },
-                {name: "plant"},
+                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>"},
+                {name: "plant", title: "<spring:message code='warehouseCad.plant'/>"},
                 {name: "warehouseYardId", hidden: true},
-                {name: "warehouseYard.nameFA"},
-                {name: "sheet"},
-                {name: "bundle"},
-                {name: "amount"},
-                {name: "barrel"},
-                {name: "lot",},
-                {name: "materialItem.gdsName"}
+                {name: "warehouseYard.nameFA", title: "<spring:message code='warehouseCad.yard'/>"},
+                {name: "sheet", title: "<spring:message code='warehouseCadItem.sheetNo'/>"},
+                {name: "bundle", title: "<spring:message code='warehouseStock.bundle'/>"},
+                {name: "amount", title: "<spring:message code='warehouseCadItem.weightKg'/>"},
+                {name: "barrel", title: "<spring:message code='warehouseCadItem.barrelNo'/>"},
+                {name: "lot", title: "<spring:message code='warehouseStock.lot'/>"},
+                {name: "materialItem.gdsName", title: "<spring:message code='material.descp'/>"}
             ]
     });
 
@@ -222,38 +222,8 @@
             ]
     });
 
-    var IButton_WarehouseStock_Save = isc.IButton.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
-            DynamicForm_WarehouseStock.validate();
-            if (DynamicForm_WarehouseStock.hasErrors())
-                return;
-
-            var data = DynamicForm_WarehouseStock.getValues();
-            var method = "PUT";
-            if (data.id == null)
-                method = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/warehouseStock/",
-                    httpMethod: method,
-                    data: JSON.stringify(data),
-                    callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
-                            ListGrid_WarehouseStock_refresh();
-                            Window_WarehouseStock.close();
-                        } else
-                            isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
-        }
-    });
-
     var Window_WarehouseStock = isc.Window.create({
-        title: "<spring:message code='warehouseStock.title'/> ",
+        title: "<spring:message code='warehouseStock'/> ",
         width: 580,
         // height: 500,
         autoSize: true,
@@ -268,27 +238,7 @@
         },
         items:
             [
-                DynamicForm_WarehouseStock,
-                isc.HLayout.create({
-                    width: "100%",
-                    members:
-                        [
-                            IButton_WarehouseStock_Save,
-                            isc.Label.create({
-                                width: 5,
-                            }),
-                            /*isc.IButton.create({
-                                ID: "warehouseStockEditExitIButton",
-                                title: "<spring:message code='global.cancel'/>",
-                                width: 100,
-                                icon: "pieces/16/icon_delete.png",
-                                orientation: "vertical",
-                                click: function () {
-                                    Window_WarehouseStock.close();
-                                }
-                            })*/
-                        ]
-                })
+                DynamicForm_WarehouseStock
             ]
     });
     var ListGrid_WarehouseStock = isc.ListGrid.create({
@@ -301,7 +251,6 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "warehouseNo"},
                 {name: "plant"},
-                {name: "warehouseYardId"},
                 {name: "warehouseYard.nameFA"},
                 {name: "sheet"},
                 {name: "bundle"},

@@ -39,7 +39,7 @@
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {fieldName: "targetPlantId", operator: "equals", value: 3},
+            {fieldName :"target","operator":"iContains","value":"رجا"},
             {fieldName: "tozinId", operator: "notContains", value: '3%'}
         ]
     };
@@ -48,7 +48,7 @@
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {fieldName: "targetPlantId", operator: "equals", value: 3},
+            {fieldName: "target","operator":"iContains","value":"رجا"},
             {fieldName: "tozinId", operator: "contains", value: '3%'}
         ]
     };

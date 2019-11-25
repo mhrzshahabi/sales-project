@@ -9,10 +9,11 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bundleSerial",title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "25%", summaryFunction:"count"},
-                {name: "sheetNo", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: "25%", summaryFunction:"sum"},
-                {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "25%"},
-                {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "25%"}
+                {name: "bundleSerial",title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "20%", summaryFunction:"count"},
+                {name: "sheetNo", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: "20%", summaryFunction:"sum"},
+                {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "20%"},
+                {name: "issueId", disabled: true, title: "<spring:message code='warehouseCadItem.issueId'/>", width: "20%"},
+                {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "20%"}
             ],
         fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
     });
@@ -71,10 +72,15 @@
                 {name: "bundleSerial"},
                 {name: "sheetNo"},
                 {name: "weightKg"},
+                {name: "issueId"},
                 {name: "description"}
             ],
         saveEdits: function () {
                 var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
+                if(warehouseCadItem.issueId !== undefined){
+                    isc.warn("can't edit. item is not in inventory.");
+                    return;
+                }
                 if(warehouseCadItem.bundleSerial === undefined || warehouseCadItem.sheetNo === undefined || warehouseCadItem.weightKg === undefined){
                     isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
                     return;
@@ -103,6 +109,10 @@
                 );
         },
         removeData: function (data) {
+            if(data.issueId !== undefined){
+                    isc.warn("can't remove. item is not in inventory.");
+                    return;
+                }
             var warehouseCadItemId = data.id;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/warehouseCadItem/" + warehouseCadItemId,
@@ -149,7 +159,8 @@
                 {
                     name: "bijackNo",
                     title: "<spring:message code='warehouseCad.bijackNo'/>",
-                    type: 'text'
+                    type: 'text',
+                    required: true
                 },
                 {
                     name: "materialItemId",

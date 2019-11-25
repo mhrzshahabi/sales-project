@@ -102,9 +102,9 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
 	}
 
 	private WarehouseIssueCathodeDTO.Info save(WarehouseIssueCathode warehouseIssueCathode, WarehouseIssueCathode oldIssueCathode) {
-
+		final WarehouseIssueCathode saved = warehouseIssueCathodeDAO.saveAndFlush(warehouseIssueCathode);
 		if (oldIssueCathode != null)
-			if (!(oldIssueCathode.getBijakIds().equals(warehouseIssueCathode.getBijakIds()))) {
+			if ((oldIssueCathode.getBijakIds().equals(warehouseIssueCathode.getBijakIds()))) {
 
 			} else {
 				String newIds[] = warehouseIssueCathode.getBijakIds().split(",");
@@ -119,7 +119,7 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
 					Long idL = new Long(newIds[n]);
 					WarehouseCadItem bijak = warehouseCadItemDAO.findById(idL)
 							.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadItemNotFound));
-					warehouseCadItemService.saveIssue(bijak, idL);
+					warehouseCadItemService.saveIssue(bijak, saved.getId());
 
 				}
 				for (int o = 0; o < oldIds.length; o++)  if (!oldIds[o].equals("x")){
@@ -137,11 +137,11 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
 				Long idL = new Long(id);
 				WarehouseCadItem bijak = warehouseCadItemDAO.findById(idL)
 						.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadItemNotFound));
-				warehouseCadItemService.saveIssue(bijak, idL);
+				warehouseCadItemService.saveIssue(bijak, saved.getId());
 			}
 
 		}
-		final WarehouseIssueCathode saved = warehouseIssueCathodeDAO.saveAndFlush(warehouseIssueCathode);
+
 		return modelMapper.map(saved, WarehouseIssueCathodeDTO.Info.class);
 	}
 }

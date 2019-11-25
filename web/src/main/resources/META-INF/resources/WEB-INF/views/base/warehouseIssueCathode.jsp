@@ -85,7 +85,7 @@
         fields:
             [
                  {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseCad.yard",title:"<spring:message code='warehouseCad.yard'/>"},
+                {name: "warehouseCad.warehouseYardId",title:"<spring:message code='warehouseCad.yard'/>"},
                 {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
                 {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
                 {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
@@ -472,7 +472,7 @@
             [
                  {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
-                {name: "warehouseCad.yard",title:"<spring:message code='warehouseCad.yard'/>"},
+                {name: "warehouseCad.warehouseYardId",title:"<spring:message code='warehouseCad.yard'/>"},
                 {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
                 {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
             ],

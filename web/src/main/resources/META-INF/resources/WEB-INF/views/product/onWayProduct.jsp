@@ -371,77 +371,6 @@
         menu: Menu_ListGrid_Tozin
     });
 
-    function ListGrid_Tozin_edit() {
-
-        var record = ListGrid_Tozin.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            DynamicForm_Tozin.editRecord(record);
-            Window_Tozin.show();
-        }
-    }
-
-    function ListGrid_Tozin_remove() {
-
-        var record = ListGrid_Tozin.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-                    title: "<spring:message
-		code='global.no'/>"
-                })],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index == 0) {
-                        var TozinId = record.id;
-// ######@@@@###&&@@###
-                        var methodXXXX = "PUT";
-                        if (data.id == null) methodXXXX = "POST";
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
-                                actionURL: "${contextPath}/api/tozin/" + TozinId,
-                                httpMethod: "DELETE",
-                                callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
-                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                                        ListGrid_Tozin_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
-                    }
-                }
-            });
-        }
-    }
-
     var DynamicForm_Tozin = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -568,7 +497,7 @@
                                     {fieldName: "tozinDate", operator: "lessOrEqual", value: DynamicForm_DailyReport_Tozin1.getValues().toDay},
                                     {fieldName: "codeKala", operator: "equals", value: DynamicForm_DailyReport_Tozin2.getValues().materialId},
                                     {fieldName: "tozinPlantId", operator: "contains", value: DynamicForm_DailyReport_Tozin3.getValues().type},
-                                    {"fieldName":"target","operator":"iContains","value":"رجا"},
+                                    {fieldName: "target","operator":"iContains","value":"رجا"},
                                     {fieldName: "carName", operator: "notContains", value: 'انتينر'}
                                     ]
                             };
@@ -584,7 +513,7 @@
                                     {fieldName: "tozinDate", operator: "lessOrEqual", value: DynamicForm_DailyReport_Tozin1.getValues().toDay},
                                     {fieldName: "codeKala", operator: "equals", value: DynamicForm_DailyReport_Tozin2.getValues().materialId},
                                     {fieldName: "tozinPlantId", operator: "contains", value: DynamicForm_DailyReport_Tozin3.getValues().type},
-                                    {"fieldName":"target","operator":"iContains","value":"رجا"},
+                                    {fieldName: "target","operator":"iContains","value":"رجا"},
                                     {fieldName: "carName", operator: "contains", value: 'انتينر'}
                                     ]
                             };
@@ -682,7 +611,7 @@
                                     {fieldName: "tozinDate", operator: "lessOrEqual", value: DynamicForm_DailyReport_Tozin1.getValues().toDay},
                                     {fieldName: "codeKala", operator: "equals", value: DynamicForm_DailyReport_Tozin2.getValues().materialId},
                                     {fieldName: "tozinPlantId", operator: "contains", value: DynamicForm_DailyReport_Tozin3.getValues().type},
-                                    {fieldName: "targetPlantId", operator: "equals", value: 3},
+                                    {"fieldName":"target","operator":"iContains","value":"رجا"},
                                     {fieldName: "carName", operator: "contains", value: 'انتينر'}
                                     ]
     };
