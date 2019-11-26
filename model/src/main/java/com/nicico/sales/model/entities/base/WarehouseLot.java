@@ -104,10 +104,10 @@ public class WarehouseLot extends Auditable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "WAREHOUSECADITEM_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLot_CadItem"))
-	private WarehouseCadItem WarehouseCadItem;
+	private WarehouseCadItem warehouseCadItem;
 
     @Column(name = "WAREHOUSECADITEM_ID")
-	private Long WarehouseCadItemId;
+	private Long warehouseCadItemId;
 
 
 }

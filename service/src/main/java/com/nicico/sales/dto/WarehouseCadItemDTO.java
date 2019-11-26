@@ -33,7 +33,7 @@ public class WarehouseCadItemDTO {
     @ApiModel("WarehouseCadItemInfo")
     public static class Info extends WarehouseCadItemDTO {
         private Long id;
-//        private WarehouseCadDTO.Info warehouseCad;
+        private WarehouseCadDTO warehouseCad;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
