@@ -244,10 +244,12 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 				wh.setPlant(bijak.getPlant());
 				wh.setWarehouseNo("3");
 				wh.setWeightKg(warehouseCadItem.getWeightKg());
+				wh.setWarehouseCadItemId(warehouseCadItem.getId());
 				warehouseLotDAO.saveAndFlush(wh);
 			} else {
 				warehouseLot.setPlant(bijak.getPlant());
 				warehouseLot.setWarehouseNo("3");
+				warehouseLot.setWarehouseCadItemId(warehouseCadItem.getId());
 				warehouseLotDAO.saveAndFlush(warehouseLot);
 			}
 		}

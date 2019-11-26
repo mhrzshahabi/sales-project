@@ -1,6 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.base.WarehouseCadItem;
+import com.nicico.sales.repository.WarehouseCadItemDAO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -43,7 +45,9 @@ public class WarehouseLotDTO {
 	private Long contractId;
     private Boolean used;
 	private String bookingNo;
-	
+	private String typical;
+	private Long WarehouseCadItemId;
+
 	// ------------------------------
 
 	@Getter
@@ -53,6 +57,7 @@ public class WarehouseLotDTO {
 	public static class Info extends WarehouseLotDTO {
 		private Long id;
 		private MaterialDTO.Info material;
+		private WarehouseCadItemDTO.Info1 warehouseCadItem;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;
@@ -60,6 +65,7 @@ public class WarehouseLotDTO {
 		private Integer version;
 		private ContactDTO.ContactInfoTuple contact;
 	}
+
 
 	// ------------------------------
 

@@ -55,6 +55,7 @@ public class WarehouseCadDTO {
         private Integer version;
     }
 
+
     // ------------------------------
 
     @Getter
