@@ -11,6 +11,10 @@ public interface IContractService {
 
 	List<ContractDTO.Info> list();
 
+	void writeToWord(String request);
+
+	List<String> readFromWord(String contractNo);
+
 	ContractDTO.Info create(ContractDTO.Create request);
 
 	ContractDTO.Info update(Long id, ContractDTO.Update request);
@@ -20,4 +24,5 @@ public interface IContractService {
 	void delete(ContractDTO.Delete request);
 
 	SearchDTO.SearchRs<ContractDTO.Info> search(SearchDTO.SearchRq request);
+
 }

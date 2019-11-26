@@ -111,4 +111,16 @@ public class ContractRestController {
     public ResponseEntity<SearchDTO.SearchRs<ContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(contractService.search(request), HttpStatus.OK);
     }
+
+    @Loggable
+    @PostMapping(value = "/writeWord")
+    public ResponseEntity<ContractDTO.Info> saveValueAllArticles(@RequestBody String request) {
+        contractService.writeToWord(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    @Loggable
+    @PutMapping(value = "/readWord")
+    public ResponseEntity<List<String>> updateValueAllArticles(@RequestBody String contractNo) {
+        return new ResponseEntity<>(contractService.readFromWord(contractNo), HttpStatus.OK);
+    }
 }

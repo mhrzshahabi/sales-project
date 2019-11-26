@@ -4,6 +4,10 @@
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
+    var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
+        fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
+    });
+
     var RestDataSource_Contract = isc.MyRestDataSource.create({
         fields:
             [
@@ -89,6 +93,66 @@
             ],
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
+
+    var RestDataSource_ContractShipment = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", hidden: true, primaryKey: true, canEdit: false,},
+                {name: "contractItemId", type: "long", hidden: true},
+                {
+                    name: "shipmentRow",
+                    title: "<spring:message code='contractItem.itemRow'/> ",
+                    type: 'text',
+                    required: true,
+                    width: 400
+                },
+                {
+                    name: "dischargeId",
+                    title: "<spring:message code='port.port'/>",
+                    type: 'text',
+                    required: true,
+                    width: 400
+                },
+                {name: "discharge.port", title: "<spring:message code='port.port'/>", align: "center"},
+                {
+                    name: "address",
+                    title: "<spring:message code='global.address'/>",
+                    type: 'text',
+                    required: true,
+                    width: 400
+                },
+                {
+                    name: "amount",
+                    title: "<spring:message code='global.amount'/>",
+                    type: 'float',
+                    required: true,
+                    width: 400
+                },
+                {
+                    name: "sendDate",
+                    title: "<spring:message code='global.sendDate'/>",
+                    type: 'text',
+                    width: 400,
+                },
+                {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
+            ],
+        fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
+    });
+
+     var RestDataSource_Port = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "port", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "beam", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "loa", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "arrival", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
+            ],
+
+        fetchDataURL: "${contextPath}/api/port/spec-list"
+    });
+
     var criteriaCad = {
         _constructor: "AdvancedCriteria",
         operator: "and",
@@ -145,7 +209,20 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-            Window_ContactCad.animateShow();
+        Window_ContactCad.animateShow();
+        contactCadHeader.clearValues();
+        contactCadHeaderCadAgent.clearValues();
+        valuesManagerArticle1.clearValues();
+        valuesManagerArticle2Cad.clearValues();
+        valuesManagerArticle3_quality.clearValues();
+        valuesManagerArticle4_quality.clearValues();
+        valuesManagerArticle5_quality.clearValues();
+        valuesManagerArticle6_quality.clearValues();
+        valuesManagerArticle7_quality.clearValues();
+        valuesManagerArticle8_quality.clearValues();
+        valuesManagerArticle9_quality.clearValues();
+        valuesManagerArticle10_quality.clearValues();
+        valuesManagerArticle12_quality.clearValues();
         }
     });
 
@@ -153,6 +230,84 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
+            var textMain;
+            var record = ListGrid_Cad.getSelectedRecord();
+            Window_ContactCad.animateShow();
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contract/readWord",
+                httpMethod: "PUT",
+                data: JSON.stringify(record.contractNo),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        var text = resp.httpResponseText;
+                        var text2 = text.replaceAll('","', '","').replaceAll('&','":"')
+                        ///console.log(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'))
+                        textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
+                        setTimeout(function(){
+                                contactCadHeader.setValue("createDateDumy", record.contractDate)
+                                contactCadHeader.setValue("contractNo", record.contractNo)
+                                contactCadHeader.setValue("contactId", record.contactId)
+                                contactCadHeader.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId)
+                                contactCadHeader.setValue("contactBySellerId", record.contactBySellerId)
+                                contactCadHeader.setValue("contactBySellerAgentId", record.contactBySellerAgentId)
+                                valuesManagerArticle2Cad.setValue("amount", record.amount);
+                                valuesManagerArticle2Cad.setValue("amount_en", record.amount_en);
+                                valuesManagerArticle2Cad.setValue("unitId", record.unitId);
+                                valuesManagerArticle2Cad.setValue("molybdenumTolorance", record.molybdenumTolorance);
+                                valuesManagerArticle2Cad.setValue("optional", record.optional);
+                                valuesManagerArticle3_quality.setValue("plant", record.plant);
+                                valuesManagerArticle4_quality.setValue("article4_quality1",record.mo_amount);
+                                valuesManagerArticle4_quality.setValue("article4_quality2",record.copper);
+                                valuesManagerArticle5_quality.setValue("runStartDate",record.runStartDate);
+                                valuesManagerArticle5_quality.setValue("runTill",record.runTill);
+                                valuesManagerArticle5_quality.setValue("runEndtDate",record.runEndtDate);
+                                valuesManagerArticle6_quality.setValue("incotermsId",record.incotermsId);
+                                valuesManagerArticle6_quality.setValue("portByPortSourceId",record.portByPortSourceId);
+                                valuesManagerArticle6_quality.setValue("incotermsText",record.incotermsText);
+                                article3_quality.setValue("fullArticle3",textMain.Article03);
+                                article4_quality.setValue("fullArticle4",textMain.Article04);
+                                article5_quality.setValue("fullArticle5",textMain.Article05);
+                                article6_quality.setValue("fullArticle6",textMain.Article06);
+                                article7_quality.setValue("fullArticle7",textMain.Article07);
+                                article8_quality.setValue("fullArticle8",textMain.Article08);
+                                article9_quality.setValue("fullArticle9",textMain.Article09);
+                                article10_quality.setValue("fullArticle10",textMain.Article10);
+                                article12_quality.setValue("fullArticle12",textMain.Article12);
+                        },15)
+                    }else{
+                        alert("aaaa");
+                        isc.say(RpcResponse_o.data);
+                }
+                }
+            }))
+            var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
+            RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
+                        contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
+                        contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
+                        contactCadHeaderCadAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
+                        contactCadHeaderCadAgent.setValue("mobile_ContactAgentSeller", data[0].mobile_ContactAgentSeller)
+                        contactCadHeaderCadAgent.setValue("address_ContactAgentSeller", data[0].address_ContactAgentSeller)
+                        contactCadHeaderCadAgent.setValue("address_ContactSeller", data[0].address_ContactSeller)
+                        contactCadHeaderCadAgent.setValue("mobile_ContactSeller", data[0].mobile_ContactSeller)
+                        contactCadHeaderCadAgent.setValue("phone_ContactSeller", data[0].phone_ContactSeller)
+                        contactCadHeaderCadAgent.setValue("name_ContactSeller", data[0].name_ContactSeller)
+                        contactCadHeaderCadAgent.setValue("name_ContactAgentBuyer", data[0].name_ContactAgentBuyer)
+                        contactCadHeaderCadAgent.setValue("phone_ContactAgentBuyer", data[0].phone_ContactAgentBuyer)
+                        contactCadHeaderCadAgent.setValue("mobile_ContactAgentBuyer", data[0].mobile_ContactAgentBuyer)
+                        contactCadHeaderCadAgent.setValue("address_ContactAgentBuyer", data[0].address_ContactAgentBuyer)
+                        contactCadHeaderCadAgent.setValue("name_ContactBuyer", data[0].name_ContactBuyer)
+                        contactCadHeaderCadAgent.setValue("phone_ContactBuyer", data[0].phone_ContactBuyer)
+                        contactCadHeaderCadAgent.setValue("mobile_ContactBuyer", data[0].mobile_ContactBuyer)
+                        contactCadHeaderCadAgent.setValue("address_ContactBuyer", data[0].address_ContactBuyer)
+
+                        var feild_all_defintitons_save = JSON.parse(data[0].feild_all_defintitons_save)
+                                    for (const [key, value] of Object.entries(feild_all_defintitons_save)) {
+                                        valuesManagerArticle1.setValue(key,value);
+                                        if(key != 'definitionsOne' && key != 'feild_all_defintitons_save'){
+                                            itemsEditDefinitions(key,value,itemsDefinitionsCount)
+                                          }
+                                    }
+            })
         }
     });
 
@@ -214,3 +369,47 @@
             ListGrid_Cad
         ]
     });
+
+function itemsEditDefinitions(key,value,id) {
+       DynamicForm_ContactParameter_ValueNumber8.addFields([
+                {
+                    name: key,
+                    type: "text",
+                    length: 5000,
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Parameters,
+                    defaultValue:value,
+                    displayField: "paramValue",
+                    valueField: "paramValue",
+                    showTitle: false,
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "paramName", width: "25%", align: "center"},
+                        {name: "paramType", width: "25%", align: "center"},
+                        {name: "paramValue", width: "50%", align: "center"}
+                    ],
+                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName:"categoryValue",operator:"equals",value:1}]
+                    },
+                    showTitle: false,
+                    startRow: false,
+                    width: "1500",
+                    height: "30",
+                    title: "NAME",
+                    changed: function (form, item, value) {
+                        DynamicForm_ContactParameter_ValueNumber8.setValue(key, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
+                    }
+                },{
+                    name:"button"+id,
+                    type: "button",
+                    width: "10%",
+                    height: "30",
+                    title: "Remove",
+                    startRow: false,
+                    icon: "icons/16/message.png",
+                    click: function(){DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)}
+                    }
+            ]);
+       itemsDefinitionsCount++;
+    }

@@ -34,9 +34,6 @@
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
     <script src=isomorphic/skins/Tahoe/load_skin.js></script>
     <script src=isomorphic/locales/frameworkMessages.properties type="application/json"></script>
-    <script src= "https://unpkg.com/react@16/umd/react.production.min.js"></script>
-    <script src= "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
     <script type="application/javascript">
 
         (function loadFrameworkMessageFa() {
@@ -71,6 +68,7 @@
 </form>
 
 <script type="application/javascript">
+
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
@@ -311,7 +309,7 @@
 
     var headerLayout = isc.HLayout.create({
         width: "100%",
-        height: "3%",
+        height: 35,
         backgroundColor: "#153560",
         members: [salesIcon, emptyLabel_Before, emptyLabel_After, label_Username, languageForm, logoutButton]
     });
@@ -880,13 +878,24 @@
             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
         }
     });
+/*Add By JZ*/
+    var salesContractCharterButton = isc.IconButton.create({
+        title: "<spring:message code='salesContract.title'/>",
+        icon: "contract/charter.png",
+        largeIcon: "contract/charter.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/charter/showForm" />")
+        }
+    });
+
     var salesContractMoButton = isc.IconButton.create({
         title: "<spring:message code='salesContractMoButton.title'/>",
         icon: "contract/salesContract.png",
         largeIcon: "contract/salesContract.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+            createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
         }
     });
     var salesContractCADButton = isc.IconButton.create({
@@ -951,7 +960,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton,salesContractCADButton,salesContractConcButton]})
+            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton,salesContractCADButton,salesContractConcButton,salesContractCharterButton]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
@@ -997,11 +1006,11 @@
     });
     var OnWayProductButton = isc.IconButton.create({
         title: "<spring:message code='tozin.onWay'/>",
-        icon: "product/forklift.png",
-        largeIcon: "product/forklift.png",
+        icon: "product/deliveryPlan.png",
+        largeIcon: "product/deliveryPlan.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showForm" />")
+            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
         }
     });
     var tozinSalesButton = isc.IconButton.create({
