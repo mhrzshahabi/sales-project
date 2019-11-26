@@ -90,6 +90,15 @@
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
         click: function() {
+            console.log(ListGrid_WarehouseCadItem.selectAllRecords());
+            console.log(ListGrid_WarehouseCadItem.getSelectedRecords());
+            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
+
+            ListGrid_WarehouseCadItem.deselectAllRecords();
+
+            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
+            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
+            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
             ListGrid_WarehouseCadItem.startEditingNew();
         }
     });

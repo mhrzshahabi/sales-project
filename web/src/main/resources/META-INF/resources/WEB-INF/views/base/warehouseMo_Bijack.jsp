@@ -133,7 +133,17 @@
     var add_bundle_button = isc.IButton.create({
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
-        click: "ListGrid_WarehouseCadItem.startEditingNew()"
+        click: function() {
+            ListGrid_WarehouseCadItem.selectAllRecords();
+            if(ListGrid_WarehouseCadItem.getSelectedRecords().length >= 1){
+                isc.warn("only one item is ok.");
+                ListGrid_WarehouseCadItem.deselectAllRecords();
+                    return;
+            }
+            ListGrid_WarehouseCadItem.deselectAllRecords();
+
+            ListGrid_WarehouseCadItem.startEditingNew();
+        }
     });
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
