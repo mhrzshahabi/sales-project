@@ -40,7 +40,8 @@
         operator: "and",
         criteria: [
             {fieldName: "target","operator":"iContains","value":"رجا"},
-            {fieldName: "tozinId", operator: "notContains", value: '3%'}
+            {fieldName: "tozinId", operator: "notContains", value: '3%'},
+            {fieldName: "codeKala", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().codeKala}
         ]
     };
 
@@ -49,7 +50,8 @@
         operator: "and",
         criteria: [
             {fieldName: "target","operator":"iContains","value":"رجا"},
-            {fieldName: "tozinId", operator: "contains", value: '3%'}
+            {fieldName: "tozinId", operator: "contains", value: '3%'},
+            {fieldName: "codeKala", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().codeKala}
         ]
     };
 
@@ -157,7 +159,7 @@
                         DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
                         DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().carName);
                         DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().carName);
-                        DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().codeKala);
+                        DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().nameKala);
                         DynamicForm_warehouseCAD.setValue("sourceLoadDate", item.getSelectedRecord().tozinDate);
                         DynamicForm_warehouseCAD.setValue("containerNo", item.getSelectedRecord().containerId);
                     }
