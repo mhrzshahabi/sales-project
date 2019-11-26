@@ -14,7 +14,7 @@ import java.util.List;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_WAREHOUSE_CAD")
+@Table(name = "TBL_WAREHOUSE_CAD", uniqueConstraints = @UniqueConstraint(columnNames = {"BIJACK_NO"}))
 public class WarehouseCad extends Auditable {
 
     @Id

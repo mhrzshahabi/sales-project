@@ -22,10 +22,10 @@ public class WarehouseStock extends Auditable {
 	@Column(name = "ID")
 	private Long id;
 
-	@Column(name = "WAREHOUSE_NO", length = 20)
+	@Column(name = "WAREHOUSE_NO")
 	private String warehouseNo;
 
-	@Column(name = "PLANT", length = 20)
+	@Column(name = "PLANT")
 	private String plant;
 
 	@Setter(AccessLevel.NONE)

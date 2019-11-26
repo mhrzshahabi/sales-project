@@ -9,11 +9,8 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bundleSerial",title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "20%", summaryFunction:"count"},
-                {name: "sheetNo", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: "20%", summaryFunction:"sum"},
-                {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "20%"},
-                {name: "issueId", disabled: true, title: "<spring:message code='warehouseCadItem.issueId'/>", width: "20%"},
-                {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "20%"}
+                {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "25%"},
+                {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "25%"}
             ],
         fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
     });
@@ -42,7 +39,7 @@
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {fieldName: "target",  operator:"iContains", value:"رجا"},
+            {fieldName: "target","operator":"iContains","value":"رجا"},
             {fieldName: "tozinId", operator: "notContains", value: '3%'}
         ]
     };
@@ -51,7 +48,7 @@
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {fieldName: "target", operator:"iContains", value:"رجا"},
+            {fieldName: "target","operator":"iContains","value":"رجا"},
             {fieldName: "tozinId", operator: "contains", value: '3%'}
         ]
     };
@@ -69,68 +66,17 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bundleSerial"},
-                {name: "sheetNo"},
                 {name: "weightKg"},
-                {name: "issueId"},
                 {name: "description"}
             ],
         saveEdits: function () {
                 var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
-                if(warehouseCadItem.issueId !== undefined){
-                    isc.warn("can't edit. item is not in inventory.");
-                    return;
-                }
-                if(warehouseCadItem.bundleSerial === undefined || warehouseCadItem.sheetNo === undefined || warehouseCadItem.weightKg === undefined){
+                if(warehouseCadItem.weightKg === undefined){
                     isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
                     return;
                 }
-                warehouseCadItem.warehouseCadId = ListGrid_warehouseCAD.getSelectedRecord().id;
-
-                var method = "PUT";
-                if (warehouseCadItem.id == null)
-                    method = "POST";
-                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                        actionURL: "${contextPath}/api/warehouseCadItem/",
-                        httpMethod: method,
-                        data: JSON.stringify(warehouseCadItem),
-                        callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                isc.say("<spring:message code='global.form.request.successful'/>.");
-                                //fetch data automatically
-                                ListGrid_WarehouseCadItem.setData([]);
-                                ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": warehouseCadItem.warehouseCadId }, function (dsResponse, data, dsRequest) {
-                                    ListGrid_WarehouseCadItem.setData(data);
-                                });
-                            } else
-                                isc.say(RpcResponse_o.data);
-                        }
-                    })
-                );
         },
         removeData: function (data) {
-            if(data.issueId !== undefined){
-                    isc.warn("can't remove. item is not in inventory.");
-                    return;
-                }
-            var warehouseCadItemId = data.id;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/warehouseCadItem/" + warehouseCadItemId,
-                    httpMethod: "DELETE",
-                    callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                            ListGrid_WarehouseCadItem.setData([]);
-                            ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id}, function (dsResponse, data, dsRequest) {
-                                ListGrid_WarehouseCadItem.setData(data);
-                            });
-
-                            isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                        } else {
-                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                        }
-                    }
-                })
-            );
         }
     });
 
@@ -207,13 +153,13 @@
                         {name: "tozinPlantId"}
                     ],
                     changed(form, item, value) {
-                        DynamicForm_warehouseCAD.setValue("plant", item.getSelectedRecord().plant);
+                        DynamicForm_warehouseCAD.setValue("plant", item.getSelectedRecord().source);
                         DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
-                        DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().movementType);
-                        DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().warehouse);
-                        DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().materialItemId);
-                        DynamicForm_warehouseCAD.setValue("sourceLoadDate", item.getSelectedRecord().sourceLoadDate);
-                        DynamicForm_warehouseCAD.setValue("containerNo", item.getSelectedRecord().containerNo);
+                        DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().carName);
+                        DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().carName);
+                        DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().codeKala);
+                        DynamicForm_warehouseCAD.setValue("sourceLoadDate", item.getSelectedRecord().tozinDate);
+                        DynamicForm_warehouseCAD.setValue("containerNo", item.getSelectedRecord().containerId);
                     }
                 },
                 {
@@ -302,10 +248,8 @@
                     colSpan: 1,
                     titleColSpan: 1
                 },
-                {name: "sourceBundleSum", title: "<spring:message code='warehouseCad.sourceBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationBundleSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "sourceSheetSum", title: "<spring:message code='warehouseCad.sourceSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationSheetSum", title: "<spring:message code='warehouseCad.destinationSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "sourceWeight", title: "<spring:message code='warehouseCad.sourceWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "destinationWeight", title: "<spring:message code='warehouseCad.destinationWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
                  {
                     type: "Header",
                     defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"
@@ -322,14 +266,14 @@
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
 
-            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_warehouseCAD.getSelectedRecord().materialItemId);
+            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             var warehouseCadItems = [];
 
             ListGrid_WarehouseCadItem.selectAllRecords();
-            if (ListGrid_WarehouseCadItem.data.length === 0) {
-                isc.warn("no items");
-                return;
+            if (ListGrid_WarehouseCadItem.data.length == 0 ) {
+               isc.warn("no items");
+               return;
             }
 
             ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function(element) {
@@ -353,6 +297,7 @@
                     callback: function (resp) {
                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_Tozin_refresh();
                             Window_Bijack.close();
                         } else
                             isc.say(RpcResponse_o.data);
@@ -363,21 +308,15 @@
     });
 
     ListGrid_WarehouseCadItem.setData([]);
-    ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id},
-        function (dsResponse, data, dsRequest) {
-            ListGrid_WarehouseCadItem.setData(data);
-        });
-
     DynamicForm_warehouseCAD.clearValues();
-    DynamicForm_warehouseCAD.editRecord(ListGrid_warehouseCAD.getSelectedRecord());
 
-    DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_warehouseCAD.getSelectedRecord().materialItem.gdsName);
-    DynamicForm_warehouseCAD.setValue("plant", ListGrid_warehouseCAD.getSelectedRecord().plant);
+    DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().nameKala);
+    DynamicForm_warehouseCAD.setValue("plant",ListGrid_Tozin.getSelectedRecord().source);
     DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
-    DynamicForm_warehouseCAD.setValue("movementType", ListGrid_warehouseCAD.getSelectedRecord().movementType);
-    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_warehouseCAD.getSelectedRecord().sourceTozinPlantId);
-    DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_warehouseCAD.getSelectedRecord().sourceLoadDate);
-    DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_warehouseCAD.getSelectedRecord().containerNo);
+    DynamicForm_warehouseCAD.setValue("movementType",DynamicForm_DailyReport_Tozin4.getValues().type);
+    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId",ListGrid_Tozin.getSelectedRecord().tozinPlantId);
+    DynamicForm_warehouseCAD.setValue("sourceLoadDate",ListGrid_Tozin.getSelectedRecord().tozinDate);
+    DynamicForm_warehouseCAD.setValue("containerNo",ListGrid_Tozin.getSelectedRecord().containerId);
 
     isc.VLayout.create({
         width: 810,

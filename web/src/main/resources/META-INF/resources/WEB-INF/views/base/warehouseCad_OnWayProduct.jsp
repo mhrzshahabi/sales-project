@@ -41,7 +41,7 @@
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {"fieldName":"target","operator":"iContains","value":"رجا"},
+            {fieldName: "target","operator":"iContains","value":"رجا"},
             {fieldName: "tozinId", operator: "notContains", value: '3%'}
         ]
     };
@@ -50,7 +50,7 @@
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {"fieldName":"target","operator":"iContains","value":"رجا"},
+            {fieldName: "target","operator":"iContains","value":"رجا"},
             {fieldName: "tozinId", operator: "contains", value: '3%'}
         ]
     };
@@ -79,53 +79,8 @@
                     isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
                     return;
                 }
-                alert(DynamicForm_warehouseCAD.getValues().edit)
-                if(DynamicForm_warehouseCAD.getValues().edit === undefined)
-                    return;
-                warehouseCadItem.warehouseCadId = ListGrid_warehouseCAD.getSelectedRecord().id;
-                warehouseCadItem.warehouseCadId = ListGrid_warehouseCAD.getSelectedRecord().id;
-
-                var method = "PUT";
-                if (warehouseCadItem.id == null)
-                    method = "POST";
-                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                        actionURL: "${contextPath}/api/warehouseCadItem/",
-                        httpMethod: method,
-                        data: JSON.stringify(warehouseCadItem),
-                        callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                isc.say("<spring:message code='global.form.request.successful'/>.");
-                                //fetch data automatically
-                                ListGrid_WarehouseCadItem.setData([]);
-                                ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": warehouseCadItem.warehouseCadId }, function (dsResponse, data, dsRequest) {
-                                    ListGrid_WarehouseCadItem.setData(data);
-                                });
-                            } else
-                                isc.say(RpcResponse_o.data);
-                        }
-                    })
-                );
         },
         removeData: function (data) {
-            var warehouseCadItemId = data.id;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/warehouseCadItem/" + warehouseCadItemId,
-                    httpMethod: "DELETE",
-                    callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-
-                            ListGrid_WarehouseCadItem.setData([]);
-                            ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id}, function (dsResponse, data, dsRequest) {
-                                ListGrid_WarehouseCadItem.setData(data);
-                            });
-
-                            isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                        } else {
-                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                        }
-                    }
-                })
-            );
         }
     });
 
@@ -153,7 +108,8 @@
                 {
                     name: "bijackNo",
                     title: "<spring:message code='warehouseCad.bijackNo'/>",
-                    type: 'text'
+                    type: 'text',
+                    required: true
                 },
                 {
                     name: "materialItemId",
@@ -347,6 +303,7 @@
                     callback: function (resp) {
                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_Tozin_refresh();
                             Window_Bijack.close();
                         } else
                             isc.say(RpcResponse_o.data);
@@ -357,13 +314,7 @@
     });
 
     ListGrid_WarehouseCadItem.setData([]);
-    ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id},
-        function (dsResponse, data, dsRequest) {
-            ListGrid_WarehouseCadItem.setData(data);
-        });
-
     DynamicForm_warehouseCAD.clearValues();
-    DynamicForm_warehouseCAD.editRecord(ListGrid_warehouseCAD.getSelectedRecord());
 
     DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().nameKala);
     DynamicForm_warehouseCAD.setValue("plant",ListGrid_Tozin.getSelectedRecord().source);

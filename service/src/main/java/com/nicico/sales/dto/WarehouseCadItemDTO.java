@@ -22,6 +22,7 @@ public class WarehouseCadItemDTO {
     private String lotName;
     private Long barrelNo;
     private Double weightKg;
+    private Double issueId;
     private Double description;
 
     // ------------------------------
