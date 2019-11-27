@@ -49,7 +49,7 @@
         })
     }
 
-    var contactCadTabs = isc.TabSet.create({
+var contactCadTabs = isc.TabSet.create({
         width: "100%",
         height: "97%",
         tabs: [
@@ -108,11 +108,11 @@
             dataSaveAndUpdateContractCad.timeIssuance = "any";
             dataSaveAndUpdateContractCad.prefixPayment = "any";
             dataSaveAndUpdateContractCad.invoiceType = "any";
-            dataSaveAndUpdateContractCad.runStartDate = valuesManagerArticle5_quality.getValue("runStartDate");
-            dataSaveAndUpdateContractCad.runTill = valuesManagerArticle5_quality.getValue("runTill");
-            dataSaveAndUpdateContractCad.runEndtDate = valuesManagerArticle5_quality.getValue("runEndtDate");
-            dataSaveAndUpdateContractCad.incotermsId = valuesManagerArticle6_quality.getValue("incotermsId");
-            dataSaveAndUpdateContractCad.portByPortSourceId = valuesManagerArticle6_quality.getValue("portByPortSourceId");
+            dataSaveAndUpdateContractCad.runStartDate = "";
+            dataSaveAndUpdateContractCad.runTill = "";
+            dataSaveAndUpdateContractCad.runEndtDate = "";
+            dataSaveAndUpdateContractCad.incotermsId = 1952;
+            dataSaveAndUpdateContractCad.portByPortSourceId = 1;
             dataSaveAndUpdateContractCad.incotermsText = valuesManagerArticle6_quality.getValue("incotermsText");
             dataSaveAndUpdateContractCad.officeSource = "TEHRAN";
             dataSaveAndUpdateContractCad.priceCalPeriod = "any";
@@ -206,7 +206,7 @@
         dataSaveAndUpdateContractCadDetail.article6_Containerized_5 = "";
         dataSaveAndUpdateContractCadDetail.article7_number41 = "";
         dataSaveAndUpdateContractCadDetail.article7_number3 = "";
-        dataSaveAndUpdateContractCadDetail.article7_number37 = "";
+        dataSaveAndUpdateContractCadDetail.article7_number37 = valuesManagerArticle7_quality.getValue("article7_quality1");
         dataSaveAndUpdateContractCadDetail.article7_number3_1 = "";
         dataSaveAndUpdateContractCadDetail.article7_number39_1 = "";
         dataSaveAndUpdateContractCadDetail.article7_number40_2 = "";
@@ -281,8 +281,8 @@
         dataSaveAndUpdateContractCadDetail.article8_number42 = "";
         dataSaveAndUpdateContractCadDetail.article8_3 = "";
         dataSaveAndUpdateContractCadDetail.article8_value = "";
-        dataSaveAndUpdateContractCadDetail.article8_number43 = "";
-        dataSaveAndUpdateContractCadDetail.article8_number44_1 = "";
+        dataSaveAndUpdateContractCadDetail.article8_number43 = valuesManagerArticle8_quality.getValue("article8_quality1");
+        dataSaveAndUpdateContractCadDetail.article8_number44_1 = valuesManagerArticle8_quality.getValue("article8_quality2");
         dataSaveAndUpdateContractCadDetail.article9_number45 = "";
         dataSaveAndUpdateContractCadDetail.article9_number22 = "";
         dataSaveAndUpdateContractCadDetail.article9_Englishi_number22 = "";
@@ -300,10 +300,15 @@
         dataSaveAndUpdateContractCadDetail.article10_number59 =valuesManagerArticle10_quality.getValue("article10_number59");
         dataSaveAndUpdateContractCadDetail.article10_number60 =valuesManagerArticle10_quality.getValue("article10_number60");
         dataSaveAndUpdateContractCadDetail.article10_number61 =valuesManagerArticle10_quality.getValue("article10_number61");
-
+        if(recordContractId != null){
+            var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:952},{fieldName:"contractNo",operator:"equals",value:"testJADIDversion3333"}]};
+            RestDataSource_ContractForValidation.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
+                alert(JSON.stringify(data));
+            })
+        }else{
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
-                httpMethod: "POST",
+                httpMethod: methodHtpp,
                 data: JSON.stringify(dataSaveAndUpdateContractCad),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
@@ -314,7 +319,7 @@
                     } else
                         isc.say(RpcResponse_o.data);
                 }
-            }))
+            }))}
         }
     })
     var contactCadFormButtonSaveLayout = isc.HStack.create({
@@ -330,12 +335,13 @@
         ]
     });
 
-    var VLayout_contactCadMain = isc.VLayout.create({
+var VLayout_contactCadMain = isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "center",
         overflow: "scroll",
         autoCenter: true,
+        margin: 10,
         isModal: true,
         showModalMask: true,
         autoScroller: true,
@@ -349,12 +355,14 @@
     })
 
 
-    function saveListGrid_ContractCadItemShipment(contractID) {
+function saveListGrid_ContractCadItemShipment(contractID) {
         ListGrid_ContractItemShipment.selectAllRecords();
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             var data_ContractItemShipment = ListGrid_ContractItemShipment.getEditedRecord(element);
             data_ContractItemShipment.contractId = contractID;
+            data_ContractItemShipment.sendDate=sendDateSet;
             data_ContractItemShipment.dischargeId = 11022;
+            alert(JSON.stringify(data_ContractItemShipment));
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -379,7 +387,7 @@
         dataALLArticle.Article08 = article8_quality.getValue("fullArticle8");
         dataALLArticle.Article09 = article9_quality.getValue("fullArticle9");
         dataALLArticle.Article10 = article10_quality.getValue("fullArticle10");
-        dataALLArticle.Article11 = "";
+        dataALLArticle.Article11 = article11_quality.getValue("fullArticle11");
         dataALLArticle.Article12 = article12_quality.getValue("fullArticle12");
         dataALLArticle.contractNo = contactCadHeader.getValue("contractNo");
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -401,13 +409,31 @@ function saveCotractCadDetails(data, contractID) {
         allData.string_Currency="null";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",
-            httpMethod: "POST",
+            httpMethod: methodHtpp,
             data: JSON.stringify(allData),
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    isc.say("<spring:message code='global.form.request.successful'/>.");
+                    saveListGrid_ContractCadItemShipment(contractID);
                 } else
                     isc.say(RpcResponse_o.data);
             }
         }))
     }
+
+function clearAdd(){
+        contactCadTabs.selectTab(0);
+        contactCadHeader.clearValues();
+        contactCadHeaderCadAgent.clearValues();
+        valuesManagerArticle1.clearValues();
+        valuesManagerArticle2Cad.clearValues();
+        valuesManagerArticle3_quality.clearValues();
+        valuesManagerArticle4_quality.clearValues();
+        valuesManagerArticle5_quality.clearValues();
+        valuesManagerArticle6_quality.clearValues();
+        valuesManagerArticle7_quality.clearValues();
+        valuesManagerArticle8_quality.clearValues();
+        valuesManagerArticle9_quality.clearValues();
+        valuesManagerArticle10_quality.clearValues();
+        valuesManagerArticle11_quality.clearValues();
+        valuesManagerArticle12_quality.clearValues();
+}

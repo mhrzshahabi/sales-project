@@ -4,8 +4,16 @@
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
+    var criteriaContractItemShipment;
+    var methodHtpp="";
+    var recordContractId;
+
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
+    });
+
+    var RestDataSource_ContractForValidation = isc.MyRestDataSource.create({
+        fetchDataURL: "${contextPath}/api/contract/list"
     });
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
@@ -183,7 +191,7 @@
             ]
     });
 
-    var Window_ContactCad = isc.Window.create({
+var Window_ContactCad = isc.Window.create({
         title: "<spring:message code='contact.title'/>",
         width: "100%",
         height: "100%",
@@ -193,6 +201,7 @@
         align: "center",
         autoDraw: false,
         autoScroller: false,
+        loadingMessage: "Loading Page..",
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
@@ -209,20 +218,9 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-        Window_ContactCad.animateShow();
-        contactCadHeader.clearValues();
-        contactCadHeaderCadAgent.clearValues();
-        valuesManagerArticle1.clearValues();
-        valuesManagerArticle2Cad.clearValues();
-        valuesManagerArticle3_quality.clearValues();
-        valuesManagerArticle4_quality.clearValues();
-        valuesManagerArticle5_quality.clearValues();
-        valuesManagerArticle6_quality.clearValues();
-        valuesManagerArticle7_quality.clearValues();
-        valuesManagerArticle8_quality.clearValues();
-        valuesManagerArticle9_quality.clearValues();
-        valuesManagerArticle10_quality.clearValues();
-        valuesManagerArticle12_quality.clearValues();
+        methodHtpp="POST";
+        Window_ContactCad.show();
+        setTimeout(function(){clearAdd()},250)
         }
     });
 
@@ -232,7 +230,19 @@
         click: function () {
             var textMain;
             var record = ListGrid_Cad.getSelectedRecord();
-            Window_ContactCad.animateShow();
+            recordContractId=record;
+            criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
+            if (record == null || record.id == null) {
+                                    isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }});
+        } else {
+            Window_ContactCad.show();
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract/readWord",
                 httpMethod: "PUT",
@@ -241,9 +251,9 @@
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         var text = resp.httpResponseText;
                         var text2 = text.replaceAll('","', '","').replaceAll('&','":"')
-                        ///console.log(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'))
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
                         setTimeout(function(){
+                                contactCadTabs.selectTab(0);
                                 contactCadHeader.setValue("createDateDumy", record.contractDate)
                                 contactCadHeader.setValue("contractNo", record.contractNo)
                                 contactCadHeader.setValue("contactId", record.contactId)
@@ -258,11 +268,8 @@
                                 valuesManagerArticle3_quality.setValue("plant", record.plant);
                                 valuesManagerArticle4_quality.setValue("article4_quality1",record.mo_amount);
                                 valuesManagerArticle4_quality.setValue("article4_quality2",record.copper);
-                                valuesManagerArticle5_quality.setValue("runStartDate",record.runStartDate);
-                                valuesManagerArticle5_quality.setValue("runTill",record.runTill);
-                                valuesManagerArticle5_quality.setValue("runEndtDate",record.runEndtDate);
-                                valuesManagerArticle6_quality.setValue("incotermsId",record.incotermsId);
-                                valuesManagerArticle6_quality.setValue("portByPortSourceId",record.portByPortSourceId);
+                                valuesManagerArticle6_quality.setValue("incotermsId","FOB");
+                                valuesManagerArticle6_quality.setValue("portByPortSourceId","BANDAR ABBAS");
                                 valuesManagerArticle6_quality.setValue("incotermsText",record.incotermsText);
                                 article3_quality.setValue("fullArticle3",textMain.Article03);
                                 article4_quality.setValue("fullArticle4",textMain.Article04);
@@ -272,10 +279,11 @@
                                 article8_quality.setValue("fullArticle8",textMain.Article08);
                                 article9_quality.setValue("fullArticle9",textMain.Article09);
                                 article10_quality.setValue("fullArticle10",textMain.Article10);
+                                article11_quality.setValue("fullArticle11",textMain.Article11);
                                 article12_quality.setValue("fullArticle12",textMain.Article12);
                         },15)
                     }else{
-                        alert("aaaa");
+                        alert(RpcResponse_o.data);
                         isc.say(RpcResponse_o.data);
                 }
                 }
@@ -299,7 +307,15 @@
                         contactCadHeaderCadAgent.setValue("phone_ContactBuyer", data[0].phone_ContactBuyer)
                         contactCadHeaderCadAgent.setValue("mobile_ContactBuyer", data[0].mobile_ContactBuyer)
                         contactCadHeaderCadAgent.setValue("address_ContactBuyer", data[0].address_ContactBuyer)
-
+                        valuesManagerArticle7_quality.setValue("article7_quality1",data[0].article7_number37);
+                        valuesManagerArticle8_quality.setValue("article8_quality1",data[0].article8_number43);
+                        valuesManagerArticle8_quality.setValue("article8_quality2",data[0].article8_number44_1);
+                        valuesManagerArticle10_quality.setValue("article10_number56",data[0].article10_number56);
+                        valuesManagerArticle10_quality.setValue("article10_number57",data[0].article10_number57);
+                        valuesManagerArticle10_quality.setValue("article10_number58",data[0].article10_number58);
+                        valuesManagerArticle10_quality.setValue("article10_number59",data[0].article10_number59);
+                        valuesManagerArticle10_quality.setValue("article10_number60",data[0].article10_number60);
+                        valuesManagerArticle10_quality.setValue("article10_number61",data[0].article10_number61);
                         var feild_all_defintitons_save = JSON.parse(data[0].feild_all_defintitons_save)
                                     for (const [key, value] of Object.entries(feild_all_defintitons_save)) {
                                         valuesManagerArticle1.setValue(key,value);
@@ -307,9 +323,10 @@
                                             itemsEditDefinitions(key,value,itemsDefinitionsCount)
                                           }
                                     }
+                        ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
             })
         }
-    });
+    }});
 
     var ToolStripButton_Contact_Remove = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/edit.png",
@@ -413,3 +430,4 @@ function itemsEditDefinitions(key,value,id) {
             ]);
        itemsDefinitionsCount++;
     }
+

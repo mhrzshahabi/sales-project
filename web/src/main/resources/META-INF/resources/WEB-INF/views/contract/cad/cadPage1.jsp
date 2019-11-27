@@ -7,7 +7,7 @@
     <% DateUtil dateUtil = new DateUtil();%>
 
     var itemsDefinitionsCount = 0;
-
+    var optionSet;
     factoryLableHedear("LablePage", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
     factoryLable("lableNameContact", '<b><font size=4px>COPPER CATHODES CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
     factoryLableArticle("lableArticle1", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
@@ -606,6 +606,7 @@ var vlayoutBody = isc.VLayout.create({
                 name: "optional", //article2_14
                 startRow: false,
                 title: '<b><font size=2px>(IN</font><b>',
+                defaultValue: 1,
                 valueMap: {
                     "1": "SELLERS OPTION",
                     "2": "BUYER OPTION"

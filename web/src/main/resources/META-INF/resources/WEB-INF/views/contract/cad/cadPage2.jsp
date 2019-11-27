@@ -2,12 +2,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
+
+
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
 
     var imanageNote = 0;
-
+    var amountSet;
+    var sendDateSet;
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>', "30", 5)
     factoryLableArticle("lableArticle4", '<b><font size=4px>Article 4 -PACKING</font><b>', "30", 5)
     factoryLableArticle("lableArticle5", '<b><font size=4px>Article 5 -SHIPMENT</font><b>', "30", 5)
@@ -24,6 +27,7 @@
         valuesManager: "valuesManagerArticle3_quality",
         height: "20",
         width: "100%",
+        membersMargin:5,  layoutMargin:10,
         wrapItemTitles: false,
         items: [
             {
@@ -32,7 +36,7 @@
                 showTitle: true,
                 width: "500",
                 wrap: false,
-                title: "  PLANTS THAT MATERIALS ARE PRODUCED IN ",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>PLANTS THAT MATERIALS ARE PRODUCED IN</strong>",changed: function (form, item, value) {
                         article3_quality.setValue("fullArticle3","NICICO ELECTROLYTIC COPPER CATHODES GRANDE A PRODUCED IN"+" "+value);
                 }
             },{
@@ -52,6 +56,7 @@ var article4_quality = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle4_quality",
         height: "20",
         width: "100%",
+         membersMargin:5,  layoutMargin:10,
         wrapItemTitles: false,
         items: [
             {
@@ -60,7 +65,7 @@ var article4_quality = isc.DynamicForm.create({
                 showTitle: true,
                 width: "500",
                 wrap: false,
-                title: "  BUNDELS TONNAGE IN MT FOR ELECTROLYTIC COPPER CATHODES ",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>BUNDELS TONNAGE IN MT FOR ELECTROLYTIC COPPER CATHODES</strong>",changed: function (form, item, value) {
                         article4_quality.setValue("fullArticle4","IN BUNDLES OF "+" "+value+" "+" METRIC TONS FOR ELECTROLYTIC COPPER CATHODES AND "+" "+article4_quality.getValue("article4_quality2")+" "+" METRIC TONS FOR(SXEW),EACH STARAPPED FOR SAFE OCEAN TRANSPORTATION");
                 }
             }
@@ -70,7 +75,7 @@ var article4_quality = isc.DynamicForm.create({
                 showTitle: true,
                 wrap: false,
                 width: "500",
-                title: "BUNDELS TONNAGE IN MT FOR SXEW",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>BUNDELS TONNAGE IN MT FOR SXEW</strong>",changed: function (form, item, value) {
                         article4_quality.setValue("fullArticle4","IN BUNDLES OF "+" "+article4_quality.getValue("article4_quality1")+" "+" METRIC TONS FOR ELECTROLYTIC COPPER CATHODES AND "+" "+value+" "+" METRIC TONS FOR(SXEW),EACH STARAPPED FOR SAFE OCEAN TRANSPORTATION");
                 }
             },{
@@ -141,7 +146,12 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     title: "<spring:message code='global.amount'/>",
                     type: 'float',
                     width: 100,
-                    align: "center"
+                    align: "center",changed: function (form, item, value) {
+                       if(ListGrid_ContractItemShipment.getEditRow()==0){
+                           amountSet=value;
+                           valuesManagerArticle5_quality.setValue("fullArticle5",value+"MT");
+                        }
+                }
                 },
                 {
                     name: "sendDate",
@@ -150,7 +160,9 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     type: "date",
                     required: false,
                     width: "200",
-                    wrapTitle: false,
+                    wrapTitle: false,changed: function (form, item, value) {
+                        sendDateSet = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
+                    }
                 },
                 {
                     name: "duration",
@@ -160,7 +172,12 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     align: "center"
                 },
                 {
-                    name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>", type: 'text', width: 80, align: "center"
+                name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",
+                    type: 'text', width: 80, align: "center",changed: function (form, item, value) {
+                       if(ListGrid_ContractItemShipment.getEditRow()==0){
+                           valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
+                        }
+                }
                 },
             ],saveEdits: function () {
                 var ContractItemShipmentRecord = ListGrid_ContractItemShipment.getEditedRecord(ListGrid_ContractItemShipment.getEditRow());
@@ -181,8 +198,6 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                         }
                     }))
                 }
-
-
         },removeData: function (data) {
             var ContractShipmentId = data.id;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -209,56 +224,6 @@ var article5_quality = isc.DynamicForm.create({
         wrapItemTitles: false,
         items: [
             {
-                name: "article5_quality1",
-                type: "text",
-                showTitle: true,
-                width: "500",
-                wrap: false,
-                title: "AMOUNT OF EACH SHIPMENT",changed: function (form, item, value) {
-                        article5_quality.setValue("fullArticle5",value+"MT +/-2 %("+" "+article5_quality.getValue("article5optional")+" "+" 'S OPTION) PER EACH CALENDER MONTH STARTING FROM JANUARY 2019 TILL DECEMBER 2019 (BOTH MONTH INCLUDED)");
-                }
-            }
-            , {
-                name: "article5optional",
-                type: "text",
-                showTitle: true,
-                wrap: false,
-                width: "500",
-                valueMap: {
-                    "SELLERS": "SELLERS",
-                    "BUYER": "BUYER"
-                },
-                title: "  SHIPMENT OPTION",changed: function (form, item, value) {
-                        article5_quality.setValue("fullArticle5",article5_quality.getValue("article5_quality1")+"MT +/-2 %("+" "+value+" "+" 'S OPTION) PER EACH CALENDER MONTH STARTING FROM JANUARY 2019 TILL DECEMBER 2019 (BOTH MONTH INCLUDED)");
-                }
-            } , {
-                name: "runStartDate",
-                type:"date",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                showTitle: true,
-                wrap: false,
-                width: "500",
-                title: "  START DATE OF SHIPMENT"
-            },{
-                name: "runTill", ///article5_number26
-                showTitle: true,
-                wrap: false,
-                width: "500",
-                valueMap: {
-                    "AFTER": "AFTER",
-                    "TILL": "TILL",
-                    "BEFORE": "BEFORE"
-                },
-                title: ''
-            },{
-                name: "runEndtDate",
-                type:"date",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                showTitle: true,
-                wrap: false,
-                width: "500",
-                title: "  END DATE OF SHIPMENT"
-            },{
                 name: "fullArticle5",
                 disabled: false,
                 type: "text",
@@ -285,7 +250,7 @@ var article6_quality = isc.DynamicForm.create({
                 defaultValue: "INCOTERMS 2010",
                 width: "500",
                 wrap: false,
-                title: "CONTRACT INCOTERMS",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>CONTRACT INCOTERMS</strong>",changed: function (form, item, value) {
                    //article6_quality.setValue("fullArticle6",textTes);
                 }
             }
@@ -294,19 +259,19 @@ var article6_quality = isc.DynamicForm.create({
                 type: "text",
                 showTitle: true,
                 disabled: true,
-                defaultValue: "1", ///FOB
+                defaultValue: "FOB", ///FOB
                 wrap: false,
                 width: "500",
-                title: "SHIPMENT TYPE"
+                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             } , {
                 name: "portByPortSourceId",
                 type: "text",
                 showTitle: true,
                 disabled: true,
-                defaultValue: "1",  //BANDAR ABBAS
+                defaultValue: "<strong class='cssDynamicForm'>BANDAR ABBAS<strong>",  //BANDAR ABBAS
                 wrap: false,
                 width: "500",
-                title: "SOURCE PORT"
+                title: "<strong class='cssDynamicForm'>SOURCE PORT</strong>"
             },{
                 name: "fullArticle6",
                 disabled: false,
@@ -334,7 +299,7 @@ var article6_quality = isc.DynamicForm.create({
                 defaultValue: "LME",
                 width: "500",
                 wrap: false,
-                title: "  PRICE REFERENCE",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>PRICE REFERENCE</strong>",changed: function (form, item, value) {
                         article7_quality.setValue("fullArticle7","THE PRICE PER METRIC TON OF THE MATERIAL SHALL BE THE OFFICIAL "+" "+value+" "+" CASH SETTLEMENT PRICE FOR COPPER GRADE 'A' IN USD AS PUBLISHED IN THE LONDOM METAL BULLETIN AVERAGED OVER THE QUOTATIONAL PERIOD I.E."+" "+value+" "+" FLAT FOB BANDAR ABBAS/IRAN BASIS.");
                 }
             },{
@@ -363,7 +328,7 @@ var article8_quality = isc.DynamicForm.create({
                 defaultValue: "",
                 width: "500",
                 wrap: false,
-                title: "  AVERAGE OF WORKING DAYS OF QUOTATIONAL PERIOD",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>AVERAGE OF WORKING DAYS OF QUOTATIONAL PERIOD<strong>",changed: function (form, item, value) {
                         article8_quality.setValue("fullArticle8","THE QUOTATIONAL PERIOD SHALL BE AVERAGE OF "+" "+value+" "+" WORKING DAYS FROM "+" "+article8_quality.getValue("article8_quality2")+" "+" LME WORKING DAYS PRIOR DATE OF BILL OF LADING TILL "+" "+article8_quality.getValue("article8_quality3")+" "+" LME WORKING DAYS AFTER BILL OF LADING DATA ON FOB BANDAR ABBAS/IRAN BASIS");
                 }
             },{
@@ -373,7 +338,7 @@ var article8_quality = isc.DynamicForm.create({
                 defaultValue: "",
                 width: "500",    //5
                 wrap: false,
-                title: "  NUMBER OF DAYS BEFORE BL",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>NUMBER OF DAYS BEFORE BL</strong>",changed: function (form, item, value) {
                         article8_quality.setValue("fullArticle8","THE QUOTATIONAL PERIOD SHALL BE AVERAGE OF "+" "+article8_quality.getValue("article8_quality1")+" "+" WORKING DAYS FROM "+" "+value+" "+" LME WORKING DAYS PRIOR DATE OF BILL OF LADING TILL "+" "+article8_quality.getValue("article8_quality3")+" "+" LME WORKING DAYS AFTER BILL OF LADING DATA ON FOB BANDAR ABBAS/IRAN BASIS");
                 }
             },{
@@ -383,7 +348,7 @@ var article8_quality = isc.DynamicForm.create({
                 defaultValue: "",
                 width: "500",    //
                 wrap: false,
-                title: "  NUMBER OF DAYS AFTER BL",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>NUMBER OF DAYS AFTER BL</strong>",changed: function (form, item, value) {
                         article8_quality.setValue("fullArticle8","THE QUOTATIONAL PERIOD SHALL BE AVERAGE OF "+" "+article8_quality.getValue("article8_quality1")+" "+" WORKING DAYS FROM "+" "+article8_quality.getValue("article8_quality2")+" "+" LME WORKING DAYS PRIOR DATE OF BILL OF LADING TILL "+" "+value+" "+" LME WORKING DAYS AFTER BILL OF LADING DATA ON FOB BANDAR ABBAS/IRAN BASIS");
                 }
             },{
@@ -412,7 +377,7 @@ var article9_quality = isc.DynamicForm.create({
                 defaultValue: "",
                 width: "500",
                 wrap: false,
-                title: "  PAYMENT METHOD"
+                title: "<strong class='cssDynamicForm'>PAYMENT METHOD</strong>"
             },{
                 name: "article9_quality2",
                 type: "text",
@@ -420,7 +385,7 @@ var article9_quality = isc.DynamicForm.create({
                 defaultValue: "",
                 width: "500",
                 wrap: false,
-                title: "  PAYMENT PERCENTAGE OF PROFORMA INVOICE PROVISIONAL"
+                title: "<strong class='cssDynamicForm'>PAYMENT PERCENTAGE OF PROFORMA INVOICE PROVISIONAL<strong>"
             },{
                 name: "fullArticle9",
                 disabled: false,
@@ -448,7 +413,7 @@ var article10_quality = isc.DynamicForm.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: false,
-                title: 'PULL DOWN'
+                title: "<strong class='cssDynamicForm'>PULL DOWN</strong>"
              },
              {
                 name: "article10_number57",
@@ -471,14 +436,14 @@ var article10_quality = isc.DynamicForm.create({
                         {fieldName: "contractId", operator: "equals", value: 1},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
-                title: 'BANK REFERENCE'
+                title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"
              },{
                 name: "article10_number58",
                 width: "150",
                 showTitle: true,
                 defaultValue: "",
                 startRow: true,
-                title: 'PULL DOWN'
+                title: "<strong class='cssDynamicForm'>PULL DOWN</strong>"
              },
              {
                 name: "article10_number59",
@@ -502,7 +467,7 @@ var article10_quality = isc.DynamicForm.create({
                         {fieldName: "contractId", operator: "equals", value: 1},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
-                title: 'BANK REFERENCE'
+                title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"
             },{
                 name: "article10_number60",
                 width: "150",
@@ -510,14 +475,14 @@ var article10_quality = isc.DynamicForm.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: true,
-                title: 'EXCHANGE RATE DATE'
+                title: "<strong class='cssDynamicForm'>EXCHANGE RATE DATE</strong>"
             },{
                 name: "article10_number61",
                 width: "150",
                 showTitle: true,
                 defaultValue: "",
                 startRow: false,
-                title: 'RATE'
+                title: "<strong class='cssDynamicForm'>RATE</strong>"
             },{
                 name: "fullArticle10",
                 disabled: false,
@@ -532,7 +497,26 @@ var article10_quality = isc.DynamicForm.create({
             }
         ]
     });
-
+var article11_quality = isc.DynamicForm.create({
+        valuesManager: "valuesManagerArticle11_quality",
+        height: "20",
+        width: "100%",
+        wrapItemTitles: false,
+        items: [
+            {
+                name: "fullArticle11",
+                disabled: false,
+                type: "text",
+                length: 5000,
+                startRow: true,
+                showTitle: false,
+                colSpan: 10,
+                defaultValue: "TITLE:\nLEGAL TITLE OF THE MATERIAL SHALL PASS FROM SELLER TO BUYER OR ITS NOMINATED PARTY FOR EACH SHIPMENT AT EARLIEST MOMENT WHEN PROVISIONAL PAYMENT HAS BEEN RECEIVED.\n RISC: \n RISK OF LOSS SHALL PASS TO BUYER IN ACCORDANCE WITH FOB.(INCOMTERMS 2010).",
+                title: "fullArticle11",
+                width: "*"
+            }
+        ]
+    })
 var article12_quality = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle12_quality",
         height: "20",
@@ -546,12 +530,12 @@ var article12_quality = isc.DynamicForm.create({
                 defaultValue: "",
                 width: "500",
                 wrap: false,
-                title: "  SHARE OF INSPECTION COST"
+                title: "<strong class='cssDynamicForm'>SHARE OF INSPECTION COST<strong>"
             },{
                 name: "fullArticle12",
                 disabled: false,
                 type: "text",
-                defaultValue: "",
+                defaultValue: "SELLER AND BUYER MUTUALLY APPOINT AN INTERNATIONAL INSPECTION COMPANY AT THE PORT OF LOADING FOR WEIGHING PROCEDURE AND THE COST SHALL BE SHARED MUTUALLY BETWEEN SELLER AND BUYER 50/50. BILL OF LADING SHALL BE ISSUED BASED ON WEIGHT WHICH IS REPORTED BY INTERNATIONAL INSPECTION COMPANY.BUYER CAN ALSO APPOINT ITS REPRESENTATIVE AT BANDAR ABBAS PORT FOR INSPECTION OF WEIGHING AT ITS OWN COST.",
                 length: 5000,
                 showTitle: false,
                 colSpan: 2,
@@ -587,6 +571,7 @@ var article12_quality = isc.DynamicForm.create({
             lableArticle10,
             article10_quality,
             lableArticle11,
+            article11_quality,
             lableArticle12,
             article12_quality,
             lableArticle13
