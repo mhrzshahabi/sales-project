@@ -8,7 +8,9 @@ import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseIssueConsDTO;
 import com.nicico.sales.iservice.IWarehouseIssueConsService;
 import com.nicico.sales.model.entities.base.WarehouseIssueCons;
+import com.nicico.sales.model.entities.base.WarehouseStock;
 import com.nicico.sales.repository.WarehouseIssueConsDAO;
+import com.nicico.sales.repository.WarehouseStockDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class WarehouseIssueConsService implements IWarehouseIssueConsService {
 
     private final WarehouseIssueConsDAO warehouseIssueConsDAO;
+    private final WarehouseStockDAO warehouseStockDAO;
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
@@ -50,7 +53,7 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
     public WarehouseIssueConsDTO.Info create(WarehouseIssueConsDTO.Create request) {
         final WarehouseIssueCons warehouseIssueCons = modelMapper.map(request, WarehouseIssueCons.class);
 
-        return save(warehouseIssueCons);
+        return save(warehouseIssueCons,null);
     }
 
     @Transactional
@@ -64,7 +67,7 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
         modelMapper.map(warehouseIssueCons, updating);
         modelMapper.map(request, updating);
 
-        return save(updating);
+        return save(updating, warehouseIssueCons);
     }
 
     @Transactional
@@ -97,8 +100,11 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
         return SearchUtil.search(warehouseIssueConsDAO, request, entity -> modelMapper.map(entity, WarehouseIssueConsDTO.Info.class));
     }
 
-    private WarehouseIssueConsDTO.Info save(WarehouseIssueCons warehouseIssueCons) {
+    private WarehouseIssueConsDTO.Info save(WarehouseIssueCons warehouseIssueCons,WarehouseIssueCons oldIssueCons) {
+        Double oldAmount=(oldIssueCons!=null) ? oldIssueCons.getAmountDraft() : 0D;
         final WarehouseIssueCons saved = warehouseIssueConsDAO.saveAndFlush(warehouseIssueCons);
+        oldAmount=warehouseIssueCons.getAmountDraft()-oldAmount;
+        WarehouseStock warehouseStock=warehouseStockDAO.findById();
         return modelMapper.map(saved, WarehouseIssueConsDTO.Info.class);
     }
 }
