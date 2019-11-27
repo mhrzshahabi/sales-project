@@ -42,7 +42,8 @@
         operator: "and",
         criteria: [
             {fieldName: "target","operator":"iContains","value":"رجا"},
-            {fieldName: "tozinId", operator: "notContains", value: '3%'}
+            {fieldName: "tozinId", operator: "notContains", value: '3%'},
+            {fieldName: "codeKala", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().codeKala}
         ]
     };
 
@@ -51,7 +52,8 @@
         operator: "and",
         criteria: [
             {fieldName: "target","operator":"iContains","value":"رجا"},
-            {fieldName: "tozinId", operator: "contains", value: '3%'}
+            {fieldName: "tozinId", operator: "contains", value: '3%'},
+            {fieldName: "codeKala", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().codeKala}
         ]
     };
 
@@ -87,7 +89,18 @@
     var add_bundle_button = isc.IButton.create({
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
-        click: "ListGrid_WarehouseCadItem.startEditingNew()"
+        click: function() {
+            console.log(ListGrid_WarehouseCadItem.selectAllRecords());
+            console.log(ListGrid_WarehouseCadItem.getSelectedRecords());
+            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
+
+            ListGrid_WarehouseCadItem.deselectAllRecords();
+
+            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
+            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
+            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
+            ListGrid_WarehouseCadItem.startEditingNew();
+        }
     });
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
@@ -161,7 +174,7 @@
                         DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
                         DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().carName);
                         DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().carName);
-                        DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().codeKala);
+                        DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().nameKala);
                         DynamicForm_warehouseCAD.setValue("sourceLoadDate", item.getSelectedRecord().tozinDate);
                         DynamicForm_warehouseCAD.setValue("containerNo", item.getSelectedRecord().containerId);
                     }

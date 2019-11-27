@@ -29,6 +29,7 @@
                 {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center"},
                 {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
                 {name: "material.descl", title: "<spring:message code='goods.nameLatin'/> "},
+                {name: "warehouseCadItem.warehouseCad.bijackNo", title: "<spring:message code='warehouseCad.bijackNo'/> "},
                 {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center"},
                 {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
                 {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
@@ -387,12 +388,11 @@
             ]
         };
         DynamicForm_WarehouseIssueMo.clearValues ();
-        DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.pickListCriteria=RestDataSource_WarehouseIssueMo_optionCriteria;
-        // RestDataSource_WarehouseIssueMo_WarehouseLot.fetchData(
-        DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.fetchData(
-                    RestDataSource_WarehouseIssueMo_optionCriteria,
-                    function (dsResponse, data, dsRequest) { DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.setData(data)  ;  } );
-
+        // DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.pickListCriteria=RestDataSource_WarehouseIssueMo_optionCriteria;
+        // DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.fetchData(
+        //             RestDataSource_WarehouseIssueMo_optionCriteria,
+        //             function (dsResponse, data, dsRequest) { DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.setData(data)  ;  } );
+		//
     }
 
     var Menu_ListGrid_WarehouseIssueMo = isc.Menu.create({
@@ -479,7 +479,8 @@
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                         {name: "id", width: 50, align: "center", colSpan: 1, titleColSpan: 1},
-                        {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center", width: 150}
+                        {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center", width: 150},
+                        {name: "warehouseCadItem.warehouseCad.bijackNo", title: "<spring:message code='warehouseCad.bijackNo'/> "},
                     ]
                 },
                {name: "containerNo",title: "<spring:message code='warehouseIssueMo.containerNo'/>",width: 500,required: true, length: "15"},
@@ -732,7 +733,7 @@ isc.SectionStack.create({
 var criteria1 = {
 	_constructor: "AdvancedCriteria",
 	operator: "and",
-	criteria: [{fieldName: "material.code", operator: "equals", value: "74031100"}]
+	criteria: [{fieldName: "material.code", operator: "equals", value: "28257000"}]
 };
 ListGrid_ShipmentByWarehouseIssueMo .fetchData(criteria1, function (dsResponse, data, dsRequest) {
 	ListGrid_ShipmentByWarehouseIssueMo .setData(data);

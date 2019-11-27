@@ -11,7 +11,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "bundleSerial",title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "20%", summaryFunction:"count"},
                 {name: "sheetNo", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: "20%", summaryFunction:"sum"},
-                {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "20%"},
+                {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "20%", summaryFunction:"sum"},
                 {name: "issueId", disabled: true, title: "<spring:message code='warehouseCadItem.issueId'/>", width: "20%"},
                 {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "20%"}
             ],

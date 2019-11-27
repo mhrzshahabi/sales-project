@@ -1,8 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.WarehouseCadItem;
-import com.nicico.sales.repository.WarehouseCadItemDAO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -17,63 +15,29 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WarehouseLotDTO {
-	@NotNull
-	@ApiModelProperty(required = true)
-	private String warehouseNo;
-    @NotNull
-	@ApiModelProperty(required = true)
-	private Long materialId;
-	private String plant;
-	private String lotName;
-	private Double cu;
-	private Double ag;
-	private Double au;
-	private Double dmt;
-	private Double mo;
-	private Double si;
-	private Double pb;
-	private Double s;
-	private Double c;
-	private String p;
-	private String size1;
-	private Double size1Value;
-	private String size2;
-	private Double size2Value;
-	private Double weightKg;
-	private Double grossWeight;
-	private Long contractId;
-    private Boolean used;
-	private String bookingNo;
-	private String typical;
-	private Long WarehouseCadItemId;
+public class CatodListDTO {
+	private String storeId;
+	private String tozinId;
+	private String productId;
+	private String productLabel;
+	private Long wazn;
+	private Long sheetNumber;
+	private Long packingTypeId;
+	private Long gdsCode;
 
 	// ------------------------------
 
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotInfo")
-	public static class Info extends WarehouseLotDTO {
+	@ApiModel("CatodListInfo")
+	public static class Info extends CatodListDTO {
 		private Long id;
-		private MaterialDTO.Info material;
-		private WarehouseCadItemDTO.Info1 warehouseCadItem;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
-		private ContactDTO.ContactInfoTuple contact;
-	}
-
-
-	// ------------------------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("WarehouseLotCreateRq")
-	public static class Create extends WarehouseLotDTO {
 	}
 
 	// ------------------------------
@@ -81,14 +45,20 @@ public class WarehouseLotDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotUpdateRq")
-	public static class Update extends WarehouseLotDTO {
+	@ApiModel("CatodListCreateRq")
+	public static class Create extends CatodListDTO {
+	}
+
+	// ------------------------------
+
+	@Getter
+	@Setter
+	@Accessors(chain = true)
+	@ApiModel("CatodListUpdateRq")
+	public static class Update extends CatodListDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	// ------------------------------
@@ -96,7 +66,7 @@ public class WarehouseLotDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseLotDeleteRq")
+	@ApiModel("CatodListDeleteRq")
 	public static class Delete {
 		@NotNull
 		@ApiModelProperty(required = true)
@@ -109,8 +79,8 @@ public class WarehouseLotDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("WarehouseLotSpecRs")
-	public static class WarehouseLotSpecRs {
+	@ApiModel("CatodListSpecRs")
+	public static class CatodListSpecRs {
 		private SpecRs response;
 	}
 
@@ -121,7 +91,7 @@ public class WarehouseLotDTO {
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
-		private List<WarehouseLotDTO.Info> data;
+		private List<CatodListDTO.Info> data;
 		private Integer status;
 		private Integer startRow;
 		private Integer endRow;
