@@ -186,6 +186,8 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 	}
 
 
+	@Transactional
+	@Override
 	public WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem, WarehouseCadItem oldCadItem) {
 
 		final WarehouseCad bijak = warehouseCadDAO.findById(warehouseCadItem.getWarehouseCadId())
@@ -240,7 +242,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 			if (warehouseLot == null) {
 				WarehouseLot wh = new WarehouseLot();
 				wh.setLotName(warehouseCadItem.getLotName());
-				wh.setMaterialId(bijak.getMaterialItem().getMaterial().getId());
+				wh.setMaterialId(bijak.getMaterialItem().getMaterialId());
 				wh.setPlant(bijak.getPlant());
 				wh.setWarehouseNo("3");
 				wh.setWeightKg(warehouseCadItem.getWeightKg());

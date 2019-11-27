@@ -24,4 +24,5 @@ public interface IWarehouseStockService {
 	TotalResponse<WarehouseStockDTO.Info> search(NICICOCriteria criteria);
 
 	SearchDTO.SearchRs<WarehouseStockDTO.Info> search(SearchDTO.SearchRq request);
+	 List<Object[]>  warehouseStockConc();
 }

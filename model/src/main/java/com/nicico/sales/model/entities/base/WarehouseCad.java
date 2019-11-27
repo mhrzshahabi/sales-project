@@ -26,12 +26,12 @@ public class WarehouseCad extends Auditable {
     @Column(name = "WAREHOUSE_NO")
     private String warehouseNo;
 
-    @Setter(AccessLevel.NONE)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MATERIAL_ITEM_ID", nullable = false, insertable = false, updatable = false)
     private MaterialItem materialItem;
 
-    @Column(name = "MATERIAL_ITEM_ID")
+    @Column(name = "MATERIAL_ITEM_ID", nullable = false)
     private Long materialItemId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "warehouseCad", cascade = CascadeType.ALL)

@@ -4,6 +4,25 @@
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    var stocks = {};
+    function fetch_stock() {
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/warehouseStock/cons-stock",
+                httpMethod: "GET",
+                data: "",
+                callback: function (RpcResponse_o) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                        var data = JSON.parse(RpcResponse_o.data);
+                        for (x of data.data) {
+                            stocks[x.plant] = x.amount;
+                        }
+                        console.log(stocks);
+                        DynamicForm_WarehouseIssueCons.setValue("StockSungon", stocks["مجتمع مس سونگون "]);
+                    } //if rpc
+                } // callback
+            })
+        );
+    }
 
     var RestDataSource_WarehouseIssueCons = isc.MyRestDataSource.create({
         fields:
@@ -321,6 +340,7 @@
             });
         } else {
             DynamicForm_WarehouseIssueCons.editRecord(record);
+            fetch_stock();
             Window_WarehouseIssueCons.animateShow();
         }
     }
@@ -384,6 +404,7 @@
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     DynamicForm_WarehouseIssueCons.clearValues();
+                    fetch_stock();
                     Window_WarehouseIssueCons.animateShow();
                 }
             },
@@ -418,6 +439,7 @@
         ]
     });
 
+
     var DynamicForm_WarehouseIssueCons = isc.DynamicForm.create({
         width: 650,
         height: "100%",
@@ -431,13 +453,13 @@
         titleWidth: "150",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,backgroundImage: "backgrounds/leaves.jpg",
+        numCols: 4,backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true},
                 {type: "RowSpacerItem"},
-                {name: "amountSarcheshmeh",title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "amountSarcheshmeh",title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -445,7 +467,8 @@
                         errorMessage: "!"
                     }]
                 },
-                {name: "amountMiduk",title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "StockSarcheshmeh",title: "<spring:message code='warehouseIssueCons.StockSarcheshmeh'/>",width: "100%",wrapTitle : false, defaultValue : stocks["Sarcheshmeh"]},
+                {name: "amountMiduk",title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -453,29 +476,31 @@
                         errorMessage: "!"
                     }]
                 },
-                {name: "amountSungon",title: "<spring:message code='warehouseIssueCons.amountSungon'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "StockMiduk",title: "<spring:message code='warehouseIssueCons.StockMiduk'/>",width: "100%",wrapTitle : false, defaultValue : stocks["Miduk"]},
+                {name: "amountSungon",title: "<spring:message code='warehouseIssueCons.amountSungon'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],
                 },
-                {name: "amountPms",title: "<spring:message code='warehouseIssueCons.amountPms'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "StockSungon",title: "<spring:message code='warehouseIssueCons.StockSungon'/>",width: "100%",wrapTitle : false, defaultValue : stocks["مجتمع مس سونگون "]},
+                {name: "amountPms",title: "<spring:message code='warehouseIssueCons.amountPms'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],colSpan:3,titleColSpan:1
                 },
-                {name: "amountDraft",title: "<spring:message code='warehouseIssueCons.amountDraft'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "amountDraft",title: "<spring:message code='warehouseIssueCons.amountDraft'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],colSpan:3,titleColSpan:1
                 },
                 {type: "RowSpacerItem"},
                 {type: "RowSpacerItem"}
@@ -510,6 +535,7 @@
             }
             DynamicForm_WarehouseIssueCons.clearValues();
             DynamicForm_WarehouseIssueCons.setValue("shipmentId", record.id);
+            fetch_stock();
             Window_WarehouseIssueCons.animateShow();
         }
     });

@@ -10,6 +10,8 @@
             [
                 {name: "shipmentId"},
                 {name: "WarehouseLotId"},
+                {name: "warehouseLot"},
+                {name: "warehouseLot.warehouseCadItemId"},
                 {name: "containerNo"},
                 {name: "emptyWeight"},
                 {name: "amountCustom"},
@@ -463,7 +465,7 @@
                 {name: "shipmentId", hidden: true},
                 {type: "RowSpacerItem"},
                {
-                    name: "WarehouseLotId",ID:"DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot",
+                    name: "warehouseLotId",ID:"DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot",
                     title: "<spring:message code='warehouseIssueMo.WarehouseLotId'/>",
                     type: 'text',
                     width: 500, required: true,
@@ -481,7 +483,18 @@
                         {name: "id", width: 50, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center", width: 150},
                         {name: "warehouseCadItem.warehouseCad.bijackNo", title: "<spring:message code='warehouseCad.bijackNo'/> "},
-                    ]
+                    ],
+                    changed: function (form, item, value) {
+                        rcd=item.getSelectedRecord();
+                        if (rcd.id != undefined) {
+                        console.log('rcd');
+                        console.log(rcd);
+                           // DynamicForm_WarehouseIssueMo.setValue("warehouseLotId", rcd.id);
+                           DynamicForm_WarehouseIssueMo.setValue("warehouseLot", rcd);
+                           DynamicForm_WarehouseIssueMo.setValue("warehouseLot.warehouseCadItemId", rcd.warehouseCadItemId);
+
+                        }
+                    }
                 },
                {name: "containerNo",title: "<spring:message code='warehouseIssueMo.containerNo'/>",width: 500,required: true, length: "15"},
                 {name: "emptyWeight",title: "<spring:message code='warehouseIssueMo.emptyWeight'/>",width: 500,required: true, length: "15",

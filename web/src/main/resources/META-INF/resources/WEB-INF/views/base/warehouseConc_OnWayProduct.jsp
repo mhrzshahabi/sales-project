@@ -122,22 +122,26 @@
                 {
                     name: "materialItemId",
                     title: "<spring:message code='contractItem.material'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "plant",
                     title: "<spring:message code='contractItem.plant'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "warehouseNo",
                     title: "<spring:message code='warehouseCad.warehouseNo'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "movementType",
                     title: "<spring:message code='warehouseCad.movementType'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "sourceTozinPlantId",

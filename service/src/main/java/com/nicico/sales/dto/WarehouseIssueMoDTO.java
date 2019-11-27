@@ -17,7 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseIssueMoDTO {
 	private Long shipmentId;
-	private Long WarehouseLotId;
+	private Long warehouseLotId;
 	private String containerNo;
 	private Double amountCustom;
 	private String sealedCustom;
@@ -32,7 +32,7 @@ public class WarehouseIssueMoDTO {
 	@ApiModel("WarehouseIssueMoInfo")
 	public static class Info extends WarehouseIssueMoDTO {
 		private Long id;
-		private ShipmentDTO Shipment;
+		private ShipmentDTO shipment;
 		private WarehouseLotDTO warehouseLot;
 		private Date createdDate;
 		private String createdBy;
