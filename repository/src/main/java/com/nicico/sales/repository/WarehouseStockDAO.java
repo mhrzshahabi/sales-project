@@ -19,4 +19,10 @@ public interface WarehouseStockDAO extends JpaRepository<WarehouseStock, Long>, 
             "group by s.plant ", nativeQuery = true)
     List<Object[]> warehouseStockConc();
 
+    @Query (value="select s.*   from tbl_material m " +
+            "join tbl_material_item mi on mi.material_id=m.id " +
+            "join tbl_warehouse_stock s on  s.material_item_id =mi.id " +
+            "where m.c_code='26030090' ", nativeQuery = true)
+    List<WarehouseStock> warehouseStockConcList();
+
 }

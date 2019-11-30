@@ -101,10 +101,34 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
     }
 
     private WarehouseIssueConsDTO.Info save(WarehouseIssueCons warehouseIssueCons,WarehouseIssueCons oldIssueCons) {
-        Double oldAmount=(oldIssueCons!=null) ? oldIssueCons.getAmountDraft() : 0D;
+        Double oldAmountSarcheshmeh=(oldIssueCons!=null) ? oldIssueCons.getAmountSarcheshmeh() : 0D;
+        Double oldAmountMiduk      =(oldIssueCons!=null) ? oldIssueCons.getAmountMiduk() : 0D;
+        Double oldAmountSungon=(oldIssueCons!=null) ? oldIssueCons.getAmountSungon() : 0D;
         final WarehouseIssueCons saved = warehouseIssueConsDAO.saveAndFlush(warehouseIssueCons);
-        oldAmount=warehouseIssueCons.getAmountDraft()-oldAmount;
-        WarehouseStock warehouseStock=warehouseStockDAO.findById();
+        oldAmountSarcheshmeh=warehouseIssueCons.getAmountSarcheshmeh()-oldAmountSarcheshmeh;
+        oldAmountMiduk      =warehouseIssueCons.getAmountMiduk()      -oldAmountMiduk;
+        oldAmountSungon     =warehouseIssueCons.getAmountSungon()     -oldAmountSungon;
+        List<WarehouseStock> warehouseStockConcList=warehouseStockDAO.warehouseStockConcList();
+        for (WarehouseStock w : warehouseStockConcList)
+           if (!oldAmountSarcheshmeh.equals(0D) || !oldAmountMiduk.equals(0D) || !oldAmountSungon.equals(0D)) {
+            WarehouseStock warehouseStock = warehouseStockDAO.findById(warehouseStockConcList.get(0).getId())
+                    .orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseStockNotFound));
+            if (w.getPlant().equals("Sarcheshmeh") && !oldAmountSarcheshmeh.equals(0D)){
+                w.setAmount(oldAmountSarcheshmeh);
+                warehouseStockDAO.saveAndFlush(w);
+                oldAmountSarcheshmeh=0D;
+            }
+            if (w.getPlant().equals("Miduk") && !oldAmountMiduk.equals(0D)){
+                w.setAmount(oldAmountMiduk);
+                warehouseStockDAO.saveAndFlush(w);
+                oldAmountMiduk=0D;
+            }
+            if (w.getPlant().equals("Sungon") && !oldAmountSungon.equals(0D)){
+                w.setAmount(oldAmountSungon);
+                warehouseStockDAO.saveAndFlush(w);
+                oldAmountSungon=0D;
+            }
+        }
         return modelMapper.map(saved, WarehouseIssueConsDTO.Info.class);
     }
 }
