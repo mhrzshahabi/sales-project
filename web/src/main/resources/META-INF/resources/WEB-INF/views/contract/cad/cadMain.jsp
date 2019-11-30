@@ -6,15 +6,12 @@
 
     var criteriaContractItemShipment;
     var methodHtpp="";
-    var recordContractId;
+    var recordContractNo;
 
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
 
-    var RestDataSource_ContractForValidation = isc.MyRestDataSource.create({
-        fetchDataURL: "${contextPath}/api/contract/list"
-    });
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
         fields:
@@ -230,8 +227,6 @@ var Window_ContactCad = isc.Window.create({
         click: function () {
             var textMain;
             var record = ListGrid_Cad.getSelectedRecord();
-            recordContractId=record;
-            criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
             if (record == null || record.id == null) {
                                     isc.Dialog.create({
                                         message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -242,6 +237,7 @@ var Window_ContactCad = isc.Window.create({
                                             this.hide();
                                         }});
         } else {
+            criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
             Window_ContactCad.show();
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract/readWord",
@@ -253,6 +249,7 @@ var Window_ContactCad = isc.Window.create({
                         var text2 = text.replaceAll('","', '","').replaceAll('&','":"')
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
                         setTimeout(function(){
+                                recordContractNo=contactCadHeader.getValue("contractNo");
                                 contactCadTabs.selectTab(0);
                                 contactCadHeader.setValue("createDateDumy", record.contractDate)
                                 contactCadHeader.setValue("contractNo", record.contractNo)
@@ -281,7 +278,7 @@ var Window_ContactCad = isc.Window.create({
                                 article10_quality.setValue("fullArticle10",textMain.Article10);
                                 article11_quality.setValue("fullArticle11",textMain.Article11);
                                 article12_quality.setValue("fullArticle12",textMain.Article12);
-                        },15)
+                        },25)
                     }else{
                         alert(RpcResponse_o.data);
                         isc.say(RpcResponse_o.data);
@@ -289,7 +286,7 @@ var Window_ContactCad = isc.Window.create({
                 }
             }))
             var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
-            RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
+            setTimeout(function(){RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
                         contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
@@ -317,19 +314,71 @@ var Window_ContactCad = isc.Window.create({
                         valuesManagerArticle10_quality.setValue("article10_number60",data[0].article10_number60);
                         valuesManagerArticle10_quality.setValue("article10_number61",data[0].article10_number61);
                         var feild_all_defintitons_save = JSON.parse(data[0].feild_all_defintitons_save)
+                        DynamicForm_ContactParameter_ValueNumber8.destroy();
+                        isc.DynamicForm.create({
+                                        ID: "DynamicForm_ContactParameter_ValueNumber8",
+                                        valuesManager: "valuesManagerArticle1",
+                                        height: "20",
+                                        width: "100%",
+                                        wrapItemTitles: true,
+                                        items: [
+                                            {name: "feild_all_defintitons_save", showIf: "false"},
+                                            {
+                                                name: "definitionsOne",
+                                                length: 5000,
+                                                startRow: false,
+                                                editorType: "SelectItem",
+                                                optionDataSource: RestDataSource_Parameters,
+                                                displayField: "paramValue",
+                                                valueField: "paramValue",
+                                                showTitle: false,
+                                                pickListProperties: {showFilterEditor: true},
+                                                pickListFields: [
+                                                    {name: "paramName", width: "20%", align: "center"},
+                                                    {name: "paramType", width: "20%", align: "center"},
+                                                    {name: "paramValue", width: "60%", align: "center"}
+                                                ],
+                                                pickListCriteria: {
+                                                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
+                                                        {fieldName: "contractId", operator: "equals", value: 1},
+                                                        {fieldName: "categoryValue", operator: "equals", value: 1}]
+                                                },
+                                                width: "1500",
+                                                height: "30",
+                                                title: "NAME",
+                                                changed: function (form, item, value) {
+                                                    DynamicForm_ContactParameter_ValueNumber8.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue)
+                                                }
+                                            }, {
+                                                name: "button",
+                                                type: "button",
+                                                width: "10%",
+                                                height: "30",
+                                                title: "Remove",
+                                                startRow: false,
+                                                icon: "icons/16/message.png",
+                                                click: function () {
+                                                    DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");
+                                                    DynamicForm_ContactParameter_ValueNumber8.removeField("button")
+                                                }
+                                            }
+                                        ]
+                                    })
+                                    VLayout_ContactParameter_ValueNumber8.addMember(DynamicForm_ContactParameter_ValueNumber8,0)
                                     for (const [key, value] of Object.entries(feild_all_defintitons_save)) {
                                         valuesManagerArticle1.setValue(key,value);
                                         if(key != 'definitionsOne' && key != 'feild_all_defintitons_save'){
                                             itemsEditDefinitions(key,value,itemsDefinitionsCount)
                                           }
-                                    }
+                                     }
+
                         ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-            })
+            })},30)
         }
     }});
 
     var ToolStripButton_Contact_Remove = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/edit.png",
+        icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
         }
@@ -425,7 +474,11 @@ function itemsEditDefinitions(key,value,id) {
                     title: "Remove",
                     startRow: false,
                     icon: "icons/16/message.png",
-                    click: function(){DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)}
+                    click: function(){
+                        --itemsDefinitionsCount;
+                        DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + itemsDefinitionsCount);
+                        DynamicForm_ContactParameter_ValueNumber8.removeField("button" + itemsDefinitionsCount);
+                        }
                     }
             ]);
        itemsDefinitionsCount++;

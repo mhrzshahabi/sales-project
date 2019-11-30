@@ -524,6 +524,7 @@
                 wrap: false,
                 contents: "Remove",
                 click: function () {
+                    //to do abouzar
                     itemsDefinitions('Remove', itemsDefinitionsCount)
                 }
             })

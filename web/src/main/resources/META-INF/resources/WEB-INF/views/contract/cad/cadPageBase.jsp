@@ -300,13 +300,13 @@ var contactCadTabs = isc.TabSet.create({
         dataSaveAndUpdateContractCadDetail.article10_number59 =valuesManagerArticle10_quality.getValue("article10_number59");
         dataSaveAndUpdateContractCadDetail.article10_number60 =valuesManagerArticle10_quality.getValue("article10_number60");
         dataSaveAndUpdateContractCadDetail.article10_number61 =valuesManagerArticle10_quality.getValue("article10_number61");
-        if(recordContractId != null){
-            var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:952},{fieldName:"contractNo",operator:"equals",value:"testJADIDversion3333"}]};
-            RestDataSource_ContractForValidation.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
-                alert(JSON.stringify(data));
-            })
-        }else{
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+        recordContractNo=contactCadHeader.getValue("contractNo");
+        var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:952},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
+        RestDataSource_Contract.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
+        if(data[0]!=undefined){
+                isc.warn("shomare contractNO tekrari ast");
+               }else{
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
                 httpMethod: methodHtpp,
                 data: JSON.stringify(dataSaveAndUpdateContractCad),
@@ -319,7 +319,11 @@ var contactCadTabs = isc.TabSet.create({
                     } else
                         isc.say(RpcResponse_o.data);
                 }
-            }))}
+            }))
+            }
+            })
+
+
         }
     })
     var contactCadFormButtonSaveLayout = isc.HStack.create({
@@ -362,7 +366,6 @@ function saveListGrid_ContractCadItemShipment(contractID) {
             data_ContractItemShipment.contractId = contractID;
             data_ContractItemShipment.sendDate=sendDateSet;
             data_ContractItemShipment.dischargeId = 11022;
-            alert(JSON.stringify(data_ContractItemShipment));
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",

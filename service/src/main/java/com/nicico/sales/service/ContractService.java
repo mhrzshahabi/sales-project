@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractDTO;
@@ -10,6 +12,7 @@ import com.nicico.sales.repository.ContractDAO;
 import lombok.RequiredArgsConstructor;
 import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -62,21 +65,66 @@ public class ContractService implements IContractService {
         JSONObject jsonObject = new JSONObject(request);
         String contractNo = jsonObject.getString("contractNo");
         jsonObject.remove("contractNo");
+
+        XWPFDocument printdoc = new XWPFDocument();
+
         jsonObject.sortedKeys().forEachRemaining(new Consumer() {
             @Override
             public void accept(Object s) {
                 String key = s.toString();
                 String value = jsonObject.getString(key);
                 dataALLArticle = dataALLArticle + " " + key + "&" + " " + value;
+                XWPFParagraph paragraphPrint = printdoc.createParagraph();
+                XWPFRun runPrint = paragraphPrint.createRun();
+                XWPFRun runPrintValue = paragraphPrint.createRun();
+                switch(key) {
+                    case "Article03":
+                        runPrint.setText(key+"–OUALITY:");
+                        break;
+                    case "Article04":
+                        runPrint.setText(key+"–PACKING:");
+                        break;
+                    case "Article05":
+                        runPrint.setText(key+"–SHIPMENT:");
+                        break;
+                    case "Article06":
+                        runPrint.setText(key+"- DELIVERY TERMS:");
+                        break;
+                    case "Article07":
+                        runPrint.setText(key+"– PRICE:");
+                        break;
+                    case "Article08":
+                        runPrint.setText(key+"- QUOTATIONAL PERIOD:");
+                        break;
+                    case "Article09":
+                        runPrint.setText(key+"– PAYMENT:");
+                        break;
+                    case "Article10":
+                        runPrint.setText(key+"- CURRENCY CONVERSION:");
+                        break;
+                    case "Article11":
+                        runPrint.setText(key+"- TITLE AND RISK OF LOSS:");
+                        break;
+                    case "Article12":
+                        runPrint.setText(key+"– WEIGHT:");
+                        break;
+                }
+               // runPrint.setText(key);
+                runPrint.setUnderline(UnderlinePatterns.SINGLE);
+                runPrint.addBreak();
+                runPrintValue.setText(value);
+                runPrintValue.addBreak();
             }
         });
         XWPFDocument doc = new XWPFDocument();
         try (OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo + ".doc")) {
+            OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + "PrintCathod_" + contractNo + ".doc");
             XWPFParagraph paragraph = doc.createParagraph();
             XWPFRun run = paragraph.createRun();
             //String base64Text = Base64.getEncoder().encodeToString(dataALLArticle.getBytes());
             run.setText(dataALLArticle);
             doc.write(os);
+            printdoc.write(printOs);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -131,6 +179,13 @@ public class ContractService implements IContractService {
         final List<Contract> contracts = contractDAO.findAllById(request.getIds());
 
         contractDAO.deleteAll(contracts);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+    public TotalResponse<ContractDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(contractDAO, criteria, contract -> modelMapper.map(contract, ContractDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
