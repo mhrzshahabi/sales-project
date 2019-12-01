@@ -110,6 +110,14 @@ public class WarehouseCadService implements IWarehouseCadService {
     }
 
     private WarehouseCadDTO.Info save(WarehouseCad warehouseCad) {
+        if(warehouseCad.getPlant().equals("مجتمع مس شهربابك -ميدوك ") || warehouseCad.getPlant().equals("مجتمع مس شهربابك - خاتون آباد "))
+            warehouseCad.setPlant("Miduk");
+        if(warehouseCad.getPlant().equals("بندرعباس") || warehouseCad.getPlant().equals("اسكله شهيد رجائي "))
+            warehouseCad.setPlant("BandarAbbas");
+        if(warehouseCad.getPlant().equals("ايستگاه قطار تبريز") || warehouseCad.getPlant().equals("مجتمع مس سونگون "))
+            warehouseCad.setPlant("sungun");
+        if(warehouseCad.getPlant().equals("مجتمع مس سرچشمه"))
+            warehouseCad.setPlant("Sarcheshmeh");
         final WarehouseCad saved = warehouseCadDAO.saveAndFlush(warehouseCad);
         return modelMapper.map(saved, WarehouseCadDTO.Info.class);
     }

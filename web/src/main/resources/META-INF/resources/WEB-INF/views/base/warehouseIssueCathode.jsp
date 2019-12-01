@@ -631,6 +631,7 @@
         width: 650,
         height: "100%",
         setMethod: 'POST',
+
         align: "center",
         canSubmit: true,
         showInlineErrors: true,
@@ -857,6 +858,7 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_WarehouseIssueCathode,
+        showFilterEditor: true,
         contextMenu: Menu_ListGrid_WarehouseIssueCathode,
         fields:
             [

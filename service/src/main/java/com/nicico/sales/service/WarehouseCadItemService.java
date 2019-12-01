@@ -186,8 +186,6 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 	}
 
 
-	@Transactional
-	@Override
 	public WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem, WarehouseCadItem oldCadItem) {
 
 		final WarehouseCad bijak = warehouseCadDAO.findById(warehouseCadItem.getWarehouseCadId())
@@ -206,7 +204,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 			WarehouseStock warehouseStock = new WarehouseStock();
 			warehouseStock.setMaterialItemId(bijak.getMaterialItemId());
 			warehouseStock.setWarehouseYardId(bijak.getWarehouseYardId());
-			warehouseStock.setPlant(bijak.getPlant());
+			warehouseStock.setPlant(plantEng(bijak.getPlant()));
 			warehouseStock.setWarehouseNo(bijak.getWarehouseNo());
 
 			warehouseStock.setAmount(warehouseCadItem.getWeightKg());
@@ -243,13 +241,13 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 				WarehouseLot wh = new WarehouseLot();
 				wh.setLotName(warehouseCadItem.getLotName());
 				wh.setMaterialId(bijak.getMaterialItem().getMaterialId());
-				wh.setPlant(bijak.getPlant());
+				wh.setPlant(plantEng(bijak.getPlant()));
 				wh.setWarehouseNo("3");
 				wh.setWeightKg(warehouseCadItem.getWeightKg());
 				wh.setWarehouseCadItemId(warehouseCadItem.getId());
 				warehouseLotDAO.saveAndFlush(wh);
 			} else {
-				warehouseLot.setPlant(bijak.getPlant());
+				warehouseLot.setPlant(plantEng(bijak.getPlant()));
 				warehouseLot.setWarehouseNo("3");
 				warehouseLot.setWarehouseCadItemId(warehouseCadItem.getId());
 				warehouseLotDAO.saveAndFlush(warehouseLot);
@@ -297,5 +295,17 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 		warehouseCadItem.setIssueId(issueId);
 		final WarehouseCadItem saved = warehouseCadItemDAO.saveAndFlush(warehouseCadItem);
 		return modelMapper.map(saved, WarehouseCadItemDTO.Info.class);
+	}
+
+	private String plantEng(String plantFa) {
+		if (plantFa.equals("مجتمع مس شهربابك -ميدوك ") || plantFa.equals("مجتمع مس شهربابك - خاتون آباد "))
+			return "Miduk";
+		if (plantFa.equals("بندرعباس") || plantFa.equals("اسكله شهيد رجائي "))
+			return "BandarAbbas";
+		if (plantFa.equals("ايستگاه قطار تبريز") || plantFa.equals("مجتمع مس سونگون "))
+			return "sungun";
+		if (plantFa.equals("مجتمع مس سرچشمه"))
+			return "Sarcheshmeh";
+		return plantFa;
 	}
 }
