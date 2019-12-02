@@ -2,10 +2,29 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
+  isc.SimpleType.create({
+    name:"currencyFloat3",
+        inheritsFrom:"float",
+         editFormatter:function (value) {
+            return isc.isA.Number(value) ? value.toFixed(3) : value;
+        },
+        parseInput:function(value) {
+            var fVal = parseFloat(value);
+            if (!isNaN(fVal)) return fVal;
+            return value;
+        },
+
+        validators:[
+            {type:"floatRange", min:0, errorMessage:"notValid"},
+            {type:"floatPrecision", precision:3, roundToPrecision:true}
+        ]
+
+    });
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
     var stocks = {};
     function fetch_stock() {
+        stocks = {};
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/warehouseStock/cons-stock",
                 httpMethod: "GET",
@@ -17,7 +36,15 @@
                             stocks[x.plant] = x.amount;
                         }
                         console.log(stocks);
-                        DynamicForm_WarehouseIssueCons.setValue("StockSungon", stocks["مجتمع مس سونگون "]);
+                        t=DynamicForm_WarehouseIssueCons.getValue("amountSungon");t=typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockSungon", t+parseFloat(stocks["Sungon"]));
+
+                        t=DynamicForm_WarehouseIssueCons.getValue("amountMiduk");t=typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockMiduk", t+parseFloat(stocks["Miduk"]));
+
+                        t=DynamicForm_WarehouseIssueCons.getValue("amountSarcheshmeh");t=typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockSarcheshmeh", t+parseFloat(stocks["Sarcheshmeh"]));
+
                     } //if rpc
                 } // callback
             })
@@ -28,12 +55,78 @@
         fields:
             [
                 {name: "shipmentId"},
-                {name: "amountSarcheshmeh"},
-                {name: "amountMiduk"},
-                {name: "amountSungon"},
-                {name: "totalAmount"},
-                {name: "amountDraft"},
-                {name: "amountPms"},
+                {name: "amountSarcheshmeh",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {name: "amountMiduk",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {name: "amountSungon",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {name: "totalAmount",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {name: "amountDraft",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {name: "amountPms",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
                 {name: "id"},
              ],
 
@@ -485,7 +578,7 @@
                         errorMessage: "!"
                     }],
                 },
-                {name: "StockSungon",title: "<spring:message code='warehouseIssueCons.StockSungon'/>",width: "100%",wrapTitle : false, defaultValue : stocks["مجتمع مس سونگون "]},
+                {name: "StockSungon",title: "<spring:message code='warehouseIssueCons.StockSungon'/>",width: "100%",wrapTitle : false, defaultValue : stocks["Sungon"]},
                 {name: "amountPms",title: "<spring:message code='warehouseIssueCons.amountPms'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                     validators: [{
                         type: "isFloat",
