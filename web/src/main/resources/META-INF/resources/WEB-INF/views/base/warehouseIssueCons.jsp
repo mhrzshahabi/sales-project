@@ -65,8 +65,7 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
+                    }]                },
                 {name: "amountMiduk",
                     type: 'currencyFloat3',
                     required: true,
@@ -558,18 +557,34 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                        if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountSarcheshmeh"))> parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockSarcheshmeh"))) {
+							DynamicForm_WarehouseIssueCons.setValue("amountSarcheshmeh",0);
+                         }
+					  }
+					}
+
                 },
-                {name: "StockSarcheshmeh",title: "<spring:message code='warehouseIssueCons.StockSarcheshmeh'/>",width: "100%",wrapTitle : false, defaultValue : stocks["Sarcheshmeh"]},
+                {name: "StockSarcheshmeh",title: "<spring:message code='warehouseIssueCons.StockSarcheshmeh'/>",canEdit:false,width: "100%",wrapTitle : false, defaultValue : stocks["Sarcheshmeh"]},
                 {name: "amountMiduk",title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                        if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountMiduk"))> parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockMiduk"))) {
+							DynamicForm_WarehouseIssueCons.setValue("amountMiduk",0);
+                         }
+					  }
+					}
+
                 },
-                {name: "StockMiduk",title: "<spring:message code='warehouseIssueCons.StockMiduk'/>",width: "100%",wrapTitle : false, defaultValue : stocks["Miduk"]},
+                {name: "StockMiduk",title: "<spring:message code='warehouseIssueCons.StockMiduk'/>",canEdit:false,width: "100%",wrapTitle : false, defaultValue : stocks["Miduk"]},
                 {name: "amountSungon",title: "<spring:message code='warehouseIssueCons.amountSungon'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
@@ -577,8 +592,16 @@
                         stopOnError: true,
                         errorMessage: "!"
                     }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                        if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountSungon"))> parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockSungon"))) {
+							DynamicForm_WarehouseIssueCons.setValue("amountSungon",0);
+                         }
+					  }
+					}
+
                 },
-                {name: "StockSungon",title: "<spring:message code='warehouseIssueCons.StockSungon'/>",width: "100%",wrapTitle : false, defaultValue : stocks["Sungon"]},
+                {name: "StockSungon",title: "<spring:message code='warehouseIssueCons.StockSungon'/>",canEdit:false,width: "100%",wrapTitle : false, defaultValue : stocks["Sungon"]},
                 {name: "amountPms",title: "<spring:message code='warehouseIssueCons.amountPms'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                     validators: [{
                         type: "isFloat",
