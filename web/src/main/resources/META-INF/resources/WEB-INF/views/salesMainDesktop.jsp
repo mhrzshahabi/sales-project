@@ -21,8 +21,6 @@
     <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
 
-    <SCRIPT SRC="isomorphic/locales/frameworkMessages_fa.properties"></SCRIPT>
-
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
     <script src=isomorphic/system/modules/ISC_Foundation.js></script>
@@ -35,7 +33,6 @@
     <script src=isomorphic/system/modules/ISC_Analytics.js></script>
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
     <script src=isomorphic/skins/Tahoe/load_skin.js></script>
-
 </head>
 
 
@@ -56,7 +53,7 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    isc.FileLoader.loadLocale("fa");
+    isc.FileLoader.loadLocale("en");
 
     isc.defineClass("MyRestDataSource", RestDataSource);
 
