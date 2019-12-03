@@ -53,8 +53,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    isc.FileLoader.loadLocale("en");
-
     isc.defineClass("MyRestDataSource", RestDataSource);
 
     isc.MyRestDataSource.addProperties({
@@ -72,21 +70,6 @@
             return this.Super("transformResponse", arguments);
         }
     });
-
-    // isc.ViewLoader.addMethods({
-    //     handleError: function (rq, rs) {
-    //         console.log("Global ViewLoader Error: ", rq, rs);
-    //         if (rs.httpResponseCode === 403) { // Forbidden
-    //             nicico.error("Access Denied");  //TODO: I18N message key
-    //         } else {
-    //             redirectLogin();
-    //         }
-    //         return false;
-    //     },
-    //     handleSuccess: function(rq, rs){
-    //         alert(12345);
-    //     }
-    // });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -247,6 +230,12 @@
         }]
     });
     languageForm.setValue("languageName", "<c:out value='${pageContext.response.locale}'/>");
+
+    if(languageForm.getValue("languageName") === 'fa') {
+        isc.FileLoader.loadLocale("fa")
+    } else {
+        isc.FileLoader.loadLocale("en");
+    }
 
     var emptyLabel_Before = isc.Label.create({
         width: "25%",
