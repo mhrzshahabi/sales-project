@@ -626,19 +626,19 @@ var criteria1Inspector = {
 		{name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},
 		{name: "shipmentId", title: "id", canEdit:false, hidden:true},
 		{name: "inspectionByContactId", title:"<spring:message code='shipment.MoistureInspectionCompany'/>", type:'long',wrapTitle: false
-			 ,editorType: "SelectItem",colSpan :1 ,titleColSpan :1
+			 ,editorType: "SelectItem",colSpan :1 ,titleColSpan :1,required:true
 			, optionDataSource:MyRestDataSource_Contact ,displayField:"nameEN",wrapTitle: false,optionCriteria : criteria1Inspector
 			, valueField:"id" ,pickListWidth:"450",pickListheight:"500" ,pickListProperties: {showFilterEditor:true}
 			,pickListFields:[{name:"nameFA",width:150,align:"center"},{name:"nameEN",width:150,align:"center"},{name:"code",width:150,align:"center"}] },
-		{name: "location", title:"<spring:message code='shipment.Moisture.location'/>", type:'text' ,wrapTitle: false,
+		{name: "location", title:"<spring:message code='shipment.Moisture.location'/>", type:'text' ,wrapTitle: false,required:true,
                 valueMap: {"source": "source", "destination": "destination"}},
 		{name: "inspectionDate", title:"<spring:message code='shipment.Moisture.inspectionDate'/>", type:'text',hidden:true },
 		{name: "inspectionDateDummy", title:"<spring:message code='shipment.Moisture.inspectionDate'/>", type:'date',wrapTitle: false, },
-		{name: "totalWetWeight", title:"<spring:message code='shipment.Moisture.totalWetWeight'/>",wrapTitle: false
+		{name: "totalWetWeight", title:"<spring:message code='shipment.Moisture.totalWetWeight'/>",wrapTitle: false,required:true
 		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
 		{name: "averageMoisturePercent", title:"<spring:message code='shipment.Moisture.averageMoisturePercent'/>",wrapTitle: false
 		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
-		{name: "totalDryWeight", title:"<spring:message code='shipment.Moisture.totalDryWeight'/>",wrapTitle: false
+		{name: "totalDryWeight", title:"<spring:message code='shipment.Moisture.totalDryWeight'/>",wrapTitle: false,required:true
 		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
 		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>",wrapTitle: false
 		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
@@ -971,12 +971,12 @@ var Menu_ListGrid_ShipmentMoistureItem = isc.Menu.create({
         {type:"RowSpacerItem"},
 		{name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},
 		{name: "shipmentMoistureHeaderId", title: "id", canEdit:false, hidden:true},
-		{name: "lotNo", title:"<spring:message code='shipment.Moisture.lotNo'/>", type:'text', wrapTitle: false,},
-		{name: "wetWeight", title:"<spring:message code='shipment.Moisture.wetWeight'/>",wrapTitle: false
+		{name: "lotNo", title:"<spring:message code='shipment.Moisture.lotNo'/>", type:'text', wrapTitle: false,required:true},
+		{name: "wetWeight", title:"<spring:message code='shipment.Moisture.wetWeight'/>",wrapTitle: false,required:true
 				   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
 		{name: "moisturePercent", title:"<spring:message code='shipment.Moisture.moisturePercent'/>",wrapTitle: false
 		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
-		{name: "dryWeight", title:"<spring:message code='shipment.Moisture.dryWeight'/>",wrapTitle: false
+		{name: "dryWeight", title:"<spring:message code='shipment.Moisture.dryWeight'/>",wrapTitle: false,required:true
 		   , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
 		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>",wrapTitle: false
 		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
