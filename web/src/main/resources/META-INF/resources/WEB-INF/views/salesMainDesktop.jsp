@@ -21,6 +21,8 @@
     <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
 
+    <SCRIPT SRC="isomorphic/locales/frameworkMessages_fa.properties"></SCRIPT>
+
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
     <script src=isomorphic/system/modules/ISC_Foundation.js></script>
@@ -33,24 +35,6 @@
     <script src=isomorphic/system/modules/ISC_Analytics.js></script>
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
     <script src=isomorphic/skins/Tahoe/load_skin.js></script>
-    <script src=isomorphic/locales/frameworkMessages.properties type="application/json"></script>
-    <script type="application/javascript">
-
-        (function loadFrameworkMessageFa() {
-            window.onload = () => isc.RPCManager.sendRequest({
-                httpMethod: "GET",
-                showPrompt: false,
-                useSimpleHttp: true,
-                serverOutputAsString: false,
-                contentType: "application/json; charset=utf-8",
-                actionURL: "${pageContext.servletContext.contextPath}/isomorphic/locales/frameworkMessages.properties",
-                callback: function (RpcResponse_o) {
-                    eval(RpcResponse_o.data);
-                }
-            });
-        })()
-
-    </script>
 
 </head>
 
@@ -73,28 +57,6 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.FileLoader.loadLocale("fa");
-
-    /*fix(Persion) right click on ListGrid*/
-
-    isc.ListGrid.addProperties({
-        sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
-        sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
-        configureSortText: '<spring:message code="global.grid.configureSortText" />',
-        autoFitAllText: '<spring:message code="global.grid.autoFitAllText" />',
-        autoFitFieldText: '<spring:message code="global.grid.autoFitFieldText" />',
-        filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
-        fieldVisibilitySubmenuTitle:'<spring:message code="listGrid_fieldVisibilitySubmenuTitle" />',
-        groupByText: '<spring:message code="global.grid.groupByText" />',
-        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
-        iBetweenTitle:'<spring:message code="operators_iBetweenTitle" />',
-        iStartsWithTitle:'<spring:message code="global.grid.A.iStartsWithTitle" />',
-    });
-
-
-
-
-
-
 
     isc.defineClass("MyRestDataSource", RestDataSource);
 
@@ -428,8 +390,8 @@
         colWidths: [20, "*"],
         showTitle: false,
         controls: [
-            routineReportButton,
-            coordinatingOfficeReportButton
+            routineReportButton//,
+            // coordinatingOfficeReportButton
             // demandReportButton
         ],
         autoDraw: false
@@ -1612,79 +1574,6 @@
             } // callback
         })
     );
-
-
-
-
-    /*Fix Farsi click*/
-    isc.defineClass("Operators", "Class");
-    isc.A = isc.Operators;
-    isc.A.equalsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iEqualsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notEqualTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iNotEqualTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.greaterThanTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.lessThanTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.greaterOrEqualTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.lessOrEqualTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.betweenTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iBetweenTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.betweenInclusiveTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iBetweenInclusiveTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.startsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iStartsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.endsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iEndsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.containsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iContainsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notContainsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iNotContainsTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notStartsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iNotStartsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notEndsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iNotEndsWithTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.regexpTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iregexpTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.matchesPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iMatchesPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.containsPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iContainsPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.equalsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iEqualsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notEqualFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iNotEqualFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.greaterThanFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.lessThanFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.greaterOrEqualFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.lessOrEqualFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.containsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iContainsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.startsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iStartsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.endsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iEndsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notContainsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iNotContainsFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notStartsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iNotStartsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notEndsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iNotEndsWithFieldTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.startsWithPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iStartsWithPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.endsWithPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.iEndsWithPatternTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.andTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.orTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.inSetTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notInSetTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.isBlankTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notBlankTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.isNullTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    isc.A.notNullTitle = '<spring:message code="global.grid.A.iStartsWithTitle"/>';
-    /*End Fix(Persion)*/
-
-
 
 
 </script>
