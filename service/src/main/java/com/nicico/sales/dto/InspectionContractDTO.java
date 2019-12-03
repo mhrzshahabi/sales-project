@@ -19,8 +19,9 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InspectionContractDTO {
-	@NotNull
-	@ApiModelProperty(required = true)
+
+//	@NotNull
+//	@ApiModelProperty(required = true)
 	private Shipment shipment;
 	private Long shipmentId;
 	private Contact contactByInspection;

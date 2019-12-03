@@ -281,6 +281,7 @@
             ]
     });
 
+
     var IButton_Bank_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -294,6 +295,7 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
+
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/bank/",
                     httpMethod: method,
@@ -310,6 +312,8 @@
             );
         }
     });
+
+
 
     var Window_Bank = isc.Window.create({
         title: "<spring:message code='bank.title'/> ",

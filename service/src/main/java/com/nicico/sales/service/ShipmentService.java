@@ -98,4 +98,20 @@ public class ShipmentService implements IShipmentService {
 	}
 
 
+	@Override
+	public List<String> findbooking(String id) {
+		return shipmentDAO.findbooking(id);
+	}
+
+	@Override
+	public List<String> cname() {
+		return shipmentDAO.cname();
+	}
+
+	@Override
+	public List<String> inspector() {
+		return shipmentDAO.inspector();
+	}
+
+
 }

@@ -19,7 +19,8 @@ import java.util.List;
 @RequestMapping(value = "/api/inspectionContract")
 public class InspectionContractRestController {
 
-	private final IInspectionContractService inspectionContractService;
+
+	private final IInspectionContractService inspectionContractService; //What's Dif bet IInspectionContractService , InspectionContractService
 
 	// ------------------------------s
 

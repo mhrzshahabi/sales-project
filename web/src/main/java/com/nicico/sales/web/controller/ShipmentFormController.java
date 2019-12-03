@@ -80,19 +80,33 @@ public class ShipmentFormController {
                         String[] loa = shipment.getPortByLoading().getPort().split(",");
                         replacePOI(doc, "loa", loa[0]);
 
-
-
                         String[] port = shipment.getPortByDischarge().getPort().split(",");
-                        replacePOI(doc, "port", "به مقصد " + port[1] );
+                        replacePOI(doc, "port", " به مقصد " + port[1] );
 
 
                         String[] portw = shipment.getPortByDischarge().getPort().split(",");
-                        replacePOI(doc, "comp", "به مقصد بندر " + port[0] + "در کشور " + port[1] );
+                        replacePOI(doc, "comp", " به مقصد بندر " + port[0] + " در کشور " + port[1] );
+
+                        /**/
+
+                        replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()) );
+
+
+
+
+
+
+
 
 
                         /*Date */
                         replacePOI(doc, "dateday", dateday );
                         /*End Date*/
+
+
+
+
+
 
                         response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_bulk.doc\"");
                         response.setContentType("application/vnd.ms-word");
@@ -113,7 +127,11 @@ public class ShipmentFormController {
                         replacePOI(doc,"contract_no", shipment.getContract().getContractNo());
 
 
+                        List<String> inspector = shipmentService.inspector();
+                        for(int i = 0 ; i < inspector.size() ; i++){
 
+                            replacePOI(doc, "inspector",  inspector.get(i));
+                        }
 
 
                         replacePOI(doc,"noContainer", String.valueOf(shipment.getNoContainer()));
@@ -121,16 +139,22 @@ public class ShipmentFormController {
                         replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
 
                         String[] port = shipment.getPortByDischarge().getPort().split(",");
-                        replacePOI(doc, "port", "به مقصد " + port[1] );
+                        replacePOI(doc, "port", " به مقصد " + port[1] );
 
 
                         String[] portw = shipment.getPortByDischarge().getPort().split(",");
-                        replacePOI(doc, "comp", "به مقصد بندر " + port[0] + "در کشور " + port[1] );
+                        replacePOI(doc, "comp", " به مقصد بندر " + port[0] + " در کشور " + port[1] );
 
 
 
                         replacePOI(doc, "containerType", shipment.getContainerType());
-                        replacePOI(doc, "blNumbers" ,  shipment.getBlNumbers());
+                        replacePOI(doc, "blNumbers" ,   shipment.getBlNumbers());
+
+
+                        replacePOI(doc, "bookingno" ,   "(Booking No."+shipment.getBookingCat() + ")" );
+
+
+
 
                         /*Date*/
                         replacePOI(doc, "dateday", dateday );
@@ -165,15 +189,24 @@ public class ShipmentFormController {
 
                 /*N*/
                     String[] port = shipment.getPortByDischarge().getPort().split(",");
-                    replacePOI(doc, "port", "به مقصد " + port[1] );
+                    replacePOI(doc, "port", " به مقصد " + port[1] );
 
 
                     String[] portw = shipment.getPortByDischarge().getPort().split(",");
-                    replacePOI(doc, "comp", "به مقصد بندر " + port[0] + "در کشور " + port[1] );
+                    replacePOI(doc, "comp", " به مقصد بندر " + port[0] + "در کشور " + port[1] );
 
                     /*Date*/
                 replacePOI(doc, "dateday", dateday );
                     /*End Date*/
+
+
+                List<String> inspector = shipmentService.inspector();
+                for(int i = 0 ; i < inspector.size() ; i++){
+
+                    replacePOI(doc, "inspector",  inspector.get(i));
+                }
+
+
 
                 response.setHeader("Content-Disposition", "attachment; filename=\"Copper_Concentrate_bulk.doc\"");
                 response.setContentType("application/vnd.ms-word");
@@ -201,10 +234,10 @@ public class ShipmentFormController {
                 replacePOI(doc,"contract_no", shipment.getContract().getContractNo());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc,"tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%" );
-                replacePOI(doc, "containerType",    shipment.getContainerType() +  "فوت"   );
+                replacePOI(doc, "containerType",    shipment.getContainerType() +  " فوت "   );
                 replacePOI(doc, "buyer",     shipment.getContact().getNameEN());
                 replacePOI(doc, "company", shipment.getContactByAgent().getNameEN());
-                replacePOI(doc, "ffff", shipment.getContact().getNameFA());
+//                replacePOI(doc, "ffff", shipment.getContact().getNameFA());
 
 
                 String[] portw = shipment.getPortByDischarge().getPort().split(",");
@@ -216,25 +249,73 @@ public class ShipmentFormController {
                 /*Add By Jalal Don't Forget To Add Moli */
 
                 String shipId = shipment.getContract().getId();
-                List<String> strings = shipmentService.findLotname(shipId);
+                List<String> lotnamelist = shipmentService.findLotname(shipId);
+                List<String> bookingNo = shipmentService.findbooking(shipId);
 
-                for(int i = 0 ; i < strings.size() ; i++ )
-                {
-                    for(int j = 0 ; j < i ; j++){
-                        replacePOI(doc,"lot",   strings.get(i)  + " & " + strings.get(j) );
+//               برای شرکت بازرسی است AHK , SGS  برای تست این کد رو گذاتشم تا بعدا فیلدی اینا اضافه شود.
+//                List<String> cnameEN = shipmentService.cname();
+//                if (cnameEN.size()!=0){
+//                    replacePOI(doc, "inspection",  cnameEN.get(0)  );
+//                }else {
+//                    replacePOI(doc, "inspection",  "شرکت یافت نشد "  );
+//                }
 
-                        replacePOI(doc,"lone",   strings.get(i));
-                        replacePOI(doc,"ltwo",   strings.get(j));
+                List<String> inspector = shipmentService.inspector();
+                for(int i = 0 ; i < inspector.size() ; i++){
 
-                    }
+                    replacePOI(doc, "inspector",  inspector.get(i));
                 }
 
 
 
-                int size = strings.size();
-                replacePOI(doc,"ola", String.valueOf(size));
+                if(lotnamelist.size()!=0 && bookingNo.size()!= 0)
+                {
+                    for(int k = 0 ; k < lotnamelist.size();k++ )
+                    {
+                        for(int m = 0 ; m < k ; m++)
+                        {
+                            replacePOI(doc,"lot",   lotnamelist.get(k)  + " & " + lotnamelist.get(m) );
 
+                        }
+                    }
+                    for(int j = 0 ; j < bookingNo.size() ; j++)
+                        {
+                            for(int u = 0 ; u < j ; u++){
+                                replacePOI(doc,"booking",    lotnamelist.get(1) +"->  "+bookingNo.get(j) + "    " +lotnamelist.get(0) + " -> "+  bookingNo.get(u));
+                            }
+
+                        }
+
+                }else {
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); //TODO
+                }
+
+                int sizelotnamelist = lotnamelist.size();
+                replacePOI(doc,"ola", String.valueOf(sizelotnamelist));
                 replacePOI(doc,"nocont",  shipment.getNoContainer().toString());
+
+
+//                for(int i = 0 ; i < lotnamelist.size() ; i++ )
+//                {
+//                    for(int j = 0 ; j < i ; j++){
+//                        replacePOI(doc,"lot",   lotnamelist.get(i)  + " & " + lotnamelist.get(j) );
+//
+//                        String jj = lotnamelist.get(i);
+//                        replacePOI(doc,"lone",  jj  );
+//                        replacePOI(doc,"ltwo",    lotnamelist.get(j));
+//
+//                    }
+//                }
+//                for(int k = 0 ; k < bookingNo.size(); k++)
+//                {
+//                    for (int s = 0 ; s < k ; s++){
+//                        replacePOI(doc,"booking",    bookingNo.get(k) + lotnamelist.get(jj) + "-" +  bookingNo.get(s));
+//                    }
+//                }
+
+
+
+
 
 
                 /*End By Jalal For Lot */
