@@ -101,4 +101,8 @@ public class WarehouseStockService implements IWarehouseStockService {
         final WarehouseStock saved = warehouseStockDAO.saveAndFlush(warehouseStock);
         return modelMapper.map(saved, WarehouseStockDTO.Info.class);
     }
+
+    public  List<Object[]>  warehouseStockConc() {
+        return warehouseStockDAO.  warehouseStockConc();
+    };
 }

@@ -8,7 +8,9 @@ import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseIssueConsDTO;
 import com.nicico.sales.iservice.IWarehouseIssueConsService;
 import com.nicico.sales.model.entities.base.WarehouseIssueCons;
+import com.nicico.sales.model.entities.base.WarehouseStock;
 import com.nicico.sales.repository.WarehouseIssueConsDAO;
+import com.nicico.sales.repository.WarehouseStockDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,83 +24,125 @@ import java.util.Optional;
 @Service
 public class WarehouseIssueConsService implements IWarehouseIssueConsService {
 
-    private final WarehouseIssueConsDAO warehouseIssueConsDAO;
-    private final ModelMapper modelMapper;
+	private final WarehouseIssueConsDAO warehouseIssueConsDAO;
+	private final WarehouseStockDAO warehouseStockDAO;
+	private final ModelMapper modelMapper;
 
-    @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 //    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECONS')")
-    public WarehouseIssueConsDTO.Info get(Long id) {
-        final Optional<WarehouseIssueCons> slById = warehouseIssueConsDAO.findById(id);
-        final WarehouseIssueCons warehouseIssueCons = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueConsNotFound));
+	public WarehouseIssueConsDTO.Info get(Long id) {
+		final Optional<WarehouseIssueCons> slById = warehouseIssueConsDAO.findById(id);
+		final WarehouseIssueCons warehouseIssueCons = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueConsNotFound));
 
-        return modelMapper.map(warehouseIssueCons, WarehouseIssueConsDTO.Info.class);
-    }
+		return modelMapper.map(warehouseIssueCons, WarehouseIssueConsDTO.Info.class);
+	}
 
-    @Transactional(readOnly = true)
-    @Override
+	@Transactional(readOnly = true)
+	@Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECONS')")
-    public List<WarehouseIssueConsDTO.Info> list() {
-        final List<WarehouseIssueCons> slAll = warehouseIssueConsDAO.findAll();
+	public List<WarehouseIssueConsDTO.Info> list() {
+		final List<WarehouseIssueCons> slAll = warehouseIssueConsDAO.findAll();
 
-        return modelMapper.map(slAll, new TypeToken<List<WarehouseIssueConsDTO.Info>>() {
-        }.getType());
-    }
+		return modelMapper.map(slAll, new TypeToken<List<WarehouseIssueConsDTO.Info>>() {
+		}.getType());
+	}
 
-    @Transactional
-    @Override
+	@Transactional
+	@Override
 //    @PreAuthorize("hasAuthority('C_WAREHOUSEISSUECONS')")
-    public WarehouseIssueConsDTO.Info create(WarehouseIssueConsDTO.Create request) {
-        final WarehouseIssueCons warehouseIssueCons = modelMapper.map(request, WarehouseIssueCons.class);
+	public WarehouseIssueConsDTO.Info create(WarehouseIssueConsDTO.Create request) {
+		final WarehouseIssueCons warehouseIssueCons = modelMapper.map(request, WarehouseIssueCons.class);
 
-        return save(warehouseIssueCons);
-    }
+		return save(warehouseIssueCons, null);
+	}
 
-    @Transactional
-    @Override
+	@Transactional
+	@Override
 //    @PreAuthorize("hasAuthority('U_WAREHOUSEISSUECONS')")
-    public WarehouseIssueConsDTO.Info update(Long id, WarehouseIssueConsDTO.Update request) {
-        final Optional<WarehouseIssueCons> slById = warehouseIssueConsDAO.findById(id);
-        final WarehouseIssueCons warehouseIssueCons = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueConsNotFound));
+	public WarehouseIssueConsDTO.Info update(Long id, WarehouseIssueConsDTO.Update request) {
+		final Optional<WarehouseIssueCons> slById = warehouseIssueConsDAO.findById(id);
+		final WarehouseIssueCons warehouseIssueCons = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueConsNotFound));
 
-        WarehouseIssueCons updating = new WarehouseIssueCons();
-        modelMapper.map(warehouseIssueCons, updating);
-        modelMapper.map(request, updating);
+		WarehouseIssueCons updating = new WarehouseIssueCons();
+		modelMapper.map(warehouseIssueCons, updating);
+		modelMapper.map(request, updating);
 
-        return save(updating);
-    }
+		return save(updating, warehouseIssueCons);
+	}
 
-    @Transactional
-    @Override
+	@Transactional
+	@Override
 //    @PreAuthorize("hasAuthority('D_WAREHOUSEISSUECONS')")
-    public void delete(Long id) {
-        warehouseIssueConsDAO.deleteById(id);
-    }
+	public void delete(Long id) {
+		warehouseIssueConsDAO.deleteById(id);
+	}
 
-    @Transactional
-    @Override
+	@Transactional
+	@Override
 //    @PreAuthorize("hasAuthority('D_WAREHOUSEISSUECONS')")
-    public void delete(WarehouseIssueConsDTO.Delete request) {
-        final List<WarehouseIssueCons> warehouseIssueConss = warehouseIssueConsDAO.findAllById(request.getIds());
+	public void delete(WarehouseIssueConsDTO.Delete request) {
+		final List<WarehouseIssueCons> warehouseIssueConss = warehouseIssueConsDAO.findAllById(request.getIds());
 
-        warehouseIssueConsDAO.deleteAll(warehouseIssueConss);
-    }
+		warehouseIssueConsDAO.deleteAll(warehouseIssueConss);
+	}
 
-    @Transactional(readOnly = true)
-    @Override
+	@Transactional(readOnly = true)
+	@Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECONS')")
-    public TotalResponse<WarehouseIssueConsDTO.Info> search(NICICOCriteria criteria) {
-        return SearchUtil.search(warehouseIssueConsDAO, criteria, warehouseIssueCons -> modelMapper.map(warehouseIssueCons, WarehouseIssueConsDTO.Info.class));
-    }
+	public TotalResponse<WarehouseIssueConsDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(warehouseIssueConsDAO, criteria, warehouseIssueCons -> modelMapper.map(warehouseIssueCons, WarehouseIssueConsDTO.Info.class));
+	}
 
-    @Transactional(readOnly = true)
-    @Override
+	@Transactional(readOnly = true)
+	@Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECONS')")
-    public SearchDTO.SearchRs<WarehouseIssueConsDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseIssueConsDAO, request, entity -> modelMapper.map(entity, WarehouseIssueConsDTO.Info.class));
-    }
+	public SearchDTO.SearchRs<WarehouseIssueConsDTO.Info> search(SearchDTO.SearchRq request) {
+		return SearchUtil.search(warehouseIssueConsDAO, request, entity -> modelMapper.map(entity, WarehouseIssueConsDTO.Info.class));
+	}
 
-    private WarehouseIssueConsDTO.Info save(WarehouseIssueCons warehouseIssueCons) {
-        final WarehouseIssueCons saved = warehouseIssueConsDAO.saveAndFlush(warehouseIssueCons);
-        return modelMapper.map(saved, WarehouseIssueConsDTO.Info.class);
-    }
+	private WarehouseIssueConsDTO.Info save(WarehouseIssueCons warehouseIssueCons, WarehouseIssueCons oldIssueCons) {
+		Double oldAmountSarcheshmeh = (oldIssueCons != null) ? oldIssueCons.getAmountSarcheshmeh() : 0D;
+		Double oldAmountMiduk = (oldIssueCons != null) ? oldIssueCons.getAmountMiduk() : 0D;
+		Double oldAmountSungon = (oldIssueCons != null) ? oldIssueCons.getAmountSungon() : 0D;
+		final WarehouseIssueCons saved = warehouseIssueConsDAO.saveAndFlush(warehouseIssueCons);
+		oldAmountSarcheshmeh = warehouseIssueCons.getAmountSarcheshmeh() - oldAmountSarcheshmeh;
+		oldAmountMiduk = warehouseIssueCons.getAmountMiduk() - oldAmountMiduk;
+		oldAmountSungon = warehouseIssueCons.getAmountSungon() - oldAmountSungon;
+		if (!oldAmountSarcheshmeh.equals(0D) || !oldAmountMiduk.equals(0D) || !oldAmountSungon.equals(0D)) {
+			List<WarehouseStock> warehouseStockConcList = warehouseStockDAO.warehouseStockConcList();
+			for (WarehouseStock w : warehouseStockConcList)
+				if (!oldAmountSarcheshmeh.equals(0D) || !oldAmountMiduk.equals(0D) || !oldAmountSungon.equals(0D)) {
+//                       WarehouseStock warehouseStock = warehouseStockDAO.findById(warehouseStockConcList.get(0).getId())
+//                               .orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseStockNotFound));
+					if (w.getPlant().equals("Sarcheshmeh") && !oldAmountSarcheshmeh.equals(0D)) {
+						w.setAmount(w.getAmount() - oldAmountSarcheshmeh);
+						if (w.getAmount().compareTo(0D) < 0) {
+							oldAmountSarcheshmeh = -1 * w.getAmount();
+							w.setAmount(0D);
+						} else
+							oldAmountSarcheshmeh = 0D;
+						warehouseStockDAO.saveAndFlush(w);
+					} else if (w.getPlant().equals("Miduk") && !oldAmountMiduk.equals(0D)) {
+						w.setAmount(w.getAmount() - oldAmountMiduk);
+						if (w.getAmount().compareTo(0D) < 0) {
+							oldAmountMiduk = -1 * w.getAmount();
+							w.setAmount(0D);
+						} else
+							oldAmountMiduk = 0D;
+						warehouseStockDAO.saveAndFlush(w);
+					} else if (w.getPlant().equals("Sungon") && !oldAmountSungon.equals(0D)) {
+						w.setAmount(w.getAmount() - oldAmountSungon);
+						if (w.getAmount().compareTo(0D) < 0) {
+							oldAmountSungon = -1 * w.getAmount();
+							w.setAmount(0D);
+						} else
+							oldAmountSungon = 0D;
+						warehouseStockDAO.saveAndFlush(w);
+					}
+				}
+			if (!oldAmountSarcheshmeh.equals(0D) || !oldAmountMiduk.equals(0D) || !oldAmountSungon.equals(0D))
+				throw new SalesException(SalesException.ErrorType.WarehouseStockNotFound);
+		}
+		return modelMapper.map(saved, WarehouseIssueConsDTO.Info.class);
+	}
 }

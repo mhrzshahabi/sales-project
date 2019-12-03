@@ -39,6 +39,17 @@ public class WarehouseStockRestController {
         return new ResponseEntity<>(warehouseStockService.list(), HttpStatus.OK);
     }
 
+   @Loggable
+    @GetMapping(value = "/cons-stock")
+    public ResponseEntity< String > stock() {
+        List<Object[]> ll=warehouseStockService.warehouseStockConc();
+        String out="";
+        for (Object[] r : ll)
+            out += ", { \"plant\" : \""+r[0].toString()+ "\" , \"amount\" : \""+r[1].toString()+ "\" } ";
+        out =" { \"data\" : [ "+out.substring(1)+" ] }";
+        return new ResponseEntity<>(out , HttpStatus.OK);
+    }
+
     /*@Loggable
     @PostMapping
     public ResponseEntity<WarehouseStockDTO.Info> create(@Validated @RequestBody WarehouseStockDTO.Create request) {

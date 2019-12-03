@@ -288,7 +288,7 @@
 
 
         isc.Label.create({ID:"Label_Contact_Type",padding: 20,width: "100%",height: "1%",styleName: "helloWorldText",contents:  'Please select the type of contract.'});
-        isc.IButton.create({ID:"Button_MO_OX",width: "200",height: "30",title: "Molybdenum",icon: "icons/16/world.png",iconOrientation: "right",click:function () {
+        isc.IButton.create({ID:"Button_MO_OX",width: "200",height: "30",title: "Molybdenum",iconOrientation: "right",click:function () {
                 contactHeader.clearValues();
                 contactHeaderAgent.clearValues();
                 valuesManagerArticle1.clearValues();
@@ -340,7 +340,6 @@
                             click: function () {
                                 var record = ListGrid_Tozin.getSelectedRecord();
                                 contractIdEdit=record.id;
-                                alert(contractIdEdit)
                                 if (record == null || record.id == null) {
                                     isc.Dialog.create({
                                         message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -617,8 +616,7 @@
                                                     var criteriaRemove={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:idContractRemove}]};
                                                     RestDataSource_contractDetail_list.fetchData(criteriaRemove,function (dsResponse, data, dsRequest) {
                                                     if(data==""){
-                                                        alert("aaa");
-                                                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                                        isc.RPCManagaler.sendRequest(Object.assign(BaseRPCRequest, {
                                                                     actionURL: "${contextPath}/api/contract/" + idContractRemove,
                                                                     httpMethod: "DELETE",
                                                                     callback: function (resp) {
@@ -631,7 +629,6 @@
                                                                       }
                                                                     }))
                                                     }else{
-                                                     alert(data[0].id+"bbbbb")
                                                      var contractDetailIDRemove = data[0].id;
                                                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                                                     actionURL: "${contextPath}/api/contractDetail/" + contractDetailIDRemove,
@@ -738,7 +735,7 @@ function factoryLableHedear(id, contents, width, height, padding) {
             wrap: false,
             showEdges: true,
             showShadow: true,
-            icon: "icons/16/world.png",
+            icon: "",
             contents: contents
         });
     }
@@ -1816,7 +1813,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 name: "article3_number17_6",
                 showTitle: false,
                 width: "100",
-                defult: "TILL",
+                default: "TILL",
                 showHintInField: true,
                 startRow: false,
                 title: 'quantity_number17_6',
@@ -1975,7 +1972,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 name: "runTill", ///article5_number26
                 showTitle: false,
                 width: "170",
-                defult: "TILL",
+                default: "TILL",
                 showHintInField: true,
                 startRow: false,
                 valueMap: {
@@ -3500,7 +3497,6 @@ var IButton_Contact_Save = isc.IButton.create({
                     dataSaveAndUpdateContractDetail.article10_number61=valuesManagerArticle10.getValue("article10_number61");
              console.log(dataSaveAndUpdateContract);
             if(methodUrl=="PUT"){
-                        alert(contractIdEdit);
                         dataSaveAndUpdateContract.id=contractIdEdit;
                         dataSaveAndUpdateContractDetail.contractNo=contactHeader.getValue("contractNo");
             }
@@ -3731,7 +3727,6 @@ function saveValuelotListForADD(contractID) {
         lotList.selectAllRecords();
         lotList.getAllEditRows().forEach(function (element) {
             var data_lotList = lotList.getEditedRecord(element);
-            alert(JSON.stringify(data_lotList));
             data_lotList.contractId = contractID;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                 actionURL: "${contextPath}/api/warehouseLot/",

@@ -5,7 +5,18 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
+    var RestDataSource_CatodList = isc.MyRestDataSource.create({
+    fields:
+        [
+            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+            {name: "productLabel"},
+            {name: "sheetNumber"},
+            {name: "wazn"}
+        ],
+        fetchDataURL: "${contextPath}/api/catodList/spec-list"
+    });
+
+var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -42,7 +53,8 @@
         operator: "and",
         criteria: [
             {fieldName: "target","operator":"iContains","value":"رجا"},
-            {fieldName: "tozinId", operator: "notContains", value: '3%'}
+            {fieldName: "tozinId", operator: "notContains", value: '3%'},
+            {fieldName: "codeKala", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().codeKala}
         ]
     };
 
@@ -51,7 +63,8 @@
         operator: "and",
         criteria: [
             {fieldName: "target","operator":"iContains","value":"رجا"},
-            {fieldName: "tozinId", operator: "contains", value: '3%'}
+            {fieldName: "tozinId", operator: "contains", value: '3%'},
+            {fieldName: "codeKala", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().codeKala}
         ]
     };
 
@@ -68,10 +81,10 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bundleSerial"},
-                {name: "sheetNo"},
-                {name: "weightKg"},
-                {name: "description"}
+                {name: "productLabel",title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "25%", summaryFunction:"count"},
+                {name: "sheetNumber", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: "25%", summaryFunction:"sum"},
+                {name: "wazn",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "25%", summaryFunction:"sum"},
+                {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "25%"}
             ],
         saveEdits: function () {
                 var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
@@ -114,22 +127,26 @@
                 {
                     name: "materialItemId",
                     title: "<spring:message code='contractItem.material'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "plant",
                     title: "<spring:message code='contractItem.plant'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "warehouseNo",
                     title: "<spring:message code='warehouseCad.warehouseNo'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "movementType",
                     title: "<spring:message code='warehouseCad.movementType'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "sourceTozinPlantId",
@@ -161,7 +178,7 @@
                         DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
                         DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().carName);
                         DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().carName);
-                        DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().codeKala);
+                        DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().nameKala);
                         DynamicForm_warehouseCAD.setValue("sourceLoadDate", item.getSelectedRecord().tozinDate);
                         DynamicForm_warehouseCAD.setValue("containerNo", item.getSelectedRecord().containerId);
                     }
@@ -292,6 +309,16 @@
 
             ListGrid_WarehouseCadItem.deselectAllRecords();
 
+            //change to warehouseCadItems attributes
+            warehouseCadItems.forEach(function(item) {
+                item.bundleSerial = item.productLabel;
+                delete item.productLabel;
+                item.sheetNo = item.sheetNumber;
+                delete item.sheetNumber;
+                item.weightKg = item.wazn;
+                delete item.wazn;
+            });
+
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
             var method = "PUT";
             if (data_WarehouseCad.id == null)
@@ -314,6 +341,20 @@
     });
 
     ListGrid_WarehouseCadItem.setData([]);
+    var criteria_catod={_constructor:"AdvancedCriteria",operator:"and",
+    criteria:[{fieldName:"tozinId",operator:"equals",value:ListGrid_Tozin.getSelectedRecord().tozinPlantId}]};
+    RestDataSource_CatodList.fetchData(criteria_catod,
+        function (dsResponse, data, dsRequest) {
+            data.forEach(function(item){
+                delete item.storeId;
+                delete item.tozinId;
+                delete item.productId;
+                delete item.packingTypeId;
+                delete item.gdsCode;
+            });
+            ListGrid_WarehouseCadItem.setData(data);
+        });
+
     DynamicForm_warehouseCAD.clearValues();
 
     DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().nameKala);

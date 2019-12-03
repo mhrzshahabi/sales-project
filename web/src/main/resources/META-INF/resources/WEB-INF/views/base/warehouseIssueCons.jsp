@@ -2,19 +2,130 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
+  isc.SimpleType.create({
+    name:"currencyFloat3",
+        inheritsFrom:"float",
+         editFormatter:function (value) {
+            return isc.isA.Number(value) ? value.toFixed(3) : value;
+        },
+        parseInput:function(value) {
+            var fVal = parseFloat(value);
+            if (!isNaN(fVal)) return fVal;
+            return value;
+        },
+
+        validators:[
+            {type:"floatRange", min:0, errorMessage:"notValid"},
+            {type:"floatPrecision", precision:3, roundToPrecision:true}
+        ]
+
+    });
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    var stocks = {};
+    function fetch_stock() {
+        stocks = {};
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/warehouseStock/cons-stock",
+                httpMethod: "GET",
+                data: "",
+                callback: function (RpcResponse_o) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                        var data = JSON.parse(RpcResponse_o.data);
+                        for (x of data.data) {
+                            stocks[x.plant] = x.amount;
+                        }
+                        console.log(stocks);
+                        t=DynamicForm_WarehouseIssueCons.getValue("amountSungon");t=typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockSungon", t+parseFloat(stocks["Sungon"]));
+
+                        t=DynamicForm_WarehouseIssueCons.getValue("amountMiduk");t=typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockMiduk", t+parseFloat(stocks["Miduk"]));
+
+                        t=DynamicForm_WarehouseIssueCons.getValue("amountSarcheshmeh");t=typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockSarcheshmeh", t+parseFloat(stocks["Sarcheshmeh"]));
+
+                    } //if rpc
+                } // callback
+            })
+        );
+    }
 
     var RestDataSource_WarehouseIssueCons = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "shipmentId"},
-                {name: "amountSarcheshmeh"},
-                {name: "amountMiduk"},
-                {name: "amountSungon"},
-                {name: "totalAmount"},
-                {name: "amountDraft"},
-                {name: "amountPms"},
+                {name: "amountSarcheshmeh",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]                },
+                {name: "amountMiduk",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {name: "amountSungon",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {name: "totalAmount",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {name: "amountDraft",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {name: "amountPms",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
                 {name: "id"},
              ],
 
@@ -321,6 +432,7 @@
             });
         } else {
             DynamicForm_WarehouseIssueCons.editRecord(record);
+            fetch_stock();
             Window_WarehouseIssueCons.animateShow();
         }
     }
@@ -384,6 +496,7 @@
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     DynamicForm_WarehouseIssueCons.clearValues();
+                    fetch_stock();
                     Window_WarehouseIssueCons.animateShow();
                 }
             },
@@ -418,6 +531,7 @@
         ]
     });
 
+
     var DynamicForm_WarehouseIssueCons = isc.DynamicForm.create({
         width: 650,
         height: "100%",
@@ -431,51 +545,78 @@
         titleWidth: "150",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,backgroundImage: "backgrounds/leaves.jpg",
+        numCols: 4,backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true},
                 {type: "RowSpacerItem"},
-                {name: "amountSarcheshmeh",title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "amountSarcheshmeh",title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                        if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountSarcheshmeh"))> parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockSarcheshmeh"))) {
+							DynamicForm_WarehouseIssueCons.setValue("amountSarcheshmeh",0);
+                         }
+					  }
+					}
+
                 },
-                {name: "amountMiduk",title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "StockSarcheshmeh",title: "<spring:message code='warehouseIssueCons.StockSarcheshmeh'/>",canEdit:false,width: "100%",wrapTitle : false, defaultValue : stocks["Sarcheshmeh"]},
+                {name: "amountMiduk",title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                        if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountMiduk"))> parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockMiduk"))) {
+							DynamicForm_WarehouseIssueCons.setValue("amountMiduk",0);
+                         }
+					  }
+					}
+
                 },
-                {name: "amountSungon",title: "<spring:message code='warehouseIssueCons.amountSungon'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "StockMiduk",title: "<spring:message code='warehouseIssueCons.StockMiduk'/>",canEdit:false,width: "100%",wrapTitle : false, defaultValue : stocks["Miduk"]},
+                {name: "amountSungon",title: "<spring:message code='warehouseIssueCons.amountSungon'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                    validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],
+                    changed	: function(form, item, value){
+					  if (value!=null && typeof (value)!='undefined'){
+                        if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountSungon"))> parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockSungon"))) {
+							DynamicForm_WarehouseIssueCons.setValue("amountSungon",0);
+                         }
+					  }
+					}
+
                 },
-                {name: "amountPms",title: "<spring:message code='warehouseIssueCons.amountPms'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "StockSungon",title: "<spring:message code='warehouseIssueCons.StockSungon'/>",canEdit:false,width: "100%",wrapTitle : false, defaultValue : stocks["Sungon"]},
+                {name: "amountPms",title: "<spring:message code='warehouseIssueCons.amountPms'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],colSpan:3,titleColSpan:1
                 },
-                {name: "amountDraft",title: "<spring:message code='warehouseIssueCons.amountDraft'/>",width: 500,required: true, length: "15",wrapTitle : false,
+                {name: "amountDraft",title: "<spring:message code='warehouseIssueCons.amountDraft'/>",width: "100%",required: true, length: "15",wrapTitle : false,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "!"
-                    }]
+                    }],colSpan:3,titleColSpan:1
                 },
                 {type: "RowSpacerItem"},
                 {type: "RowSpacerItem"}
@@ -510,6 +651,7 @@
             }
             DynamicForm_WarehouseIssueCons.clearValues();
             DynamicForm_WarehouseIssueCons.setValue("shipmentId", record.id);
+            fetch_stock();
             Window_WarehouseIssueCons.animateShow();
         }
     });

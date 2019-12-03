@@ -29,4 +29,5 @@ public interface IWarehouseCadItemService {
 	SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(WarehouseCadItemDTO.Delete request);
 
 	WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem, WarehouseCadItem oldCadItem) ;
+	 WarehouseCadItemDTO.Info saveIssue(WarehouseCadItem warehouseCadItem, Long issueId);
 }

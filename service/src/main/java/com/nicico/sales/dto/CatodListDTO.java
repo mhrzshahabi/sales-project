@@ -15,25 +15,24 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WarehouseIssueMoDTO {
-	private Long shipmentId;
-	private Long warehouseLotId;
-	private String containerNo;
-	private Double amountCustom;
-	private String sealedCustom;
-	private String sealedInspector;
-	private String sealedShip;
-	private Double emptyWeight;
+public class CatodListDTO {
+	private String storeId;
+	private String tozinId;
+	private String productId;
+	private String productLabel;
+	private Long wazn;
+	private Long sheetNumber;
+	private Long packingTypeId;
+	private Long gdsCode;
+
 	// ------------------------------
 
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseIssueMoInfo")
-	public static class Info extends WarehouseIssueMoDTO {
+	@ApiModel("CatodListInfo")
+	public static class Info extends CatodListDTO {
 		private Long id;
-		private ShipmentDTO shipment;
-		private WarehouseLotDTO warehouseLot;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;
@@ -46,8 +45,8 @@ public class WarehouseIssueMoDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseIssueMoCreateRq")
-	public static class Create extends WarehouseIssueMoDTO {
+	@ApiModel("CatodListCreateRq")
+	public static class Create extends CatodListDTO {
 	}
 
 	// ------------------------------
@@ -55,8 +54,8 @@ public class WarehouseIssueMoDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseIssueMoUpdateRq")
-	public static class Update extends WarehouseIssueMoDTO {
+	@ApiModel("CatodListUpdateRq")
+	public static class Update extends CatodListDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
@@ -67,7 +66,7 @@ public class WarehouseIssueMoDTO {
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	@ApiModel("WarehouseIssueMoDeleteRq")
+	@ApiModel("CatodListDeleteRq")
 	public static class Delete {
 		@NotNull
 		@ApiModelProperty(required = true)
@@ -80,8 +79,8 @@ public class WarehouseIssueMoDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("WarehouseIssueMoSpecRs")
-	public static class WarehouseIssueMoSpecRs {
+	@ApiModel("CatodListSpecRs")
+	public static class CatodListSpecRs {
 		private SpecRs response;
 	}
 
@@ -92,7 +91,7 @@ public class WarehouseIssueMoDTO {
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
-		private List<WarehouseIssueMoDTO.Info> data;
+		private List<CatodListDTO.Info> data;
 		private Integer status;
 		private Integer startRow;
 		private Integer endRow;

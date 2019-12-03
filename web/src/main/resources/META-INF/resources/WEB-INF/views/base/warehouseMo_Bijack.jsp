@@ -133,7 +133,17 @@
     var add_bundle_button = isc.IButton.create({
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
-        click: "ListGrid_WarehouseCadItem.startEditingNew()"
+        click: function() {
+            ListGrid_WarehouseCadItem.selectAllRecords();
+            if(ListGrid_WarehouseCadItem.getSelectedRecords().length >= 1){
+                isc.warn("only one item is ok.");
+                ListGrid_WarehouseCadItem.deselectAllRecords();
+                    return;
+            }
+            ListGrid_WarehouseCadItem.deselectAllRecords();
+
+            ListGrid_WarehouseCadItem.startEditingNew();
+        }
     });
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
@@ -159,22 +169,26 @@
                 {
                     name: "materialItemId",
                     title: "<spring:message code='contractItem.material'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "plant",
                     title: "<spring:message code='contractItem.plant'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "warehouseNo",
                     title: "<spring:message code='warehouseCad.warehouseNo'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "movementType",
                     title: "<spring:message code='warehouseCad.movementType'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "sourceTozinPlantId",

@@ -9,8 +9,6 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "lotName",title: "<spring:message code='warehouseCadItem.lotName'/>", width: "25%", summaryFunction:"count"},
-                {name: "barrelNo", title: "<spring:message code='warehouseCadItem.barrelNo'/>", width: "25%", summaryFunction:"sum"},
                 {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "25%"},
                 {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "25%"}
             ],
@@ -70,17 +68,15 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "lotName"},
-                {name: "barrelNo"},
                 {name: "weightKg"},
                 {name: "description"}
             ],
         saveEdits: function () {
-            var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
-            if(warehouseCadItem.lotName === undefined || warehouseCadItem.barrelNo === undefined || warehouseCadItem.weightKg === undefined){
-                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
-                return;
-            }
+                var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
+                if(warehouseCadItem.weightKg === undefined){
+                    isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
+                    return;
+                }
         },
         removeData: function (data) {
         }
@@ -90,15 +86,14 @@
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
         click: function() {
-            console.log(ListGrid_WarehouseCadItem.selectAllRecords());
-            console.log(ListGrid_WarehouseCadItem.getSelectedRecords());
-            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
-
+            ListGrid_WarehouseCadItem.selectAllRecords();
+            if(ListGrid_WarehouseCadItem.getSelectedRecords().length >= 1){
+                isc.warn("only one item is ok.");
+                ListGrid_WarehouseCadItem.deselectAllRecords();
+                    return;
+            }
             ListGrid_WarehouseCadItem.deselectAllRecords();
 
-            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
-            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
-            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
             ListGrid_WarehouseCadItem.startEditingNew();
         }
     });
@@ -269,10 +264,8 @@
                     colSpan: 1,
                     titleColSpan: 1
                 },
-                {name: "sourceBundleSum", title: "<spring:message code='warehouseCad.sourceBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationBundleSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "sourceSheetSum", title: "<spring:message code='warehouseCad.sourceSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationSheetSum", title: "<spring:message code='warehouseCad.destinationSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "sourceWeight", title: "<spring:message code='warehouseCad.sourceWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "destinationWeight", title: "<spring:message code='warehouseCad.destinationWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
                  {
                     type: "Header",
                     defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"

@@ -11,7 +11,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "bundleSerial",title: "<spring:message code='warehouseCadItem.bundleSerial'/>", width: "20%", summaryFunction:"count"},
                 {name: "sheetNo", title: "<spring:message code='warehouseCadItem.sheetNo'/>", width: "20%", summaryFunction:"sum"},
-                {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "20%"},
+                {name: "weightKg",title: "<spring:message code='warehouseCadItem.weightKg'/>", width: "20%", summaryFunction:"sum"},
                 {name: "issueId", disabled: true, title: "<spring:message code='warehouseCadItem.issueId'/>", width: "20%"},
                 {name: "description", title: "<spring:message code='warehouseCadItem.description'/>", width: "20%"}
             ],
@@ -164,22 +164,26 @@
                 {
                     name: "materialItemId",
                     title: "<spring:message code='contractItem.material'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "plant",
                     title: "<spring:message code='contractItem.plant'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "warehouseNo",
                     title: "<spring:message code='warehouseCad.warehouseNo'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "movementType",
                     title: "<spring:message code='warehouseCad.movementType'/>",
-                    type: 'text'
+                    type: 'text',
+                    canEdit: false
                 },
                 {
                     name: "sourceTozinPlantId",

@@ -631,6 +631,7 @@
         width: 650,
         height: "100%",
         setMethod: 'POST',
+
         align: "center",
         canSubmit: true,
         showInlineErrors: true,
@@ -650,7 +651,7 @@
                     name: "bijak",
                     title: "<spring:message code='warehouseIssueCathode.bijak'/>",
                     type: 'text',
-                    width: 500, required: false,
+                    width: 500, required: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_WarehouseIssueCathode_WarehouseCad,
                     displayField: "bijackNo",
@@ -857,10 +858,11 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_WarehouseIssueCathode,
+        showFilterEditor: true,
         contextMenu: Menu_ListGrid_WarehouseIssueCathode,
         fields:
             [
-                 {name: "id", hidden: true,},
+                 {name: "id"},
                 {name: "shipmentId", hidden: true},
                 {type: "RowSpacerItem"},
                 {name: "bijak",title: "<spring:message code='warehouseIssueCathode.bijak'/>",width: "10%",required: true,keyPressFilter: "[0-9]", length: "15"},

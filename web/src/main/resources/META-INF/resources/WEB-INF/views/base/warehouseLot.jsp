@@ -668,13 +668,13 @@
     });
 
 
-    var ToolStripButton_WarehouseLot_Paste = isc.ToolStripButton.create({
+    /*var ToolStripButton_WarehouseLot_Paste = isc.ToolStripButton.create({
         icon: "[SKIN]/RichTextEditor/paste.png",
         title: "<spring:message code='global.form.pasteCells'/>",
         click: function () {
-            createPasteDialog();
+            // createPasteDialog();
         }
-    });
+    });*/
     var ToolStrip_Actions_WarehouseLot = isc.ToolStrip.create({
         width: "100%",
         members:
