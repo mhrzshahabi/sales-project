@@ -225,6 +225,7 @@
                     optionDataSource: RestDataSource_WarehouseYard,
                     displayField: "nameFA",
                     valueField: "id",
+                    defaultValue: "5",
                     pickListWidth: "215",
                     pickListHeight: "215",
                     pickListProperties: {showFilterEditor: true},

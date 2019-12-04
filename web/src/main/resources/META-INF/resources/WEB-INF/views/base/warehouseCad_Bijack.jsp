@@ -295,6 +295,7 @@
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_WarehouseYard,
                     displayField: "nameFA",
+                    defaultValue: "9",
                     valueField: "id",
                     pickListWidth: "215",
                     pickListHeight: "215",
