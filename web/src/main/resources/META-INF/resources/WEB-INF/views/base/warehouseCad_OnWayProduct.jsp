@@ -122,7 +122,7 @@ var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
             ],
         saveEdits: function () {
                 var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
-                if(warehouseCadItem.bundleSerial === undefined || warehouseCadItem.sheetNo === undefined || warehouseCadItem.weightKg === undefined){
+                if(warehouseCadItem.productLabel === undefined || warehouseCadItem.sheetNumber === undefined || warehouseCadItem.wazn === undefined){
                     isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
                     return;
                 }

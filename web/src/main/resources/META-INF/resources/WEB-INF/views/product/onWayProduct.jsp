@@ -289,30 +289,6 @@
         width: 150,
         data: [
             {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
-                click: function () {
-                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                    "<spring:url value="/tozin/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}' + '/' + toDay);
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
-                click: function () {
-                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                    "<spring:url value="/tozin/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}' + '/' + toDay);
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
-                click: function () {
-                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                    "<spring:url value="/tozin/print/html" var="printUrl"/>"
-                    window.open('${printUrl}' + '/' + toDay);
-                }
-            },
-{
                 title: "<spring:message code='bijack'/>", icon: "product/warehouses.png",
                 click: function () {
                     var record = ListGrid_Tozin.getSelectedRecord();
@@ -360,15 +336,6 @@
             [
                 BijackViewLoader
             ]
-    });
-
-    var MenuButton_Tozin = isc.MenuButton.create({
-        ID: "MenuButton_Tozin",
-        autoDraw: false,
-        title: "<spring:message code='tozin.report.betweenComplexes'/>",
-        prompt: "<spring:message code='tozin.report.betweenComplexes.date'/>",
-        width: 100,
-        menu: Menu_ListGrid_Tozin
     });
 
     var DynamicForm_Tozin = isc.DynamicForm.create({
@@ -434,47 +401,12 @@
         }
     });
 
-    var ToolStripButton_Tozin_sum = isc.ToolStripButton.create({
-        icon: "icon/sigma.png",
-        title: "<spring:message code='shipment.total'/>",
-        prompt: " <spring:message code='shipment.tozinSum.prompt'/>",
-        click: function () {
-            var sum1 = 0;
-            var sum2 = 0;
-            var selectedAtFirst = ListGrid_Tozin.getSelection().length;
-            if (selectedAtFirst == 0) {
-                ListGrid_Tozin.selectAllRecords();
-            }
-            var record = ListGrid_Tozin.getSelection();
-            for (var i = 0; i < record.length; i++) {
-                var str = record.get(i).condition;
-                if (str.startsWith("1")) {
-                    sum1 += record.get(i).vazn;
-                }
-                if (str.startsWith("2")) {
-                    sum2 += record.get(i).vazn;
-                }
-            }
-            isc.Dialog.create({
-                message: "مجموع برای " + record.length + "  رکورد مقداربارگیری(" + sum1 + ") و تخلیه مقدار (" + sum2 + ") می باشد",
-                title: "مجموع حمل",
-            });
-            // isc.ask("جمع تخلیه "+record.length+" رکورد مقدار"+sum+" می باشد");
-            if (selectedAtFirst == 0) {
-                ListGrid_Tozin.deselectAllRecords();
-            }
-
-        }
-    });
-
     var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 10,
         members:
             [
-                MenuButton_Tozin,
                 ToolStripButton_Tozin_Refresh,
-                ToolStripButton_Tozin_sum,
                 DynamicForm_DailyReport_Tozin,
                 DynamicForm_DailyReport_Tozin1,
                 DynamicForm_DailyReport_Tozin2,
