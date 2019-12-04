@@ -40,6 +40,23 @@ public class WarehouseCadItemDTO {
         private String lastModifiedBy;
         private Integer version;
     }
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseCadItemInfoCombo")
+    public static class InfoCombo {
+        private Long id;
+    }
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseCadItemInfoCombo")
+    public static class InfoCombo2 {
+        private Long id;
+        private String bundleSerial;
+        private Long sheetNo;
+        private WarehouseCadDTO.InfoCombo2 warehouseCad;
+    }
 
      @Getter
     @Setter
