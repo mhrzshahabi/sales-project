@@ -1476,7 +1476,7 @@
   /*  financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);*/
 
 
-    var financialRibbonHLayout = isc.HLayout.create({
+    var financialRibbonHLayout = isc.HLayout.create( {
         width: "100%",
         height: "60",
         showResizeBar: false,
