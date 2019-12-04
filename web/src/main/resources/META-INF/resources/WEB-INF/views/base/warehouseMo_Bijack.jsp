@@ -298,8 +298,6 @@
                     colSpan: 1,
                     titleColSpan: 1
                 },
-                {name: "sourceBarrelSum", title: "<spring:message code='warehouseCad.sourceBarrelSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationBarrelSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
                 {name: "sourceWeight", title: "<spring:message code='warehouseCad.sourceWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
                 {name: "destinationWeight", title: "<spring:message code='warehouseCad.destinationWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
                  {

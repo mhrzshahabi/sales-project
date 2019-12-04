@@ -345,6 +345,8 @@
                 {name: "destinationBundleSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
                 {name: "sourceSheetSum", title: "<spring:message code='warehouseCad.sourceSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
                 {name: "destinationSheetSum", title: "<spring:message code='warehouseCad.destinationSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "sourceWeight", title: "<spring:message code='warehouseCad.sourceWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "destinationWeight", title: "<spring:message code='warehouseCad.destinationWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
                  {
                     type: "Header",
                     defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"
