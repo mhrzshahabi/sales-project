@@ -827,15 +827,15 @@
         }
     });
 /*Add By JZ*/
-    var salesContractCharterButton = isc.IconButton.create({
-        title: "<spring:message code='salesContract.title'/>",
-        icon: "contract/charter.png",
-        largeIcon: "contract/charter.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/charter/showForm" />")
-        }
-    });
+    <%--var salesContractCharterButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='salesContract.title'/>",--%>
+    <%--    icon: "contract/charter.png",--%>
+    <%--    largeIcon: "contract/charter.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/charter/showForm" />")--%>
+    <%--    }--%>
+    <%--});--%>
 
     var salesContractMoButton = isc.IconButton.create({
         title: "<spring:message code='salesContractMoButton.title'/>",
@@ -855,6 +855,7 @@
             createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
         }
     });
+    /*Fix Persion*/
     var salesContractConcButton = isc.IconButton.create({
         title: "<spring:message code='salesContractConcButton.title'/>",
         icon: "contract/salesContract.png",
@@ -892,6 +893,7 @@
             createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
         }
     });
+
     var insuranceContractButton = isc.IconButton.create({
         title: "<spring:message code='insuranceContract.title'/>",
         icon: "contract/insuranceContract.png",
@@ -902,6 +904,19 @@
         }
     });
 
+
+    /*JZ*/
+    var inspectionContractResultButton = isc.IconButton.create({
+        title: "<spring:message code='inspection.contract.form'/>",
+        icon: "inspection/inspectionContract.png",
+        largeIcon: "inspection/inspectionContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='inspection.contract.form'/>", "<spring:url value="/inspectionContract/showForm" />")
+        }
+    });
+
+
     var contractRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.contract.management'/>",
         numRows: 1,
@@ -909,7 +924,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton,salesContractCADButton,salesContractConcButton,salesContractCharterButton]})
+            isc.HLayout.create({align: "left", members: [salesContractButton,salesContractMoButton,salesContractCADButton,salesContractConcButton ,    inspectionContractResultButton]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
@@ -931,7 +946,7 @@
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
-        members: [contractRibbonBar]
+        members: [contractRibbonBar , ]
     });
 
     /*-------------------Product---------------------------*/
@@ -1199,15 +1214,15 @@
         members: [shipmentRibbonBar]
     });
     /*-------------------inspection---------------------------*/
-    /*var inspectorAppointmentButton = isc.IconButton.create({
-        title: "<spring:message code='inspectorAppointment.title'/>",
-        icon: "inspection/inspectorAppointment.png",
-        largeIcon: "inspection/inspectorAppointment.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });*/
+    <%--/*var inspectorAppointmentButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='inspectorAppointment.title'/>",--%>
+    <%--    icon: "inspection/inspectorAppointment.png",--%>
+    <%--    largeIcon: "inspection/inspectorAppointment.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        &lt;%&ndash;createTab("<spring:message code='organization.title'/>", "/department/showForm")&ndash;%&gt;--%>
+    <%--    }--%>
+    <%--});*/--%>
 
 
 
@@ -1298,83 +1313,83 @@
         members: [inspectionRibbonBar]
     });
     /!*-------------------insurance---------------------------*!/
-    /*   var insurerNominationButton = isc.IconButton.create({
-           title: "<spring:message code='insurerNomination.title'/>",
-        icon: "insurance/insurerNomination.png",
-        largeIcon: "insurance/insurerNomination.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var insuranceInstructionButton = isc.IconButton.create({
-        title: "<spring:message code='insuranceInstruction.title'/>",
-        icon: "insurance/insuranceInstruction.png",
-        largeIcon: "insurance/insuranceInstruction.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var insuranceCertificateButton = isc.IconButton.create({
-        title: "<spring:message code='insuranceCertificate.title'/>",
-        icon: "insurance/insuranceCertificate.png",
-        largeIcon: "insurance/insuranceCertificate.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var certificateDeliveryButton = isc.IconButton.create({
-        title: "<spring:message code='certificateDelivery.title'/>",
-        icon: "insurance/certificateDelivery.png",
-        largeIcon: "insurance/certificateDelivery.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var paymentProcedureButton = isc.IconButton.create({
-        title: "<spring:message code='paymentProcedure.title'/>",
-        icon: "insurance/paymentProcedure.png",
-        largeIcon: "insurance/paymentProcedure.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
+    <%--/*   var insurerNominationButton = isc.IconButton.create({--%>
+    <%--       title: "<spring:message code='insurerNomination.title'/>",--%>
+    <%--    icon: "insurance/insurerNomination.png",--%>
+    <%--    largeIcon: "insurance/insurerNomination.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        &lt;%&ndash;createTab("<spring:message code='organization.title'/>", "/department/showForm")&ndash;%&gt;--%>
+    <%--    }--%>
+    <%--});--%>
+    <%--var insuranceInstructionButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='insuranceInstruction.title'/>",--%>
+    <%--    icon: "insurance/insuranceInstruction.png",--%>
+    <%--    largeIcon: "insurance/insuranceInstruction.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        &lt;%&ndash;createTab("<spring:message code='organization.title'/>", "/department/showForm")&ndash;%&gt;--%>
+    <%--    }--%>
+    <%--});--%>
+    <%--var insuranceCertificateButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='insuranceCertificate.title'/>",--%>
+    <%--    icon: "insurance/insuranceCertificate.png",--%>
+    <%--    largeIcon: "insurance/insuranceCertificate.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        &lt;%&ndash;createTab("<spring:message code='organization.title'/>", "/department/showForm")&ndash;%&gt;--%>
+    <%--    }--%>
+    <%--});--%>
+    <%--var certificateDeliveryButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='certificateDelivery.title'/>",--%>
+    <%--    icon: "insurance/certificateDelivery.png",--%>
+    <%--    largeIcon: "insurance/certificateDelivery.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        &lt;%&ndash;createTab("<spring:message code='organization.title'/>", "/department/showForm")&ndash;%&gt;--%>
+    <%--    }--%>
+    <%--});--%>
+    <%--var paymentProcedureButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='paymentProcedure.title'/>",--%>
+    <%--    icon: "insurance/paymentProcedure.png",--%>
+    <%--    largeIcon: "insurance/paymentProcedure.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        &lt;%&ndash;createTab("<spring:message code='organization.title'/>", "/department/showForm")&ndash;%&gt;--%>
+    <%--    }--%>
+    <%--});--%>
 
-    var insuranceRibbonBar = isc.RibbonBar.create({
-        backgroundColor: "#f0f0f0",
-        groupTitleAlign: "center",
-        groupTitleOrientation: "top"
-    });
-    var insuranceRibbonGroup = isc.RibbonGroup.create({
-        title: "بیمه",
-        numRows: 1,
-        colWidths: [20, "*"],
-        showTitle: false,
-        titleAlign: "left",
-        controls: [
-            insurerNominationButton
-            , insuranceInstructionButton
-            , insuranceCertificateButton
-            , certificateDeliveryButton
-            , paymentProcedureButton
-        ],
-        autoDraw: false
-    });
-    insuranceRibbonBar.addGroup(insuranceRibbonGroup, 0);
+    <%--var insuranceRibbonBar = isc.RibbonBar.create({--%>
+    <%--    backgroundColor: "#f0f0f0",--%>
+    <%--    groupTitleAlign: "center",--%>
+    <%--    groupTitleOrientation: "top"--%>
+    <%--});--%>
+    <%--var insuranceRibbonGroup = isc.RibbonGroup.create({--%>
+    <%--    title: "بیمه",--%>
+    <%--    numRows: 1,--%>
+    <%--    colWidths: [20, "*"],--%>
+    <%--    showTitle: false,--%>
+    <%--    titleAlign: "left",--%>
+    <%--    controls: [--%>
+    <%--        insurerNominationButton--%>
+    <%--        , insuranceInstructionButton--%>
+    <%--        , insuranceCertificateButton--%>
+    <%--        , certificateDeliveryButton--%>
+    <%--        , paymentProcedureButton--%>
+    <%--    ],--%>
+    <%--    autoDraw: false--%>
+    <%--});--%>
+    <%--insuranceRibbonBar.addGroup(insuranceRibbonGroup, 0);--%>
 
-    var insuranceRibbonHLayout = isc.HLayout.create({
-        width: "100%",
-        height: "60",
-        // border: "0px solid green",
-        showResizeBar: false,
-        showShadow: false,
-        backgroundColor: "#153560",
-        members: [insuranceRibbonBar]
-    });*/
+    <%--var insuranceRibbonHLayout = isc.HLayout.create({--%>
+    <%--    width: "100%",--%>
+    <%--    height: "60",--%>
+    <%--    // border: "0px solid green",--%>
+    <%--    showResizeBar: false,--%>
+    <%--    showShadow: false,--%>
+    <%--    backgroundColor: "#153560",--%>
+    <%--    members: [insuranceRibbonBar]--%>
+    <%--});*/--%>
     /*-------------------financial---------------------------*/
     var issuedInvoicesButton = isc.IconButton.create({
         title: "<spring:message code='issuedInvoices.title'/>",
@@ -1413,15 +1428,15 @@
         }
     });
 
-   /* var issuedInvoicesButtonContract = isc.IconButton.create({
-        title: "<spring:message code='main.contractsTab'/>",
-        icon: "financial/issuedInvoices.png",
-        largeIcon: "financial/issuedInvoices.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")
-        }
-    });*/
+   <%--/* var issuedInvoicesButtonContract = isc.IconButton.create({--%>
+   <%--     title: "<spring:message code='main.contractsTab'/>"--%>
+   <%--     icon: "financial/issuedInvoices.png",--%>
+   <%--     largeIcon: "financial/issuedInvoices.png",--%>
+   <%--     orientation: "vertical",--%>
+   <%--     click: function () {--%>
+   <%--         createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")--%>
+   <%--     }--%>
+   <%-- });*/--%>
 
     var financialRibbonBarContract = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
@@ -1437,7 +1452,7 @@
         titleAlign: "left",
         controls: [
             issuedInvoicesButton,
-            issuedInvoiceInternalButton
+            issuedInvoiceInternalButton,
             // receivedInvoicesButton,
             // financialBalanceButton
         ],
@@ -1450,33 +1465,33 @@
     });
     financialRibbonBar.addGroup(financialRibbonGroup, 0);
 
-    /*var financialRibbonGroupContract = isc.RibbonGroup.create({
-        title: "<spring:message code='global.menu.test'/>",
-        numRows: 1,
-        colWidths: [20, "*"],
-        showTitle: false,
-        titleAlign: "left",
-        controls: [
-            issuedInvoicesButtonContract
-        ],
-        autoDraw: false
-    });*/
+  <%--  /*var financialRibbonGroupContract = isc.RibbonGroup.create({--%>
+  <%--      title: "<spring:message code='global.menu.test'/>",--%>
+  <%--      numRows: 1,--%>
+  <%--      colWidths: [20, "*"],--%>
+  <%--      showTitle: false,--%>
+  <%--      titleAlign: "left",--%>
+  <%--      controls: [--%>
+  <%--          issuedInvoicesButtonContract--%>
+  <%--      ],--%>
+  <%--      autoDraw: false--%>
+  <%--  });*/--%>
 
 
-   /* var financialRibbonHLayoutContract = isc.HLayout.create({
-        width: "100%",
-        height: "60",
-        // border: "0px solid green",
-        showResizeBar: false,
-        showShadow: false,
-        backgroundColor: "#153560",
-        members: [financialRibbonBarContract]
-    });*/
+  <%-- /* var financialRibbonHLayoutContract = isc.HLayout.create({--%>
+  <%--      width: "100%",--%>
+  <%--      height: "60",--%>
+  <%--      // border: "0px solid green",--%>
+  <%--      showResizeBar: false,--%>
+  <%--      showShadow: false,--%>
+  <%--      backgroundColor: "#153560",--%>
+  <%--      members: [financialRibbonBarContract]--%>
+  <%--  });*/--%>
 
-  /*  financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);*/
+  <%--/*  financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);*/--%>
 
 
-    var financialRibbonHLayout = isc.HLayout.create( {
+    var financialRibbonHLayout = isc.HLayout.create({
         width: "100%",
         height: "60",
         showResizeBar: false,
