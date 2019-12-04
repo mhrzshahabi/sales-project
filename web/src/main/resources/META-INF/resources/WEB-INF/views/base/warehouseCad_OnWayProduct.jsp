@@ -199,7 +199,7 @@ var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},
@@ -234,7 +234,7 @@ var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},
@@ -261,7 +261,7 @@ var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
                     valueField: "id",
                     pickListWidth: "215",
                     pickListHeight: "215",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "nameFA"}
                     ]

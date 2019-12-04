@@ -207,7 +207,7 @@
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},
@@ -242,7 +242,7 @@
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},

@@ -522,12 +522,12 @@
         }
     });
     var warehouseYardButton = isc.IconButton.create({
-        title: "<spring:message code='warehouseYard.title'/>",
+        title: "<spring:message code='warehouseCad.yard'/>",
         icon: "basicTables/warehouse.png",
         largeIcon: "basicTables/warehouse.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='warehouseYard.title'/>", "<spring:url value="/warehouseYard/showForm" />")
+            createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
         }
     });
     var countryButton = isc.IconButton.create({
