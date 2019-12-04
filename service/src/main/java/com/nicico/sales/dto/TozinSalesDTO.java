@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.Country;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -51,24 +50,6 @@ public class TozinSalesDTO {
 	private String isFinal;
 	private String sourcePlantId;
 	private String targetPlantId;
-
-	@NotNull
-	@ApiModelProperty(required = true)
-	private String tozinSalesName;
-
-	@NotNull
-	@ApiModelProperty(required = true)
-	private Long countryId;
-	@ApiModelProperty(required = true)
-	private String tozinSalesCode;
-	@ApiModelProperty(required = true)
-	private String enTozinSalesName;
-	@ApiModelProperty(required = true)
-	private String address;
-	@ApiModelProperty(required = true)
-	private String coreBranch;
-	@ApiModelProperty(required = true)
-	private Country country;
 
 	// ------------------------------
 

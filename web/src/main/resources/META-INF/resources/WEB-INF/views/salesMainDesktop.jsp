@@ -21,8 +21,6 @@
     <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
 
-    <SCRIPT SRC="isomorphic/locales/frameworkMessages_fa.properties"></SCRIPT>
-
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
     <script src=isomorphic/system/modules/ISC_Foundation.js></script>
@@ -35,7 +33,6 @@
     <script src=isomorphic/system/modules/ISC_Analytics.js></script>
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
     <script src=isomorphic/skins/Tahoe/load_skin.js></script>
-
 </head>
 
 
@@ -56,8 +53,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    isc.FileLoader.loadLocale("fa");
-
     isc.defineClass("MyRestDataSource", RestDataSource);
 
     isc.MyRestDataSource.addProperties({
@@ -75,21 +70,6 @@
             return this.Super("transformResponse", arguments);
         }
     });
-
-    // isc.ViewLoader.addMethods({
-    //     handleError: function (rq, rs) {
-    //         console.log("Global ViewLoader Error: ", rq, rs);
-    //         if (rs.httpResponseCode === 403) { // Forbidden
-    //             nicico.error("Access Denied");  //TODO: I18N message key
-    //         } else {
-    //             redirectLogin();
-    //         }
-    //         return false;
-    //     },
-    //     handleSuccess: function(rq, rs){
-    //         alert(12345);
-    //     }
-    // });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -250,6 +230,12 @@
         }]
     });
     languageForm.setValue("languageName", "<c:out value='${pageContext.response.locale}'/>");
+
+    if(languageForm.getValue("languageName") === 'fa') {
+        isc.FileLoader.loadLocale("fa")
+    } else {
+        isc.FileLoader.loadLocale("en");
+    }
 
     var emptyLabel_Before = isc.Label.create({
         width: "25%",
@@ -536,12 +522,12 @@
         }
     });
     var warehouseYardButton = isc.IconButton.create({
-        title: "<spring:message code='warehouseYard.title'/>",
+        title: "<spring:message code='warehouseCad.yard'/>",
         icon: "basicTables/warehouse.png",
         largeIcon: "basicTables/warehouse.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='warehouseYard.title'/>", "<spring:url value="/warehouseYard/showForm" />")
+            createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
         }
     });
     var countryButton = isc.IconButton.create({
@@ -1490,7 +1476,7 @@
   /*  financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);*/
 
 
-    var financialRibbonHLayout = isc.HLayout.create({
+    var financialRibbonHLayout = isc.HLayout.create( {
         width: "100%",
         height: "60",
         showResizeBar: false,

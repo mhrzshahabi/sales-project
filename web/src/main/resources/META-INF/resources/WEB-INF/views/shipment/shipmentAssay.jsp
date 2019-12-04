@@ -664,20 +664,17 @@
         numCols: 4,
         fields:
             [
-                {name: "id", hidden: true},
-                {name: "shipmentId", hidden: true},
                 {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentId", title: "id", canEdit: false, hidden: true},
                 {
                     name: "inspectionByContactId",
                     title: "<spring:message code='shipment.Assay.inspectionCompany'/>",
-                    type: 'long'
-                    ,
+                    type: 'long',
                     editorType: "SelectItem",
                     colSpan: 1,
-                    titleColSpan: 1
-                    ,
+                    titleColSpan: 1,
+                    required : true ,
                     optionDataSource: MyRestDataSource_Contact,
                     displayField: "nameEN",
                     wrapTitle: false,
@@ -695,7 +692,8 @@
                 },
                 {
                     name: "location", title: "<spring:message code='shipment.Assay.location'/>", type: 'text',
-                    valueMap: {"source": "source", "destination": "destination"}
+                    valueMap: {"source": "source", "destination": "destination"},
+                    required : true
                 },
                 {
                     name: "inspectionDate",
@@ -710,9 +708,9 @@
                 },
                 {
                     name: "averageCuPercent",
-                    title: "<spring:message code='shipment.Assay.averageCuPercent'/>"
-                    ,
+                    title: "<spring:message code='shipment.Assay.averageCuPercent'/>",
                     type: 'float',
+                    required : true ,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -722,9 +720,9 @@
                 },
                 {
                     name: "averageAuPercent",
-                    title: "<spring:message code='shipment.Assay.averageAuPercent'/>"
-                    ,
+                    title: "<spring:message code='shipment.Assay.averageAuPercent'/>",
                     type: 'float',
+                    required : true ,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -734,9 +732,9 @@
                 },
                 {
                     name: "averageAgPercent",
-                    title: "<spring:message code='shipment.Assay.averageAgPercent'/>"
-                    ,
+                    title: "<spring:message code='shipment.Assay.averageAgPercent'/>",
                     type: 'float',
+                    required : true ,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -746,8 +744,7 @@
                 },
                 {
                     name: "totalDryWeight",
-                    title: "<spring:message code='shipment.Assay.totalDryWeight'/>"
-                    ,
+                    title: "<spring:message code='shipment.Assay.totalDryWeight'/>",
                     type: 'float',
                     validators: [{
                         type: "isFloat",
@@ -1123,6 +1120,7 @@ httpMethod: "DELETE",
                 {name: "shipmentAssayHeaderId", title: "id", canEdit: false, hidden: true},
                 {name: "lotNo", title: "<spring:message code='shipment.Assay.lotNo'/>",
                     type: 'integer',
+                    required : true ,
                     validators: [{
                         type: "isInteger",
                         validateOnExit: true,
@@ -1132,9 +1130,9 @@ httpMethod: "DELETE",
                 },
                 {
                     name: "cu",
-                    title: "<spring:message code='shipment.Assay.cu'/>"
-                    ,
+                    title: "<spring:message code='shipment.Assay.cu'/>",
                     type: 'float',
+                    required : true ,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -1144,9 +1142,9 @@ httpMethod: "DELETE",
                 },
                 {
                     name: "ag",
-                    title: "<spring:message code='shipment.Assay.ag'/>"
-                    ,
+                    title: "<spring:message code='shipment.Assay.ag'/>",
                     type: 'float',
+                    required : true ,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -1156,9 +1154,9 @@ httpMethod: "DELETE",
                 },
                 {
                     name: "au",
-                    title: "<spring:message code='shipment.Assay.au'/>"
-                    ,
+                    title: "<spring:message code='shipment.Assay.au'/>",
                     type: 'float',
+                    required : true ,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
