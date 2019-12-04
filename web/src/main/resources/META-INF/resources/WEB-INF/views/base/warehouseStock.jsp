@@ -107,31 +107,6 @@
                 click: function () {
                     ListGrid_WarehouseStock_edit();
                 }
-            },
-             {isSeparator: true},
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
-                click: function () {
-                    var toDay = "1398/08/30".replaceAll("/", "");
-                    "<spring:url value="/warehouseStock/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}' + '/' + toDay);
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
-                click: function () {
-                    var toDay = "1398/08/30".replaceAll("/", "");
-                    "<spring:url value="/warehouseStock/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}' + '/' + toDay);
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
-                click: function () {
-                    var toDay = "1398/08/30".replaceAll("/", "");
-                    "<spring:url value="/warehouseStock/print/html" var="printUrl"/>"
-                    window.open('${printUrl}' + '/' + toDay);
-                }
             }
         ]
     });
