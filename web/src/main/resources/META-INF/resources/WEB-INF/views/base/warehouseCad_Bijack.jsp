@@ -67,6 +67,7 @@
                 {name: "isFinal", title: "<spring:message code='Tozin.isFinal'/>", align: "center"},
                 {name: "targetPlantId", title: "<spring:message code='Tozin.targetPlantId'/>"},
                 {name: "sourcePlantId", title: "<spring:message code='Tozin.sourcePlantId'/>"},
+                {name: "tozinPlantId", title: "<spring:message code='Tozin.tozinPlantId'/>"}
             ],
         fetchDataURL: "${contextPath}/api/tozin/search-tozin"
     });
