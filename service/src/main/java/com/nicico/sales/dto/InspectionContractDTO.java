@@ -20,13 +20,14 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InspectionContractDTO {
 
+	/*Comment By JZ*/
 //	@NotNull
 //	@ApiModelProperty(required = true)
-	private Shipment shipment;
+	private ShipmentDTO.Info shipment;
 	private Long shipmentId;
-	private Contact contactByInspection;
+	private ContactDTO.Info contactByInspection;
 	private Long contactByInspectionId;
-	private ShipmentContract shipmentContract;
+	private ShipmentContractDTO.Info shipmentContract;
 	private Long shipmentContractId;
 	private String description;
 	private String closeDate;
@@ -56,6 +57,11 @@ public class InspectionContractDTO {
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
+
+		private PortDTO.PortInfoTuple portByLoading;
+		private PortDTO.PortInfoTuple portByDischarge;
+
+
 	}
 
 	// ------------------------------
