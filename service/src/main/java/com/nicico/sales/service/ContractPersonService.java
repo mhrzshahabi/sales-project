@@ -1,7 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractPersonDTO;
 import com.nicico.sales.iservice.IContractPersonService;
@@ -77,10 +78,9 @@ public class ContractPersonService implements IContractPersonService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public SearchDTO.SearchRs<ContractPersonDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(contractPersonDAO, request, contractPerson -> modelMapper.map(contractPerson, ContractPersonDTO.Info.class));
+    public TotalResponse<ContractPersonDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(contractPersonDAO, criteria, contractPerson -> modelMapper.map(contractPerson, ContractPersonDTO.Info.class));
 	}
-
 	// ------------------------------
 
 	private ContractPersonDTO.Info save(ContractPerson contractPerson) {

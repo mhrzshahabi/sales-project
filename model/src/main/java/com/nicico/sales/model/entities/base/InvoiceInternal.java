@@ -36,23 +36,23 @@ public class InvoiceInternal extends Auditable {
 	@Column(name = "GOODSID", precision = 10)
 	private Long goodId;
 	@Column(name = "INV_OTHER_KOSORAT", precision = 10)
-	private Float invOtherKosorat;
+	private Double invOtherKosorat;
 	@Column(name = "HAV_FINALDATE", length = 30)
 	private String havFinalDate;
 	@Column(name = "WEIGHTREAL", precision = 10)
-	private Float weightReal;
+	private Double weightReal;
 	@Column(name = "GHEMATUNIT", precision = 10)
-	private Float ghematUnit;
+	private Double ghematUnit;
 	@Column(name = "TOTALKOSORAT", precision = 10)
-	private Float totalKosorat;
+	private Double totalKosorat;
 	@Column(name = "MABLAGHKOL", precision = 10)
-	private Float mablaghKol;
+	private Double mablaghKol;
 	@Column(name = "SHOMAREHSORATHESAB", length = 255)
 	private String shomarehSoratHesab;
 	@Column(name = "PAYFORAVAREZMALEYATE", precision = 10)
-	private Float payForAvarezMalyat;
+	private Double payForAvarezMalyat;
 	@Column(name = "PAYFORAVAREZALAYANDEGH", precision = 10)
-	private Float payForAvarezAlayandegi;
+	private Double payForAvarezAlayandegi;
 	@Column(name = "INV_SENTED", length = 30)
 	private String invSented;
 	@Column(name = "TYPEFROSH", precision = 10)

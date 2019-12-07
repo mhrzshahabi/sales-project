@@ -51,13 +51,13 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
 
         fields: [
             {name: "id", hidden: true,},
             {type: "RowSpacerItem"},
             {
-                name: "code", title: "<spring:message code='feature.code'/>", type: 'text', required: true, width: 400,
+                name: "code", title: "<spring:message code='feature.code'/>", type: 'text', required: true, width: 500,
                 keyPressFilter: "[0-9]", length: "100",
             },
             {
@@ -65,24 +65,30 @@
                 title: "<spring:message code='feature.nameFa'/>",
                 required: true,
                 readonly: true,
-                width: 400
+                width: 500
             },
             {
                 name: "nameEN",
                 title: "<spring:message code='feature.nameEN'/>",
                 type: 'text',
-                width: 400,
+                width: 500,
                 required: true,
             },
-            {name: "symbol", title: "<spring:message code='feature.symbol'/>", type: 'text', width: 400},
+            {name: "symbol", title: "<spring:message code='feature.symbol'/>", type: 'text', width: 500},
+
             {
-                name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400,
+                name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 500,
                 keyPressFilter: "[0-4]", length: "1",
+                /*Add Hint */
+                hint: "دقت اعشار بین 0 تا 4 است",
+                showHintInField: true,
+                /*End Hint*/
                 validators: [{
                     type: "isInteger",
                     validateOnExit: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+
                 }]
             },
             {type: "RowSpacerItem"},
@@ -122,7 +128,7 @@
 
     var Window_Feature = isc.Window.create({
         title: "<spring:message code='feature.title'/>",
-        width: 580,
+        width: 700,
         height: 310,
         autoSize: true,
         autoCenter: true,
@@ -131,7 +137,7 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
-        margin: '10px',
+        margin: '15px',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },

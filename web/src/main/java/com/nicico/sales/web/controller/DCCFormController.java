@@ -1,5 +1,6 @@
 package com.nicico.sales.web.controller;
 
+import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.core.util.file.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -30,6 +33,13 @@ public class DCCFormController {
         modelMap.addAttribute("dccTableName", dccTableName);
         modelMap.addAttribute("dccTableId", dccTableId);
         return "base/dcc";
+    }
+
+    @RequestMapping("/print/{type}")
+    public void printMaterial(HttpServletResponse response, @PathVariable String type) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put(ConstantVARs.REPORT_TYPE, type);
+//        report.export("/reports/contactAttachment.jasper", params, response);
     }
 
     @GetMapping(value = "/downloadFile")

@@ -581,23 +581,23 @@
             <%	for (int i=0;i<loop;i++){ %>
                 if (data.mo<%=i %>.lotNo!=null || data.mo<%=i %>.net!=null || data.mo<%=i %>.grass!=null || data.mo<%=i %>.molybdenumPercent!=null  ){
                     if (data.mo<%=i %>.lotNo==null || data.mo<%=i %>.lotNo=="" ) {
-                    	isc.warn("Lot Number Required", {title: 'هشدار'});
+                    	isc.warn("Lot Number Required", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.mo<%=i %>.net==null || data.mo<%=i %>.net<=0 ) {
-                    	isc.warn("Net Weight Required", {title: 'هشدار'});
+                    	isc.warn("Net Weight Required", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.mo<%=i %>.grass==null || data.mo<%=i %>.grass<=0 ) {
-                    	isc.warn("Grass Weight Required", {title: 'هشدار'});
+                    	isc.warn("Grass Weight Required", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.mo<%=i %>.molybdenumPercent==null || data.mo<%=i %>.molybdenumPercent<=0 ) {
-                    	isc.warn("Molybdenum Percent Required", {title: 'هشدار'});
+                    	isc.warn("Molybdenum Percent Required", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.mo<%=i %>.copperPercent==null || data.mo<%=i %>.copperPercent<=0 ) {
-                    	isc.warn("Copper Percent Required", {title: 'هشدار'});
+                    	isc.warn("Copper Percent Required", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     mo.add(data.mo<%=i %>);
@@ -611,46 +611,46 @@
                     data.up<%=i %>.upDown="up";
                     data.up<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
-                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.description==null || data.up<%=i %>.description=="" ) {
-                    	isc.warn("description  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("description  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.originValue==null || data.up<%=i %>.originValue<=0 ) {
-                    	isc.warn("Origin Value  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("Origin Value  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.originValueCurrency==null || data.up<%=i %>.originValueCurrency=="" ) {
                         data.up<%=i %>.originValueCurrency='USD';
-                    	// isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
+                    	<%--// isc.warn("Origin Value Currency  Required", {"title:<spring:message code='dialog_WarnTitle'/>"});--%>
                     	// return;
                     }
                     if (data.up<%=i %>.conversionRate==null || data.up<%=i %>.conversionRate<=0 ) {
-                    	isc.warn("conversionRate  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.originValueCurrency=='USD' && data.up<%=i %>.conversionRate!=1){
-                    	isc.warn("conversionRate  Must be One  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Must be One  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.up<%=i %>.originValueCurrency!='USD')
                     if (data.up<%=i %>.dateRate==null || data.up<%=i %>.dateRate=="")  {
-                    		isc.warn("Date Rate  Required  (up<%=i %>)", {title: 'هشدار'});
+                    		isc.warn("Date Rate  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     		return;
                     }
                    if (data.up<%=i %>.dateRate!=null && data.up<%=i %>.dateRate!="" &&  !validatedate(data.up<%=i %>.dateRate)) {
-                    		isc.warn("Date Rate  is rong  (up<%=i %>)", {title: 'هشدار'});
+                    		isc.warn("Date Rate  is rong  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     		return;
                    }
 
                      if (data.up<%=i %>.lessPlus==null || data.up<%=i %>.lessPlus=="" ) {
-                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("less or Plus  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if ((data.up<%=i %>.rateReference==null || data.up<%=i %>.rateReference=="" )&& (data.up<%=i %>.originValueCurrency!='USD')) {
-                    	isc.warn("Rate Reference  Required  (up<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("Rate Reference  Required  (up<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     up.add(data.up<%=i %>);
@@ -665,45 +665,45 @@
                     data.down<%=i %>.upDown="down";
                     data.down<%=i %>.invoiceId=<%=invoiceId %>;
                     if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {
-                    	isc.warn("less or Plus  Required  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("less or Plus  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.down<%=i %>.description==null || data.down<%=i %>.description=="" ) {
-                    	isc.warn("description  Required  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("description  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.down<%=i %>.originValue==null || data.down<%=i %>.originValue<=0 ) {
-                    	isc.warn("Origin Value  Required  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("Origin Value  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                      if (data.down<%=i %>.originValueCurrency==null || data.down<%=i %>.originValueCurrency=="" ) {
                         data.down<%=i %>.originValueCurrency=data.invoiceValueCurrency;
-                    	// isc.warn("Origin Value Currency  Required", {title: 'هشدار'});
+                    	<%--// isc.warn("Origin Value Currency  Required", {"title:<spring:message code='dialog_WarnTitle'/>"});--%>
                     	// return;
                     }
                     if (data.down<%=i %>.conversionRate==null || data.down<%=i %>.conversionRate<=0 ) {
-                    	isc.warn("conversionRate  Required  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.down<%=i %>.originValueCurrency==data.invoiceValueCurrency && data.down<%=i %>.conversionRate!=1){
-                    	isc.warn("conversionRate  Must be One  (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("conversionRate  Must be One  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     if (data.down<%=i %>.originValueCurrency!= data.invoiceValueCurrency)
                     if (data.down<%=i %>.dateRate==null || data.down<%=i %>.dateRate=="")  {
-                    		isc.warn("Date Rate  Required  (down<%=i %>)", {title: 'هشدار'});
+                    		isc.warn("Date Rate  Required  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     		return;
                     }
                    if (data.down<%=i %>.dateRate!=null && data.down<%=i %>.dateRate!="" &&  !validatedate(data.down<%=i %>.dateRate)) {
-                    		isc.warn("Date Rate  is rong  (down<%=i %>)", {title: 'هشدار'});
+                    		isc.warn("Date Rate  is rong  (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     		return;
                    }
                      <%--if (data.down<%=i %>.lessPlus==null || data.down<%=i %>.lessPlus=="" ) {--%>
-                    	<%--isc.warn("less or Plus  Required", {title: 'هشدار'});--%>
+                    	<%--isc.warn("less or Plus  Required", {"<spring:message code='dialog_WarnTitle'/>"});--%>
                     	<%--return;--%>
                     <%--}--%>
                     if ((data.down<%=i %>.rateReference==null || data.down<%=i %>.rateReference=="" )&& (data.down<%=i %>.originValueCurrency!=data.invoiceValueCurrency)) {
-                    	isc.warn("Rate Reference  Required (down<%=i %>)", {title: 'هشدار'});
+                    	isc.warn("Rate Reference  Required (down<%=i %>)", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     	return;
                     }
                     up.add(data.down<%=i %>);

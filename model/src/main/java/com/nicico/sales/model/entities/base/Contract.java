@@ -65,6 +65,14 @@ public class Contract extends Auditable {
 	@Column(name = "SELLER_AGENT_ID")
 	private Long contactBySellerAgentId;
 
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONTACT_INSPECTION_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactInspection"))
+    private Contact contactInspection;
+
+    @Column(name = "CONTACT_INSPECTION_ID")
+    private Long contactInspectionId;
+
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BUYER_AGENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactByBuyerAgent"))
@@ -222,8 +230,20 @@ public class Contract extends Auditable {
 	@Column(name = "REPORT_TITLE")
 	private String reportTitle;
 
+    @Column(name = "AMOUNT_EN")
+    private String amount_en;
+
 	@Column(name = "DELAY")
 	private String delay;
+
+    @Column(name = "PLANT")
+    private String plant;
+
+    @Column(name = "OPTIONAL")
+    private Integer optional;
+
+    @Column(name = "MO_AMOUNT")
+    private Double mo_amount;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContractDTO;
 
@@ -11,6 +13,10 @@ public interface IContractService {
 
 	List<ContractDTO.Info> list();
 
+	void writeToWord(String request);
+
+	List<String> readFromWord(String contractNo);
+
 	ContractDTO.Info create(ContractDTO.Create request);
 
 	ContractDTO.Info update(Long id, ContractDTO.Update request);
@@ -19,5 +25,8 @@ public interface IContractService {
 
 	void delete(ContractDTO.Delete request);
 
+	TotalResponse<ContractDTO.Info> search(NICICOCriteria criteria);
+
 	SearchDTO.SearchRs<ContractDTO.Info> search(SearchDTO.SearchRq request);
+
 }

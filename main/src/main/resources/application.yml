@@ -55,13 +55,13 @@ nicico:
       package: com.nicico.sales.model
   google:
     mail:
-      username:
-      password:
+      username: nicicofin@gmail.com
+      password: salam@@123456
   mail:
-    domain:
-    url:
-    username:
-    password:
+    domain: nicico.com
+    url: https://mail.nicico.com/ews/exchange.asmx
+    username: abaspour
+    password: Visual2013
   upload:
     dir: /var/nicico/${spring.application.name}/
   workflow:
@@ -138,8 +138,8 @@ spring:
   profiles: Local
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: saleslocal
-    password: saleslocal
+    username: sales
+    password: sales
   redis:
     host: devapp01.icico.net.ir
     password: nicico

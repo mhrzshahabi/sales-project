@@ -46,6 +46,7 @@
                 {name: "groupGoodsNosa"},
                 {name: "groupGoodName"},
                 {name: "lcDateSarReceid"},
+                {name:"processId"} //Bug-Fix ->Not Work Search 
            ],
 
         fetchDataURL: "${contextPath}/api/invoiceInternal/spec-list"
@@ -122,49 +123,74 @@
         }
     }
 
+
+    var ToolStripButton_InvoiceInternal_Refresh = isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/refresh.png",
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+            ListGrid_InvoiceInternal_refresh();
+        }
+    });
+
+    var ToolStripButton_InvoiceInternal_Pdf = isc.ToolStripButton.create({
+                    title: "<spring:message code='global.form.print.pdf'/>",
+                    icon: "icon/pdf.png",
+                     click: function () {
+                    var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
+                    window.open("invoiceInternal/print/pdf/"+rowId);
+       }
+    });
+
+    var ToolStripButton_InvoiceInternal_excel = isc.ToolStripButton.create({
+                title: "<spring:message code='global.form.print.excel'/>",
+                icon: "icon/excel.png",
+                click: function () {
+                var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
+                window.open("invoiceInternal/print/excel/"+rowId);
+}
+    });
+
+    var ToolStripButton_InvoiceInternal_html = isc.ToolStripButton.create({
+                title: "<spring:message code='global.form.print.html'/>",
+                icon: "icon/html.jpg",
+                click: function () {
+                var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
+                window.open("invoiceInternal/print/html/"+rowId);
+        }});
+
+/*Edit By JZ*/
     var Menu_ListGrid_InvoiceInternal = isc.Menu.create({
         width: 150,
         data: [
             {
-                title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
+                title: "<spring:message code='global.form.refresh'/>",
+                icon: "pieces/16/refresh.png",
                 click: function () {
                     ListGrid_InvoiceInternal_refresh();
                 }
             },
-            {
-                title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-                click: function () {
-                    DynamicForm_InvoiceInternal.clearValues();
-                    Window_InvoiceInternal.show();
-                }
-            },
-            {
-                title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-                click: function () {
-                    ListGrid_InvoiceInternal_edit();
-                }
-            },
-            {
-                title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-                click: function () {
-                    ListGrid_InvoiceInternal_remove();
-                }
-            }, {isSeparator: true},
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+
+             {
+                title: "<spring:message code='global.form.print.pdf'/>",
+                icon: "icon/pdf.png",
                 click: function () {
                     var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
                     window.open("invoiceInternal/print/pdf/"+rowId);
                 }
 
-                }, {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                }
+
+                , {
+                title: "<spring:message code='global.form.print.excel'/>",
+                icon: "icon/excel.png",
                 click: function () {
                     var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
                     window.open("invoiceInternal/print/excel/"+rowId);
                 }
-            }, {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+            }
+            , {
+                title: "<spring:message code='global.form.print.html'/>",
+                icon: "icon/html.jpg",
                 click: function () {
                     var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
                     window.open("invoiceInternal/print/html/"+rowId);
@@ -172,6 +198,13 @@
             }
         ]
     });
+
+
+
+
+
+
+
 
     var DynamicForm_InvoiceInternal = isc.DynamicForm.create({
         width: "100%",
@@ -204,40 +237,7 @@
             ]
     });
 
-    var ToolStripButton_InvoiceInternal_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-            ListGrid_InvoiceInternal_refresh();
-        }
-    });
-
-    var ToolStripButton_InvoiceInternal_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.form.new'/>",
-        click: function () {
-            DynamicForm_InvoiceInternal.clearValues();
-            Window_InvoiceInternal.show();
-        }
-    });
-
-    var ToolStripButton_InvoiceInternal_Edit = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/edit.png",
-        title: "<spring:message code='global.form.edit'/>",
-        click: function () {
-            DynamicForm_InvoiceInternal.clearValues();
-            ListGrid_InvoiceInternal_edit();
-        }
-    });
-
-    var ToolStripButton_InvoiceInternal_Remove = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/remove.png",
-        title: "<spring:message code='global.form.remove'/>",
-        click: function () {
-            ListGrid_InvoiceInternal_remove();
-        }
-    });
-
+/*invoice.Send2Accounting*/
     var ToolStripButton_InvoiceInternal_Send2Accounting = isc.ToolStripButton.create({
                 title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
                 click: function () {
@@ -301,14 +301,15 @@
                 }
     });
 
+    /*Add To ToolStrip Right*/
     var ToolStrip_Actions_InvoiceInternal = isc.ToolStrip.create({
         width: "100%",
         members:
             [
                 ToolStripButton_InvoiceInternal_Refresh,
-                ToolStripButton_InvoiceInternal_Add,
-                ToolStripButton_InvoiceInternal_Edit,
-                ToolStripButton_InvoiceInternal_Remove,
+                ToolStripButton_InvoiceInternal_Pdf,
+                ToolStripButton_InvoiceInternal_excel,
+                ToolStripButton_InvoiceInternal_html,
                 ToolStripButton_InvoiceInternal_Send2Accounting
             ]
     });
@@ -397,7 +398,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "processId", title: "<spring:message code='invoice.processId'/>"},
+                {name: "processId", title: "<spring:message code='invoice.processId'/>" },
                 {name: "invDate",title: "<spring:message code='invoice.invDate'/>"},
                 {name: "havalehId",title: "<spring:message code='invoice.havalehId'/>"},
                 {name: "customerName",title: "<spring:message code='invoice.customerName'/>"},
@@ -414,6 +415,7 @@
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
+        allowFilterOperators: true,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
         },

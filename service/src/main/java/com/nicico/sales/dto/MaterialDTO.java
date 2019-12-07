@@ -25,7 +25,6 @@ public class MaterialDTO {
 	@NotNull
 	@ApiModelProperty(required = true)
 	private String code;
-
 	private Long unitId;
 
 	// ------------------------------
@@ -56,6 +55,7 @@ public class MaterialDTO {
 		private String descp;
 		private String code;
 		private Long unitId;
+		private UnitDTO unit;
 	}
 
 	// ------------------------------
