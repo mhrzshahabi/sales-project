@@ -13,6 +13,8 @@ public interface IContractDetailService {
 
 	List<ContractDetailDTO.Info> list();
 
+	ContractDetailDTO FindByContractID(Long id);
+
 	ContractDetailDTO.Info create(ContractDetailDTO.Create request);
 
 	ContractDetailDTO.Info update(Long id, ContractDetailDTO.Update request);

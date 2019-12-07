@@ -59,6 +59,14 @@ public class ContractDetailRestController {
     }
 
     @Loggable
+    @DeleteMapping(value = "/deleteByContractId/{id}")
+    public ResponseEntity deleteByContractId(@PathVariable Long id) {
+        long contractID=contractDetailService.FindByContractID(id).getId();
+        contractDetailService.delete(contractID);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity delete(@Validated @RequestBody ContractDetailDTO.Delete request) {
         contractDetailService.delete(request);

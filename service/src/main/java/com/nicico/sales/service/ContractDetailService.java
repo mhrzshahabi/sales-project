@@ -44,6 +44,12 @@ public class ContractDetailService implements IContractDetailService {
         }.getType());
     }
 
+    @Override
+    public ContractDetailDTO FindByContractID(Long id) {
+        ContractDetail byContract_id=contractDetailDAO.findByContract_id(id);
+        return modelMapper.map(byContract_id, ContractDetailDTO.class);
+    }
+
     @Transactional
     @Override
 //    @PreAuthorize("hasAuthority('C_CONTRACTDETAIL')")

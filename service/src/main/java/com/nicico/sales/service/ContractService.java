@@ -65,7 +65,6 @@ public class ContractService implements IContractService {
         JSONObject jsonObject = new JSONObject(request);
         String contractNo = jsonObject.getString("contractNo");
         jsonObject.remove("contractNo");
-
         XWPFDocument printdoc = new XWPFDocument();
 
         jsonObject.sortedKeys().forEachRemaining(new Consumer() {

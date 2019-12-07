@@ -17,6 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractDetailDTO {
 
+    private Long id;
     private Long contract_id;
     private String name_ContactAgentSeller;
     private String phone_ContactAgentSeller;

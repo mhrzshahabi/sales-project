@@ -381,6 +381,7 @@ var Window_ContactCad = isc.Window.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
+            Contract_Cathod_remove();
         }
     });
 
@@ -484,3 +485,76 @@ function itemsEditDefinitions(key,value,id) {
        itemsDefinitionsCount++;
     }
 
+function Contract_Cathod_remove() {
+        var record = ListGrid_Cad.getSelectedRecord();
+        if (record == null || record.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        } else {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index == 0) {
+                        var ContractIDDelete = record.id;
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                actionURL: "${contextPath}/api/contract/" + ContractIDDelete,
+                                httpMethod: "DELETE",
+                                callback: function (resp) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                        ListGrid_Cad.invalidateCache();
+                                        deleteFromContractDetail(ContractIDDelete);
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
+                                }
+                            })
+                        );
+                    }
+                }
+            });
+        }
+    }
+
+function deleteFromContractDetail(id){
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                actionURL: "${contextPath}/api/contractDetail/deleteByContractId/" + id,
+                                httpMethod: "DELETE",
+                                callback: function (resp) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                        ListGrid_Cad.invalidateCache();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
+                                }
+                            }))
+}
+
+function deleteFromContractShipment(id){
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                actionURL: "${contextPath}/api/contractDetail/deleteByContractId/" + id,
+                                httpMethod: "DELETE",
+                                callback: function (resp) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                        ListGrid_Cad.invalidateCache();
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    } else {
+                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                    }
+                                }
+                            }))
+}
