@@ -73,6 +73,8 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
+
+
 var salesContractCADButtonMain = isc.IconButton.create({
         title: "<spring:message code='salesContractCADButton.title'/>",
         width: "25%",
@@ -97,8 +99,9 @@ var salesContractCADButtonMain = isc.IconButton.create({
         largeIcon: "contract/salesContract.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
-            Window_SelectTypeContactMain.close();
+           /* createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+            Window_SelectTypeContactMain.close();*/
+           isc.warn("Coming Soon");
         }
     });
   var salesContractMoButtonMain = isc.IconButton.create({
@@ -133,7 +136,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                             });
     function ListGrid_Contract_refresh() {
         ListGrid_Contract.invalidateCache();
-        companyName.setTitle('قراردادها');
+        companyName.setTitle('Contracts');
     }
 
     function ListGrid_Contract_edit() {
@@ -900,16 +903,17 @@ var salesContractCADButtonMain = isc.IconButton.create({
         },
         getCellCSSText: function (record, rowNum, colNum) {
                             if (record.materialId == 952) {
-                                  return "font-weight:bold; color:red;";
+                                  return "font-weight:bold;background-color:#f1948a;";
                                 }
                             if (record.materialId == -32) {
-                                  return "font-weight:bold; color:#48e7f7;";
+                                  return "font-weight:bold;background-color:#fcf3cf;";
                                 }
                             if (record.materialId == 12952) {
-                                  return "font-weight:bold; color:green;";
+                                  return "font-weight:bold;background-color:#d1f2eb;";
                                 }
                             if (record.materialId == -42) {
-                                  return "font-weight:bold; color:#ad48f7;";
+                                // color:#ad48f7;
+                                  return "font-weight:bold;background-color:#d6eaf8;";
                                 }
                 }
         , rollOverCanvasProperties:{
