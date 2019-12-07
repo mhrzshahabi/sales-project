@@ -121,7 +121,7 @@
     var RestDataSource_ShipmentContractUsed = {
         _constructor: "AdvancedCriteria",
         operator: "and",
-        criteria: [{fieldName: "used", operator: "notEqual", value: 1}]
+        criteria: [{fieldName: "contractId", operator: "isNull"}]
     };
     var criteriaMo = {
         _constructor: "AdvancedCriteria",
@@ -666,7 +666,8 @@
                         width: "100%",
                         height: "100%",
                         members: [
-                             ToolStripButton_Contact_Add,ToolStripButton_Contact_Edit,ToolStripButton_Contact_Remove
+                             ToolStripButton_Contact_Add,ToolStripButton_Contact_Edit
+                            //ToolStripButton_Contact_Remove
                         ]
                         });
                     var HLayout_Actions_Contact = isc.HLayout.create({
@@ -2231,7 +2232,9 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     title: "Remove",
                     startRow: false,
                     icon: "icons/16/message.png",
-                    click: function(){dynamicForm_article5_Note2_number30.removeFields(["article5_Note1_lable", "article5_Note1_value","button"])}
+                    click: function(){
+                        dynamicForm_article5_Note2_number30.removeFields(["article5_Note1_lable", "article5_Note1_value","button"])
+                    }
                     }
         ]
     })
@@ -3228,7 +3231,6 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
     })
     var dynamicForm_article9_ImportantNote = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle9",
-        showIf:"false",
         height: "20",
         width: "10%",
         numCols: 2,
@@ -3294,7 +3296,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 members: [dynamicForm_article9_number50_number51_number52]
             }),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article9_number54]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article9_number55]}),
+            isc.HLayout.create({showIf:"false",height: "30", align: "left", members: [dynamicForm_article9_number55]}),
             isc.HLayout.create({showIf:"false",height: "30", align: "left", members: [lableImportantNote]}),
             isc.HLayout.create({showIf:"false",height: "30", align: "left", members: [dynamicForm_article9_ImportantNote]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle09]})
