@@ -4,7 +4,6 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.WarehouseCadDTO;
-import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 
@@ -23,6 +22,7 @@ public interface IWarehouseCadService {
 	void delete(WarehouseCadDTO.Delete request);
 
 	TotalResponse<WarehouseCadDTO.Info> search(NICICOCriteria nicicoCriteria);
+	TotalResponse<WarehouseCadDTO.InfoCombo> search1(NICICOCriteria nicicoCriteria);
 
 	SearchDTO.SearchRs<WarehouseCadDTO.Info> search(SearchDTO.SearchRq request);
 

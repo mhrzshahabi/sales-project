@@ -72,6 +72,13 @@ public class WarehouseCadRestController {
         return new ResponseEntity<>(warehouseCadService.search(nicicoCriteria), HttpStatus.OK);
     }
 
+    @Loggable
+    @GetMapping(value = "/spec-list-issue-cad")
+    public ResponseEntity<TotalResponse<WarehouseCadDTO.InfoCombo>> list1(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(warehouseCadService.search1(nicicoCriteria), HttpStatus.OK);
+    }
+
     // ------------------------------
 
     @Loggable

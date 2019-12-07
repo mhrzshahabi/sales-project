@@ -165,7 +165,7 @@
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},
@@ -200,7 +200,7 @@
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},
@@ -225,6 +225,7 @@
                     optionDataSource: RestDataSource_WarehouseYard,
                     displayField: "nameFA",
                     valueField: "id",
+                    defaultValue: "5",
                     pickListWidth: "215",
                     pickListHeight: "215",
                     pickListProperties: {showFilterEditor: true},
@@ -269,11 +270,9 @@
                     colSpan: 1,
                     titleColSpan: 1
                 },
-                {name: "sourceBundleSum", title: "<spring:message code='warehouseCad.sourceBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationBundleSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "sourceSheetSum", title: "<spring:message code='warehouseCad.sourceSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationSheetSum", title: "<spring:message code='warehouseCad.destinationSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                 {
+                {name: "sourceWeight", title: "<spring:message code='warehouseCad.sourceWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
+                {name: "destinationWeight", title: "<spring:message code='warehouseCad.destinationWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
+               {
                     type: "Header",
                     defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"
                 }
@@ -340,6 +339,7 @@
     DynamicForm_warehouseCAD.setValue("sourceTozinPlantId",ListGrid_Tozin.getSelectedRecord().tozinPlantId);
     DynamicForm_warehouseCAD.setValue("sourceLoadDate",ListGrid_Tozin.getSelectedRecord().tozinDate);
     DynamicForm_warehouseCAD.setValue("containerNo",ListGrid_Tozin.getSelectedRecord().containerId);
+    DynamicForm_warehouseCAD.setValue("sourceWeight",ListGrid_Tozin.getSelectedRecord().vazn);
 
     isc.VLayout.create({
         width: 810,

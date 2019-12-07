@@ -160,7 +160,7 @@
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},
@@ -195,7 +195,7 @@
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},
@@ -222,7 +222,7 @@
                     valueField: "id",
                     pickListWidth: "215",
                     pickListHeight: "215",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "nameFA"}
                     ]
@@ -333,6 +333,7 @@
     DynamicForm_warehouseCAD.setValue("sourceTozinPlantId",ListGrid_Tozin.getSelectedRecord().tozinPlantId);
     DynamicForm_warehouseCAD.setValue("sourceLoadDate",ListGrid_Tozin.getSelectedRecord().tozinDate);
     DynamicForm_warehouseCAD.setValue("containerNo",ListGrid_Tozin.getSelectedRecord().containerId);
+    DynamicForm_warehouseCAD.setValue("sourceWeight",ListGrid_Tozin.getSelectedRecord().vazn);
 
     isc.VLayout.create({
         width: 810,

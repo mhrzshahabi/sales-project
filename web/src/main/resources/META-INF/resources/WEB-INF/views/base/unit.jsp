@@ -38,6 +38,8 @@
     });
 
     var ValuesManager_Unit = isc.ValuesManager.create({});
+
+
     var DynamicForm_Unit = isc.DynamicForm.create({
         width: "100%",
         height: "100%",

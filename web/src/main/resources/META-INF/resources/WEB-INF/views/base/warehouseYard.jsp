@@ -9,9 +9,9 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='warehouseYard.warehouseNo'/>", width: 200},
-                {name: "nameFA", title: "<spring:message code='warehouseYard.nameFA'/>", width: 200},
-                {name: "nameEN", title: "<spring:message code='warehouseYard.nameEN'/>", width: 200},
+                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>", width: 200},
+                {name: "nameFA", title: "<spring:message code='warehouseCad.yard'/>", width: 200},
+                {name: "nameEN", title: "<spring:message code='warehouseCad.yard'/>", width: 200},
            ],
 
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
@@ -114,22 +114,6 @@
                 click: function () {
                     ListGrid_WarehouseYard_remove();
                 }
-            }, {isSeparator: true},
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png", click: function () {
-                    "<spring:url value="/warehouseYard/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png", click: function () {
-                    "<spring:url value="/warehouseYard/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg", click: function () {
-                    "<spring:url value="/warehouseYard/print/html" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
             }
         ]
     });
@@ -153,7 +137,7 @@
                  {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "warehouseNo",
-                    title: "<spring:message code='warehouseYard.warehouseNo'/>",
+                    title: "<spring:message code='warehouseCad.warehouseNo'/>",
                     width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1, keyPressFilter: "[0-9]", length: "15",defaultValue:"BandarAbbas",
@@ -166,14 +150,14 @@
                },
                 {
                     name: "nameFA",
-                    title: "<spring:message code='warehouseYard.nameFa'/>",
+                    title: "<spring:message code='warehouseCad.yard'/>",
                     width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1
                 },
                 {
                     name: "nameEN",
-                    title: "<spring:message code='warehouseYard.nameEn'/>",
+                    title: "<spring:message code='warehouseCad.yard'/>",
                     width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1
@@ -265,7 +249,7 @@
     });
 
     var Window_WarehouseYard = isc.Window.create({
-        title: "<spring:message code='warehouseYard.title'/> ",
+        title: "<spring:message code='warehouseCad.warehouseNo'/> ",
         width: 580,
         // height: 500,
         autoSize: true,
@@ -320,8 +304,8 @@
                             "Sungun": "<spring:message code='global.Sungun'/>"
                         }
                 },
-                {name: "nameFA", title: "<spring:message code='warehouseYard.nameFa'/>", width: "10%", align: "center"},
-                {name: "nameEN", title: "<spring:message code='warehouseYard.nameEn'/>", width: "10%", align: "center"},
+                {name: "nameFA", title: "<spring:message code='warehouseCad.yard'/>", width: "10%", align: "center"},
+                {name: "nameEN", title: "<spring:message code='warehouseCad.yard'/>", width: "10%", align: "center"},
             ],
         sortField: 0,
         autoFetchData: true,

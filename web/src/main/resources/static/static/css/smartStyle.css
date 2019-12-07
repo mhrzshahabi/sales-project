@@ -30,10 +30,10 @@
 }
 
 .box-shaddow:hover {
-    -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);
-    background: rgba(255, 255, 255, 0.7);
+    /*-webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);*/
+    /*-moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);*/
+    /*box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);*/
+    /*background: rgba(255, 255, 255, 0.7);*/
 }
 
 
@@ -80,3 +80,28 @@ span:hover {
 }
 /*End Fix Bug*/
 
+
+
+.ribbonBar{
+    background-color: rgb(238, 238, 238) !important;
+}
+
+.testmain{
+    background: #ebecf0 !important;
+}
+
+#testmain{
+    background: #ebecf0 !important;
+}
+
+
+
+
+/*.formTitle{*/
+/*    font-weight: lighter !important;*/
+/*    white-space: nowrap !important;*/
+/*}*/
+
+/*#isc_8I{*/
+/*    height: 400px !important;*/
+/*}*/

@@ -483,9 +483,20 @@
                         {name: "id", width: 50, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center", width: 150},
                         {name: "warehouseCadItem.warehouseCad.bijackNo", title: "<spring:message code='warehouseCad.bijackNo'/> "},
+                        {name: "warehouseCadItem.issueId", title: "<spring:message code='warehouseCadItem.issueId'/> "},
                     ],
                     changed: function (form, item, value) {
                         rcd=item.getSelectedRecord();
+                        rcd1=DynamicForm_WarehouseIssueMo.getOldValues().warehouseLotId;
+                       console.log('issue id='+rcd.warehouseCadItem.issueId);
+
+                        if (rcd1 != undefined && rcd1 == rcd.id) {
+
+                        } else  if (rcd.warehouseCadItem.issueId!=undefined) {
+                            isc.warn("<spring:message code='warehouseIssueMo.Already_issued'/>");
+                           DynamicForm_WarehouseIssueMo.setValue("warehouseLotId", "");
+                           return;
+                        }
                         if (rcd.id != undefined) {
                         console.log('rcd');
                         console.log(rcd);

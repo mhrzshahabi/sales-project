@@ -25,4 +25,11 @@ public interface IShipmentService {
 
 	List<String> findLotname(String id ); //Add by jalal
 
+	List<String> findbooking(String id);
+
+	List<String> cname();
+
+	List<String> inspector();
+
+
 }

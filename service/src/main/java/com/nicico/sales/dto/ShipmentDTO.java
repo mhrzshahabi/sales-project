@@ -63,7 +63,7 @@ public class ShipmentDTO {
 	private String preFreightCurrency;
 	private Double postFreight;
 	private String postFreightCurrency;
-
+	private String bookingCat;
 	// ------------------------------
 
 	@Getter
@@ -73,6 +73,7 @@ public class ShipmentDTO {
 	public static class Info extends ShipmentDTO {
 		private ContactDTO.ContactInfoTuple contactByAgent;
 		private ContactDTO.ContactInfoTuple contact; // Add By Jalal Buyer
+
 		private ContactDTO.ContactInfoTuple container;
 		private PortDTO.PortInfoTuple portByLoading;
 		private PortDTO.PortInfoTuple portByDischarge;

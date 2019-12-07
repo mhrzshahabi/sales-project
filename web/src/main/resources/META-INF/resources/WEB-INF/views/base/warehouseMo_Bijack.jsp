@@ -207,7 +207,7 @@
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},
@@ -242,7 +242,7 @@
                     valueField: "tozinPlantId",
                     pickListWidth: "700",
                     pickListHeight: "700",
-                    pickListProperties: {showFilterEditor: true},
+                    pickListProperties: {showFilterEditor: true,filterOnKeypress: false},
                     pickListFields: [
                         {name: "containerId"},
                         {name: "plak"},
@@ -266,6 +266,7 @@
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_WarehouseYard,
                     displayField: "nameFA",
+                    defaultValue: "5",
                     valueField: "id",
                     pickListWidth: "215",
                     pickListHeight: "215",
@@ -297,8 +298,6 @@
                     colSpan: 1,
                     titleColSpan: 1
                 },
-                {name: "sourceBarrelSum", title: "<spring:message code='warehouseCad.sourceBarrelSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationBarrelSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
                 {name: "sourceWeight", title: "<spring:message code='warehouseCad.sourceWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
                 {name: "destinationWeight", title: "<spring:message code='warehouseCad.destinationWeight'/>", width: 250,colSpan: 1,titleColSpan: 1},
                  {
