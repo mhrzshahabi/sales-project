@@ -23,11 +23,11 @@ public class InvoiceItemDTO {
 	private String upDown;
 	private String lessPlus;
 	private String description;
-	private Float originValue;
+	private Double originValue;
 	private String originValueCurrency;
-	private Float targetValue;
+	private Double targetValue;
 	private String targetValueCurrency;
-	private Float conversionRate;
+	private Double conversionRate;
 	private String dateRate;
 	private String rateReference;
 	// ------------------------------

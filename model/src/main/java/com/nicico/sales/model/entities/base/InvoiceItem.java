@@ -41,19 +41,19 @@ public class InvoiceItem extends Auditable {
 	private String description;
 
 	@Column(name = "ORIGIN_VALUE")
-	private Float originValue;
+	private Double originValue;
 
 	@Column(name = "ORIGIN_VALUE_CUR", length = 10)
 	private String originValueCurrency;
 
 	@Column(name = "TARGET_VALUE")
-	private Float targetValue;
+	private Double targetValue;
 
 	@Column(name = "TARGET_VALUE_CUR", length = 10)
 	private String targetValueCurrency;
 
 	@Column(name = "CONVERSION_RATE")
-	private Float conversionRate;
+	private Double conversionRate;
 
 	@Column(name = "RATE_DATE", length = 10)
 	private String dateRate;

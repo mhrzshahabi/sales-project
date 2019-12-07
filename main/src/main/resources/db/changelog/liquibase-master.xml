@@ -6,17 +6,7 @@
 				   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
 	<include file="classpath:/db/changelog/changes/liq-activiti.xml"/>
-	<include file="classpath:/db/changelog/changes/liq-oauth-01.xml"/>
-
-	<include file="changes/liq-001.xml" relativeToChangelogFile="true"/>
-	<include file="changes/liq-002.xml" relativeToChangelogFile="true"/>
-	<include file="changes/liq-003.xml" relativeToChangelogFile="true"/>
-	<include file="changes/liq-004.xml" relativeToChangelogFile="true"/>
-	<include file="changes/liq-005.xml" relativeToChangelogFile="true"/>
-	<include file="changes/liq-006.xml" relativeToChangelogFile="true"/>
-	<include file="changes/liq-007.xml" relativeToChangelogFile="true"/>
-	<include file="changes/liq-008.xml" relativeToChangelogFile="true"/>
-	<include file="changes/liq-009.xml" relativeToChangelogFile="true"/>
-	<include file="changes/liq-010.xml" relativeToChangelogFile="true"/>
+	<include file="classpath:/db/changelog/changes/liq-001.xml"/>
+	<include file="classpath:/db/changelog/changes/liq-view.xml"/>
 
 </databaseChangeLog>

@@ -30,10 +30,10 @@ public class ContractPenalty extends Auditable {
 	private Long contractItemFeatureId;
 
 	@Column(name = "DEDUCTION", length = 4)
-	private Float deduction;
+	private Double deduction;
 
 	@Column(name = "VALUE", length = 4)
-	private Float value;
+	private Double value;
 
 	@Column(name = "OPERATION", length = 4)
 	private String operation;

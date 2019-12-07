@@ -87,4 +87,7 @@ public class DCCService implements IDCCService {
 		final DCC saved = dCCDAO.saveAndFlush(dCC);
 		return modelMapper.map(saved, DCCDTO.Info.class);
 	}
+	public Long findNextImageNumber(){
+	   return dCCDAO.findNextImageNumber();
+	};
 }
