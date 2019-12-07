@@ -1254,9 +1254,6 @@
             var data = DynamicForm_MaterialItem.getValues();
             var minValue = DynamicForm_MaterialItem.getValue("minValue");
             var maxValue = DynamicForm_MaterialItem.getValue("maxValue");
-            console.log(minValue);
-            console.log(maxValue);
-            console.log(DynamicForm_MaterialItem);
             if (minValue > maxValue) {
                 isc.say("<spring:message code='MaterialItem.minValue.Error'/>.");
                 return;
@@ -1304,7 +1301,7 @@
     });
 
     var Window_MaterialItem = isc.Window.create({
-        title: "<spring:message code='MaterialItem.title'/> ",
+        title: "<spring:message code='Product'/> ",
         width: 580,
         // height: 500,
         autoSize: true,
@@ -1361,8 +1358,8 @@
         ID: "Material_Section_Stack",
         sections:
             [
-                {title: "<spring:message code='Product'/>", items: VLayout_Material_Body, expanded: true}
-                , {title: "<spring:message code='ProductFeature'/>",items: VLayout_MaterialItem_Body,expanded: true}
+                {title: "<spring:message code='ProductGroup'/>", items: VLayout_Material_Body, expanded: true}
+                , {title: "<spring:message code='Product'/>",items: VLayout_MaterialItem_Body,expanded: true}
                 , {title: "<spring:message code='ProductFeature'/>",items: VLayout_MaterialFeature_Body,expanded: true}
             ],
         visibilityMode: "multiple",

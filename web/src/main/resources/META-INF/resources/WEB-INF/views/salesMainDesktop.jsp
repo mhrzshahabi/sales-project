@@ -1238,7 +1238,7 @@
     });
 
 /*JZ*/
-    var inspectionContractResultButton = isc.IconButton.create({
+    /*var inspectionContractResultButton = isc.IconButton.create({
         title: "<spring:message code='inspection.contract.form'/>",
         icon: "inspection/inspectionContract.png",
         largeIcon: "inspection/inspectionContract.png",
@@ -1246,7 +1246,7 @@
         click: function () {
             createTab("<spring:message code='inspection.contract.form'/>", "<spring:url value="/inspectionContract/showForm" />")
         }
-    });
+    });*/
 
 
     <%--var inspectionAssayResultButton = isc.IconButton.create({--%>
@@ -1294,8 +1294,8 @@
         controls: [
             // inspectorAppointmentButton
             inspectionMoistureResultButton
-            , inspectionAssayResultButton ,
-            inspectionContractResultButton   //Add By jz
+            , inspectionAssayResultButton //,
+            // inspectionContractResultButton   //Add By jz
 
             // , inspectionCostButton
         ],
