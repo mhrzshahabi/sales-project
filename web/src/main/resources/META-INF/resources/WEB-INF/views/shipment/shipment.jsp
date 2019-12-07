@@ -1724,7 +1724,6 @@
     var Window_ShipmentEmail = isc.Window.create({
         title: "<spring:message code='global.email'/> ",
         width: "800",
-        height: "700",
         autoSize: true,
         autoCenter: true,
         isModal: true,
