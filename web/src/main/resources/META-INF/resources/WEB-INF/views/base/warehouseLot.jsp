@@ -326,6 +326,8 @@
                 {name: "grossWeight", title: "<spring:message code='warehouseLot.grossWeight'/>", align: "center"},
                 {name: "contractId",title: "contractId", align: "center"},
                 {name: "bookingNo",type:"text",title: "<spring:message code='warehouseLot.bookingNo'/>", align: "center"}  ,
+                {name: "warehouseCadItem.issueId",type:"text",title: "<spring:message code='warehouseCadItem.issueId'/>", align: "center"}  ,
+                {name: "warehouseCadItem.warehouseCad.bijackNo",type:"text",title: "<spring:message code='warehouseCad.bijackNo'/>", align: "center"}  ,
                 {name: "used",type:"boolean",title: "used", align: "center"},
 
 
