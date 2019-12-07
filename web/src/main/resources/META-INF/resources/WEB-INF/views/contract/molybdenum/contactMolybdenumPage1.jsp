@@ -10,6 +10,7 @@
  var VLayout_contactMain;
  var itemsDefinitionsCount = 0;
  var imanageNote = 0;
+ var varOptional=0;
  var methodUrl="POST";
  var lotList;
  var ListGrid_ContractItemShipment;
@@ -34,6 +35,7 @@
     ValuesManager("valuesManagerArticle8");
     ValuesManager("valuesManagerArticle9");
     ValuesManager("valuesManagerArticle10");
+    ValuesManager("valuesManagerfullArticle");
 
  var RestDataSource_Parameters = isc.MyRestDataSource.create({
         fields:
@@ -290,6 +292,7 @@
         isc.Label.create({ID:"Label_Contact_Type",padding: 20,width: "100%",height: "1%",styleName: "helloWorldText",contents:  'Please select the type of contract.'});
         isc.IButton.create({ID:"Button_MO_OX",width: "200",height: "30",title: "Molybdenum",iconOrientation: "right",click:function () {
                 contactHeader.clearValues();
+                valuesManagerfullArticle.clearValues();
                 contactHeaderAgent.clearValues();
                 valuesManagerArticle1.clearValues();
                 valuesManagerArticle2.clearValues();
@@ -331,7 +334,6 @@
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
                                 Window_SelectTypeContact.animateShow();
-
                             }
                     });
                     var ToolStripButton_Contact_Edit = isc.ToolStripButton.create({
@@ -1366,7 +1368,6 @@ isc.DynamicForm.create({
                     article2_1.setValue("article2_13_1", value);
                     dynamicForm_article3_3.setValue("article3_number17_4",value);
                     dynamicForm_article3.setValue("article3_number17_9", value);
-                    dynamicForm_article5_number29_1.setValue("article5_number29_3", value);
                 }
             },
             {
@@ -1524,6 +1525,27 @@ var vlayoutArticle3 = isc.VLayout.create({
     factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - </font><b>', '2%', 1);
     factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - </font><b>', "20", 1)
 
+ var dynamicForm_fullArticle03 = isc.DynamicForm.create({
+            valuesManager: "valuesManagerfullArticle",
+            height: "20",
+            width: "100%",
+            wrapItemTitles: false,
+            items: [
+                {
+                    name: "fullArticle03",
+                    disabled: false,
+                    type: "text",
+                    length: 5000,
+                    startRow: true,
+                    showTitle: false,
+                    colSpan: 10,
+                    defaultValue: "MOLYBDENUM OXIDE ASSAYS ARE AS FOLLOWS:\n",
+                    title: "fullArticle03",
+                    width: "*"
+                }
+            ]
+        })
+
 var dynamicForm_article3_1 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3",
         height: "20",
@@ -1539,19 +1561,20 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 showHintInField: true,
                 showTitle: false,
                 required: false,
+                title: "<spring:message code='contact.name'/>",
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                displayField: "paramName",
-                valueField: "paramName",
+                optionDataSource: RestDataSource_Contact,
+                displayField: "nameFA",
+                valueField: "id",
+                pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "paramName", width: "45%", align: "center"},
-                    {name: "paramType", width: "45%", align: "center"},
-                    {name: "paramValue", width: "10%", align: "center"}
+                    {name: "nameFA", width: "45%", align: "center"},
+                    {name: "nameEN", width: "45%", align: "center"},
+                    {name: "code", width: "10%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                    {fieldName: "contractId", operator: "equals", value: 1},
-                    {fieldName:"categoryValue",operator:"equals",value:3}]
+                    {fieldName: "inspector", operator: "equals", value: 1}]
                     },
                 changed: function (form, item, value) {
                     dynamicForm_article3.setValue("article3_number17",value);
@@ -1564,7 +1587,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
     var dynamicForm_article3 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3",
         height: "4%",
-        numCols: 10,
+        numCols: 12,
         wrapItemTitles: false,
         items: [
             {
@@ -1774,7 +1797,11 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 title: '- ',
                 changed: function (form, item, value) {
                     dynamicForm_article3.setValue("article3_number17_8", value);
-                    dynamicForm_article5_number29_1.setValue("article5_number29_2", value);
+                    //dynamicForm_article5_number29_1.setValue("article5_number29_2", value);
+                    dynamicForm_fullArticle03.clearValues();
+                    valuesManagerfullArticle.setValue("fullArticle03","\n"+valuesManagerfullArticle.getValue("fullArticle03")+value+"MT"+"+/-"+valuesManagerArticle2.getValue("molybdenumTolorance")+"%"+" "+"AS A WHOLE AFTER CONTRACT SETTLEMENT WITH BELOW ANALYSIS AND SIZE DETERMINATION:")//TO DO 13
+                    valuesManagerfullArticle.setValue("fullArticle03",valuesManagerfullArticle.getValue("fullArticle03")+"\n"+valuesManagerArticle3.getValue("contactInspectionId")+" "
++"ANALYSIS RESULTS FOR THE REMAINING QUANTITY ("+value+"MT +/-"+article2.getValue("molybdenumTolorance")+"-IN "+article2_1.getItem("responsibleTelerons").getDisplayValue(article2_1.getValue("responsibleTelerons"))+" OPTION) WHICH WILL BE PERFORMED AT "+" "+valuesManagerArticle3.getValue("contactInspectionId")+", IS FINAL AND BINDING FOR SETTLEMENT PURPOSES.");
                 }
             },{
                 type: "text",
@@ -1836,7 +1863,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 startRow: false,
                 wrapTitle: false,
                 showTitle: false
-            },
+            }
         ]
     })
     var dynamicForm_article4_number18 = isc.DynamicForm.create({
@@ -1875,7 +1902,10 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 keyPressFilter: "[0-9]",
                 showHintInField: true,
                 startRow: false,
-                title: ''
+                title: '',changed: function (form, item, value) {
+                dynamicForm_fullArticle04.clearValues();
+                valuesManagerfullArticle.setValue("fullArticle04","IN STEEL DRUMS OF "+value+" LITERS, WITH LIDS SECURED BY RINGS ON PALLETS.");
+                }
             }, {
                 name: "amount_number19_2",
                 showTitle: false,
@@ -1886,6 +1916,26 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
             }
         ]
     })
+    var dynamicForm_fullArticle04 = isc.DynamicForm.create({
+                valuesManager: "valuesManagerfullArticle",
+                height: "20",
+                width: "100%",
+                wrapItemTitles: false,
+                items: [
+                    {
+                        name: "fullArticle04",
+                        disabled: false,
+                        type: "text",
+                        length: 5000,
+                        startRow: true,
+                        showTitle: false,
+                        colSpan: 10,
+                        defaultValue: "IN STEEL DRUMS OF *** LITERS, WITH LIDS SECURED BY RINGS ON PALLETS.",
+                        title: "fullArticle04",
+                        width: "*"
+                    }
+                ]
+            })
     var dynamicForm_article5_number20 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle5",
         height: "20",
@@ -1991,13 +2041,21 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 required: false,
                 startRow: false,
                 wrapTitle: false,
-                showTitle: false
+                showTitle: false,changed: function (form, item, value) {
+                var darFalseStart=dynamicForm_article5_number24_number25_number26.getValue("runStartDate");
+                var darFalseEnd=dynamicForm_article5_number24_number25_number26.getValue("runEndtDate");
+                var DateStart = (darFalseStart.getFullYear() + "/" + ("0" + (darFalseStart.getMonth() + 1)).slice(-2) + "/" + ("0" + darFalseStart.getDate()).slice(-2));
+                var DateEnd = (darFalseEnd.getFullYear() + "/" + ("0" + (darFalseEnd.getMonth() + 1)).slice(-2) + "/" + ("0" + darFalseEnd.getDate()).slice(-2));
+                    dynamicForm_fullArticle05.setValue("fullArticle05",
+"SHIPMENT SHALL BE PERFORMED "+dynamicForm_article5_number21.getValue("timeIssuance")+" OF "+dynamicForm_article5_number21.getValue("prefixPayment")+" OF VALUE AMOUNT OF "+dynamicForm_article5_number21.getValue("invoiceType")+"" +
+"INVOICE PRIOR EACH SHIPMENT COMMENCING FROM "+DateStart+" "+dynamicForm_article5_number24_number25_number26.getValue("runTill")+" "+DateStart+" AS PER FOLLOWING :");
+                }
             },{
                 name: "article5_number26_1",
                 width: "200",
                 showTitle: false,
                 defaultValue: "AS PER FOLLOWING:",
-                startRow: false,
+                startRow: false
             },
             {
                 type: "button",
@@ -2201,11 +2259,31 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
     })
 
     var hlayuotNote = isc.VLayout.create({
+        showIf: "false",
         height: "30",
         align: "left",
         members: [dynamicForm_article5_Note2_number30, buttonNote]
     })
-
+    var dynamicForm_fullArticle05 = isc.DynamicForm.create({
+                valuesManager: "valuesManagerfullArticle",
+                height: "20",
+                width: "100%",
+                wrapItemTitles: false,
+                items: [
+                    {
+                        name: "fullArticle05",
+                        disabled: false,
+                        type: "text",
+                        length: 5000,
+                        startRow: true,
+                        showTitle: false,
+                        colSpan: 10,
+                        defaultValue: "",
+                        title: "fullArticle05",
+                        width: "*"
+                    }
+                ]
+            })
     var dynamicForm_article6_number31 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle6",
         height: "20",
@@ -2483,7 +2561,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 type: "text",
                 height: "50",
                 length: 3000,
-                defaultValue: "AFTER POSITIONING THE REQUIRED EMPTY CONTAINERS BUYER WILL INFORM IMMEDIATELY THE TYPE(20/40FT) AND NUMBER OF CONTAINERS RELEVANT SERIAL NUMBERS TO SELLER.",
+                defaultValue: "6.4.AFTER POSITIONING THE REQUIRED EMPTY CONTAINERS BUYER WILL INFORM IMMEDIATELY THE TYPE(20/40FT) AND NUMBER OF CONTAINERS RELEVANT SERIAL NUMBERS TO SELLER.",
                 showTitle: false,
                 colSpan: 6,
                 title: "article6_Containerized_4",
@@ -2521,7 +2599,8 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3_3]}),
             isc.HLayout.create({height: "30", align: "left", members: [lableArticle3Typicall]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3_Typicall]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3]})
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3]}),
+            isc.HLayout.create({height: "30",width: "100%",align: "left", members: [dynamicForm_fullArticle03]})
         ]
     });
     var vlayoutArticle4 = isc.VLayout.create({
@@ -2530,7 +2609,8 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         styleName: "box-shaddow",
         members: [
             isc.HLayout.create({height: "50", align: "left", members: [lableArticle4, dynamicForm_article4_number18]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article4_1_number19]})
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article4_1_number19]}),
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle04]})
         ]
     });
     var vlayoutArticle5 = isc.VLayout.create({
@@ -2546,11 +2626,32 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 members: [dynamicForm_article5_number24_number25_number26]
             }),
             isc.HLayout.create({height: "30", align: "left", members: [vlayout_ContractItemShipment]}),
-// isc.HLayout.create({height:"30",align: "left", members:[dynamicForm_article5_number28_number29]}),
-            /* isc.HLayout.create({height:"30",align: "left", members:[dynamicForm_article5_number29_1]}),*/
-            hlayuotNote
+            hlayuotNote,
+            dynamicForm_fullArticle05
         ]
     });
+
+     var dynamicForm_fullArticle06 = isc.DynamicForm.create({
+                valuesManager: "valuesManagerfullArticle",
+                height: "150",
+                width: "100%",
+                wrapItemTitles: false,
+                items: [
+                    {
+                        name: "fullArticle06",
+                        disabled: false,
+                        height: "150",
+                        type: "text",
+                        length: 5000,
+                        startRow: true,
+                        showTitle: false,
+                        colSpan: 10,
+                        defaultValue: "THE MATERIAL SHALL BE DELIVERED BY SELLER TO BUYER ON FOB STOWED BANDAR ABBAS, IRAN (INCOTERMS 2010).\n6.1. BUYER SHALL INTRODUCE TO SELLER THE FULL PARTICULARS OF THE CONTAINER LINE NOMINATED, GIVING FULL NAME, REGISTERED ADDRESS, TELEPHONE & FAX NUMBERS, AND PERSONS IN CHARGE OF THEIR REPRESENTATIVES IN TEHRAN AS WELL AS AT THE PORT OF BANDAR ABBAS FOR FURTHER COORDINATIONS. LOCAL AGENTS AT THE LOADPORT SHALL BE ACCESSIBLE DURING FULL PERIOD OF LOADING. IN ADDITION FOR EACH SHIPMENT.\n6.2. BUYER SHALL MAKE THE NECESSARY ARRANGEMENTS FOR THE CONTAINERS TO BE PROVIDED AND POSITIONED AT THE EXPORT AREA INSIDE THE CONTAINER YARD OF BANDAR ABBAS CUSTOM HOUSE WITHOUT ANY CHARGES FOR SELLER.\n6.3. HOWEVER, COST OF MOVING THE LOADED CONTAINERS FROM EXPORT AREA TO THE F.O.B. ARE FOR SELLER'S ACCOUNT.\n6.4. AFTER POSITIONING THE REQUIRED EMPTY CONTAINERS, BUYER WILL INFORM IMMEDIATELY THE TYPE (20/40FT) AND NUMBER OF CONTAINERS, RELEVANT SERIAL NUMBERS TO SELLER.\n6.5. PRIOR TO STUFFING THE CARGO, NOMINATED INSPECTION COMPANY'S REPRESENTATIVE IF APPOINTED, OTHERWISE SELLER'S STAFF WILL CHECK THE CONTAINERS TO APPROVE THEIR FITNESS FOR ACCEPTING THE CARGO.",
+                        title: "fullArticle06",
+                        width: "*"
+                    }
+                ]
+            })
     var vlayoutArticle6 = isc.VLayout.create({
         width: "100%",
         height: "100%",
@@ -2564,7 +2665,8 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_2]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_3]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_4]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_5]})
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_5]}),
+            isc.HLayout.create({height: "80", align: "left", members: [dynamicForm_fullArticle06]})
         ]
     });
 
@@ -2790,6 +2892,26 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             {name: "discountValueEleven_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false}
             ]
     });
+     var dynamicForm_fullArticle07 = isc.DynamicForm.create({
+                valuesManager: "valuesManagerfullArticle",
+                height: "20",
+                width: "100%",
+                wrapItemTitles: false,
+                items: [
+                    {
+                        name: "fullArticle07",
+                        disabled: false,
+                        type: "text",
+                        length: 5000,
+                        startRow: true,
+                        showTitle: false,
+                        colSpan: 10,
+                        defaultValue: "PRICE FOR MOLYBDENUM OXIDE WILL BE BASED ON THE PLATT'S METALS WEEK MONTHLY AVERAGE FOR MOLYBDENUM OXIDE, AS PUBLISHED IN MONTHLY REPORT OF PLATT'S METALS WEEK UNDER THE HEADING DEALER OXIDE MIDPOINT/MEAN PER POUND OF MOLYBDENUM CONTENT WITH DISCOUNTS AS BELOW:",
+                        title: "fullArticle07",
+                        width: "*"
+                    }
+                ]
+            })
     var vlayoutArticle7 = isc.VLayout.create({
         width: "100%",
         styleName: "box-shaddow",
@@ -2802,7 +2924,8 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             }),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_number39_number40]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_number40_2]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_discount]})
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_discount]}),
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle07]})
         ]
     });
 
@@ -2868,14 +2991,34 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             }
         ]
     })
-
+    var dynamicForm_fullArticle08 = isc.DynamicForm.create({
+                valuesManager: "valuesManagerfullArticle",
+                height: "20",
+                width: "100%",
+                wrapItemTitles: false,
+                items: [
+                    {
+                        name: "fullArticle08",
+                        disabled: false,
+                        type: "text",
+                        length: 5000,
+                        startRow: true,
+                        showTitle: false,
+                        colSpan: 10,
+                        defaultValue: "QUOTATIONAL PERIOD FOR MOLYBDENUM OXIDE SHALL BE THE AVERAGE OF THE MONTH FOLLOWING MONTH OF ACTUAL SHIPMENT (MOAS+1) FROM THE PORT OF LOADING AS EVIDENCED BY THE B/L DATE.",
+                        title: "fullArticle08",
+                        width: "*"
+                    }
+                ]
+            })
     var vlayoutArticle8 = isc.VLayout.create({
         width: "100%",
         height: "50",
         styleName: "box-shaddow",
         members: [
             isc.HLayout.create({height: "30", align: "left", members: [lableArticle8, dynamicForm_article8_number42]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article8_3]})
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article8_3]}),
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle08]})
         ]
     });
 
@@ -3085,6 +3228,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
     })
     var dynamicForm_article9_ImportantNote = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle9",
+        showIf:"false",
         height: "20",
         width: "10%",
         numCols: 2,
@@ -3114,7 +3258,26 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             }
         ]
     })
-
+    var dynamicForm_fullArticle09 = isc.DynamicForm.create({
+                valuesManager: "valuesManagerfullArticle",
+                height: "20",
+                width: "100%",
+                wrapItemTitles: false,
+                items: [
+                    {
+                        name: "fullArticle09",
+                        disabled: false,
+                        type: "text",
+                        length: 5000,
+                        startRow: true,
+                        showTitle: false,
+                        colSpan: 10,
+                        defaultValue: "1.BUYER SHALL PAY BEFORE EACH SHIPMENT 105% (ONE HUNDRED FIVE PERCENT) OF PROFORMA / PROVISIONAL INVOICE VALUE AMOUNT IN EURO OR AED (SELLER'S OPTION), PROMPT NET CASH PAYABLE BY TELEGRAPHIC TRANSFER OR UNDER AN IRREVOCABLE LETTER OF CREDIT AT SIGHT (SELLER'S OPTION) TO A BANK WHICH IS NOMINATED BY SELLER. PROFORMA / PROVISIONAL INVOICE AMOUNT CALCULATED BASED ON PROVISIONAL PRICE WHICH IS AVERAGE OF TWO WEEKS PRICE (LOW & HIGH PRICES) PRIOR DATE OF PROFORMA / PROVISIONAL INVOICE AND FINAL ASSAY.\n2.	THE FINAL BALANCE, IF ANY, BETWEEN THE PROVISIONAL PAYMENT MADE BY BUYER AND THE FINAL VALUE OF THE MATERIAL SHALL BE PAID BY THE OWING PARTY BY TELEGRAPHIC TRANSFER AGAINST SELLER'S PRESENTATION OF FOLLOWING DOCUMENTS WITHIN (5) WORKING DAYS FROM THE DATE OF THE FINAL INVOICE. SELLER'S FINAL INVOICE ISSUED BASED ON FINAL PRICES LESS THE AMOUNT OF PROVISIONAL PAYMENT.",
+                        title: "fullArticle09",
+                        width: "*"
+                    }
+                ]
+            })
     var vlayoutArticle9 = isc.VLayout.create({
         width: "100%",
         styleName: "box-shaddow",
@@ -3132,8 +3295,9 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             }),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article9_number54]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article9_number55]}),
-            isc.HLayout.create({height: "30", align: "left", members: [lableImportantNote]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article9_ImportantNote]})
+            isc.HLayout.create({showIf:"false",height: "30", align: "left", members: [lableImportantNote]}),
+            isc.HLayout.create({showIf:"false",height: "30", align: "left", members: [dynamicForm_article9_ImportantNote]}),
+            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle09]})
         ]
     });
 
@@ -3224,14 +3388,34 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     });
 
-
+    var dynamicForm_fullArticle10 = isc.DynamicForm.create({
+                valuesManager: "valuesManagerfullArticle",
+                height: "20",
+                width: "100%",
+                wrapItemTitles: false,
+                items: [
+                    {
+                        name: "fullArticle10",
+                        disabled: false,
+                        type: "text",
+                        length: 5000,
+                        startRow: true,
+                        showTitle: false,
+                        colSpan: 10,
+                        defaultValue: "-ALL INVOICES SHALL BE ISSUED IN USD.\n-UPON THE POSSIBILITY OF APPLYING THE USD CURRENCY ANY TIME IN THIS CONTRACT, THE PAYMENT SHALL BE IN USD.\n-THE VALUE OF EACH PAYMENT IF SHALL BE CONVERTED FROM USD INTO AED THEREFORE CONVERSION RATE AT THE PREVAILING AVAILABLE RATE SHALL BE 3.67.\n-IN CASE OF EURO, THE VALUE OF EACH INVOICES INCLUDING PROFORMA, PROVISIONAL AND FINAL INVOICES SHALL BE CONVERTED FROM USD INTO EURO THEREFORE CONVERSION RATE WILL BE BASED ON ECB RATE AND UNKNOWN DATE OF WHICH WILL BE AGREED BY BUYER AND SELLER.",
+                        title: "fullArticle10",
+                        width: "*"
+                    }
+                ]
+            })
     var vlayoutArticle10 = isc.VLayout.create({
         width: "100%",
         height: "50",
         styleName: "box-shaddow",
         members: [
             isc.HLayout.create({ height: "30",align: "left", members: [lableArticle10] }),
-            isc.HLayout.create({height: "30", align: "center", members: [isc.VLayout.create({align: "center", members: [dynamicForm_article10]})]})
+            isc.HLayout.create({height: "30", align: "center", members: [isc.VLayout.create({align: "center", members: [dynamicForm_article10]})]}),
+                isc.HLayout.create({ height: "30",align: "left", members: [dynamicForm_fullArticle10] })
         ]
     });
     var VLayout_PageThree_Contract = isc.VLayout.create({
@@ -3674,6 +3858,7 @@ function saveCotractDetails(data, contractID) {
             data: JSON.stringify(allData),
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    saveValueAllArticlesMoOx();
                     saveValuelotListForADD(contractID);
                     saveListGrid_ContractItemShipment(contractID);
                     saveContractCurrency(contractID);
@@ -3784,4 +3969,30 @@ function itemsEditDefinitions(key,value,id) {
                     }
             ]);
        itemsDefinitionsCount++;
+    }
+
+    var dataALLArticleMO = {};
+    function saveValueAllArticlesMoOx() {
+        dataALLArticleMO.Article03 = valuesManagerfullArticle.getValue("fullArticle03");
+        dataALLArticleMO.Article04 = valuesManagerfullArticle.getValue("fullArticle04");
+        dataALLArticleMO.Article05 = valuesManagerfullArticle.getValue("fullArticle05");
+        dataALLArticleMO.Article06 = valuesManagerfullArticle.getValue("fullArticle06");
+        dataALLArticleMO.Article07 = valuesManagerfullArticle.getValue("fullArticle07");
+        dataALLArticleMO.Article08 = valuesManagerfullArticle.getValue("fullArticle08");
+        dataALLArticleMO.Article09 = valuesManagerfullArticle.getValue("fullArticle09");
+        dataALLArticleMO.Article10 = valuesManagerfullArticle.getValue("fullArticle10");
+        dataALLArticleMO.Article11 = "";
+        dataALLArticleMO.Article12 = "";
+        dataALLArticleMO.contractNo = "MO_OX"+contactHeader.getValue("contractNo");
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: "${contextPath}/api/contract/writeWord",
+            httpMethod: "POST",
+            data: JSON.stringify(dataALLArticleMO),
+            callback: function (resp) {
+                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    isc.say("<spring:message code='global.form.request.successful'/>.");
+                } else
+                    isc.say(RpcResponse_o.data);
+            }
+        }))
     }
