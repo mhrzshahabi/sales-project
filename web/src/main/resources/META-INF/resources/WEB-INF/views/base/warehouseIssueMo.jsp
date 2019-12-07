@@ -390,11 +390,12 @@
             ]
         };
         DynamicForm_WarehouseIssueMo.clearValues ();
-        // DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.pickListCriteria=RestDataSource_WarehouseIssueMo_optionCriteria;
-        // DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.fetchData(
-        //             RestDataSource_WarehouseIssueMo_optionCriteria,
-        //             function (dsResponse, data, dsRequest) { DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.setData(data)  ;  } );
-		//
+        DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.pickListCriteria=RestDataSource_WarehouseIssueMo_optionCriteria;
+        DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.pickListCriteria=null;
+        DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.fetchData(
+                    RestDataSource_WarehouseIssueMo_optionCriteria,
+                    function (dsResponse, data, dsRequest) { DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot.setData(data)  ;  } );
+
     }
 
     var Menu_ListGrid_WarehouseIssueMo = isc.Menu.create({
