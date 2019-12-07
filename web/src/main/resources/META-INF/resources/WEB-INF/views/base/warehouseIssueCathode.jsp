@@ -29,11 +29,11 @@
     var RestDataSource_WarehouseIssueCathode_WarehouseCad = isc.MyRestDataSource.create({
         fields:
             [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bijackNo"},
-                {name: "yard.nameFA"},
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true,title: "<spring:message code='global.id'/>"},
+                {name: "bijackNo",title: "<spring:message code='warehouseCad.bijackNo'/>"},
+                {name: "warehouseYard.nameFA",title: "<spring:message code='warehouseCad.yard'/>"},
             ],
-        fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
+        fetchDataURL: "${contextPath}/api/warehouseCad/spec-list-issue-cad"
     });
 
 //*******************************************************************************
@@ -90,7 +90,7 @@
                 {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
                 {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
             ],
-        fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
+        fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list-issue-cad"
     });
 
 
@@ -451,7 +451,7 @@
                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             // console.log(JSON.parse(RpcResponse_o));
                             var data = JSON.parse(RpcResponse_o.data);
-                            // console.log('data');
+                            console.log('data');
                             // console.log(data);
                             // for (x of data) { // console.log(x);
                             //     ClientData_WarehouseCadITEMByWarehouseIssueCathode.push(x);
@@ -472,7 +472,6 @@
             [
                  {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
-                {name: "warehouseCad.warehouseYardId",title:"<spring:message code='warehouseCad.yard'/>"},
                 {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
                 {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
             ],
@@ -491,7 +490,13 @@
         dataPageSize: 50,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+        fields : [
+                {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
+                {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
+                {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
+                {name: "issueId",title:"<spring:message code='warehouseCadItem.issueId'/>"},
+        ]
     });
     var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.create({
         width: "100%",
@@ -665,10 +670,10 @@
                     pickListFields: [
                         {name: "id", width: 50, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "bijackNo", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
-                        {name: "yard.nameFA", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
+                        {name: "warehouseYard.nameFA", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
                     ],
                     changed(form, item, value) {
-                    	// console.log(item.getSelectedRecord().warehouseCadItems);
+                    	console.log(item.getSelectedRecord());
                     	ids="";
                     	for (x of  item.getSelectedRecord().warehouseCadItems) {
                     	    // console.log(x);

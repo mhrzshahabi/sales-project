@@ -704,7 +704,10 @@
                 {
                     name: "inspectionDateDummy",
                     title: "<spring:message code='shipment.Assay.inspectionDate'/>",
-                    type: 'date'
+                    type: 'date',
+                    format: 'DD-MM-YYYY',
+                    required: true,
+                    width: "100%",colSpan:3,titleColSpan:1
                 },
                 {
                     name: "averageCuPercent",

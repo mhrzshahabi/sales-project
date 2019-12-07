@@ -2,6 +2,7 @@ package com.nicico.sales.service;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.GridResponse;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
@@ -151,6 +152,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 		final SearchDTO.SearchRs<WarehouseCadItemDTO.Info> response = search(request);
 		return mapSearchRs(nicicoCriteria, response);
 	}
+
 
 	@Transactional(readOnly = true)
 	@Override
@@ -308,4 +310,22 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 			return "Sarcheshmeh";
 		return plantFa;
 	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+	public TotalResponse< WarehouseCadItemDTO.InfoCombo2> search1(NICICOCriteria criteria) {
+		List<WarehouseCadItem> l = warehouseCadItemDAO.findOnHandsByHSCode("74031100");
+		GridResponse< WarehouseCadItemDTO.InfoCombo2> gridResponse = new GridResponse();
+		List< WarehouseCadItemDTO.InfoCombo2> data = new ArrayList<>();
+		for (WarehouseCadItem w : l) {
+			data.add(modelMapper.map(w,  WarehouseCadItemDTO.InfoCombo2.class) );
+		}
+		gridResponse.setStartRow(0);
+		gridResponse.setEndRow(data.size()-1);
+		gridResponse.setTotalRows(data.size());
+		gridResponse.setData(data );
+		return new TotalResponse<>(gridResponse);
+	}
+
 }

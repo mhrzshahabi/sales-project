@@ -54,6 +54,25 @@ public class WarehouseCadDTO {
         private String lastModifiedBy;
         private Integer version;
     }
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseCadInfoCombo")
+    public static class InfoCombo  {
+        private Long id;
+        private String bijackNo;
+        private List<WarehouseCadItemDTO.InfoCombo> warehouseCadItems;
+        private WarehouseYardDTO warehouseYard;
+    }
+
+   @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseCadInfoCombo2")
+    public static class InfoCombo2  {
+        private Long id;
+        private String bijackNo;
+    }
 
 
     // ------------------------------
