@@ -21,14 +21,14 @@ public class InvoiceMolybdenumDTO {
 	@ApiModelProperty(required = true)
 	private Long invoiceId;
 	private String lotNo;
-	private Float net;
-	private Float grass;
-	private Float molybdenumPercent;
-	private Float copperPercent;
-	private Float molybdenumContent;
-	private Float discountPercent;
-	private Float priceFee;
-	private Float price;
+	private Double net;
+	private Double grass;
+	private Double molybdenumPercent;
+	private Double copperPercent;
+	private Double molybdenumContent;
+	private Double discountPercent;
+	private Double priceFee;
+	private Double price;
 	// ------------------------------
 
 	@Getter

@@ -21,8 +21,8 @@ public class ContractPenaltyDTO {
 	@ApiModelProperty(required = true)
 	private Long contractItemFeatureId;
 	private ContractItemFeature contractItemFeature;
-	private Float deduction;
-	private Float value;
+	private Double deduction;
+	private Double value;
 	private String operation;
 
 

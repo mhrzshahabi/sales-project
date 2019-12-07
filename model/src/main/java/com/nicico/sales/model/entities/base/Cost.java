@@ -39,7 +39,7 @@ public class Cost extends Auditable {
 	private Long sourceInspectorId;
 
 	@Column(name = "SOURCE_INSPEC_COST")
-	private Float sourceInspectionCost;
+	private Double sourceInspectionCost;
 
 	@Column(name = "SOURCE_INSPEC_CUR", length = 20)
 	private String sourceInspectionCurrency;
@@ -53,16 +53,16 @@ public class Cost extends Auditable {
 	private Long destinationInspectorId;
 
 	@Column(name = "DEST_INSPEC_COST")
-	private Float destinationInspectionCost;
+	private Double destinationInspectionCost;
 
 	@Column(name = "DEST_INSPEC_CUR", length = 20)
 	private String destinationInspectionCurrency;
 
 	@Column(name = "OTHER_COST")
-	private Float otherCost;
+	private Double otherCost;
 
 	@Column(name = "BEFORE_PAID")
-	private Float beforePaid;
+	private Double beforePaid;
 
 	@Column(name = "OTHER_COST_CUR", length = 20)
 	private String otherCostCurrency;
@@ -71,34 +71,34 @@ public class Cost extends Auditable {
 	private Long sarcheshmehLabCost;
 
 	@Column(name = "UMPIRE_COST")
-	private Float umpireCost;
+	private Double umpireCost;
 
 	@Column(name = "UMPIRE_COST_CUR", length = 20)
 	private String umpireCostCurrency;
 
 	@Column(name = "SOURCE_GOLD")
-	private Float sourceGold;
+	private Double sourceGold;
 
 	@Column(name = "SOURCE_SILVER")
-	private Float sourceSilver;
+	private Double sourceSilver;
 
 	@Column(name = "SOURCE_COPPER")
-	private Float sourceCopper;
+	private Double sourceCopper;
 
 	@Column(name = "SOURCE_MOLYBDENUM")
-	private Float sourceMolybdenum;
+	private Double sourceMolybdenum;
 
 	@Column(name = "DEST_GOLD")
-	private Float destinationGold;
+	private Double destinationGold;
 
 	@Column(name = "DEST_SILVER")
-	private Float destinationSilver;
+	private Double destinationSilver;
 
 	@Column(name = "DEST_COPPER")
-	private Float destinationCopper;
+	private Double destinationCopper;
 
 	@Column(name = "DEST_MOLYBDENUM")
-	private Float destinationMolybdenum;
+	private Double destinationMolybdenum;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -109,7 +109,7 @@ public class Cost extends Auditable {
 	private Long insuranceId;
 
 	@Column(name = "INSURANCE_COST")
-	private Float insuranceCost;
+	private Double insuranceCost;
 
 	@Column(name = "INSURANCE_COST_CUR", length = 20)
 	private String insuranceCostCurrency;
@@ -124,28 +124,28 @@ public class Cost extends Auditable {
 	private Long postCost;
 
 	@Column(name = "THC_COST")
-	private Float thcCost;
+	private Double thcCost;
 
 	@Column(name = "BL_FEE_COST")
-	private Float blFeeCost;
+	private Double blFeeCost;
 
 	@Column(name = "DEMAND_COST")
-	private Float demandCost;
+	private Double demandCost;
 
 	@Column(name = "DEMAND_COST_CUR", length = 20)
 	private String demandCurrency;
 
 	@Column(name = "CONTRACTOR_COST")
-	private Float contractorCost;
+	private Double contractorCost;
 
 	@Column(name = "COUNTER_COST")
-	private Float counterCost;
+	private Double counterCost;
 
 	@Column(name = "DISINFECTION_COST")
-	private Float disinfectionCost;
+	private Double disinfectionCost;
 
 	@Column(name = "PORT_COST")
-	private Float portCost;
+	private Double portCost;
 
 
 }

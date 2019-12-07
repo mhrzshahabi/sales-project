@@ -369,7 +369,7 @@ public class ContractDetail extends Auditable {
     @Column(name = "ARTICLE10_NUMBER60", length = 500)
     private String article10_number60;
     @Column(name = "ARTICLE10_NUMBER61", length = 500)
-    private Float article10_number61;
+    private Double article10_number61;
 
 
 }

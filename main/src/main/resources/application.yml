@@ -8,7 +8,7 @@ spring:
       connection-test-query: SELECT 1 FROM DUAL
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: com.nicico.copper.common.hibernate.CustomOracleDialect
@@ -138,8 +138,8 @@ spring:
   profiles: Local
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: saleslocal
-    password: saleslocal
+    username: sales
+    password: sales
   redis:
     host: devapp01.icico.net.ir
     password: nicico

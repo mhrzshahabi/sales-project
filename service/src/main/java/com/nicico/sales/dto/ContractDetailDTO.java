@@ -99,7 +99,7 @@ public class ContractDetailDTO {
     private String article10_number58;
     private String article10_number59;
     private String article10_number60;
-    private Float article10_number61;
+    private Double article10_number61;
     private String string_Currency;
     private String Prefixmolybdenum;
     private String PrefixCopper;

@@ -8,10 +8,8 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.file.FileInfo;
-import com.nicico.copper.core.util.file.FileUtil;
 import com.nicico.sales.dto.DCCDTO;
 import com.nicico.sales.iservice.IDCCService;
-import com.nicico.sales.service.ContactAttachmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,13 +20,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 @Slf4j
@@ -39,7 +32,6 @@ public class DCCRestController {
 
     private final IDCCService dCCService;
     private final Environment environment;
-    private final ContactAttachmentService contactAttachmentService;
     private final ObjectMapper objectMapper;
     // ------------------------------
 
@@ -77,7 +69,7 @@ public class DCCRestController {
 
             new File(UPLOAD_FILE_DIR + File.separator + folder).mkdirs();
             destinationFile = new File(UPLOAD_FILE_DIR + File.separator + folder + File.separator + fileName);
-            Long imageNumber = contactAttachmentService.findNextImageNumber();
+            Long imageNumber = dCCService.findNextImageNumber();
             String ext = getExtensionOfFile(destinationFile.getPath());
             String fileNewName = imageNumber.toString() + "-" + System.currentTimeMillis() + "." + ext;
             destinationFile = new File(UPLOAD_FILE_DIR + File.separator + folder + File.separator + fileNewName);

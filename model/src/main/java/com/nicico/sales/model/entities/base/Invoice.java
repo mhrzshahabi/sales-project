@@ -40,58 +40,58 @@ public class Invoice extends Auditable {
 	private String invoiceType;
 
 	@Column(name = "NET")
-	private Float net;
+	private Double net;
 
 	@Column(name = "GRASS")
-	private Float grass;
+	private Double grass;
 
 	@Column(name = "UNIT_PRICE")
-	private Float unitPrice;
+	private Double unitPrice;
 
 	@Column(name = "UNIT_PRICE_CUR", length = 10)
 	private String unitPriceCurrency;
 
 	@Column(name = "INVOICE_VALUE")
-	private Float invoiceValue;
+	private Double invoiceValue;
 
 	@Column(name = "INVOICE_VALUE_CUR", length = 10)
 	private String invoiceValueCurrency;
 
 	@Column(name = "PAID_PERCENT")
-	private Float paidPercent;
+	private Double paidPercent;
 
 	@Column(name = "PAID_STATUS", length = 10)
 	private String paidStatus;
 
 	@Column(name = "DEPRECIATION")
-	private Float Depreciation;
+	private Double Depreciation;
 
 	@Column(name = "OTHER_COST")
-	private Float otherCost;
+	private Double otherCost;
 
 	@Column(name = "GOLD")
-	private Float gold;
+	private Double gold;
 
 	@Column(name = "SILVER")
-	private Float silver;
+	private Double silver;
 
 	@Column(name = "COPPER")
-	private Float copper;
+	private Double copper;
 
 	@Column(name = "MOLYBDENUM")
-	private Float molybdenum;
+	private Double molybdenum;
 
 	@Column(name = "MOLYBDENUM_UNIT_PRICE")
-	private Float molybdJenumUnitPrice;
+	private Double molybdJenumUnitPrice;
 
 	@Column(name = "COPPER_UNIT_PRICE")
-	private Float copperUnitPrice;
+	private Double copperUnitPrice;
 
 	@Column(name = "SILVER_UNIT_PRICE")
-	private Float silverUnitPrice;
+	private Double silverUnitPrice;
 
 	@Column(name = "GOLD_UNIT_PRICE")
-	private Float goldUnitPrice;
+	private Double goldUnitPrice;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -105,97 +105,97 @@ public class Invoice extends Auditable {
 	private String priceBase;
 
 	@Column(name = "MOLYBDENUM_CONTENT")
-	private Float molybdenumContent;
+	private Double molybdenumContent;
 
 	@Column(name = "COMMERCIAL_INVOICE_VALUE")
-	private Float commercialInvoceValue;
+	private Double commercialInvoceValue;
 
 	@Column(name = "COMMERCIAL_INVOICE_VALUE_NET")
-	private Float commercialInvoceValueNet;
+	private Double commercialInvoceValueNet;
 
 	@Column(name = "INVOIVE_VALUE_D")
-	private Float invoiceValueD;
+	private Double invoiceValueD;
 
 	@Column(name = "RATE_BASE", length = 255)
 	private String rateBase;
 
 	@Column(name = "RATE2DOLLAR")
-	private Float rate2dollar;
+	private Double rate2dollar;
 
 	@Column(name = "INVOIVE_VALUE_UP")
-	private Float invoiceValueUp;
+	private Double invoiceValueUp;
 
 	@Column(name = "COPPER_INS")
-	private Float copperIns;
+	private Double copperIns;
 
 	@Column(name = "COPPER_DED")
-	private Float copperDed;
+	private Double copperDed;
 
 	@Column(name = "COPPER_CAL")
-	private Float copperCal;
+	private Double copperCal;
 
 	@Column(name = "SILVER_INS")
-	private Float silverIns;
+	private Double silverIns;
 
 	@Column(name = "SILVER_DED")
-	private Float silverDed;
+	private Double silverDed;
 
 	@Column(name = "SILVER_OZ")
-	private Float silverOun;
+	private Double silverOun;
 
 	@Column(name = "SILVER_CAL")
-	private Float silverCal;
+	private Double silverCal;
 
 	@Column(name = "GOLD_INS")
-	private Float goldIns;
+	private Double goldIns;
 
 	@Column(name = "GOLD_DED")
-	private Float goldDed;
+	private Double goldDed;
 
 	@Column(name = "GOLD_OZ")
-	private Float goldOun;
+	private Double goldOun;
 
 	@Column(name = "GOLD_CAL")
-	private Float goldCal;
+	private Double goldCal;
 
 	@Column(name = "SUB_TOTAL")
-	private Float subTotal;
+	private Double subTotal;
 
 	@Column(name = "TREAT_COST")
-	private Float treatCost;
+	private Double treatCost;
 
 	@Column(name = "RC_CU")
-	private Float refinaryCostCU;
+	private Double refinaryCostCU;
 
 	@Column(name = "RC_CU_PER")
-	private Float refinaryCostCUPer;
+	private Double refinaryCostCUPer;
 
 	@Column(name = "RC_CU_CAL")
-	private Float refinaryCostCUCal;
+	private Double refinaryCostCUCal;
 
 	@Column(name = "RC_CU_TOT")
-	private Float refinaryCostCUTot;
+	private Double refinaryCostCUTot;
 
 	@Column(name = "RG_AG")
-	private Float refinaryCostAG;
+	private Double refinaryCostAG;
 
 	@Column(name = "RC_AG_PER")
-	private Float refinaryCostAGPer;
+	private Double refinaryCostAGPer;
 
 	@Column(name = "RC_AG_TOT")
-	private Float refinaryCostAGTot;
+	private Double refinaryCostAGTot;
 
 	@Column(name = "RC_AU")
-	private Float refinaryCostAU;
+	private Double refinaryCostAU;
 
 	@Column(name = "RC_AU_PER")
-	private Float refinaryCostAUPer;
+	private Double refinaryCostAUPer;
 
 	@Column(name = "RC_AU_TOT")
-	private Float refinaryCostAUTot;
+	private Double refinaryCostAUTot;
 
 	@Column(name = "SUB_TOTAL_DEDUCTION")
-	private Float subTotalDeduction;
+	private Double subTotalDeduction;
 
 	@Column(name = "PRICE_REFERENCE", length = 255)
 	private String priceReference;
