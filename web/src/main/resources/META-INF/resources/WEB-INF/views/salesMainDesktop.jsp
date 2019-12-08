@@ -837,16 +837,7 @@
             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
         }
     });
-/*Add By JZ*/
-    var salesContractCharterButton = isc.IconButton.create({
-        title: "<spring:message code='salesContract.title'/>",
-        icon: "contract/charter.png",
-        largeIcon: "contract/charter.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/charter/showForm" />")
-        }
-    });
+
 
     var salesContractMoButton = isc.IconButton.create({
         title: "<spring:message code='salesContractMoButton.title'/>",
@@ -894,6 +885,7 @@
         }
     });
 
+    /*Add Jz*/
     var inspectionContractButton = isc.IconButton.create({
         title: "<spring:message code='inspectionContract.title'/>",
         icon: "contract/inspectionContract.png",
@@ -903,6 +895,20 @@
             createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
         }
     });
+
+
+    /*Add Jz*/
+    var CharterButton = isc.IconButton.create({
+        title: "<spring:message code='charter.title'/>",
+        icon: "contract/sea.png",
+        largeIcon: "contract/sea.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='charter.title'/>", "<spring:url value="/charter/showForm" />")
+        }
+    });
+
+
 
     var insuranceContractButton = isc.IconButton.create({
         title: "<spring:message code='insuranceContract.title'/>",
@@ -921,7 +927,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton]})
+            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton , CharterButton ]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
