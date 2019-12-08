@@ -91,6 +91,27 @@ public class ShipmentService implements IShipmentService {
 	public List<Object[]> pickListShipment() {
 		return shipmentDAO.pickListShipment();
 	}
+	/*Add By Jalal For */
+	@Override
+	public List<String> findLotname(String id) {
+		return shipmentDAO.findLotname(id);
+	}
 
-	;
+
+	@Override
+	public List<String> findbooking(String id) {
+		return shipmentDAO.findbooking(id);
+	}
+
+	@Override
+	public List<String> cname() {
+		return shipmentDAO.cname();
+	}
+
+	@Override
+	public List<String> inspector() {
+		return shipmentDAO.inspector();
+	}
+
+
 }

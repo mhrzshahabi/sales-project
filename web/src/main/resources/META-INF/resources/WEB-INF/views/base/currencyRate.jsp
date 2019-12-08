@@ -116,7 +116,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
         fields:
             [
                 {name: "id", hidden: true,},
@@ -133,7 +133,10 @@
                     type: 'text',
                     width: "400",
                     keyPressFilter: "[0-9.]",
-                    length: "15"
+                    length: "15",
+                    hint: "تا 15 رقم قابل قبول می باشد",
+                    showHintInField: true
+
                 },
                 {
                     name: "eurUsd",
@@ -141,7 +144,9 @@
                     type: 'text',
                     width: "400",
                     keyPressFilter: "[0-9.]",
-                    length: "15"
+                    length: "15",
+                    hint: "تا 15 رقم قابل قبول می باشد",
+                    showHintInField: true
                 },
                 {
                     name: "aedUsd",
@@ -149,7 +154,9 @@
                     type: 'text',
                     width: "400",
                     keyPressFilter: "[0-9.]",
-                    length: "15"
+                    length: "15",
+                    hint: "تا 15 رقم قابل قبول می باشد",
+                    showHintInField: true
                 },
                 {
                     name: "rmbUsd",
@@ -157,7 +164,9 @@
                     type: 'text',
                     width: "400",
                     keyPressFilter: "[0-9.]",
-                    length: "15"
+                    length: "15",
+                    hint: "تا 15 رقم قابل قبول می باشد",
+                    showHintInField: true
                 },
                 {type: "RowSpacerItem"}
             ]
@@ -238,6 +247,7 @@
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
+        
         click: function () {
             DynamicForm_CurrencyRate.validate();
             if (DynamicForm_CurrencyRate.hasErrors())

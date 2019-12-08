@@ -1,6 +1,7 @@
 package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.InspectionContractDTO;
 import com.nicico.sales.iservice.IInspectionContractService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +21,8 @@ import java.util.List;
 @RequestMapping(value = "/api/inspectionContract")
 public class InspectionContractRestController {
 
-	private final IInspectionContractService inspectionContractService;
+
+	private final IInspectionContractService inspectionContractService; //What's Dif bet IInspectionContractService , InspectionContractService
 
 	// ------------------------------s
 
@@ -67,26 +70,33 @@ public class InspectionContractRestController {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
+	//	@Loggable
+//	@GetMapping(value = "/spec-list")
+//	//	@PreAuthorize("hasAuthority('r_inspectionContract')")
+//	public ResponseEntity<InspectionContractDTO.InspectionContractSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
+//		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
+//		request.setStartIndex(startRow)
+//				.setCount(endRow - startRow);
+//
+//		SearchDTO.SearchRs<InspectionContractDTO.Info> response = inspectionContractService.search(request);
+//
+//		final InspectionContractDTO.SpecRs specResponse = new InspectionContractDTO.SpecRs();
+//		specResponse.setData(response.getList())
+//				.setStartRow(startRow)
+//				.setEndRow(startRow + response.getTotalCount().intValue())
+//				.setTotalRows(response.getTotalCount().intValue());
+//
+//		final InspectionContractDTO.InspectionContractSpecRs specRs = new InspectionContractDTO.InspectionContractSpecRs();
+//		specRs.setResponse(specResponse);
+//
+//		return new ResponseEntity<>(specRs, HttpStatus.OK);
+//	}
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	//	@PreAuthorize("hasAuthority('r_inspectionContract')")
-	public ResponseEntity<InspectionContractDTO.InspectionContractSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
-
-		SearchDTO.SearchRs<InspectionContractDTO.Info> response = inspectionContractService.search(request);
-
-		final InspectionContractDTO.SpecRs specResponse = new InspectionContractDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final InspectionContractDTO.InspectionContractSpecRs specRs = new InspectionContractDTO.InspectionContractSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
+//	@PreAuthorize("hasAuthority('r_inspectionContract')")
+	public ResponseEntity<TotalResponse<InspectionContractDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+		TotalResponse<InspectionContractDTO.Info> search = inspectionContractService.search(criteria);
+		return new ResponseEntity<TotalResponse<InspectionContractDTO.Info>>(search, HttpStatus.OK);
 	}
 
 	// ------------------------------

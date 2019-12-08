@@ -1,6 +1,7 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ShipmentAssayHeaderDTO;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface IShipmentAssayHeaderService {
 
 	void delete(ShipmentAssayHeaderDTO.Delete request);
 
-	SearchDTO.SearchRs<ShipmentAssayHeaderDTO.Info> search(SearchDTO.SearchRq request);
+	public TotalResponse<ShipmentAssayHeaderDTO.Info> search(NICICOCriteria criteria);
 }

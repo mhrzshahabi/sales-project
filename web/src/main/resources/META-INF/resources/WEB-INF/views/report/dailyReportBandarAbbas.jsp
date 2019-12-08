@@ -64,8 +64,7 @@
                     }], defaultValue: "1398/01/26"
                 },
                 {
-                    name: "warehouse", title: "<spring:message
-		code='dailyWarehouse.warehouse'/>", align: "center", colSpan: 1, titleColSpan: 1, defaultValue: "BandarAbbas",
+                    name: "warehouse", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center", colSpan: 1, titleColSpan: 1, defaultValue: "BandarAbbas",
                     valueMap:
                         {
                             "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",

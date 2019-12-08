@@ -1,16 +1,19 @@
 package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ShipmentAssayItemDTO;
 import com.nicico.sales.iservice.IShipmentAssayItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -60,41 +63,35 @@ public class ShipmentAssayItemRestController {
 	}
 
 	@Loggable
-	@DeleteMapping(value = "/list")
+	@DeleteMapping(value = "/list/{ids}")
 	//	@PreAuthorize("hasAuthority('d_shipmentAssayItem')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentAssayItemDTO.Delete request) {
+	public ResponseEntity<Void> delete(@PathVariable  String ids) {
+	    List<Long> i= new ArrayList<>();
+
+	    String [] sIds=ids.split(",");
+	    for (int j =1 ; j<sIds.length;j++)
+	        i.add(new Long(sIds[j]));
+
+	    ShipmentAssayItemDTO.Delete request= new ShipmentAssayItemDTO.Delete();
+	    request.setIds(i);
+
 		shipmentAssayItemService.delete(request);
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	//	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
-	public ResponseEntity<ShipmentAssayItemDTO.ShipmentAssayItemSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
-
-		SearchDTO.SearchRs<ShipmentAssayItemDTO.Info> response = shipmentAssayItemService.search(request);
-
-		final ShipmentAssayItemDTO.SpecRs specResponse = new ShipmentAssayItemDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final ShipmentAssayItemDTO.ShipmentAssayItemSpecRs specRs = new ShipmentAssayItemDTO.ShipmentAssayItemSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
+//	@PreAuthorize("hasAuthority('r_instruction')")
+	public ResponseEntity<TotalResponse<ShipmentAssayItemDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+		return new ResponseEntity<>(shipmentAssayItemService.search(nicicoCriteria), HttpStatus.OK);
 	}
 
-	// ------------------------------
+    @RequestMapping(value = {"/addAssayPaste"}, method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<String> createAddAssayPaste(@RequestBody String data) {
+    	return new ResponseEntity<>(shipmentAssayItemService.createAddAssayPaste(data), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/search")
-	//	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
-	public ResponseEntity<SearchDTO.SearchRs<ShipmentAssayItemDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(shipmentAssayItemService.search(request), HttpStatus.OK);
-	}
+
 }

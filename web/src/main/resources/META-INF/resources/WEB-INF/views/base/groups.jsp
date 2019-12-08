@@ -78,7 +78,7 @@
     });
 
     var DynamicForm_Groups = isc.DynamicForm.create({
-        width: "100%",
+        width: 800,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -90,7 +90,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
 
         fields: [
             {name: "id", hidden: true,},
@@ -160,7 +160,7 @@
 
     var Window_Groups = isc.Window.create({
         title: "<spring:message code='groups.title'/>",
-        width: 580,
+        width: 800,
         // height: 500,
         autoSize: true,
         autoCenter: true,
@@ -559,7 +559,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
         fields:
             [
                 {name: "id", hidden: true,},
@@ -576,8 +576,8 @@
                     optionDataSource: RestDataSource_Person_GroupEmail,
                     displayField: "fullName",
                     valueField: "id",
-                    pickListWidth: "500",
-                    pickListHeight: "500",
+                    pickListWidth: 500,
+                    pickListHeight: 500,
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [{name: "id", width: 50, align: "center"}, {
                         name: "fullName",
@@ -649,7 +649,7 @@
     ////////////////////////////////////////////////////
     var GroupPersonHeaderForm = isc.DynamicForm.create({
         align: "center",
-        width: "100%",
+        width: 800,
         height: "100%",
         titleWidth: "100%",
         titleAlign: "right",
@@ -660,7 +660,8 @@
                 name: "groupsName",
                 type: "staticText",
                 title: "<spring:message code='group.name'/>",
-                wrapTitle: false
+                wrapTitle: false,
+                width:400
             }
         ]
     });
@@ -673,7 +674,7 @@
     var GroupPersonHeaderVLayout = isc.VLayout.create({
         autoDraw: false,
         align: "center",
-        width: "100%",
+        width: 800,
         members: [
             GroupPersonHeaderForm,
             DynamicForm_GroupsPerson
@@ -686,16 +687,16 @@
 
     var Window_GroupsPerson = isc.Window.create({
         title: "<spring:message code='groupsPerson.title'/>",
-        width: 580,
-        // height: 500,
-        autoSize: true,
+        width: 800,
+        height: 300,
+        autoSize: false,
         autoCenter: true,
         isModal: true,
         showModalMask: true,
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
-        margin: '10px',
+        overflow :'hidden',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },

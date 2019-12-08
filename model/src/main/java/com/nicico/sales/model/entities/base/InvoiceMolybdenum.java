@@ -34,27 +34,27 @@ public class InvoiceMolybdenum extends Auditable {
 	private String lotNo;
 
 	@Column(name = "NET")
-	private Float net;
+	private Double net;
 
 	@Column(name = "GRASS")
-	private Float grass;
+	private Double grass;
 
 	@Column(name = "MOLYBDENUM_PERCENT")
-	private Float molybdenumPercent;
+	private Double molybdenumPercent;
 
 	@Column(name = "COPPER_PERCENT")
-	private Float copperPercent;
+	private Double copperPercent;
 
 	@Column(name = "MOLYBDENUM_CONTENT")
-	private Float molybdenumContent;
+	private Double molybdenumContent;
 
 	@Column(name = "DISCOUNT_PERCENT")
-	private Float discountPercent;
+	private Double discountPercent;
 
 	@Column(name = "PRICE_FEE")
-	private Float priceFee;
+	private Double priceFee;
 
 	@Column(name = "PRICE")
-	private Float price;
+	private Double price;
 
 }

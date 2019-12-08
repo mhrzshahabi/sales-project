@@ -41,7 +41,7 @@ public class ProvisionalInvoice extends Auditable {
 	private String to;
 
 	@Column(name = "NET_WET")
-	private Float netWet;
+	private Double netWet;
 
 	@Column(name = "PRICE_BASE_FROM")
 	private String priceBaseFrom;
@@ -50,28 +50,28 @@ public class ProvisionalInvoice extends Auditable {
 	private String priceBaseTO;
 
 	@Column(name = "LME_COPPER")
-	private Float LMEcopper;
+	private Double LMEcopper;
 
 	@Column(name = "LME_SILVER")
-	private Float LMEsilver;
+	private Double LMEsilver;
 
 	@Column(name = "LME_GOLD")
-	private Float LMEgold;
+	private Double LMEgold;
 
 	@Column(name = "TOTAL_NET_WET")
-	private Float totalNetWet;
+	private Double totalNetWet;
 
 	@Column(name = "TOTAL_NET_DRY")
-	private Float totalNetDry;
+	private Double totalNetDry;
 
 	@Column(name = "TOTAL_MOISTURE")
-	private Float totalMoisture;
+	private Double totalMoisture;
 
 	@Column(name = "SUBTOTAL")
-	private Float subtotal;
+	private Double subtotal;
 
 	@Column(name = "SUBTOTAL_DEDUCTIONS")
-	private Float subDeductions;
+	private Double subDeductions;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)

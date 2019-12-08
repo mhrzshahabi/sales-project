@@ -61,7 +61,7 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
 
 		final Optional<InvoiceInternalLc> invoiceInternalLc1 = invoiceInternalLcDAO.findById(request.getId());
 		if (invoiceInternalLc != null)
-			throw new SalesException(SalesException.ErrorType.DupplicateRecord);
+			throw new SalesException(SalesException.ErrorType.DuplicateRecord);
 
 		return save(invoiceInternalLc);
 	}

@@ -38,6 +38,8 @@
     });
 
     var ValuesManager_Unit = isc.ValuesManager.create({});
+
+
     var DynamicForm_Unit = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -51,7 +53,7 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
 
         fields: [
             {name: "id", hidden: true,},
@@ -68,7 +70,10 @@
             {name: "symbol", title: "<spring:message code='unit.symbol'/>", type: 'text', width: 400},
             {
                 name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400
-                , keyPressFilter: "[0-4]", length: "1"
+                , keyPressFilter: "[0-4]",
+                length: "1",
+                hint: "دقت اعشار بین 0 تا 4 است",
+                showHintInField: true,
             },
             {type: "RowSpacerItem"},
         ]

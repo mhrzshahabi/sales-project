@@ -65,15 +65,15 @@
             {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
             {name: "phone", title: "<spring:message code='contact.phone'/>"},
             {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
-            {name: "fax", title: "<spring:message code='contact.fax'/>"},
+            {name: "fax",       title: "<spring:message code='contact.fax'/>"},
             {name: "address", title: "<spring:message code='contact.address'/>"},
             {name: "webSite", title: "<spring:message code='contact.webSite'/>"},
-            {name: "email", title: "<spring:message code='contact.email'/>"},
+            {name: "email",     title: "<spring:message code='contact.email'/>"},
             {
                 name: "type",
                 title: "<spring:message code='contact.type'/>",
                 valueMap: {
-                    "true": "<spring:message code='contact.type.real'/>",
+                    "true":  "<spring:message code='contact.type.real'/>",
                     "false": "<spring:message code='contact.type.legal'/>"
                 }
             },
@@ -253,6 +253,22 @@
                 wrapTitle: false
             },
             {
+                name: "agentSeller",
+                title: "<spring:message code='contact.commercialRole.agentSeller'/>",
+                type: 'checkbox',
+                width: 50,
+                colSpan: 1, titleColSpan: 1,
+                wrapTitle: false
+            },
+           {
+                name: "agentBuyer",
+                title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
+                type: 'checkbox',
+                width: 50,
+                colSpan: 1, titleColSpan: 1,
+                wrapTitle: false
+            },
+           {
                 name: "transporter",
                 title: "<spring:message code='contact.commercialRole.transporter'/>",
                 type: 'checkbox',
@@ -279,22 +295,6 @@
             {
                 name: "insurancer",
                 title: "<spring:message code='contact.commercialRole.insurancer'/>",
-                type: 'checkbox',
-                width: 50,
-                colSpan: 1, titleColSpan: 1,
-                wrapTitle: false
-            },
-            {
-                name: "agentBuyer",
-                title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
-                type: 'checkbox',
-                width: 50,
-                colSpan: 1, titleColSpan: 1,
-                wrapTitle: false
-            },
-            {
-                name: "agentSeller",
-                title: "<spring:message code='contact.commercialRole.agentSeller'/>",
                 type: 'checkbox',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,
@@ -365,7 +365,8 @@
                 title: "<spring:message code='contact.phone'/>",
                 type: 'text',
                 width: 500,
-                wrapTitle: false, keyPressFilter: "[0-9.+]"
+                wrapTitle: false, keyPressFilter: "[0-9.+]",
+                length:"20"
             },
             {
                 name: "mobile",
@@ -373,6 +374,7 @@
                 width: 500,
                 wrapTitle: false,
                 keyPressFilter: "[0-9.+]",
+                length:"20"
             },
             {
                 name: "fax",
@@ -380,6 +382,7 @@
                 width: 500,
                 wrapTitle: false,
                 keyPressFilter: "[0-9.+]",
+                length:"20"
             },
             {
                 name: "countryId",
@@ -399,16 +402,39 @@
                 ]
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
-            {name: "webSite", title: "<spring:message code='contact.webSite'/>", width: 500, wrapTitle: false},
+            {
+
+                name: "webSite",
+                title: "<spring:message code='contact.webSite'/>",
+                width: 500,
+                wrapTitle: false,
+                validators:[
+                {
+                type:"regexp",
+                expression:"^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+                validateOnChange:true,
+                }
+                ],
+                },
             {
                 name: "email",
                 title: "<spring:message code='contact.email'/>",
                 width: 500,
                 wrapTitle: false,
-                keyPressFilter: "[@|a-z|A-Z|0-9 . _ - ]"
+                validateOnExit: true,
+                /*Fix bug For Regex email */
+                validators:[
+                {
+                type:"regexp",
+                expression:".+\\@.+\\..+",
+                validateOnChange:true,
+                }
+                ],
+                /*End Fix bug For Regex email */
             },
             {type: "RowSpacerItem"}
-        ]
+        ],
+
     });
 
     var contactTabs = isc.TabSet.create({
@@ -429,6 +455,7 @@
 
     function saveContact() {
         ValuesManager_Contact.validate();
+
         if (DynamicForm_Contact_GeneralInfo.hasErrors())
             contactTabs.selectTab(0);
         else if (DynamicForm_Contact_Connection.hasErrors())
@@ -684,7 +711,7 @@
                 }
             }
         },
-        sortField: 0,
+        sortField: 2,
         dataPageSize: 50,
         autoFetchData: false,
         showFilterEditor: true,
@@ -1268,7 +1295,12 @@
             {name: "phone", title: "<spring:message code='contact.phone'/>", align: "center", width: 200},
             {name: "mobile", title: "<spring:message code='contact.mobile'/>", align: "center", width: 200},
             {name: "fax", title: "<spring:message code='contact.fax'/>", align: "center", width: 200},
-            {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200},
+            {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200,
+            /*Fix Bug For Sorting*/
+            sortNormalizer:function(recordObject) {
+            try {return recordObject.country.nameFa;}catch(e) {return " ";}}
+            /*End Fix Bug for Sorting*/
+            } ,
             {name: "address", title: "<spring:message code='contact.address'/>", align: "center", hidden: true},
             {name: "webSite", title: "<spring:message code='contact.webSite'/>", align: "center", hidden: true},
             {name: "email", title: "<spring:message code='contact.email'/>", align: "center", hidden: true},

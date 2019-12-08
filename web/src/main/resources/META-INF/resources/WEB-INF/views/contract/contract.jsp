@@ -18,6 +18,7 @@
                 {name: "sideContractDate", ID: "sideContractDate"},
                 {name: "refinaryCost", ID: "refinaryCost"},
                 {name: "treatCost", ID: "treatCost"},
+                {name: "materialId", title: "materialId"}
             ],
         // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
@@ -72,9 +73,70 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
+
+
+var salesContractCADButtonMain = isc.IconButton.create({
+        title: "<spring:message code='salesContractCADButton.title'/>",
+        width: "25%",
+        height: "100%",
+        align: "center",
+        margin:"35",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
+            Window_SelectTypeContactMain.close();
+        }
+    });
+ var salesContractConcButtonMain = isc.IconButton.create({
+        title: "<spring:message code='salesContractConcButton.title'/>",
+        width: "25%",
+        height: "100%",
+        align: "center",
+        margin:"35",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+           /* createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+            Window_SelectTypeContactMain.close();*/
+           isc.warn("Coming Soon");
+        }
+    });
+  var salesContractMoButtonMain = isc.IconButton.create({
+        title: "<spring:message code='salesContractMoButton.title'/>",
+        width: "25%",
+        height: "100%",
+        align: "center",
+        margin:"35",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+            Window_SelectTypeContactMain.close();
+        }
+    });
+   var Window_SelectTypeContactMain = isc.Window.create({
+                            title: "Type Contact",
+                            width: "50%",
+                            height: "20%",
+                            autoCenter: true,
+                            isModal: true,
+                            showModalMask: true,
+                            align: "center",
+                            autoDraw: false,
+                            closeClick: function () {
+                            this.Super("closeClick", arguments)
+                            },
+                            items: [
+                              isc.HLayout.create({autoCenter: true, members: [salesContractMoButtonMain,salesContractCADButtonMain,salesContractConcButtonMain]})
+                            ]
+                            });
     function ListGrid_Contract_refresh() {
         ListGrid_Contract.invalidateCache();
-        companyName.setTitle('قراردادها');
+        companyName.setTitle('Contracts');
     }
 
     function ListGrid_Contract_edit() {
@@ -631,10 +693,9 @@
 
     var ToolStripButton_Contract_Add = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.form.new'/>",
+        title: "Contract Management",
         click: function () {
-            DynamicForm_Contract.clearValues();
-            Window_Contract.animateShow();
+            Window_SelectTypeContactMain.animateShow();
         }
     });
 
@@ -669,7 +730,7 @@
             [
                 ToolStripButton_Contract_Refresh,
                 ToolStripButton_Contract_Add,
-                ToolStripButton_Contract_Edit,
+                //ToolStripButton_Contract_Edit,
                 ToolStripButton_Contract_Remove//,
                 // ToolStripButton_Contract_PrintIncome
             ]
@@ -708,7 +769,7 @@
             }
 
             if (dre < drs) {
-                isc.warn("<spring:message code='contract.date.validation'/>", {title: 'هشدار'});
+                isc.warn("<spring:message code='contract.date.validation'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
                 return;
             }
 
@@ -778,12 +839,11 @@
         contextMenu: Menu_ListGrid_Contract,
         fields:
             [
-                {name: "id", hidden: true,},
+                {name: "id", hidden: true},
                 {
-                    name: "addendum",
-                    title: "<spring:message code='contract.addendum'/>",
-                    type: 'text',
-                    required: true,
+                    name: "materialId",
+                    title: "materialId",
+                    hidden: true,
                     width: "5%",
                     align: "center"
                 },
@@ -840,8 +900,30 @@
             companyName.setTitle(record.contractNo + ' ' + record.contact.nameFA);
         },
         dataArrived: function (startRow, endRow) {
-        }
+        },
+        getCellCSSText: function (record, rowNum, colNum) {
+                            if (record.materialId == 952) {
+                                  return "font-weight:bold;background-color:#f1948a;";
+                                }
+                            if (record.materialId == -32) {
+                                  return "font-weight:bold;background-color:#fcf3cf;";
+                                }
+                            if (record.materialId == 12952) {
+                                  return "font-weight:bold;background-color:#d1f2eb;";
+                                }
+                            if (record.materialId == -42) {
+                                // color:#ad48f7;
+                                  return "font-weight:bold;background-color:#d6eaf8;";
+                                }
+                }
+        , rollOverCanvasProperties:{
+                vertical:false, capSize:7,
+                src:"other/cellOverRecticle.png"
+            }
     });
+
+
+
     var HLayout_Contract_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -914,7 +996,7 @@
                     width: 400,
                     format: 'DD-MM-YYYY HH:mm:ss'
                 },
-                {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
+                {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400}
             ],
         // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
@@ -1220,7 +1302,7 @@
             console.log(DynamicForm_ContractShipment.getValue("contractDate"));
             var contractDate = DynamicForm_ContractShipment.getValue("contractDate").split("/");
             if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
-                isc.warn("<spring:message code='shipment.date.validation'/>", {title: 'هشدار'});
+                isc.warn("<spring:message code='shipment.date.validation'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
                 return;
             }
 

@@ -96,6 +96,18 @@ public class WarehouseLot extends Auditable {
     @Column(name = "USED")
     private Boolean used;
 
+    @Column(name = "BOOKING_NO")
+    private String bookingNo;
+
+    @Column(name = "TYPICAL",length = 20)
+	private String typical;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "WAREHOUSECADITEM_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLot_CadItem"))
+	private WarehouseCadItem warehouseCadItem;
+
+    @Column(name = "WAREHOUSECADITEM_ID")
+	private Long warehouseCadItemId;
 
 
 }

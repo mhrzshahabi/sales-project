@@ -61,7 +61,7 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
 
 		final Optional<InvoiceInternalCustomer> invoiceInternalCustomer1 = invoiceInternalCustomerDAO.findById(request.getId());
 		if (invoiceInternalCustomer != null)
-			throw new SalesException(SalesException.ErrorType.DupplicateRecord);
+			throw new SalesException(SalesException.ErrorType.DuplicateRecord);
 
 		return save(invoiceInternalCustomer);
 	}
