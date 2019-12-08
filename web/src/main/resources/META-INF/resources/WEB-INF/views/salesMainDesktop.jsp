@@ -903,6 +903,7 @@
             createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
         }
     });
+
     var insuranceContractButton = isc.IconButton.create({
         title: "<spring:message code='insuranceContract.title'/>",
         icon: "contract/insuranceContract.png",
@@ -920,7 +921,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton]})
+            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
@@ -1291,7 +1292,7 @@
             // inspectorAppointmentButton
             inspectionMoistureResultButton
             , inspectionAssayResultButton ,
-            inspectionContractResultButton   //Add By jz
+           //Add By jz
 
             // , inspectionCostButton
         ],
