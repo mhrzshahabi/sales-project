@@ -254,6 +254,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             },
             {
                 title: "<spring:message code='global.form.edit'/>",
+                showIf: "false",
                 icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Contract_edit();
@@ -701,6 +702,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
 
     var ToolStripButton_Contract_Edit = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/edit.png",
+        showIf: "false",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
             DynamicForm_Contract.clearValues();
@@ -931,12 +933,47 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ListGrid_Contract
         ]
     });
-
+        var labelMO=isc.Label.create({
+            height: 20,
+            width: 100,
+            padding: 2,
+            margin: 3,
+            backgroundColor: "#fcf3cf",
+            align: "center",
+            contents: "MOLYBDENUM"
+        })
+        var labelCa=isc.Label.create({
+            height: 20,
+            width: 100,
+            padding: 2,
+            margin: 3,
+            backgroundColor: "#f1948a",
+            align: "center",
+            contents: "CATHODS"
+        })
+        var labelCopperMatte=isc.Label.create({
+            height: 20,
+            width: 100,
+            padding: 2,
+            margin: 3,
+            backgroundColor: "#d1f2eb",
+            align: "center",
+            contents: "Matte"
+        })
+        var labelConcentrate=isc.Label.create({
+            height: 20,
+            width: 100,
+            padding: 2,
+            margin: 3,
+            backgroundColor: "#d6eaf8",
+            align: "center",
+            contents: "Concentrate"
+        })
     var VLayout_Contract_Body = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Contract_Actions, HLayout_Contract_Grid
+            HLayout_Contract_Actions,isc.HLayout.create({height: "30", align: "left", members: [labelMO,labelCa,labelCopperMatte,labelConcentrate]}),HLayout_Contract_Grid
         ]
     });
     isc.ViewLoader.create({
