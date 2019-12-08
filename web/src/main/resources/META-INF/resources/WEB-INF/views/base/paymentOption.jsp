@@ -260,7 +260,6 @@
         autoDraw: false,
         dismissOnEscape: true,
         layoutMargin: 5,
-        membersMargin: 5,
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
