@@ -1,70 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.nicico.copper</groupId>
-		<artifactId>copper-starter-parent</artifactId>
-		<version>2.0-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>com.nicico.copper</groupId>
+        <artifactId>copper-starter-parent</artifactId>
+        <version>2.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-	<groupId>com.nicico.sales</groupId>
-	<artifactId>sales-project</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>com.nicico.sales</groupId>
+    <artifactId>sales-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<modules>
-		<module>model</module>
-		<module>repository</module>
-		<module>service</module>
-		<module>controller</module>
-		<module>web</module>
-		<module>main</module>
-	</modules>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
-	<dependencies>
+    <modules>
+        <module>model</module>
+        <module>repository</module>
+        <module>service</module>
+        <module>controller</module>
+        <module>web</module>
+        <module>main</module>
+    </modules>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.nicico.copper</groupId>
+            <artifactId>copper-activiti</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nicico.copper</groupId>
+            <artifactId>copper-common</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-functions</artifactId>
+            <version>6.9.0</version>
+        </dependency>
 
 		<dependency>
-			<groupId>com.nicico.copper</groupId>
-			<artifactId>copper-activiti</artifactId>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.16</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.nicico.copper</groupId>
-			<artifactId>copper-common</artifactId>
-			<version>2.0-SNAPSHOT</version>
-		</dependency>
+    </dependencies>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-		</dependency>
+    <profiles>
+        <profile>
+            <id>NICICO</id>
 
-	</dependencies>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>nexus-dist</id>
+                    <url>http://devops01.icico.net.ir/nexus/repository/maven-snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>nexus-dist</id>
+                    <url>http://devops01.icico.net.ir/nexus/repository/maven-releases/</url>
+                </repository>
+            </distributionManagement>
 
-	<profiles>
-		<profile>
-			<id>NICICO</id>
-
-			<distributionManagement>
-				<snapshotRepository>
-					<id>nexus-dist</id>
-					<url>http://devops01.icico.net.ir/nexus/repository/maven-snapshots/</url>
-				</snapshotRepository>
-				<repository>
-					<id>nexus-dist</id>
-					<url>http://devops01.icico.net.ir/nexus/repository/maven-releases/</url>
-				</repository>
-			</distributionManagement>
-
-			<repositories>
-				<repository>
-					<id>nexus</id>
-					<url>http://devops01.icico.net.ir/nexus/repository/maven-public/</url>
-				</repository>
-			</repositories>
-		</profile>
-	</profiles>
+            <repositories>
+                <repository>
+                    <id>nexus</id>
+                    <url>http://devops01.icico.net.ir/nexus/repository/maven-public/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 </project>

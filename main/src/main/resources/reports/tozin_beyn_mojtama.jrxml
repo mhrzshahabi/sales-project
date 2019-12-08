@@ -31,7 +31,7 @@
     ,(select sum(tedad) tedad
     from sales.view_tozin_m  s 
     where  tzn_date= $P{dateReport}  and f.plant=s.plant
-     and f.gdscode=s.gdscode and f.snamefa=s.snamefa 
+     and f.gdscode=s.gdscode and f.snamefa=s.snamefa
      and f.namefa=s.namefa and f.car=s.car) ROZ_TEDAD
 from (
 select id,plant,gdscode,snamefa,namefa,gdsname,car,sum(wazn) sal_wazn,sum(tedad) sal_tedad

@@ -11,7 +11,7 @@
         fields:
             [
                 {name: "id", primaryKey: true, type: "integer", title: "ID"},
-                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouseNo'/>"},
+                {name: "warehouse", title: "<spring:message code='dailyWarehouse.warehouse'/>"},
                 {name: "toDay", title: "<spring:message code='dailyWarehouse.toDay'/>"},
                 {name: "material.descp", title: "<spring:message code='material.descp'/>"},
                 {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>"},
@@ -34,10 +34,9 @@
         fetchDataURL: "${contextPath}/api/dailyReportBandarAbbas/spec-list",
         allowAdvancedCriteria: true
     });
-    <%--<script>--%>
+
     var DynamicForm_DailyReport = isc.DynamicForm.create({
         width: "300",
-        httpHeaders: {"Authorization": "Bearer " + "${cookie['access_token'].getValue()}"},
         wrapItemTitles: false,
         height: "100%",
         setMethod: 'POST',
@@ -65,8 +64,7 @@
                     }], defaultValue: "1398/01/26"
                 },
                 {
-                    name: "warehouseNo", title: "<spring:message
-		code='dailyWarehouse.warehouseNo'/>", align: "center", colSpan: 1, titleColSpan: 1, defaultValue: "BandarAbbas",
+                    name: "warehouse", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center", colSpan: 1, titleColSpan: 1, defaultValue: "BandarAbbas",
                     valueMap:
                         {
                             "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",
@@ -90,7 +88,7 @@
         showRowNumbers: true,
         fields:
             [
-                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouseNo'/>", width: 150},
+                {name: "warehouse", title: "<spring:message code='dailyWarehouse.warehouse'/>", width: 150},
                 {name: "toDay", title: "<spring:message code='dailyWarehouse.toDay'/>", width: 150},
                 {name: "material.descp", title: "<spring:message code='material.descp'/>", width: 150},
                 {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", width: 150},
@@ -137,9 +135,9 @@
         title: "<spring:message code='global.form.export'/>",
         click: function () {
             var toDay = DynamicForm_DailyReport.getValue("toDay");
-            var warehouseNo = DynamicForm_DailyReport.getValue("warehouseNo");
+            var warehouse = DynamicForm_DailyReport.getValue("warehouse");
             "<spring:url value="/dailyReportBandarAbbas/print/excel" var="printUrl"/>"
-            window.open('${printUrl}' + "?toDay=" + toDay + "&warehouseNo=" + warehouseNo);
+            window.open('${printUrl}' + "?toDay=" + toDay + "&warehouse=" + warehouse);
         }
 
 
@@ -149,9 +147,9 @@
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var toDay = DynamicForm_DailyReport.getValue("toDay").replaceAll("/", "");
-            var warehouseNo = DynamicForm_DailyReport.getValue("warehouseNo");
+            var warehouse = DynamicForm_DailyReport.getValue("warehouse");
             createDailyReportBanViewLoader.setViewURL("<spring:url
-		value="report/dailyReportBandarAbbas/createForm"/>" + "/" + toDay + "/" + warehouseNo);
+		value="report/dailyReportBandarAbbas/createForm"/>" + "/" + toDay + "/" + warehouse);
             Window_createDailyReportBandar.show();
         }
     });
@@ -183,7 +181,7 @@
                 ListGrid_DailyReport
             ]
     });
-    var VLayout_DailyReport_Actions = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         members:
             [

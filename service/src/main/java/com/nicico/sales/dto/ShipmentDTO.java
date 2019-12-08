@@ -25,6 +25,7 @@ public class ShipmentDTO {
 	private Long materialId;
 	private Double amount;
 	private Long noContainer;
+	private String containerType;
 	private Long portByLoadingId;
 	private Long portByDischargeId;
 	private String dischargeAddress;
@@ -62,7 +63,7 @@ public class ShipmentDTO {
 	private String preFreightCurrency;
 	private Double postFreight;
 	private String postFreightCurrency;
-
+	private String bookingCat;
 	// ------------------------------
 
 	@Getter
@@ -71,6 +72,9 @@ public class ShipmentDTO {
 	@ApiModel("ShipmentInfo")
 	public static class Info extends ShipmentDTO {
 		private ContactDTO.ContactInfoTuple contactByAgent;
+		private ContactDTO.ContactInfoTuple contact; // Add By Jalal Buyer
+
+		private ContactDTO.ContactInfoTuple container;
 		private PortDTO.PortInfoTuple portByLoading;
 		private PortDTO.PortInfoTuple portByDischarge;
 		private ContractShipmentDTO contractShipment;
@@ -78,8 +82,8 @@ public class ShipmentDTO {
 		private PortDTO.PortInfoTuple switchPort;
 		//		private ShipmentHeaderDTO shipmentHeader;
 		private ContractDTO.ContractInfoTuple contract;
-		private MaterialDTO material;
-
+		private MaterialDTO.MaterialTuple material;
+        private String containerType;
 		private Long id;
 		private Date createdDate;
 		private String createdBy;
@@ -89,6 +93,8 @@ public class ShipmentDTO {
 	}
 
 	// ------------------------------
+
+
 
 	@Getter
 	@Setter

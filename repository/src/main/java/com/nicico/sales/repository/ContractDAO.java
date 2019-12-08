@@ -8,5 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ContractDAO extends JpaRepository<Contract, Long>, JpaSpecificationExecutor<Contract> {
+   Contract findById(long id);
 
+    Contract findByContractNo(String s);
 }

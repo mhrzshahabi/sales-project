@@ -1,16 +1,13 @@
 package com.nicico.sales.model.entities.base;
 
-
-/**
- * mehdi 9802
- */
-
-import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
+/**
+ * mehdi 9802
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,64 +16,60 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_BOL_HEADER")
-public class BolHeader extends Auditable {
+public class BolHeader {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO , generator = "base_seq")
+    @SequenceGenerator(name = "base_seq", sequenceName = "SALES.SEQ_BOL")
+    @Column(name = "ID", precision = 10)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BOL_HEADER")
-	@SequenceGenerator(name = "SEQ_BOL_HEADER", sequenceName = "SEQ_BOL_HEADER")
-	@Column(name = "ID", precision = 10)
-	private Long id;
+    @ManyToOne
+    @JoinColumn(name = "SHIPMENT_ID")
+    private Shipment tblShipment;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
-	private Shipment Shipment;
+    @ManyToOne
+    @JoinColumn(name = "SHIPMENT_CONTRACT_ID")
+    private ShipmentContract shipmentContract;
 
-	@Column(name = "SHIPMENT_ID")
-	private Long shipmentId;
+    @Column(name = "GROSS_WEIGHT")
+    private Double grossWeight;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_CONTRACT_ID", nullable = false, insertable = false, updatable = false)
-	private ShipmentContract shipmentContract;
+    @Column(name = "NET_WEIGHT")
+    private Double netWeight;
 
-	@Column(name = "SHIPMENT_CONTRACT_ID")
-	private Long shipmentContractId;
+    @Column(name = "CONTAINER")
+    private Long noContainer;
 
-	@Column(name = "f_GROSS_WEIGHT")
-	private Double grossWeight;
+    @Column(name = "BUNDLE")
+    private Long noBundle;
 
-	@Column(name = "f_NET_WEIGHT")
-	private Double netWeight;
+    @Column(name = "BL_NO", nullable = false,length = 100)
+    private String blNo;
 
-	@Column(name = "n_CONTAINER")
-	private Long noContainer;
+    @Column(name = "SWBL_NO",length = 100)
+    private String swBlNo;
 
-	@Column(name = "n_BUNDLE")
-	private Long noBundle;
+    @ManyToOne
+    @JoinColumn(name = "DISCHARGE")
+    private Port tblPortByDischarge;
 
-	@Column(name = "c_BL_NO", nullable = false, length = 100)
-	private String blNo;
+    @ManyToOne
+    @JoinColumn(name = "SWITCH_PORT")
+    private Port tblSwitchPort;
 
-	@Column(name = "c_SWBL_NO", length = 100)
-	private String swBlNo;
+    @Column(name = "PALATE")
+    private Long noPalete;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DISCHARGE_port_id", nullable = false, insertable = false, updatable = false)
-	private Port portByDischarge;
+    @Column(name = "BOL_DATE", length = 100)
+    private String bolDate;
 
-	@Column(name = "DISCHARGE_port_id")
-	private Long PortByDischargeId;
+    @Column(name = "CREATE_DATE", length = 100)
+    private String createDate;
+    //------------------------------------------------------------ to Add auto create and update date ------------------------------------------------
+    @Transient
+    private String createDateFa;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SWITCH_PORT_id", nullable = false, insertable = false, updatable = false)
-	private Port switchPort;
-
-	@Column(name = "SWITCH_PORT_id")
-	private Long switchPortId;
-
-	@Column(name = "n_PALATE")
-	private Long noPalete;
-
-	@Column(name = "c_BOL_DATE", length = 100)
-	private String bolDate;
+    @Transient
+    private String editDateFA;
 }

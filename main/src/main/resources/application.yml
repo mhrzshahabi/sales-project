@@ -8,7 +8,7 @@ spring:
       connection-test-query: SELECT 1 FROM DUAL
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     properties:
       hibernate:
         dialect: com.nicico.copper.common.hibernate.CustomOracleDialect
@@ -32,6 +32,9 @@ spring:
     db-history-used: true
   redis:
     port: 6379
+  servlet:
+    multipart:
+      max-file-size: 1000MB
 
 server:
   port: 8080
@@ -52,13 +55,13 @@ nicico:
       package: com.nicico.sales.model
   google:
     mail:
-      username:
-      password:
+      username: nicicofin@gmail.com
+      password: salam@@123456
   mail:
-    domain:
-    url:
-    username:
-    password:
+    domain: nicico.com
+    url: https://mail.nicico.com/ews/exchange.asmx
+    username: abaspour
+    password: Visual2013
   upload:
     dir: /var/nicico/${spring.application.name}/
   workflow:
@@ -67,6 +70,8 @@ nicico:
   bpmn:
     upload:
       dir: /var/nicico/${spring.application.name}/
+  security:
+    sys-password: password
 
 ---
 
@@ -123,6 +128,9 @@ spring:
             token-uri: http://devapp01.icico.net.ir/oauth/token
             user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
+nicico:
+  apps:
+    accounting: http://devapp01.icico.net.ir/accounting
 
 ---
 
@@ -130,8 +138,8 @@ spring:
   profiles: Local
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: sales
-    password: sales
+    username: saleslocal
+    password: saleslocal
   redis:
     host: devapp01.icico.net.ir
     password: nicico
@@ -156,3 +164,5 @@ spring:
 nicico:
   upload:
     dir: c:/upload
+  apps:
+    accounting: http://localhost:8099/accounting

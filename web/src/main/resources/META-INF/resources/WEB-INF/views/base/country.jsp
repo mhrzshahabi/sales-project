@@ -116,7 +116,7 @@
     });
 
     var DynamicForm_Country = isc.DynamicForm.create({
-        width: "100%",
+        width: 650,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -136,23 +136,25 @@
                 {
                     name: "code",
                     title: "<spring:message code='country.code'/>",
-                    width: "100%",
+                    width: 500,
                     colSpan: 1, required: true,
                     keyPressFilter: "[0-9]", length: "15",
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    hint: "تا 15 رقم قابل قبول می باشد",
+                    showHintInField: true,
                 },
                 {
                     name: "nameFa",
                     title: "<spring:message code='country.nameFa'/>",
-                    width: "100%",
+                    width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1
                 },
                 {
                     name: "nameEn",
-                    title: "<spring:message code='country.nameEn'/>",
-                    width: "100%",
-                    colSpan: 1, required: true, keyPressFilter: "[a-z|A-Z|0-9.|\\s]",
+                    title: "<spring:message code='bank.nameFa'/>",
+                    width: 500,
+                    colSpan: 1, required: true, keyPressFilter: "[a-z|A-Z|0-9.]",
                     titleColSpan: 1
                 },
             ]

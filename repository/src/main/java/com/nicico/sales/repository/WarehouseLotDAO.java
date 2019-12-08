@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WarehouseLotDAO extends JpaRepository<WarehouseLot, Long>, JpaSpecificationExecutor<WarehouseLot> {
-
+    WarehouseLot findByLotName(String lotName);
 }

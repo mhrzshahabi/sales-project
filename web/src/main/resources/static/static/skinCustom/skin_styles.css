@@ -2688,7 +2688,7 @@ ul {
 .labelAnchorFocusedRTL {
 	background-color: transparent;
 	color: #333333;
-	font-family: BYekan;
+	font-family: BYekan !important;
 	font-size: 14px;
 }
 
@@ -8599,6 +8599,7 @@ a.calMonthEventLink:active {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+	justify-content: center;
 }
 
 .eventWindowBody {

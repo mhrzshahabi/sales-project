@@ -18,6 +18,15 @@
             <artifactId>service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-    </dependencies>
+
+
+        <dependency>
+            <groupId>com.github.mfathi91</groupId>
+            <artifactId>persian-date-time</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+
+	</dependencies>
 
 </project>

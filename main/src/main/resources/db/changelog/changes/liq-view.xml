@@ -82,6 +82,11 @@
 			<column name="N_VERSION" type="NUMBER(10, 0)"/>
 		</createTable>
 
+		<createTable tableName="TBL_TOZIN_TARGET">
+			<column name="TARGETID" type="NUMBER(20, 0)"/>
+			<column name="PLANT_ID" type="NUMBER(10, 0)"/>
+			<column name="TARGET" type="VARCHAR2(200 BYTE)"/>
+		</createTable>
 	</changeSet>
 
 	<changeSet id="1567592211576-223" author="MBizhani">
@@ -151,34 +156,65 @@
 ]]>
 		</createView>
 
+		<!--<createView viewName="v_tozine_content_m"> <![CDATA[-->
+							<!--SELECT-->
+							 <!--0 N_VERSION,'admin' C_CREATED_BY,sysdate D_CREATED_DATE,rownum id,'' as C_LAST_MODIFIED_BY,-->
+								<!--cast(null as date) D_LAST_MODIFIED_DATE,-->
+							 <!--card_id,carno1,carno3,plak,carname,contener_id,-->
+							 <!--contener_no1,contener_no3,contener_name,tozine_id,wazn1,wazn2,condition,wazn,tedad,unit_kala,packname,havcode,dat,-->
+							 <!--tzn_date,tzn_time,gdscode,gdsname,sourceid,sourcee,targetid,target,hav_name,hav_from,hav_to,hav_date,hav_isfinal-->
+							<!--FROM-->
+								<!--n_master.v_tozine_content_m-->
+
+<!--]]>-->
+		<!--</createView>-->
+
+		<!--<createView viewName="View_CATOD_LIST"> <![CDATA[-->
+							<!--select-->
+							 <!--0 N_VERSION,'admin' C_CREATED_BY,sysdate D_CREATED_DATE,rownum id,'' as C_LAST_MODIFIED_BY,-->
+								<!--cast(null as date) D_LAST_MODIFIED_DATE,-->
+								<!--storeid,-->
+								<!--tozineid,-->
+								<!--productid,-->
+								<!--productlabel,-->
+								<!--wazn,-->
+								<!--sheetnumber,-->
+								<!--packingtypeid,-->
+								<!--gdscode-->
+							 <!--from  "N_MASTER"."V_CATODLISTFOREXPORT"-->
+
+
+<!--]]>-->
+		<!--</createView>-->
+
 		<createView viewName="VIEW_TOZIN_S"><![CDATA[
-			SELECT card_id,carno1,carno3,carpelak plak,carname,customerid,customer,sellerid,seller,
-			wazn1,wazn2,wazn,
+							  SELECT card_id,carno1,carno3,carpelak plak,carname,customerid,customer,sellerid,seller,
+							  wazn1,wazn2,wazn,
 
-			greatest (nvl(tedad,1),1) tedad,
-			nvl(unit_kala,6) unit_kala,
-			nvl(packname,'فله') packname
+								greatest (nvl(tedad,1),1) tedad,
+								nvl(unit_kala,6) unit_kala,
+								nvl(packname,'فله') packname
 
-			,havcode,dat,tzn_date,tzn_time,v.gdscode,v.gdsname,
-			v.sourceid,v.sourcee,v.targetid,v.target,
-			to_char(p.id)||p.NAMEfa tozine_id,cast('    ' as varchar2(300))    HAV_NAME,cast('    ' as varchar2(20))  HAV_DATE,
-			tozine_id tozin_plant_id,
-			case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
-			p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id,
-			v.id, isoky hav_isfinal,
-			"C_CREATED_BY"  ,
-			"D_CREATED_DATE" ,
-			"C_LAST_MODIFIED_BY",
-			"D_LAST_MODIFIED_DATE" ,
-			"N_VERSION"
+							  ,havcode,dat,tzn_date,tzn_time,v.gdscode,v.gdsname,
+								v.sourceid,v.sourcee,v.targetid,v.target,
+								to_char(p.id)||p.NAMEfa tozine_id,cast('    ' as varchar2(300))    HAV_NAME,cast('    ' as varchar2(20))  HAV_DATE,
+								tozine_id tozin_plant_id,
+								case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
+								p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id,
+								v.id, isoky hav_isfinal,
+								"C_CREATED_BY"  ,
+								"D_CREATED_DATE" ,
+								"C_LAST_MODIFIED_BY",
+								"D_LAST_MODIFIED_DATE" ,
+								"N_VERSION"
 
-			FROM v_tozine_content_b v
-			join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
-			join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
-			left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
-			left join TBL_TOZIN_TARGET t on t.targetid=v.targetid
-			--where p.id=3
-			order by carpelak ,carname,v.TZN_DATE,v.TZN_TIME,customerid,customer,sellerid
+							FROM v_tozine_content_b v
+							join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
+							join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
+							left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
+							left join TBL_TOZIN_TARGET t on t.targetid=v.targetid
+
+							order by carpelak ,carname,v.TZN_DATE,v.TZN_TIME,customerid,customer,sellerid
 ]]>
 		</createView>
 

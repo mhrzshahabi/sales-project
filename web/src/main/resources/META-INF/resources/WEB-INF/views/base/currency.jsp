@@ -138,7 +138,7 @@
                 {
                     name: "code",
                     title: "<spring:message code='currency.code'/>",
-                    width: "100%",
+                    width: 400,
                     colSpan: 1,
                     titleColSpan: 1,
                     required: true,
@@ -147,7 +147,7 @@
                 {
                     name: "nameFa",
                     title: "<spring:message code='currency.nameFa'/>",
-                    width: "100%",
+                    width: 400,
                     colSpan: 1,
                     required: true,
                     titleColSpan: 1
@@ -155,7 +155,7 @@
                 {
                     name: "nameEn",
                     title: "<spring:message code='currency.nameLatin'/>",
-                    width: "100%", keyPressFilter: "[a-z|A-Z|0-9.]",
+                    width: 400, keyPressFilter: "[a-z|A-Z|0-9.]",
                     colSpan: 1,
                     required: true,
                     wrapTitle: false,
@@ -164,7 +164,7 @@
                 {
                     name: "symbol",
                     title: "<spring:message code='currency.symbol'/>",
-                    width: "100%",
+                    width: 400,
                     colSpan: 1,
                     titleColSpan: 1
                 }

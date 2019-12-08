@@ -478,7 +478,6 @@
                 serverOutputAsString: false,
                 callback: function (RpcResponse_o) {
                     if (RpcResponse_o.data == 'success') {
-                        alert(1)
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_ShipmentHeaderByRes_refresh();
                         Window_ShipmentByAddHeader.close();

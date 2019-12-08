@@ -19,7 +19,7 @@ public class ContractPenalty extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "CONTRACT_PENALTY")
 	@SequenceGenerator(name = "CONTRACT_PENALTY", sequenceName = "CONTRACT_PENALTY")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -30,10 +30,10 @@ public class ContractPenalty extends Auditable {
 	private Long contractItemFeatureId;
 
 	@Column(name = "DEDUCTION", length = 4)
-	private Float deduction;
+	private Double deduction;
 
 	@Column(name = "VALUE", length = 4)
-	private Float value;
+	private Double value;
 
 	@Column(name = "OPERATION", length = 4)
 	private String operation;

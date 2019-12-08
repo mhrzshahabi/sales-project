@@ -1,12 +1,16 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinDTO;
 import com.nicico.sales.iservice.ITozinService;
 import com.nicico.sales.model.entities.base.Tozin;
+import com.nicico.sales.model.entities.base.WarehouseCad;
 import com.nicico.sales.repository.TozinDAO;
+import com.nicico.sales.repository.WarehouseCadDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -21,6 +26,7 @@ import java.util.Optional;
 public class TozinService implements ITozinService {
 
 	private final TozinDAO tozinDAO;
+	private final WarehouseCadDAO warehouseCadDAO;
 	private final ModelMapper modelMapper;
 
 	@Transactional(readOnly = true)
@@ -79,6 +85,34 @@ public class TozinService implements ITozinService {
 	@Override
 	public SearchDTO.SearchRs<TozinDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(tozinDAO, request, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+	public  TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria) {
+		return SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+	public TotalResponse<TozinDTO.Info> searchTozinOnTheWay(NICICOCriteria criteria) {
+		TotalResponse<TozinDTO.Info> search = SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
+		List<WarehouseCad> bijacks = warehouseCadDAO.findAll();
+		ListIterator<TozinDTO.Info> bijackListIterator = search.getResponse().getData().listIterator();
+		while (bijackListIterator.hasNext()) {
+			String tozinPlantId = bijackListIterator.next().getTozinPlantId();
+			for (WarehouseCad warehouseCad : bijacks) {
+				if (warehouseCad.getSourceTozinPlantId() != null && warehouseCad.getSourceTozinPlantId().equals(tozinPlantId)) {
+					try {
+						bijackListIterator.remove();
+					} catch (Exception ignored) {
+					}
+				}
+			}
+		}
+		return search;
 	}
 
 	// ------------------------------

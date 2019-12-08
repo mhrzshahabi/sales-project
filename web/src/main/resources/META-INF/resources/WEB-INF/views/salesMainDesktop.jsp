@@ -4,22 +4,22 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%
-    final String accessToken = (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN);
-%>
+<% final String accessToken = (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN); %>
 
 <html>
 <head>
 
     <title><spring:message code='main.salesName'/></title>
 
+    <link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
-    <link rel="shortcut icon" href="<spring:url value='/static/img/icon/nicico.ico' />"/>
+    <link rel="stylesheet" href="<spring:url value='/static/css/smartStylebutton.css' />"/>
+    <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
+    <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
-    <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
 
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
@@ -33,8 +33,6 @@
     <script src=isomorphic/system/modules/ISC_Analytics.js></script>
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
     <script src=isomorphic/skins/Tahoe/load_skin.js></script>
-    <script src=isomorphic/locales/frameworkMessages_fa.properties type="application/json"></script>
-
 </head>
 
 
@@ -52,26 +50,10 @@
 
 <script type="application/javascript">
 
+
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    isc.FileLoader.loadLocale("fa");
-    /*---------------currentTime---------------*/
-    var informationFlow;
-
-    function calculateclockAndAssign() {
-        var currentTime = new Date();
-        var secs = currentTime.getSeconds();
-        var mins = currentTime.getMinutes();
-        var hr = currentTime.getHours();
-        informationFlow.setContents("<div align='center'>ساعت : " + secs + " : " + mins + " : " + hr + "</div>");
-    }
-
-    function Delay() {
-        calculateclockAndAssign();
-        setTimeout('Delay()', 20);
-    }
-
-    /*-----------------------------------------*/
+    isc.FileLoader.loadLocale("en");
 
     isc.defineClass("MyRestDataSource", RestDataSource);
 
@@ -90,6 +72,21 @@
             return this.Super("transformResponse", arguments);
         }
     });
+
+    // isc.ViewLoader.addMethods({
+    //     handleError: function (rq, rs) {
+    //         console.log("Global ViewLoader Error: ", rq, rs);
+    //         if (rs.httpResponseCode === 403) { // Forbidden
+    //             nicico.error("Access Denied");  //TODO: I18N message key
+    //         } else {
+    //             redirectLogin();
+    //         }
+    //         return false;
+    //     },
+    //     handleSuccess: function(rq, rs){
+    //         alert(12345);
+    //     }
+    // });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -111,13 +108,16 @@
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
                 case "Unauthorized":
-                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: "<spring:message code='global.warning'/>"});
+                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     break;
                 case "DataIntegrityViolation_Unique":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: "<spring:message code='global.warning'/>"});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
+                    break;
+                case "DataIntegrityViolation_FK":
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
                     break;
                 case "DataIntegrityViolation":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation'/>", {title: "<spring:message code='global.warning'/>"});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
         }
@@ -128,7 +128,9 @@
 
     isc.ListGrid.addProperties({
         dataPageSize: 500,
-        showPrompt: true
+        showPrompt: true,
+        allowFilterExpressions: true,
+        allowAdvancedCriteria: true
     });
 
     isc.ToolStripButton.addProperties({
@@ -148,15 +150,8 @@
         border: "1px solid lightgray"
     });
 
-    function getIconButton(title, props) {
-        return isc.IconButton.create(isc.addProperties({
-                title: title
-            }, props)
-        );
-    }
-
     function createTab(title, url) {
-        var localViewLoder = isc.ViewLoader.create({
+        var localViewLoader = isc.ViewLoader.create({
             width: "100%",
             height: "100%",
             autoDraw: false,
@@ -176,35 +171,26 @@
                 }
 
             }
-
         }
         if (!flagTabExist)
             mainTabSet.selectTab(mainTabSet.addTab({
                     title: title,
                     canClose: true,
-                    pane: localViewLoder
+                    pane: localViewLoader
                 })
             );
     }
 
-    var headerFlow = isc.HTMLFlow.create({
-        width: "5%",
-        height: "100%",
-        styleName: "mainHeaderStyleOnline",
-        contents: "<spring:message code='main.salesName'/>"
-    });
-
     var label_Username = isc.Label.create({
-        width: "40%",
         height: "100%",
-        align: "left",
+        width: 250,
         styleName: "mainHeaderStyleOnline",
-        contents: "کاربر : ${userFullName}",
+        contents: "<spring:message code='global.user'/>" + ":" + '${userFullName}',
         dynamicContents: true
     });
 
     var logoutButton = isc.IButton.create({
-        width: "100",
+        width: "5%",
         height: "100%",
         title: "<spring:message code='global.exit'/>",
         icon: "pieces/512/logout.png",
@@ -213,31 +199,20 @@
         }
     });
 
-    var headerExitHLayout = isc.HLayout.create({
-        width: "10%",
-        height: "30",
-        align: "left",
-        members: [label_Username, logoutButton]
-    });
-
-
     isc.HTMLFlow.create({
         width: "20%",
         ID: "informationFlow",
         styleName: "mainHeaderStyleOnline"
     });
+
     var languageForm = isc.DynamicForm.create({
-        width: 120,
-        height: 30,
         wrapItemTitles: true,
-
         fields: [{
-            name: "languageName", title: "<span style=\"color:white\"><spring:message code='global.language'/></span>",
-
-            type: "select",
+            name: "languageName",
+            showTitle: false,
             width: 100,
-            height: 30,
-            disabled: false,
+            height: "100%",
+            type: "select",
             wrapHintText: false,
             valueMap: {
                 "fa": "پارسی",
@@ -248,46 +223,54 @@
             valueIcons: {
                 "fa": "fa",
                 "en": "en"
-
             },
-
             changed: function () {
-
                 var newUrl = window.location.href;
-                var selLocale = languageForm.getValue("languageName");
+                var locale = languageForm.getValue("languageName");
 
                 if (newUrl.indexOf("lang") > 0) {
-
                     var regex = new RegExp("lang=[a-zA-Z_]+");
-                    newUrl = newUrl.replace(regex, "lang=" + selLocale);
+                    newUrl = newUrl.replace(regex, "lang=" + locale);
                 } else {
-
                     if (newUrl.indexOf("?") > 0) {
                         if (newUrl.indexOf("#") > 0) {
-                            newUrl = newUrl.replace("#", "&lang=" + selLocale + "#")
+                            newUrl = newUrl.replace("#", "&lang=" + locale + "#")
                         } else {
-                            newUrl += "&lang=" + selLocale;
+                            newUrl += "&lang=" + locale;
                         }
                     } else {
-                        //newUrl = newUrl.replace("#", "?lang=" + selLocale )
-                        newUrl = newUrl + "?lang=" + selLocale;
+                        newUrl = newUrl + "?lang=" + locale;
                     }
                 }
-
                 window.location.href = newUrl;
             }
         }]
     });
-
-
     languageForm.setValue("languageName", "<c:out value='${pageContext.response.locale}'/>");
+
+    var emptyLabel_Before = isc.Label.create({
+        width: "25%",
+        height: "100%"
+    });
+
+    var emptyLabel_After = isc.Label.create({
+        width: "20%",
+        height: "100%"
+    });
+
+    var salesIcon = isc.Label.create({
+        width: "20%",
+        height: "100%",
+        icon: "icon/nicico.png",
+        styleName: "mainHeaderStyleOnline",
+        contents: "<spring:message code='main.salesName'/>"
+    });
+
     var headerLayout = isc.HLayout.create({
         width: "100%",
-        height: "30",
-        //border: "1px solid red",
+        height: 35,
         backgroundColor: "#153560",
-        // styleName:"mainHeaderStyleOnline",
-        members: [headerFlow, languageForm, informationFlow, headerExitHLayout]
+        members: [salesIcon, emptyLabel_Before, emptyLabel_After, label_Username, languageForm, logoutButton]
     });
 
     /*-------------------Cartable---------------------------*/
@@ -296,7 +279,6 @@
         icon: "cartable/cartableHome.png",
         largeIcon: "cartable/cartableHome.png",
         orientation: "vertical",
-
         click: function () {
             <%--createTab("<spring:message code='material.title'/>", "/material/showForm")--%>
         }
@@ -308,7 +290,6 @@
         orientation: "vertical",
         click: function () {
             <%--createTab("<spring:message code='material.title'/>", "/material/showForm")--%>
-
         }
     });
     var cartableInboxButton = isc.IconButton.create({
@@ -318,7 +299,6 @@
         orientation: "vertical",
         click: function () {
             <%--createTab("<spring:message code='material.title'/>", "/material/showForm")--%>
-
         }
     });
     var cartableOutboxButton = isc.IconButton.create({
@@ -328,7 +308,6 @@
         orientation: "vertical",
         click: function () {
             <%--createTab("<spring:message code='material.title'/>", "/material/showForm")--%>
-
         }
     });
     var processButton = isc.IconButton.create({
@@ -338,16 +317,10 @@
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='global.process.file'/>", "<spring:url value="/web/workflow/processDefinition/showForm" />")
-
         }
     });
 
-    /*var cartableRibbonBar = isc.RibbonBar.create({
-        backgroundColor: "#f0f0f0",
-        groupTitleAlign: "center",
-        groupTitleOrientation: "top"
-    });
-
+    /*------------------- Cartable ---------------------------
     var cartableRibbonGroup = isc.RibbonGroup.create({
         title: "مدیریت کارتابل",
         numRows: 1,
@@ -363,6 +336,11 @@
         ],
         autoDraw: false
     });
+    var cartableRibbonBar = isc.RibbonBar.create({
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
+    });
     cartableRibbonBar.addGroup(cartableRibbonGroup, 0);
 
     var cartableRibbonHLayout = isc.HLayout.create({
@@ -374,24 +352,15 @@
         backgroundColor: "#153560",
         members: [cartableRibbonBar]
     });*/
+
     /*-------------------Report---------------------------*/
     var routineReportButton = isc.IconButton.create({
         title: "<spring:message code='reportGenerator.title'/>",
         icon: "report/routineReports.png",
         largeIcon: "report/routineReports.png",
         orientation: "vertical",
-
         click: function () {
             createTab("<spring:message code='global.report.generator.contract'/>", "<spring:url value="/contractIncomeCost/showForm" />")
-        }
-    });
-    var demandReportButton = isc.IconButton.create({
-        title: "<spring:message code='byDemandReports.title'/>",
-        icon: "report/byDemandReports.png",
-        largeIcon: "report/byDemandReports.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='material.title'/>", "/material/showForm")--%>
         }
     });
     var coordinatingOfficeReportButton = isc.IconButton.create({
@@ -403,23 +372,32 @@
             createTab("<spring:message code='dailyReport.DailyReportBandarAbbas'/>", "<spring:url value="/dailyReportBandarAbbas/showForm" />")
         }
     });
+    var demandReportButton = isc.IconButton.create({
+        title: "<spring:message code='byDemandReports.title'/>",
+        icon: "report/byDemandReports.png",
+        largeIcon: "report/byDemandReports.png",
+        orientation: "vertical",
+        click: function () {
+            <%--createTab("<spring:message code='material.title'/>", "/material/showForm")--%>
+        }
+    });
+
+    var reportRibbonGroup = isc.RibbonGroup.create({
+        numRows: 1,
+        colWidths: [20, "*"],
+        showTitle: false,
+        controls: [
+            routineReportButton//,
+            // coordinatingOfficeReportButton
+            // demandReportButton
+        ],
+        autoDraw: false
+    });
+
     var reportRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
         groupTitleAlign: "center",
         groupTitleOrientation: "top"
-    });
-    var reportRibbonGroup = isc.RibbonGroup.create({
-        title: "<spring:message code='global.reports'/>",
-        numRows: 1,
-        colWidths: [20, "*"],
-        showTitle: false,
-        titleAlign: "left",
-        controls: [
-            routineReportButton,
-            // demandReportButton,
-            // coordinatingOfficeReportButton
-        ],
-        autoDraw: false
     });
     reportRibbonBar.addGroup(reportRibbonGroup, 0);
 
@@ -432,12 +410,7 @@
         members: [reportRibbonBar]
     });
 
-    /*--------------------Dashboard--------------------------*/
-    /*var dashboardRibbonBar = isc.RibbonBar.create({
-        backgroundColor: "#f0f0f0",
-        groupTitleAlign: "center",
-        groupTitleOrientation: "top"
-    });
+    /*--------------------Dashboard--------------------------
     var dashboardRibbonGroup = isc.RibbonGroup.create({
         title: "داشبوردها",
         numRows: 1,
@@ -446,6 +419,11 @@
         titleAlign: "left",
         controls: [],
         autoDraw: false
+    });
+    var dashboardRibbonBar = isc.RibbonBar.create({
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
     });
     dashboardRibbonBar.addGroup(dashboardRibbonGroup, 0);
 
@@ -458,6 +436,7 @@
         backgroundColor: "#153560",
         members: [dashboardRibbonBar]
     });*/
+
     /*----------------------Base------------------------*/
 
     var materialButton = isc.IconButton.create({
@@ -465,7 +444,6 @@
         icon: "pieces/16/contact.png",
         largeIcon: "pieces/512/material.png",
         orientation: "vertical",
-
         click: function () {
             createTab("<spring:message code='material.title'/>", "<spring:url value="/material/showForm" />")
 
@@ -515,7 +493,6 @@
         largeIcon: "basicTables/exchangeRate.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='accAndDet.currency.name'/>", "/currencyUnit/showForm")--%>
             createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
         }
     });
@@ -553,6 +530,15 @@
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='bank.title'/>", "<spring:url value="/bank/showForm" />")
+        }
+    });
+    var warehouseYardButton = isc.IconButton.create({
+        title: "<spring:message code='warehouseYard.title'/>",
+        icon: "basicTables/warehouse.png",
+        largeIcon: "basicTables/warehouse.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='warehouseYard.title'/>", "<spring:url value="/warehouseYard/showForm" />")
         }
     });
     var countryButton = isc.IconButton.create({
@@ -632,104 +618,79 @@
             createTab("<spring:message code='paymentOption.title'/>", "<spring:url value="/paymentOption/showForm" />")
         }
     });
+    var baseRibbonGroup = isc.RibbonGroup.create({
+        numRows: 1,
+        colWidths: [20, "*"],
+        showTitle: false,
+        controls: [
+            materialButton,
+            commercialPartyButton,
+            featureButton,
+            unitButton,
+            rateButton,
+            currencyButton,
+            exchangeRateButton,
+            LMEButton,
+            commercialIncotermsButton,
+            glossaryButton,
+            parametersButton,
+            countryButton,
+            bankButton,
+            personButton,
+            groupsButton,
+            portButton,
+            dccButton,
+            instructionButton,
+            paymentOpftionButton,
+            warehouseYardButton
+        ],
+        autoDraw: false
+    });
     var baseRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
         groupTitleAlign: "center",
         groupTitleOrientation: "top"
-    });
-    var baseRibbonGroup = isc.RibbonGroup.create({
-        title: "<spring:message code='global.menu.base.info'/>",
-        numRows: 1,
-        colWidths: [20, "*"],
-        showTitle: false,
-        titleAlign: "left",
-        controls: [
-            materialButton
-            , commercialPartyButton
-            , featureButton
-            , unitButton
-            , rateButton
-            , currencyButton
-            , exchangeRateButton
-            , LMEButton
-            , commercialIncotermsButton
-            , glossaryButton
-            , parametersButton
-            , countryButton
-            , bankButton
-            , personButton
-            , groupsButton
-            , portButton
-            , dccButton
-            , instructionButton
-            , paymentOpftionButton
-
-        ],
-        autoDraw: false
     });
     baseRibbonBar.addGroup(baseRibbonGroup, 0);
 
     var baseRibbonHLayout = isc.HLayout.create({
         width: "100%",
         height: "60",
-        // border: "0px solid green",
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
         members: [baseRibbonBar]
     });
     /*-------------------Setting---------------------------*/
-    /*var userButton = isc.IconButton.create({
-        title: "کاربران",
-        icon: "pieces/user.png",
+    var userRoleButton = isc.IconButton.create({
         orientation: "vertical",
+        icon: "pieces/512/role-icon.png",
+        largeIcon: "pieces/512/role-icon.png",
+        title: "<spring:message code='setting.appRoles'/>",
         click: function () {
-            createTab("کاربران", "<spring:url value="/user/showForm" />")
+            createTab("<spring:message code='setting.appRoles'/>", "<spring:url value="web/oauth/app-roles/show-form" />", false);
+        }
+    });
+    var userGroupPermissionButton = isc.IconButton.create({
+        orientation: "vertical",
+        icon: "pieces/512/purchase_img.png",
+        largeIcon: "pieces/512/purchase_img.png",
+        title: "<spring:message code='setting.groupPermission'/>",
+        click: function () {
+            createTab("<spring:message code='setting.groupPermission'/>", "<spring:url value="web/oauth/groups/show-form" />", false);
+        }
+
+    });
+    var userAssignUserButton = isc.IconButton.create({
+        orientation: "vertical",
+        icon: "pieces/512/assign_role.png",
+        largeIcon: "pieces/512/assign_role.png",
+        title: "<spring:message code='setting.roleUser'/>",
+        click: function () {
+            createTab("<spring:message code='setting.roleUser'/>", "<spring:url value="web/oauth/users/show-form" />", false);
         }
     });
 
-    var workgroupButton = isc.IconButton.create({
-        title: "<spring:message code='workgroups.title'/>",
-        icon: "pieces/users.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='workgroups'/>", "<spring:url value="/group/showForm" />")
-        }
-    });
-
-    var operatorsAccessButton = isc.IconButton.create({
-        title: "<spring:message code='accesses.title'/>",
-        icon: "operators/accesses.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='access.plural'/>", "<spring:url value="/authority/showForm" />")
-        }
-    });
-    var organizationButton = isc.IconButton.create({
-        title: "<spring:message code='organization.title'/>",
-        icon: "operators/organization.png",
-        largeIcon: "operators/organization.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='organization.title'/>", "<spring:url value="/department/showForm" />")
-
-        }
-    });
-    var roleButton = isc.IconButton.create({
-        title: "<spring:message code='role.title'/>",
-        icon: "operators/roles.png",
-        largeIcon: "operators/roles.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-
-    var settingRibbonBar = isc.RibbonBar.create({
-        backgroundColor: "#f0f0f0",
-        groupTitleAlign: "center",
-        groupTitleOrientation: "top"
-    });
     var settingRibbonGroup = isc.RibbonGroup.create({
         title: "تنظیمات",
         numRows: 1,
@@ -737,34 +698,31 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            organizationButton
-            , userButton
-            , operatorsAccessButton
-            , workgroupButton
-            , roleButton
-            /!*    IconButton_User
-                ,IconButton_Group
-                ,IconButton_Access
-                ,departmentButton
-             *!/
-
+            userGroupPermissionButton,
+            userRoleButton,
+            userAssignUserButton
         ],
         autoDraw: false
+    });
+    var settingRibbonBar = isc.RibbonBar.create({
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
     });
     settingRibbonBar.addGroup(settingRibbonGroup, 0);
 
     var settingRibbonHLayout = isc.HLayout.create({
         width: "100%",
         height: "60",
-        // border: "0px solid green",
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
         members: [settingRibbonBar]
     });
-    /!*-------------------license---------------------------*!/
+
+    /*-------------------license---------------------------
     var boardCertificateButton = isc.IconButton.create({
-        title: "<spring:message code='boardCertificate.title'/>",
+        <%--title: "<spring:message code='boardCertificate.title'/>",--%>
         icon: "license/boardCertificate.png",
         largeIcon: "license/boardCertificate.png",
         orientation: "vertical",
@@ -818,8 +776,9 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [licenseRibbonBar]
-    });
-    /!*-------------------Tender---------------------------*!/
+    });*/
+
+    /*-------------------Tender---------------------------
     var tenderButton = isc.IconButton.create({
         title: "<spring:message code='tenderNotice.title'/>",
         icon: "tender/tenderNotice.png",
@@ -867,6 +826,7 @@
         backgroundColor: "#153560",
         members: [tenderRibbonBar]
     });*/
+
     /*-------------------Contracts---------------------------*/
     var salesContractButton = isc.IconButton.create({
         title: "<spring:message code='salesContract.title'/>",
@@ -877,13 +837,51 @@
             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
         }
     });
+/*Add By JZ*/
+    var salesContractCharterButton = isc.IconButton.create({
+        title: "<spring:message code='salesContract.title'/>",
+        icon: "contract/charter.png",
+        largeIcon: "contract/charter.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/charter/showForm" />")
+        }
+    });
+
+    var salesContractMoButton = isc.IconButton.create({
+        title: "<spring:message code='salesContractMoButton.title'/>",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+        }
+    });
+    var salesContractCADButton = isc.IconButton.create({
+        title: "<spring:message code='salesContractCADButton.title'/>",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
+        }
+    });
+    var salesContractConcButton = isc.IconButton.create({
+        title: "<spring:message code='salesContractConcButton.title'/>",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+        }
+    });
     var purchaseContractButton = isc.IconButton.create({
         title: "<spring:message code='purchaseContract.title'/>",
         icon: "contract/purchaseContract.png",
         largeIcon: "contract/purchaseContract.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
     var shipmentContractButton = isc.IconButton.create({
@@ -895,6 +893,7 @@
             createTab("<spring:message code='shipmentContract.title'/>", "<spring:url value="/shipmentContract/showForm" />")
         }
     });
+
     var inspectionContractButton = isc.IconButton.create({
         title: "<spring:message code='inspectionContract.title'/>",
         icon: "contract/inspectionContract.png",
@@ -910,15 +909,10 @@
         largeIcon: "contract/insuranceContract.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
 
-    var contractRibbonBar = isc.RibbonBar.create({
-        backgroundColor: "#f0f0f0",
-        groupTitleAlign: "center",
-        groupTitleOrientation: "top"
-    });
     var contractRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.contract.management'/>",
         numRows: 1,
@@ -926,7 +920,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            salesContractButton
+            isc.HLayout.create({align: "left", members: [salesContractButton]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
@@ -935,23 +929,27 @@
         ],
         autoDraw: false
     });
+    var contractRibbonBar = isc.RibbonBar.create({
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
+    });
     contractRibbonBar.addGroup(contractRibbonGroup, 0);
 
     var contractRibbonHLayout = isc.HLayout.create({
         width: "100%",
         height: "60",
-        // border: "0px solid green",
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
         members: [contractRibbonBar]
     });
-    /*-------------------Product---------------------------*/
 
+    /*-------------------Product---------------------------*/
     var warehousesButton = isc.IconButton.create({
         title: "<spring:message code='warehouses.title'/>",
-        icon: "product/warehouses.png",
-        largeIcon: "product/warehouses.png",
+        icon: "product/warehouse.png",
+        largeIcon: "product/warehouse.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='warehouses.title'/>", "<spring:url value="/dailyWarehouse/showForm" />")
@@ -964,6 +962,15 @@
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='tozin.title'/>", "<spring:url value="/tozin/showForm" />")
+        }
+    });
+    var OnWayProductButton = isc.IconButton.create({
+        title: "<spring:message code='tozin.onWay'/>",
+        icon: "product/deliveryPlan.png",
+        largeIcon: "product/deliveryPlan.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
         }
     });
     var tozinSalesButton = isc.IconButton.create({
@@ -984,6 +991,51 @@
             createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
         }
     });
+    var BijackButton = isc.IconButton.create({
+        title: "<spring:message code='bijack'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
+        }
+    });
+    var WarehouseStockButton = isc.IconButton.create({
+        title: "<spring:message code='warehouseStock'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
+        }
+    });
+    var WarehouseIssueCathodeButton = isc.IconButton.create({
+        title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='Shipment.titleWarehouseIssueCathode'/>", "<spring:url value="/warehouseIssueCathode/showForm" />")
+        }
+    });
+    var WarehouseIssueConsButton = isc.IconButton.create({
+        title: "<spring:message code='Shipment.titleWarehouseIssueCons'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='Shipment.titleWarehouseIssueCons'/>", "<spring:url value="/warehouseIssueCons/showForm" />")
+        }
+    });
+    var WarehouseIssueMoButton = isc.IconButton.create({
+        title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
+        icon: "product/molybdenum.png",
+        largeIcon: "product/warehouses.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
+        }
+    });
     var exportButton = isc.IconButton.create({
         title: "<spring:message code='export.title'/>",
         icon: "license/exportLicense.png",
@@ -999,7 +1051,7 @@
         largeIcon: "product/salesPlan.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
     var purchasePlanButton = isc.IconButton.create({
@@ -1017,7 +1069,7 @@
         largeIcon: "product/deliveryPlan.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
     var productionPlanButton = isc.IconButton.create({
@@ -1026,51 +1078,10 @@
         largeIcon: "product/productionPlan.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var salesPlanButton = isc.IconButton.create({
-        title: "<spring:message code='salesPlan.title'/>",
-        icon: "product/salesPlan.png",
-        largeIcon: "product/salesPlan.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var purchasePlanButton = isc.IconButton.create({
-        title: "<spring:message code='purchasePlan.title'/>",
-        icon: "product/purchasePlan.png",
-        largeIcon: "product/purchasePlan.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var deliveryPlanButton = isc.IconButton.create({
-        title: "<spring:message code='deliveryPlan.title'/>",
-        icon: "product/deliveryPlan.png",
-        largeIcon: "product/deliveryPlan.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var productionPlanButton = isc.IconButton.create({
-        title: "<spring:message code='productionPlan.title'/>",
-        icon: "product/productionPlan.png",
-        largeIcon: "product/productionPlan.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
 
-    var productRibbonBar = isc.RibbonBar.create({
-        backgroundColor: "#f0f0f0",
-        groupTitleAlign: "center",
-        groupTitleOrientation: "top"
-    });
     var productRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.product.management'/>",
         numRows: 1,
@@ -1078,24 +1089,34 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            // warehousesButton
-            , tozinButton
-            , tozinSalesButton
-            // , warehousesLotButton
-            // , exportButton
-            // , salesPlanButton
-            // , purchasePlanButton
-            // , deliveryPlanButton
-            // , productionPlanButton
+            // warehousesButton,
+            tozinButton,
+            OnWayProductButton,
+            tozinSalesButton,
+            warehousesLotButton,
+            BijackButton,
+            WarehouseStockButton,
+            WarehouseIssueCathodeButton,
+            WarehouseIssueConsButton,
+            WarehouseIssueMoButton
+            // exportButton,
+            // salesPlanButton,
+            // purchasePlanButton,
+            // deliveryPlanButton,
+            // productionPlanButton
         ],
         autoDraw: false
+    });
+    var productRibbonBar = isc.RibbonBar.create({
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
     });
     productRibbonBar.addGroup(productRibbonGroup, 0);
 
     var productRibbonHLayout = isc.HLayout.create({
         width: "100%",
         height: "60",
-        // border: "0px solid green",
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
@@ -1127,7 +1148,7 @@
         largeIcon: "shipment/customFormalities.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
     var vesselAssignmentButton = isc.IconButton.create({
@@ -1136,7 +1157,7 @@
         largeIcon: "shipment/vesselAssignment.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
     var shipmentCostButton = isc.IconButton.create({
@@ -1158,11 +1179,6 @@
 
         }
     });
-    var shipmentRibbonBar = isc.RibbonBar.create({
-        backgroundColor: "#f0f0f0",
-        groupTitleAlign: "center",
-        groupTitleOrientation: "top"
-    });
     var shipmentRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.shipment.management'/>",
         numRows: 1,
@@ -1170,20 +1186,24 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            cargoAssignmentButton
-            // , shipmentAssignmentButton
-            // , customFormalitiesButton
-            , shipmentCostButton
-            // , shipmentBolButton
+            cargoAssignmentButton,
+            // shipmentAssignmentButton,
+            // customFormalitiesButton,
+            shipmentCostButton
+            // shipmentBolButton
         ],
         autoDraw: false
+    });
+    var shipmentRibbonBar = isc.RibbonBar.create({
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
     });
     shipmentRibbonBar.addGroup(shipmentRibbonGroup, 0);
 
     var shipmentRibbonHLayout = isc.HLayout.create({
         width: "100%",
         height: "60",
-        // border: "0px solid green",
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
@@ -1198,7 +1218,11 @@
         click: function () {
             <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
         }
-    });
+    });*/
+
+
+
+    /*InspectionContract*/
     var inspectionMoistureResultButton = isc.IconButton.create({
         title: "<spring:message code='inspectionMoistureResults.title'/>",
         icon: "inspection/inspectionResult.png",
@@ -1208,24 +1232,49 @@
             createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")
         }
     });
+
+/*JZ*/
+    var inspectionContractResultButton = isc.IconButton.create({
+        title: "<spring:message code='inspection.contract.form'/>",
+        icon: "inspection/inspectionContract.png",
+        largeIcon: "inspection/inspectionContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='inspection.contract.form'/>", "<spring:url value="/inspectionContract/showForm" />")
+        }
+    });
+
+
+    <%--var inspectionAssayResultButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='inspectionAssayResults.title'/>",--%>
+    <%--    icon: "inspection/inspectionResult.png",--%>
+    <%--    largeIcon: "inspection/inspectionResult.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />" )--%>
+    <%--    }--%>
+    <%--});--%>
+
+
     var inspectionAssayResultButton = isc.IconButton.create({
         title: "<spring:message code='inspectionAssayResults.title'/>",
         icon: "inspection/inspectionResult.png",
         largeIcon: "inspection/inspectionResult.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")
+            createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />" )
         }
     });
-    var inspectionCostButton = isc.IconButton.create({
-        title: "<spring:message code='inspectionCost.title'/>",
-        icon: "inspection/inspectionCost.png",
-        largeIcon: "inspection/inspectionCost.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
+    <%--/*--%>
+    <%--var inspectionCostButton = isc.IconButton.create({--%>
+    <%--    title: "<spring:message code='inspectionCost.title'/>",--%>
+    <%--    icon: "inspection/inspectionCost.png",--%>
+    <%--    largeIcon: "inspection/inspectionCost.png",--%>
+    <%--    orientation: "vertical",--%>
+    <%--    click: function () {--%>
+    <%--        &lt;%&ndash;createTab("<spring:message code='organization.title'/>", "/department/showForm")&ndash;%&gt;--%>
+    <%--    }--%>
+    <%--});*/--%>
 
     var inspectionRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
@@ -1233,16 +1282,18 @@
         groupTitleOrientation: "top"
     });
     var inspectionRibbonGroup = isc.RibbonGroup.create({
-        title: "بازرسی",
+        title: "<spring:message code='inspection.title'/>",
         numRows: 1,
         colWidths: [20, "*"],
         showTitle: false,
         titleAlign: "left",
         controls: [
-            inspectorAppointmentButton
-            , inspectionMoistureResultButton
-            , inspectionAssayResultButton
-            , inspectionCostButton
+            // inspectorAppointmentButton
+            inspectionMoistureResultButton
+            , inspectionAssayResultButton ,
+            inspectionContractResultButton   //Add By jz
+
+            // , inspectionCostButton
         ],
         autoDraw: false
     });
@@ -1258,8 +1309,8 @@
         members: [inspectionRibbonBar]
     });
     /!*-------------------insurance---------------------------*!/
-    var insurerNominationButton = isc.IconButton.create({
-        title: "<spring:message code='insurerNomination.title'/>",
+    /*   var insurerNominationButton = isc.IconButton.create({
+           title: "<spring:message code='insurerNomination.title'/>",
         icon: "insurance/insurerNomination.png",
         largeIcon: "insurance/insurerNomination.png",
         orientation: "vertical",
@@ -1342,8 +1393,16 @@
         largeIcon: "financial/issuedInvoices.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
             createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
+        }
+    });
+    var issuedInvoiceInternalButton = isc.IconButton.create({
+        title: "<spring:message code='issuedInternalInvoices.title'/>",
+        icon: "financial/issuedInvoices.png",
+        largeIcon: "financial/issuedInvoices.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='issuedInternalInvoices.title'/>", "<spring:url value="/invoiceInternal/showForm" />")
         }
     });
     var receivedInvoicesButton = isc.IconButton.create({
@@ -1352,7 +1411,7 @@
         largeIcon: "financial/receivedInvoices.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
     var financialBalanceButton = isc.IconButton.create({
@@ -1361,15 +1420,26 @@
         largeIcon: "financial/financialBalance.png",
         orientation: "vertical",
         click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
+            createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
 
-    var financialRibbonBar = isc.RibbonBar.create({
+   /* var issuedInvoicesButtonContract = isc.IconButton.create({
+        title: "<spring:message code='main.contractsTab'/>",
+        icon: "financial/issuedInvoices.png",
+        largeIcon: "financial/issuedInvoices.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='main.contractsTab'/>", "<spring:url value="/contact/showFormContractNew"/>")
+        }
+    });*/
+
+    var financialRibbonBarContract = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
         groupTitleAlign: "center",
         groupTitleOrientation: "top"
     });
+
     var financialRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.financial'/>",
         numRows: 1,
@@ -1377,23 +1447,55 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            issuedInvoicesButton
-            // , receivedInvoicesButton
-            // , financialBalanceButton
+            issuedInvoicesButton,
+            issuedInvoiceInternalButton
+            // receivedInvoicesButton,
+            // financialBalanceButton
         ],
         autoDraw: false
     });
+    var financialRibbonBar = isc.RibbonBar.create({
+        backgroundColor: "#f0f0f0",
+        groupTitleAlign: "center",
+        groupTitleOrientation: "top"
+    });
     financialRibbonBar.addGroup(financialRibbonGroup, 0);
 
-    var financialRibbonHLayout = isc.HLayout.create({
+    /*var financialRibbonGroupContract = isc.RibbonGroup.create({
+        title: "<spring:message code='global.menu.test'/>",
+        numRows: 1,
+        colWidths: [20, "*"],
+        showTitle: false,
+        titleAlign: "left",
+        controls: [
+            issuedInvoicesButtonContract
+        ],
+        autoDraw: false
+    });*/
+
+
+   /* var financialRibbonHLayoutContract = isc.HLayout.create({
         width: "100%",
         height: "60",
         // border: "0px solid green",
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
+        members: [financialRibbonBarContract]
+    });*/
+
+  /*  financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);*/
+
+
+    var financialRibbonHLayout = isc.HLayout.create({
+        width: "100%",
+        height: "60",
+        showResizeBar: false,
+        showShadow: false,
+        backgroundColor: "#153560",
         members: [financialRibbonBar]
     });
+
     //---------------------------------------
     var mainTabSet = isc.TabSet.create({
         tabBarPosition: "top",
@@ -1418,9 +1520,7 @@
                             }
                         }
                     });
-
                 }
-
             }),
             "tabScroller", "tabPicker"
         ]
@@ -1430,34 +1530,49 @@
         ID: "menuTabSet",
         tabBarPosition: "top",
         width: "100%",
-        height: "130",
+        height: "18%",
         tabs: [
-            <%--{title: "<spring:message code='main.cartableTab'/>", icon: "", iconSize: 16, pane: cartableRibbonHLayout},--%>
-            {title: "<spring:message code='main.reportTab'/>", icon: "", iconSize: 16, pane: reportRibbonHLayout},
-            <%--{title: "<spring:message code='main.dashboardTab'/>", icon: "", iconSize: 16, pane: dashboardRibbonHLayout},--%>
-            {title: "<spring:message code='main.baseTab'/>", icon: "", iconSize: 16, pane: baseRibbonHLayout},
-            <%--{title: "<spring:message code='main.settingTab'/>", icon: "", iconSize: 16, pane: settingRibbonHLayout},--%>
-            <%--{title: "<spring:message code='main.licenseTab'/>", icon: "", iconSize: 16, pane: licenseRibbonHLayout},--%>
-            <%--{title: "<spring:message code='main.tenderTab'/>", icon: "", iconSize: 16, pane: tenderRibbonHLayout},--%>
-            {title: "<spring:message code='main.contractsTab'/>", icon: "", iconSize: 16, pane: contractRibbonHLayout},
-            {title: "<spring:message code='main.productTab'/>", icon: "", iconSize: 16, pane: productRibbonHLayout},
-            {title: "<spring:message code='main.shipmentTab'/>", icon: "", iconSize: 16, pane: shipmentRibbonHLayout},
-            <%--{title: "<spring:message code='main.inspectionTab'/>",icon: "",iconSize: 16,pane: inspectionRibbonHLayout},--%>
-            <%--{title: "<spring:message code='main.insuranceTab'/>", icon: "", iconSize: 16, pane: insuranceRibbonHLayout},--%>
-            {title: "<spring:message code='main.financialTab'/>", icon: "", iconSize: 16, pane: financialRibbonHLayout}
-
+            <%--{title: "<spring:message code='main.cartableTab'/>", pane: cartableRibbonHLayout},--%>
+            {title: "<spring:message code='main.reportTab'/>", pane: reportRibbonHLayout},
+            <%--{title: "<spring:message code='main.dashboardTab'/>",  pane: dashboardRibbonHLayout},--%>
+            {title: "<spring:message code='main.baseTab'/>", pane: baseRibbonHLayout},
+            {title: "<spring:message code='main.settingTab'/>", pane: settingRibbonHLayout},
+            <%--{title: "<spring:message code='main.licenseTab'/>", pane: licenseRibbonHLayout},--%>
+            <%--{title: "<spring:message code='main.tenderTab'/>", pane: tenderRibbonHLayout},--%>
+            {title: "<spring:message code='main.contractsTab'/>", pane: contractRibbonHLayout},
+            {title: "<spring:message code='main.productTab'/>", pane: productRibbonHLayout},
+            {title: "<spring:message code='main.shipmentTab'/>", pane: shipmentRibbonHLayout},
+            {title: "<spring:message code='main.inspectionTab'/>", pane: inspectionRibbonHLayout},
+            <%--{title: "<spring:message code='main.insuranceTab'/>", pane: insuranceRibbonHLayout},--%>
+            {title: "<spring:message code='main.financialTab'/>", pane: financialRibbonHLayout}
+           /* {title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}*/
         ]
     });
+
     isc.VLayout.create({
         width: "100%",
         height: "100%",
-        // border: "0px solid blue",
         backgroundColor: "",
         members: [headerLayout, menuTabSet, mainTabSet]
     });
 
-    // createTab("<spring:message code='workgroups'/>", "/group/showForm")
-    Delay();
+    var dollar = {};
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: "${contextPath}/api/currency/list",
+            httpMethod: "GET",
+            data: "",
+            callback: function (RpcResponse_o) {
+                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                    var data = JSON.parse(RpcResponse_o.data);
+                    for (x of data) {
+                        dollar[x.nameEn] = x.nameEn;
+                    }
+                } //if rpc
+            } // callback
+        })
+    );
+
+
 </script>
 </body>
 </html>

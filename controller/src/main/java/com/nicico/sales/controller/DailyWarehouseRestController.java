@@ -26,11 +26,9 @@ public class DailyWarehouseRestController {
 
 	private final IDailyWarehouseService dailyWarehouseService;
 	private final ObjectMapper objectMapper;
-	// ------------------------------s
 
 	@Loggable
 	@GetMapping(value = "/{id}")
-	//	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
 	public ResponseEntity<DailyWarehouseDTO.Info> get(@PathVariable Long id) {
 		return new ResponseEntity<>(dailyWarehouseService.get(id), HttpStatus.OK);
 	}

@@ -16,7 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DailyReportBandarAbbasDTO {
-	private String warehouseNo;
+	private String warehouse;
 	private String toDay;
 	private Long materialId;
 	private String plant;

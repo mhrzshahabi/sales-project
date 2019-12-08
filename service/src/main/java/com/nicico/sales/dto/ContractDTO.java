@@ -19,11 +19,21 @@ public class ContractDTO {
 	private String contractNo;
 	private String contractDate;
 	private String isComplete;
-	@NotNull
-	@ApiModelProperty(required = true)
-	private Long contactId;
+    private String incotermsText;
+    private String officeSource;
+    private String priceCalPeriod;
+    private String publishTime;
+    private String reportTitle;
+    private String delay;
+    private String payTime;
+    private String pricePeriod;
+    private String eventPayment;
+    private String contentType;
+    private String amount_en;
+    private String prefixPayment;
 	private Long incotermsId;
 	private Long prepaid;
+    private Long portByPortSourceId;
 	private String prepaidCurrency;
 	private String runFrom;
 	private String runStartDate;
@@ -46,15 +56,30 @@ public class ContractDTO {
 	private Double molybdenumTolorance;
 	private String sideContractNo;
 	private String sideContractDate;
-
+    private String plant;
+    private String timeIssuance;
+    private String invoiceType;
+    private Integer optional;
+    private long contactInspectionId;
+    private Double mo_amount;
+	@NotNull
+	@ApiModelProperty(required = true)
+	private Long contactId; // contactByBuyerId
+	private Long contactByBuyerAgentId;
+	private Long contactBySellerId;
+	private Long contactBySellerAgentId;
 	//------------------------------------------------------
 	@Getter
 	@Setter
 	@ApiModel("ContractInfoTuple")
 	public static class ContractInfoTuple {
 		private String contractNo;
+		private String id;
 		private String contractDate;
 		private ContactDTO.ContactInfoTuple contact;
+		private ContactDTO.ContactInfoTuple contactBySeller;
+		private ContactDTO.ContactInfoTuple contactBySellerAgent;
+		private ContactDTO.ContactInfoTuple contactByBuyerAgent;
 	}
 	//------------------------------------------------------
 
@@ -65,7 +90,6 @@ public class ContractDTO {
 	public static class Info extends ContractDTO {
 		private UnitDTO unit;
 		private MaterialDTO material;
-		private ContactDTO contact;
 		private IncotermsDTO incoterms;
 		private Long id;
 		private Date createdDate;
@@ -73,7 +97,11 @@ public class ContractDTO {
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
-	}
+		private ContactDTO contact;
+		private ContactDTO contactBySeller;
+		private ContactDTO contactBySellerAgent;
+		private ContactDTO contactByBuyerAgent;
+		}
 
 	// ------------------------------
 
@@ -94,9 +122,6 @@ public class ContractDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	// ------------------------------

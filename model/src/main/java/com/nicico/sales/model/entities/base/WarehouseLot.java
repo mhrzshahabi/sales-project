@@ -19,7 +19,7 @@ public class WarehouseLot extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_WAREHOUSE_LOT")
 	@SequenceGenerator(name = "SEQ_WAREHOUSE_LOT", sequenceName = "SEQ_WAREHOUSE_LOT")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Column(name = "c_WAREHOUSE_NO", nullable = false, length = 20)
@@ -85,5 +85,29 @@ public class WarehouseLot extends Auditable {
 
 	@Column(name = "GROSS_WEIGHT")
 	private Double grossWeight;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLotContract"))
+	private Contract contract;
+
+	@Column(name = "CONTRACT_ID")
+	private Long contractId;
+
+    @Column(name = "USED")
+    private Boolean used;
+
+    @Column(name = "BOOKING_NO")
+    private String bookingNo;
+
+    @Column(name = "TYPICAL",length = 20)
+	private String typical;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "WAREHOUSECADITEM_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLot_CadItem"))
+	private WarehouseCadItem warehouseCadItem;
+
+    @Column(name = "WAREHOUSECADITEM_ID")
+	private Long warehouseCadItemId;
+
 
 }

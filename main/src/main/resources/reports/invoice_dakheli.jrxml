@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice_dakheli" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="0f251bb0-41eb-4ba0-839d-c9a9df6124c9">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="invoiceDakheli.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="250"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="743"/>
+	<parameter name="ID" class="java.lang.String"/>
+	<parameter name="logo_nicico" class="java.lang.Object"/>
+	<parameter name="sum_number_to_string" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+    nvl(invoice_internal."INV_DATE",'') AS inv_date,
+    nvl(invoice_internal_customer2."CUST_NAME",'') AS customer_cust_name,
+    nvl(invoice_internal_customer2."CUST_POSTCODE",'') AS customer_cust_postcode,
+    nvl(invoice_internal_customer2."CUST_EGHTESADNUMBER",'') AS customer_cust_eghtesadnumber,
+    nvl(invoice_internal_customer2."CUST_ADDRESS",'') AS customer_cust_address,
+    nvl(invoice_internal_customer2."CUST_TEL",'') AS customer_cust_tel,
+    nvl(invoice_internal_customer2."CUST_SABTNUMBER",'') AS customer_cust_sabtnumber,
+    nvl(invoice_internal_customer1."CUST_NAME",'') AS buyer_cust_name,
+    nvl(invoice_internal_customer1."CUST_POSTCODE",'') AS buyer_cust_postcode,
+    nvl(invoice_internal_customer1."CUST_EGHTESADNUMBER",'') AS buyer_cust_eghtesadnumber,
+    nvl(invoice_internal_customer1."CUST_ADDRESS",'') AS buyer_cust_address,
+    nvl(invoice_internal_customer1."CUST_TEL",'') AS buyer_cust_tel,
+    nvl(invoice_internal_customer1."CUST_TELEX",'') AS buyer_cust_telex,
+    nvl(invoice_internal_customer1."CUST_FAX",'') AS buyer_cust_fax,
+    nvl(invoice_internal_customer1."CUST_SABTNUMBER",'') AS buyer_cust_sabtnumber,
+    nvl(invoice_internal."HAVALEHID",0) AS havalehid,
+    nvl(invoice_internal."GOODSID",0) AS goodsid,
+    nvl(invoice_internal."GDSNAME",'') AS gdsname,
+    nvl(invoice_internal."WEIGHTREAL",0) AS weightreal,
+    nvl(invoice_internal."GHEMATUNIT",0) AS ghematunit,
+    nvl(invoice_internal."MABLAGHKOL",0) AS mablaghkol,
+    nvl(invoice_internal."PAYFORAVAREZMALEYATE",0) AS payforavarezmaleyate,
+    nvl(invoice_internal."BANKGROUPDESC",'') AS bankgroupdesc,
+    nvl(invoice_internal."LCID",'') AS lcid,
+    nvl(invoice_internal_lc."LC_NUMBER",'') AS lc_number
+FROM
+    "TBL_INVOICE_INTERNAL" invoice_internal
+    JOIN "TBL_INVOICE_INTERNAL_CUSTOMER" invoice_internal_customer1 ON invoice_internal_customer1."CUST_ID" = invoice_internal."BUYERID"
+    JOIN "TBL_INVOICE_INTERNAL_CUSTOMER" invoice_internal_customer2 ON invoice_internal_customer2."CUST_ID" = invoice_internal."CUSTOMERID"
+    LEFT JOIN "TBL_INVOICE_INTERNAL_LC" invoice_internal_lc ON invoice_internal_lc."LCID" = invoice_internal."LCID"
+WHERE
+    invoice_internal."ID" = $P{ID}]]>
+	</queryString>
+	<field name="INV_DATE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INV_DATE"/>
+	</field>
+	<field name="CUSTOMER_CUST_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUSTOMER_CUST_NAME"/>
+	</field>
+	<field name="CUSTOMER_CUST_POSTCODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUSTOMER_CUST_POSTCODE"/>
+	</field>
+	<field name="CUSTOMER_CUST_EGHTESADNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUSTOMER_CUST_EGHTESADNUMBER"/>
+	</field>
+	<field name="CUSTOMER_CUST_ADDRESS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUSTOMER_CUST_ADDRESS"/>
+	</field>
+	<field name="CUSTOMER_CUST_TEL" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUSTOMER_CUST_TEL"/>
+	</field>
+	<field name="CUSTOMER_CUST_SABTNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUSTOMER_CUST_SABTNUMBER"/>
+	</field>
+	<field name="BUYER_CUST_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BUYER_CUST_NAME"/>
+	</field>
+	<field name="BUYER_CUST_POSTCODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BUYER_CUST_POSTCODE"/>
+	</field>
+	<field name="BUYER_CUST_EGHTESADNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BUYER_CUST_EGHTESADNUMBER"/>
+	</field>
+	<field name="BUYER_CUST_ADDRESS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BUYER_CUST_ADDRESS"/>
+	</field>
+	<field name="BUYER_CUST_TEL" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BUYER_CUST_TEL"/>
+	</field>
+	<field name="BUYER_CUST_TELEX" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BUYER_CUST_TELEX"/>
+	</field>
+	<field name="BUYER_CUST_FAX" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BUYER_CUST_FAX"/>
+	</field>
+	<field name="BUYER_CUST_SABTNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BUYER_CUST_SABTNUMBER"/>
+	</field>
+	<field name="HAVALEHID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="HAVALEHID"/>
+	</field>
+	<field name="GOODSID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="GOODSID"/>
+	</field>
+	<field name="GDSNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="GDSNAME"/>
+	</field>
+	<field name="WEIGHTREAL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="WEIGHTREAL"/>
+	</field>
+	<field name="GHEMATUNIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="GHEMATUNIT"/>
+	</field>
+	<field name="MABLAGHKOL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="MABLAGHKOL"/>
+	</field>
+	<field name="PAYFORAVAREZMALEYATE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="PAYFORAVAREZMALEYATE"/>
+	</field>
+	<field name="BANKGROUPDESC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BANKGROUPDESC"/>
+	</field>
+	<field name="LCID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="LCID"/>
+	</field>
+	<field name="LC_NUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="LC_NUMBER"/>
+	</field>
+	<pageHeader>
+		<band height="60" splitType="Stretch">
+			<image>
+				<reportElement x="726" y="1" width="72" height="59" uuid="bb1d1d44-c154-4811-bf70-9dcf38736980"/>
+				<imageExpression><![CDATA[$P{logo_nicico}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="90" y="8" width="100" height="20" uuid="abe9ecc0-ca55-4af7-acf0-e569c76546a1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<text><![CDATA[* شماره سریال]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="31" width="100" height="21" uuid="55a930ad-f324-4706-b81d-4171110900e4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<textFieldExpression><![CDATA["تاریخ: "+$F{INV_DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="266" y="3" width="224" height="56" uuid="f46f9468-5239-4011-864b-efc9a1b5ec7d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="11" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[وزارت صنایع و معادن
+شرکت ملی صنایع مس ایران
+صورتحساب فروش]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="363" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout"/>
+			<frame>
+				<reportElement x="0" y="140" width="801" height="91" uuid="768da5fb-7ba2-4cce-b495-e96c77b56956"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="190" y="45" width="191" height="23" uuid="ccef815d-f6ee-4984-915c-b5cc2f53acc8"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["شماره حواله تحویل کالا: "+$F{HAVALEHID}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="537" y="7" width="260" height="23" uuid="510de2c7-1cc3-423a-a7d9-37438d3dbc3f"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["نام شخص حقیقی / حقوقی: "+$F{CUSTOMER_CUST_NAME}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="220" y="8" width="161" height="22" uuid="ade49a0e-f9bf-49a1-b1f4-c9214dcc4c70"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["شماره اقتصادی: "+$F{CUSTOMER_CUST_EGHTESADNUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="16" y="8" width="194" height="22" uuid="606fad73-91f7-465e-b61a-5ca34b4e2839"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["شماره ثبت / شماره ملی: "+$F{CUSTOMER_CUST_SABTNUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="16" y="45" width="164" height="23" uuid="b0f59366-e2b8-4fea-963e-c08574e20c63"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["کد پستی 10 رقمی: "+$F{CUSTOMER_CUST_POSTCODE}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="433" y="38" width="364" height="23" uuid="cc2b014e-1951-4b0d-93cc-21fac17cb541"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["نشانی: "+$F{CUSTOMER_CUST_ADDRESS}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="376" y="69" width="329" height="16" uuid="3a8c6d62-202f-4ff5-a920-547f1ec82efa"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD" size="9" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_TEL}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="4" width="801" height="21" backcolor="#FFFFFF" uuid="a37e3eae-451e-4a2b-af75-d3bc2daab7f4"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<text><![CDATA[مشخصات فروشنده]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="0" y="26" width="801" height="91" uuid="1be8620c-ea1c-4253-8d99-4db6a16a0be8"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="525" y="36" width="272" height="20" uuid="3c80a9b3-14e4-436e-a4de-d00a12ebce18"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[شماره ثبت / شماره ملی:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="477" y="3" width="320" height="30" uuid="544aae02-242e-45fd-a13b-7021c5a9606b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["نام شخص حقیقی / حقوقی:" + $F{BUYER_CUST_NAME}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="570" y="58" width="226" height="31" uuid="1b095993-91da-4935-ab3c-e8aaf7278635"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["کد پستی 10 رقمی: "+$F{BUYER_CUST_POSTCODE}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="270" y="6" width="186" height="20" uuid="50938fe1-7752-48de-b481-9947b12876a3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["شماره اقتصادی: "+$F{BUYER_CUST_EGHTESADNUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="23" y="29" width="434" height="23" uuid="0be017c9-6818-4bb2-bb39-e5c129a987b7"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["نشانی: "+$F{BUYER_CUST_ADDRESS}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="30" y="6" width="229" height="17" uuid="dc545964-b029-41de-a403-c15f66fa10ec"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<textFieldExpression><![CDATA["شناسه ملی: "+$F{BUYER_CUST_SABTNUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="111" y="58" width="49" height="30" uuid="d8481095-7e03-4095-9da1-bf4ce217a999"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[نمابر : ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="15" y="67" width="105" height="16" uuid="5738e796-d7f2-42a7-94b8-4b4ced40f8e9"/>
+					<textElement textAlignment="Left">
+						<font fontName="Shabnam-FD" size="9" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{BUYER_CUST_FAX}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="581" y="66" width="39" height="17" uuid="b08356b3-29ba-428d-8d1e-78527178aa5d"/>
+					<textElement textAlignment="Center">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[تلفن : ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="421" y="66" width="146" height="18" uuid="2fef08ce-bb17-4a7b-86d5-1d4332b05493"/>
+					<textElement textAlignment="Right">
+						<font fontName="Shabnam-FD" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{BUYER_CUST_TEL}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="334" y="58" width="60" height="30" uuid="e1ffb517-252d-4a74-aedc-95f4a4a0a966"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[تلکس:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="170" y="66" width="164" height="15" uuid="d3ce4dc7-693f-488f-8a71-4182b5f5edd0"/>
+					<textElement textAlignment="Center">
+						<font fontName="Shabnam-FD" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{BUYER_CUST_TELEX}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="710" y="182" width="87" height="20" uuid="ddc96818-98da-48e8-9f63-1200fe92ac99"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[شماره تلفن  / نمابر : ]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="118" width="801" height="21" backcolor="#FFFFFF" uuid="4dd88bbe-9a3c-4889-bc5c-5d7f2b1b3cf6"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<text><![CDATA[مشخصات خریدار]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="230" width="801" height="21" backcolor="#FFFFFF" uuid="b6536d99-65af-4dda-8af3-e179f9377390"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<text><![CDATA[مشخصات کالا یا خدمات مورد معامله]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="770" y="257" width="31" height="19" uuid="721507fb-dc2b-4447-84c7-ff0dccacb752"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ردیف]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="600" y="257" width="120" height="19" uuid="efcb8d5a-f5fd-41ac-af65-a231520cc460"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[شرح کالا]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="500" y="257" width="100" height="19" uuid="9c10cb4a-a5ae-41e7-8a28-41b6df7599a6"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[تعداد/مقدار]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="720" y="257" width="50" height="19" uuid="20127370-5365-47e3-bcca-61e883660505"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[کد کالا]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="460" y="257" width="40" height="19" uuid="95c49452-c950-4dd7-bcb0-7aa66eb866cd"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[واحد]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="360" y="257" width="100" height="19" uuid="678b513f-411a-4948-ad8a-a464313975ee"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[مبلغ واحد(ریال)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="130" y="257" width="130" height="19" uuid="5459b72e-7932-4c4a-ba97-8a68d4f0fe18"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[جمع مالیات و عوارض(ریال) 9%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="260" y="257" width="100" height="19" uuid="52579e4f-047b-409d-9a66-2767fc35ba64"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[مبلغ کل(ریال)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="257" width="130" height="19" uuid="7293625d-41da-46d2-8428-3c15029d5e74"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[جمع مبلغ کل بعلاوه جمع مالیات و عوارض]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="770" y="276" width="31" height="30" uuid="9572cad1-2ec5-4d2b-9069-d969f62db8cb"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="600" y="276" width="120" height="30" uuid="6bc4e8bc-68b4-4cc1-9fab-4969cb2bb50e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GDSNAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+				<reportElement x="500" y="276" width="100" height="30" uuid="1c6ad590-f49a-4695-b5c3-3edf4e61af29"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{WEIGHTREAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="460" y="276" width="40" height="30" uuid="e7dacbf1-f3f9-4445-be94-fbbba8b6337f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<text><![CDATA[کیلوگرم]]></text>
+			</staticText>
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+				<reportElement x="360" y="276" width="100" height="30" uuid="2e33b3c1-0bc5-434b-88ae-ad265befcbd8"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{GHEMATUNIT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="260" y="276" width="100" height="30" uuid="76e22f1f-b339-4503-9982-5c2b413bb89e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{MABLAGHKOL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+				<reportElement x="130" y="276" width="130" height="30" uuid="d02ac384-7e2e-42d9-a119-3d83b99fd762"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PAYFORAVAREZMALEYATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="460" y="306" width="40" height="30" uuid="45a0cb05-3763-400a-b757-5d9a8aae26e5"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<text><![CDATA[جمع کل]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="702" y="306" width="99" height="30" uuid="1391d716-0d11-4110-bb28-7a565bc643d0"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<text><![CDATA[شرایط فروش:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="500" y="306" width="100" height="30" uuid="6fff63fa-4d52-4cfb-a282-ea5a03328924"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANKGROUPDESC}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="600" y="306" width="102" height="30" uuid="5819aff0-460b-41a6-bf84-f8a8794e1950"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LCID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="360" y="306" width="100" height="30" uuid="d29c3ae8-0889-4744-a0fd-54a60336933d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+				<reportElement x="260" y="306" width="100" height="30" uuid="38588631-543f-40af-a798-e19b3b15200d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{MABLAGHKOL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="130" y="306" width="130" height="30" uuid="1cdb1302-9078-4480-9cef-8442901fbb9e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PAYFORAVAREZMALEYATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+				<reportElement x="0" y="276" width="130" height="30" uuid="a16bd59c-7bab-47dd-95fa-1e5107ae011c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[SUM($F{MABLAGHKOL},$F{PAYFORAVAREZMALEYATE})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+				<reportElement x="0" y="306" width="130" height="30" uuid="b80128e7-86c6-42f3-9bc6-862961a518e2"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[SUM($F{MABLAGHKOL},$F{PAYFORAVAREZMALEYATE})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="720" y="276" width="50" height="30" uuid="c7ef5d57-366e-4934-8cf7-ec2a5bcab151"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{GOODSID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="339" width="801" height="22" uuid="28f38928-9817-494e-8856-290e2e74e548"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sum_number_to_string}  + " ریال"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="124">
+			<frame>
+				<reportElement x="0" y="26" width="802" height="98" uuid="2504e04c-3efe-4402-8fb0-9ee4f41b83c6"/>
+				<box>
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="529" y="6" width="270" height="44" uuid="378b6cb2-937a-4f2b-9f85-e34bd7319335"/>
+					<box>
+						<pen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[مهر و امضاء فروشنده:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="254" y="6" width="266" height="44" uuid="c7ddee83-578b-4587-8144-15acb2af6be0"/>
+					<box>
+						<pen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[مهر و امضاء خریدار:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="141" y="6" width="100" height="44" uuid="c00f22a6-e0ea-4045-91bc-7fa4ba4acbc4"/>
+					<box>
+						<pen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[شماره اعتبار اسنادی:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="610" y="61" width="100" height="25" uuid="33451272-717f-478f-972c-d5e7ddfff607"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[نسخه اول: مشتری]]></text>
+				</staticText>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="400" y="61" width="100" height="24" uuid="cd57d41e-7ab8-4f93-bb89-a1acb0c21cc9"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[نسخه دوم: امور مالی]]></text>
+				</staticText>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="261" y="61" width="100" height="24" uuid="f4d1c9c9-9b52-45e9-98d3-ec786b8be772"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Shabnam-FD"/>
+					</textElement>
+					<text><![CDATA[نسخه سوم: امور فروش]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="34" y="22" width="100" height="18" uuid="88afe08b-d9ea-4313-ae29-9233cb0c3232"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{LC_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="1" width="802" height="24" uuid="8ebe8869-aec9-4211-8e5d-1ed5fd152836"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<text><![CDATA[  توضیحات:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

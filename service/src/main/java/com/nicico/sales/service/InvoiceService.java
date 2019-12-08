@@ -10,6 +10,9 @@ import com.nicico.sales.repository.InvoiceDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,10 @@ public class InvoiceService implements IInvoiceService {
 
 	private final InvoiceDAO invoiceDAO;
 	private final ModelMapper modelMapper;
+	private final OAuth2RestTemplate restTemplate;
+
+	@Value("${nicico.apps.accounting}")
+	private String accountingAppUrl;
 
 	@Transactional(readOnly = true)
 	public InvoiceDTO.Info get(Long id) {
@@ -73,6 +80,18 @@ public class InvoiceService implements IInvoiceService {
 		final List<Invoice> invoices = invoiceDAO.findAllById(request.getIds());
 
 		invoiceDAO.deleteAll(invoices);
+	}
+
+	@Transactional
+	@Override
+	public InvoiceDTO.Info sendForm2accounting(Long id,String data) {
+		final Invoice invoice=invoiceDAO.findById(id)
+				.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
+		ResponseEntity<String> processId = restTemplate.postForEntity(accountingAppUrl + "/rest/workflow/startSalesProcess", data, String.class);
+		System.out.println("#### forObject = " + processId.getBody().toString());
+		invoice.setProcessId(processId.getBody().toString());
+		return save(invoice);
+
 	}
 
 	@Transactional(readOnly = true)

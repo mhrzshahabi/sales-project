@@ -21,23 +21,23 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable {
-	@CreatedDate
-	@Column(name = "d_created_date", nullable = false, updatable = false)
-	private Date createdDate;
+    @CreatedDate
+    @Column(name = "d_created_date", nullable = false, updatable = false)
+    private Date createdDate;
 
-	@CreatedBy
-	@Column(name = "c_created_by", nullable = false, updatable = false)
-	private String createdBy;
+    @CreatedBy
+    @Column(name = "c_created_by", nullable = false, updatable = false)
+    private String createdBy;
 
-	@LastModifiedDate
-	@Column(name = "d_last_modified_date")
-	private Date lastModifiedDate;
+    @LastModifiedDate
+    @Column(name = "d_last_modified_date")
+    private Date lastModifiedDate;
 
-	@LastModifiedBy
-	@Column(name = "c_last_modified_by")
-	private String lastModifiedBy;
+    @LastModifiedBy
+    @Column(name = "c_last_modified_by")
+    private String lastModifiedBy;
 
-	@Version
-	@Column(name = "n_version", nullable = false)
-	private Integer version;
+    @Version
+    @Column(name = "n_version", nullable = false)
+    private Integer version;
 }

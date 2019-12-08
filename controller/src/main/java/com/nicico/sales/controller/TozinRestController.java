@@ -1,10 +1,10 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
-import com.nicico.copper.common.dto.search.EOperator;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.TozinDTO;
@@ -12,9 +12,9 @@ import com.nicico.sales.iservice.ITozinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,48 +82,6 @@ public class TozinRestController {
 	}
 
 	@Loggable
-	@GetMapping(value = "/spec-list")
-//    @PreAuthorize("hasAuthority('r_tozin')")
-	public ResponseEntity<TozinDTO.TozinSpecRs> list(@RequestParam("_startRow") Integer startRow,
-													 @RequestParam("_endRow") Integer endRow,
-													 @RequestParam(value = "_constructor", required = false) String constructor,
-													 @RequestParam(value = "operator", required = false) String operator,
-													 @RequestParam(value = "_sortBy", required = false) String sortBy,
-													 @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		SearchDTO.CriteriaRq criteriaRq;
-		if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
-			criteria = "[" + criteria + "]";
-			criteriaRq = new SearchDTO.CriteriaRq();
-			criteriaRq.setOperator(EOperator.valueOf(operator))
-					.setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
-					}));
-
-			if (StringUtils.isNotEmpty(sortBy)) {
-				request.setSortBy(sortBy);
-			}
-
-			request.setCriteria(criteriaRq);
-		}
-
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
-
-		SearchDTO.SearchRs<TozinDTO.Info> response = tozinService.search(request);
-
-		final TozinDTO.SpecRs specResponse = new TozinDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final TozinDTO.TozinSpecRs specRs = new TozinDTO.TozinSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
-	}
-
-	@Loggable
 	@GetMapping(value = "/showTransport2Plants/{date}")
 //    @PreAuthorize("hasAuthority('r_tozin')")
 	public ResponseEntity<String> list(@PathVariable("date") String date) throws IOException {
@@ -155,6 +113,20 @@ public class TozinRestController {
 	public ResponseEntity<SearchDTO.SearchRs<TozinDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
 		return new ResponseEntity<>(tozinService.search(request), HttpStatus.OK);
 	}
+
+	@Loggable
+	@GetMapping(value = {"/search-tozin","/spec-list"})
+	public ResponseEntity<TotalResponse<TozinDTO.Info>> searchTozin(@RequestParam MultiValueMap<String, String> criteria) {
+		if(criteria.containsKey("criteria") && criteria.get("criteria").get(0).contains("mazloom")){
+			criteria.get("criteria").remove(0);
+			final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+			return new ResponseEntity<>(tozinService.searchTozinOnTheWay(nicicoCriteria), HttpStatus.OK);
+		} else {
+			final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+			return new ResponseEntity<>(tozinService.searchTozin(nicicoCriteria), HttpStatus.OK);
+		}
+	}
+
 	//---------------------------------------------------------------
 	@Loggable
 	@GetMapping(value = {"/print/{type}/{date}"})

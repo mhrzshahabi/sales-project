@@ -9,10 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {"com.nicico"}, exclude = {SecurityAutoConfiguration.class})
 @EnableJpaAuditing(modifyOnCreate = false, auditorAwareRef = "auditorProvider")
-@EntityScan(basePackages = {"com.nicico"})
-@EnableJpaRepositories("com.nicico")
+@EntityScan(basePackages = {"com.nicico.sales.model"})
+@EnableJpaRepositories("com.nicico.sales.repository")
 public class SalesApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SalesApplication.class, args);
     }

@@ -19,11 +19,11 @@ public class DailyWarehouse extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DAILY_WAREHOUSE")
 	@SequenceGenerator(name = "SEQ_DAILY_WAREHOUSE", sequenceName = "SEQ_DAILY_WAREHOUSE")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Column(name = "WAREHOUSE_NO", nullable = false, length = 20)
-	private String warehouseNo;
+	private String warehouse;
 
 	@Column(name = "TO_DAY", nullable = false, length = 20)
 	private String toDay;

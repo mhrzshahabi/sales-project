@@ -14,16 +14,16 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Subselect("select * from view_tozin")
+@Subselect("select * from tbl_tozin")
 public class Tozin extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "base_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq")
 	@SequenceGenerator(name = "base_seq")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
-	@Column(name = "PID", precision = 10)
+	@Column(name = "PID")
 	private Long pId;
 
 	@Column(name = "CARD_ID")

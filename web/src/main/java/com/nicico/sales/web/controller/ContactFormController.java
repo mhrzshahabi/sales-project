@@ -11,4 +11,55 @@ public class ContactFormController {
     public String showContact() {
         return "base/contact";
     }
+
+    @RequestMapping("/showFormContractNew")
+    public String showTozinTest() {
+        return "contract/contractNew";
+    }
+
+    @RequestMapping("/contactMolybdenum")
+    public String contactNew() {
+        return "contract/molybdenum/contactMolybdenumPage1";
+    }
+
+    @RequestMapping("/cadMain")
+    public String contactCad() {
+        return "contract/cad/cadMain";
+    }
+
+    @RequestMapping("/cadPageBase")
+    public String contactCadPageBase() {
+        return "contract/cad/cadPageBase";
+    }
+
+    @RequestMapping("/cadPage1")
+    public String contactCadPage1() {
+        return "contract/cad/cadPage1";
+    }
+
+    @RequestMapping("/cadPage2")
+    public String contactCadPage2() {
+        return "contract/cad/cadPage2";
+    }
+
+    @RequestMapping("/concMain")
+    public String contactConc() {
+        return "contract/conc/concMain";
+    }
+
+    @RequestMapping("/concPageBase")
+    public String contactConcPageBase() {
+        return "contract/conc/concPageBase";
+    }
+
+    @RequestMapping("/concPage1")
+    public String contactConcPage1() {
+        return "contract/cad/concPage1";
+    }
+
+    @RequestMapping("/concPage2")
+    public String contactConcPage2() {
+        return "contract/cad/concPage2";
+    }
+
 }

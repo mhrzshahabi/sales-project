@@ -19,7 +19,7 @@ public class Unit extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_UNIT")
 	@SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Column(name = "c_CODE", nullable = false, length = 100)

@@ -20,4 +20,5 @@ public interface IDCCService {
 	void delete(DCCDTO.Delete request);
 
 	SearchDTO.SearchRs<DCCDTO.Info> search(SearchDTO.SearchRq request);
+	Long findNextImageNumber();
 }

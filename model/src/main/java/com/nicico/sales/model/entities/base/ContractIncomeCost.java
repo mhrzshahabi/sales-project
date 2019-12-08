@@ -3,6 +3,7 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Subselect;
 import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.*;
@@ -14,14 +15,13 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Immutable
-@Table(name = "VIEW_CONTRACT_INCOME_COST")
+@Subselect("select * from VIEW_CONTRACT_INCOME_COST")
 public class ContractIncomeCost extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BANK")
 	@SequenceGenerator(name = "SEQ_BANK", sequenceName = "SEQ_BANK")
-    @Column(name = "ID", precision = 10)
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "C_CONTRACT_NO")

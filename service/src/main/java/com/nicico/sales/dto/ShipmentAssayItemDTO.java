@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.ShipmentAssayHeader;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -17,7 +16,6 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentAssayItemDTO {
-	private ShipmentAssayHeader shipmentAssayHeader;
 	@NotNull
 	@ApiModelProperty(required = true)
 	private Long shipmentAssayHeaderId;
@@ -34,6 +32,7 @@ public class ShipmentAssayItemDTO {
 	@ApiModel("ShipmentAssayItemInfo")
 	public static class Info extends ShipmentAssayItemDTO {
 		private Long id;
+		private ShipmentAssayHeaderDTO shipmentAssayHeader;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;

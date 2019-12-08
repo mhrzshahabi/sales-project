@@ -36,7 +36,7 @@
 	</style>
 	<subDataset name="content" uuid="912bc267-5c8d-4338-a85b-fa3e277482d4">
 		<field name="descp" class="java.lang.String"/>
-		<field name="warehouseNo" class="java.lang.String"/>
+		<field name="warehouse" class="java.lang.String"/>
 		<field name="toDay" class="java.lang.String"/>
 		<field name="plant" class="java.lang.String"/>
 		<field name="packingType" class="java.lang.String"/>

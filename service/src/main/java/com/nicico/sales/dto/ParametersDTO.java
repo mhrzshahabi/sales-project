@@ -21,6 +21,8 @@ public class ParametersDTO {
 	private String paramName;
 	private String paramType;
 	private String paramValue;
+	private Integer contractId;
+	private Integer categoryValue;
 	// ------------------------------
 
 	@Getter

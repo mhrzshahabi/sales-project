@@ -19,11 +19,11 @@ public class InspectionContract extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INSPECTION_CONTRACT")
 	@SequenceGenerator(name = "SEQ_INSPECTION_CONTRACT", sequenceName = "SEQ_INSPECTION_CONTRACT")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
 	private Shipment shipment;
 
@@ -79,6 +79,13 @@ public class InspectionContract extends Auditable {
 	@Column(name = "EMAIL_RESPOND", length = 4000)
 	private String emailRespond;
 
+/*Jz*/
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false)
+	private Contact contact;
+	@Column(name = "CONTACT_ID")
+	private Long contactId;
    /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOAD_PORT")
     private TblPort tblPortByLoadPort;*/

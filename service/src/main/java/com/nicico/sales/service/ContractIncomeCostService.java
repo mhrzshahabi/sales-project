@@ -20,6 +20,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+//    @PreAuthorize("hasAuthority('R_CONTRACT_INCOME_COST')")
     public ContractIncomeCostDTO.Info get(Long id) {
         final Optional<ContractIncomeCost> slById = contractIncomeCostDAO.findById(id);
         final ContractIncomeCost contractIncomeCost = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractIncomeCostNotFound));
@@ -46,6 +48,7 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_CONTRACT_INCOME_COST')")
     public List<ContractIncomeCostDTO.Info> list() {
         final List<ContractIncomeCost> slAll = contractIncomeCostDAO.findAll();
 
@@ -55,6 +58,7 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('C_CONTRACT_INCOME_COST')")
     public ContractIncomeCostDTO.Info create(ContractIncomeCostDTO.Create request) {
         final ContractIncomeCost contractIncomeCost = modelMapper.map(request, ContractIncomeCost.class);
 
@@ -63,6 +67,7 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('U_CONTRACT_INCOME_COST')")
     public ContractIncomeCostDTO.Info update(Long id, ContractIncomeCostDTO.Update request) {
         final Optional<ContractIncomeCost> slById = contractIncomeCostDAO.findById(id);
         final ContractIncomeCost contractIncomeCost = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractIncomeCostNotFound));
@@ -76,12 +81,14 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('D_CONTRACT_INCOME_COST')")
     public void delete(Long id) {
         contractIncomeCostDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('D_CONTRACT_INCOME_COST')")
     public void delete(ContractIncomeCostDTO.Delete request) {
         final List<ContractIncomeCost> contractIncomeCosts = contractIncomeCostDAO.findAllById(request.getIds());
 
@@ -90,11 +97,10 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_CONTRACT_INCOME_COST')")
     public SearchDTO.SearchRs<ContractIncomeCostDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(contractIncomeCostDAO, request, contractIncomeCost -> modelMapper.map(contractIncomeCost, ContractIncomeCostDTO.Info.class));
     }
-
-    // ------------------------------
 
     private ContractIncomeCostDTO.Info save(ContractIncomeCost contractIncomeCost) {
         final ContractIncomeCost saved = contractIncomeCostDAO.saveAndFlush(contractIncomeCost);
@@ -102,8 +108,8 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
     }
 
     @Override
-    public void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns,  ArrayList<String> fields, String type, HttpServletResponse httpServletResponse) throws JRException, IOException {
-        JasperDesign jasperDesign = ReportBuilder.getPageTemplateDesign(getClass().getResourceAsStream("/reports/report.jrxml"), columns ,fields);
+    public void pdfFx(List<ContractIncomeCostDTO.Info> myList, ArrayList<String> columns, ArrayList<String> fields, String type, HttpServletResponse httpServletResponse) throws JRException, IOException {
+        JasperDesign jasperDesign = ReportBuilder.getPageTemplateDesign(getClass().getResourceAsStream("/reports/report.jrxml"), columns, fields);
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(myList));
         switch (type) {

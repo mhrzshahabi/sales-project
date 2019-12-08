@@ -19,12 +19,12 @@ public class Invoice extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INVOICE")
 	@SequenceGenerator(name = "SEQ_INVOICE", sequenceName = "SEQ_INVOICE")
-	@Column(name = "ID", precision = 10)
+	@Column(name = "ID")
 	private Long id;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "INVOICE2SHIPMENT"))
 	private Shipment Shipment;
 
 	@Column(name = "SHIPMENT_ID", length = 10)
@@ -40,58 +40,58 @@ public class Invoice extends Auditable {
 	private String invoiceType;
 
 	@Column(name = "NET")
-	private Float net;
+	private Double net;
 
 	@Column(name = "GRASS")
-	private Float grass;
+	private Double grass;
 
 	@Column(name = "UNIT_PRICE")
-	private Float unitPrice;
+	private Double unitPrice;
 
 	@Column(name = "UNIT_PRICE_CUR", length = 10)
 	private String unitPriceCurrency;
 
 	@Column(name = "INVOICE_VALUE")
-	private Float invoiceValue;
+	private Double invoiceValue;
 
 	@Column(name = "INVOICE_VALUE_CUR", length = 10)
 	private String invoiceValueCurrency;
 
 	@Column(name = "PAID_PERCENT")
-	private Float paidPercent;
+	private Double paidPercent;
 
-	@Column(name = "PAID_STATUS")
+	@Column(name = "PAID_STATUS", length = 10)
 	private String paidStatus;
 
 	@Column(name = "DEPRECIATION")
-	private Float Depreciation;
+	private Double Depreciation;
 
 	@Column(name = "OTHER_COST")
-	private Float otherCost;
+	private Double otherCost;
 
 	@Column(name = "GOLD")
-	private Float gold;
+	private Double gold;
 
 	@Column(name = "SILVER")
-	private Float silver;
+	private Double silver;
 
 	@Column(name = "COPPER")
-	private Float copper;
+	private Double copper;
 
 	@Column(name = "MOLYBDENUM")
-	private Float molybdenum;
+	private Double molybdenum;
 
 	@Column(name = "MOLYBDENUM_UNIT_PRICE")
-	private Float molybdJenumUnitPrice;
+	private Double molybdJenumUnitPrice;
 
 	@Column(name = "COPPER_UNIT_PRICE")
-	private Float copperUnitPrice;
+	private Double copperUnitPrice;
 
 	@Column(name = "SILVER_UNIT_PRICE")
-	private Float silverUnitPrice;
+	private Double silverUnitPrice;
 
 	@Column(name = "GOLD_UNIT_PRICE")
-	private Float goldUnitPrice;
+	private Double goldUnitPrice;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -100,5 +100,133 @@ public class Invoice extends Auditable {
 
 	@Column(name = "BOL_HEADER_ID")
 	private Long bolHeaderId;
+
+	@Column(name = "PRICE_BASE", length = 255)
+	private String priceBase;
+
+	@Column(name = "MOLYBDENUM_CONTENT")
+	private Double molybdenumContent;
+
+	@Column(name = "COMMERCIAL_INVOICE_VALUE")
+	private Double commercialInvoceValue;
+
+	@Column(name = "COMMERCIAL_INVOICE_VALUE_NET")
+	private Double commercialInvoceValueNet;
+
+	@Column(name = "INVOIVE_VALUE_D")
+	private Double invoiceValueD;
+
+	@Column(name = "RATE_BASE", length = 255)
+	private String rateBase;
+
+	@Column(name = "RATE2DOLLAR")
+	private Double rate2dollar;
+
+	@Column(name = "INVOIVE_VALUE_UP")
+	private Double invoiceValueUp;
+
+	@Column(name = "COPPER_INS")
+	private Double copperIns;
+
+	@Column(name = "COPPER_DED")
+	private Double copperDed;
+
+	@Column(name = "COPPER_CAL")
+	private Double copperCal;
+
+	@Column(name = "SILVER_INS")
+	private Double silverIns;
+
+	@Column(name = "SILVER_DED")
+	private Double silverDed;
+
+	@Column(name = "SILVER_OZ")
+	private Double silverOun;
+
+	@Column(name = "SILVER_CAL")
+	private Double silverCal;
+
+	@Column(name = "GOLD_INS")
+	private Double goldIns;
+
+	@Column(name = "GOLD_DED")
+	private Double goldDed;
+
+	@Column(name = "GOLD_OZ")
+	private Double goldOun;
+
+	@Column(name = "GOLD_CAL")
+	private Double goldCal;
+
+	@Column(name = "SUB_TOTAL")
+	private Double subTotal;
+
+	@Column(name = "TREAT_COST")
+	private Double treatCost;
+
+	@Column(name = "RC_CU")
+	private Double refinaryCostCU;
+
+	@Column(name = "RC_CU_PER")
+	private Double refinaryCostCUPer;
+
+	@Column(name = "RC_CU_CAL")
+	private Double refinaryCostCUCal;
+
+	@Column(name = "RC_CU_TOT")
+	private Double refinaryCostCUTot;
+
+	@Column(name = "RG_AG")
+	private Double refinaryCostAG;
+
+	@Column(name = "RC_AG_PER")
+	private Double refinaryCostAGPer;
+
+	@Column(name = "RC_AG_TOT")
+	private Double refinaryCostAGTot;
+
+	@Column(name = "RC_AU")
+	private Double refinaryCostAU;
+
+	@Column(name = "RC_AU_PER")
+	private Double refinaryCostAUPer;
+
+	@Column(name = "RC_AU_TOT")
+	private Double refinaryCostAUTot;
+
+	@Column(name = "SUB_TOTAL_DEDUCTION")
+	private Double subTotalDeduction;
+
+	@Column(name = "PRICE_REFERENCE", length = 255)
+	private String priceReference;
+
+	@Column(name = "PRICE_FUNCTION", length = 255)
+	private String priceFunction;
+
+	@Column(name = "PRICE_FROM_DATE", length = 255)
+	private String priceFromDate;
+
+	@Column(name = "PRICE_TO_DATE", length = 255)
+	private String priceToDate;
+
+	@Column(name = "SELLERID")
+	private Long sellerId;
+
+	@Column(name = "BUYERID")
+	private Long buyerId;
+
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SELLERID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "INVOICE2CONTACT_SELLER"))
+	private Contact seller;
+
+	@Setter(AccessLevel.NONE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BUYERID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "INVOICE2CONTACT_BUYER"))
+	private Contact buyer;
+
+	@Column(name = "PROCESSID")
+	private String processId;
+
 
 }

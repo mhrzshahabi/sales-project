@@ -640,7 +640,7 @@ ul {
 }
 
 .comboBoxItemPendingText {
-	color: #0066CC;
+	color: #5ABEFF;
 }
 
 .selectItemControl,
@@ -1576,7 +1576,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 	font-family: Verdana, Bitstream Vera Sans, sans-serif;
 	font-size: 11px;
 	color: black;
-	background-color: #CCCCCC;
+	background-color: #5ABEFF;
 	border-left: 1px solid white;
 	border-top: 1px solid white;
 	border-right: 1px solid #808080;
@@ -2527,7 +2527,7 @@ a.calMonthEventLink:active {
 .eventWindow {
 	font-size: 9px;
 	background-color: #649ED8;
-	border: 1px solid #004D99;
+	border: 1px solid #5ABEFF;
 	padding: 0px;
 	margin: 0px;
 }
@@ -2537,13 +2537,13 @@ a.calMonthEventLink:active {
 .eventWindowLabel {
 	font-size: 9px;
 	color: white;
-	background-color: #004D99;
+	background-color: #5ABEFF;
 	margin: 0px;
 }
 
 .eventWindowBody {
 	font-size: 9px;
-	background-color: #649ED8;
+	background-color: #5ABEFF;
 	padding: 3px;
 }
 
@@ -2647,7 +2647,7 @@ a.calMonthEventLink:active {
 .propSheetValueError {
 	font-family: Verdana, Bitstream Vera Sans, sans-serif;
 	font-size: 11px;
-	color: #204268;
+	color: #5ABEFF;
 	background-color: #CFD9F2
 }
 

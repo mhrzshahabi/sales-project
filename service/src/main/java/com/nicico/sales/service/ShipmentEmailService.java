@@ -1,7 +1,9 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.copper.core.util.mail.MailUtil;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ShipmentEmailDTO;
 import com.nicico.sales.iservice.IShipmentEmailService;
@@ -13,6 +15,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +25,7 @@ public class ShipmentEmailService implements IShipmentEmailService {
 
 	private final ShipmentEmailDAO shipmentEmailDAO;
 	private final ModelMapper modelMapper;
-
+	private final MailUtil mailUtil;
 	@Transactional(readOnly = true)
 	public ShipmentEmailDTO.Info get(Long id) {
 		final Optional<ShipmentEmail> slById = shipmentEmailDAO.findById(id);
@@ -42,8 +45,22 @@ public class ShipmentEmailService implements IShipmentEmailService {
 
 	@Transactional
 	@Override
-	public ShipmentEmailDTO.Info create(ShipmentEmailDTO.Create request) {
+	public ShipmentEmailDTO.Info create(ShipmentEmailDTO.Create request)throws MessagingException {
 		final ShipmentEmail shipmentEmail = modelMapper.map(request, ShipmentEmail.class);
+                mailUtil.sendGoogleEmailMessage(shipmentEmail.getEmailTo(),shipmentEmail.getEmailCC().split(","),null
+                        ,shipmentEmail.getEmailSubject(),shipmentEmail.getEmailBody(),
+                        null,null);
+//                        new ArrayList<byte[]>(){{add(content);}}
+//                        ,new ArrayList<String>(Arrays.asList(new String[]{"text.txt"})));
+		try {
+			mailUtil.sendNicicoEmailMessage(shipmentEmail.getEmailTo(),shipmentEmail.getEmailCC().split(","),null
+					,shipmentEmail.getEmailSubject(),shipmentEmail.getEmailBody(),
+						null,null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+//            		 new ArrayList<byte[]>(){{add(content);}}
+//                    ,new ArrayList<String>(Arrays.asList(new String[]{"text.txt"})));
 
 		return save(shipmentEmail);
 	}
@@ -77,8 +94,8 @@ public class ShipmentEmailService implements IShipmentEmailService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public SearchDTO.SearchRs<ShipmentEmailDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(shipmentEmailDAO, request, shipmentEmail -> modelMapper.map(shipmentEmail, ShipmentEmailDTO.Info.class));
+	public TotalResponse<ShipmentEmailDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(shipmentEmailDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentEmailDTO.Info.class));
 	}
 
 	// ------------------------------

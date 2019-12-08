@@ -117,7 +117,7 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100",
+        titleWidth: 100,
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 1,
@@ -217,7 +217,7 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-                {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: 480, type: "date"},
+                {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: 480, type: "date" , required: true,},
                 {type: "RowSpacerItem"}
             ]
     });
