@@ -33,6 +33,10 @@
         ListGrid_ContractIncomeCost.invalidateCache();
     }
 
+    function ListGrid_ContractIncomeCost_field_picker() {
+        pickableFields.delayCall("editFields");
+    }
+
     var RestDataSource_ContractIncomeCost = isc.MyRestDataSource.create({
         fields:
             [
@@ -60,7 +64,7 @@
                 title: "جستجو",
                 icon: "icon/search.png",
                 click: function () {
-                    ListGrid_ContractIncomeCost.fetchData(fltContractIncomeCost.getCriteria());
+                    ListGrid_ContractIncomeCost.filterData(fltContractIncomeCost.getCriteria());
                 }
             })
         ]
@@ -134,11 +138,20 @@
         }
     });
 
+    var ToolStripButton_ContractIncomeCost_FieldPicker = isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/add.png",
+        title: "<spring:message code='global.selectfieldpicker'/>",
+        click: function () {
+            ListGrid_ContractIncomeCost_field_picker();
+        }
+    });
+
     var ToolStrip_Actions_ContractIncomeCost = isc.ToolStrip.create({
         width: "100%",
         members:
             [
                 ToolStripButton_ContractIncomeCost_Refresh,
+                ToolStripButton_ContractIncomeCost_FieldPicker,
                 isc.Label.create({
                     width: 25,
                 }),
