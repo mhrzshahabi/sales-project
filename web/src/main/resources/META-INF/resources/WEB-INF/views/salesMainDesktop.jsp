@@ -53,8 +53,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    isc.FileLoader.loadLocale("en");
-
     isc.defineClass("MyRestDataSource", RestDataSource);
 
     isc.MyRestDataSource.addProperties({
@@ -72,21 +70,6 @@
             return this.Super("transformResponse", arguments);
         }
     });
-
-    // isc.ViewLoader.addMethods({
-    //     handleError: function (rq, rs) {
-    //         console.log("Global ViewLoader Error: ", rq, rs);
-    //         if (rs.httpResponseCode === 403) { // Forbidden
-    //             nicico.error("Access Denied");  //TODO: I18N message key
-    //         } else {
-    //             redirectLogin();
-    //         }
-    //         return false;
-    //     },
-    //     handleSuccess: function(rq, rs){
-    //         alert(12345);
-    //     }
-    // });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -247,6 +230,12 @@
         }]
     });
     languageForm.setValue("languageName", "<c:out value='${pageContext.response.locale}'/>");
+
+    if(languageForm.getValue("languageName") === 'fa') {
+        isc.FileLoader.loadLocale("fa")
+    } else {
+        isc.FileLoader.loadLocale("en");
+    }
 
     var emptyLabel_Before = isc.Label.create({
         width: "25%",
@@ -533,12 +522,12 @@
         }
     });
     var warehouseYardButton = isc.IconButton.create({
-        title: "<spring:message code='warehouseYard.title'/>",
+        title: "<spring:message code='warehouseCad.yard'/>",
         icon: "basicTables/warehouse.png",
         largeIcon: "basicTables/warehouse.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='warehouseYard.title'/>", "<spring:url value="/warehouseYard/showForm" />")
+            createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
         }
     });
     var countryButton = isc.IconButton.create({
@@ -837,16 +826,7 @@
             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
         }
     });
-/*Add By JZ*/
-    var salesContractCharterButton = isc.IconButton.create({
-        title: "<spring:message code='salesContract.title'/>",
-        icon: "contract/charter.png",
-        largeIcon: "contract/charter.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/charter/showForm" />")
-        }
-    });
+
 
     var salesContractMoButton = isc.IconButton.create({
         title: "<spring:message code='salesContractMoButton.title'/>",
@@ -894,6 +874,7 @@
         }
     });
 
+    /*Add Jz*/
     var inspectionContractButton = isc.IconButton.create({
         title: "<spring:message code='inspectionContract.title'/>",
         icon: "contract/inspectionContract.png",
@@ -903,6 +884,20 @@
             createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
         }
     });
+
+
+    /*Add Jz*/
+    /*var CharterButton = isc.IconButton.create({
+        title: "<spring:message code='charter.title'/>",
+        icon: "contract/sea.png",
+        largeIcon: "contract/sea.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='charter.title'/>", "<spring:url value="/charter/showForm" />")
+        }
+    });*/
+
+
 
     var insuranceContractButton = isc.IconButton.create({
         title: "<spring:message code='insuranceContract.title'/>",
@@ -921,7 +916,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton]})
+            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton /*, CharterButton*/ ]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton

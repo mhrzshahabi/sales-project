@@ -182,6 +182,18 @@
             ListGrid_PaymentOption_remove();
         }
     });
+
+    /*Add by jz*/
+        var ToolStripButton_PaymentOption_Help = isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/help_ch.png",
+        title: "<spring:message code='global.from.help'/>",
+        click: function () {
+            // ListGrid_PaymentOption_remove();
+        }
+    });
+
+
+
     var ToolStrip_Actions_PaymentOption = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -189,9 +201,12 @@
                 ToolStripButton_PaymentOption_Refresh,
                 ToolStripButton_PaymentOption_Add,
                 ToolStripButton_PaymentOption_Edit,
-                ToolStripButton_PaymentOption_Remove
+                ToolStripButton_PaymentOption_Remove,
+                ToolStripButton_PaymentOption_Help
             ]
     });
+
+
 
     var HLayout_PaymentOption_Actions = isc.HLayout.create({
         width: "100%",

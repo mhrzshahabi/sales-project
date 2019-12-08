@@ -38,7 +38,6 @@ public class InspectionContractFormController {
 	ShipmentDTO.Info shipment ;
 
 
-
 	/*return Page inspectionContract.jsp*/
 	@RequestMapping("/showForm")
 	public String showInspectionContract() {
