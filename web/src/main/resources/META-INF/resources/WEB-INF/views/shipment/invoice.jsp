@@ -412,6 +412,19 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentId", title: "id", canEdit: false, hidden: true},
+                {name: "processId", title: "<spring:message code='invoice.processId'/>", width: "10%"},
+                {name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>", width: "10%"},
+                {name: "invoiceDate"},
+                {name: "invoiceType" },
+                {name: "net", },
+                {name: "grass"},
+                {name: "unitPrice"},
+                {name: "unitPriceCurrency"},
+                {name: "invoiceValue"},
+                {name: "invoiceValueCurrency"},
+                { name: "paidPercent"},
+                {name: "paidStatus"},
+                {name: "Depreciation"}
             ],
 
         fetchDataURL: "${contextPath}/api/invoice/spec-list"
@@ -1228,33 +1241,7 @@
                     title: "<spring:message code='invoice.Depreciation'/>",
                     type: 'float',
                     width: "10%"
-                },
-                <%--{name: "otherCost", title: "<spring:message code='invoice.otherCost'/>", type: 'float', width: "10%"},--%>
-                <%--{--%>
-                    <%--name: "copperUnitPrice",--%>
-                    <%--title: "<spring:message code='invoice.copperUnitPrice'/>",--%>
-                    <%--type: 'float',--%>
-                    <%--width: "10%"--%>
-                <%--},--%>
-                <%--{name: "copper", title: "<spring:message code='invoice.copper'/>", type: 'float', width: "10%"},--%>
-                <%--{--%>
-                    <%--name: "goldUnitPrice",--%>
-                    <%--title: "<spring:message code='invoice.goldUnitPrice'/>",--%>
-                    <%--type: 'float',--%>
-                    <%--width: "10%"--%>
-                <%--},--%>
-                <%--{name: "gold", title: "<spring:message code='invoice.gold'/>", type: 'float', width: "10%"},--%>
-                <%--{--%>
-                    <%--name: "silverUnitPrice",--%>
-                    <%--title: "<spring:message code='invoice.silverUnitPrice'/>",--%>
-                    <%--type: 'float',--%>
-                    <%--width: "10%"--%>
-                <%--},--%>
-                <%--{name: "silver", title: "<spring:message code='invoice.silver'/>", type: 'float', width: "10%"},--%>
-                <%--{--%>
-                    <%--name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>", type: 'float', width: "10%"--%>
-                <%--},--%>
-                <%--{name: "molybdenum", title: "<spring:message code='invoice.molybdenum'/>", type: 'float', width: "10%"},--%>
+                }
             ],
         sortField: 0,
         autoFetchData: false,

@@ -517,7 +517,7 @@
             {
                 name: "contact.nameFA",
                 title: "<spring:message code='contact.name'/>",
-                type: 'long',
+                type: 'text',
                 width: 120,
                 align: "center",
             },

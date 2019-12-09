@@ -421,7 +421,7 @@
                 name: "contact.nameFA",
                 title: "<spring:message code='contact.name'/>",
                 type: 'long',
-                width: 120,
+                width: "10%",
                 align: "center"
             },
             {
@@ -429,33 +429,26 @@
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: 150
+                width: "10%"
             },
-            {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 150},
+            {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: "10%"},
             {
                 name: "title",
                 title: "<spring:message code='person.title'/>",
                 type: 'text',
-                width: 150,
+                width: "10%",
                 valueMap: {
                     "MR": "<spring:message code='global.MR'/>",
                     "MIS": "<spring:message code='global.MIS'/>",
                     "MS": "<spring:message code='global.MRS'/>",
                 }
             },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 150},
-            {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 150},
-            {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 150},
-            {name: "webAddress", title: "<spring:message code='person.webAddress'/>", type: 'text', width: 150},
-            {name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 150},
-            {name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 150},
-            {name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: 150},
-            {name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: 150},
-            {name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: 150},
-            {name: "whatsApp", title: "<spring:message code='person.whatsApp'/>", type: 'text', width: 150},
-            {name: "weChat", title: "<spring:message code='person.weChat'/>", type: 'text', width: 150},
-            {name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: 150},
-
+            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: "10%"},
+            {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: "10%"},
+            {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: "10%"},
+            {name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: "10%"},
+            {name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: "10%"},
+            {name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: "10%"}
         ],
         sortField: 0,
         autoFetchData: true,
@@ -967,7 +960,7 @@
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
-                width: 400,
+                width: "10%",
                 hidden: true
             },
             {
@@ -975,14 +968,14 @@
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: "10%"
             },
             {
                 name: "person.id",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: 400,
+                width: "10%",
                 hidden: true
             },
             {
@@ -990,14 +983,14 @@
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: "10%"
             },
             {name: "person.jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 150},
             {
                 name: "person.title",
                 title: "<spring:message code='person.title'/>",
                 type: 'text',
-                width: 150,
+                width: "10%",
                 valueMap: {
                     "MR": "<spring:message code='global.MR'/>",
                     "MIS": "<spring:message code='global.MIS'/>",
@@ -1009,25 +1002,19 @@
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: true,
-                width: 150
+                width: "10%"
             },
-            {name: "person.email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 150},
-            {name: "person.email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 150},
+            {name: "person.email1", title: "<spring:message code='person.email1'/>", type: 'text', width: "10%"},
+            {name: "person.email2", title: "<spring:message code='person.email2'/>", type: 'text', width: "10%"},
             {
                 name: "person.webAddress",
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
-                width: 150
+                width: "10%"
             },
-            {name: "person.phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 150},
-            {name: "person.faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 150},
-            {name: "person.mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: 150},
-            {name: "person.mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: 150},
-            {name: "person.mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: 150},
-            {name: "person.whatsApp", title: "<spring:message code='person.whatsApp'/>", type: 'text', width: 150},
-            {name: "person.weChat", title: "<spring:message code='person.weChat'/>", type: 'text', width: 150},
-            {name: "person.address", title: "<spring:message code='person.address'/>", type: 'text', width: 150},
-
+            {name: "person.mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: "10%"},
+            {name: "person.mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: "10%"},
+            {name: "person.mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: "10%"}
         ],
         sortField: 0,
         autoFetchData: true,
