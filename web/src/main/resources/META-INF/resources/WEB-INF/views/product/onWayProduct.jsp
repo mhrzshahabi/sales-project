@@ -108,7 +108,6 @@
     var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
         width: "200",
         wrapItemTitles: false,
-        height: "100%",
         setMethod: 'POST',
         align: "center",
         target: "_Blank",
@@ -145,7 +144,6 @@
     var DynamicForm_DailyReport_Tozin1 = isc.DynamicForm.create({
         width: "200",
         wrapItemTitles: false,
-        height: "100%",
         setMethod: 'POST',
         align: "center",
         action: "report/printDailyReportBandarAbbas",
@@ -183,7 +181,6 @@
     var DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
         width: "200",
         wrapItemTitles: false,
-        height: "100%",
         setMethod: 'POST',
         align: "center",
         target: "_Blank",
@@ -226,7 +223,6 @@
     var DynamicForm_DailyReport_Tozin3 = isc.DynamicForm.create({
         width: "200",
         wrapItemTitles: false,
-        height: "100%",
         setMethod: 'POST',
         align: "center",
         target: "_Blank",
@@ -258,7 +254,6 @@
     var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
         width: "200",
         wrapItemTitles: false,
-        height: "100%",
         setMethod: 'POST',
         align: "center",
         target: "_Blank",
@@ -403,6 +398,8 @@
 
     var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
         width: "100%",
+        height: 40,
+        overflow: "auto",
         membersMargin: 10,
         members:
             [
@@ -414,7 +411,6 @@
                 DynamicForm_DailyReport_Tozin4,
                 isc.IButton.create({
                     width: 150,
-                    height: 22,
                     title: "<spring:message code='global.search'/>",
                     icon: "icon/search.png",
                     click: function () {
@@ -543,7 +539,7 @@
                                     {fieldName: "tozinDate", operator: "lessOrEqual", value: DynamicForm_DailyReport_Tozin1.getValues().toDay},
                                     {fieldName: "codeKala", operator: "equals", value: DynamicForm_DailyReport_Tozin2.getValues().materialId},
                                     {fieldName: "tozinPlantId", operator: "contains", value: DynamicForm_DailyReport_Tozin3.getValues().type},
-                                    {"fieldName":"target","operator":"iContains","value":"رجا"},
+                                    {fieldName: "target", operator: "iContains", value:"رجا"},
                                     {fieldName: "carName", operator: "contains", value: 'انتينر'}
                                     ]
     };
@@ -656,24 +652,15 @@
 
     });
 
-    // var VLayout_fltTozin = isc.VLayout.create(
-    //     {
-    //         layoutMargin: 10,
-    //         members: [fltTozin]
-    //     }
-    // );
-
-
     var VLayout_Tozin_Grid = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            // VLayout_fltTozin,
             HLayout_Tozin_labels,
             ListGrid_Tozin
         ]
     });
-    var VLayout_Tozin_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
