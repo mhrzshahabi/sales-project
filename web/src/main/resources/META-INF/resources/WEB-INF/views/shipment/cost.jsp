@@ -1212,16 +1212,7 @@
         sortField: 0,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-// ListGrid_CostFeature.fetchData({"tblCost.id":record.id},function (dsResponse, data, dsRequest) {
-// ListGrid_CostFeature.setData(data);
-// },{operationId:"00"});
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
 
     });
     var HLayout_Cost_Grid = isc.HLayout.create({

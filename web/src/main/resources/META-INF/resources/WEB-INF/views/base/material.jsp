@@ -13,6 +13,7 @@
                 {name: "descl", title: "<spring:message code='material.descl'/> "},
                 {name: "descp", title: "<spring:message code='material.descp'/> "},
                 {name: "unitId", title: "<spring:message code='MaterialFeature.unit'/>"},//Edit By JZ
+                {name: "unit.nameFA", title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
                 {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit'/> "},//Edit By JZ
             ],
         fetchDataURL: "${contextPath}/api/material/spec-list"
