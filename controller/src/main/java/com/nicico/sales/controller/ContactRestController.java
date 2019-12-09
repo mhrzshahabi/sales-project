@@ -47,10 +47,10 @@ public class ContactRestController {
                 + (request.getInsurancer() != null && request.getInsurancer().toString().equalsIgnoreCase("true") ? " بیمه گر ," : "")
                 + (request.getShipper() != null && request.getShipper().toString().equalsIgnoreCase("true") ? " صاحب کشتی," : "")
                 + (request.getTransporter() != null && request.getTransporter().toString().equalsIgnoreCase("true") ? " حمل کننده ," : "")
-                + (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
-                + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
-                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
-                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
+                + (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
+                + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
+                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
+                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
         );
         return new ResponseEntity<>(contactService.create(request), HttpStatus.CREATED);
     }
@@ -62,10 +62,10 @@ public class ContactRestController {
                 + (request.getInsurancer() != null && request.getInsurancer().toString().equalsIgnoreCase("true") ? " بیمه گر ," : "")
                 + (request.getShipper() != null && request.getShipper().toString().equalsIgnoreCase("true") ? " صاحب کشتی," : "")
                 + (request.getTransporter() != null && request.getTransporter().toString().equalsIgnoreCase("true") ? " حمل کننده ," : "")
-                + (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
-                + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
-                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
-                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
+                + (request.getBuyer() != null && request.getBuyer().toString().equalsIgnoreCase("true") ? " خریدار ," : "")
+                + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? " فروشنده ," : "")
+                + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? " نماینده فروشنده ," : "")
+                + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? " نماینده خریدار ," : "")
         );
 
         return new ResponseEntity<>(contactService.update(request.getId(), request), HttpStatus.OK);
