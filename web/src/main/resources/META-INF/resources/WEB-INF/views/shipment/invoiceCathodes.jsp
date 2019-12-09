@@ -6,7 +6,23 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
+ var seller = {};
+ var buyer = {};
+<% if (request.getSession().getAttribute("sellerId") !=null) {
+            %> seller [ <%= request.getSession().getAttribute("sellerId") %> ] = '<%= request.getSession().getAttribute("sellerName") %>' ; <%
+        }
+   if (request.getSession().getAttribute("sellerAgentId") !=null) {
+            %> seller [ <%= request.getSession().getAttribute("sellerAgentId") %> ] = '<%= request.getSession().getAttribute("sellerAgentName") %>' ; <%
+        }
 
+   if (request.getSession().getAttribute("BuyerId") !=null) {
+            %> buyer [ <%= request.getSession().getAttribute("BuyerId") %> ] = '<%= request.getSession().getAttribute("BuyerName") %>' ; <%
+        }
+   if (request.getSession().getAttribute("BuyerAgentId") !=null) {
+            %> buyer [ <%= request.getSession().getAttribute("BuyerAgentId") %> ] = '<%= request.getSession().getAttribute("BuyerAgentName") %>' ; <%
+        }
+
+%>
     <% DateUtil dateUtil = new DateUtil();
     	Float premium= new Float(request.getSession().getAttribute("premium").toString());
 
@@ -100,39 +116,6 @@
 		}
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------
-   var RestDataSource_ContactBySellerCathodes = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='contact.code'/>"},
-                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-                {name: "commertialRole"},
-            ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list1"
-    });
-    var RestDataSource_ContactByBuyerCathodes = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='contact.code'/>"},
-                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-                {name: "commertialRole"},
-            ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list2"
-    });
-    var RestDataSource_Contact_optionCriteria_seller  = {
-        _constructor: "AdvancedCriteria",
-        operator: "or",
-        criteria: [{fieldName: "seller", operator: "equals", value: true},{fieldName: "agentSeller", operator: "equals", value: true}]
-    };
-    var RestDataSource_Contact_optionCriteria_buyer = {
-        _constructor: "AdvancedCriteria",
-        operator: "or",
-        criteria: [{fieldName: "buyer", operator: "equals", value: true},{fieldName: "agentBuyer", operator: "equals", value: true}]
-    };
-//-----------------------------------------------------------------------------------------------------------------------------------
     var DynamicForm_Invoice_Cathodes = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -187,36 +170,16 @@
                     title: "Seller",
                     type: 'long',
                     width: "100%",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_ContactBySellerCathodes,
-                    optionCriteria: RestDataSource_Contact_optionCriteria_seller,
-                    displayField: "nameFA",
-                    valueField: "id",
-                    pickListWidth: "500",
-                    pickListHeight: "500",colSpan:2,titleColSpan:2,
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                        {name: "nameFA", align: "center"},
-                        {name: "nameEN", align: "center"}
-                    ]
-                },
+                    colSpan:3,titleColSpan:1,
+					valueMap: seller
+				 },
                  {
                     name: "buyerId",
                     title: "Buyer",
                     type: 'long',
                     width: "100%",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_ContactByBuyerCathodes,
-                    optionCriteria: RestDataSource_Contact_optionCriteria_buyer,
-                    displayField: "nameFA",
-                    valueField: "id",
-                    pickListWidth: "500",
-                    pickListHeight: "500",colSpan:2,titleColSpan:2,
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [{name: "nameFA", align: "center"}, {
-                        name: "nameEN",
-                        align: "center"
-                    }]
+                    colSpan:3,titleColSpan:1,
+					valueMap: buyer
                 },
                {
                     type: "Header",
