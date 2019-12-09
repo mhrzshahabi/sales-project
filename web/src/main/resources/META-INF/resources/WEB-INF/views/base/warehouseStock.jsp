@@ -92,6 +92,38 @@
             });
         }
     }
+    var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
+        width: "200",
+        wrapItemTitles: false,
+        height: "100%",
+        setMethod: 'POST',
+        align: "center",
+        action: "report/printDailyReportBandarAbbas",
+        target: "_Blank",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "200",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 4,
+        fields:
+            [
+                {
+                    name: "toDay",
+                    ID: "toDayDate",
+                    title: "<spring:message code='dailyWarehouse.toDay'/>",
+                    type: 'date',
+                    align: "center",
+                    width: 150,
+                    colSpan: 1,
+                    titleColSpan: 1,format: 'YYYY/MM/DD',
+                    defaultValue: "2019/12/01",
+                },
+            ]
+    });
 
     var Menu_ListGrid_WarehouseStock = isc.Menu.create({
         width: 150,
@@ -195,13 +227,21 @@
         }
     });
 
-    <%--var ToolStripButton_WarehouseStock_Remove = isc.ToolStripButton.create({--%>
-        <%--icon: "[SKIN]/actions/remove.png",--%>
-        <%--title: "<spring:message code='global.form.remove'/>",--%>
-        <%--click: function () {--%>
-            <%--ListGrid_WarehouseStock_remove();--%>
-        <%--}--%>
-    <%--});--%>
+   var ToolStripButton_WarehouseStock_Print = isc.ToolStripButton.create({
+         icon: "[SKIN]/actions/print.png",
+         title: "<spring:message code='WarehouseStock.Reportoncommitmentsleadingupto'/>",
+        click:function()
+        {
+
+            var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
+            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
+        console.log(datestringRs);
+                     var toDay = datestringRs.replaceAll("/", "");
+        console.log(toDay);
+                    "<spring:url value="/warehouseStock/print-commitment" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+        }
+    });
 
     var ToolStrip_Actions_WarehouseStock = isc.ToolStrip.create({
         width: "100%",
@@ -210,7 +250,8 @@
                 ToolStripButton_WarehouseStock_Refresh,
                 // ToolStripButton_WarehouseStock_Add,
                 ToolStripButton_WarehouseStock_Edit,
-                // ToolStripButton_WarehouseStock_Remove
+                DynamicForm_WarehouseStock_Tozin,
+                ToolStripButton_WarehouseStock_Print
             ]
     });
 
