@@ -912,27 +912,27 @@ DynamicForm_ShipmentHeader.setValue("shipmentHeaderDate", datestring)
     });
 
 
-    var ToolStripButton_InspectionContract_Print = isc.ToolStripButton.create({
-         icon: "[SKIN]/actions/print.png",
-         title: "<spring:message code='print'/>",
-        click:function()
-        {
-            var record = ListGrid_InspectionContract.getSelectedRecord();
-            if(record == null || record.id == null){
-            isc.Dialog.create({
-                message : "<spring:message code='global.grid.record.not.selected'/>",
-                icon:"[SKIN]ask.png",
-                title : "<spring:message code='global.message'/>",
-                buttons : [isc.Button.create({ title:"<spring:message code='global.ok'/>" })],
-                buttonClick : function (){
-                    this.hide();
-                }
-            });
-            } else{
-                window.open("inspectionContract/printDocx?data="+record.id);
-            }
-        }
-    });
+    <%--var ToolStripButton_InspectionContract_Print = isc.ToolStripButton.create({--%>
+    <%--     icon: "[SKIN]/actions/print.png",--%>
+    <%--     title: "<spring:message code='print'/>",--%>
+    <%--    click:function()--%>
+    <%--    {--%>
+    <%--        var record = ListGrid_InspectionContract.getSelectedRecord();--%>
+    <%--        if(record == null || record.id == null){--%>
+    <%--        isc.Dialog.create({--%>
+    <%--            message : "<spring:message code='global.grid.record.not.selected'/>",--%>
+    <%--            icon:"[SKIN]ask.png",--%>
+    <%--            title : "<spring:message code='global.message'/>",--%>
+    <%--            buttons : [isc.Button.create({ title:"<spring:message code='global.ok'/>" })],--%>
+    <%--            buttonClick : function (){--%>
+    <%--                this.hide();--%>
+    <%--            }--%>
+    <%--        });--%>
+    <%--        } else{--%>
+    <%--            window.open("inspectionContract/printDocx?data="+record.id);--%>
+    <%--        }--%>
+    <%--    }--%>
+    <%--});--%>
 
 
     var ToolStrip_Actions_InspectionContract = isc.ToolStrip.create({
@@ -943,7 +943,6 @@ DynamicForm_ShipmentHeader.setValue("shipmentHeaderDate", datestring)
             ToolStripButton_InspectionContract_Add,
             ToolStripButton_InspectionContract_Edit,
             ToolStripButton_InspectionContract_Remove,
-            ToolStripButton_InspectionContract_Print
         ]
     });
 
@@ -954,6 +953,8 @@ DynamicForm_ShipmentHeader.setValue("shipmentHeaderDate", datestring)
             ToolStrip_Actions_InspectionContract
         ]
     });
+
+
 
 //Email Window
     var Window_InspectionContract = isc.Window.create({

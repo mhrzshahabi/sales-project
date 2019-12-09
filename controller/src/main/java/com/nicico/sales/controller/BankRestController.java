@@ -21,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/bank")
+
 public class BankRestController {
 
     private final IBankService bankService;

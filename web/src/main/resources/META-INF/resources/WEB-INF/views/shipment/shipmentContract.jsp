@@ -1,20 +1,21 @@
-<%@ page import="com.nicico.core.copper.config.date.DateUtil" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
+<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    <% DateUtil dateUtil = new DateUtil();%>
     var contactId;
     var RestDataSource_Shipment_HeaderByShipContract = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, align: "center", hidden: true},
             {name: "shipmentHeaderDate", title: "<spring:message code='shipmentHeader.date'/>", align: "center"},
             {name: "description", title: "<spring:message code='shipmentHeader.description'/>", align: "center"}
-
         ],
-        fetchDataURL: "rest/shipmentHeader/list"
+        fetchDataURL: "${contextPath}/api/shipmentHeader/spec-list"
     });
+
+
     var RestDataSource_CountryByShipmentContract = isc.MyRestDataSource.create({
         fields:
             [
@@ -196,6 +197,7 @@
         }, {operationId: "00"});
     }
 
+    /*سربرگ حمل*/
     var ListGrid_Shipment_HeaderByShipContract = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -225,6 +227,7 @@
         showFilterEditor: true,
         filterOnKeypress: true
     });
+
     var HLayout_Grid_Shipment_HeaderByShipContract = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -326,6 +329,7 @@
         showFilterEditor: true,
         filterOnKeypress: true
     });
+
     var HLayout_Grid_ShipmentByContract = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -348,7 +352,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "tblShipmentPrice.id",
-                    title: "<spring:message code='tblShipmentPrice.name'/>",
+                    <%--title: "<spring:message code='tblShipmentPrice.name'/>",--%>
                     align: "center",
                     hidden: true
                 },
@@ -540,6 +544,7 @@
             });
         }
     });
+
     var IButton_ShipmentContract_Cancel = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
@@ -623,7 +628,8 @@
                 }
             });
         }
-    };
+    }
+
     var Menu_ListGrid_ShipmentContract = isc.Menu.create({
         width: 150,
         data:
@@ -740,7 +746,7 @@
                             displayDatePicker('createDate', this, 'ymd', '/');
                         }
                     }]
-                    , defaultValue: "<%=dateUtil.todayDate()%>"
+                    <%--, defaultValue: "<%=dateUtil.todayDate()%>"--%>
                     , blur: function () {
                         var value = DynamicForm_ShipmentContract.getItem('createDate').getValue();
                         if (value != null && value.length != 10 && value != "") {
@@ -938,8 +944,8 @@
                             displayDatePicker('createDate', this, 'ymd', '/');
                         }
                     }]
-                    ,
-                    defaultValue: "<%=dateUtil.todayDate()%>"
+
+
                     ,
                     blur: function () {
                         var value = DynamicForm_ShipmentContract.getItem('createDate').getValue();
@@ -1015,6 +1021,7 @@
             ListGrid_ShipmentContract_remove();
         }
     });
+
     var ToolStripButton_ShipmentContract_print = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/print.png",
         title: "<spring:message code='shipmentContract.print'/>",
@@ -1035,6 +1042,7 @@
             }
         }
     });
+
     var ToolStripButton_ShipmentContract_print1 = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/print.png",
         title: "<spring:message code='shipmentContract.print.letter'/>",
@@ -1122,19 +1130,19 @@
                 },
                 {
                     name: "tblContactByOwners.nameFA", title: "<spring:message
-		code='shipmentContract.owners'/>", align: "center", width: "10%"
+	                code='shipmentContract.owners'/>", align: "center", width: "10%"
                 },
                 {
                     name: "tblContactByCharterer.nameFA", title: "<spring:message
-		code='shipmentContract.charterer'/>", align: "center", width: "10%"
+		            code='shipmentContract.charterer'/>", align: "center", width: "10%"
                 },
                 {
                     name: "tblContactByChainOfOwners.nameFA", title: "<spring:message
-		code='shipmentContract.chainOfOwners'/>", align: "center", width: "10%"
+                    code='shipmentContract.chainOfOwners'/>", align: "center", width: "10%"
                 },
                 {
                     name: "tblCountryFlag.nameFa", title: "<spring:message
-		code='shipmentContract.countryFlag'/>", align: "center", width: "10%"
+		            code='shipmentContract.countryFlag'/>", align: "center", width: "10%"
                 },
                 {name: "no", title: "<spring:message code='shipmentContract.no'/>", align: "center", width: "10%"},
                 {
@@ -1145,11 +1153,11 @@
                 },
                 {
                     name: "tblPortByLoadPort.port", title: "<spring:message
-		code='shipmentContract.loadPort'/>", align: "center", width: "10%"
+		            code='shipmentContract.loadPort'/>", align: "center", width: "10%"
                 },
                 {
                     name: "tblPortByDischargePort.port", title: "<spring:message
-		code='shipmentContract.dischargePort'/>", align: "center", width: "10%"
+		            code='shipmentContract.dischargePort'/>", align: "center", width: "10%"
                 },
                 {
                     name: "laycanStart",
@@ -1199,8 +1207,8 @@
         sections:
             [
                 {
-                    title: "<spring:message
-		code='shipmentHeader.title'/>", items: VLayout_Body_Shipment_HeaderByShipContract, expanded: true
+                    title: "<spring:message code='shipmentHeader.title'/>",
+		            items: VLayout_Body_Shipment_HeaderByShipContract, expanded: true
                 }
                 , {
                 title: "<spring:message code='Shipment.title'/>",

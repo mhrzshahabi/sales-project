@@ -550,197 +550,89 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-// {name:"carNo1", title:"<spring:message code='Tozin.carNo1'/>",align:"center",showHover:true,width:"1%"},
-// {name:"carNo3", title:"<spring:message code='Tozin.carNo3'/>",align:"center",showHover:true,width:"1%"},
             {
                 name: "plak",
                 title: "<spring:message code='Tozin.plak'/>",
                 align: "center",
                 showHover: true,
-                width: "15%"
-            },
-            {
-                name: "carName",
-                title: "<spring:message code='Tozin.carName'/>",
-                align: "center",
-                showHover: true,
-                width: "25%",
+                width: "10%",
                 operator: "equals"
-            },
-            {
-                name: "containerNo1",
-                title: "<spring:message code='Tozin.containerNo1'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-// {name:"vazn1", title:"<spring:message code='Tozin.vazn1'/>",align:"center",showHover:true,width:"1%"},
-// {name:"vazn2", title:"<spring:message code='Tozin.vazn2'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "condition",
-                title: "<spring:message code='Tozin.condition'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-            {
-                name: "vazn",
-                title: "<spring:message code='Tozin.vazn'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-            {
-                name: "tedad",
-                title: "<spring:message code='Tozin.tedad'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-// {name:"unitKala", title:"<spring:message code='Tozin.unitKala'/>",align:"center",showHover:true,width:"1%"},
-// {name:"date", title:"<spring:message code='Tozin.date'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "tozinId",
-                title: "<spring:message code='Tozin.tozinId'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-            {
-                name: "tozinDate",
-                title: "<spring:message code='Tozin.tozinDate'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-// {name:"codeKala", title:"<spring:message code='Tozin.codeKala'/>",align:"center",showHover:true,width:"15%"},
-            {
-                name: "nameKala",
-                title: "<spring:message code='Tozin.nameKala'/>",
-                align: "center",
-                showHover: true,
-                width: "25%"
-            },
-// {name:"sourceId", title:"<spring:message code='Tozin.sourceId'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "source",
-                title: "<spring:message code='Tozin.source'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-// {name:"targetId", title:"<spring:message code='Tozin.targetId'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "target",
-                title: "<spring:message code='Tozin.target'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-            {
-                name: "haveCode",
-                title: "<spring:message code='Tozin.haveCode'/>",
-                align: "center",
-                showHover: true,
-                width: "15%"
-            },
-            {
-                name: "havalehName",
-                title: "<spring:message code='Tozin.havalehName'/>",
-                align: "center",
-                showHover: true,
-                width: "25%"
-            },
-            {
-                name: "tozinPlantId",
-                title: "<spring:message code='Tozin.tozinPlantId'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-// {name:"isFinal", title:"<spring:message code='Tozin.isFinal'/>",align:"center",showHover:true,width:"1%"},
-            {
-                name: "cardId",
-                title: "<spring:message code='Tozin.cardId'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
             },
             {
                 name: "containerId",
                 title: "<spring:message code='Tozin.containerId'/>",
                 align: "center",
                 showHover: true,
-                width: "1%"
+                width: "10%"
             },
             {
-                name: "containerNo3",
-                title: "<spring:message code='Tozin.containerNo3'/>",
+                name: "vazn",
+                title: "<spring:message code='Tozin.vazn'/>",
                 align: "center",
                 showHover: true,
-                width: "1%"
+                width: "10%"
             },
             {
-                name: "containerName",
-                title: "<spring:message code='Tozin.containerName'/>",
+                name: "tedad",
+                title: "<spring:message code='Tozin.tedad'/>",
                 align: "center",
                 showHover: true,
-                width: "1%"
+                width: "10%"
+            },
+            {
+                name: "nameKala",
+                title: "<spring:message code='Tozin.nameKala'/>",
+                align: "center",
+                showHover: true,
+                width: "10%"
+            },
+            {
+                name: "source",
+                title: "<spring:message code='Tozin.source'/>",
+                align: "center",
+                showHover: true,
+                width: "10%"
+            },
+            {
+                name: "target",
+                title: "<spring:message code='Tozin.target'/>",
+                align: "center",
+                showHover: true,
+                width: "10%"
+            },
+            {
+                name: "haveCode",
+                title: "<spring:message code='Tozin.haveCode'/>",
+                align: "center",
+                showHover: true,
+                width: "10%"
             },
             {
                 name: "packName",
                 title: "<spring:message code='Tozin.packName'/>",
                 align: "center",
                 showHover: true,
-                width: "1%"
+                width: "10%"
             },
             {
-                name: "tozinTime",
-                title: "<spring:message code='Tozin.tozinTime'/>",
-                align: "center",
+                name: "tozinPlantId",
                 showHover: true,
-                width: "1%"
+                width: "10%",
+                title: "<spring:message code='Tozin.tozinPlantId'/>"
             },
             {
-                name: "havalehFrom",
-                title: "<spring:message code='Tozin.havalehFrom'/>",
-                align: "center",
+                name: "tozinDate",
                 showHover: true,
-                width: "1%"
-            },
-            {
-                name: "havalehTo",
-                title: "<spring:message code='Tozin.havalehTo'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "havalehDate",
-                title: "<spring:message code='Tozin.havalehDate'/>",
-                align: "center",
-                showHover: true,
-                width: "1%"
-            },
-            {
-                name: "targetPlantId",
-                showHover: true,
-                width: "1%",
-                title: "<spring:message code='Tozin.targetPlantId'/>"
-            },
-            {
-                name: "sourcePlantId",
-                showHover: true,
-                width: "1%",
-                title: "<spring:message code='Tozin.sourcePlantId'/>"
-            },
+                width: "10%",
+                title: "<spring:message code='Tozin.tozinDate'/>"
+            }
         ],
         dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
-// filterOnKeypress: true,
+        filterOnKeypress: true,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             Tozin_labels_NavigationAz.setContents(this.getFocusRow() + 1);

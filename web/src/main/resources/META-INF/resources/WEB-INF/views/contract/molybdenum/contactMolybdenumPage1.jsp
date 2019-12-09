@@ -341,7 +341,6 @@
                             title: "<spring:message code='global.form.edit'/>",
                             click: function () {
                                 var record = ListGrid_Tozin.getSelectedRecord();
-                                contractIdEdit=record.id;
                                 if (record == null || record.id == null) {
                                     isc.Dialog.create({
                                         message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -352,6 +351,7 @@
                                             this.hide();
                                         }});
                             } else {
+                            contractIdEdit=record.id;
                             var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
                             var criterialotList={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
                                     criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
@@ -591,6 +591,7 @@
 
                     var ToolStripButton_Contact_Remove= isc.ToolStripButton.create({
                             icon: "[SKIN]/actions/remove.png",
+                            showIf: "false",
                             title: "<spring:message code='global.form.remove'/>",
                             click: function () {
                                 if (ListGrid_Tozin.getSelectedRecord() == null || ListGrid_Tozin.getSelectedRecord().id == null) {
