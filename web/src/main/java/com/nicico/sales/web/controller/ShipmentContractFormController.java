@@ -12,7 +12,7 @@ public class ShipmentContractFormController {
 
 	@RequestMapping("/showForm")
 	public String showShipmentContract() {
-		return "base/shipmentContract";
+		return "shipment/shipmentContract";
 	}
 
 	@RequestMapping("/print/{type}")

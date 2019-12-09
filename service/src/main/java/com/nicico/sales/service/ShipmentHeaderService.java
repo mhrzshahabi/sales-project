@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ShipmentHeaderDTO;
@@ -75,6 +77,7 @@ public class ShipmentHeaderService implements IShipmentHeaderService {
 		shipmentHeaderDAO.deleteAll(shipmentHeaders);
 	}
 
+
 	@Transactional(readOnly = true)
 	@Override
 	public SearchDTO.SearchRs<ShipmentHeaderDTO.Info> search(SearchDTO.SearchRq request) {
@@ -87,4 +90,13 @@ public class ShipmentHeaderService implements IShipmentHeaderService {
 		final ShipmentHeader saved = shipmentHeaderDAO.saveAndFlush(shipmentHeader);
 		return modelMapper.map(saved, ShipmentHeaderDTO.Info.class);
 	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public TotalResponse<ShipmentHeaderDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(shipmentHeaderDAO , criteria , shipmentHeader -> modelMapper.map(shipmentHeader  , ShipmentHeaderDTO.Info.class));
+	}
+
+
+
 }
