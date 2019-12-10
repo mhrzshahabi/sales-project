@@ -239,7 +239,7 @@
             {
                 name: "seller",
                 title: "<spring:message code='contact.commercialRole.seller'/>",
-                type: 'checkbox',
+                type: 'text',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
@@ -247,7 +247,7 @@
             {
                 name: "buyer",
                 title: "<spring:message code='contact.commercialRole.buyer'/>",
-                type: 'checkbox',
+                type: 'text',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
@@ -255,7 +255,7 @@
             {
                 name: "agentSeller",
                 title: "<spring:message code='contact.commercialRole.agentSeller'/>",
-                type: 'checkbox',
+                type: 'text',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
@@ -263,7 +263,7 @@
            {
                 name: "agentBuyer",
                 title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
-                type: 'checkbox',
+                type: 'text',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
@@ -271,7 +271,7 @@
            {
                 name: "transporter",
                 title: "<spring:message code='contact.commercialRole.transporter'/>",
-                type: 'checkbox',
+                type: 'text',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
@@ -279,7 +279,7 @@
             {
                 name: "shipper",
                 title: "<spring:message code='contact.commercialRole.shipper'/>",
-                type: 'checkbox',
+                type: 'text',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
@@ -287,7 +287,7 @@
             {
                 name: "inspector",
                 title: "<spring:message code='contact.commercialRole.inspector'/>",
-                type: 'checkbox',
+                type: 'text',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
@@ -295,7 +295,7 @@
             {
                 name: "insurancer",
                 title: "<spring:message code='contact.commercialRole.insurancer'/>",
-                type: 'checkbox',
+                type: 'text',
                 width: 50,
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
@@ -1261,7 +1261,9 @@
         contextMenu: Menu_ListGrid_Contact,
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='contact.code'/>", align: "center", width: 100},
+            {name: "code", title: "<spring:message code='contact.code'/>", align: "center", width: 100
+
+            },
             {name: "nameFA", title: "<spring:message code='contact.nameFa'/>", align: "center", width: 200},
             {name: "nameEN", title: "<spring:message code='contact.nameEn'/>", align: "center", hidden: true},
             {
