@@ -417,22 +417,6 @@
                 click: function () {
                     ListGrid_WarehouseIssueCathode_remove();
                 }
-            }, {isSeparator: true},
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png", click: function () {
-                    "<spring:url value="/warehouseIssueCathode/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png", click: function () {
-                    "<spring:url value="/warehouseIssueCathode/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg", click: function () {
-                    "<spring:url value="/warehouseIssueCathode/print/html" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
             }
         ]
     });

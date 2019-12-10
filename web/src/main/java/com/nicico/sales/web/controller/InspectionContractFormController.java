@@ -3,15 +3,11 @@ package com.nicico.sales.web.controller;
 
 import com.nicico.sales.dto.InspectionContractDTO;
 import com.nicico.sales.dto.ShipmentDTO;
-import com.nicico.sales.iservice.IShipmentService;
-import com.nicico.sales.repository.PortDAO;
 import com.nicico.sales.service.InspectionContractService;
-import com.nicico.sales.service.PortService;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
 
 @RequiredArgsConstructor
@@ -68,7 +62,7 @@ public class InspectionContractFormController {
 
 
 			/*Get Doc File From main\resources\Inspection_Contract*/
-			stream = new ClassPathResource("Inspection_Contract.docx").getInputStream();
+			stream = new ClassPathResource("reports/word/Inspection_Contract.docx").getInputStream();
 			ServletOutputStream out = response.getOutputStream();
 			doc = (XWPFDocument) new XWPFDocument(stream);
 

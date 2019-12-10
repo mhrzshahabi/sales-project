@@ -61,7 +61,7 @@ public class WarehouseCadFormController {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             WarehouseCadDTO.Info warehouseCad = warehouseCadService.get(Long.valueOf(id));
 
-            stream = new ClassPathResource("bijack.docx").getInputStream();
+            stream = new ClassPathResource("reports/word/bijack.docx").getInputStream();
             ServletOutputStream out = response.getOutputStream();
             doc = new XWPFDocument(stream);
 

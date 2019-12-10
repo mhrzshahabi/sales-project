@@ -166,14 +166,14 @@
                 click: function () {
                     ListGrid_warehouseCAD_edit();
                 }
-            },
+            }/*,
             {
                 title: "<spring:message code='global.form.print'/>", icon: "icon/word.png", click: function () {
                     var record = ListGrid_warehouseCAD.getSelectedRecord();
                     "<spring:url value="/warehouseCad/print/" var="printUrl"/>"
                     window.open('${printUrl}'+record.id);
                 }
-            }
+            }*/
         ]
     });
 

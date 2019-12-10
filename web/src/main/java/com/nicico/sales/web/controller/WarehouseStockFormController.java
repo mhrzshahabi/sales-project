@@ -71,7 +71,7 @@ public class WarehouseStockFormController {
 			XWPFDocument doc;
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			                        stream = new ClassPathResource("StocksCommitments.docx").getInputStream();
+			                        stream = new ClassPathResource("reports/word/StocksCommitments.docx").getInputStream();
 			ServletOutputStream out = response.getOutputStream();
 			doc = (XWPFDocument) new XWPFDocument(stream);
 			replacePOI(doc,"header", "Report on commitments leading up to "+day);

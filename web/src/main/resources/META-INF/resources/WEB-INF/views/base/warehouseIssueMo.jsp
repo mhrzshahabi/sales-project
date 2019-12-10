@@ -427,26 +427,9 @@
                 click: function () {
                     ListGrid_WarehouseIssueMo_remove();
                 }
-            }, {isSeparator: true},
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png", click: function () {
-                    "<spring:url value="/warehouseIssueMo/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png", click: function () {
-                    "<spring:url value="/warehouseIssueMo/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg", click: function () {
-                    "<spring:url value="/warehouseIssueMo/print/html" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
             }
         ]
     });
-    //DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot
 
     var DynamicForm_WarehouseIssueMo = isc.DynamicForm.create({
         width: 650,

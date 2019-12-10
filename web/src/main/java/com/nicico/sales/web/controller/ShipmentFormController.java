@@ -11,6 +11,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,7 +67,7 @@ public class ShipmentFormController {
                 if(description.contains("Copper Cathode Leaching") || description.contains("Copper Cathode") || description.contains("cat")  ){
                     if(shiptype.contains("bulk")){
 
-                        stream = new ClassPathResource("Ship_Cat_bulk.docx").getInputStream();
+                        stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
                         ServletOutputStream out = response.getOutputStream();
                         doc = (XWPFDocument) new XWPFDocument(stream);
                         replacePOI(doc,"vessel_name", shipment.getVesselName());
@@ -115,7 +116,7 @@ public class ShipmentFormController {
                         out.flush();
                     } else if (shiptype.contains("container") ){
 
-                        stream = new ClassPathResource("Ship_Cat_Container.docx").getInputStream();
+                        stream = new ClassPathResource("reports/word/Ship_Cat_Container.docx").getInputStream();
                         ServletOutputStream out = response.getOutputStream();
                         doc = (XWPFDocument) new XWPFDocument(stream);
 
@@ -172,7 +173,7 @@ public class ShipmentFormController {
         if(description.contains("Copper Concentrate")){
             if(shiptype.contains("bulk")){
 
-                stream = new ClassPathResource("Copper_Concentrate_bulk.docx").getInputStream();
+                stream = new ClassPathResource("reports/word/Copper_Concentrate_bulk.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
                 doc = (XWPFDocument) new XWPFDocument(stream);
 
@@ -221,7 +222,7 @@ public class ShipmentFormController {
             if(shiptype.contains("container")){
 
 
-                stream = new ClassPathResource("Molybdenum Oxide.docx").getInputStream();
+                stream = new ClassPathResource("reports/word/Molybdenum Oxide.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
                 doc = (XWPFDocument) new XWPFDocument(stream);
                 /*Date*/
