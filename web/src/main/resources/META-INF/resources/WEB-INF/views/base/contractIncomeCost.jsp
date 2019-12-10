@@ -156,7 +156,8 @@
                     width: 25,
                 }),
                 isc.HTMLFlow.create({
-                    contents: "در هنگام چاپ تنها 7 ستون اول از سمت راست نمایش داده می شود",
+
+                    contents: "<spring:message code='gozareshsaz.hint'/>",
                     width: "325px",
                     border: "1px solid red"
                 })
@@ -193,4 +194,4 @@
         members: [
             HLayout_ContractIncomeCost_Actions, VLayout_ContractIncomeCost_Grid
         ]
-    });
+    })

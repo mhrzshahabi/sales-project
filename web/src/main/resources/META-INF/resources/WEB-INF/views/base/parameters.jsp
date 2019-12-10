@@ -156,11 +156,11 @@
                     width: 500, type: "select", required: true, valueMap:{"1": "Mo","2": "CO"}
                 },
                 {
-                    name: "categoryValue", title: "<spring:message	code='parameters.paramValue'/>",
+                    name: "categoryValue", title: "<spring:message	code='parameters.paramValue.d'/>",
                     width: 500, type: "text", required: true,valueMap:{"1": "article1","2": "article2","3": "article3","4":"article4","5":"article5","6":"article6","7":"article7","8":"article8","9":"article9","10":"article10","11":"article11","12":"article12","13":"article13","14":"article14","15":"article15","16":"article16","17":"article17","18":"article18","19":"article19","20":"article20","21":"article21","22":"article22","23":"article23","24":"article24","25":"article25","26":"article26","27":"article27","-1":"Another","-2":"BANK REFERENCE"}
                 },
                 {
-                    name: "paramValue", title: "<spring:message	code='parameters.paramValue'/>",
+                    name: "paramValue", title: "<spring:message	code='parameters.paramValue.c'/>",
                     width: 500, type: "textArea", required: true
                 },
                 {type: "RowSpacerItem"}

@@ -45,14 +45,14 @@ public class ShipmentContract extends Auditable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FLAG", nullable = false, insertable = false, updatable = false)
-	private Country tblCountryFlag;
+	private Country tblCountryFlag;  //ok
 
 	@Column(name = "FLAG")
 	private Long countryFlagId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SHIPMENT_HEADER_ID", nullable = false, insertable = false, updatable = false)
-	private ShipmentHeader shipmentHeader;
+	private ShipmentHeader shipmentHeader;  //ok
 
 	@Column(name = "SHIPMENT_HEADER_ID")
 	private Long shipmentHeaderId;
@@ -72,7 +72,6 @@ public class ShipmentContract extends Auditable {
 
 	@Column(name = "CAPACITY")
 	private Double capacity;
-
 
 	@Column(name = "LAYCAN_START", length = 20)
 	private String laycanStart;
@@ -136,4 +135,6 @@ public class ShipmentContract extends Auditable {
 
 	@Column(name = "WEIGHING_METHODES", length = 100)
 	private String weighingMethodes;
+
+
 }

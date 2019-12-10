@@ -317,6 +317,8 @@
         dataArrived: function (startRow, endRow) {
         }
 
+
+
     });
     var HLayout_Currency_Grid = isc.HLayout.create({
         width: "100%",

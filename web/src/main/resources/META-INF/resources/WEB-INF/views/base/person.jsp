@@ -470,7 +470,7 @@
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contactId"},
-            {name: "contact.nameFA"},
+            {name: "contact.nameFA" , type:'text'},
             {
                 name: "fullName",
                 title: "<spring:message code='person.fullName'/>",
@@ -506,6 +506,7 @@
 
         fetchDataURL: "${contextPath}/api/person/spec-list"
     });
+
 
     var ListGrid_Person = isc.ListGrid.create({
         width: "100%",
@@ -563,6 +564,7 @@
     });
 
 
+
     var HLayout_Grid_Person = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -571,10 +573,11 @@
         ]
     });
 
+
     isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_Actions_Person, HLayout_Grid_Person
         ]
-    });
+    })

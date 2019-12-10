@@ -465,6 +465,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
     }
 });
 
+
     var IButton_InspectionContract_Cancel = isc.IButton.create({
         top: 300,
         title:"<spring:message code='global.cancel'/>",
@@ -477,6 +478,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
         }
     });
 
+    /*JZ*/
     var hLayout_saveButton = isc.HLayout.create({
     width: "100%",
     height: "100%",
@@ -487,9 +489,10 @@ var IButton_InspectionContract_Save = isc.IButton.create({
     members: [
     IButton_InspectionContract_Save,
     IButton_InspectionContract_Cancel
-
     ]
     });
+    /*JZ*/
+
 
     var VLayout_saveButton = isc.VLayout.create({
     width: "100%",

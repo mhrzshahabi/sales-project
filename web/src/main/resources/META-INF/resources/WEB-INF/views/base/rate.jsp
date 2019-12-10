@@ -69,7 +69,7 @@
             {
                 name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400,
                 keyPressFilter: "[0-4]", length: "1",
-                hint: "دقت اعشار بین 0 تا 4 است",
+                hint: "<spring:message code='deghat.ashar.cu'/>",
                 showHintInField: true,
                 validators: [{
                     type: "isInteger",
