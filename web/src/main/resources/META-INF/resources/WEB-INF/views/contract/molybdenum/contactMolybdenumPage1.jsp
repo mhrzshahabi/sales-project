@@ -367,13 +367,13 @@
                                     valuesManagerArticle2.setValue("responsibleTelerons", data[0].responsibleTelerons);
                                     valuesManagerArticle3.setValue("contactInspectionId",record.contactInspectionId);
                                     valuesManagerArticle3.setValue("article3_number17",data[0].article3_number17);
-                                    valuesManagerArticle3.setValue("article3_number17_7",data[0].article3_number17);
-                                    valuesManagerArticle3.setValue("article3_number17_8",data[0].article3_number17);
-                                    valuesManagerArticle3.setValue("article3_number17_9",data[0].article3_number17);
-                                    valuesManagerArticle3.setValue("article3_number17_10",data[0].article3_number17);
-                                    valuesManagerArticle3.setValue("article3_number17_11",data[0].article3_number17);
-                                    valuesManagerArticle3.setValue("article3_number17_12",data[0].article3_number17);
-                                    valuesManagerArticle3.setValue("article3_number17_2",data[0].article3_number17);
+                                    valuesManagerArticle3.setValue("article3_number17_7",data[0].article3_number17_7);
+                                    valuesManagerArticle3.setValue("article3_number17_8",data[0].article3_number17_8);
+                                    valuesManagerArticle3.setValue("article3_number17_9",data[0].article3_number17_9);
+                                    valuesManagerArticle3.setValue("article3_number17_10",data[0].article3_number17_10);
+                                    valuesManagerArticle3.setValue("article3_number17_11",data[0].article3_number17_11);
+                                    valuesManagerArticle3.setValue("article3_number17_12",data[0].article3_number17_12);
+                                    valuesManagerArticle3.setValue("article3_number17_2",data[0].article3_number17_2);
                                     valuesManagerArticle3.setValue("PrefixMolybdenum",data[0].PrefixMolybdenum);
                                     valuesManagerArticle3.setValue("molybdenum",record.molybdenum);
                                     valuesManagerArticle3.setValue("toleranceMO",data[0].toleranceMO);
@@ -1527,7 +1527,6 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 name: "contactInspectionId", ///article3_number17_1
                 showHover: true,
                 autoFetchData: false,
-                title: "",
                 hint: "AHK",
                 width: "150",
                 showHintInField: true,
@@ -1636,7 +1635,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Parameters,
                 displayField: "paramValue",
-                valueField: "paramName",
+                valueField: "paramValue",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "paramName", width: "20%", align: "center"},
