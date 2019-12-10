@@ -303,7 +303,7 @@ var contactCadTabs = isc.TabSet.create({
         var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:952},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
         RestDataSource_Contract.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
         if(data[0]!=undefined){
-                isc.warn("The contractNO is a duplicate.");
+                isc.warn("<spring:message code='main.contractsDuplicate'/>");
                }else{
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",

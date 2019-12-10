@@ -3434,7 +3434,6 @@ var IButton_Contact_Save = isc.IButton.create({
             DynamicForm_ContactCustomer.validate();
             contactHeader.validate();
             DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
-            alert(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
             var drs = contactHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_ContactHeader.setValue("contractDate", contractTrueDate);
@@ -3462,7 +3461,6 @@ var IButton_Contact_Save = isc.IButton.create({
                     dataSaveAndUpdateContract.runTill=valuesManagerArticle5.getValue("runTill");
                     dataSaveAndUpdateContract.runEndtDate=valuesManagerArticle5.getValue("runEndtDate");
                     dataSaveAndUpdateContract.incotermsId=valuesManagerArticle6.getValue("incotermsId");
-                    alert(valuesManagerArticle6.getValue("portByPortSourceId"));
                     dataSaveAndUpdateContract.portByPortSourceId=valuesManagerArticle6.getValue("portByPortSourceId");
                     dataSaveAndUpdateContract.incotermsText=valuesManagerArticle6.getValue("incotermsText");
                     dataSaveAndUpdateContract.officeSource=valuesManagerArticle6.getValue("officeSource");
@@ -3661,7 +3659,7 @@ var IButton_Contact_Save = isc.IButton.create({
             var criteriaContractNoMoOx={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:-32},{fieldName:"contractNo",operator:"equals",value:dataSaveAndUpdateContractDetail.contractNo}]};
             RestDataSource_Contract.fetchData(criteriaContractNoMoOx,function(dsResponse, data, dsRequest) {
             if(data[0]!=undefined){
-                isc.warn("The contractNO is a duplicate.");
+                isc.warn("<spring:message code='main.contractsDuplicate'/>");
                }else{
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
