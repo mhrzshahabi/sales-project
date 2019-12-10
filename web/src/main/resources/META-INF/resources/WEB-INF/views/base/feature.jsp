@@ -95,6 +95,7 @@
         ]
     });
 
+
     var IButton_Feature_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -125,6 +126,8 @@
             );
         }
     });
+
+
 
     var Window_Feature = isc.Window.create({
         title: "<spring:message code='feature.title'/>",
@@ -169,7 +172,7 @@
 
     function ListGrid_Feature_refresh() {
         ListGrid_Feature.invalidateCache();
-    };
+    }
 
     function ListGrid_Feature_remove() {
 

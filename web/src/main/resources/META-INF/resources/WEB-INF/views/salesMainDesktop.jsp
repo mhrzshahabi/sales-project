@@ -893,7 +893,7 @@
 
 
     /*Add Jz*/
-    /*var CharterButton = isc.IconButton.create({
+    var CharterButton = isc.IconButton.create({
         title: "<spring:message code='charter.title'/>",
         icon: "contract/sea.png",
         largeIcon: "contract/sea.png",
@@ -901,7 +901,7 @@
         click: function () {
             createTab("<spring:message code='charter.title'/>", "<spring:url value="/shipmentContract/showForm" />")
         }
-    });*/
+    });
 
 
 
@@ -922,7 +922,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton /*, CharterButton*/ ]})
+            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton , CharterButton ]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
@@ -931,11 +931,13 @@
         ],
         autoDraw: false
     });
+
     var contractRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
         groupTitleAlign: "center",
         groupTitleOrientation: "top"
     });
+
     contractRibbonBar.addGroup(contractRibbonGroup, 0);
 
     var contractRibbonHLayout = isc.HLayout.create({
@@ -1245,6 +1247,9 @@
             createTab("<spring:message code='inspection.contract.form'/>", "<spring:url value="/inspectionContract/showForm" />")
         }
     });
+
+
+
 
 
     <%--var inspectionAssayResultButton = isc.IconButton.create({--%>

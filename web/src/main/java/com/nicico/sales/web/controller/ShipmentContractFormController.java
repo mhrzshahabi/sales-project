@@ -17,5 +17,9 @@ public class ShipmentContractFormController {
 
 	@RequestMapping("/print/{type}")
 	public void printShipmentContract(HttpServletResponse response, @PathVariable String type) throws Exception {
+
+
+
+
 	}
 }

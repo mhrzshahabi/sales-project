@@ -234,10 +234,10 @@
                     width: "50%",
                     align: "center"
                 },
-                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", width: "50%", align: "center"},
-                {name: "eurUsd", title: "<spring:message code='currencyRate.eurUsd'/>", width: "50%", align: "center"},
-                {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", width: "50%", align: "center"},
-                {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", width: "50%", align: "center"}
+                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", width: "50%", align: "center" , type:'text'},
+                {name: "eurUsd", title: "<spring:message code='currencyRate.eurUsd'/>", width: "50%", align: "center" , type:'text'},
+                {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", width: "50%", align: "center" , type:'text'},
+                {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", width: "50%", align: "center" , type:'text'}
             ],
         fetchDataURL: "${contextPath}/api/currencyRate/spec-list"
     });
@@ -328,10 +328,10 @@
                     width: "50%",
                     align: "center"
                 },
-                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", width: "50%", align: "center"},
-                {name: "eurUsd", title: "<spring:message code='currencyRate.eurUsd'/>", width: "50%", align: "center"},
-                {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", width: "50%", align: "center"},
-                {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", width: "50%", align: "center"}
+                {name: "irrUsd", title: "<spring:message code='currencyRate.irrUsd'/>", width: "50%", align: "center" , type:'text'},
+                {name: "eurUsd", title: "<spring:message code='currencyRate.eurUsd'/>", width: "50%", align: "center" , type:'text'},
+                {name: "aedUsd", title: "<spring:message code='currencyRate.aedUsd'/>", width: "50%", align: "center" , type:'text'},
+                {name: "rmbUsd", title: "<spring:message code='currencyRate.rmbUsd'/>", width: "50%", align: "center" , type:'text'}
             ],
         sortField: 0,
         autoFetchData: true,

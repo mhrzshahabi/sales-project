@@ -226,7 +226,6 @@
             DynamicForm_WarehouseYard.validate();
             if (DynamicForm_WarehouseYard.hasErrors())
                 return;
-
             var data = DynamicForm_WarehouseYard.getValues();
             var method = "PUT";
             if (data.id == null)
@@ -247,6 +246,8 @@
             );
         }
     });
+
+
 
     var Window_WarehouseYard = isc.Window.create({
         title: "<spring:message code='warehouseCad.warehouseNo'/> ",

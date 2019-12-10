@@ -72,7 +72,7 @@
                 name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400
                 , keyPressFilter: "[0-4]",
                 length: "1",
-                hint: "دقت اعشار بین 0 تا 4 است",
+                hint: "<spring:message code='deghat.ashar'/>", //TODO
                 showHintInField: true,
             },
             {type: "RowSpacerItem"},
@@ -291,6 +291,8 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
+
+
     var ListGrid_Unit = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -298,19 +300,19 @@
         contextMenu: Menu_ListGrid_Unit,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='unit.code'/> ", align: "center"},
+            {name: "code", title: "<spring:message code='unit.code'/> ", align: "center" },
             {name: "nameFA", title: "<spring:message code='unit.nameFa'/> ", align: "center"},
             {name: "nameEN", title: "<spring:message code='unit.nameEN'/> ", align: "center"},
             {name: "symbol", title: "<spring:message code='unit.symbol'/>", align: "center"},
             {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", align: "center"}
         ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt"
     });
+
+
 
 
     var HLayout_Grid_Unit = isc.HLayout.create({

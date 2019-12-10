@@ -1114,6 +1114,7 @@
             ]
     });
 
+
     var IButton_Invoice_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -1147,6 +1148,9 @@
             }));
         }
     });
+
+
+
     var Window_Invoice = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
         width: 580,
