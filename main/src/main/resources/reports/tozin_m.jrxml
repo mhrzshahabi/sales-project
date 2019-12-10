@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tozin_m" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="7574894b-b930-46ea-ac15-5edef133af30">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tozin_m" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="7574894b-b930-46ea-ac15-5edef133af30">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="ireport.zoom" value="1.6105100000000008"/>
 	<property name="ireport.x" value="0"/>
@@ -46,7 +46,7 @@
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 		<queryString>
 			<![CDATA[select plant,snamefa,namefa,gdsname,car,wazn,tedad 
-from  sales.view_tozin_m 
+from  view_tozin_m
 where   tzn_date='1398/01/26']]>
 		</queryString>
 		<field name="plant" class="java.lang.String"/>
@@ -60,7 +60,7 @@ where   tzn_date='1398/01/26']]>
 	<parameter name="logo_nicico" class="java.lang.Object"/>
 	<queryString language="SQL">
 		<![CDATA[select plant,snamefa,namefa,gdsname,car,wazn,tedad 
-from  sales.view_tozin_m 
+from  view_tozin_m
 where   tzn_date='1398/01/26']]>
 	</queryString>
 	<field name="plant" class="java.lang.String"/>

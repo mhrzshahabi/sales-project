@@ -5,6 +5,7 @@ import com.nicico.sales.model.entities.base.Shipment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,23 +24,16 @@ public interface ShipmentDAO extends JpaRepository<Shipment, Long>, JpaSpecifica
             "                      and to_char(sysdate+15,'yyyy/mm/dd') > cs.SEND_DATE   ", nativeQuery = true)
     List<Object[]> pickListShipment();
 
-    Shipment findByBlDate(String blDate);
-
-    Shipment findByLoadingLetterAndBlNumbersIsNotNull(String loadingLetter);
-
 /*Add By Jalal For */
     @Query(value = "select wl.lot_name  from tbl_warehouse_lot wl where wl.contract_id = :id ", nativeQuery = true)
-    List<String> findLotname(String id );
+    List<String> findLotname(@Param("id") String id );
 
     @Query(value = "select  wl.booking_no from tbl_warehouse_lot wl where wl.contract_id = :id ", nativeQuery = true)
-    List<String> findbooking(String id );
+    List<String> findbooking(@Param("id") String id );
 
     @Query(value = "select C_FULLNAME_EN from  tbl_contact where C_FULLNAME_EN  LIKE 'SGS' OR C_FULLNAME_EN LIKE 'AHK' " , nativeQuery = true)
     List<String> cname();
 
     @Query( value =   "select   cont.c_fullname_en  AS cf   from  TBL_contact cont LEFT JOIN TBL_CONTRACT contr ON cont.ID = contr.CONTACT_ID    where (cont.b_inspector = 1)    AND    ( cont.c_fullname_en LIKE 'SGS' OR  cont.c_fullname_en  LIKE 'AHK' )" , nativeQuery = true)
     List<String> inspector();
-
-
-
 }

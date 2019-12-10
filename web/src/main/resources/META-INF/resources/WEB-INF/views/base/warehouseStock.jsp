@@ -12,7 +12,7 @@
                 {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>"},
                 {name: "plant", title: "<spring:message code='warehouseCad.plant'/>"},
                 {name: "warehouseYardId"},
-                {name: "warehouseYard.nameFA", title: "<spring:message code='warehouseCad.yard'/>"},
+                {name: "warehouseYard.nameFA", title: "<spring:message code='warehouseCad.yard'/>",sortNormalizer:function(recordObject) {return recordObject.warehouseYard.nameFA}},
                 {name: "sheet", title: "<spring:message code='warehouseCadItem.sheetNo'/>"},
                 {name: "bundle", title: "<spring:message code='warehouseStock.bundle'/>"},
                 {name: "amount", title: "<spring:message code='warehouseCadItem.weightKg'/>"},
@@ -20,7 +20,6 @@
                 {name: "lot", title: "<spring:message code='warehouseStock.lot'/>"},
                 {name: "materialItem.gdsName", title: "<spring:message code='material.descp'/>"}
             ],
-
         fetchDataURL: "${contextPath}/api/warehouseStock/spec-list"
     });
 
@@ -47,51 +46,6 @@
         }
     }
 
-    function ListGrid_WarehouseStock_remove() {
-
-        var record = ListGrid_WarehouseStock.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
-                ],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index == 0) {
-                        var WarehouseStockId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${contextPath}/api/warehouseStock/" + WarehouseStockId,
-                                httpMethod: "DELETE",
-                                callback: function (resp) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                        ListGrid_WarehouseStock_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
-                    }
-                }
-            });
-        }
-    }
     var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
         width: "200",
         wrapItemTitles: false,

@@ -869,7 +869,6 @@
             [
                  {name: "id"},
                 {name: "shipmentId", hidden: true},
-                {type: "RowSpacerItem"},
                 {name: "bijak",title: "<spring:message code='warehouseIssueCathode.bijak'/>",width: "10%",required: true,keyPressFilter: "[0-9]", length: "15"},
                 {name: "containerNo",title: "<spring:message code='warehouseIssueCathode.containerNo'/>",width: "10%",required: true, length: "15"},
                 {name: "emptyWeight",title: "<spring:message code='warehouseIssueCathode.emptyWeight'/>",width: "10%",required: true, length: "15",

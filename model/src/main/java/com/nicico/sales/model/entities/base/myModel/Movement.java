@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_Move")
-public class Movement   {
+public class  Movement   {
     @Id
     private Long MATERIAL_ID;
     private String PACKNAME;

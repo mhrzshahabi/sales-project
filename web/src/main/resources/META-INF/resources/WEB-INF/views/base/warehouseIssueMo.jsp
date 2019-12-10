@@ -691,7 +691,6 @@
             [
                  {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true},
-                {type: "RowSpacerItem"},
                 {name: "bijak",title: "<spring:message code='warehouseIssueMo.bijak'/>",width: "10%",required: true,keyPressFilter: "[0-9]", length: "15"},
                 {name: "containerNo",title: "<spring:message code='warehouseIssueMo.containerNo'/>",width: "10%",required: true, length: "15"},
                 {name: "emptyWeight",title: "<spring:message code='warehouseIssueMo.emptyWeight'/>",width: "10%",required: true, length: "15",

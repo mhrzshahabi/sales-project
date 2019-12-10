@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>MO</name><driver>oracle.jdbc.driver.OracleDriver</driver><username>saleslocal</username><password>saleslocal</password><savePassword>true</savePassword><url>jdbc:oracle:thin:@oragnrt01.icico.net.ir:1521:pdb_dev01</url><database></database><serverAddress></serverAddress><classpath>C:\Users\programmer\Desktop\jasperJalaJun\ojdbc6-11.2.0.jar</classpath></jdbcDataAdapter>

@@ -19,10 +19,10 @@
 	<queryString language="SQL">
 		<![CDATA[select C_CONTRACT_NO,C_CONTRACT_DATE,C_FULLNAME_FA,C_DESCP ,AMOUNT,C_NAME_FA
 ,PREMIUM
-from sales.tbl_contract c
-join sales.tbl_material m on m.id=MATERIAL_ID
-join sales.tbl_contact b on c.CONTACT_ID=b.id
-left join sales.tbl_unit u on u.id=c.unit_id]]>
+from tbl_contract c
+join tbl_material m on m.id=MATERIAL_ID
+join tbl_contact b on c.CONTACT_ID=b.id
+left join tbl_unit u on u.id=c.unit_id]]>
 	</queryString>
 	<field name="C_CONTRACT_NO" class="java.lang.String"/>
 	<field name="C_CONTRACT_DATE" class="java.lang.String"/>
