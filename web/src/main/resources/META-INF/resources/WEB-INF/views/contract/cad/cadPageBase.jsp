@@ -19,7 +19,6 @@
             wrap: false,
             showEdges: true,
             showShadow: true,
-            icon: "icons/16/world.png",
             contents: contents
         });
     }
@@ -80,7 +79,7 @@ var contactCadTabs = isc.TabSet.create({
     isc.IButton.create({
         ID: "IButton_ContactCad_Save",
         title: "save",
-        icon: "icons/16/world.png",
+        icon: "[SKIN]/actions/add.png",
         iconOrientation: "right",
         click: function () {
             contactCadHeader.validate();
@@ -304,7 +303,7 @@ var contactCadTabs = isc.TabSet.create({
         var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:952},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
         RestDataSource_Contract.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
         if(data[0]!=undefined){
-                isc.warn("shomare contractNO tekrari ast");
+                isc.warn("The contractNO is a duplicate.");
                }else{
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",

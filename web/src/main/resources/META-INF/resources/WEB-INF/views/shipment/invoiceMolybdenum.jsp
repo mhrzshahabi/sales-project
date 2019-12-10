@@ -136,7 +136,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list1"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_ContactByBuyerMolybdenum = isc.MyRestDataSource.create({
         fields:

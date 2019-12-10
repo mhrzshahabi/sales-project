@@ -356,7 +356,7 @@ var Window_ContactCad = isc.Window.create({
                                                 height: "30",
                                                 title: "Remove",
                                                 startRow: false,
-                                                icon: "icons/16/message.png",
+                                                icon: "[SKIN]/actions/remove.png",
                                                 click: function () {
                                                     DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");
                                                     DynamicForm_ContactParameter_ValueNumber8.removeField("button")
@@ -373,7 +373,7 @@ var Window_ContactCad = isc.Window.create({
                                      }
 
                         ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-            })},30)
+            })},40)
         }
     }});
 
@@ -474,7 +474,7 @@ function itemsEditDefinitions(key,value,id) {
                     height: "30",
                     title: "Remove",
                     startRow: false,
-                    icon: "icons/16/message.png",
+                    icon: "[SKIN]/actions/remove.png",
                     click: function(){
                         --itemsDefinitionsCount;
                         DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + itemsDefinitionsCount);

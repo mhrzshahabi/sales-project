@@ -286,54 +286,25 @@
                     ViewLoader_createTozin
                     ]
             });
-
-
-
-        isc.Label.create({ID:"Label_Contact_Type",padding: 20,width: "100%",height: "1%",styleName: "helloWorldText",contents:  'Please select the type of contract.'});
-        isc.IButton.create({ID:"Button_MO_OX",width: "200",height: "30",title: "Molybdenum",iconOrientation: "right",click:function () {
-                contactHeader.clearValues();
-                valuesManagerfullArticle.clearValues();
-                contactHeaderAgent.clearValues();
-                valuesManagerArticle1.clearValues();
-                valuesManagerArticle2.clearValues();
-                valuesManagerArticle3.clearValues();
-                valuesManagerArticle4.clearValues();
-                valuesManagerArticle5.clearValues();
-                valuesManagerArticle6.clearValues();
-                valuesManagerArticle7.clearValues();
-                valuesManagerArticle8.clearValues();
-                valuesManagerArticle9.clearValues();
-                valuesManagerArticle10.clearValues();
-                pageMolibdenAll(0);
-                lotList.fetchData(RestDataSource_ShipmentContractUsed);
-                Window_SelectTypeContact.close();
-
-        }})
-        isc.HLayout.create({ID:"HLayout_button_TypeMoliden",align: "center",width: "30%",height: "20%",align: "center",members:[Button_MO_OX]});
-        isc.HStack.create({ID:"HLayout_button_TypeMoliden3",layoutMargin:10,align: "center",width: "100%",height: "80%",align: "center",members:[HLayout_button_TypeMoliden]});
-        isc.VLayout.create({ID:"button_VLayout",width: "100%",height: "100%",align: "center",members:[Label_Contact_Type,HLayout_button_TypeMoliden3]});
-
-        var Window_SelectTypeContact = isc.Window.create({
-                            title: "Type Contact",
-                            width: "50%",
-                            height: "20%",
-                            autoCenter: true,
-                            isModal: true,
-                            showModalMask: true,
-                            align: "center",
-                            autoDraw: false,
-                            closeClick: function () {
-                            this.Super("closeClick", arguments)
-                            },
-                            items: [
-                                button_VLayout
-                            ]
-                            });
                     var ToolStripButton_Contact_Add = isc.ToolStripButton.create({
                             icon: "[SKIN]/actions/add.png",
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
-                                Window_SelectTypeContact.animateShow();
+                                contactHeader.clearValues();
+                                    valuesManagerfullArticle.clearValues();
+                                    contactHeaderAgent.clearValues();
+                                    valuesManagerArticle1.clearValues();
+                                    valuesManagerArticle2.clearValues();
+                                    valuesManagerArticle3.clearValues();
+                                    valuesManagerArticle4.clearValues();
+                                    valuesManagerArticle5.clearValues();
+                                    valuesManagerArticle6.clearValues();
+                                    valuesManagerArticle7.clearValues();
+                                    valuesManagerArticle8.clearValues();
+                                    valuesManagerArticle9.clearValues();
+                                    valuesManagerArticle10.clearValues();
+                                    pageMolibdenAll(0);
+                                    lotList.fetchData(RestDataSource_ShipmentContractUsed);
                             }
                     });
                     var ToolStripButton_Contact_Edit = isc.ToolStripButton.create({
@@ -2120,7 +2091,6 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 {
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
                     type: "date",
                     required: false,
                     width: "200",
@@ -2339,7 +2309,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 optionDataSource: RestDataSource_Incoterms,
                 displayField: "code",
                 valueField: "id",
-                pickListWidth: "500",
+                pickListWidth: "450",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
@@ -3464,6 +3434,7 @@ var IButton_Contact_Save = isc.IButton.create({
             DynamicForm_ContactCustomer.validate();
             contactHeader.validate();
             DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
+            alert(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
             var drs = contactHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_ContactHeader.setValue("contractDate", contractTrueDate);
@@ -3491,6 +3462,7 @@ var IButton_Contact_Save = isc.IButton.create({
                     dataSaveAndUpdateContract.runTill=valuesManagerArticle5.getValue("runTill");
                     dataSaveAndUpdateContract.runEndtDate=valuesManagerArticle5.getValue("runEndtDate");
                     dataSaveAndUpdateContract.incotermsId=valuesManagerArticle6.getValue("incotermsId");
+                    alert(valuesManagerArticle6.getValue("portByPortSourceId"));
                     dataSaveAndUpdateContract.portByPortSourceId=valuesManagerArticle6.getValue("portByPortSourceId");
                     dataSaveAndUpdateContract.incotermsText=valuesManagerArticle6.getValue("incotermsText");
                     dataSaveAndUpdateContract.officeSource=valuesManagerArticle6.getValue("officeSource");

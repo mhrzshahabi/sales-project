@@ -496,7 +496,7 @@
                 height: "30",
                 title: "Remove",
                 startRow: false,
-                icon: "icons/16/message.png",
+                icon: "[SKIN]/actions/remove.png",
                 click: function () {
                     DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");
                     DynamicForm_ContactParameter_ValueNumber8.removeField("button")
@@ -674,7 +674,7 @@ function itemsDefinitions(value, id) {
                     height: "30",
                     title: "Remove",
                     startRow: false,
-                    icon: "icons/16/message.png",
+                    icon: "[SKIN]/actions/remove.png",
                     click: function () {
                         DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);
                         DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)

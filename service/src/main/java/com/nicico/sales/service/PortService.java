@@ -1,8 +1,11 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
+import com.nicico.sales.dto.BankDTO;
 import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.iservice.IPortService;
 import com.nicico.sales.model.entities.base.Port;
@@ -73,6 +76,13 @@ public class PortService implements IPortService {
 		final List<Port> ports = portDAO.findAllById(request.getIds());
 
 		portDAO.deleteAll(ports);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+	public TotalResponse<PortDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(portDAO, criteria, port -> modelMapper.map(port, PortDTO.Info.class));
 	}
 
 	@Transactional(readOnly = true)
