@@ -80,6 +80,7 @@ public class ContractDTO {
 		private ContactDTO.ContactInfoTuple contactBySeller;
 		private ContactDTO.ContactInfoTuple contactBySellerAgent;
 		private ContactDTO.ContactInfoTuple contactByBuyerAgent;
+		private PortDTO.Info portByPortSource;
 	}
 	//------------------------------------------------------
 

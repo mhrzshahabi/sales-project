@@ -247,15 +247,15 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PORT_SOURCE_ID", insertable = false, updatable = false)
-	private Contact portByPortSource;
+	@JoinColumn(name = "PORT_SOURCE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2portBySourceportId"))
+	private Port portByPortSource;
 
 	@Column(name = "PORT_SOURCE_ID")
 	private Long portByPortSourceId;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2materialBymaterialId"))
 	private Material material;
 
 	@Column(name = "MATERIAL_ID")
@@ -266,7 +266,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UNIT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2unitByunitId"))
 	private Unit unit;
 
 	@Column(name = "UNIT_ID")

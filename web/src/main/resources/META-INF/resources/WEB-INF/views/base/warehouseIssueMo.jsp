@@ -289,7 +289,7 @@
     sortField: 0,
     dataPageSize: 50,
     autoFetchData: false,
-    showFilterEditor: true,
+    showFilterEditor: true,/*canSelectCells:true,*/
     filterOnKeypress: true,
     sortFieldAscendingText: "مرتب سازی صعودی",
     sortFieldDescendingText: "مرتب سازی نزولی",
