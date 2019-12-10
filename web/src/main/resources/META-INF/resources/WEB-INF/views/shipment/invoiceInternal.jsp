@@ -141,14 +141,14 @@
        }
     });
 
-    var ToolStripButton_InvoiceInternal_excel = isc.ToolStripButton.create({
+    /*var ToolStripButton_InvoiceInternal_excel = isc.ToolStripButton.create({
                 title: "<spring:message code='global.form.print.excel'/>",
                 icon: "icon/excel.png",
                 click: function () {
                 var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
                 window.open("invoiceInternal/print/excel/"+rowId);
 }
-    });
+    });*/
 
     var ToolStripButton_InvoiceInternal_html = isc.ToolStripButton.create({
                 title: "<spring:message code='global.form.print.html'/>",
@@ -180,14 +180,14 @@
 
                 }
 
-                , {
+                /*, {
                 title: "<spring:message code='global.form.print.excel'/>",
                 icon: "icon/excel.png",
                 click: function () {
                     var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
                     window.open("invoiceInternal/print/excel/"+rowId);
                 }
-            }
+            }*/
             , {
                 title: "<spring:message code='global.form.print.html'/>",
                 icon: "icon/html.jpg",
@@ -308,7 +308,7 @@
             [
                 ToolStripButton_InvoiceInternal_Refresh,
                 ToolStripButton_InvoiceInternal_Pdf,
-                ToolStripButton_InvoiceInternal_excel,
+                // ToolStripButton_InvoiceInternal_excel,
                 ToolStripButton_InvoiceInternal_html,
                 ToolStripButton_InvoiceInternal_Send2Accounting
             ]

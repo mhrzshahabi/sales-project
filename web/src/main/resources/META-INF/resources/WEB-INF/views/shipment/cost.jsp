@@ -220,7 +220,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list"
+        fetchDataURL: "${contextPath}/api/contact/spec-list1"
     });
     var RestDataSource_ContactByDestinationInspector = isc.MyRestDataSource.create({
         fields:
@@ -1051,18 +1051,19 @@
         height: "100%",
         dataSource: RestDataSource_Cost,
         contextMenu: Menu_ListGrid_Cost,
-        showFilterEditor: true,
         fields:
             [
-                {name: "id", hidden: true},
-                {name: "shipmentId", hidden: true},
+                {name: "id", hidden: true,},
+                {name: "shipmentId", hidden: true,},
                 {type: "RowSpacerItem"},
                 {
-                    name: "sourceInspector.nameFA",canFilter:false, title: "<spring:message code='cost.sourceInspectorId'/>", type: 'text', width: "60", align: "center", showHover: true
+                    name: "sourceInspector.nameFA", title: "<spring:message
+		code='cost.sourceInspectorId'/>", type: 'text', width: "60", align: "center", showHover: true
                 },
                 {
                     name: "sourceInspectionCost",
-                    title: "<spring:message code='cost.sourceInspectionCost'/>",
+                    title: "<spring:message
+		code='cost.sourceInspectionCost'/>",
                     type: 'float',
                     required: true,
                     width: "60",
@@ -1210,6 +1211,7 @@
             ],
         sortField: 0,
         autoFetchData: false,
+        showFilterEditor: true,
         filterOnKeypress: true,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
@@ -1221,6 +1223,13 @@
         dataArrived: function (startRow, endRow) {
         }
 
+    });
+    var HLayout_Cost_Grid = isc.HLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+            ListGrid_Cost
+        ]
     });
 
     var VLayout_Cost_Body = isc.VLayout.create({
