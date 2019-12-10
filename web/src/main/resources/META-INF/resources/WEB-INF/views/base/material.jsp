@@ -264,7 +264,7 @@
                     title: "<spring:message code='material.code'/>",
                     required: true,
                     width: 400,
-                    length: "15",
+                    length: "20",
                     keyPressFilter: "[0-9]",
                     validators: [{
                         type: "number", //Fix
@@ -272,7 +272,8 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }],
-                    hint: "تا 20 رقم قابل قبول می باشد",
+
+                    hint: "<spring:message code='global.didit'/>",
                     showHintInField: true,
                 },
                 {
@@ -366,9 +367,8 @@
     });
 
     var Window_Material = isc.Window.create({
-        title: "<spring:message code='material.title'/> ",
+        title: "<spring:message code='ProductGroup'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -616,7 +616,7 @@
                     title: "<spring:message code='contractItem.itemRow'/>",
                     required: true, wrapTitle: false, keyPressFilter: "[0-9]", length: "15",
                     width: 300,
-                    hint: "تا 15 رقم قابل قبول است",
+                   hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
 
 },
@@ -631,22 +631,22 @@
                     displayField: "nameFA"
                     ,
                     valueField: "id",
-                    pickListWidth: 750,
+                    pickListWidth: 295,
                     pickListHeight: "650",
                     pickListProperties: {showFilterEditor: true}
                     ,
                     pickListFields: [{name: "id", width: 50, align: "center" , hidden: true}, {
                         name: "nameFA",
-                        width: 300,
+                        width: "10%",
                         align: "center"
-                    }, {name: "nameEN", width: 150, align: "center"}, {name: "code", width: 150, align: "center"}]
+                    }, {name: "nameEN", width: 150, align: "center" , width: "10%"  }, {name: "code", align: "center" ,  width: "10%"}]
                 },
                 {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 300,
-                    hint: "تا 15 رقم قابل قبول است",
+                 hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     validators: [{
                         type: "isFloat",
@@ -660,7 +660,7 @@
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 300,
-                    hint: "تا 15 رقم قابل قبول است",
+                  hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     validators: [{
                         type: "isFloat",
@@ -675,7 +675,7 @@
                     title: "<spring:message code='MaterialFeature.avgValue'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 300,
-                    hint: "تا 15 رقم قابل قبول است",
+                   hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     validators: [{
                         type: "isFloat",
@@ -707,15 +707,15 @@
                     displayField: "nameFA"
                     ,
                     valueField: "id",
-                    pickListWidth: "500",
+                    pickListWidth: "295",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true}
                     ,
                     pickListFields: [{name: "id", width: 50, align: "center" , hidden: true}, {
                         name: "nameFA",
-                        width: 300,
+                        width: "10%",
                         align: "center"
-                    }, {name: "nameEN", width: 150, align: "center"}, {name: "code", width: 150, align: "center"}]
+                    }, {name: "nameEN",  width: "10%" , align: "center"}, {name: "code",  width: "10%", align: "center"}]
                 },
 
                 {
@@ -723,7 +723,8 @@
                     title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 300,
-                    hint: "تا 15 رقم قابل قبول است",
+
+                    hint: "<spring:message code='Material.digit'/>", //TODO
                     showHintInField: true,
                     validators: [{
                         type: "isFloat",
@@ -737,7 +738,7 @@
                     title: "<spring:message code='MaterialFeature.paymentPercent'/>",
                     type: 'float', wrapTitle: false, keyPressFilter: "[0-9.]", length: "15",
                     width: 300,
-                    hint: "تا 15 رقم قابل قبول است",
+                    hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     validators: [{
                         type: "isFloat",
@@ -751,7 +752,7 @@
                     title: "<spring:message code='MaterialFeature.TC'/>",
                     type: 'float', keyPressFilter: "[0-9.]", length: "15",
                     width: 300,
-                    hint: "تا 15 رقم قابل قبول است",
+                     hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     wrapTitle: false,
                     validators: [{
@@ -766,7 +767,7 @@
                     title: "<spring:message code='MaterialFeature.RC'/>",
                     type: 'float', keyPressFilter: "[0-9.]", length: "15",
                     width: 300,
-                    hint: "تا 15 رقم قابل قبول است",
+                    hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     wrapTitle: false,
                     validators: [{
