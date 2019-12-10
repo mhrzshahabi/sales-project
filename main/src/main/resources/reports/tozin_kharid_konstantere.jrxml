@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tozin_m" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="7574894b-b930-46ea-ac15-5edef133af30">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tozin_m" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="7574894b-b930-46ea-ac15-5edef133af30">
 	<property name="ireport.zoom" value="1.6105100000000008"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -13,29 +13,29 @@
 	<queryString language="SQL">
 		<![CDATA[select f.id,f.plant,f.SELLER,f.gdsname,f.car,f.sal_wazn,f.sal_tedad
     ,(select sum(wazn) wazn
-    from sales.VIEW_KHARID  s 
+    from VIEW_KHARID  s
     where substr(s.tzn_date,1,7)=substr( $P{dateReport} ,1,7)  and tzn_date<=  $P{dateReport} 
     and f.plant=s.plant and f.SELLER=s.SELLER 
     and f.SELLER=s.SELLER and f.car=s.car) MAH_WAZN
     ,(select sum(tedad) tedad
-    from sales.VIEW_KHARID  s 
+    from VIEW_KHARID  s
     where substr(s.tzn_date,1,7)=substr( $P{dateReport} ,1,7)  
     and tzn_date<=  $P{dateReport}   and f.plant=s.plant 
  and f.SELLER=s.SELLER 
     and f.SELLER=s.SELLER and f.car=s.car) MAH_TEDAD
     ,(select sum(wazn) wazn
-    from sales.VIEW_KHARID  s 
+    from VIEW_KHARID  s
     where tzn_date= $P{dateReport}   and f.plant=s.plant 
     and f.SELLER=s.SELLER 
     and f.SELLER=s.SELLER and f.car=s.car) ROZ_WAZN
     ,(select sum(tedad) tedad
-    from sales.VIEW_KHARID  s 
+    from VIEW_KHARID  s
     where  tzn_date=  $P{dateReport}   and f.plant=s.plant
      and f.SELLER=s.SELLER 
      and f.SELLER=s.SELLER and f.car=s.car) ROZ_TEDAD
 from (
 select id,plant,SELLER,gdsname,car,sum(wazn) sal_wazn,sum(tedad) sal_tedad
-from  sales.VIEW_KHARID 
+from  VIEW_KHARID
 where   substr(tzn_date,1,4)=substr( $P{dateReport}  ,1,4) and tzn_date<=  $P{dateReport} 
 group by id,plant,SELLER,gdsname,car
 ) f order by id,plant,SELLER,gdsname,car]]>

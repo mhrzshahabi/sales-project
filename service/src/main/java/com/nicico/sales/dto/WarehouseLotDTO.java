@@ -1,8 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.WarehouseCadItem;
-import com.nicico.sales.repository.WarehouseCadItemDAO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -63,7 +61,7 @@ public class WarehouseLotDTO {
 		private Date lastModifiedDate;
 		private String lastModifiedBy;
 		private Integer version;
-		private ContactDTO.ContactInfoTuple contact;
+		private ContractDTO.ContractInfoTuple contract;
 	}
 
 

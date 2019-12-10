@@ -36,8 +36,10 @@
                 {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
                 {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
                 {name: "contractId", title: "contractId", align: "center"},
-                {name: "used", title: "used", align: "center"}
-            ],
+                {name: "used", title: "used", align: "center"},
+                {name: "warehouseCadItem.issueId", title: "<spring:message code='warehouseCadItem.issueId'/> "},
+                {name: "contract.contractNo", title: "<spring:message code='contract.contractNo'/> "},
+           ],
         fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
     });
 
@@ -287,7 +289,7 @@
     sortField: 0,
     dataPageSize: 50,
     autoFetchData: false,
-    showFilterEditor: true,
+    showFilterEditor: true,/*canSelectCells:true,*/
     filterOnKeypress: true,
     sortFieldAscendingText: "مرتب سازی صعودی",
     sortFieldDescendingText: "مرتب سازی نزولی",
@@ -485,15 +487,23 @@
                         {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center", width: 150},
                         {name: "warehouseCadItem.warehouseCad.bijackNo", title: "<spring:message code='warehouseCad.bijackNo'/> "},
                         {name: "warehouseCadItem.issueId", title: "<spring:message code='warehouseCadItem.issueId'/> "},
+                        {name: "contract.contractNo", title: "<spring:message code='contract.contractNo'/> "},
                     ],
                     changed: function (form, item, value) {
                         rcd=item.getSelectedRecord();
                         rcd1=DynamicForm_WarehouseIssueMo.getOldValues().warehouseLotId;
-                       console.log('issue id='+rcd.warehouseCadItem.issueId);
+                        if (rcd != undefined && rcd.contractId != undefined
+                             && ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord().contactId != rcd.contractId) {
+                                 isc.warn("<spring:message code='warehouseIssueMo.Already_Assigend_2_other_Contract'/>");
+                                 DynamicForm_WarehouseIssueMo.setValue("warehouseLotId", "");
+                                 return;
+                             }
+                      /* console.log(rcd.contractId);
+                       console.log('issue id='+rcd.warehouseCadItem.issueId);*/
 
                         if (rcd1 != undefined && rcd1 == rcd.id) {
 
-                        } else  if (rcd.warehouseCadItem.issueId!=undefined) {
+                        } else  if (rcd.warehouseCadItem !=undefined && rcd.warehouseCadItem.issueId!=undefined) {
                             isc.warn("<spring:message code='warehouseIssueMo.Already_issued'/>");
                            DynamicForm_WarehouseIssueMo.setValue("warehouseLotId", "");
                            return;
@@ -681,7 +691,6 @@
             [
                  {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true},
-                {type: "RowSpacerItem"},
                 {name: "bijak",title: "<spring:message code='warehouseIssueMo.bijak'/>",width: "10%",required: true,keyPressFilter: "[0-9]", length: "15"},
                 {name: "containerNo",title: "<spring:message code='warehouseIssueMo.containerNo'/>",width: "10%",required: true, length: "15"},
                 {name: "emptyWeight",title: "<spring:message code='warehouseIssueMo.emptyWeight'/>",width: "10%",required: true, length: "15",

@@ -2853,7 +2853,7 @@
         <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_SHIPMENT_PRICE" constraintName="FK8ar703154hd2a736ivl7xemp4" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
     </changeSet>
     <changeSet author="Admin (generated)" id="1575716366798-182">
-        <addForeignKeyConstraint baseColumnNames="PORT_SOURCE_ID" baseTableName="TBL_CONTRACT" constraintName="FK8gkwxuw8rlafsv7yaunkrxgm3" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="PORT_SOURCE_ID" baseTableName="TBL_CONTRACT" constraintName="FK8gkwxuw8rlafsv7yaunkrxgm3" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
     </changeSet>
     <changeSet author="Admin (generated)" id="1575716366798-183">
         <addForeignKeyConstraint baseColumnNames="DISCHARGE" baseTableName="TBL_SHIPMENT" constraintName="FK8iwiot9hyx0wgas25qtf7a900" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>

@@ -558,7 +558,6 @@
             [
                 {name: "id", hidden: true},
                 {name: "tblShipment.id", hidden: true},
-                {type: "RowSpacerItem"},
                 {
                     name: "capacity", title: "<spring:message
 		code='shipment.Price.capacity'/>", type: 'float', required: true, colSpan: 1, titleColSpan: 1,

@@ -399,7 +399,6 @@
     var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
         width: "100%",
         height: 40,
-        overflow: "auto",
         membersMargin: 10,
         members:
             [
@@ -454,6 +453,8 @@
 
     var HLayout_Tozin_Actions = isc.HLayout.create({
         width: "100%",
+        overflow: "auto",
+        height: 56,
         members:
             [
                 ToolStrip_Actions_Tozin

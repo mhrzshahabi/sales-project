@@ -1296,11 +1296,7 @@
             {name: "mobile", title: "<spring:message code='contact.mobile'/>", align: "center", width: 200},
             {name: "fax", title: "<spring:message code='contact.fax'/>", align: "center", width: 200},
             {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200,
-            /*Fix Bug For Sorting*/
-            sortNormalizer:function(recordObject) {
-            try {return recordObject.country.nameFa;}catch(e) {return " ";}}
-            /*End Fix Bug for Sorting*/
-            } ,
+            sortNormalizer:function(recordObject) { return recordObject.country.nameFa;}} ,
             {name: "address", title: "<spring:message code='contact.address'/>", align: "center", hidden: true},
             {name: "webSite", title: "<spring:message code='contact.webSite'/>", align: "center", hidden: true},
             {name: "email", title: "<spring:message code='contact.email'/>", align: "center", hidden: true},

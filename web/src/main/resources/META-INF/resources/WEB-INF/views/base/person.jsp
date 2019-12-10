@@ -521,6 +521,7 @@
                 type: 'text',
                 width: 120,
                 align: "center",
+                sortNormalizer:function(recordObject) { return recordObject.contact.nameFA;}
             },
             {
                 name: "fullName",

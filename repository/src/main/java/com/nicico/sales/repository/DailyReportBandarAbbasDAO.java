@@ -15,7 +15,7 @@ public interface DailyReportBandarAbbasDAO extends JpaRepository<DailyReportBand
 			"dr.AMOUNT_FIRST_DAY,dr.AMOUNT_IMPORT_DAY,dr.AMOUNT_EXPORT_DAY,dr.AMOUNT_REVISE_DAY ," +
 			"dr.AMOUNT_FIRST_MON,dr.AMOUNT_IMPORT_MON,dr.AMOUNT_EXPORT_MON,dr.AMOUNT_REVISE_MON ," +
 			"dr.AMOUNT_FIRST_SAL,dr.AMOUNT_IMPORT_SAL,dr.AMOUNT_EXPORT_SAL,dr.AMOUNT_REVISE_SAL,dr.REVISE_SAL_PCT,dr.id " +
-			" FROM sales.TBL_DAILY_REPORT_BANDARABBAS  dr  " +
+			" FROM TBL_DAILY_REPORT_BANDARABBAS  dr  " +
 			" join sales.tbl_material m on m.id = dr.MATERIAL_ID " +
 			"WHERE dr.TO_DAY = ?1 and dr.WAREHOUSE_NO = ?2 order by dr.id "
 			, nativeQuery = true)

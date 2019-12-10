@@ -57,6 +57,7 @@
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_CostHeader.invalidateCache();
+            ListGrid_Cost.setData([]);
         }
     });
     var ToolStrip_Actions_Shipment_CostHeader = isc.ToolStrip.create({
@@ -119,7 +120,6 @@
                 name: "noContainer", title: "<spring:message
 		code='shipment.noContainer'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
-            <%--{name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},--%>
             {
                 name: "portByLoading.port", title: "<spring:message
 		code='shipment.loading'/>", type: 'text', required: true, width: "10%", showHover: true
@@ -128,8 +128,6 @@
                 name: "portByDischarge.port", title: "<spring:message
 		code='shipment.discharge'/>", type: 'text', required: true, width: "10%", showHover: true
             },
-// {name: "dischargeAddress", title:"<spring:message
-		code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
             {
                 name: "description", title: "<spring:message
 		code='shipment.description'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
@@ -251,6 +249,38 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentId", title: "id", canEdit: false, hidden: true},
+                {name: "sourceInspector.nameFA"},
+                {name: "sourceInspectionCost"},
+                {name: "sourceInspectionCurrency"},
+                {name: "destinationInspector.nameFA"},
+                {name: "destinationInspectionCost"},
+                {name: "destinationInspectionCurrency"},
+                {name: "otherCost"},
+                {name: "otherCostCurrency"},
+                {name: "sarcheshmehLabCost"},
+                {name: "umpireCost"},
+                {name: "umpireCostCurrency"},
+                {name: "sourceGold"},
+                {name: "destinationGold"},
+                {name: "sourceSilver"},
+                {name: "destinationSilver"},
+                {name: "sourceCopper"},
+                {name: "destinationCopper"},
+                {name: "sourceMolybdenum"},
+                {name: "destinationMolybdenum"},
+                {name: "insurance.nameFA"},
+                {name: "insuranceCost"},
+                {name: "insuranceCostCurrency"},
+                {name: "insuranceClause"},
+                {name: "inventortRentCost"},
+                {name: "postCost"},
+                {name: "thcCost"},
+                {name: "blFeeCost"},
+                {name: "demandCost"},
+                {name: "contractorCost"},
+                {name: "counterCost"},
+                {name: "disinfectionCost"},
+                {name: "portCost"},
             ],
         fetchDataURL: "${contextPath}/api/cost/spec-list"
     });
@@ -344,7 +374,7 @@
                     this.hide();
                     if (index == 0) {
                         var CostId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/cost/" + record.id,
                             httpMethod: "DELETE",
                             callback: function (resp) {
@@ -1010,7 +1040,7 @@
     var Window_Cost = isc.Window.create({
         title: "<spring:message code='cost.title'/> ",
         width: 870,
-        height: 500,
+        height: 400,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1055,159 +1085,76 @@
             [
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true,},
-                {type: "RowSpacerItem"},
                 {
                     name: "sourceInspector.nameFA", title: "<spring:message
-		code='cost.sourceInspectorId'/>", type: 'text', width: "60", align: "center", showHover: true
+		code='cost.sourceInspectorId'/>", type: 'text', width: "10%", align: "center", showHover: true
                 },
                 {
                     name: "sourceInspectionCost",
-                    title: "<spring:message
-		code='cost.sourceInspectionCost'/>",
-                    type: 'float',
+                    title: "<spring:message code='cost.sourceInspectionCost'/>",
+                    type: 'text',
                     required: true,
-                    width: "60",
+                    width: "10%",
                     align: "center",
                     showHover: true
                 },
                 {
-                    name: "sourceInspectionCurrency", title: "<spring:message
-		code='cost.sourceInspectionCurrency'/>", type: 'text', width: "60", align: "center", showHover: true
+                    name: "sourceInspectionCurrency", title: "<spring:message code='cost.sourceInspectionCurrency'/>",
+                    type: 'text', width: "10%", align: "center", showHover: true
                 },
                 {
-                    name: "destinationInspector.nameFa", title: "<spring:message
-		code='cost.destinationInspectorId'/>", type: 'text', width: "60", align: "center", showHover: true
+                    name: "destinationInspector.nameFA", title: "<spring:message code='cost.destinationInspectorId'/>",
+                    type: 'text', width: "10%", align: "center", showHover: true
                 },
                 {
-                    name: "destinationInspectionCost",
-                    title: "<spring:message
-		code='cost.destinationInspectionCost'/>",
-                    type: 'float',
+                    name: "destinationInspectionCost", title: "<spring:message code='cost.destinationInspectionCost'/>",
+                    type: 'text',
                     required: true,
-                    width: "60",
+                    width: "10%",
                     align: "center",
                     showHover: true
                 },
                 {
-                    name: "destinationInspectionCurrency", title: "<spring:message
-		code='cost.destinationInspectionCurrency'/>", type: 'text', width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "otherCost", title: "<spring:message
-		code='cost.otherCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "otherCostCurrency", title: "<spring:message
-		code='cost.otherCostCurrency'/>", type: 'text', width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "sarcheshmehLabCost",
-                    title: "<spring:message
-		code='cost.sarcheshmehLabCost'/>",
-                    type: 'integer',
-                    required: true,
-                    width: "60",
+                    name: "destinationInspectionCurrency",
+                    title: "<spring:message code='cost.destinationInspectionCurrency'/>",
+                    type: 'text',
+                    width: "10%",
                     align: "center",
                     showHover: true
                 },
                 {
-                    name: "umpireCost", title: "<spring:message
-		code='cost.umpireCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
+                    name: "otherCost", title: "<spring:message code='cost.otherCost'/>",
+                    type: 'text', required: true, width: "10%", align: "center", showHover: true
                 },
                 {
-                    name: "umpireCostCurrency", title: "<spring:message
-		code='cost.umpireCostCurrency'/>", type: 'text', width: "60", align: "center", showHover: true
+                    name: "otherCostCurrency", title: "<spring:message code='cost.otherCostCurrency'/>",
+                    type: 'text', width: "10%", align: "center", showHover: true
                 },
                 {
-                    name: "sourceGold", title: "<spring:message
-		code='cost.sourceGold'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
+                    name: "sarcheshmehLabCost", title: "<spring:message code='cost.sarcheshmehLabCost'/>",
+                    type: 'text', required: true, width: "10%", align: "center", showHover: true
                 },
                 {
-                    name: "destinationGold", title: "<spring:message
-		code='cost.destinationGold'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
+                    name: "umpireCost", title: "<spring:message code='cost.umpireCost'/>",
+                    type: 'text', required: true, width: "10%", align: "center", showHover: true
                 },
                 {
-                    name: "sourceSilver", title: "<spring:message
-		code='cost.sourceSilver'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "destinationSilver", title: "<spring:message
-		code='cost.destinationSilver'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "sourceCopper", title: "<spring:message
-		code='cost.sourceCopper'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "destinationCopper", title: "<spring:message
-		code='cost.destinationCopper'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "sourceMolybdenum", title: "<spring:message
-		code='cost.sourceMolybdenum'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "destinationMolybdenum",
-                    title: "<spring:message
-		code='cost.destinationMolybdenum'/>",
-                    type: 'float',
-                    required: true,
-                    width: "60",
+                    name: "umpireCostCurrency",
+                    title: "<spring:message code='cost.umpireCostCurrency'/>",
+                    type: 'text',
+                    width: "10%",
                     align: "center",
                     showHover: true
                 },
                 {
-                    name: "insurance.nameFA", title: "<spring:message
-		code='cost.insuranceId'/>", type: 'long', width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "insuranceCost", title: "<spring:message
-		code='cost.insuranceCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "insuranceCostCurrency", title: "<spring:message
-		code='cost.insuranceCostCurrency'/>", type: 'text', width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "insuranceClause", title: "<spring:message
-		code='cost.insuranceClause'/>", type: 'text', width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "inventortRentCost", title: "<spring:message
-		code='cost.inventortRentCost'/>", type: 'integer', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "postCost", title: "<spring:message
-		code='cost.postCost'/>", type: 'integer', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "thcCost", title: "<spring:message
-		code='cost.thcCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "blFeeCost", title: "<spring:message
-		code='cost.blFeeCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "demandCost", title: "<spring:message
-		code='cost.demandCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "contractorCost", title: "<spring:message
-		code='cost.contractorCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "counterCost", title: "<spring:message
-		code='cost.counterCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "disinfectionCost", title: "<spring:message
-		code='cost.disinfectionCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
-                {
-                    name: "portCost", title: "<spring:message
-		code='cost.portCost'/>", type: 'float', required: true, width: "60", align: "center", showHover: true
-                },
+                    name: "sourceGold",
+                    title: "<spring:message code='cost.sourceGold'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%",
+                    align: "center",
+                    showHover: true
+                }
             ],
         sortField: 0,
         autoFetchData: false,

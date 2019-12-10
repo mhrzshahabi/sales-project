@@ -137,14 +137,7 @@
 
     function ListGrid_Material_refresh() {
         ListGrid_Material.invalidateCache();
-        var criteria1 = {
-            _constructor: "AdvancedCriteria",
-            operator: "and",
-            criteria: [{fieldName: "materialId", operator: "equals", value: null}]
-        };
-        ListGrid_MaterialFeature.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            ListGrid_MaterialFeature.setData(data);
-        }, {operationId: "00"});
+        ListGrid_MaterialFeature.setData([]);
     }
 
     function ListGrid_Material_edit() {

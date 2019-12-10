@@ -13,20 +13,20 @@
 	<queryString language="SQL">
 		<![CDATA[select f.ID,f.PLANT,f.GDSCODE,f.GDSNAME,f.SAL_WAZN,f.SAL_TEDAD 
     ,(select sum(wazn) wazn
-    from sales.view_frosh s 
+    from view_frosh s
     where substr(tzn_date,1,7)=substr($P{dateReport},1,7)  and tzn_date<=$P{dateReport} and f.plant=s.plant and f.gdscode=s.gdscode) MAH_WAZN
     ,(select sum(tedad) tedad
-    from sales.view_frosh s 
+    from view_frosh s
     where substr(tzn_date,1,7)=substr($P{dateReport},1,7)  and tzn_date<=$P{dateReport} and f.plant=s.plant and f.gdscode=s.gdscode) MAH_TEDAD
     ,(select sum(wazn) wazn
-    from sales.view_frosh s 
+    from view_frosh s
     where tzn_date=$P{dateReport} and f.plant=s.plant and f.gdscode=s.gdscode) ROZ_WAZN
     ,(select sum(tedad) tedad
-    from sales.view_frosh s 
+    from view_frosh s
     where tzn_date=$P{dateReport} and f.plant=s.plant and f.gdscode=s.gdscode) ROZ_TEDAD
 from (
 select id,plant,gdscode,gdsname,sum(wazn) sal_wazn,sum(tedad) sal_tedad
-from sales.view_frosh  
+from view_frosh
 where substr(tzn_date,1,4)=substr($P{dateReport},1,4) and tzn_date<='1398/01/26'
 group by id,plant,gdscode,gdsname
 ) f order by id,gdscode]]>

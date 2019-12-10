@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface WarehouseCadDAO extends JpaRepository<WarehouseCad, Long>, JpaSpecificationExecutor<WarehouseCad> {
@@ -22,6 +23,8 @@ public interface WarehouseCadDAO extends JpaRepository<WarehouseCad, Long>, JpaS
 		"c.destination_tozin_plant_id,c.destination_bundle_sum,c.source_sheet_sum,c.destination_sheet_sum,c.source_weight,c.destination_weight,c.material_item_id " +
 		"having min(i.issue_id) is null and max(i.issue_id) is null  ", nativeQuery = true)
 List<WarehouseCad> findOnHandsByHSCode(String hsCode);
+
+Set<WarehouseCad> getAllByMaterialItemId(Long materialItemId);
 
 
 }

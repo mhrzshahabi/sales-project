@@ -8,7 +8,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="logo_nicico" class="java.lang.Object"/>
 	<queryString language="SQL">
-		<![CDATA[select C_BANK_CODE,C_NAME_FA,C_NAME_EN from sales.tbl_bank]]>
+		<![CDATA[select C_BANK_CODE,C_NAME_FA,C_NAME_EN from tbl_bank]]>
 	</queryString>
 	<field name="C_BANK_CODE" class="java.lang.String"/>
 	<field name="C_NAME_FA" class="java.lang.String"/>
