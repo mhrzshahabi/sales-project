@@ -27,7 +27,7 @@ public class Port extends Auditable {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "port2country"))
 	private Country country;
 
 	@Column(name = "COUNTRY_ID")

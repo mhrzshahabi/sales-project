@@ -30,7 +30,7 @@ public class WarehouseStock extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseStock2yard"))
 	private WarehouseYard warehouseYard;
 
 	@Column(name = "YARD_ID")
@@ -53,7 +53,7 @@ public class WarehouseStock extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ITEM_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "MATERIAL_ITEM_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseStock2matherialitem"))
 	private MaterialItem materialItem;
 
 	@Column(name = "MATERIAL_ITEM_ID")

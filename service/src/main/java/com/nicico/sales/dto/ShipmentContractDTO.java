@@ -3,8 +3,6 @@ package com.nicico.sales.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.entities.base.Country;
-import com.nicico.sales.model.entities.base.ShipmentHeader;
-import com.nicico.sales.model.entities.base.ShipmentPrice;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -30,9 +28,7 @@ public class ShipmentContractDTO {
 	private Long contactByChainOfOwnersId;
 	private Country tblCountryFlag;
 	private Long countryFlagId;
-	private ShipmentHeader shipmentHeader;
 	private Long shipmentHeaderId;
-	private ShipmentPrice shipmentPrice;
 	private Long shipmentPriceId;
 	private String shipmentContractDate;
 	private String no;

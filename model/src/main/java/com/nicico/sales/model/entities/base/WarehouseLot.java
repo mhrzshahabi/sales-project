@@ -26,7 +26,7 @@ public class WarehouseLot extends Auditable {
 	private String warehouseNo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Warehouselot2material"))
 	private Material material;
 
 	@Column(name = "MATERIAL_ID")
@@ -87,7 +87,7 @@ public class WarehouseLot extends Auditable {
 	private Double grossWeight;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLotContract"))
+	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLot2Contract"))
 	private Contract contract;
 
 	@Column(name = "CONTRACT_ID")
@@ -103,7 +103,7 @@ public class WarehouseLot extends Auditable {
 	private String typical;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "WAREHOUSECADITEM_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLot_CadItem"))
+	@JoinColumn(name = "WAREHOUSECADITEM_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLot2CadItem"))
 	private WarehouseCadItem warehouseCadItem;
 
     @Column(name = "WAREHOUSECADITEM_ID")

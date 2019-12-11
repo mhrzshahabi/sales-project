@@ -99,7 +99,7 @@ public class Contract extends Auditable {
 //
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DEFINITION_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "DEFINITION_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contract2parmtrByDefinitin"))
 	private Parameters parameterByDefinition;
 
 	@Column(name = "DEFINITION_ID")
@@ -107,7 +107,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INCOTERMS_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "INCOTERMS_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contract2incoterm"))
 	private Incoterms incoterms;
 
 	@Column(name = "INCOTERMS_ID")

@@ -24,14 +24,14 @@ public class WarehouseIssueMo extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Warehouseissuemo2shipment"))
 	private Shipment shipment;
 
 	@Column(name = "SHIPMENT_ID")
 	private Long shipmentId;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "WAREHOUSELOT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "WAREHOUSELOT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Warehouseissuemo2lot"))
 	private WarehouseLot warehouseLot;
 
 	@Column(name = "WAREHOUSELOT_ID")

@@ -50,20 +50,6 @@ public class ShipmentContract extends Auditable {
 	@Column(name = "FLAG")
 	private Long countryFlagId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_HEADER_ID", nullable = false, insertable = false, updatable = false)
-	private ShipmentHeader shipmentHeader;  //ok
-
-	@Column(name = "SHIPMENT_HEADER_ID")
-	private Long shipmentHeaderId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_PRICE_ID", nullable = false, insertable = false, updatable = false)
-	private ShipmentPrice shipmentPrice;
-
-	@Column(name = "SHIPMENT_PRICE_ID")
-	private Long shipmentPriceId;
-
 	@Column(name = "SHIPMENT_CONTRACT_DATE", length = 20)
 	private String shipmentContractDate;
 

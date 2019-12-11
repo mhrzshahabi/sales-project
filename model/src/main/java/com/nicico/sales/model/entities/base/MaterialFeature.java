@@ -24,7 +24,7 @@ public class MaterialFeature extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "material_fea2material"))
     private Material material;
 
     @Column(name = "MATERIAL_ID")
@@ -36,7 +36,7 @@ public class MaterialFeature extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FEATURE_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "FEATURE_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "material_fea2feature"))
     private Feature feature;
 
     @Column(name = "FEATURE_ID", nullable = false)
@@ -56,7 +56,7 @@ public class MaterialFeature extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RATE_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "RATE_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "material_fea2rate"))
     private Rate rate;
 
     @Column(name = "RATE_ID")

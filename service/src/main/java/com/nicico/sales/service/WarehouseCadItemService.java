@@ -1,5 +1,6 @@
 package com.nicico.sales.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.GridResponse;
@@ -18,20 +19,21 @@ import com.nicico.sales.repository.WarehouseCadItemDAO;
 import com.nicico.sales.repository.WarehouseLotDAO;
 import com.nicico.sales.repository.WarehouseStockDAO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.nicico.copper.common.domain.criteria.SearchUtil.createSearchRq;
 import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class WarehouseCadItemService implements IWarehouseCadItemService {
@@ -41,6 +43,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 	private final WarehouseCadDAO warehouseCadDAO;
 	private final ModelMapper modelMapper;
 	private final WarehouseLotDAO warehouseLotDAO;
+	private final ObjectMapper objectMapper;
 
 	@Transactional(readOnly = true)
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECADITEM')")
@@ -92,7 +95,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 //    @PreAuthorize("hasAuthority('D_WAREHOUSECADITEM')")
 	public void delete(Long id) {
 		final WarehouseCadItem warehouseCadItem = warehouseCadItemDAO.findById(id)
-		.orElseThrow(()->new SalesException(SalesException.ErrorType.WarehouseCadItemNotFound));
+				.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadItemNotFound));
 		final WarehouseCad bijak = warehouseCadDAO.findById(warehouseCadItem.getWarehouseCadId())
 				.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
 		WarehouseStock stock = warehouseStockDAO.findByMaterialItemIdAndWarehouseYardIdAndPlantAndWarehouseNo(
@@ -262,8 +265,8 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 
 	public WarehouseCadItemDTO.Info saveIssue(WarehouseCadItem warehouseCadItem, Long issueId) {
 
-		if ((warehouseCadItem.getIssueId() == null && issueId==null) ||
-		     (warehouseCadItem.getIssueId() != null && issueId!=null && warehouseCadItem.getIssueId().equals(issueId)))
+		if ((warehouseCadItem.getIssueId() == null && issueId == null) ||
+				(warehouseCadItem.getIssueId() != null && issueId != null && warehouseCadItem.getIssueId().equals(issueId)))
 			return modelMapper.map(warehouseCadItem, WarehouseCadItemDTO.Info.class);
 		else if (issueId != null && warehouseCadItem.getIssueId() != null) {
 			warehouseCadItem.setIssueId(issueId);
@@ -271,27 +274,27 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 			return modelMapper.map(saved, WarehouseCadItemDTO.Info.class);
 		}
 
-	    final WarehouseCad bijak=warehouseCadDAO.findById(warehouseCadItem.getWarehouseCadId())
-	    								.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
+		final WarehouseCad bijak = warehouseCadDAO.findById(warehouseCadItem.getWarehouseCadId())
+				.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
 		WarehouseStock stock = warehouseStockDAO.findByMaterialItemIdAndWarehouseYardIdAndPlantAndWarehouseNo(
 				bijak.getMaterialItemId(),
 				bijak.getWarehouseYardId(),
 				bijak.getPlant(),
 				bijak.getWarehouseNo());
 
-		 if (issueId != null && warehouseCadItem.getIssueId() == null) { // kasr az mojodi
-					stock.setAmount(stock.getAmount() - warehouseCadItem.getWeightKg());
-					stock.setBarrel(stock.getBarrel() - warehouseCadItem.getBarrelNo());
-					stock.setSheet(stock.getSheet() - warehouseCadItem.getSheetNo());
-					stock.setBundle(warehouseCadItem.getBundleSerial() == null ? stock.getBundle() : stock.getBundle() - 1L);
-					stock.setLot(warehouseCadItem.getLotName() == null ? stock.getLot() : stock.getLot() - 1L);
+		if (issueId != null && warehouseCadItem.getIssueId() == null) { // kasr az mojodi
+			stock.setAmount(stock.getAmount() - warehouseCadItem.getWeightKg());
+			stock.setBarrel(stock.getBarrel() - warehouseCadItem.getBarrelNo());
+			stock.setSheet(stock.getSheet() - warehouseCadItem.getSheetNo());
+			stock.setBundle(warehouseCadItem.getBundleSerial() == null ? stock.getBundle() : stock.getBundle() - 1L);
+			stock.setLot(warehouseCadItem.getLotName() == null ? stock.getLot() : stock.getLot() - 1L);
 
-		} else if(issueId == null && warehouseCadItem.getIssueId()!=null ) { // ezafeh be mojodi
-					stock.setAmount(stock.getAmount() + warehouseCadItem.getWeightKg());
-					stock.setBarrel(stock.getBarrel() + warehouseCadItem.getBarrelNo());
-					stock.setSheet(stock.getSheet() + warehouseCadItem.getSheetNo());
-					stock.setBundle(warehouseCadItem.getBundleSerial() == null ? stock.getBundle() : stock.getBundle() + 1L);
-					stock.setLot(warehouseCadItem.getLotName() == null ? stock.getLot() : stock.getLot() + 1L);
+		} else if (issueId == null && warehouseCadItem.getIssueId() != null) { // ezafeh be mojodi
+			stock.setAmount(stock.getAmount() + warehouseCadItem.getWeightKg());
+			stock.setBarrel(stock.getBarrel() + warehouseCadItem.getBarrelNo());
+			stock.setSheet(stock.getSheet() + warehouseCadItem.getSheetNo());
+			stock.setBundle(warehouseCadItem.getBundleSerial() == null ? stock.getBundle() : stock.getBundle() + 1L);
+			stock.setLot(warehouseCadItem.getLotName() == null ? stock.getLot() : stock.getLot() + 1L);
 		}
 		warehouseStockDAO.saveAndFlush(stock);
 
@@ -315,17 +318,36 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 	@Transactional(readOnly = true)
 	@Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
-	public TotalResponse< WarehouseCadItemDTO.InfoCombo2> search1(NICICOCriteria criteria) {
-		List<WarehouseCadItem> l = warehouseCadItemDAO.findOnHandsByHSCode("74031100");
-		GridResponse< WarehouseCadItemDTO.InfoCombo2> gridResponse = new GridResponse();
-		List< WarehouseCadItemDTO.InfoCombo2> data = new ArrayList<>();
+	public TotalResponse<WarehouseCadItemDTO.InfoCombo2> search1(NICICOCriteria criteria) {
+		final Map<String, Object> fetchedData = new HashMap<>();
+		if (criteria != null && criteria.getCriteria() != null)
+			((List) criteria.getCriteria()).forEach(nicicoCriteria -> {
+				try {
+					Map<String, Object> criteriaMap = objectMapper.readValue(nicicoCriteria.toString(), HashMap.class);
+					if (criteriaMap.get("fieldName").equals("warehouseCad.bijackNo"))
+						fetchedData.put("bijackNo", criteriaMap.get("value"));
+					if (criteriaMap.get("fieldName").equals("bundleSerial"))
+						fetchedData.put("bundleSerial", criteriaMap.get("value"));
+				} catch (IOException e) {
+					log.error("searchTozinOnTheWay error: {}", e.getMessage());
+				}
+			});
+		List<WarehouseCadItem> l = warehouseCadItemDAO.findOnHandsByHSCode("74031100", criteria.get_startRow(), criteria.get_endRow(),
+				fetchedData == null || fetchedData.get("bijackNo") == null ? "" : fetchedData.get("bijackNo").toString(),
+				fetchedData == null || fetchedData.get("bundleSerial") == null ? "" : fetchedData.get("bundleSerial").toString());
+		int i = warehouseCadItemDAO.findOnHandsByHSCodeCount("74031100",
+				fetchedData == null || fetchedData.get("bijackNo") == null ? "" : fetchedData.get("bijackNo").toString(),
+				fetchedData == null || fetchedData.get("bundleSerial") == null ? "" : fetchedData.get("bundleSerial").toString());
+
+		GridResponse<WarehouseCadItemDTO.InfoCombo2> gridResponse = new GridResponse();
+		List<WarehouseCadItemDTO.InfoCombo2> data = new ArrayList<>();
 		for (WarehouseCadItem w : l) {
-			data.add(modelMapper.map(w,  WarehouseCadItemDTO.InfoCombo2.class) );
+			data.add(modelMapper.map(w, WarehouseCadItemDTO.InfoCombo2.class));
 		}
-		gridResponse.setStartRow(0);
-		gridResponse.setEndRow(data.size()-1);
-		gridResponse.setTotalRows(data.size());
-		gridResponse.setData(data );
+		gridResponse.setStartRow(criteria.get_startRow());
+		gridResponse.setEndRow(criteria.get_startRow()+data.size() - 1);
+		gridResponse.setTotalRows(i);
+		gridResponse.setData(data);
 		return new TotalResponse<>(gridResponse);
 	}
 

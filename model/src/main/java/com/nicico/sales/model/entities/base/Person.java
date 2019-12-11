@@ -24,7 +24,7 @@ public class Person extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "person2contact"))
 	private Contact contact;
 
 	@Column(name = "CONTACT_ID")

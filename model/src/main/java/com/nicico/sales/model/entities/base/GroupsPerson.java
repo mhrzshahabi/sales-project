@@ -24,7 +24,7 @@ public class GroupsPerson extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "GROUPS_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "GROUPS_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "groupprs2group"))
     private Groups groups;
 
     @Column(name = "GROUPS_ID")
@@ -32,7 +32,7 @@ public class GroupsPerson extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PERSON_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "PERSON_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "groupprs2prs"))
     private Person person;
 
     @Column(name = "PERSON_ID")
