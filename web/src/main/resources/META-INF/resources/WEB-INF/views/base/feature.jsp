@@ -65,7 +65,8 @@
                 title: "<spring:message code='feature.nameFa'/>",
                 required: true,
                 readonly: true,
-                width: 500
+                width: 500,
+                length: "100"
             },
             {
                 name: "nameEN",
@@ -73,6 +74,7 @@
                 type: 'text',
                 width: 500,
                 required: true,
+                length: "100"
             },
             {name: "symbol", title: "<spring:message code='feature.symbol'/>", type: 'text', width: 500},
 

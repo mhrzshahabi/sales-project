@@ -196,7 +196,7 @@
                 {
                     name: "coreBranch",
                     title: "<spring:message code='bank.coreBranch'/>",
-                    width: 200,
+                    width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1,
                     valueMap: {
@@ -208,7 +208,7 @@
                     name: "countryId",
                     title: "<spring:message code='country.nameFa'/>",
                     type: 'long',
-                    width: 200, required: true,
+                    width: 500, required: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Country__BANK,
                     displayField: "nameFa",
@@ -219,10 +219,10 @@
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
-                        {name: "id", width: 50, align: "center", colSpan: 1, titleColSpan: 1},
-                        {name: "nameFa", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
-                        {name: "nameEn", width: 150, align: "center", colSpan: 1, titleColSpan: 1},
-                        {name: "isActive", width: 150, align: "center", colSpan: 1, titleColSpan: 1}
+                        {name: "id", width:"10%", align: "center", colSpan: 1, titleColSpan: 1 , hidden:true},
+                        {name: "nameFa", width:"10%", align: "center", colSpan: 1, titleColSpan: 1},
+                        {name: "nameEn", width:"10%", align: "center", colSpan: 1, titleColSpan: 1},
+                        // {name: "isActive", width:"10%", align: "center", colSpan: 1, titleColSpan: 1}
                     ]
                 }
             ]

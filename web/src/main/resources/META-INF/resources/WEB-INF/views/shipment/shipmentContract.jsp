@@ -1246,8 +1246,8 @@
 <%--        {--%>
 <%--            name: "shipmentType", title: "<spring:message code='shipment.inquiry.type'/>", type: 'text', width: "10%", align: "center"--%>
 <%--            , valueMap: {--%>
-<%--                "b": "<spring:message code='shipment.inquiry.bulk'/>"--%>
-<%--                , "c": "<spring:message code='shipment.inquiry.container'/>"--%>
+<%--                "bulk": "<spring:message code='shipment.inquiry.bulk'/>"--%>
+<%--                , "container": "<spring:message code='shipment.inquiry.container'/>"--%>
 <%--            }--%>
 <%--        }--%>
 <%--    ],--%>
@@ -1448,8 +1448,8 @@
 <%--        {--%>
 <%--            name: "shipmentType", title: "<spring:message code='shipment.inquiry.type'/>", type: 'text', width: "10%", align: "center"--%>
 <%--            , valueMap: {--%>
-<%--                "b": "<spring:message code='shipment.inquiry.bulk'/>"--%>
-<%--                , "c": "<spring:message code='shipment.inquiry.container'/>"--%>
+<%--                "bulk": "<spring:message code='shipment.inquiry.bulk'/>"--%>
+<%--                , "container": "<spring:message code='shipment.inquiry.container'/>"--%>
 <%--            }--%>
 <%--        }--%>
 

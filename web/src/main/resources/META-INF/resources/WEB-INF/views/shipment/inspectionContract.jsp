@@ -47,7 +47,7 @@ var emailCCByBady="";
 
 
         //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/*Add by JZ  RestdataSource   */
+
             var RestDataSource_Shipment__SHIPMENT = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -85,7 +85,7 @@ var emailCCByBady="";
                 title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text',
                 width: 400,
-                valueMap: {"b": "bulk", "c": "container"}
+                valueMap: {"bulk": "bulk", "container": "container"}
             },
             {
                 name: "bookingCat",
@@ -124,7 +124,7 @@ var emailCCByBady="";
             {name: "dischargeAddress", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
             {name: "description", title: "<spring:message code='shipment.description'/>", type: 'text', width: "10%"},
             {name: "swb", title: "<spring:message code='shipment.SWB'/>", type: 'text', width: "10%"},
-            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "50%"},//jz
+            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "50%"},
             {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
             {
                 name: "status",
@@ -237,7 +237,7 @@ var emailCCByBady="";
                 width: "10%",
                 showHover: true
             },
-/*Add By JZ*/
+
             {
             name: "bookingCat",
             title: "<spring:message code='shipment.bookingCat'/>",
@@ -245,7 +245,7 @@ var emailCCByBady="";
             width: "10%",
             showHover: true
             },
-/*END By JZ*/
+
             {
                 name: "loadingLetter",
                 title: "<spring:message code='shipment.loadingLetter'/>",
@@ -607,8 +607,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
             }
         },
             {
-                /*Add JZ*/
-                /*Change logo */
+
                 title: "<spring:message code='global.form.print.word'/>", icon: "icon/word.png", click: function () {
                     var record = ListGrid_InspectionContract.getSelectedRecord(); //TODO Change ListGrid Set Email OK 200
                     "<spring:url value="/inspectionContract/print/" var="printUrl"/>";
@@ -618,7 +617,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
     ]
 });
 
-/*List Grid Bottom*/
+
     var ListGrid_PersonByInspectionContract_EmailCC = isc.ListGrid.create({
                width: "800",
                height: "400",
@@ -730,17 +729,13 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
 
                                 ]
                                 }),
-
-
-
                                 ]
                                 })
 
                             ]
                         });
 
-/*Start Email*/
-/*Data source Shipment.Contract*/
+
 
     var DynamicForm_InspectionContract = isc.DynamicForm.create({
         styleName:"jalal",
@@ -803,18 +798,13 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
             },
 
             {name:"emailBody",title:"<spring:message code='global.emailBody'/>",align:"left" ,  width :"800",type:"textArea",height:200},
-
             {name:"emailRespond",title:"<spring:message code='global.emailRespond'/>", align:"left" ,  width :"700" },
 
 
-                /*Create Date */
-
                 {
-                name: "createDate",
-                title: "<spring:message code='currencyRate.curDate'/>",
                 type: "date",
                 format: 'DD-MM-YYYY',
-                width: "400"
+                width: "500"
                 },
 
 
@@ -1102,7 +1092,7 @@ DynamicForm_ShipmentHeader.setValue("shipmentHeaderDate", datestring)
 <%--    {name: "amount", title:"<spring:message code='global.amount'/>", type:'float'},--%>
 <%--    {name: "noContainer", title:"<spring:message code='shipment.noContainer'/>", type:'integer'},--%>
 <%--    {name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",},--%>
-<%--    {name: "shipmentType", title:"<spring:message code='shipment.shipmentType'/>", type:'text', width: 400  ,valueMap:{"b":"bulk", "c":"container"}},--%>
+<%--    {name: "shipmentType", title:"<spring:message code='shipment.shipmentType'/>", type:'text', width: 400  ,valueMap:{"bulk":"bulk", "container":"container"}},--%>
 <%--    {name: "loading", title:"<spring:message code='global.address'/>", type:'text', width: "10%" },--%>
 <%--    {name: "tblPortByLoading.id", title:"<spring:message code='shipment.loading'/>", type:'text', required: true, width: "10%" },--%>
 <%--    {name: "tblPortByLoading.port", title:"<spring:message code='shipment.loading'/>", type:'text', required: true, width: "10%" },--%>

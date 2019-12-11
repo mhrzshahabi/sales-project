@@ -226,10 +226,10 @@
                     pickListProperties: {showFilterEditor: true}
                     ,
                     pickListFields: [
-                        {name: "id", width: 50, align: "center"},
-                        {name: "nameFa", width: 150, align: "center"},
-                        {name: "nameEn", width: 150, align: "center"},
-                        {name: "isActive", width: 150, align: "center"}
+                        {name: "id", width: 50, align: "center" ,  hidden:true},
+                        {name: "nameFa", width: 150, align: "center" , width:"10%"},
+                        {name: "nameEn", width: 150, align: "center" , width:"10%"},
+                        // {name: "isActive", width: 150, align: "center" , hidden:true}
 
                     ]
                 }

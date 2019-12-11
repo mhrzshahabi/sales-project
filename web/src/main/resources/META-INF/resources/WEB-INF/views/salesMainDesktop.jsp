@@ -430,8 +430,8 @@
 
     var materialButton = isc.IconButton.create({
         title: "<spring:message code='material.title'/>",
-        icon: "pieces/16/contact.png",
-        largeIcon: "pieces/512/material.png",
+        icon: "basicTables/package.png",
+        largeIcon: "basicTables/package.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='material.title'/>", "<spring:url value="/material/showForm" />")
@@ -441,8 +441,8 @@
 
     var commercialPartyButton = isc.IconButton.create({
         title: "<spring:message code='commercialParty.title'/>",
-        icon: "pieces/16/contact.png",
-        largeIcon: "basicTables/commercialParty.png",
+        icon: "basicTables/promote.png",
+        largeIcon: "basicTables/promote.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='commercialParty.title'/>", "<spring:url value="/contact/showForm" />")
@@ -478,8 +478,8 @@
     });
     var exchangeRateButton = isc.IconButton.create({
         title: "<spring:message code='exchangeRate.title'/>",
-        icon: "basicTables/exchangeRate.png",
-        largeIcon: "basicTables/exchangeRate.png",
+        icon: "basicTables/exchange-rate_new.png",
+        largeIcon: "basicTables/exchange-rate_new.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
@@ -487,8 +487,8 @@
     });
     var currencyButton = isc.IconButton.create({
         title: "<spring:message code='currency.title'/>",
-        icon: "basicTables/currency.png",
-        largeIcon: "basicTables/currency.png",
+        icon: "basicTables/money.png",
+        largeIcon: "basicTables/money.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='currency.title'/>", "<spring:url value="/currency/showForm" />")
@@ -496,8 +496,8 @@
     });
     var commercialIncotermsButton = isc.IconButton.create({
         title: "<spring:message code='commercialIncoterms.title'/>",
-        icon: "basicTables/commercialIncoterms.png",
-        largeIcon: "basicTables/commercialIncoterms.png",
+        icon: "basicTables/oceanic.png",
+        largeIcon: "basicTables/oceanic.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")
@@ -505,8 +505,8 @@
     });
     var glossaryButton = isc.IconButton.create({
         title: "<spring:message code='glossary.title'/>",
-        icon: "basicTables/glossary.png",
-        largeIcon: "basicTables/glossary.png",
+        icon: "basicTables/Glossary_new.png",
+        largeIcon: "basicTables/Glossary_new.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='glossary.title'/>", "<spring:url value="/glossary/showForm" />")
@@ -514,8 +514,8 @@
     });
     var bankButton = isc.IconButton.create({
         title: "<spring:message code='bank.title'/>",
-        icon: "basicTables/bank.png",
-        largeIcon: "basicTables/bank.png",
+        icon: "basicTables/bank_new.png",
+        largeIcon: "basicTables/bank_new.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='bank.title'/>", "<spring:url value="/bank/showForm" />")
@@ -534,8 +534,8 @@
 
     var countryButton = isc.IconButton.create({
         title: "<spring:message code='country.title'/>",
-        icon: "basicTables/country.png",
-        largeIcon: "basicTables/country.png",
+        icon: "basicTables/globe.png",
+        largeIcon: "basicTables/globe.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
@@ -543,8 +543,8 @@
     });
     var portButton = isc.IconButton.create({
         title: "<spring:message code='port.port'/>",
-        icon: "basicTables/port.png",
-        largeIcon: "basicTables/port.png",
+        icon: "basicTables/port_ne.png",
+        largeIcon: "basicTables/port_ne.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
@@ -552,8 +552,8 @@
     });
     var parametersButton = isc.IconButton.create({
         title: "<spring:message code='parameters.title'/>",
-        icon: "basicTables/parameters.png",
-        largeIcon: "basicTables/parameters.png",
+        icon: "basicTables/contract_new.png",
+        largeIcon: "basicTables/contract_new.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
@@ -561,7 +561,8 @@
     });
     var personButton = isc.IconButton.create({
         title: "<spring:message code='person.title'/>",
-        icon: "pieces/user.png",
+        icon: "basicTables/man.png",
+        largeIcon: "basicTables/man.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='person.title'/>", "<spring:url value="/person/showForm" />")
@@ -570,7 +571,8 @@
 
     var groupsButton = isc.IconButton.create({
         title: "<spring:message code='groups.title'/>",
-        icon: "pieces/users.png",
+        icon: "basicTables/group-email-person.png",
+        largeIcon: "basicTables/group-email-person.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='groups.title'/>", "<spring:url value="/groups/showForm" />")
@@ -586,8 +588,8 @@
     });
     var dccButton = isc.IconButton.create({
         title: "<spring:message code='dcc.title'/>",
-        icon: "icon/attach.png",
-        largeIcon: "icon/attach.png",
+        icon: "basicTables/attach.png",
+        largeIcon: "basicTables/attach.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")
@@ -595,7 +597,8 @@
     });
     var instructionButton = isc.IconButton.create({
         title: "<spring:message code='instruction.title'/>",
-        icon: "basicTables/instruction.png",
+        icon: "basicTables/instructions.png",
+        largeIcon: "basicTables/instructions.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='instruction.title'/>", "<spring:url value="/instruction/showForm" />")
@@ -603,7 +606,8 @@
     });
     var paymentOpftionButton = isc.IconButton.create({
         title: "<spring:message code='paymentOption.title'/>",
-        icon: "basicTables/paymentOption.png",
+        icon: "basicTables/payment.png",
+        largeIcon: "basicTables/payment.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='paymentOption.title'/>", "<spring:url value="/paymentOption/showForm" />")
@@ -1129,8 +1133,8 @@
     /*-------------------shipment---------------------------*/
     var cargoAssignmentButton = isc.IconButton.create({
         title: "<spring:message code='cargoAssignment.title'/>",
-        icon: "shipment/port.png",
-        largeIcon: "shipment/port.png",
+        icon: "basicTables/port_new.png",
+        largeIcon: "basicTables/port_new.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='cargoAssignment.title'/>", "<spring:url value="/shipment/showForm" />")
@@ -1298,7 +1302,7 @@
             // inspectorAppointmentButton
             inspectionMoistureResultButton
             , inspectionAssayResultButton ,
-           //Add By jz
+
 
             // , inspectionCostButton
         ],

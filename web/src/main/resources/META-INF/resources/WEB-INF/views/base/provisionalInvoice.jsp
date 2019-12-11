@@ -136,7 +136,7 @@
             },
             {
                 name: "shipmentType", title: "<spring:message
-		code='shipment.shipmentType'/>", type: 'text', width: 400, valueMap: {"b": "bulk", "c": "container"}
+		code='shipment.shipmentType'/>", type: 'text', width: 400, valueMap: {"bulk": "bulk", "container": "container"}
             },
             {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
             {

@@ -139,7 +139,7 @@
                 title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text',
                 width: 400,
-                valueMap: {"b": "bulk", "c": "container"}
+                valueMap: {"bulk": "bulk", "container": "container"}
             },
             {
             name: "bookingCat",
@@ -179,7 +179,7 @@
             {name: "dischargeAddress", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
             {name: "description", title: "<spring:message code='shipment.description'/>", type: 'text', width: "10%"},
             {name: "swb", title: "<spring:message code='shipment.SWB'/>", type: 'text', width: "10%"},
-            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "50%"},//jz
+            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "50%"},
             {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
             {
                 name: "status",
@@ -320,28 +320,28 @@
                 name: "contractShipmentId", ID: "abal", colSpan: 4,
                 title: "<spring:message	code='contact.name'/>",
                 type: 'long',
-                width: "100%",
+                width: 400,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_pickShipmentItem,
                 displayField: "contractNo",
                 valueField: "cisId",
-                pickListWidth: "500",
+                pickListWidth: 400,
                 pickListHeight: "500",
                 required: true,
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "contractNo", width: 50, align: "center"},
+                    {name: "contractNo", width:"10%", align: "center"},
                     {
                         name: "fullname",
-                        width: 200,
+width:"10%",
                         align: "center"
                     },
                     {name: "amount", width: 150, align: "center"}, {
                         name: "sendDate",
-                        width: 150,
+width:"10%",
                         align: "center"
                     },
-                    {name: "plan", width: 150, align: "center"}
+                    {name: "plan", width:"10%", align: "center"}
                 ],
                 changed: function () {
                     var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
@@ -426,7 +426,7 @@
             // {type: "Header", defaultValue: dash},
             {
                 name: "shipmentType", colSpan: 2, title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text', width: "100%", valueMap: {"b": "bulk", "c": "container"},
+                type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required:true
             },
             {
             name: "bookingCat",
@@ -435,6 +435,8 @@
             width: "100%",
             colSpan:2,
             showHover: true,
+            hint:"<spring:message code='shipment.bookingCat.hint'/>",
+                showHintInField: true,
 
             },
             // {type: "Header", defaultValue: dash},
@@ -443,7 +445,7 @@
                 colSpan: 2,
                 title: "<spring:message	code='shipment.noContainer'/>",
                 type: 'integer',
-                required: false,
+                required: true,
                 width: "100%",
                 keyPressFilter: "[0-9.]",
                 validators: [{
@@ -544,7 +546,7 @@
                 name: "numberOfBLs", colSpan: 2,
                 title: "<spring:message code='shipment.numberOfBLs'/>",
                 type: 'integer',
-                required: false,
+                required: true,
                 width: 300,
                 validators: [{
                     type: "isInteger",
@@ -559,6 +561,7 @@
                 title: "<spring:message code='shipment.blNumbers'/>",
                 type: 'text',
                 width: 300,
+                required:true,
 
             },
             // {type: "Header", defaultValue: dash},
@@ -838,7 +841,7 @@
 
     var shipmentTabs = isc.TabSet.create({
         height: "500",
-        width: "800", //change By jz
+        width: "800",
         showTabScroller: false,
         tabs: [
             {
@@ -964,7 +967,7 @@
                 title: "<spring:message code='contact.name'/>. ",
                 contents: "<spring:message code='contact.name'/>. ",
                 align: "center",
-                width: "100%",
+                width: "60%",
                 height: 22
             }),
             shipmentTabs,
@@ -1182,23 +1185,26 @@
                 title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text',
                 width: "10%",
-                showHover: true
+                showHover: true,
+                required:true
             },
-/*Add By JZ*/
+
             {
             name: "bookingCat",
-            title: "<spring:message code='shipment.bookingCat'/>",
+            title: "<spring:message code='shipment.bookingCat'/>" ,
             type: 'text',
             width: "10%",
-            showHover: true
+            showHover: true,
+
             },
-/*END By JZ*/
+
             {
                 name: "loadingLetter",
                 title: "<spring:message code='shipment.loadingLetter'/>",
                 type: 'text',
                 width: "10%",
-                showHover: true
+                showHover: true,
+                required:true
             },
             {
                 name: "noContainer",

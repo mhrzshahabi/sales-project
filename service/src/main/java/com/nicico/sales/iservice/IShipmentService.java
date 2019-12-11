@@ -23,7 +23,7 @@ public interface IShipmentService {
 
 	List<Object[]> pickListShipment();
 
-	List<String> findLotname(String id ); //Add by jalal
+	List<String> findLotname(String id );
 
 	List<String> findbooking(String id);
 

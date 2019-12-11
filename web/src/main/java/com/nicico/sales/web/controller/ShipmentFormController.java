@@ -38,8 +38,7 @@ public class ShipmentFormController {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         dtf.format(PersianDate.now());
-
-       String dateday =  PersianDate.now().format(dtf).toString();
+        String dateday =  PersianDate.now().format(dtf);
 
         try {
             XSSFWorkbook workbook = new XSSFWorkbook();
@@ -50,22 +49,13 @@ public class ShipmentFormController {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ShipmentDTO.Info
 
-
-
-
-
-
                shipment = shipmentService.get(Long.valueOf(shipmentId));
-
-
-
-
                String description = shipment.getMaterial().getDescl();
                String shiptype = shipment.getShipmentType();
 
 
                 if(description.contains("Copper Cathode Leaching") || description.contains("Copper Cathode") || description.contains("cat")  ){
-                    if(shiptype.contains("bulk")){
+                    if(shiptype.contains("bulk") ){
 
                         stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
                         ServletOutputStream out = response.getOutputStream();
@@ -92,21 +82,9 @@ public class ShipmentFormController {
 
                         replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()) );
 
-
-
-
-
-
-
-
-
                         /*Date */
                         replacePOI(doc, "dateday", dateday );
                         /*End Date*/
-
-
-
-
 
 
                         response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_bulk.doc\"");
@@ -153,8 +131,6 @@ public class ShipmentFormController {
 
 
                         replacePOI(doc, "bookingno" ,   "(Booking No."+shipment.getBookingCat() + ")" );
-
-
 
 
                         /*Date*/
@@ -253,13 +229,7 @@ public class ShipmentFormController {
                 List<String> lotnamelist = shipmentService.findLotname(shipId);
                 List<String> bookingNo = shipmentService.findbooking(shipId);
 
-//               برای شرکت بازرسی است AHK , SGS  برای تست این کد رو گذاتشم تا بعدا فیلدی اینا اضافه شود.
-//                List<String> cnameEN = shipmentService.cname();
-//                if (cnameEN.size()!=0){
-//                    replacePOI(doc, "inspection",  cnameEN.get(0)  );
-//                }else {
-//                    replacePOI(doc, "inspection",  "شرکت یافت نشد "  );
-//                }
+
 
                 List<String> inspector = shipmentService.inspector();
                 for(int i = 0 ; i < inspector.size() ; i++){

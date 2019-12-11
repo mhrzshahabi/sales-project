@@ -288,7 +288,8 @@
                     title: "<spring:message code='material.descp'/>",
                     type: 'text',
                     width: 400,
-                    required: true
+                    required: true,
+                keyPressFilter: "[a-z|A-Z|0-9 ]"
                 },
                 {
                     name: "unitId",
@@ -302,7 +303,7 @@
                     pickListWidth: "400",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
-                    pickListFields: [{name: "id", width: 50, align: "center"}, {
+                    pickListFields: [{name: "id", width: 50, align: "center" , hidden:true}, {
                         name: "nameFA",
                             width: 174,
                         align: "center"
@@ -1147,7 +1148,7 @@
         ]
     });
     var DynamicForm_MaterialItem = isc.DynamicForm.create({
-        width: 750,
+        width: 500,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -1165,8 +1166,8 @@
                 {name: "id", hidden: true,},
                 {name: "materialId", type: "long", hidden: true, wrapTitle: false},
                 {type: "RowSpacerItem"},
-                 {name: "gdsCode", width: "300", title: "<spring:message code='MaterialItem.gdsCode'/> "},
-                {name: "gdsName", width: "300", title: "<spring:message code='MaterialItem.gdsName'/> "},
+                 {name: "gdsCode", width: "300", title: "<spring:message code='MaterialItem.gdsCode'/> " , required:true   , keyPressFilter: "[0-9]" , length:"15"},
+                {name: "gdsName", width: "300", title: "<spring:message code='MaterialItem.gdsName'/> " , required:true , keyPressFilter: "[a-z|A-Z|0-9]" , lenght:"200"},
             ]
     });
 
@@ -1296,7 +1297,7 @@
     });
 
     var Window_MaterialItem = isc.Window.create({
-        title: "<spring:message code='Product'/> ",
+        title: "<spring:message code='ProductGroup'/> ",
         width: 580,
         // height: 500,
         autoSize: true,

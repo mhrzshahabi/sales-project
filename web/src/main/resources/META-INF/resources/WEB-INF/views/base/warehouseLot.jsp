@@ -186,7 +186,7 @@
                     width: 400
                 },
 
-                /*Add By JZ*/
+
                 {
                     name: "bookingNo",
                     title: "<spring:message code='warehouseLot.bookingNo'/>",
