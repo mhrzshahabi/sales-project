@@ -6,8 +6,8 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
  var contractIdEdit;
- var Window_Contact;
- var VLayout_contactMain;
+ var Window_ContactCad;
+ var VLayout_contactMoOxMain;
  var itemsDefinitionsCount = 0;
  var imanageNote = 0;
  var varOptional=0;
@@ -286,11 +286,11 @@
                     ViewLoader_createTozin
                     ]
             });
-                    var ToolStripButton_Contact_Add = isc.ToolStripButton.create({
+                    var ToolStripButton_ContactMo_Add = isc.ToolStripButton.create({
                             icon: "[SKIN]/actions/add.png",
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
-                                contactHeader.clearValues();
+                                    contactHeader.clearValues();
                                     valuesManagerfullArticle.clearValues();
                                     contactHeaderAgent.clearValues();
                                     valuesManagerArticle1.clearValues();
@@ -307,11 +307,11 @@
                                     lotList.fetchData(RestDataSource_ShipmentContractUsed);
                             }
                     });
-                    var ToolStripButton_Contact_Edit = isc.ToolStripButton.create({
+                    var ToolStripButton_ContactMo_Edit = isc.ToolStripButton.create({
                             icon: "[SKIN]/actions/edit.png",
                             title: "<spring:message code='global.form.edit'/>",
                             click: function () {
-                                var record = ListGrid_Tozin.getSelectedRecord();
+                                var record = ListGrid_contractMo.getSelectedRecord();
                                 if (record == null || record.id == null) {
                                     isc.Dialog.create({
                                         message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -565,7 +565,7 @@
                             showIf: "false",
                             title: "<spring:message code='global.form.remove'/>",
                             click: function () {
-                                if (ListGrid_Tozin.getSelectedRecord() == null || ListGrid_Tozin.getSelectedRecord().id == null) {
+                                if (ListGrid_contractMo.getSelectedRecord() == null || ListGrid_contractMo.getSelectedRecord().id == null) {
                                     isc.Dialog.create({
                                         message: "<spring:message code='global.grid.record.not.selected'/>",
                                         icon: "[SKIN]ask.png",
@@ -586,7 +586,7 @@
                                             buttonClick: function (button, index) {
                                                 this.hide();
                                                 if (index == 0) {
-                                                    var idContractRemove = ListGrid_Tozin.getSelectedRecord().id;
+                                                    var idContractRemove = ListGrid_contractMo.getSelectedRecord().id;
                                                     var criteriaRemove={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:idContractRemove}]};
                                                     RestDataSource_contractDetail_list.fetchData(criteriaRemove,function (dsResponse, data, dsRequest) {
                                                     if(data==""){
@@ -596,7 +596,7 @@
                                                                     callback: function (resp) {
                                                                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                                                             isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                                                            ListGrid_Tozin.invalidateCache();
+                                                                            ListGrid_contractMo.invalidateCache();
                                                                         } else {
                                                                             isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                                                         }
@@ -615,7 +615,7 @@
                                                                             callback: function (resp) {
                                                                                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                                                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                                                                    ListGrid_Tozin.invalidateCache();
+                                                                                    ListGrid_contractMo.invalidateCache();
                                                                                 } else {
                                                                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                                                                 }
@@ -634,18 +634,24 @@
                                         });
                                     }}
                             });
-                    var ToolStrip_Actions_Contact = isc.ToolStrip.create({
+                     var ToolStripButton_ContactMO_Refresh = isc.ToolStripButton.create({
+                                icon: "[SKIN]/actions/refresh.png",
+                                title: "<spring:message code='global.form.refresh'/>",
+                                click: function () {
+                                       ListGrid_contractMo.fetchData(criteriaMo);
+                                }
+                            });
+                    var ToolStrip_Actions_ContactMO = isc.ToolStrip.create({
                         width: "100%",
                         height: "100%",
                         members: [
-                             ToolStripButton_Contact_Add,ToolStripButton_Contact_Edit
-                            //ToolStripButton_Contact_Remove
+                             ToolStripButton_ContactMo_Add,ToolStripButton_ContactMo_Edit,ToolStripButton_ContactMO_Refresh
                         ]
                         });
-                    var HLayout_Actions_Contact = isc.HLayout.create({
+                    var HLayout_Actions_ContactMo = isc.HLayout.create({
                          width: "100%",
                          members: [
-                         ToolStrip_Actions_Contact
+                         ToolStrip_Actions_ContactMO
                         ]
                     });
              var RestDataSource_Contract = isc.MyRestDataSource.create({
@@ -666,7 +672,7 @@
                 // ######@@@@###&&@@###
                 fetchDataURL: "${contextPath}/api/contract/spec-list"
             });
-            var ListGrid_Tozin = isc.ListGrid.create({
+            var ListGrid_contractMo = isc.ListGrid.create({
                         width: "100%",
                         height: "100%",
                         dataSource: RestDataSource_Contract,
@@ -684,12 +690,12 @@
                         });
 
            isc.VLayout.create({
-                        ID:"VLayout_Tozin_Grid",
+                        ID:"VLayout_MoOx_Grid",
                         width: "100%",
                         height: "100%",
                         members: [
-                        HLayout_Actions_Contact,
-                        ListGrid_Tozin
+                        HLayout_Actions_ContactMo,
+                        ListGrid_contractMo
                         ]
                         });
 
@@ -744,8 +750,8 @@ function pageMolibdenAll(method){
         }else{
         methodUrl="PUT";
         }
-Window_Contact = isc.Window.create({
-                title: "<spring:message code='contact.title'/>",
+Window_ContactCad = isc.Window.create({
+                title: "<spring:message code='salesContractMoButton.title'/>",
                 width: "100%",
                 height: "100%",
                 autoCenter: true,
@@ -1255,7 +1261,16 @@ isc.DynamicForm.create({
                     title: "Remove",
                     startRow: false,
                     icon: "[SKIN]/actions/remove.png",
-                    click: function(){DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");DynamicForm_ContactParameter_ValueNumber8.removeField("button")}
+                    click: function(){
+                        DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");
+                        DynamicForm_ContactParameter_ValueNumber8.removeField("button")
+                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                        delete dataSaveValueNumber8.feild_all_defintitons_save;
+                        delete dataSaveValueNumber8["definitionsOne"]
+                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
+                        console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
+
+                    }
                     }
         ]
     })
@@ -1269,7 +1284,8 @@ isc.DynamicForm.create({
                 wrap: false,
                 contents: "Add",
                 click: function(){itemsDefinitions('Add',itemsDefinitionsCount)}
-            }),
+            })
+/*,
             isc.Label.create({
                 styleName: "buttonHtml buttonHtml3",
                 align: "center",
@@ -1277,7 +1293,7 @@ isc.DynamicForm.create({
                 wrap: false,
                 contents: "Remove",
                 click: function(){itemsDefinitions('Remove',itemsDefinitionsCount)}
-            })
+            })*/
         ]
     })
 
@@ -3432,7 +3448,8 @@ var IButton_Contact_Save = isc.IButton.create({
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
             contactHeader.validate();
-            DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
+            console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
+           // DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save")));
             var drs = contactHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_ContactHeader.setValue("contractDate", contractTrueDate);
@@ -3688,7 +3705,7 @@ var contactFormButtonSaveLayout = isc.HStack.create({
     });
 
 
-VLayout_contactMain=isc.VLayout.create({
+VLayout_contactMoOxMain=isc.VLayout.create({
             width: "100%",
             height: "100%",
             align: "center",
@@ -3706,8 +3723,8 @@ VLayout_contactMain=isc.VLayout.create({
             ]
             })
 
-    Window_Contact.addItems([VLayout_contactMain]);
-    Window_Contact.show();
+    Window_ContactCad.addItems([VLayout_contactMoOxMain]);
+    Window_ContactCad.show();
 
 }
 /////////////////////////// end function()
@@ -3801,6 +3818,9 @@ function itemsDefinitions(value, id) {
                     title: "NAME",
                     changed: function (form, item, value) {
                         DynamicForm_ContactParameter_ValueNumber8.setValue("valueNumber8" + id, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
+                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                        delete dataSaveValueNumber8.feild_all_defintitons_save;
+                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
                     }
                 },{
                     name:"button"+id,
@@ -3810,7 +3830,14 @@ function itemsDefinitions(value, id) {
                     title: "Remove",
                     startRow: false,
                     icon: "[SKIN]/actions/remove.png",
-                    click: function(){DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)}
+                    click: function(){
+                    DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);
+                    DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id);
+                    var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                    delete dataSaveValueNumber8.feild_all_defintitons_save;
+                    delete dataSaveValueNumber8["valueNumber8" + id]
+                    DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
+                    }
                     }
             ]);
             itemsDefinitionsCount++;
@@ -3838,8 +3865,8 @@ function saveCotractDetails(data, contractID) {
                     saveValuelotListForADD(contractID);
                     saveListGrid_ContractItemShipment(contractID);
                     saveContractCurrency(contractID);
-                    Window_Contact.close();
-                    ListGrid_Tozin.invalidateCache();
+                    Window_ContactCad.close();
+                    ListGrid_contractMo.invalidateCache();
                     isc.say("<spring:message code='global.form.request.successful'/>.");
                 } else
                     isc.say(RpcResponse_o.data);
@@ -3946,7 +3973,14 @@ function itemsEditDefinitions(key,value,id) {
                     title: "Remove",
                     startRow: false,
                     icon: "[SKIN]/actions/remove.png",
-                    click: function(){DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)}
+                    click: function(){
+                        DynamicForm_ContactParameter_ValueNumber8.removeField(key);DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)
+                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                        delete dataSaveValueNumber8.feild_all_defintitons_save;
+                        delete dataSaveValueNumber8[key]
+                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
+                        console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
+                    }
                     }
             ]);
        itemsDefinitionsCount++;
