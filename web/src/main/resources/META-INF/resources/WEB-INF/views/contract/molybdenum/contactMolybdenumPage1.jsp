@@ -327,15 +327,9 @@
                             var criterialotList={_constructor:"AdvancedCriteria",operator:"or",criteria:[{fieldName:"contractId",operator:"equals",value:record.id},{fieldName: "used", operator: "equals",value: 0 }]};
                                     criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
                                     RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
-                                    var feild_all_defintitons_save = JSON.parse(data[0].feild_all_defintitons_save)
-                                    contractDetailID = data[0].id
-                                    for (const [key, value] of Object.entries(feild_all_defintitons_save)) {
-                                        valuesManagerArticle1.setValue(key,value);
-                                        if(key != 'definitionsOne' && key != 'feild_all_defintitons_save'){
-                                            itemsEditDefinitions(key,value,itemsDefinitionsCount)
-                                          }
-                                    }
+
                                     contactHeader.setValue("createDateDumy", record.contractDate)
+
                                     contactHeader.setValue("contractNo", record.contractNo)
                                     contactHeader.setValue("contactId", record.contactId)
                                     contactHeader.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId)
@@ -552,7 +546,15 @@
                                     valuesManagerArticle10.setValue("article10_number58",data[0].article10_number58);
                                     valuesManagerArticle10.setValue("article10_number59",data[0].article10_number59);
                                     valuesManagerArticle10.setValue("article10_number60",data[0].article10_number60);
-                                    valuesManagerArticle10.setValue("article10_number61",data[0].article10_number61);
+                                    valuesManagerArticle10.setValue("article10_number61",data[0].article10_number61)
+                                    var feild_all_defintitons_save = JSON.parse(data[0].feild_all_defintitons_save)
+                                    contractDetailID = data[0].id;
+                                    for (const [key, value] of Object.entries(feild_all_defintitons_save)) {
+                                        valuesManagerArticle1.setValue(key,value);
+                                        if(key != 'definitionsOne' && key != 'feild_all_defintitons_save'){
+                                            itemsEditDefinitions(key,value,itemsDefinitionsCount)
+                                          }
+                                    }
                                     })
                                 pageMolibdenAll(1);
                                 ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
