@@ -123,4 +123,10 @@ public class ShipmentContract extends Auditable {
 	private String weighingMethodes;
 
 
+	@Column(name = "SHIP_FLAG", length = 100)
+	private String shipFlag;
+
+	@Column(name = "CREATE_DATE", length = 100)
+	private String createDate;
+
 }

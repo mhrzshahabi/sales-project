@@ -65,7 +65,6 @@ public class InspectionContractService implements IInspectionContractService {
 		InspectionContract updating = new InspectionContract();
 		modelMapper.map(inspectionContract, updating);
 		modelMapper.map(request, updating);
-
 		return save(updating);
 	}
 

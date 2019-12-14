@@ -421,6 +421,7 @@
         ]
     });
 
+/******************************************************************************************************************************************************************************/
     function warehouseIssueCathode_bijak () {
 
         var ClientData_WarehouseCadITEMByWarehouseIssueCathode = [];
@@ -462,6 +463,7 @@
             testData: ClientData_WarehouseCadITEMByWarehouseIssueCathode,
             clientOnly:true
         });
+
         /* ****************** */
     var ListGrid_WarehouseCadITEMByWarehouseIssueCathode  = isc.ListGrid.create({
         width: "100%",
@@ -616,6 +618,11 @@
     Window_warehouseIssueCathode_bijak.animateShow();
     } //show func
     } // main func
+/************************************************************************************************************************************************************************************************/
+
+
+
+
     var DynamicForm_WarehouseIssueCathode = isc.DynamicForm.create({
         width: 650,
         height: "100%",

@@ -42,6 +42,7 @@ public class ShipmentContractRestController {
 		return new ResponseEntity<>(shipmentContractService.list(), HttpStatus.OK);
 	}
 
+
 	@Loggable
 	@PostMapping
 //	@PreAuthorize("hasAuthority('c_shipmentContract')")
