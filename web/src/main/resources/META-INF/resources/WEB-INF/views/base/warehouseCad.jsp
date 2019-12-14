@@ -245,10 +245,63 @@
         ]
     });
 
-    isc.VLayout.create({
+    VLayout_Body_WarehouseCad = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_warehouseCAD_Actions, HLayout_warehouseCAD_Grid
         ]
+    });
+
+    isc.ViewLoader.create({
+        ID: "bijackAttachmentViewLoader",
+        autoDraw: false,
+        loadingMessage: ""
+    });
+
+    isc.TabSet.create({
+        ID: "bijackMainTabSet",
+        tabBarPosition: "top",
+        width: "100%",
+        height: "100%",
+        tabs: [
+            {
+                ID: "bijackTab",
+                title: "<spring:message code='bijack'/>",
+                icon: "",
+                iconSize: 16,
+                pane: VLayout_Body_WarehouseCad
+            },
+            {
+                title: "<spring:message code='bijackAttach.title'/>",
+                icon: "",
+                iconSize: 16,
+                pane: bijackAttachmentViewLoader,
+                tabSelected: function (form, item, value) {
+                    var record = ListGrid_warehouseCAD.getSelectedRecord();
+                    if (record == null || record.id == null) {
+                        isc.Dialog.create({
+                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                            icon: "[SKIN]ask.png",
+                            title: "<spring:message code='global.message'/>",
+                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                            buttonClick: function () {
+                                this.hide();
+                            }
+                        });
+                        record.id = null;
+                    }
+                    var dccTableId = record.id;
+                    var dccTableName = "TBL_WAREHOUSE_CAD";
+                    bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                }
+            }
+        ]
+    });
+    isc.VLayout.create({
+        ID: "bijackMainVLayout",
+        width: "100%",
+        height: "100%",
+        backgroundColor: "",
+        members: [bijackMainTabSet]
     });

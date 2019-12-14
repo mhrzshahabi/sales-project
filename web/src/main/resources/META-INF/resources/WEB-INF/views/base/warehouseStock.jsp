@@ -68,7 +68,7 @@
                 {
                     name: "toDay",
                     ID: "toDayDate",
-                    title: "<spring:message code='dailyWarehouse.toDay'/>",
+                    title: "",
                     type: 'date',
                     align: "center",
                     width: 150,
@@ -197,6 +197,22 @@
         }
     });
 
+   var ToolStripButton_WarehouseStock_export_Print = isc.ToolStripButton.create({
+         icon: "[SKIN]/actions/print.png",
+         title: "<spring:message code='WarehouseStock.ReportExport'/>",
+        click:function()
+        {
+
+            var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
+            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
+        console.log(datestringRs);
+                     var toDay = datestringRs.replaceAll("/", "");
+        console.log(toDay);
+                    "<spring:url value="/warehouseStock/print-export" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+        }
+    });
+
     var ToolStrip_Actions_WarehouseStock = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -204,8 +220,9 @@
                 ToolStripButton_WarehouseStock_Refresh,
                 // ToolStripButton_WarehouseStock_Add,
                 ToolStripButton_WarehouseStock_Edit,
+                ToolStripButton_WarehouseStock_Print,
                 DynamicForm_WarehouseStock_Tozin,
-                ToolStripButton_WarehouseStock_Print
+                ToolStripButton_WarehouseStock_export_Print
             ]
     });
 

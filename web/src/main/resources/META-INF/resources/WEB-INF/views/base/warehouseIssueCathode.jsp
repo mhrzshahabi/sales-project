@@ -920,12 +920,60 @@
     });
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
+    /******************* Start Attachment **********************/
+    isc.ViewLoader.create({
+        ID: "warehouseIssueCathodeAttachmentViewLoader",
+        autoDraw: false,
+        loadingMessage: ""
+    });
+
+    isc.TabSet.create({
+        ID: "warehouseIssueCathodeMainTabSet",
+        tabBarPosition: "top",
+        width: "100%",
+        height: "100%",
+        tabs: [
+            {
+                ID: "warehouseIssueCathodeTab",
+                title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
+                icon: "",
+                iconSize: 16,
+                pane: VLayout_WarehouseIssueCathode_Body
+            },
+            {
+                title: "<spring:message code='warehouseIssueCathodeAttach.title'/>",
+                icon: "",
+                iconSize: 16,
+                pane: warehouseIssueCathodeAttachmentViewLoader,
+                tabSelected: function (form, item, value) {
+                    var record = ListGrid_WarehouseIssueCathode.getSelectedRecord();
+                    if (record == null || record.id == null) {
+                        isc.Dialog.create({
+                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                            icon: "[SKIN]ask.png",
+                            title: "<spring:message code='global.message'/>",
+                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                            buttonClick: function () {
+                                this.hide();
+                            }
+                        });
+                        record.id = null;
+                    }
+                    var dccTableId = record.id;
+                    var dccTableName = "TBL_WAREHOUSE_ISSUE_CATHODE";
+                warehouseIssueCathodeAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                }
+            }
+        ]
+    });
+    /******************* End Attachment **********************/
+
 isc.SectionStack.create({
     ID:"ShipmentMoistureHeader_Section_Stack",
     sections:
     [
          {title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_ShipmentByWarehouseIssueCathode   ,expanded:true}
-        ,{title:"<spring:message code='Shipment.titleWarehouseIssueCathode'/>", items:VLayout_WarehouseIssueCathode_Body ,expanded:true}
+        ,{title:"<spring:message code='Shipment.titleWarehouseIssueCathode'/>", items:warehouseIssueCathodeMainTabSet ,expanded:true}
     ],
     visibilityMode:"multiple",
     animateSections:true,
@@ -954,4 +1002,3 @@ ListGrid_ShipmentByWarehouseIssueCathode .fetchData(criteria1, function (dsRespo
 
         });
 }
-

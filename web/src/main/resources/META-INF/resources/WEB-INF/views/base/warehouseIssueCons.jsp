@@ -830,12 +830,60 @@
     });
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
+/******************* Start Attachment **********************/
+    isc.ViewLoader.create({
+        ID: "warehouseIssueConsAttachmentViewLoader",
+        autoDraw: false,
+        loadingMessage: ""
+    });
+
+    isc.TabSet.create({
+        ID: "warehouseIssueConsMainTabSet",
+        tabBarPosition: "top",
+        width: "100%",
+        height: "100%",
+        tabs: [
+            {
+                ID: "warehouseIssueConsTab",
+                title: "<spring:message code='Shipment.titleWarehouseIssueCons'/>",
+                icon: "",
+                iconSize: 16,
+                pane: VLayout_WarehouseIssueCons_Body
+            },
+            {
+                title: "<spring:message code='warehouseIssueConsAttach.title'/>",
+                icon: "",
+                iconSize: 16,
+                pane: warehouseIssueConsAttachmentViewLoader,
+                tabSelected: function (form, item, value) {
+                    var record = ListGrid_WarehouseIssueCons.getSelectedRecord();
+                    if (record == null || record.id == null) {
+                        isc.Dialog.create({
+                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                            icon: "[SKIN]ask.png",
+                            title: "<spring:message code='global.message'/>",
+                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                            buttonClick: function () {
+                                this.hide();
+                            }
+                        });
+                        record.id = null;
+                    }
+                    var dccTableId = record.id;
+                    var dccTableName = "TBL_WAREHOUSE_ISSUE_CONS";
+                    warehouseIssueConsAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                }
+            }
+        ]
+    });
+    /******************* End Attachment **********************/
+
 isc.SectionStack.create({
     ID:"ShipmentMoistureHeader_Section_Stack",
     sections:
     [
          {title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_ShipmentByWarehouseIssueCons   ,expanded:true}
-        ,{title:"<spring:message code='Shipment.titleWarehouseIssueCons'/>", items:VLayout_WarehouseIssueCons_Body ,expanded:true}
+        ,{title:"<spring:message code='Shipment.titleWarehouseIssueCons'/>", items:warehouseIssueConsMainTabSet ,expanded:true}
     ],
     visibilityMode:"multiple",
     animateSections:true,
