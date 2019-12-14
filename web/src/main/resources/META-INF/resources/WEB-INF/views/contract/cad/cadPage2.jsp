@@ -21,7 +21,6 @@
     factoryLableArticle("lableArticle10", '<b><font size=4px>ARTICLE 10 - CURRENCY CONVERSION</font><b>', "30", 5)
     factoryLableArticle("lableArticle11", '<b><font size=4px>ARTICLE 11 - TITLE AND RISK OF LOSS</font><b>', "30", 5)
     factoryLableArticle("lableArticle12", '<b><font size=4px>ARTICLE 12 – WEIGHTS AND QUALITY CONTROL</font><b>', "30", 5)
-    factoryLableArticle("lableArticle13", '<b><font size=4px>ARTICLE 13 – INCOTERMS</font><b>', "30", 5)
 
     var article3_quality = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3_quality",
@@ -94,7 +93,7 @@ var article4_quality = isc.DynamicForm.create({
 var buttonAddItem=isc.IButton.create({
     title: "Add Item Shipment",
     width: 150,
-    icon: "icons/16/world.png",
+    icon: "[SKIN]/actions/add.png",
     iconOrientation: "right",
     click: "ListGrid_ContractItemShipment.startEditingNew()"
 })
@@ -106,7 +105,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         canEdit: true,
         canRemoveRecords: true,
         autoFetchData: false,
-        autoSaveEdits: true,
+        autoSaveEdits: false,
         dataSource: RestDataSource_ContractShipment,
         fields:
             [
@@ -573,8 +572,7 @@ var article12_quality = isc.DynamicForm.create({
             lableArticle11,
             article11_quality,
             lableArticle12,
-            article12_quality,
-            lableArticle13
+            article12_quality
         ]
     });
 

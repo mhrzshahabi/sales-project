@@ -1,16 +1,21 @@
 package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.sales.dto.BankDTO;
 import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.iservice.IPortService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -68,27 +73,11 @@ public class PortRestController {
 	}
 
 	@Loggable
-	@GetMapping({"/spec-list", "/spec-list1", "/spec-list2", "/spec-list3"})
-//	@PreAuthorize("hasAuthority('r_port')")
-	public ResponseEntity<PortDTO.PortSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
-
-		SearchDTO.SearchRs<PortDTO.Info> response = portService.search(request);
-
-		final PortDTO.SpecRs specResponse = new PortDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final PortDTO.PortSpecRs specRs = new PortDTO.PortSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
+	@GetMapping(value = "/spec-list")
+	public ResponseEntity<TotalResponse<PortDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+		return new ResponseEntity<>(portService.search(nicicoCriteria), HttpStatus.OK);
 	}
-
 	// ------------------------------
 
 	@Loggable
