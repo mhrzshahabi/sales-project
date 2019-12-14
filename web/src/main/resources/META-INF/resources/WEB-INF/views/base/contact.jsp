@@ -21,7 +21,7 @@
             {name: "contactId", canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contactAccount.code'/>"},
             {name: "bankId", title: "<spring:message code='contactAccount.nameFA'/>"},
-            {name: "bank.bankName", title: "<spring:message code='contactAccount.nameFA'/>"},
+            {name: "bankbankName",  dataPath:"bank.bankName", title: "<spring:message code='contactAccount.nameFA'/>"},
             {name: "bankAccount", title: "<spring:message code='contactAccount.accountNumber'/>", type: "number"},
             {name: "bankShaba", title: "<spring:message code='contactAccount.shabaAccount'/>"},
             {name: "bankSwift", title: "<spring:message code='contactAccount.bankSwift'/>"},
@@ -52,7 +52,7 @@
                 {name: "enBankName", title: "<spring:message code='bank.nameEn'/>", width: 200},
                 {name: "address", title: "<spring:message code='bank.address'/>", width: 200},
                 {name: "coreBranch", title: "<spring:message code='bank.coreBranch'/>", width: 200},
-                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
+                {name: "countrynameFa",  dataPath:"country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
         fetchDataURL: "${contextPath}/api/bank/spec-list"
     });
@@ -94,7 +94,7 @@
             {name: "commercialRegistration"},
             {name: "branchName"},
             {name: "countryId", title: "<spring:message code='country.nameFa'/>", type: 'long'},
-            {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+            {name: "countrynameFa",  dataPath:"country.nameFa" , title: "<spring:message code='country.nameFa'/>"},
             {name: "contactAccounts"}
         ],
         fetchDataURL: "${contextPath}/api/contact/spec-list"
@@ -656,7 +656,7 @@
             {name: "contactId", canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contactAccount.code'/>", align: "center", width: 50},
             {
-                name: "bank.bankName",
+                name: "bankbankName", dataPath: "bank.bankName",
                 title: "<spring:message code='contactAccount.nameFA'/>",
                 align: "center",
                 width: 100
@@ -1297,7 +1297,7 @@
             {name: "phone", title: "<spring:message code='contact.phone'/>", align: "center", width: 200},
             {name: "mobile", title: "<spring:message code='contact.mobile'/>", align: "center", width: 200},
             {name: "fax", title: "<spring:message code='contact.fax'/>", align: "center", width: 200},
-            {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200,
+            {name: "countrynameFa",  dataPath:"country.nameFa" , title: "<spring:message code='country.nameFa'/>", width: 200,
             sortNormalizer:function(recordObject) { return recordObject.country.nameFa;}} ,
             {name: "address", title: "<spring:message code='contact.address'/>", align: "center", hidden: true},
             {name: "webSite", title: "<spring:message code='contact.webSite'/>", align: "center", hidden: true},

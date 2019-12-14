@@ -13,8 +13,8 @@
                 {name: "descl", title: "<spring:message code='material.descl'/> "},
                 {name: "descp", title: "<spring:message code='material.descp'/> "},
                 {name: "unitId", title: "<spring:message code='MaterialFeature.unit'/>"},//Edit By JZ
-                {name: "unit.nameFA", title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
-                {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit'/> "},//Edit By JZ
+                {name: "unitnameFA",  dataPath:"unit.nameFA"  ,   title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
+                {name: "unitnameEN",   dataPath:"unit.nameEN"  ,  title: "<spring:message code='MaterialFeature.unit'/> "},//Edit By JZ
             ],
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
@@ -74,15 +74,15 @@
             {name: "materialId", hidden: true},
             {name: "itemRow", title: "<spring:message code='contractItem.itemRow'/> "},
             {name: "featureId", type: 'text', width: 100},
-            {name: "feature.nameFA", type: 'text', width: 100},
-            {name: "feature.nameEN", type: 'text', width: 100},
+            {name: "featurenameFA", type: 'text', width: 100 ,dataPath:"feature.nameFA"  , },
+            {name: "featurenameEN", type: 'text', width: 100 , dataPath:"feature.nameEN"  ,},
             {name: "minValue", title: "<spring:message code='MaterialFeature.minValue'/> "},
             {name: "maxValue", title: "<spring:message code='MaterialFeature.maxValue'/> "},
             {name: "avgValue", title: "<spring:message code='MaterialFeature.avgValue'/>", type: 'float', width: 100},
             {name: "tolorance", title: "<spring:message code='MaterialFeature.tolorance'/>", type: 'float', width: 100},
-            {name: "rate.nameFA", type: 'text', width: 100},
-            {name: "rate.nameEN", type: 'text', width: 100},
-            {name: "rateId", type: 'text', width: 100},
+            {name: "ratenameFA", type: 'text', width: 100 , dataPath:"rate.nameFA"  ,},
+            {name: "ratenameEN", type: 'text', width: 100 , dataPath:"rate.nameEN"  ,},
+            {name: "rateId", type: 'text', width: 100 },
             {
                 name: "payableIfGraterThan",
                 title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
@@ -418,8 +418,8 @@
                 {name: "code", title: "<spring:message code='material.code'/>", align: "center"},
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
-                {name: "unit.nameFA", title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
-                {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
+                {name: "unitnameFA", dataPath:"unit.nameFA"  , title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
+                {name: "unitnameEN", dataPath:"unit.nameEN"  , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
             ],
         sortField: 0,
         autoFetchData: true,
@@ -929,14 +929,14 @@
                     align: "center"
                 },
                 {
-                    name: "feature.nameFA",
+                    name: "featurenameFA",   dataPath:"feature.nameFA"  ,
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'text',
                     width: 400,
                     align: "center"
                 },
                 {
-                    name: "feature.nameEN",
+                    name: "featurenameEN",  dataPath:"feature.nameEN"  ,
                     title: "<spring:message code='feature.nameEN'/>",
                     type: 'text',
                     width: 400,
@@ -971,14 +971,14 @@
                     align: "center"
                 },
                 {
-                    name: "rate.nameFA",
+                    name: "ratenameFA",  dataPath:"rate.nameFA"  ,
                     title: "<spring:message code='rate.nameFa'/>",
                     type: 'text',
                     width: 400,
                     align: "center"
                 },
                 {
-                    name: "rate.nameEN",
+                    name: "ratenameEN", dataPath:"rate.nameEN"  ,
                     title: "<spring:message code='rate.nameEN'/>",
                     type: 'text',
                     width: 400,

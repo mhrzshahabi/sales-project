@@ -21,8 +21,8 @@
             {name: "code", title: "<spring:message code='contact.code'/>"},
             {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
             {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-            {name: "tblCountry.id", title: "<spring:message code='country.nameFa'/>", type: 'long'},
-            {name: "tblCountry.nameFa", title: "<spring:message code='country.nameFa'/>"},
+            {name: "tblCountryid",  dataPath:"tblCountry.id"  ,  title: "<spring:message code='country.nameFa'/>", type: 'long'},
+            {name: "tblCountrynameFa", dataPath:"tblCountry.nameFa"  ,title: "<spring:message code='country.nameFa'/>"},
             {name: "tradeMark"},
             {name: "ceoPassportNo"},
             {name: "ceo"},
@@ -470,7 +470,7 @@
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contactId"},
-            {name: "contact.nameFA" , type:'text'},
+            {name: "contactnameFA" , type:'text'  , dataPath:"contact.nameFA" },
             {
                 name: "fullName",
                 title: "<spring:message code='person.fullName'/>",
@@ -516,7 +516,7 @@
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {
-                name: "contact.nameFA",
+                name: "contactnameFA",  dataPath:"contact.nameFA" ,
                 title: "<spring:message code='contact.name'/>",
                 type: 'text',
                 width: 120,

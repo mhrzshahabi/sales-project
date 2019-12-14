@@ -190,7 +190,7 @@
     var RestDataSource_PaymentOption = isc.MyRestDataSource.create({
         fields:
             [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name:  "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "namePay", title: "<spring:message code='paymentOption.payName'/>", width: 200}
             ],
 

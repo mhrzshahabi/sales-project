@@ -14,7 +14,7 @@
                 {name: "enBankName", title: "<spring:message code='bank.nameEn'/>", width: 200},
                 {name: "address", title: "<spring:message code='bank.address'/>", width: 200},
                 {name: "coreBranch", title: "<spring:message code='bank.coreBranch'/>", width: 200},
-                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
+                {name: "countrynameFa", dataPath: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
 
         fetchDataURL: "${contextPath}/api/bank/spec-list"

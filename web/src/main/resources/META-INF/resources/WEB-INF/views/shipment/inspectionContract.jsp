@@ -8,13 +8,8 @@
     var RestDataSource_PersonByInspectionContract_EmailCC  = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-
             {name: "contactId"},
-
             {name: "contact.nameFA"},
-
-
-
             {
                 name: "fullName",
                 title: "<spring:message code='person.fullName'/>",
@@ -45,6 +40,8 @@
 
         //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
             var RestDataSource_Inspection__Inspection = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -54,7 +51,7 @@
             {name: "contractId", type: 'long', hidden: true},
             {
                 name: "contract.contractNo",
-                title: "<spring:message code='contract.contractNo'/>",
+
                 type: 'text',
                 width: 180
             },
@@ -162,7 +159,11 @@
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
+
+
+
 /* End Rest data Source*/
+
 
 /*List Grid for Shipment bala */
         var ListGrid_Inspection = isc.ListGrid.create({
@@ -384,10 +385,19 @@
         },
         sortField: 0,
         dataPageSize: 50,
-        autoFetchData: true,
+        autoFetchData: false,
         showFilterEditor: true,
         filterOnKeypress: false
     });
+
+        var criteria1 = {
+	_constructor: "AdvancedCriteria",
+	operator: "and",
+	criteria: [{fieldName: "material.code", operator: "equals", value: "26030090"}]
+};
+ListGrid_Inspection.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+ListGrid_Inspection.setData(data);
+	});
 
     var HLayout_Grid_InspectionByInspectionContract = isc.HLayout.create({
         width: "100%",
@@ -605,8 +615,8 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
         },
             {
 
-                title: "<spring:message code='global.form.print.word'/>", icon: "icon/word.png", click: function () {
-                    var record = ListGrid_InspectionContract.getSelectedRecord(); //TODO Change ListGrid Set Email OK 200
+                title: "<spring:message code='global.form.print.inspection'/>", icon: "icon/word.png", click: function () {
+                    var record = ListGrid_InspectionContract.getSelectedRecord();
                     "<spring:url value="/inspectionContract/print/" var="printUrl"/>";
                     window.open('${printUrl}'+record.id);
                 }

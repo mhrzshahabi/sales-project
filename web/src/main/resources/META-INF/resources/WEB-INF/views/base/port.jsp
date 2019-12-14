@@ -24,7 +24,7 @@
                 {name: "beam", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "loa", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "arrival", title: "<spring:message code='port.port'/>", width: 200},
-                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
+                {name: "countrynameFa",  dataPath:"country.nameFa"  ,   title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
 
         fetchDataURL: "${contextPath}/api/port/spec-list"
@@ -370,7 +370,7 @@
                 {name: "beam", title: "<spring:message code='port.beam'/>", width: "50%", align: "center"},
                 {name: "arrival", title: "<spring:message code='port.arrival'/>", width: "50%", align: "center"},
                 {
-                    name: "country.nameFa",
+                    name: "countrynameFa",    dataPath:"country.nameFa"  ,
                     title: "<spring:message code='country.nameFa'/>",
                     width: "50%",
                     align: "center"

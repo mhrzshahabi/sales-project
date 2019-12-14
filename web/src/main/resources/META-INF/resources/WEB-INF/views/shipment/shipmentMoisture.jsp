@@ -2,6 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+//<script>
 
 var MyRestDataSource_ShipmentMoistureHeader = isc.MyRestDataSource.create({
     fields:
@@ -19,7 +20,7 @@ var MyRestDataSource_ShipmentMoistureHeader = isc.MyRestDataSource.create({
 		{name: "totalDryWeight", title:"<spring:message code='shipment.Moisture.totalDryWeight'/>", type:'text' },
 		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>", type:'text' },
     ],
- // ######@@@@###&&@@###
+
         fetchDataURL: "${contextPath}/api/shipmentMoistureHeader/spec-list"
 });
 var MyRestDataSource_ShipmentMoistureItem = isc.MyRestDataSource.create({
@@ -37,7 +38,7 @@ var MyRestDataSource_ShipmentMoistureItem = isc.MyRestDataSource.create({
 		{name: "totalH2oWeight", title:"<spring:message code='shipment.Moisture.totalH2oWeight'/>"
 		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "لطفا مقدار عددی وارد نمائید."}]},
     ],
- // ######@@@@###&&@@###
+
         fetchDataURL: "${contextPath}/api/shipmentMoistureItem/spec-list"
 });
 
@@ -82,10 +83,10 @@ var MyRestDataSource_ShipmentMoistureItem = isc.MyRestDataSource.create({
             },
             {name: "contactAccounts"}
         ],
- // ######@@@@###&&@@###
+
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
-//*******************************************************************************
+
     var MyRestDataSource_ShipmentByMoistureHeader = isc.MyRestDataSource.create({
     fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -125,7 +126,7 @@ var MyRestDataSource_ShipmentMoistureItem = isc.MyRestDataSource.create({
             {name: "contactByAgent.nameFA",align: "center",showHover: true},
             {name: "vesselName",title: "<spring:message	code='shipment.vesselName'/>",type: 'text',required: true,width: "10%",showHover: true}
     ],
- // ######@@@@###&&@@###
+
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
 
@@ -152,7 +153,7 @@ var ClientDataSource_ShipmentMoistureItem = isc.MyRestDataSource.create({
     testData: ShipmentMoistureItemData,
     clientOnly:true
 });
-/* ****************** */
+
 
 function pasteText (text) {
     var fieldNames = [];
@@ -522,6 +523,7 @@ var ToolStripButton_ShipmentMoistureItem_Paste = isc.ToolStripButton.create({
             ListGrid_ShipmentMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                 ListGrid_ShipmentMoistureHeader.setData(data);
                 var recordH = ListGrid_ShipmentMoistureHeader.getRecord(0);
+
                 if (ListGrid_ShipmentMoistureHeader.getRecord(0) !=null )
                     criteria1 = {_constructor: "AdvancedCriteria",
                             operator: "and",
@@ -553,6 +555,9 @@ var ToolStripButton_ShipmentMoistureItem_Paste = isc.ToolStripButton.create({
     freezeFieldText: "ثابت نگه داشتن",
     startsWithTitle: "tt"
     });
+
+
+
     var HLayout_Grid_ShipmentByMoistureHeader = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -599,6 +604,7 @@ var Menu_ListGrid_ShipmentMoistureHeader = isc.Menu.create({
 
     var ValuesManager_ShipmentMoistureHeader = isc.ValuesManager.create({
     });
+
 var criteria1Inspector = {
 	_constructor: "AdvancedCriteria",
 	operator: "and",
@@ -645,6 +651,11 @@ var criteria1Inspector = {
 		{name: "description", title:"<spring:message code='shipment.Moisture.description'/>", type:'textArea',width:"600",colSpan:4 },
 	]
     });
+
+
+
+
+
     var IButton_Shipment_Save_MoistureHeader = isc.IButton.create({
     top: 260,
     title:"<spring:message code='global.form.save'/>",

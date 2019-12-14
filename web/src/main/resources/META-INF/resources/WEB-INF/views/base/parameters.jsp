@@ -9,7 +9,7 @@
     var RestDataSource_Parameters = isc.MyRestDataSource.create({
         fields:
             [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name:  "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
                 {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
                 {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200},
