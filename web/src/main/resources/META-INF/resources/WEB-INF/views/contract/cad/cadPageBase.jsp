@@ -83,7 +83,7 @@ var contactCadTabs = isc.TabSet.create({
         iconOrientation: "right",
         click: function () {
             contactCadHeader.validate();
-            DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
+            //DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
             var drs = contactCadHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             contactCadHeader.setValue("contractDate", contractTrueDate);
@@ -111,7 +111,7 @@ var contactCadTabs = isc.TabSet.create({
             dataSaveAndUpdateContractCad.runTill = "";
             dataSaveAndUpdateContractCad.runEndtDate = "";
             dataSaveAndUpdateContractCad.incotermsId = 1952;
-            dataSaveAndUpdateContractCad.portByPortSourceId = 1;
+            dataSaveAndUpdateContractCad.portByPortSourceId = 2;
             dataSaveAndUpdateContractCad.incotermsText = valuesManagerArticle6_quality.getValue("incotermsText");
             dataSaveAndUpdateContractCad.officeSource = "TEHRAN";
             dataSaveAndUpdateContractCad.priceCalPeriod = "any";
@@ -407,7 +407,8 @@ function saveListGrid_ContractCadItemShipment(contractID) {
 
 function saveCotractCadDetails(data, contractID) {
         data.contract_id = contractID;
-        var allData = Object.assign(data,valuesManagerArticle1.getValues())
+        console.log(valuesManagerArticle1.getValue("feild_all_defintitons_save"))
+        var allData = Object.assign(data,valuesManagerArticle1.getValue("feild_all_defintitons_save"))
         allData.string_Currency="null";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",

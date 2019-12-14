@@ -189,7 +189,7 @@
     });
 
 var Window_ContactCad = isc.Window.create({
-        title: "<spring:message code='contact.title'/>",
+        title: "<spring:message code='main.contractsCadTab'/>",
         width: "100%",
         height: "100%",
         autoCenter: true,
@@ -211,7 +211,7 @@ var Window_ContactCad = isc.Window.create({
         ]
     });
 
-    var ToolStripButton_Contact_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ContactCad_Add = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -221,7 +221,7 @@ var Window_ContactCad = isc.Window.create({
         }
     });
 
-    var ToolStripButton_Contact_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ContactCad_Edit = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -360,6 +360,11 @@ var Window_ContactCad = isc.Window.create({
                                                 click: function () {
                                                     DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");
                                                     DynamicForm_ContactParameter_ValueNumber8.removeField("button")
+                                                    var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                                                    delete dataSaveValueNumber8.feild_all_defintitons_save;
+                                                    delete dataSaveValueNumber8["definitionsOne"]
+                                                    DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
+                                                    console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
                                                 }
                                             }
                                         ]
@@ -377,25 +382,31 @@ var Window_ContactCad = isc.Window.create({
         }
     }});
 
-    var ToolStripButton_Contact_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_ContactCad_Remove = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             Contract_Cathod_remove();
         }
     });
-
-    var ToolStrip_Actions_Contact = isc.ToolStrip.create({
+    var ToolStripButton_ContactCad_Refresh = isc.ToolStripButton.create({
+                                icon: "[SKIN]/actions/refresh.png",
+                                title: "<spring:message code='global.form.refresh'/>",
+                                click: function () {
+                                    ListGrid_Cad.fetchData(criteriaCad);
+                                }
+                            });
+    var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
         width: "100%",
         height: "100%",
         members: [
-            ToolStripButton_Contact_Add, ToolStripButton_Contact_Edit, ToolStripButton_Contact_Remove
+            ToolStripButton_ContactCad_Add, ToolStripButton_ContactCad_Edit, ToolStripButton_ContactCad_Remove,ToolStripButton_ContactCad_Refresh
         ]
     });
     var HLayout_Actions_ContactCad = isc.HLayout.create({
         width: "100%",
         members: [
-            ToolStrip_Actions_Contact
+            ToolStrip_Actions_ContactCad
         ]
     });
     var ListGrid_Cad = isc.ListGrid.create({
@@ -466,6 +477,9 @@ function itemsEditDefinitions(key,value,id) {
                     title: "NAME",
                     changed: function (form, item, value) {
                         DynamicForm_ContactParameter_ValueNumber8.setValue(key, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
+                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                        delete dataSaveValueNumber8.feild_all_defintitons_save;
+                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
                     }
                 },{
                     name:"button"+id,
