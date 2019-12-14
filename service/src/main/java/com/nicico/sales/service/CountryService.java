@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CountryDTO;
@@ -10,7 +12,6 @@ import com.nicico.sales.repository.CountryDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,6 +88,13 @@ public class CountryService implements ICountryService {
 //    @PreAuthorize("hasAuthority('R_COUNTRY')")
     public SearchDTO.SearchRs<CountryDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(countryDAO, request, country -> modelMapper.map(country, CountryDTO.Info.class));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+    public TotalResponse<CountryDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(countryDAO, criteria, country -> modelMapper.map(country, CountryDTO.Info.class));
     }
 
     private CountryDTO.Info save(Country country) {

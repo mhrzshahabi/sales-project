@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.UnitDTO;
 
@@ -20,4 +22,6 @@ public interface IUnitService {
 	void delete(UnitDTO.Delete request);
 
 	SearchDTO.SearchRs<UnitDTO.Info> search(SearchDTO.SearchRq request);
+
+	TotalResponse<UnitDTO.Info> search(NICICOCriteria criteria);
 }

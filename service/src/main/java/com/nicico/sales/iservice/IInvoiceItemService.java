@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.InvoiceItemDTO;
 
@@ -20,4 +22,6 @@ public interface IInvoiceItemService {
 	void delete(InvoiceItemDTO.Delete request);
 
 	SearchDTO.SearchRs<InvoiceItemDTO.Info> search(SearchDTO.SearchRq request);
+
+	TotalResponse<InvoiceItemDTO.Info> search(NICICOCriteria criteria);
 }

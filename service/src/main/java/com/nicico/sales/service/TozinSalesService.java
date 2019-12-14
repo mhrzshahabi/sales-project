@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinSalesDTO;
@@ -79,6 +81,13 @@ public class TozinSalesService implements ITozinSalesService {
 	@Override
 	public SearchDTO.SearchRs<TozinSalesDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(tozinSalesDAO, request, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+	public TotalResponse<TozinSalesDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(tozinSalesDAO, criteria, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
 	}
 
 	// ------------------------------

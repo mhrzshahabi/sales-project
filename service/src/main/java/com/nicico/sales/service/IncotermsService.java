@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.IncotermsDTO;
@@ -79,6 +81,13 @@ public class IncotermsService implements IIncotermsService {
 	@Override
 	public SearchDTO.SearchRs<IncotermsDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(incotermsDAO, request, incoterms -> modelMapper.map(incoterms, IncotermsDTO.Info.class));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+	public TotalResponse<IncotermsDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(incotermsDAO, criteria, incoterms -> modelMapper.map(incoterms, IncotermsDTO.Info.class));
 	}
 
 	// ------------------------------

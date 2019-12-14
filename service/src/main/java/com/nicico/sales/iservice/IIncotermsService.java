@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.IncotermsDTO;
 
@@ -20,4 +22,6 @@ public interface IIncotermsService {
 	void delete(IncotermsDTO.Delete request);
 
 	SearchDTO.SearchRs<IncotermsDTO.Info> search(SearchDTO.SearchRq request);
+
+	TotalResponse<IncotermsDTO.Info> search(NICICOCriteria criteria);
 }

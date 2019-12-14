@@ -70,27 +70,6 @@ public class InspectionContractRestController {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
-	//	@Loggable
-//	@GetMapping(value = "/spec-list")
-//	//	@PreAuthorize("hasAuthority('r_inspectionContract')")
-//	public ResponseEntity<InspectionContractDTO.InspectionContractSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
-//		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-//		request.setStartIndex(startRow)
-//				.setCount(endRow - startRow);
-//
-//		SearchDTO.SearchRs<InspectionContractDTO.Info> response = inspectionContractService.search(request);
-//
-//		final InspectionContractDTO.SpecRs specResponse = new InspectionContractDTO.SpecRs();
-//		specResponse.setData(response.getList())
-//				.setStartRow(startRow)
-//				.setEndRow(startRow + response.getTotalCount().intValue())
-//				.setTotalRows(response.getTotalCount().intValue());
-//
-//		final InspectionContractDTO.InspectionContractSpecRs specRs = new InspectionContractDTO.InspectionContractSpecRs();
-//		specRs.setResponse(specResponse);
-//
-//		return new ResponseEntity<>(specRs, HttpStatus.OK);
-//	}
 	@Loggable
 	@GetMapping(value = "/spec-list")
 //	@PreAuthorize("hasAuthority('r_inspectionContract')")
