@@ -1,6 +1,7 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ShipmentDTO;
 
 import java.util.List;
@@ -19,9 +20,9 @@ public interface IShipmentService {
 
 	void delete(ShipmentDTO.Delete request);
 
-	SearchDTO.SearchRs<ShipmentDTO.Info> search(SearchDTO.SearchRq request);
+   TotalResponse<ShipmentDTO.Info> search(NICICOCriteria criteria);
 
-	List<Object[]> pickListShipment();
+   List<Object[]> pickListShipment();
 
 	List<String> findLotname(String id );
 

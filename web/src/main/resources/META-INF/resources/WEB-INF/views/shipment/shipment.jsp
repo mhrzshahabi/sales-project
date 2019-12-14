@@ -107,10 +107,11 @@
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "contactId", type: 'long', hidden: true},
-            {name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
+            {name: "contractcontactnameFA",dataPath: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
             {name: "contractId", type: 'long', hidden: true},
             {
-                name: "contract.contractNo",
+                name: "contractcontractNo",
+                dataPath: "contract.contractNo",
                 title: "<spring:message code='contract.contractNo'/>",
                 type: 'text',
                 width: 180
