@@ -29,7 +29,7 @@ public class DailyWarehouse extends Auditable {
 	private String toDay;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Dailywarehose2material"))
 	private Material material;
 
 	@Column(name = "MATERIAL_ID")

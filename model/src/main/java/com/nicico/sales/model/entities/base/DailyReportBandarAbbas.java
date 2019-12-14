@@ -30,7 +30,7 @@ public class DailyReportBandarAbbas extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "DailyReport2material"))
 	private Material material;
 
 	@Column(name = "MATERIAL_ID")

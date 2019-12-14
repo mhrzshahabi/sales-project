@@ -93,14 +93,6 @@ public class Invoice extends Auditable {
 	@Column(name = "GOLD_UNIT_PRICE")
 	private Double goldUnitPrice;
 
-	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BOL_HEADER_ID", insertable = false, updatable = false)
-	private BolHeader bolHeader;
-
-	@Column(name = "BOL_HEADER_ID")
-	private Long bolHeaderId;
-
 	@Column(name = "PRICE_BASE", length = 255)
 	private String priceBase;
 

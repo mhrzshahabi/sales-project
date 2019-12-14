@@ -110,7 +110,7 @@
     Page.setAppImgDir("static/img/");
 
     isc.ListGrid.addProperties({
-        dataPageSize: 500,
+        dataPageSize: 5,
         showPrompt: true,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true

@@ -23,7 +23,7 @@ public class ShipmentEmail extends Auditable {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmntemail2shipmnt"))
 	private Shipment shipment;
 
 	@Column(name = "SHIPMENT_ID")

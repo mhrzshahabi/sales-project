@@ -475,8 +475,10 @@
                     changed: function (form, item, value) {
                         rcd=item.getSelectedRecord();
                         rcd1=DynamicForm_WarehouseIssueMo.getOldValues().warehouseLotId;
+                        console.log(rcd.contractId);
+                        console.log(ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord().contractId)
                         if (rcd != undefined && rcd.contractId != undefined
-                             && ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord().contactId != rcd.contractId) {
+                             && ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord().contractId != rcd.contractId) {
                                  isc.warn("<spring:message code='warehouseIssueMo.Already_Assigend_2_other_Contract'/>");
                                  DynamicForm_WarehouseIssueMo.setValue("warehouseLotId", "");
                                  return;

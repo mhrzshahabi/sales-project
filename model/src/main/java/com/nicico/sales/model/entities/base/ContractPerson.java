@@ -23,14 +23,14 @@ public class ContractPerson extends Auditable {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "ContractPerson2contract"))
 	private Contract contract;
 
 	@Column(name = "CONTRACT_ID")
 	private Long contractId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PERSON_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "PERSON_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "ContractPerson2person"))
 	private Person person;
 
 	@Column(name = "PERSON_ID")

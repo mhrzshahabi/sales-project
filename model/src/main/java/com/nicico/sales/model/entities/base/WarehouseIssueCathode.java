@@ -24,7 +24,7 @@ public class WarehouseIssueCathode extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseissueCad2shipment"))
 	private Shipment Shipment;
 
 	@Column(name = "SHIPMENT_ID")

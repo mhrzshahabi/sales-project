@@ -24,7 +24,7 @@ public class ContractShipment extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contractship2contract"))
 	private Contract contract;
 
 	@Column(name = "CONTRACT_ID")
@@ -38,7 +38,7 @@ public class ContractShipment extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DISCHARGE", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "DISCHARGE", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contractship2dischargeport"))
 	private Port discharge;
 
 	@Column(name = "DISCHARGE")
