@@ -1352,7 +1352,6 @@
         loadingMessage: ""
     });
 
-    <%-----------------------------------------------END ATTACH-----------------------------------------------------------%>
     isc.TabSet.create({
         ID: "contactMainTabSet",
         tabBarPosition: "top",
