@@ -1042,7 +1042,6 @@ DynamicForm_InspectionHeader.setValue("shipmentHeaderDate", datestring)
     });
 
     isc.SectionStack.create({
-        ID:"Shipment_Section_Stack",
         sections:
         [
              {title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_InspectionByInspectionContract  , expanded:true}
