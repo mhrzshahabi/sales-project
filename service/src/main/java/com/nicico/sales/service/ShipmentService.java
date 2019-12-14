@@ -1,7 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IShipmentService;
@@ -75,10 +76,11 @@ public class ShipmentService implements IShipmentService {
 		shipmentDAO.deleteAll(shipments);
 	}
 
+
 	@Transactional(readOnly = true)
 	@Override
-	public SearchDTO.SearchRs<ShipmentDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(shipmentDAO, request, shipment -> modelMapper.map(shipment, ShipmentDTO.Info.class));
+	public TotalResponse<ShipmentDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(shipmentDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentDTO.Info.class));
 	}
 
 	// ------------------------------

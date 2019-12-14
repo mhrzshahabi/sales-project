@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.DailyWarehouseDTO;
@@ -79,6 +81,13 @@ public class DailyWarehouseService implements IDailyWarehouseService {
 	@Override
 	public SearchDTO.SearchRs<DailyWarehouseDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(dailyWarehouseDAO, request, dailyWarehouse -> modelMapper.map(dailyWarehouse, DailyWarehouseDTO.Info.class));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+	public TotalResponse<DailyWarehouseDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(dailyWarehouseDAO, criteria, dailyWarehouse -> modelMapper.map(dailyWarehouse, DailyWarehouseDTO.Info.class));
 	}
 
 	// ------------------------------

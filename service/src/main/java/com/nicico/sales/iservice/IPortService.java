@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.PortDTO;
 
@@ -20,4 +22,7 @@ public interface IPortService {
 	void delete(PortDTO.Delete request);
 
 	SearchDTO.SearchRs<PortDTO.Info> search(SearchDTO.SearchRq request);
+
+	TotalResponse<PortDTO.Info> search(NICICOCriteria criteria);
+
 }

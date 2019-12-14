@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.GroupsPersonDTO;
@@ -79,6 +81,13 @@ public class GroupsPersonService implements IGroupsPersonService {
 	@Override
 	public SearchDTO.SearchRs<GroupsPersonDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(groupsPersonDAO, request, groupsPerson -> modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+	public TotalResponse<GroupsPersonDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(groupsPersonDAO, criteria, groupsPerson -> modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class));
 	}
 
 	// ------------------------------

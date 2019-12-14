@@ -1,17 +1,17 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
-import com.nicico.copper.common.dto.search.EOperator;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.DailyWarehouseDTO;
 import com.nicico.sales.iservice.IDailyWarehouseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,44 +72,9 @@ public class DailyWarehouseRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-	//	@PreAuthorize("hasAuthority('r_dailyWarehouse')")
-	public ResponseEntity<DailyWarehouseDTO.DailyWarehouseSpecRs> list(@RequestParam("_startRow") Integer startRow,
-																	   @RequestParam("_endRow") Integer endRow,
-																	   @RequestParam(value = "_constructor", required = false) String constructor,
-																	   @RequestParam(value = "operator", required = false) String operator,
-																	   @RequestParam(value = "_sortBy", required = false) String sortBy,
-																	   @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		SearchDTO.CriteriaRq criteriaRq;
-		if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
-			criteria = "[" + criteria + "]";
-			criteriaRq = new SearchDTO.CriteriaRq();
-			criteriaRq.setOperator(EOperator.valueOf(operator))
-					.setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
-					}));
-
-			if (StringUtils.isNotEmpty(sortBy)) {
-				request.setSortBy(sortBy);
-			}
-
-			request.setCriteria(criteriaRq);
-		}
-
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
-
-		SearchDTO.SearchRs<DailyWarehouseDTO.Info> response = dailyWarehouseService.search(request);
-
-		final DailyWarehouseDTO.SpecRs specResponse = new DailyWarehouseDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final DailyWarehouseDTO.DailyWarehouseSpecRs specRs = new DailyWarehouseDTO.DailyWarehouseSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
+	public ResponseEntity<TotalResponse<DailyWarehouseDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+		return new ResponseEntity<>(dailyWarehouseService.search(nicicoCriteria), HttpStatus.OK);
 	}
 
 	// ------------------------------

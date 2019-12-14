@@ -2,8 +2,9 @@ package com.nicico.sales.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InvoiceDTO;
 import com.nicico.sales.dto.InvoiceItemDTO;
@@ -147,9 +148,10 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public SearchDTO.SearchRs<InvoiceMolybdenumDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(invoiceMolybdenumDAO, request, invoiceMolybdenum -> modelMapper.map(invoiceMolybdenum, InvoiceMolybdenumDTO.Info.class));
+	public TotalResponse<InvoiceMolybdenumDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(invoiceMolybdenumDAO, criteria, instruction -> modelMapper.map(instruction, InvoiceMolybdenumDTO.Info.class));
 	}
+
 
 	// ------------------------------
 

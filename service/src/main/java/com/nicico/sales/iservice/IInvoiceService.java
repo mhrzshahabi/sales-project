@@ -1,6 +1,7 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.InvoiceDTO;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface IInvoiceService {
 
 	void delete(InvoiceDTO.Delete request);
 
-	SearchDTO.SearchRs<InvoiceDTO.Info> search(SearchDTO.SearchRq request);
+	TotalResponse<InvoiceDTO.Info> search(NICICOCriteria criteria);
 
 	InvoiceDTO.Info sendForm2accounting(Long id,String data);
 }

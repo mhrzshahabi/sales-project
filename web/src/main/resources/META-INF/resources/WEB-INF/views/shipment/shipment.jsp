@@ -58,7 +58,7 @@
                 {name: "port", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
-        fetchDataURL: "${contextPath}/api/port/spec-list1"
+        fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
     var RestDataSource_DischargePort = isc.MyRestDataSource.create({
@@ -107,10 +107,11 @@
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "contactId", type: 'long', hidden: true},
-            {name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
+            {name: "contractcontactnameFA",dataPath: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
             {name: "contractId", type: 'long', hidden: true},
             {
-                name: "contract.contractNo",
+                name: "contractcontractNo",
+                dataPath: "contract.contractNo",
                 title: "<spring:message code='contract.contractNo'/>",
                 type: 'text',
                 width: 180

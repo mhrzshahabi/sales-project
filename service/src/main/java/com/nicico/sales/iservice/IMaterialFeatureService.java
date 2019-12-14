@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.MaterialFeatureDTO;
 
@@ -20,4 +22,6 @@ public interface IMaterialFeatureService {
 	void delete(MaterialFeatureDTO.Delete request);
 
 	SearchDTO.SearchRs<MaterialFeatureDTO.Info> search(SearchDTO.SearchRq request);
+
+	TotalResponse<MaterialFeatureDTO.Info> search(NICICOCriteria criteria);
 }

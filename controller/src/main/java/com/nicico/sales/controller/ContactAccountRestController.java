@@ -1,17 +1,16 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
-import com.nicico.copper.common.dto.search.EOperator;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ContactAccountDTO;
 import com.nicico.sales.iservice.IContactAccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,82 +64,11 @@ public class ContactAccountRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
     @Loggable
     @GetMapping(value = "/spec-list")
-    public ResponseEntity<ContactAccountDTO.ContactAccountSpecRs> list(@RequestParam("_startRow") Integer startRow,
-                                                                       @RequestParam("_endRow") Integer endRow,
-                                                                       @RequestParam(value = "_constructor", required = false) String constructor,
-                                                                       @RequestParam(value = "operator", required = false) String operator,
-                                                                       @RequestParam(value = "_sortBy", required = false) String sortBy,
-                                                                       @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
-        SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-        SearchDTO.CriteriaRq criteriaRq;
-        if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
-            criteria = "[" + criteria + "]";
-            criteriaRq = new SearchDTO.CriteriaRq();
-            criteriaRq.setOperator(EOperator.valueOf(operator))
-                    .setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
-                    }));
-
-            if (StringUtils.isNotEmpty(sortBy)) {
-                request.setSortBy(sortBy);
-            }
-
-            request.setCriteria(criteriaRq);
-        }
-
-        request.setStartIndex(startRow)
-                .setCount(endRow - startRow);
-
-        SearchDTO.SearchRs<ContactAccountDTO.Info> response = contactAccountService.search(request);
-
-        final ContactAccountDTO.SpecRs specResponse = new ContactAccountDTO.SpecRs();
-        specResponse.setData(response.getList())
-                .setStartRow(startRow)
-                .setEndRow(startRow + response.getTotalCount().intValue())
-                .setTotalRows(response.getTotalCount().intValue());
-
-        final ContactAccountDTO.ContactAccountSpecRs specRs = new ContactAccountDTO.ContactAccountSpecRs();
-        specRs.setResponse(specResponse);
-
-        return new ResponseEntity<>(specRs, HttpStatus.OK);
+    public ResponseEntity<TotalResponse<ContactAccountDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contactAccountService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-	/*@Loggable
-	@GetMapping(value = "/search")
-	@PreAuthorize("hasAuthority('r_contactAccount')")
-	public ResponseEntity<SearchDTO.SearchRs<ContactAccountDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(contactAccountService.search(request), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = {"/addAndUpdate"}, method = RequestMethod.POST)
-    public @ResponseBody
-    String createContact(@RequestBody String data, @RequestParam("parentId") Long parentId) {
-        logger.debug("-------------------------- Add  Contact --------------------------------------");
-        try {
-            Gson gson = new GsonBuilder().setLenient().create();
-
-
-            TblContactAccount contactAccount = gson.fromJson(data, TblContactAccount.class);
-
-            if(contactAccount.getIsDefault()){
-                TblContact one = contactService.findOne(parentId);
-                one.setBankAccount(contactAccount.getBankAccount());
-                one.setTblBank(contactAccount.getTblBank());
-                one.setBankShaba(contactAccount.getBankShaba());
-                one.setBankSwift(contactAccount.getBankSwift());
-                contactService.save(one);
-                unckeckOtherAccountContanctDefualtForTheContact(parentId,contactAccount.getId());
-            }
-
-            contactAccount.setContact_id(parentId);
-            contactAccountService.save(contactAccount);
-            checkDefaultBankInfoContact(parentId);
-
-            return "success";
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return "failed";
-        }
-    }*/
 }
