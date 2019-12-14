@@ -5,9 +5,6 @@
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-var main="";
-var emailCCByBady="";
-
     var RestDataSource_PersonByInspectionContract_EmailCC  = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -48,7 +45,7 @@ var emailCCByBady="";
 
         //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-            var RestDataSource_Shipment__SHIPMENT = isc.MyRestDataSource.create({
+            var RestDataSource_Inspection__Inspection = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
@@ -168,10 +165,10 @@ var emailCCByBady="";
 /* End Rest data Source*/
 
 /*List Grid for Shipment bala */
-        var ListGrid_Shipment = isc.ListGrid.create({
+        var ListGrid_Inspection = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_Shipment__SHIPMENT,
+        dataSource: RestDataSource_Inspection__Inspection,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
@@ -378,8 +375,8 @@ var emailCCByBady="";
                 operator: "and",
                 criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
             };
-            ListGrid_ShipmentEmail.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ShipmentEmail.setData(data);
+            ListGrid_InspectionEmail.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                ListGrid_InspectionEmail.setData(data);
             });
             contractId = record.contractId;
         },
@@ -392,19 +389,19 @@ var emailCCByBady="";
         filterOnKeypress: false
     });
 
-    var HLayout_Grid_ShipmentByInspectionContract = isc.HLayout.create({
+    var HLayout_Grid_InspectionByInspectionContract = isc.HLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            ListGrid_Shipment
+            ListGrid_Inspection
         ]
     });
 
-    var VLayout_Body_ShipmentByInspectionContract = isc.VLayout.create({
+    var VLayout_Body_InspectionByInspectionContract = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Grid_ShipmentByInspectionContract
+            HLayout_Grid_InspectionByInspectionContract
         ]
     });
  /*End List Grid */
@@ -507,7 +504,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
 
     function ListGrid_InspectionContract_refresh() {
         ListGrid_InspectionContract.invalidateCache();
-        var record = ListGrid_ShipmentByInspectionContract.getSelectedRecord();
+        var record = ListGrid_InspectionByInspectionContract.getSelectedRecord();
         if (record==null || record.id==null)
              return;
         ListGrid_InspectionContract.fetchData({"shipment.id":record.id},function (dsResponse, data, dsRequest) {
@@ -811,9 +808,9 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
 /*
 *
 *
-*      var d = DynamicForm_ShipmentHeader.getValue("shipmentHeaderDateDummy");
+*      var d = DynamicForm_InspectionHeader.getValue("shipmentHeaderDateDummy");
 var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
-DynamicForm_ShipmentHeader.setValue("shipmentHeaderDate", datestring)
+DynamicForm_InspectionHeader.setValue("shipmentHeaderDate", datestring)
 *
 * */
 
@@ -860,7 +857,7 @@ DynamicForm_ShipmentHeader.setValue("shipmentHeaderDate", datestring)
         title: "<spring:message code='global.form.new'/>",
         click:function()
         {
-            var record = ListGrid_Shipment.getSelectedRecord();
+            var record = ListGrid_Inspection.getSelectedRecord();
             if(record == null || record.id == null){
                 isc.Dialog.create({
                     message : "<spring:message code='global.grid.record.not.selected'/>",
@@ -1048,7 +1045,7 @@ DynamicForm_ShipmentHeader.setValue("shipmentHeaderDate", datestring)
         ID:"Shipment_Section_Stack",
         sections:
         [
-             {title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_ShipmentByInspectionContract  , expanded:true}
+             {title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_InspectionByInspectionContract  , expanded:true}
             ,{title:"<spring:message code='inspectionContract.title'/>", items:VLayout_InspectionContract_Body , expanded:true}
         ],
         visibilityMode:"multiple",
@@ -1077,7 +1074,7 @@ DynamicForm_ShipmentHeader.setValue("shipmentHeaderDate", datestring)
 
 
 
-<%--var RestDataSource_ShipmentByInspectionContract = isc.MyRestDataSource.create({--%>
+<%--var RestDataSource_InspectionByInspectionContract = isc.MyRestDataSource.create({--%>
 <%--fields: [--%>
 <%--    {name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},--%>
 <%--    {name: "tblContractItemShipment.id", title:"<spring:message code='contact.name'/>", type:'long', hidden: true },--%>
@@ -1149,7 +1146,7 @@ DynamicForm_ShipmentHeader.setValue("shipmentHeaderDate", datestring)
 <%--    });--%>
 
 
-<%--var RestDataSource_ShipmentContractByInsContract = isc.MyRestDataSource.create({--%>
+<%--var RestDataSource_InspectionContractByInsContract = isc.MyRestDataSource.create({--%>
 <%--    fields:--%>
 <%--    [--%>
 <%--        {name:"id", title:"id", primaryKey:true, canEdit:false, hidden: true},--%>
