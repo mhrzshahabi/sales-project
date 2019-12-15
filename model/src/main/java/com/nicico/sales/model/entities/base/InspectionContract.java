@@ -18,7 +18,7 @@ public class InspectionContract extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INSPECTION_CONTRACT")
-	@SequenceGenerator(name = "SEQ_INSPECTION_CONTRACT", sequenceName = "SEQ_INSPECTION_CONTRACT")
+	@SequenceGenerator(name = "SEQ_INSPECTION_CONTRACT", sequenceName = "SEQ_INSPECTION_CONTRACT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

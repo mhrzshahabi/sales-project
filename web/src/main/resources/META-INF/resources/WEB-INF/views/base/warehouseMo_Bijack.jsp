@@ -337,7 +337,6 @@
           editorType: "SelectItem",
           optionDataSource: RestDataSource_WarehouseYard,
           displayField: "nameFA",
-          defaultValue: "5",
           valueField: "id",
           pickListWidth: "215",
           pickListHeight: "215",
@@ -346,7 +345,13 @@
           },
           pickListFields: [{
               name: "nameFA"
-          }]
+          }],
+        changed: function (form, item, value) {
+            if(!item.getDisplayValue(value).includes("مول")){
+                isc.warn("<spring:message code='warehouseYard.alert'/>");
+                form.getItem("warehouseYardId").setValue("");
+            }
+            }
       }, {
           name: "sourceLoadDate",
           title: "<spring:message code='warehouseCad.sourceLoadDate'/>",

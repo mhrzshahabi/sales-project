@@ -18,7 +18,7 @@ public class WarehouseIssueCathode extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ISSUE")
-	@SequenceGenerator(name = "SEQ_ISSUE", sequenceName = "SEQ_ISSUE")
+	@SequenceGenerator(name = "SEQ_ISSUE", sequenceName = "SEQ_ISSUE", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

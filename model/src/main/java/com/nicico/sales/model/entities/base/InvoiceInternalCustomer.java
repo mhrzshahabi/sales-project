@@ -18,7 +18,7 @@ public class InvoiceInternalCustomer extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INVOICE_INTERNAL_CUSTOMER")
-	@SequenceGenerator(name = "SEQ_INVOICE_INTERNAL_CUSTOMER", sequenceName = "SEQ_INVOICE_INTERNAL_CUSTOMER")
+	@SequenceGenerator(name = "SEQ_INVOICE_INTERNAL_CUSTOMER", sequenceName = "SEQ_INVOICE_INTERNAL_CUSTOMER", allocationSize = 1)
 	@Column(name = "ID", precision = 10)
 	private Long id;
 	@Column(name = "CUST_ID" , length = 100)

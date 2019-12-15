@@ -18,7 +18,7 @@ public class ContractAddendum extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_ADDENDUM")
-	@SequenceGenerator(name = "SEQ_CONTRACT_ADDENDUM", sequenceName = "SEQ_CONTRACT_ADDENDUM")
+	@SequenceGenerator(name = "SEQ_CONTRACT_ADDENDUM", sequenceName = "SEQ_CONTRACT_ADDENDUM", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

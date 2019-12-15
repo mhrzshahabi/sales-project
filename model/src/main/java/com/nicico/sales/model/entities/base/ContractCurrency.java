@@ -18,7 +18,7 @@ public class ContractCurrency extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_CURRENCY")
-	@SequenceGenerator(name = "SEQ_CONTRACT_CURRENCY", sequenceName = "SEQ_CONTRACT_CURRENCY")
+	@SequenceGenerator(name = "SEQ_CONTRACT_CURRENCY", sequenceName = "SEQ_CONTRACT_CURRENCY", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

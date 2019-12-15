@@ -18,7 +18,7 @@ public class Bank extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BANK")
-	@SequenceGenerator(name = "SEQ_BANK", sequenceName = "SEQ_BANK")
+	@SequenceGenerator(name = "SEQ_BANK", sequenceName = "SEQ_BANK", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 

@@ -464,7 +464,6 @@
         }
     }, {
         name: "warehouseYardId",
-        required: true,
         colSpan: 1,
         titleColSpan: 1,
         showHover: true,
@@ -474,7 +473,6 @@
         editorType: "SelectItem",
         optionDataSource: RestDataSource_WarehouseYard,
         displayField: "nameFA",
-        defaultValue: "9",
         valueField: "id",
         pickListWidth: "215",
         pickListHeight: "215",
@@ -483,7 +481,14 @@
         },
         pickListFields: [{
             name: "nameFA"
-        }]
+        }],
+        required: true,
+        changed: function (form, item, value) {
+            if(!item.getDisplayValue(value).includes("کاتد")){
+                isc.warn("<spring:message code='warehouseYard.alert'/>");
+                form.getItem("warehouseYardId").setValue("");
+            }
+        }
     }, {
         name: "sourceLoadDate",
         title: "<spring:message code='warehouseCad.sourceLoadDate'/>",

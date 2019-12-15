@@ -18,7 +18,7 @@ public class Person extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PERSON")
-	@SequenceGenerator(name = "SEQ_PERSON", sequenceName = "SEQ_PERSON")
+	@SequenceGenerator(name = "SEQ_PERSON", sequenceName = "SEQ_PERSON", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

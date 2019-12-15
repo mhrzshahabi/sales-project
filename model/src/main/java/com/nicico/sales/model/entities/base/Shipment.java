@@ -22,7 +22,7 @@ public class Shipment extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT")
-	@SequenceGenerator(name = "SEQ_SHIPMENT", sequenceName = "SEQ_SHIPMENT")
+	@SequenceGenerator(name = "SEQ_SHIPMENT", sequenceName = "SEQ_SHIPMENT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
