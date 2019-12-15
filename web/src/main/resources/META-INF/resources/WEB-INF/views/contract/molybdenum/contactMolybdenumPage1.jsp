@@ -858,7 +858,7 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactBUYER_optionCriteria,
-                displayField: "nameFA",
+                displayField: "nameEN",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -899,7 +899,7 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactAgentBuyer_optionCriteria,
-                displayField: "nameFA",
+                displayField: "nameEN",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -1052,7 +1052,7 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_Contact_optionCriteria,
-                displayField: "nameFA",
+                displayField: "nameEN",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -1094,7 +1094,7 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactAgentSeller_optionCriteria,
-                displayField: "nameFA",
+                displayField: "nameEN",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -3976,7 +3976,8 @@ function itemsEditDefinitions(key,value,id) {
                     startRow: false,
                     icon: "[SKIN]/actions/remove.png",
                     click: function(){
-                        DynamicForm_ContactParameter_ValueNumber8.removeField(key);DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)
+                        DynamicForm_ContactParameter_ValueNumber8.removeField(key);
+                        DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)
                         var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
                         delete dataSaveValueNumber8.feild_all_defintitons_save;
                         delete dataSaveValueNumber8[key]

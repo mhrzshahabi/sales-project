@@ -91,12 +91,6 @@ public class PortService implements IPortService {
 		return SearchUtil.search(portDAO, request, port -> modelMapper.map(port, PortDTO.Info.class));
 	}
 
-	@Transactional(readOnly = true)
-	@Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
-	public TotalResponse<PortDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(portDAO, criteria, port -> modelMapper.map(port, PortDTO.Info.class));
-	}
 
 	// ------------------------------
 

@@ -7,7 +7,7 @@
     var criteriaContractItemShipment;
     var methodHtpp="";
     var recordContractNo;
-
+    var feild_all_defintitons_save;
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
@@ -278,7 +278,7 @@ var Window_ContactCad = isc.Window.create({
                                 article10_quality.setValue("fullArticle10",textMain.Article10);
                                 article11_quality.setValue("fullArticle11",textMain.Article11);
                                 article12_quality.setValue("fullArticle12",textMain.Article12);
-                        },25)
+                        },100)
                     }else{
                         alert(RpcResponse_o.data);
                         isc.say(RpcResponse_o.data);
@@ -313,7 +313,7 @@ var Window_ContactCad = isc.Window.create({
                         valuesManagerArticle10_quality.setValue("article10_number59",data[0].article10_number59);
                         valuesManagerArticle10_quality.setValue("article10_number60",data[0].article10_number60);
                         valuesManagerArticle10_quality.setValue("article10_number61",data[0].article10_number61);
-                        var feild_all_defintitons_save = JSON.parse(data[0].feild_all_defintitons_save)
+                        feild_all_defintitons_save = JSON.parse(data[0].feild_all_defintitons_save)
                         DynamicForm_ContactParameter_ValueNumber8.destroy();
                         isc.DynamicForm.create({
                                         ID: "DynamicForm_ContactParameter_ValueNumber8",
@@ -348,6 +348,11 @@ var Window_ContactCad = isc.Window.create({
                                                 title: "NAME",
                                                 changed: function (form, item, value) {
                                                     DynamicForm_ContactParameter_ValueNumber8.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue)
+                                                    var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                                                    delete dataSaveValueNumber8.feild_all_defintitons_save;
+                                                    delete dataSaveValueNumber8["definitionsOne"]
+                                                    DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
+                                                    console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
                                                 }
                                             }, {
                                                 name: "button",
@@ -378,7 +383,7 @@ var Window_ContactCad = isc.Window.create({
                                      }
 
                         ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-            })},40)
+            })},100)
         }
     }});
 

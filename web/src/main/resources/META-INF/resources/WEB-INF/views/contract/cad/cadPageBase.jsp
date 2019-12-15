@@ -407,8 +407,15 @@ function saveListGrid_ContractCadItemShipment(contractID) {
 
 function saveCotractCadDetails(data, contractID) {
         data.contract_id = contractID;
-        console.log(valuesManagerArticle1.getValue("feild_all_defintitons_save"))
-        var allData = Object.assign(data,valuesManagerArticle1.getValue("feild_all_defintitons_save"))
+        var allData={};
+        if(valuesManagerArticle1.getValue("feild_all_defintitons_save")==undefined){
+            allData=data;
+           // {"definitionsOne":"AHK=ALFRED H KNIGHT CO.,AN INDEPENDENT........."}
+            allData.feild_all_defintitons_save='{"definitionsOne":"'+DynamicForm_ContactParameter_ValueNumber8.getValue("definitionsOne")+'"}'
+        }else{
+            allData = Object.assign(data,valuesManagerArticle1.getValues())
+        }
+        console.log(allData)
         allData.string_Currency="null";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",
