@@ -112,11 +112,11 @@
                 align: "center"
             }, {
                 name: "contractId",
-                title: "contractId",
+                title: "<spring:message code='contract.id'/>",
                 align: "center"
             }, {
                 name: "used",
-                title: "used",
+                title: "<spring:message code='contract.used'/>",
                 align: "center"
             }, {
                 name: "bookingNo",
@@ -320,13 +320,13 @@
 
          {
              name: "contractId",
-             title: "contractId",
+             title: "<spring:message code='contract.id'/>",
              align: "center",
              hidden: true
          }, {
              name: "used",
              type: "boolean",
-             title: "used",
+             title: "<spring:message code='contract.used'/>",
              align: "center",
              hidden: true
          }
@@ -514,7 +514,7 @@
                 align: "center"
             }, {
                 name: "contractId",
-                title: "contractId",
+                title: "<spring:message code='contract.id'/>",
                 align: "center"
             }, {
                 name: "bookingNo",
@@ -534,7 +534,7 @@
             }, {
                 name: "used",
                 type: "boolean",
-                title: "used",
+                title: "<spring:message code='contract.used'/>",
                 align: "center"
             },
 

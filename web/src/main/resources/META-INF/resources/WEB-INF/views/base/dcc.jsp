@@ -57,6 +57,7 @@
                     name: "description",
                     title: "<spring:message code='global.description'/>",
                     type: 'textArea',
+                    required: "true",
                     width: 400,
                     height: "100"
                 },
