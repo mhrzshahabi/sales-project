@@ -397,7 +397,7 @@
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 50, align: "center"},
+                    {name: "id", width: 50, align: "center" , hidden: true },
                     {name: "nameFa", width: 500, align: "center"},
                 ]
             },
@@ -724,7 +724,7 @@
         width: "100%",
         numCols: 10,
         fields: [
-            {name: "id", type: "hidden", title: ""},
+            {name: "id", type: "hidden", title: "" , hidden: true},
             {
                 name: "nameFA",
                 type: "staticText",
