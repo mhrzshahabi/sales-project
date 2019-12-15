@@ -270,7 +270,7 @@
             [
                 {
                     name: "type",
-                    title: "نوع حمل",
+                    title: "<spring:message code='warehouseCad.movementType'/>",
                     valueMap: {
                         "جاده ای": "جاده ای",
                         "ریلی": "ریلی"
@@ -309,7 +309,7 @@
     isc.ViewLoader.create({
         ID: "BijackViewLoader",
         width: 830,
-        height: 700,
+        height: 730,
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
@@ -317,7 +317,7 @@
     var Window_Bijack = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
         width: 830,
-        height: 700,
+        height: 730,
         autoSize:true,
         autoCenter: true,
         isModal: true,

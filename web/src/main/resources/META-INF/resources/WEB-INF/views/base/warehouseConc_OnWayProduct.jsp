@@ -138,7 +138,7 @@
         click: function() {
             ListGrid_WarehouseCadItem.selectAllRecords();
             if(ListGrid_WarehouseCadItem.getSelectedRecords().length >= 1){
-                isc.warn("only one item is ok.");
+                isc.warn("<spring:message code='warehouseMo.alert'/>");
                 ListGrid_WarehouseCadItem.deselectAllRecords();
                     return;
             }
@@ -147,6 +147,12 @@
             ListGrid_WarehouseCadItem.startEditingNew();
         }
     });
+
+    var yardCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "nameFA", operator: "contains", value: 'نسانتره'}]
+    };
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         setMethod: 'POST',
@@ -278,6 +284,7 @@
             type: 'string',
             editorType: "SelectItem",
             optionDataSource: RestDataSource_WarehouseYard,
+            optionCriteria: yardCriteria,
             displayField: "nameFA",
             valueField: "id",
             pickListWidth: "215",
@@ -335,7 +342,7 @@
             titleColSpan: 1
         }, {
             type: "Header",
-            defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"
+            defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
         }]
     });
 
