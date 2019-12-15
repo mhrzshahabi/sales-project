@@ -140,7 +140,7 @@
                     colSpan: 1, required: true,
                     keyPressFilter: "[0-9]", length: "15",
                     titleColSpan: 1,
-                    hint: "تا 15 رقم قابل قبول می باشد",
+                    hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                 },
                 {
@@ -152,7 +152,7 @@
                 },
                 {
                     name: "nameEn",
-                    title: "<spring:message code='bank.nameFa'/>",
+                    title: "<spring:message code='bank.nameEn'/>",
                     width: 500,
                     colSpan: 1, required: true, keyPressFilter: "[a-z|A-Z|0-9.]",
                     titleColSpan: 1

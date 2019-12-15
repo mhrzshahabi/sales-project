@@ -21,7 +21,7 @@
         }, {
             name: "warehouseYardId"
         }, {
-            name: "warehouseYard.nameFA", dataPath:""  ,
+            name: "warehouseYardnameFA", dataPath:"warehouseYard.nameFA"  ,
             title: "<spring:message code='warehouseCad.yard'/>",
             sortNormalizer: function(recordObject) {
                 return recordObject.warehouseYard.nameFA
@@ -42,7 +42,7 @@
             name: "lot",
             title: "<spring:message code='warehouseStock.lot'/>"
         }, {
-            name: "materialItem.gdsName", dataPath:""  ,
+            name: "materialItemgdsName", dataPath:"materialItem.gdsName"  ,
             title: "<spring:message code='material.descp'/>"
         }],
         fetchDataURL: "${contextPath}/api/warehouseStock/spec-list"
@@ -179,7 +179,7 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         name: "warehouseYardId",
         hidden: true
     }, {
-        name: "warehouseYard.nameFA", dataPath:""  ,
+        name: "warehouseYardnameFA", dataPath:"warehouseYard.nameFA"  ,
         title: "<spring:message code='warehouseCad.yard'/>"
     }, {
         name: "sheet",
@@ -197,7 +197,7 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         name: "lot",
         title: "<spring:message code='warehouseStock.lot'/>"
     }, {
-        name: "materialItem.gdsName", dataPath:""  ,
+        name: "materialItemgdsName", dataPath:"materialItem.gdsName"  ,
         title: "<spring:message code='material.descp'/>"
     }]
 });
@@ -321,7 +321,7 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         }, {
             name: "plant"
         }, {
-            name: "warehouseYard.nameFA" , dataPath:""  ,
+            name: "warehouseYardnameFA" , dataPath:"warehouseYard.nameFA"  ,
         }, {
             name: "sheet"
         }, {
@@ -333,7 +333,7 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         }, {
             name: "lot"
         }, {
-            name: "materialItem.gdsName" , dataPath:""  ,
+            name: "materialItemgdsName" , dataPath:"materialItem.gdsName"  ,
         }],
         sortField: 0,
         autoFetchData: true,
