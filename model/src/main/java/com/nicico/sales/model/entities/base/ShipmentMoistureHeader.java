@@ -18,7 +18,7 @@ public class ShipmentMoistureHeader extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SHIPMENT_MOISTURE_HEADER")
-	@SequenceGenerator(name = "SEQ_SHIPMENT_MOISTURE_HEADER", sequenceName = "SEQ_SHIPMENT_MOISTURE_HEADER")
+	@SequenceGenerator(name = "SEQ_SHIPMENT_MOISTURE_HEADER", sequenceName = "SEQ_SHIPMENT_MOISTURE_HEADER", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

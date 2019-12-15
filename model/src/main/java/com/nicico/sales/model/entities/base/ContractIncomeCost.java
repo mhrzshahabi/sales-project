@@ -4,7 +4,6 @@ import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Subselect;
-import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.*;
 
@@ -20,7 +19,7 @@ public class ContractIncomeCost extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BANK")
-	@SequenceGenerator(name = "SEQ_BANK", sequenceName = "SEQ_BANK")
+	@SequenceGenerator(name = "SEQ_BANK", sequenceName = "SEQ_BANK", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 

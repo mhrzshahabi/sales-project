@@ -18,7 +18,7 @@ public class ShipmentEmail extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT_EMAIL")
-	@SequenceGenerator(name = "SEQ_SHIPMENT_EMAIL", sequenceName = "SEQ_SHIPMENT_EMAIL")
+	@SequenceGenerator(name = "SEQ_SHIPMENT_EMAIL", sequenceName = "SEQ_SHIPMENT_EMAIL", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

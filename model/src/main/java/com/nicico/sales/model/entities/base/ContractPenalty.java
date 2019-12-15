@@ -18,7 +18,7 @@ public class ContractPenalty extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "CONTRACT_PENALTY")
-	@SequenceGenerator(name = "CONTRACT_PENALTY", sequenceName = "CONTRACT_PENALTY")
+	@SequenceGenerator(name = "CONTRACT_PENALTY", sequenceName = "CONTRACT_PENALTY", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

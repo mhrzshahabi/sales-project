@@ -18,7 +18,7 @@ public class MaterialFeature extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_MATERIAL_FEATURE")
-	@SequenceGenerator(name = "SEQ_MATERIAL_FEATURE", sequenceName = "SEQ_MATERIAL_FEATURE")
+	@SequenceGenerator(name = "SEQ_MATERIAL_FEATURE", sequenceName = "SEQ_MATERIAL_FEATURE", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 

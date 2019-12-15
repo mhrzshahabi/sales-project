@@ -289,7 +289,6 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         optionDataSource: RestDataSource_WarehouseYard,
         displayField: "nameFA",
         valueField: "id",
-        defaultValue: "5",
         pickListWidth: "215",
         pickListHeight: "215",
         pickListProperties: {
@@ -298,7 +297,12 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         pickListFields: [{
             name: "nameFA"
         }],
-        disabled: true
+        changed: function (form, item, value) {
+                if(!item.getDisplayValue(value).includes("مول")){
+                    isc.warn("<spring:message code='warehouseYard.alert'/>");
+                    form.getItem("warehouseYardId").setValue("");
+                }
+                }
     }, {
         name: "sourceLoadDate",
         title: "<spring:message code='warehouseCad.sourceLoadDate'/>",

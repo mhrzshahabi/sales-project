@@ -18,7 +18,7 @@ public class Cost extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_COST")
-	@SequenceGenerator(name = "SEQ_COST", sequenceName = "SEQ_COST")
+	@SequenceGenerator(name = "SEQ_COST", sequenceName = "SEQ_COST", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

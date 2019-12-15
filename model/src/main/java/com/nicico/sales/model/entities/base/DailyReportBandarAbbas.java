@@ -18,7 +18,7 @@ public class DailyReportBandarAbbas extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DAILY_REPORT_BANDARABBAS")
-	@SequenceGenerator(name = "SEQ_DAILY_REPORT_BANDARABBAS", sequenceName = "SEQ_DAILY_REPORT_BANDARABBAS")
+	@SequenceGenerator(name = "SEQ_DAILY_REPORT_BANDARABBAS", sequenceName = "SEQ_DAILY_REPORT_BANDARABBAS", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

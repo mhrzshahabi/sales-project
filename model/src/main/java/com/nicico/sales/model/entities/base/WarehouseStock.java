@@ -18,7 +18,7 @@ public class WarehouseStock extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WAREHOUSE_STOCK")
-	@SequenceGenerator(name = "SEQ_WAREHOUSE_STOCK", sequenceName = "SEQ_WAREHOUSE_STOCK")
+	@SequenceGenerator(name = "SEQ_WAREHOUSE_STOCK", sequenceName = "SEQ_WAREHOUSE_STOCK", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
