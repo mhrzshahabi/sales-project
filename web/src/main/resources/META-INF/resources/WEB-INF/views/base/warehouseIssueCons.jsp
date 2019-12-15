@@ -534,10 +534,6 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
     startsWithTitle: "tt"
 });
 
-
-
-
-
     var HLayout_Grid_ShipmentByWarehouseIssueCons  = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -1122,7 +1118,7 @@ var criteria1 = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{
-        fieldName: "materialcode", dataPath:"material.code"  ,
+        fieldName: "material.code",
         operator: "equals",
         value: "26030090"
     }]

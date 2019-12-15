@@ -1128,7 +1128,7 @@ isc.SectionStack.create({
 var criteria1 = {
 	_constructor: "AdvancedCriteria",
 	operator: "and",
-	criteria: [{fieldName: "material.code",  dataPath:"material.code"  , operator: "equals", value: "74031100"}]
+	criteria: [{fieldName: "material.code", operator: "equals", value: "74031100"}]
 };
 ListGrid_ShipmentByWarehouseIssueCathode .fetchData(criteria1, function (dsResponse, data, dsRequest) {
 	ListGrid_ShipmentByWarehouseIssueCathode .setData(data);

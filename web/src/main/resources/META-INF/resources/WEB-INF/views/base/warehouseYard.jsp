@@ -21,11 +21,8 @@
             name: "nameFA",
             title: "<spring:message code='warehouseCad.yard'/>",
             width: 200
-        }, {
-            name: "nameEN",
-            title: "<spring:message code='warehouseCad.yard'/>",
-            width: 200
-        }, ],
+        }
+         ],
 
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
@@ -168,14 +165,7 @@
                     colSpan: 1, required: true,
                     titleColSpan: 1
                 },
-                {
-                    name: "nameEN",
-                    title: "<spring:message code='warehouseCad.yard'/>",
-                    width: 500,
-                    colSpan: 1, required: true,
-                    titleColSpan: 1
-                },
-              ]
+               ]
     });
 
     var ToolStripButton_WarehouseYard_Refresh = isc.ToolStripButton.create({
@@ -319,7 +309,6 @@
                         }
                 },
                 {name: "nameFA", title: "<spring:message code='warehouseCad.yard'/>", width: "10%", align: "center"},
-                {name: "nameEN", title: "<spring:message code='warehouseCad.yard'/>", width: "10%", align: "center"},
             ],
         sortField: 0,
         autoFetchData: true,

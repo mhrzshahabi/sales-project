@@ -141,6 +141,7 @@ var ListGrid_WarehouseCadItem = isc.ListGrid.create({
     removeData: function(data) {}
 });
 
+
     var add_bundle_button = isc.IButton.create({
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
@@ -148,9 +149,7 @@ var ListGrid_WarehouseCadItem = isc.ListGrid.create({
             console.log(ListGrid_WarehouseCadItem.selectAllRecords());
             console.log(ListGrid_WarehouseCadItem.getSelectedRecords());
             console.log(ListGrid_WarehouseCadItem.getAllEditRows());
-
             ListGrid_WarehouseCadItem.deselectAllRecords();
-
             console.log(ListGrid_WarehouseCadItem.getAllEditRows());
             console.log(ListGrid_WarehouseCadItem.getAllEditRows());
             console.log(ListGrid_WarehouseCadItem.getAllEditRows());

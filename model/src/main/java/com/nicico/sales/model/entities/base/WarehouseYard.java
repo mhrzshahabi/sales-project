@@ -27,7 +27,4 @@ public class WarehouseYard extends Auditable {
 
 	@Column(name = "c_NAME_FA", nullable = false, length = 200)
 	private String nameFA;
-
-	@Column(name = "c_NAME_EN", nullable = false, length = 200)
-	private String nameEN;
 }

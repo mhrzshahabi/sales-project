@@ -40,10 +40,10 @@
             title: "<spring:message code='dailyWarehouse.plant'/>",
             align: "center"
         }, {
-            name: "material.descl",   dataPath:""  ,
+            name: "materialdescl",   dataPath:"material.descl"  ,
             title: "<spring:message code='goods.nameLatin'/> "
         }, {
-            name: "warehouseCadItem.warehouseCad.bijackNo",  dataPath:""  ,
+            name: "warehouseCadItemwarehouseCadbijackNo",  dataPath:"warehouseCadItem.warehouseCad.bijackNo"  ,
             title: "<spring:message code='warehouseCad.bijackNo'/> "
         }, {
             name: "lotName",
@@ -66,10 +66,10 @@
             title: "used",
             align: "center"
         }, {
-            name: "warehouseCadItem.issueId",  dataPath:""  ,
+            name: "warehouseCadItemissueId",  dataPath:"warehouseCadItem.issueId"  ,
             title: "<spring:message code='warehouseCadItem.issueId'/> "
         }, {
-            name: "contract.contractNo",  dataPath:""  ,
+            name: "contractcontractNo",  dataPath:"contract.contractNo"  ,
             title: "<spring:message code='contract.contractNo'/> "
         }, ],
         fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
@@ -92,7 +92,7 @@
          type: 'long',
          hidden: true
      }, {
-         name: "contract.contact.nameFA",  dataPath:""  ,
+         name: "contractcontactnameFA",  dataPath:"contract.contact.nameFA"  ,
          title: "<spring:message code='contact.name'/>",
          type: 'text'
      }, {
@@ -100,12 +100,12 @@
          type: 'long',
          hidden: true
      }, {
-         name: "contract.contractNo",  dataPath:""  ,
+         name: "contractcontractNo",  dataPath:"contract.contractNo"  ,
          title: "<spring:message code='contract.contractNo'/>",
          type: 'text',
          width: 180
      }, {
-         name: "contract.contractDate",  dataPath:""  ,
+         name: "contractcontractDate",  dataPath:"contract.contractDate"  ,
          title: "<spring:message code='contract.contractDate'/>",
          type: 'text',
          width: 180
@@ -115,11 +115,11 @@
          type: 'long',
          hidden: true
      }, {
-         name: "material.descl",  dataPath:""  ,
+         name: "materialdescl",  dataPath:"material.descl"  ,
          title: "<spring:message code='material.descl'/>",
          type: 'text'
      }, {
-         name: "material.unit.nameEN",  dataPath:""  ,
+         name: "materialunitnameEN",  dataPath:"material.unit.nameEN"  ,
          title: "<spring:message code='unit.nameEN'/>",
          type: 'text'
      }, {
@@ -166,7 +166,7 @@
          type: 'text',
          width: "10%"
      }, {
-         name: "portByLoading.port",  dataPath:""  ,
+         name: "portByLoadingport",  dataPath:"portByLoading.port"  ,
          title: "<spring:message code='shipment.loading'/>",
          type: 'text',
          width: "10%"
@@ -176,7 +176,7 @@
          type: 'text',
          width: "10%"
      }, {
-         name: "portByDischarge.port",  dataPath:""  ,
+         name: "portByDischargeport",  dataPath:"portByDischarge.port"  ,
          title: "<spring:message code='shipment.discharge'/>",
          type: 'text',
          width: "10%"
@@ -196,7 +196,7 @@
          type: 'text',
          width: "10%"
      }, {
-         name: "switchPort.port",  dataPath:""  ,
+         name: "switchPortport",  dataPath:"switchPort.port"  ,
          title: "<spring:message code='port.switchPort'/>",
          type: 'text',
          width: "10%"
@@ -215,7 +215,7 @@
              "Resource": "<spring:message code='shipment.resource'/>"
          }
      }, {
-         name: "contractShipment.sendDate",  dataPath:""  ,
+         name: "contractShipmentsendDate",  dataPath:"contractShipment.sendDate"  ,
          title: "<spring:message code='global.sendDate'/>",
          type: 'text',
          required: true,
@@ -228,7 +228,7 @@
          type: 'text',
          width: "10%"
      }, {
-         name: "contactByAgent.nameFA",  dataPath:""  ,
+         name: "contactByAgentnameFA",  dataPath:"contactByAgent.nameFA"  ,
          align: "center",
          showHover: true
      }, {
@@ -263,7 +263,7 @@
              type: 'long',
              hidden: true
          }, {
-             name: "contract.contact.nameFA",  dataPath:""  ,
+             name: "contractcontactnameFA",  dataPath:"contract.contact.nameFA"  ,
              title: "<spring:message code='contact.name'/>",
              type: 'text',
              width: "20%",
@@ -274,13 +274,13 @@
              type: 'long',
              hidden: true
          }, {
-             name: "contract.contractNo",  dataPath:""  ,
+             name: "contractcontractNo",  dataPath:"contract.contractNo"  ,
              title: "<spring:message code='contract.contractNo'/>",
              type: 'text',
              width: "10%",
              showHover: true
          }, {
-             name: "contract.contractDate",  dataPath:""  ,
+             name: "contractcontractDate",  dataPath:"contract.contractDate"  ,
              title: "<spring:message code='contract.contractDate'/>",
              type: 'text',
              width: "10%",
@@ -292,14 +292,14 @@
              hidden: true,
              showHover: true
          }, {
-             name: "material.descl",  dataPath:""  ,
+             name: "materialdescl",  dataPath:"material.descl"  ,
              title: "<spring:message code='material.descl'/>",
              type: 'text',
              width: "10%",
              align: "center",
              showHover: true
          }, {
-             name: "material.unit.nameEN",  dataPath:""  ,
+             name: "materialunitnameEN",  dataPath:"material.unit.nameEN"  ,
              title: "<spring:message code='unit.nameEN'/>",
              type: 'text',
              width: "10%",
@@ -341,14 +341,14 @@
              showHover: true
          },
 {
-             name: "portByLoading.port",  dataPath:""  ,
+             name: "portByLoadingport",  dataPath:"portByLoading.port"  ,
              title: "<spring:message	code='shipment.loading'/>",
              type: 'text',
              required: true,
              width: "10%",
              showHover: true
          }, {
-             name: "portByDischarge.port",  dataPath:""  ,
+             name: "portByDischargeport",  dataPath:"portByDischarge.port"  ,
              title: "<spring:message code='shipment.discharge'/>",
              type: 'text',
              required: true,
@@ -365,7 +365,7 @@
              align: "center",
              showHover: true
          }, {
-             name: "contractShipment.sendDate",  dataPath:""  ,
+             name: "contractShipmentsendDate",  dataPath:"contractShipment.sendDate"  ,
              title: "<spring:message code='global.sendDate'/>",
              type: 'text',
              required: true,
@@ -389,7 +389,7 @@
              align: "center",
              showHover: true
          }, {
-             name: "contactByAgent.nameFA",  dataPath:""  ,
+             name: "contactByAgentnameFA",  dataPath:"contactByAgent.nameFA"  ,
              title: "<spring:message code='shipment.agent'/>",
              type: 'text',
              width: "20%",
@@ -410,7 +410,7 @@
              width: "10%",
              showHover: true
          }, {
-             name: "switchPort.port",  dataPath:""  ,
+             name: "switchPortport",  dataPath:"switchPort.port"  ,
              title: "<spring:message code='port.switchPort'/>",
              type: 'text',
              required: true,
@@ -418,7 +418,7 @@
              showHover: true
          }, {
              name: "status",
-             title: "<spring:message	code='shipment.staus'/>",
+             title: "<spring:message code='shipment.staus'/>",
              type: 'text',
              width: "10%",
              align: "center",
@@ -1035,7 +1035,7 @@ var criteria1 = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{
-        fieldName: "materialcode", dataPath:"material.code"  ,
+        fieldName: "material.code"  ,
 operator: "equals",
         value: "28257000"
     }]
