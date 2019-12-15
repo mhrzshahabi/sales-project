@@ -147,7 +147,7 @@
                     length: "15",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnExit: true, required:true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
@@ -159,7 +159,7 @@
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     validators: [{
-                        type: "isFloat",
+                        type: "isFloat", required:true,
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
@@ -170,7 +170,7 @@
                     title: "<spring:message code='LME.seleniumUsdLb'/>",
                     width: 480,
                     keyPressFilter: "[0-9.]",
-                    length: "15",
+                    length: "15", required:true,
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
