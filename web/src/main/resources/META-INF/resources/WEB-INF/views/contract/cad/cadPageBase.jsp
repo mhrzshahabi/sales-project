@@ -314,7 +314,6 @@ var contactCadTabs = isc.TabSet.create({
                         Window_ContactCad.close();
                         ListGrid_Cad.invalidateCache();
                         saveCotractCadDetails(dataSaveAndUpdateContractCadDetail,(JSON.parse(resp.data)).id);
-                        saveValueAllArticles();
                     } else
                         isc.say(RpcResponse_o.data);
                 }
@@ -380,7 +379,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
     };
 
     var dataALLArticle = {};
-    function saveValueAllArticles() {
+    function saveValueAllArticles(contractID) {
         dataALLArticle.Article03 = article3_quality.getValue("fullArticle3");
         dataALLArticle.Article04 = article4_quality.getValue("fullArticle4");
         dataALLArticle.Article05 = article5_quality.getValue("fullArticle5");
@@ -392,6 +391,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
         dataALLArticle.Article11 = article11_quality.getValue("fullArticle11");
         dataALLArticle.Article12 = article12_quality.getValue("fullArticle12");
         dataALLArticle.contractNo = contactCadHeader.getValue("contractNo");
+        dataALLArticle.contractId = contractID;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contract/writeWord",
             httpMethod: "POST",
@@ -417,6 +417,7 @@ function saveCotractCadDetails(data, contractID) {
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     saveListGrid_ContractCadItemShipment(contractID);
+                    saveValueAllArticles(contractID);
                 } else
                     isc.say(RpcResponse_o.data);
             }

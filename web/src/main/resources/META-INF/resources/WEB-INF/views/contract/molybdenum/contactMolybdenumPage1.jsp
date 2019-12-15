@@ -3863,7 +3863,7 @@ function saveCotractDetails(data, contractID) {
             data: JSON.stringify(allData),
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    saveValueAllArticlesMoOx();
+                    saveValueAllArticlesMoOx(contractID);
                     saveValuelotListForADD(contractID);
                     saveListGrid_ContractItemShipment(contractID);
                     saveContractCurrency(contractID);
@@ -3989,7 +3989,7 @@ function itemsEditDefinitions(key,value,id) {
     }
 
     var dataALLArticleMO = {};
-    function saveValueAllArticlesMoOx() {
+    function saveValueAllArticlesMoOx(contractID) {
         dataALLArticleMO.Article03 = valuesManagerfullArticle.getValue("fullArticle03");
         dataALLArticleMO.Article04 = valuesManagerfullArticle.getValue("fullArticle04");
         dataALLArticleMO.Article05 = valuesManagerfullArticle.getValue("fullArticle05");
@@ -4001,6 +4001,7 @@ function itemsEditDefinitions(key,value,id) {
         dataALLArticleMO.Article11 = "";
         dataALLArticleMO.Article12 = "";
         dataALLArticleMO.contractNo = "MO_OX"+contactHeader.getValue("contractNo");
+        dataALLArticleMO.contractId = contractID;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contract/writeWord",
             httpMethod: "POST",

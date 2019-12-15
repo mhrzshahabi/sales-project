@@ -155,7 +155,6 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 {
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
                     type: "date",
                     required: false,
                     width: "200",

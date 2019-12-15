@@ -54,12 +54,17 @@ public class ContactFormController {
 
     @RequestMapping("/concPage1")
     public String contactConcPage1() {
-        return "contract/cad/concPage1";
+        return "contract/conc/concPage1";
     }
 
     @RequestMapping("/concPage2")
     public String contactConcPage2() {
-        return "contract/cad/concPage2";
+        return "contract/conc/concPage2";
+    }
+
+    @RequestMapping("/contractOther")
+    public String contactOther() {
+        return "contract/other/contractOther";
     }
 
 }

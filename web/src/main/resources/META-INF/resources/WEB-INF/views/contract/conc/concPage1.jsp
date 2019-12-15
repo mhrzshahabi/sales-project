@@ -18,8 +18,8 @@
     var dynamicForm3 = isc.HLayout.create({align: "center", members: []});
     var dynamicForm4 = isc.HLayout.create({align: "center", members: []});
 
-    var dynamicForm_ContactCadHeader = isc.DynamicForm.create({
-        valuesManager: "contactHeader",
+    var dynamicForm_ContactConcHeader = isc.DynamicForm.create({
+        valuesManager: "contactHeaderConc",
         wrapItemTitles: false,
         setMethod: 'POST',
         width: "100%",
@@ -60,8 +60,8 @@
         ]
     });
 
-    var Contact_ContactCadBuyer = isc.DynamicForm.create({
-        valuesManager: "contactHeaderCadAgent",
+    var Contact_ContactConcBuyer = isc.DynamicForm.create({
+        valuesManager: "contactHeaderConcAgent",
         height: "20",
         width: "50%",
         disabled: "true",
@@ -104,9 +104,9 @@
             }
         ]
     })
-    dynamicForm1.addMember("Contact_ContactCadBuyer", 1);
+    dynamicForm1.addMember("Contact_ContactConcBuyer", 1);
     var Contact_ContactCadAgentBuyer = isc.DynamicForm.create({
-        valuesManager: "contactHeaderCadAgent",
+        valuesManager: "contactHeaderConcAgent",
         height: "20",
         width: "50%",
         disabled: "true",
@@ -151,7 +151,7 @@
     })
     dynamicForm2.addMember("Contact_ContactCadAgentBuyer", 2);
     var Contact_ContactCadSeller = isc.DynamicForm.create({
-        valuesManager: "contactHeaderCadAgent",
+        valuesManager: "contactHeaderConcAgent",
         height: "20",
         width: "50%",
         disabled: "true",
@@ -196,7 +196,7 @@
     })
     dynamicForm3.addMember("Contact_ContactCadSeller", 3);
     var Contact_ContactAgentSeller = isc.DynamicForm.create({
-        valuesManager: "contactHeaderCadAgent",
+        valuesManager: "contactHeaderConcAgent",
         height: "20",
         width: "50%",
         disabled: "true",
@@ -241,9 +241,9 @@
     })
     dynamicForm4.addMember("Contact_ContactAgentSeller", 4);
 
-    var dynamicForm_ContactCadCustomer = isc.DynamicForm.create({
+    var dynamicForm_ContactConcCustomer = isc.DynamicForm.create({
         setMethod: 'POST',
-        valuesManager: "contactHeader",
+        valuesManager: "contactHeaderConc",
         width: "100%",
         height: "100%",
         numCols: 4,
@@ -283,19 +283,19 @@
                     var mobile = "";
                     if (item.getSelectedRecord().address != undefined) {
                         address = item.getSelectedRecord().address;
-                        Contact_ContactCadBuyer.setValue("address_ContactBuyer", address);
+                        Contact_ContactConcBuyer.setValue("address_ContactBuyer", address);
                     }
                     if (item.getSelectedRecord().nameEN != undefined) {
                         name = item.getSelectedRecord().nameEN;
-                        Contact_ContactCadBuyer.setValue("name_ContactBuyer", name);
+                        Contact_ContactConcBuyer.setValue("name_ContactBuyer", name);
                     }
                     if (item.getSelectedRecord().phone != undefined) {
                         phone = item.getSelectedRecord().phone;
-                        Contact_ContactCadBuyer.setValue("phone_ContactBuyer", phone);
+                        Contact_ContactConcBuyer.setValue("phone_ContactBuyer", phone);
                     }
                     if (item.getSelectedRecord().mobile != undefined) {
                         mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactCadBuyer.setValue("phone_ContactBuyer", phone);
+                        Contact_ContactConcBuyer.setValue("phone_ContactBuyer", phone);
                     }
                 }
             },
@@ -343,8 +343,8 @@
         ]
     });
 
-    var DynamicForm_ContactSeller = isc.DynamicForm.create({
-        valuesManager: "contactHeader",
+    var DynamicForm_ContactConcSeller = isc.DynamicForm.create({
+        valuesManager: "contactHeaderConc",
         width: "100%",
         height: "100%",
         numCols: 4,
@@ -449,7 +449,7 @@
 
     isc.DynamicForm.create({
         ID: "DynamicForm_ContactParameter_ValueNumber8",
-        valuesManager: "valuesManagerArticle1",
+        valuesManager: "valuesManagerConcArticle1",
         height: "20",
         width: "100%",
         wrapItemTitles: true,
@@ -488,10 +488,15 @@
                 height: "30",
                 title: "Remove",
                 startRow: false,
-                icon: "icons/16/message.png",
+                icon: "[SKIN]/actions/remove.png",
                 click: function () {
                     DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");
-                    DynamicForm_ContactParameter_ValueNumber8.removeField("button")
+                    DynamicForm_ContactParameter_ValueNumber8.removeField("button");
+                    var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                    delete dataSaveValueNumber8.feild_all_defintitons_save;
+                    delete dataSaveValueNumber8["definitionsOne"]
+                    DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
+                    console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
                 }
             }
         ]
@@ -508,16 +513,6 @@
                 click: function () {
                     itemsDefinitions('Add', itemsDefinitionsCount)
                 }
-            }),
-            isc.Label.create({
-                styleName: "buttonHtml buttonHtml3",
-                align: "center",
-                valign: "center",
-                wrap: false,
-                contents: "Remove",
-                click: function () {
-                    itemsDefinitions('Remove', itemsDefinitionsCount)
-                }
             })
         ]
     })
@@ -533,17 +528,17 @@ var vlayoutBody = isc.VLayout.create({
         height: "5",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadHeader]}),
+            isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContact]}),
-            isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadCustomer]}),
+            isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2", align: "center", members: [dynamicForm1, dynamicForm2]}),
-            isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
+            isc.HLayout.create({align: "center", members: [DynamicForm_ContactConcSeller]}),
             isc.HLayout.create({ID: "dynamicForm3And4", align: "center", members: [dynamicForm3, dynamicForm4]})
         ]
     });
 
  var article2 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle2",
+        valuesManager: "valuesManagerConcArticle2",
         height: "50%",
         numCols: 14,
         wrapItemTitles: false,
@@ -663,6 +658,9 @@ function itemsDefinitions(value, id) {
                     title: "NAME",
                     changed: function (form, item, value) {
                         DynamicForm_ContactParameter_ValueNumber8.setValue("valueNumber8" + id, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
+                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                        delete dataSaveValueNumber8.feild_all_defintitons_save;
+                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
                     }
                 }, {
                     name: "button" + id,
@@ -671,10 +669,14 @@ function itemsDefinitions(value, id) {
                     height: "30",
                     title: "Remove",
                     startRow: false,
-                    icon: "icons/16/message.png",
+                    icon: "[SKIN]/actions/remove.png",
                     click: function () {
                         DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);
                         DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)
+                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                        delete dataSaveValueNumber8.feild_all_defintitons_save;
+                        delete dataSaveValueNumber8["valueNumber8" + id]
+                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
                     }
                 }
             ]);
@@ -685,3 +687,4 @@ function itemsDefinitions(value, id) {
             DynamicForm_ContactParameter_ValueNumber8.removeField("button" + itemsDefinitionsCount);
         }
     }
+

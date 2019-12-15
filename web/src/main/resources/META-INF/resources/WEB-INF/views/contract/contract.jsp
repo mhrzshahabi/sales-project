@@ -118,6 +118,20 @@ var salesContractCADButtonMain = isc.IconButton.create({
             Window_SelectTypeContactMain.close();
         }
     });
+    var salesContractOtherButtonMain = isc.IconButton.create({
+        title: "<spring:message code='salesContractOtherButton.title'/>",
+        width: "25%",
+        height: "100%",
+        align: "center",
+        margin:"35",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='salesContractOtherButton.title'/>", "<spring:url value="/contact/contractOther"/>")
+            Window_SelectTypeContactMain.close();
+        }
+    });
    var Window_SelectTypeContactMain = isc.Window.create({
                             title: "<spring:message code='global.menu.contract.type.contract'/>",
                             width: "50%",
@@ -131,7 +145,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                             this.Super("closeClick", arguments)
                             },
                             items: [
-                              isc.HLayout.create({autoCenter: true, members: [salesContractMoButtonMain,salesContractCADButtonMain,salesContractConcButtonMain]})
+                              isc.HLayout.create({autoCenter: true, members: [salesContractMoButtonMain,salesContractCADButtonMain,salesContractConcButtonMain,salesContractOtherButtonMain]})
                             ]
                             });
     function ListGrid_Contract_refresh() {
