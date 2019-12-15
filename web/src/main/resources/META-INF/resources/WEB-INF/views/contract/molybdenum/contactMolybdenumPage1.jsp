@@ -3866,7 +3866,7 @@ function saveCotractDetails(data, contractID) {
                     saveValueAllArticlesMoOx(contractID);
                     saveValuelotListForADD(contractID);
                     saveListGrid_ContractItemShipment(contractID);
-                    saveContractCurrency(contractID);
+                    //saveContractCurrency(contractID);
                     Window_ContactCad.close();
                     ListGrid_contractMo.invalidateCache();
                     isc.say("<spring:message code='global.form.request.successful'/>.");
@@ -3878,14 +3878,33 @@ function saveCotractDetails(data, contractID) {
 
 function saveListGrid_ContractItemShipment(contractID) {
         ListGrid_ContractItemShipment.selectAllRecords();
-        ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            var data_ContractItemShipment = ListGrid_ContractItemShipment.getEditedRecord(element);
-            data_ContractItemShipment.contractId = contractID;
-            data_ContractItemShipment.dischargeId = 11022;
+        var data_ContractItemShipment = {};
+        var ListGrid_ShipmentItems = [];
+
+        ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
+            var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
+            dataEditMain.contractId=contractID;
+            dataEditMain.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
-                data: JSON.stringify(data_ContractItemShipment),
+                data: JSON.stringify(dataEditMain),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }))
+            });
+        ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
+            var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
+            dataEdit.contractId=contractID;
+            dataEdit.dischargeId = 11022;
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contractShipment/",
+                httpMethod: "POST",
+                data: JSON.stringify(dataEdit),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
@@ -3894,6 +3913,7 @@ function saveListGrid_ContractItemShipment(contractID) {
                 }
             }))
         })
+        ListGrid_ContractItemShipment.deselectAllRecords();
 };
 
 
