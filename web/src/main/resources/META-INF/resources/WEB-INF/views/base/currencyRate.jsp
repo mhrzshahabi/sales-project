@@ -125,7 +125,8 @@
                     name: "curDateDummy",
                     title: "<spring:message code='currencyRate.curDate'/>",
                     type: "date",
-                    width: "400"
+                    width: "400",
+                    required:true,
                 },
                 {
                     name: "irrUsd",
@@ -134,8 +135,8 @@
                     width: "400",
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    hint: "تا 15 رقم قابل قبول می باشد",
-                    showHintInField: true
+                    hint: " <spring:message code='Material.digit'/>",
+                    showHintInField: true , required:true,
 
                 },
                 {
@@ -145,7 +146,7 @@
                     width: "400",
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    hint: "تا 15 رقم قابل قبول می باشد",
+                    hint: " <spring:message code='Material.digit'/>",
                     showHintInField: true
                 },
                 {
@@ -155,7 +156,7 @@
                     width: "400",
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    hint: "تا 15 رقم قابل قبول می باشد",
+                    hint: " <spring:message code='Material.digit'/>",
                     showHintInField: true
                 },
                 {
@@ -165,7 +166,7 @@
                     width: "400",
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    hint: "تا 15 رقم قابل قبول می باشد",
+                    hint: " <spring:message code='Material.digit'/>",
                     showHintInField: true
                 },
                 {type: "RowSpacerItem"}
