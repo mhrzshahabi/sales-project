@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractIncomeCostDTO;
@@ -20,7 +22,6 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,6 +101,13 @@ public class ContractIncomeCostService implements IContractIncomeCostService {
 //    @PreAuthorize("hasAuthority('R_CONTRACT_INCOME_COST')")
     public SearchDTO.SearchRs<ContractIncomeCostDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(contractIncomeCostDAO, request, contractIncomeCost -> modelMapper.map(contractIncomeCost, ContractIncomeCostDTO.Info.class));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+    public TotalResponse<ContractIncomeCostDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(contractIncomeCostDAO, criteria, contractIncomeCost -> modelMapper.map(contractIncomeCost, ContractIncomeCostDTO.Info.class));
     }
 
     private ContractIncomeCostDTO.Info save(ContractIncomeCost contractIncomeCost) {

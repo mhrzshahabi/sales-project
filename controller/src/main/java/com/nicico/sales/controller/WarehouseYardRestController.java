@@ -34,11 +34,14 @@ public class WarehouseYardRestController {
         return new ResponseEntity<>(warehouseYardService.get(id), HttpStatus.OK);
     }
 
+
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<WarehouseYardDTO.Info>> list() {
         return new ResponseEntity<>(warehouseYardService.list(), HttpStatus.OK);
     }
+
+
 
     @Loggable
     @PostMapping

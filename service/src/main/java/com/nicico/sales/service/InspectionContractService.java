@@ -65,7 +65,6 @@ public class InspectionContractService implements IInspectionContractService {
 		InspectionContract updating = new InspectionContract();
 		modelMapper.map(inspectionContract, updating);
 		modelMapper.map(request, updating);
-
 		return save(updating);
 	}
 
@@ -105,7 +104,7 @@ public class InspectionContractService implements IInspectionContractService {
 		final InspectionContract saved = inspectionContractDAO.saveAndFlush(inspectionContract);
 		return modelMapper.map(saved, InspectionContractDTO.Info.class);
 	}
-	/*Add By JZ*/
+
 	@Transactional
 	@Override
 	public String getMaterial(Long id){

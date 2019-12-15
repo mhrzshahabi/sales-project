@@ -59,13 +59,10 @@ public class InspectionContractFormController {
 
 
 
-
-
 			/*Get Doc File From main\resources\Inspection_Contract*/
 			stream = new ClassPathResource("reports/word/Inspection_Contract.docx").getInputStream();
 			ServletOutputStream out = response.getOutputStream();
 			doc = (XWPFDocument) new XWPFDocument(stream);
-
 
 
 			/*Set on the Word */
@@ -118,8 +115,6 @@ public class InspectionContractFormController {
 					tempS = tempS.concat(s).concat(",");
 			}
 			replacePOI(doc, "rezat" ,  tempS );
-
-
 			/*Create doc from Inspection_Contract & Shipment*/
 			response.setHeader("Content-Disposition", "attachment; filename=\"Inspection_Contract.doc\"");
 			response.setContentType("application/vnd.ms-word");

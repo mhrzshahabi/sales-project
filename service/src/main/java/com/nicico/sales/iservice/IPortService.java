@@ -25,4 +25,7 @@ public interface IPortService {
 	TotalResponse<PortDTO.Info> search(NICICOCriteria criteria);
 
 	SearchDTO.SearchRs<PortDTO.Info> search(SearchDTO.SearchRq request);
+
+	TotalResponse<PortDTO.Info> search(NICICOCriteria criteria);
+
 }

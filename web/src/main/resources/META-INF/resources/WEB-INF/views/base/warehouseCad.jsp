@@ -6,87 +6,97 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_WarehouseCad = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {
-                    name: "bijackNo",
-                    title: "<spring:message code='warehouseCad.bijackNo'/>",
-                    type: 'text'
-                },
-                {
-                    name: "materialItem.gdsName",
-                    title: "<spring:message code='contractItem.material'/>",
-                    type: 'text'
-                },
-                {
-                    name: "plant",
-                    title: "<spring:message code='contractItem.plant'/>",
-                    type: 'text'
-                },
-                {
-                    name: "warehouseNo",
-                    title: "<spring:message code='warehouseCad.warehouseNo'/>",
-                    type: 'text'
-                },
-                {
-                    name: "movementType",
-                    title: "<spring:message code='warehouseCad.movementType'/>",
-                    type: 'text'
-                },
-                {
-                    name: "sourceTozinPlantId"
-                },
-                {
-                    name: "destinationTozinPlantId",
-                },
-                {
-                    name: "yard",
-                    title: "<spring:message code='warehouseCad.yard'/>",
-                    width: 250,
-                    colSpan: 1,
-                    titleColSpan: 1
-                },
-                {
-                    name: "sourceLoadDate",
-                    title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
-                    width: 250,
-                    colSpan: 1,
-                    titleColSpan: 1
-                },
-                {
-                    name: "destinationUnloadDate",
-                    title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
-                    width: 250,
-                    colSpan: 1,
-                    titleColSpan: 1
-                },
-                {
-                    name: "rahahanPolompNo",
-                    title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
-                    width: 250,
-                    colSpan: 1,
-                    titleColSpan: 1
-                },
-                {
-                    name: "herasatPolompNo",
-                    title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
-                    width: 250,
-                    colSpan: 1,
-                    titleColSpan: 1
-                },
-                {
-                    name: "containerNo",
-                    title: "<spring:message code='warehouseCad.containerNo'/>",
-                    width: 250,
-                    colSpan: 1,
-                    titleColSpan: 1
-                },
-                {name: "sourceBundleSum", title: "<spring:message code='warehouseCad.sourceBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationBundleSum", title: "<spring:message code='warehouseCad.destinationBundleSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "sourceSheetSum", title: "<spring:message code='warehouseCad.sourceSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1},
-                {name: "destinationSheetSum", title: "<spring:message code='warehouseCad.destinationSheetSum'/>", width: 250,colSpan: 1,titleColSpan: 1}
-            ],
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "bijackNo",
+            title: "<spring:message code='warehouseCad.bijackNo'/>",
+            type: 'text'
+        }, {
+            name: "materialItemgdsName", dataPath:"materialItem.gdsName"  ,
+            title: "<spring:message code='contractItem.material'/>",
+            type: 'text'
+        }, {
+            name: "plant",
+            title: "<spring:message code='contractItem.plant'/>",
+            type: 'text'
+        }, {
+            name: "warehouseNo",
+            title: "<spring:message code='warehouseCad.warehouseNo'/>",
+            type: 'text'
+        }, {
+            name: "movementType",
+            title: "<spring:message code='warehouseCad.movementType'/>",
+            type: 'text'
+        }, {
+            name: "sourceTozinPlantId"
+        }, {
+            name: "destinationTozinPlantId",
+        }, {
+            name: "yard",
+            title: "<spring:message code='warehouseCad.yard'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "sourceLoadDate",
+            title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "destinationUnloadDate",
+            title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "rahahanPolompNo",
+            title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "herasatPolompNo",
+            title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "containerNo",
+            title: "<spring:message code='warehouseCad.containerNo'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "sourceBundleSum",
+            title: "<spring:message code='warehouseCad.sourceBundleSum'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "destinationBundleSum",
+            title: "<spring:message code='warehouseCad.destinationBundleSum'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "sourceSheetSum",
+            title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "destinationSheetSum",
+            title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }],
         fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
     });
 
@@ -122,35 +132,37 @@
     }
 
     function ListGrid_warehouseCAD_edit() {
-        var record = ListGrid_warehouseCAD.getSelectedRecord();
+       var record = ListGrid_warehouseCAD.getSelectedRecord();
 
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            if (record.materialItemId === 4 || record.materialItemId === 5 || record.materialItemId === 6 ||
-                record.materialItemId === 15 || record.materialItemId === 18 || record.materialItemId === 22 ||
-                record.materialItemId === 25 || record.materialItemId === 26) {
-                        BijackViewLoader.setViewURL("warehouseCad/showWarehouseCadForm");
-                        Window_Bijack.show();
-                    }
-            if (record.materialItemId === 13 || record.materialItemId === 27) {
-                        BijackViewLoader.setViewURL("warehouseCad/showWarehouseMoForm");
-                        Window_Bijack.show();
-                    }
-            if (record.materialItemId === 3) {
-                        BijackViewLoader.setViewURL("warehouseCad/showWarehouseConcForm");
-                        Window_Bijack.show();
-                    }
-        }
-    }
+       if (record == null || record.id == null) {
+           isc.Dialog.create({
+               message: "<spring:message code='global.grid.record.not.selected'/>",
+               icon: "[SKIN]ask.png",
+               title: "<spring:message code='global.message'/>",
+               buttons: [isc.Button.create({
+                   title: "<spring:message code='global.ok'/>"
+               })],
+               buttonClick: function() {
+                   this.hide();
+               }
+           });
+       } else {
+           if (record.materialItemId === 4 || record.materialItemId === 5 || record.materialItemId === 6 ||
+               record.materialItemId === 15 || record.materialItemId === 18 || record.materialItemId === 22 ||
+               record.materialItemId === 25 || record.materialItemId === 26) {
+               BijackViewLoader.setViewURL("warehouseCad/showWarehouseCadForm");
+               Window_Bijack.show();
+           }
+           if (record.materialItemId === 13 || record.materialItemId === 27) {
+               BijackViewLoader.setViewURL("warehouseCad/showWarehouseMoForm");
+               Window_Bijack.show();
+           }
+           if (record.materialItemId === 3) {
+               BijackViewLoader.setViewURL("warehouseCad/showWarehouseConcForm");
+               Window_Bijack.show();
+           }
+       }
+   }
 
     var Menu_ListGrid_warehouseCAD = isc.Menu.create({
         width: 150,
@@ -245,10 +257,63 @@
         ]
     });
 
-    isc.VLayout.create({
+    VLayout_Body_WarehouseCad = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_warehouseCAD_Actions, HLayout_warehouseCAD_Grid
         ]
+    });
+
+    isc.ViewLoader.create({
+        ID: "bijackAttachmentViewLoader",
+        autoDraw: false,
+        loadingMessage: ""
+    });
+
+    isc.TabSet.create({
+        ID: "bijackMainTabSet",
+        tabBarPosition: "top",
+        width: "100%",
+        height: "100%",
+        tabs: [
+            {
+                ID: "bijackTab",
+                title: "<spring:message code='bijack'/>",
+                icon: "",
+                iconSize: 16,
+                pane: VLayout_Body_WarehouseCad
+            },
+            {
+                title: "<spring:message code='bijackAttach.title'/>",
+                icon: "",
+                iconSize: 16,
+                pane: bijackAttachmentViewLoader,
+                tabSelected: function (form, item, value) {
+                    var record = ListGrid_warehouseCAD.getSelectedRecord();
+                    if (record == null || record.id == null) {
+                        isc.Dialog.create({
+                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                            icon: "[SKIN]ask.png",
+                            title: "<spring:message code='global.message'/>",
+                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                            buttonClick: function () {
+                                this.hide();
+                            }
+                        });
+                        record.id = null;
+                    }
+                    var dccTableId = record.id;
+                    var dccTableName = "TBL_WAREHOUSE_CAD";
+                    bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                }
+            }
+        ]
+    });
+    isc.VLayout.create({
+        ID: "bijackMainVLayout",
+        width: "100%",
+        height: "100%",
+        backgroundColor: "",
+        members: [bijackMainTabSet]
     });

@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.GlossaryDTO;
 
@@ -20,4 +22,6 @@ public interface IGlossaryService {
 	void delete(GlossaryDTO.Delete request);
 
 	SearchDTO.SearchRs<GlossaryDTO.Info> search(SearchDTO.SearchRq request);
+
+	TotalResponse<GlossaryDTO.Info> search(NICICOCriteria criteria);
 }

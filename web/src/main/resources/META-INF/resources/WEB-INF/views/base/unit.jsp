@@ -40,44 +40,65 @@
     var ValuesManager_Unit = isc.ValuesManager.create({});
 
 
-    var DynamicForm_Unit = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,
+     var DynamicForm_Unit = isc.DynamicForm.create({
+       width: "100%",
+       height: "100%",
+       setMethod: 'POST',
+       align: "center",
+       canSubmit: true,
+       showInlineErrors: true,
+       showErrorText: true,
+       showErrorStyle: true,
+       errorOrientation: "right",
+       titleWidth: "100",
+       titleAlign: "right",
+       requiredMessage: "<spring:message code='validator.field.is.required'/>",
+       numCols: 2,
 
-        fields: [
-            {name: "id", hidden: true,},
-            {type: "RowSpacerItem"},
-            {
-                name: "code", title: "<spring:message code='unit.code'/>", type: 'text', required: true,
-                width: 400, keyPressFilter: "[0-9]", length: "15"
-            },
-            {name: "nameFA", title: "<spring:message code='unit.nameFa'/>", required: true, readonly: true, width: 400},
-            {
-                name: "nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text', required: true,
-                width: 400, keyPressFilter: "[a-z|A-Z|0-9.]"
-            },
-            {name: "symbol", title: "<spring:message code='unit.symbol'/>", type: 'text', width: 400},
-            {
-                name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400
-                , keyPressFilter: "[0-4]",
-                length: "1",
-                hint: "<spring:message code='deghat.ashar'/>", //TODO
-                showHintInField: true,
-            },
-            {type: "RowSpacerItem"},
-        ]
-    });
+       fields: [{
+           name: "id",
+           hidden: true,
+       }, {
+           type: "RowSpacerItem"
+       }, {
+           name: "code",
+           title: "<spring:message code='unit.code'/>",
+           type: 'text',
+           required: true,
+           width: 400,
+           keyPressFilter: "[0-9]",
+           length: "15"
+       }, {
+           name: "nameFA",
+           title: "<spring:message code='unit.nameFa'/>",
+           required: true,
+           readonly: true,
+           width: 400
+       }, {
+           name: "nameEN",
+           title: "<spring:message code='unit.nameEN'/>",
+           type: 'text',
+           required: true,
+           width: 400,
+           keyPressFilter: "[a-z|A-Z|0-9.]"
+       }, {
+           name: "symbol",
+           title: "<spring:message code='unit.symbol'/>",
+           type: 'text',
+           width: 400
+       }, {
+           name: "decimalDigit",
+           title: "<spring:message code='rate.decimalDigit'/>",
+           width: 400,
+           keyPressFilter: "[0-4]",
+           length: "1",
+           hint: "<spring:message code='deghat.ashar'/>", //TODO
+           showHintInField: true,
+       }, {
+           type: "RowSpacerItem"
+       }, ]
+   });
+
 
     var IButton_Unit_Save = isc.IButton.create({
         top: 260,
@@ -279,18 +300,31 @@
     });
 
     var RestDataSource_Unit = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='unit.code'/> "},
-            {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
-            {name: "nameEN", title: "<spring:message code='unit.nameEN'/> "},
-            {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
-            {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
-        ],
-// ######@@@@###&&@@###
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "code",
+            title: "<spring:message code='unit.code'/> "
+        }, {
+            name: "nameFA",
+            title: "<spring:message code='unit.nameFa'/> "
+        }, {
+            name: "nameEN",
+            title: "<spring:message code='unit.nameEN'/> "
+        }, {
+            name: "symbol",
+            title: "<spring:message code='unit.symbol'/>"
+        }, {
+            name: "decimalDigit",
+            title: "<spring:message code='rate.decimalDigit'/>"
+        }],
+        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
-
 
 
     var ListGrid_Unit = isc.ListGrid.create({
@@ -298,14 +332,33 @@
         height: "100%",
         dataSource: RestDataSource_Unit,
         contextMenu: Menu_ListGrid_Unit,
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='unit.code'/> ", align: "center" },
-            {name: "nameFA", title: "<spring:message code='unit.nameFa'/> ", align: "center"},
-            {name: "nameEN", title: "<spring:message code='unit.nameEN'/> ", align: "center"},
-            {name: "symbol", title: "<spring:message code='unit.symbol'/>", align: "center"},
-            {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", align: "center"}
-        ],
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "code",
+            title: "<spring:message code='unit.code'/> ",
+            align: "center"
+        }, {
+            name: "nameFA",
+            title: "<spring:message code='unit.nameFa'/> ",
+            align: "center"
+        }, {
+            name: "nameEN",
+            title: "<spring:message code='unit.nameEN'/> ",
+            align: "center"
+        }, {
+            name: "symbol",
+            title: "<spring:message code='unit.symbol'/>",
+            align: "center"
+        }, {
+            name: "decimalDigit",
+            title: "<spring:message code='rate.decimalDigit'/>",
+            align: "center"
+        }],
         sortField: 0,
         autoFetchData: true,
         showFilterEditor: true,

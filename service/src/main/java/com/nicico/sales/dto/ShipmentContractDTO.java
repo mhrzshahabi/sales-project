@@ -21,16 +21,16 @@ public class ShipmentContractDTO {
 	private Contact tblContactByOwners;
 	@NotNull
 	@ApiModelProperty(required = true)
-	private Long contactByOwnersId;
-	private Contact tblContactByCharterer;
-	private Long contactByChartererId;
-	private Contact tblContactByChainOfOwners;
-	private Long contactByChainOfOwnersId;
-	private Country tblCountryFlag;
-	private Long countryFlagId;
-	private Long shipmentHeaderId;
-	private Long shipmentPriceId;
-	private String shipmentContractDate;
+//	private Long contactByOwnersId;
+//	private Contact tblContactByCharterer;
+//	private Long contactByChartererId;
+//	private Contact tblContactByChainOfOwners;
+//	private Long contactByChainOfOwnersId;
+//	private Country tblCountryFlag;
+//	private Long countryFlagId;
+//	private Long shipmentHeaderId;
+//	private Long shipmentPriceId;
+//	private String shipmentContractDate;
 	private String no;
 	private Double capacity;
 	private String laycanStart;
@@ -54,6 +54,9 @@ public class ShipmentContractDTO {
 	private String hatch;
 	private String classType;
 	private String weighingMethodes;
+	private String shipFlag;
+	private String createDate;
+
 
 	// ------------------------------
 

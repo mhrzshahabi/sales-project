@@ -123,7 +123,7 @@
         numCols: 1,
         fields:
             [
-                {name: "id", hidden: true,},
+                {name: "id", hidden: true , },
                 {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {

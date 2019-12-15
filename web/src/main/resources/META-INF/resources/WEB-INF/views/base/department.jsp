@@ -19,9 +19,9 @@
             {name: "id", primaryKey: true, type: "integer", title: " ID"},
             {name: "departmentName", title: "<spring:message code='department.name'/>"},
             {name: "parentId", foreignKey: "id", type: "integer", title: "parent department"},
-            {name: "parentDepartment.id"},
-            {name: "parentDepartment.departmentName"},
-            {name: "parentDepartment.parentDepartment.id"},
+            {name: "parentDepartmentid" ,        dataPath:"parentDepartment.id"                   },
+            {name: "parentDepartmentdepartmentName" ,      dataPath:"parentDepartment.departmentName"        },
+            {name: "parentDepartmentparentDepartmentid" ,   dataPath:"parentDepartment.parentDepartment.id"       },
             {name: "departmentCode", title: "<spring:message code='department.code'/>"}
         ],
         fetchDataURL: "rest/department/departmentGridFetch"
@@ -65,11 +65,11 @@
         numCols: 1,
         fields: [
             {
-                name: "parentDepartment.departmentCode", type: "StaticText", title: "<spring:message
+                name: "parentDepartmentdepartmentCode",  dataPath:"parentDepartment.departmentCode" ,       type: "StaticText", title: "<spring:message
 		code='department.code.head'/>", width: 400
             },
             {
-                name: "parentDepartment.departmentName", type: "StaticText", title: "<spring:message
+                name: "parentDepartmentdepartmentName", dataPath:"parentDepartment.departmentName",   type: "StaticText", title: "<spring:message
 		code='department.name.head'/>", width: 400
             },
             {

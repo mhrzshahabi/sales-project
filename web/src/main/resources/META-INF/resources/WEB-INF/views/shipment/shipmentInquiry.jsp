@@ -114,7 +114,7 @@
             },
             {
                 name: "shipmentType", title: "<spring:message
-		code='shipment.shipmentType'/>", type: 'text', width: "10%", valueMap: {"b": "bulk", "c": "container"}
+		code='shipment.shipmentType'/>", type: 'text', width: "10%", valueMap: {"bulk": "bulk", "container": "container"}
             },
             {
                 name: "noContainer", title: "<spring:message
@@ -265,7 +265,7 @@
 		code='shipment.shipmentType'/>",
                 type: 'text',
                 width: "10%",
-                valueMap: {"b": "bulk", "c": "container"},
+                valueMap: {"bulk": "bulk", "container": "container"},
                 showHover: true
             },
             {

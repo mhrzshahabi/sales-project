@@ -25,282 +25,447 @@
     });
 
     var RestDataSource_WarehouseIssueMo_WarehouseLot = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center"},
-                {name: "plant", title: "<spring:message code='dailyWarehouse.plant'/>", align: "center"},
-                {name: "material.descl", title: "<spring:message code='goods.nameLatin'/> "},
-                {name: "warehouseCadItem.warehouseCad.bijackNo", title: "<spring:message code='warehouseCad.bijackNo'/> "},
-                {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center"},
-                {name: "weightKg", title: "<spring:message code='warehouseLot.weightKg'/>", align: "center"},
-                {name: "grossWeight", title: "<spring:message code='grossWeight.weightKg'/>", align: "center"},
-                {name: "contractId", title: "contractId", align: "center"},
-                {name: "used", title: "used", align: "center"},
-                {name: "warehouseCadItem.issueId", title: "<spring:message code='warehouseCadItem.issueId'/> "},
-                {name: "contract.contractNo", title: "<spring:message code='contract.contractNo'/> "},
-           ],
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "warehouseNo",
+            title: "<spring:message code='dailyWarehouse.warehouse'/>",
+            align: "center"
+        }, {
+            name: "plant",
+            title: "<spring:message code='dailyWarehouse.plant'/>",
+            align: "center"
+        }, {
+            name: "material.descl",   dataPath:""  ,
+            title: "<spring:message code='goods.nameLatin'/> "
+        }, {
+            name: "warehouseCadItem.warehouseCad.bijackNo",  dataPath:""  ,
+            title: "<spring:message code='warehouseCad.bijackNo'/> "
+        }, {
+            name: "lotName",
+            title: "<spring:message code='warehouseLot.lotName'/>",
+            align: "center"
+        }, {
+            name: "weightKg",
+            title: "<spring:message code='warehouseLot.weightKg'/>",
+            align: "center"
+        }, {
+            name: "grossWeight",
+            title: "<spring:message code='grossWeight.weightKg'/>",
+            align: "center"
+        }, {
+            name: "contractId",
+            title: "contractId",
+            align: "center"
+        }, {
+            name: "used",
+            title: "used",
+            align: "center"
+        }, {
+            name: "warehouseCadItem.issueId",  dataPath:""  ,
+            title: "<spring:message code='warehouseCadItem.issueId'/> "
+        }, {
+            name: "contract.contractNo",  dataPath:""  ,
+            title: "<spring:message code='contract.contractNo'/> "
+        }, ],
         fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
     });
-
 //*******************************************************************************
-    var MyRestDataSource_ShipmentByWarehouseIssueMo  = isc.MyRestDataSource.create({
-    fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-            {name: "contactId", type: 'long', hidden: true},
-            {name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
-            {name: "contractId", type: 'long', hidden: true},
-            {name: "contract.contractNo",title: "<spring:message code='contract.contractNo'/>",type: 'text',width: 180 },
-            {name: "contract.contractDate",title: "<spring:message code='contract.contractDate'/>",type: 'text',width: 180},
-            {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-            {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
-            {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
-            {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
-            {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {name: "laycan",title: "<spring:message code='shipmentContract.laycanStart'/>",type: 'integer',width: "10%",align: "center"},
-            {name: "shipmentType",title: "<spring:message code='shipment.shipmentType'/>",type: 'text',width: 400,valueMap: {"b": "bulk", "c": "container"}},
-            {name: "loadingLetter",title: "<spring:message code='shipment.loadingLetter'/>",type: 'text',width: "10%",showHover: true},
-            {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", type: 'text', width: "10%"},
-            {name: "portByLoading.port",title: "<spring:message code='shipment.loading'/>",type: 'text',width: "10%"},
-            {name: "portByDischargeId",title: "<spring:message code='shipment.discharge'/>",type: 'text',width: "10%"},
-            {name: "portByDischarge.port",title: "<spring:message code='shipment.discharge'/>",type: 'text',width: "10%"},
-            {name: "dischargeAddress", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "description", title: "<spring:message code='shipment.description'/>", type: 'text', width: "10%"},
-            {name: "swb", title: "<spring:message code='shipment.SWB'/>", type: 'text', width: "10%"},
-            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "10%"},
-            {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
-            {name: "status",title: "<spring:message code='shipment.staus'/>",type: 'text',width: "10%",
-                valueMap: {
-                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
-                    "Resource": "<spring:message code='shipment.resource'/>"
-                }
-            },
-            {name: "contractShipment.sendDate",title: "<spring:message code='global.sendDate'/>",type: 'text',required: true,width: "10%",align: "center",showHover: true},
-            {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
-            {name: "contactByAgent.nameFA",align: "center",showHover: true},
-            {name: "vesselName",title: "<spring:message	code='shipment.vesselName'/>",type: 'text',required: true,width: "10%",showHover: true}
-    ],
- // ######@@@@###&&@@###
-        fetchDataURL: "${contextPath}/api/shipment/spec-list"
-    });
+    var MyRestDataSource_ShipmentByWarehouseIssueMo = isc.MyRestDataSource.create({
+     fields: [{
+         name: "id",
+         title: "id",
+         primaryKey: true,
+         canEdit: false,
+         hidden: true
+     }, {
+         name: "contractShipmentId",
+         title: "<spring:message code='contact.name'/>",
+         type: 'long',
+         hidden: true
+     }, {
+         name: "contactId",
+         type: 'long',
+         hidden: true
+     }, {
+         name: "contract.contact.nameFA",  dataPath:""  ,
+         title: "<spring:message code='contact.name'/>",
+         type: 'text'
+     }, {
+         name: "contractId",
+         type: 'long',
+         hidden: true
+     }, {
+         name: "contract.contractNo",  dataPath:""  ,
+         title: "<spring:message code='contract.contractNo'/>",
+         type: 'text',
+         width: 180
+     }, {
+         name: "contract.contractDate",  dataPath:""  ,
+         title: "<spring:message code='contract.contractDate'/>",
+         type: 'text',
+         width: 180
+     }, {
+         name: "materialId",
+         title: "<spring:message code='contact.name'/>",
+         type: 'long',
+         hidden: true
+     }, {
+         name: "material.descl",  dataPath:""  ,
+         title: "<spring:message code='material.descl'/>",
+         type: 'text'
+     }, {
+         name: "material.unit.nameEN",  dataPath:""  ,
+         title: "<spring:message code='unit.nameEN'/>",
+         type: 'text'
+     }, {
+         name: "amount",
+         title: "<spring:message code='global.amount'/>",
+         type: 'float'
+     }, {
+         name: "noContainer",
+         title: "<spring:message code='shipment.noContainer'/>",
+         type: 'integer'
+     }, {
+         name: "noPalete",
+         title: "<spring:message code='shipment.noContainer'/>",
+         type: 'integer'
+     }, {
+         name: "laycan",
+         title: "<spring:message code='shipmentContract.laycanStart'/>",
+         type: 'integer',
+         width: "10%",
+         align: "center"
+     }, {
+         name: "shipmentType",
+         title: "<spring:message code='shipment.shipmentType'/>",
+         type: 'text',
+         width: 400,
+         valueMap: {
+             "bulk": "bulk",
+             "container": "container"
+         }
+     }, {
+         name: "loadingLetter",
+         title: "<spring:message code='shipment.loadingLetter'/>",
+         type: 'text',
+         width: "10%",
+         showHover: true
+     }, {
+         name: "loading",
+         title: "<spring:message code='global.address'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "portByLoadingId",
+         title: "<spring:message code='shipment.loading'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "portByLoading.port",  dataPath:""  ,
+         title: "<spring:message code='shipment.loading'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "portByDischargeId",
+         title: "<spring:message code='shipment.discharge'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "portByDischarge.port",  dataPath:""  ,
+         title: "<spring:message code='shipment.discharge'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "dischargeAddress",
+         title: "<spring:message code='global.address'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "description",
+         title: "<spring:message code='shipment.description'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "swb",
+         title: "<spring:message code='shipment.SWB'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "switchPort.port",  dataPath:""  ,
+         title: "<spring:message code='port.switchPort'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "month",
+         title: "<spring:message code='shipment.month'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "status",
+         title: "<spring:message code='shipment.staus'/>",
+         type: 'text',
+         width: "10%",
+         valueMap: {
+             "Load Ready": "<spring:message code='shipment.loadReady'/>",
+             "Resource": "<spring:message code='shipment.resource'/>"
+         }
+     }, {
+         name: "contractShipment.sendDate",  dataPath:""  ,
+         title: "<spring:message code='global.sendDate'/>",
+         type: 'text',
+         required: true,
+         width: "10%",
+         align: "center",
+         showHover: true
+     }, {
+         name: "createDate",
+         title: "<spring:message code='shipment.createDate'/>",
+         type: 'text',
+         width: "10%"
+     }, {
+         name: "contactByAgent.nameFA",  dataPath:""  ,
+         align: "center",
+         showHover: true
+     }, {
+         name: "vesselName",
+         title: "<spring:message	code='shipment.vesselName'/>",
+         type: 'text',
+         required: true,
+         width: "10%",
+         showHover: true
+     }],
+     // ######@@@@###&&@@###
+     fetchDataURL: "${contextPath}/api/shipment/spec-list"
+ });
 
-    var ListGrid_ShipmentByWarehouseIssueMo  = isc.ListGrid.create({
-    width: "100%",
-    height: "100%",
-    dataSource: MyRestDataSource_ShipmentByWarehouseIssueMo ,
-    fields:[
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", hidden: true, type: 'long'},
-            {name: "contactId", type: 'long', hidden: true},
-            {
-                name: "contract.contact.nameFA",
-                title: "<spring:message code='contact.name'/>",
-                type: 'text',
-                width: "20%",
-                align: "center",
-                showHover: true
-            },
-            {name: "contractId", type: 'long', hidden: true},
-            {
-                name: "contract.contractNo",
-                title: "<spring:message code='contract.contractNo'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "contract.contractDate",
-                title: "<spring:message code='contract.contractDate'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "materialId",
-                title: "<spring:message code='contact.name'/>",
-                type: 'long',
-                hidden: true,
-                showHover: true
-            },
-            {
-                name: "material.descl",
-                title: "<spring:message code='material.descl'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "material.unit.nameEN",
-                title: "<spring:message code='unit.nameEN'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "amount",
-                title: "<spring:message code='global.amount'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "shipmentType",
-                title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "loadingLetter",
-                title: "<spring:message code='shipment.loadingLetter'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "noContainer",
-                title: "<spring:message code='shipment.noContainer'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            <%--{name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},--%>
-            {
-                name: "portByLoading.port",
-                title: "<spring:message	code='shipment.loading'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "portByDischarge.port",
-                title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
-            {
-                name: "description",
-                title: "<spring:message code='shipment.description'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "contractShipment.sendDate",
-                title: "<spring:message code='global.sendDate'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "createDate",
-                title: "<spring:message code='global.createDate'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "month",
-                title: "<spring:message code='shipment.month'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "contactByAgent.nameFA",
-                title: "<spring:message code='shipment.agent'/>",
-                type: 'text',
-                width: "20%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "vesselName",
-                title: "<spring:message	code='shipment.vesselName'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "swb",
-                title: "<spring:message code='shipment.SWB'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "switchPort.port",
-                title: "<spring:message code='port.switchPort'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "status",
-                title: "<spring:message	code='shipment.staus'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                valueMap: {
-                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
-                    "Resource": "<spring:message code='shipment.resource'/>"
-                },
-                showHover: true
-            }
-    ],
-    recordClick 			:	"this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-    updateDetails 			: function (viewer, record1, recordNum, field, fieldNum, value, rawValue)
-    {
-        var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-            };
-            ListGrid_WarehouseIssueMo.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_WarehouseIssueMo.setData(data);
 
-            });
-    },
-    dataArrived 			: 	function (startRow, endRow) {
-    },
-    sortField: 0,
-    dataPageSize: 50,
-    autoFetchData: false,
-    showFilterEditor: true,/*canSelectCells:true,*/
-    filterOnKeypress: true,
-    sortFieldAscendingText: "مرتب سازی صعودی",
-    sortFieldDescendingText: "مرتب سازی نزولی",
-    configureSortText: "تنظیم مرتب سازی",
-    autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-    autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-    filterUsingText: "فیلتر کردن",
-    groupByText: "گروه بندی",
-    freezeFieldText: "ثابت نگه داشتن",
-    startsWithTitle: "tt"
-    });
+     var ListGrid_ShipmentByWarehouseIssueMo = isc.ListGrid.create({
+     width: "100%",
+     height: "100%",
+     dataSource: MyRestDataSource_ShipmentByWarehouseIssueMo,
+     fields: [{
+             name: "id",
+             title: "id",
+             primaryKey: true,
+             canEdit: false,
+             hidden: true
+         }, {
+             name: "contractShipmentId",
+             hidden: true,
+             type: 'long'
+         }, {
+             name: "contactId",
+             type: 'long',
+             hidden: true
+         }, {
+             name: "contract.contact.nameFA",  dataPath:""  ,
+             title: "<spring:message code='contact.name'/>",
+             type: 'text',
+             width: "20%",
+             align: "center",
+             showHover: true
+         }, {
+             name: "contractId",
+             type: 'long',
+             hidden: true
+         }, {
+             name: "contract.contractNo",  dataPath:""  ,
+             title: "<spring:message code='contract.contractNo'/>",
+             type: 'text',
+             width: "10%",
+             showHover: true
+         }, {
+             name: "contract.contractDate",  dataPath:""  ,
+             title: "<spring:message code='contract.contractDate'/>",
+             type: 'text',
+             width: "10%",
+             showHover: true
+         }, {
+             name: "materialId",
+             title: "<spring:message code='contact.name'/>",
+             type: 'long',
+             hidden: true,
+             showHover: true
+         }, {
+             name: "material.descl",  dataPath:""  ,
+             title: "<spring:message code='material.descl'/>",
+             type: 'text',
+             width: "10%",
+             align: "center",
+             showHover: true
+         }, {
+             name: "material.unit.nameEN",  dataPath:""  ,
+             title: "<spring:message code='unit.nameEN'/>",
+             type: 'text',
+             width: "10%",
+             align: "center",
+             showHover: true
+         }, {
+             name: "amount",
+             title: "<spring:message code='global.amount'/>",
+             type: 'text',
+             width: "10%",
+             align: "center",
+             showHover: true
+         }, {
+             name: "shipmentType",
+             title: "<spring:message code='shipment.shipmentType'/>",
+             type: 'text',
+             width: "10%",
+             showHover: true
+         }, {
+             name: "loadingLetter",
+             title: "<spring:message code='shipment.loadingLetter'/>",
+             type: 'text',
+             width: "10%",
+             showHover: true
+         }, {
+             name: "noContainer",
+             title: "<spring:message code='shipment.noContainer'/>",
+             type: 'text',
+             width: "10%",
+             align: "center",
+             showHover: true
+
+         },  {
+             name: "laycan",
+             title: "<spring:message code='shipmentContract.laycanStart'/>",
+             type: 'integer',
+             width: "10%",
+             align: "center",
+             showHover: true
+         },
+{
+             name: "portByLoading.port",  dataPath:""  ,
+             title: "<spring:message	code='shipment.loading'/>",
+             type: 'text',
+             required: true,
+             width: "10%",
+             showHover: true
+         }, {
+             name: "portByDischarge.port",  dataPath:""  ,
+             title: "<spring:message code='shipment.discharge'/>",
+             type: 'text',
+             required: true,
+             width: "10%",
+             showHover: true
+         },
+         // {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
+         {
+             name: "description",
+             title: "<spring:message code='shipment.description'/>",
+             type: 'text',
+             required: true,
+             width: "10%",
+             align: "center",
+             showHover: true
+         }, {
+             name: "contractShipment.sendDate",  dataPath:""  ,
+             title: "<spring:message code='global.sendDate'/>",
+             type: 'text',
+             required: true,
+             width: "10%",
+             align: "center",
+             showHover: true
+         }, {
+             name: "createDate",
+             title: "<spring:message code='global.createDate'/>",
+             type: 'text',
+             required: true,
+             width: "10%",
+             align: "center",
+             showHover: true
+         }, {
+             name: "month",
+             title: "<spring:message code='shipment.month'/>",
+             type: 'text',
+             required: true,
+             width: "10%",
+             align: "center",
+             showHover: true
+         }, {
+             name: "contactByAgent.nameFA",  dataPath:""  ,
+             title: "<spring:message code='shipment.agent'/>",
+             type: 'text',
+             width: "20%",
+             align: "center",
+             showHover: true
+         }, {
+             name: "vesselName",
+             title: "<spring:message	code='shipment.vesselName'/>",
+             type: 'text',
+             required: true,
+             width: "10%",
+             showHover: true
+         }, {
+             name: "swb",
+             title: "<spring:message code='shipment.SWB'/>",
+             type: 'text',
+             required: true,
+             width: "10%",
+             showHover: true
+         }, {
+             name: "switchPort.port",  dataPath:""  ,
+             title: "<spring:message code='port.switchPort'/>",
+             type: 'text',
+             required: true,
+             width: "10%",
+             showHover: true
+         }, {
+             name: "status",
+             title: "<spring:message	code='shipment.staus'/>",
+             type: 'text',
+             width: "10%",
+             align: "center",
+             valueMap: {
+                 "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                 "Resource": "<spring:message code='shipment.resource'/>"
+             },
+             showHover: true
+         }
+     ],
+     recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+     updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+         var record = this.getSelectedRecord();
+         var criteria1 = {
+             _constructor: "AdvancedCriteria",
+             operator: "and",
+             criteria: [{
+                 fieldName: "shipmentId",
+                 operator: "equals",
+                 value: record.id
+             }]
+         };
+         ListGrid_WarehouseIssueMo.fetchData(criteria1, function(dsResponse, data, dsRequest) {
+             ListGrid_WarehouseIssueMo.setData(data);
+
+         });
+     },
+     dataArrived: function(startRow, endRow) {},
+     sortField: 0,
+     dataPageSize: 50,
+     autoFetchData: false,
+     showFilterEditor: true,
+     /*canSelectCells:true,*/
+     filterOnKeypress: true,
+     sortFieldAscendingText: "مرتب سازی صعودی",
+     sortFieldDescendingText: "مرتب سازی نزولی",
+     configureSortText: "تنظیم مرتب سازی",
+     autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
+     autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
+     filterUsingText: "فیلتر کردن",
+     groupByText: "گروه بندی",
+     freezeFieldText: "ثابت نگه داشتن",
+     startsWithTitle: "tt"
+ });
+
+
+
     var HLayout_Grid_ShipmentByWarehouseIssueMo  = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -346,8 +511,10 @@
                 message: "<spring:message code='global.grid.record.not.selected'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
+                buttons: [isc.Button.create({
+                    title: "<spring:message code='global.ok'/>"
+                })],
+                buttonClick: function() {
                     this.hide();
                 }
             });
@@ -357,31 +524,35 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.Button.create({
+                        title: "<spring:message code='global.yes'/>"
+                    }),
+                    isc.Button.create({
+                        title: "<spring:message code='global.no'/>"
+                    })
                 ],
-                buttonClick: function (button, index) {
+                buttonClick: function(button, index) {
                     this.hide();
                     if (index == 0) {
                         var WarehouseIssueMoId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${contextPath}/api/warehouseIssueMo/" + WarehouseIssueMoId,
-                                httpMethod: "DELETE",
-                                callback: function (resp) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                        ListGrid_WarehouseIssueMo_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
+                            actionURL: "${contextPath}/api/warehouseIssueMo/" + WarehouseIssueMoId,
+                            httpMethod: "DELETE",
+                            callback: function(resp) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    ListGrid_WarehouseIssueMo_refresh();
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
-                            })
-                        );
+                            }
+                        }));
                     }
                 }
             });
         }
     }
+
     function DynamicForm_WarehouseIssueMo_clearValues (){
         var record = ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord();
         var RestDataSource_WarehouseIssueMo_optionCriteria = {
@@ -468,9 +639,9 @@
                     pickListFields: [
                         {name: "id", width: 50, align: "center", colSpan: 1, titleColSpan: 1},
                         {name: "lotName", title: "<spring:message code='warehouseLot.lotName'/>", align: "center", width: 150},
-                        {name: "warehouseCadItem.warehouseCad.bijackNo", title: "<spring:message code='warehouseCad.bijackNo'/> "},
-                        {name: "warehouseCadItem.issueId", title: "<spring:message code='warehouseCadItem.issueId'/> "},
-                        {name: "contract.contractNo", title: "<spring:message code='contract.contractNo'/> "},
+                        {name: "warehouseCadItemwarehouseCadbijackNo",  dataPath:"warehouseCadItem.warehouseCad.bijackNo"  ,  title: "<spring:message code='warehouseCad.bijackNo'/> "},
+                        {name: "warehouseCadItemissueId", dataPath:"warehouseCadItem.issueId"  , title: "<spring:message code='warehouseCadItem.issueId'/> "},
+                        {name: "contractcontractNo", dataPath:"contract.contractNo"  , title: "<spring:message code='contract.contractNo'/> "},
                     ],
                     changed: function (form, item, value) {
                         rcd=item.getSelectedRecord();
@@ -667,57 +838,117 @@
                 })
             ]
     });
-    var ListGrid_WarehouseIssueMo = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_WarehouseIssueMo,
-        contextMenu: Menu_ListGrid_WarehouseIssueMo,
-        fields:
-            [
-                 {name: "id", hidden: true,},
-                {name: "shipmentId", hidden: true},
-                {name: "bijak",title: "<spring:message code='warehouseIssueMo.bijak'/>",width: "10%",required: true,keyPressFilter: "[0-9]", length: "15"},
-                {name: "containerNo",title: "<spring:message code='warehouseIssueMo.containerNo'/>",width: "10%",required: true, length: "15"},
-                {name: "emptyWeight",title: "<spring:message code='warehouseIssueMo.emptyWeight'/>",width: "10%",required: true, length: "15",
-                   validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "!"
-                    }]
-                },
-                {name: "amountCustom",title: "<spring:message code='warehouseIssueMo.amountCustom'/>",width: "10%",required: true, length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "!"
-                    }]
-                },
-                {name: "amountPms",title: "<spring:message code='warehouseIssueMo.amountPms'/>",width: "10%",required: true, length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "!"
-                    }]
-                },
-                {name: "sealedCustom",title: "<spring:message code='warehouseIssueMo.sealedCustom'/>",width: "10%",required: true, length: "15"},
-                {name: "sealedShip",title: "<spring:message code='warehouseIssueMo.sealedShip'/>",width: "10%",required: true, length: "15"},
-                {name: "bundle",title: "<spring:message code='warehouseIssueMo.bundle'/>",width: "10%",required: true,keyPressFilter: "[0-9]", length: "15"},
-                {name: "sheet",title: "<spring:message code='warehouseIssueMo.sheet'/>",width: "10%",required: true,keyPressFilter: "[0-9]", length: "15"},
-                {name: "totalAmount",title: "<spring:message code='warehouseIssueMo.totalAmount'/>",width: "10%",required: true,keyPressFilter: "[0-9]", length: "15"},
-          ],
-        sortField: 0,
-        autoFetchData: false,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+
+
+
+
+var ListGrid_WarehouseIssueMo = isc.ListGrid.create({
+    width: "100%",
+    height: "100%",
+    dataSource: RestDataSource_WarehouseIssueMo,
+    contextMenu: Menu_ListGrid_WarehouseIssueMo,
+    fields: [{
+            name: "id",
+            hidden: true,
+        }, {
+            name: "shipmentId",
+            hidden: true
         },
-        dataArrived: function (startRow, endRow) {
-        }
-    });
+        /*message*/
+        {
+            name: "bijak",
+            title: "<spring:message code='warehouseIssueMo.bijak'/>",  /*M*/
+            width: "10%",
+            required: true,
+            keyPressFilter: "[0-9]",
+            length: "15"
+        }, {
+            name: "containerNo",
+            title: "<spring:message code='warehouseIssueMo.containerNo'/>",
+            width: "10%",
+            required: true,
+            length: "15"
+        }, {
+            name: "emptyWeight",
+            title: "<spring:message code='warehouseIssueMo.emptyWeight'/>",
+            width: "10%",
+            required: true,
+            length: "15",
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }]
+        }, {
+            name: "amountCustom",
+            title: "<spring:message code='warehouseIssueMo.amountCustom'/>",
+            width: "10%",
+            required: true,
+            length: "15",
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }]
+        }, {
+            name: "amountPms",
+            title: "<spring:message code='warehouseIssueMo.amountPms'/>",  /*M*/
+            width: "10%",
+            required: true,
+            length: "15",
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }]
+        }, {
+            name: "sealedCustom",
+            title: "<spring:message code='warehouseIssueMo.sealedCustom'/>",
+            width: "10%",
+            required: true,
+            length: "15"
+        }, {
+            name: "sealedShip",
+            title: "<spring:message code='warehouseIssueMo.sealedShip'/>",
+            width: "10%",
+            required: true,
+            length: "15"
+        }, {
+            name: "bundle",
+            title: "<spring:message code='warehouseIssueMo.bundle'/>", /*M*/
+            width: "10%",
+            required: true,
+            keyPressFilter: "[0-9]",
+            length: "15"
+        }, {
+            name: "sheet",
+            title: "<spring:message code='warehouseIssueMo.sheet'/>",  /*M*/
+            width: "10%",
+            required: true,
+            keyPressFilter: "[0-9]",
+            length: "15"
+        }, {
+            name: "totalAmount",
+            title: "<spring:message code='warehouseIssueMo.totalAmount'/>",  /*M*/
+            width: "10%",
+            required: true,
+            keyPressFilter: "[0-9]",
+            length: "15"
+        },
+    ],
+    sortField: 0,
+    autoFetchData: false,
+    showFilterEditor: true,
+    filterOnKeypress: true,
+    recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+    updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {},
+    dataArrived: function(startRow, endRow) {}
+});
+
+
 
     var HLayout_WarehouseIssueMo_Grid = isc.HLayout.create({
         width: "100%",
@@ -736,38 +967,97 @@
     });
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
+/******************* Start Attachment **********************/
+    isc.ViewLoader.create({
+     ID: "warehouseIssueMoAttachmentViewLoader",
+     autoDraw: false,
+     loadingMessage: ""
+ });
+
+ isc.TabSet.create({
+     ID: "warehouseIssueMoMainTabSet",
+     tabBarPosition: "top",
+     width: "100%",
+     height: "100%",
+     tabs: [{
+         ID: "warehouseIssueMoTab",
+         title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
+         icon: "",
+         iconSize: 16,
+         pane: VLayout_WarehouseIssueMo_Body
+     }, {
+         title: "<spring:message code='warehouseIssueMoAttach.title'/>",
+         icon: "",
+         iconSize: 16,
+         pane: warehouseIssueMoAttachmentViewLoader,
+         tabSelected: function(form, item, value) {
+             var record = ListGrid_WarehouseIssueMo.getSelectedRecord();
+             if (record == null || record.id == null) {
+                 isc.Dialog.create({
+                     message: "<spring:message code='global.grid.record.not.selected'/>",
+                     icon: "[SKIN]ask.png",
+                     title: "<spring:message code='global.message'/>",
+                     buttons: [isc.Button.create({
+                         title: "<spring:message code='global.ok'/>"
+                     })],
+                     buttonClick: function() {
+                         this.hide();
+                     }
+                 });
+                 record.id = null;
+             }
+             var dccTableId = record.id;
+             var dccTableName = "TBL_WAREHOUSE_ISSUE_MO";
+             warehouseIssueMoAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+         }
+     }]
+ });
+    /******************* End Attachment **********************/
+
 isc.SectionStack.create({
-    ID:"ShipmentMoistureHeader_Section_Stack",
-    sections:
-    [
-         {title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_ShipmentByWarehouseIssueMo   ,expanded:true}
-        ,{title:"<spring:message code='Shipment.titleWarehouseIssueMo'/>", items:VLayout_WarehouseIssueMo_Body ,expanded:true}
-    ],
-    visibilityMode:"multiple",
-    animateSections:true,
-    height:"100%",
-    width:"100%",
-    overflow:"hidden"
+    ID: "ShipmentMoistureHeader_Section_Stack",
+    sections: [{
+        title: "<spring:message code='Shipment.title'/>",
+        items: VLayout_Body_ShipmentByWarehouseIssueMo,
+        expanded: true
+    }, {
+        title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
+        items: warehouseIssueMoMainTabSet,
+        expanded: true
+    }],
+    visibilityMode: "multiple",
+    animateSections: true,
+    height: "100%",
+    width: "100%",
+    overflow: "hidden"
 });
 var criteria1 = {
-	_constructor: "AdvancedCriteria",
-	operator: "and",
-	criteria: [{fieldName: "material.code", operator: "equals", value: "28257000"}]
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{
+        fieldName: "materialcode", dataPath:"material.code"  ,
+operator: "equals",
+        value: "28257000"
+    }]
 };
-ListGrid_ShipmentByWarehouseIssueMo .fetchData(criteria1, function (dsResponse, data, dsRequest) {
-	ListGrid_ShipmentByWarehouseIssueMo .setData(data);
-	});
+ListGrid_ShipmentByWarehouseIssueMo.fetchData(criteria1, function(dsResponse, data, dsRequest) {
+    ListGrid_ShipmentByWarehouseIssueMo.setData(data);
+});
 
- function ListGrid_WarehouseIssueMo_refresh() {
-       record=ListGrid_ShipmentByWarehouseIssueMo .getSelectedRecord();
-        var criteria1 = {
-            _constructor: "AdvancedCriteria",
-            operator: "and",
-            criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-        };
-        ListGrid_WarehouseIssueMo.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            ListGrid_WarehouseIssueMo.setData(data);
+function ListGrid_WarehouseIssueMo_refresh() {
+    record = ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord();
+    var criteria1 = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "shipmentId",
+            operator: "equals",
+            value: record.id
+        }]
+    };
+    ListGrid_WarehouseIssueMo.fetchData(criteria1, function(dsResponse, data, dsRequest) {
+        ListGrid_WarehouseIssueMo.setData(data);
 
-        });
+    });
 }
 

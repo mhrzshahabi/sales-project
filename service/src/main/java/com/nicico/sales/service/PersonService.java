@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.PersonDTO;
@@ -73,6 +75,13 @@ public class PersonService implements IPersonService {
 		final List<Person> persons = personDAO.findAllById(request.getIds());
 
 		personDAO.deleteAll(persons);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+	public TotalResponse<PersonDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(personDAO, criteria, person -> modelMapper.map(person, PersonDTO.Info.class));
 	}
 
 	@Transactional(readOnly = true)

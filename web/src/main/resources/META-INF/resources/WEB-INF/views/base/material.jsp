@@ -13,8 +13,8 @@
                 {name: "descl", title: "<spring:message code='material.descl'/> "},
                 {name: "descp", title: "<spring:message code='material.descp'/> "},
                 {name: "unitId", title: "<spring:message code='MaterialFeature.unit'/>"},//Edit By JZ
-                {name: "unit.nameFA", title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
-                {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit'/> "},//Edit By JZ
+                {name: "unitnameFA",  dataPath:"unit.nameFA"  ,   title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
+                {name: "unitnameEN",   dataPath:"unit.nameEN"  ,  title: "<spring:message code='MaterialFeature.unit'/> "},
             ],
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
@@ -74,15 +74,15 @@
             {name: "materialId", hidden: true},
             {name: "itemRow", title: "<spring:message code='contractItem.itemRow'/> "},
             {name: "featureId", type: 'text', width: 100},
-            {name: "feature.nameFA", type: 'text', width: 100},
-            {name: "feature.nameEN", type: 'text', width: 100},
+            {name: "featurenameFA", type: 'text', width: 100 ,dataPath:"feature.nameFA"  , },
+            {name: "featurenameEN", type: 'text', width: 100 , dataPath:"feature.nameEN"  ,},
             {name: "minValue", title: "<spring:message code='MaterialFeature.minValue'/> "},
             {name: "maxValue", title: "<spring:message code='MaterialFeature.maxValue'/> "},
             {name: "avgValue", title: "<spring:message code='MaterialFeature.avgValue'/>", type: 'float', width: 100},
             {name: "tolorance", title: "<spring:message code='MaterialFeature.tolorance'/>", type: 'float', width: 100},
-            {name: "rate.nameFA", type: 'text', width: 100},
-            {name: "rate.nameEN", type: 'text', width: 100},
-            {name: "rateId", type: 'text', width: 100},
+            {name: "ratenameFA", type: 'text', width: 100 , dataPath:"rate.nameFA"  ,},
+            {name: "ratenameEN", type: 'text', width: 100 , dataPath:"rate.nameEN"  ,},
+            {name: "rateId", type: 'text', width: 100 },
             {
                 name: "payableIfGraterThan",
                 title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
@@ -281,14 +281,16 @@
                     title: "<spring:message code='material.descl'/>",
                     type: 'text',
                     width: 400, required: true, keyPressFilter: "[a-z|A-Z|0-9 ]",
-                    textAlign: "left"
+                    textAlign: "left",
+                    length:200
                 },
                 {
                     name: "descp",
                     title: "<spring:message code='material.descp'/>",
                     type: 'text',
                     width: 400,
-                    required: true
+                    required: true,
+                keyPressFilter: "[a-z|A-Z|0-9 ]" ,  length:200
                 },
                 {
                     name: "unitId",
@@ -302,7 +304,7 @@
                     pickListWidth: "400",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
-                    pickListFields: [{name: "id", width: 50, align: "center"}, {
+                    pickListFields: [{name: "id", width: 50, align: "center" , hidden:true}, {
                         name: "nameFA",
                             width: 174,
                         align: "center"
@@ -417,8 +419,8 @@
                 {name: "code", title: "<spring:message code='material.code'/>", align: "center"},
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
-                {name: "unit.nameFA", title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
-                {name: "unit.nameEN", title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
+                {name: "unitnameFA", dataPath:"unit.nameFA"  , title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
+                {name: "unitnameEN", dataPath:"unit.nameEN"  , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
             ],
         sortField: 0,
         autoFetchData: true,
@@ -928,14 +930,14 @@
                     align: "center"
                 },
                 {
-                    name: "feature.nameFA",
+                    name: "featurenameFA",   dataPath:"feature.nameFA"  ,
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'text',
                     width: 400,
                     align: "center"
                 },
                 {
-                    name: "feature.nameEN",
+                    name: "featurenameEN",  dataPath:"feature.nameEN"  ,
                     title: "<spring:message code='feature.nameEN'/>",
                     type: 'text',
                     width: 400,
@@ -970,14 +972,14 @@
                     align: "center"
                 },
                 {
-                    name: "rate.nameFA",
+                    name: "ratenameFA",  dataPath:"rate.nameFA"  ,
                     title: "<spring:message code='rate.nameFa'/>",
                     type: 'text',
                     width: 400,
                     align: "center"
                 },
                 {
-                    name: "rate.nameEN",
+                    name: "ratenameEN", dataPath:"rate.nameEN"  ,
                     title: "<spring:message code='rate.nameEN'/>",
                     type: 'text',
                     width: 400,
@@ -1147,7 +1149,7 @@
         ]
     });
     var DynamicForm_MaterialItem = isc.DynamicForm.create({
-        width: 750,
+        width: 500,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -1162,11 +1164,11 @@
         numCols: 2,
         fields:
             [
-                {name: "id", hidden: true,},
-                {name: "materialId", type: "long", hidden: true, wrapTitle: false},
-                {type: "RowSpacerItem"},
-                 {name: "gdsCode", width: "300", title: "<spring:message code='MaterialItem.gdsCode'/> "},
-                {name: "gdsName", width: "300", title: "<spring:message code='MaterialItem.gdsName'/> "},
+                 {name: "id", hidden: true,},
+                 {name: "materialId", type: "long", hidden: true, wrapTitle: false},
+                 {type: "RowSpacerItem"},
+                 {name: "gdsCode", width: "300", title: "<spring:message code='MaterialItem.gdsCode'/> " , required:true   , keyPressFilter: "[0-9]" , length:"15"},
+                 {name: "gdsName", width: "300", title: "<spring:message code='MaterialItem.gdsName'/> " , required:true , keyPressFilter: "[a-z|A-Z|0-9]" , lenght:"200"},
             ]
     });
 
@@ -1296,7 +1298,7 @@
     });
 
     var Window_MaterialItem = isc.Window.create({
-        title: "<spring:message code='Product'/> ",
+        title: "<spring:message code='ProductGroup'/> ",
         width: 580,
         // height: 500,
         autoSize: true,

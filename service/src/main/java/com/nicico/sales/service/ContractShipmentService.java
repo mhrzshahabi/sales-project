@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractShipmentDTO;
@@ -80,6 +82,13 @@ public class ContractShipmentService implements IContractShipmentService {
 	@Override
 	public SearchDTO.SearchRs<ContractShipmentDTO.Info> search(SearchDTO.SearchRq request) {
 		return SearchUtil.search(contractShipmentDAO, request, contractShipment -> modelMapper.map(contractShipment, ContractShipmentDTO.Info.class));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+	public TotalResponse<ContractShipmentDTO.Info> search(NICICOCriteria criteria) {
+		return SearchUtil.search(contractShipmentDAO, criteria, contractShipment -> modelMapper.map(contractShipment, ContractShipmentDTO.Info.class));
 	}
 
 	// ------------------------------

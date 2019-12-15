@@ -183,7 +183,7 @@
         }
     });
 
-    /*Add by jz*/
+
         var ToolStripButton_PaymentOption_Help = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/help_ch.png",
         title: "<spring:message code='global.from.help'/>",

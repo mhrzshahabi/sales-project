@@ -302,7 +302,7 @@
             {name: "nameFA", title: "<spring:message code='rate.nameFa'/> ", align: "center"},
             {name: "nameEN", title: "<spring:message code='rate.nameEN'/> ", align: "center"},
             {name: "symbol", title: "<spring:message code='rate.symbol'/>", align: "center"},
-            {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", align: "center"}
+            {name:  "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", align: "center"}
 
         ],
         sortField: 0,

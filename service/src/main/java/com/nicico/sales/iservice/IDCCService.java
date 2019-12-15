@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.DCCDTO;
 
@@ -20,5 +22,8 @@ public interface IDCCService {
 	void delete(DCCDTO.Delete request);
 
 	SearchDTO.SearchRs<DCCDTO.Info> search(SearchDTO.SearchRq request);
+
+	TotalResponse<DCCDTO.Info> search(NICICOCriteria criteria);
+
 	Long findNextImageNumber();
 }

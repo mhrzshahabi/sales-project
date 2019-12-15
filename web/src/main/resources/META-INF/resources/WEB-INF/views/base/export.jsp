@@ -176,9 +176,9 @@
                     }
                 },
                 {
-                    name: "tblMaterial.id",
-                    title: "<spring:message
-		code='goods.nameFa'/>",
+                    name: "tblMaterialid",    dataPath:"tblMaterial.id" ,
+                    title: "<spring:message code='goods.nameFa'/>",
+
                     type: 'long',
                     width: 400,
                     editorType: "SelectItem"
@@ -213,8 +213,8 @@
                 },
                 {name: "cargo", title: "<spring:message code='export.cargo'/>", align: "center", width: 400},
                 {
-                    name: "amount", title: "<spring:message
-		code='global.amount'/>", align: "center", type: 'float', required: true, width: 400,
+                    name: "amount", title: "<spring:message code='global.amount'/>", align: "center", type: 'float', required: true, width: 400,
+
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -224,9 +224,8 @@
                 },
 
                 {
-                    name: "tblCountry.id",
-                    title: "<spring:message
-		code='global.country'/>",
+                    name: "tblCountryid",   dataPath:"tblCountry.id",
+                    title: "<spring:message code='global.country'/>",
                     type: 'long',
                     width: 400,
                     editorType: "SelectItem"
@@ -247,8 +246,8 @@
                 },
 
                 {
-                    name: "shipDate", ID: "shipDate", title: "<spring:message
-		code='export.shipDate'/>", type: 'text', align: "center", width: 400
+                    name: "shipDate", ID: "shipDate", title: "<spring:message 	code='export.shipDate'/>", type: 'text', align: "center", width: 400
+
                     , icons: [{
                         src: "pieces/pcal.png", click: function () {
                             displayDatePicker('shipDate', this, 'ymd', '/');
@@ -373,7 +372,7 @@
                 },
                 {name: "cargo", title: "<spring:message code='export.cargo'/>", align: "center"},
                 {name: "amount", title: "<spring:message code='export.loadingLetterNo'/>", align: "center"},
-                {name: "tblCountry.nameFa", title: "<spring:message code='global.country'/>", align: "center"},
+                {name: "tblCountry",  dataPath:"tblCountry.nameFa"   ,  title: "<spring:message code='global.country'/>", align: "center"},
                 {name: "shipDate", title: "<spring:message code='export.shipDate'/>", align: "center"},
             ],
         fetchDataURL: "rest/export/list"
@@ -393,8 +392,8 @@
                 {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
                 {name: "descl"},
-                {name: "tblUnit.id"},
-                {name: "tblUnit.nameEN"},
+                {name: "tblUnitid"   ,   dataPath:"tblUnit.id" },
+                {name: "tblUnitnameEN" , dataPath:"tblUnit.nameEN" },
             ],
         fetchDataURL: "rest/material/list"
     });
@@ -482,7 +481,7 @@
                     title: "<spring:message code='export.loadingLetterDate'/>",
                     align: "center"
                 },
-                {name: "tblMaterial.descl", title: "<spring:message code='goods.nameLatin'/> "},
+                {name: "tblMaterialdescl",  dataPath:"tblMaterial.descl" , title: "<spring:message code='goods.nameLatin'/> "},
                 {
                     name: "containerQuantity",
                     title: "<spring:message code='export.containerQuantity'/>",
@@ -490,7 +489,7 @@
                 },
                 {name: "cargo", title: "<spring:message code='export.cargo'/>", align: "center"},
                 {name: "amount", title: "<spring:message code='global.amount'/>", align: "center"},
-                {name: "tblCountry.nameFa", title: "<spring:message code='global.country'/>", align: "center"},
+                {name: "tblCountrynameFa", dataPath:"tblCountrynameFa"  , title: "<spring:message code='global.country'/>", align: "center"},
                 {name: "shipDate", title: "<spring:message code='export.shipDate'/>", align: "center"},
             ],
         sortField: 0,

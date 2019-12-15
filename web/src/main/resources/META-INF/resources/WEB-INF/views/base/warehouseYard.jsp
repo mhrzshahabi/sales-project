@@ -5,14 +5,27 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
+
     var RestDataSource_WarehouseYard__BANK = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>", width: 200},
-                {name: "nameFA", title: "<spring:message code='warehouseCad.yard'/>", width: 200},
-                {name: "nameEN", title: "<spring:message code='warehouseCad.yard'/>", width: 200},
-           ],
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "warehouseNo",
+            title: "<spring:message code='warehouseCad.warehouseNo'/>",
+            width: 200
+        }, {
+            name: "nameFA",
+            title: "<spring:message code='warehouseCad.yard'/>",
+            width: 200
+        }, {
+            name: "nameEN",
+            title: "<spring:message code='warehouseCad.yard'/>",
+            width: 200
+        }, ],
 
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });

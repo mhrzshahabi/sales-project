@@ -999,7 +999,7 @@
     });
 
 
-    /*Add by JZ */
+
     var ToolStripButton_Invoice_Pdf = isc.ToolStripButton.create({
                     title: "<spring:message code='global.form.print.pdf'/>",
                     icon: "icon/pdf.png",

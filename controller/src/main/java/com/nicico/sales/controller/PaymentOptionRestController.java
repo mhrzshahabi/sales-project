@@ -1,6 +1,8 @@
 package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.PaymentOptionDTO;
 import com.nicico.sales.iservice.IPaymentOptionService;
@@ -8,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -69,24 +73,9 @@ public class PaymentOptionRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-//	@PreAuthorize("hasAuthority('r_paymentOption')")
-	public ResponseEntity<PaymentOptionDTO.PaymentOptionSpecRs> list(@RequestParam("_startRow") Integer startRow, @RequestParam("_endRow") Integer endRow, @RequestParam(value = "operator", required = false) String operator, @RequestParam(value = "criteria", required = false) String criteria) {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		request.setStartIndex(startRow)
-				.setCount(endRow - startRow);
-
-		SearchDTO.SearchRs<PaymentOptionDTO.Info> response = paymentOptionService.search(request);
-
-		final PaymentOptionDTO.SpecRs specResponse = new PaymentOptionDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final PaymentOptionDTO.PaymentOptionSpecRs specRs = new PaymentOptionDTO.PaymentOptionSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
+	public ResponseEntity<TotalResponse<PaymentOptionDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+		return new ResponseEntity<>(paymentOptionService.search(nicicoCriteria), HttpStatus.OK);
 	}
 
 	// ------------------------------
