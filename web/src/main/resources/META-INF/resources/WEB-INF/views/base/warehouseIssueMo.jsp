@@ -1035,7 +1035,7 @@ var criteria1 = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{
-        fieldName: "materialcode", dataPath:"material.code"  ,
+        fieldName: "material.code"  ,
 operator: "equals",
         value: "28257000"
     }]
