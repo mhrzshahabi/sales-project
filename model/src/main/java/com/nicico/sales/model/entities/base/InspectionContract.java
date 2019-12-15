@@ -52,7 +52,7 @@ public class InspectionContract extends Auditable {
 	@Column(name = "CLOSE_DATE", length = 20)
 	private String closeDate;
 
-	@Column(name = "CREATE_DATE", length = 20)
+	@Column(name = "CREATE_DATE", length = 50)
 	private String createDate;
 
 	@Column(name = "CREATE_USER", length = 5)
@@ -78,22 +78,6 @@ public class InspectionContract extends Auditable {
 
 	@Column(name = "EMAIL_RESPOND", length = 4000)
 	private String emailRespond;
-
-
-	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false)
-	private Contact contact;
-	@Column(name = "CONTACT_ID")
-	private Long contactId;
-
-   /* @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "LOAD_PORT")
-    private TblPort tblPortByLoadPort;*/
-
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DISCHARGE_PORT")
-    private TblPort tblPortByDischargePort;*/
 
 	@Column(name = "VESSEL_NAME", length = 1000)
 	private String vesselName;

@@ -298,7 +298,8 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         },
         pickListFields: [{
             name: "nameFA"
-        }]
+        }],
+        disabled: true
     }, {
         name: "sourceLoadDate",
         title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
@@ -345,7 +346,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         titleColSpan: 1
     }, {
         type: "Header",
-        defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"
+        defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
     }]
 });
 

@@ -162,10 +162,6 @@
 
 
 
-/* End Rest data Source*/
-
-
-/*List Grid for Shipment bala */
         var ListGrid_Inspection = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -414,8 +410,6 @@ ListGrid_Inspection.setData(data);
             HLayout_Grid_InspectionByInspectionContract
         ]
     });
- /*End List Grid */
-//-------------------------------------------Email----------------------------------------------------------------------
 
 var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
     fields:
@@ -423,7 +417,8 @@ var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
         {name:"id", title:"id", primaryKey:true, canEdit:false, hidden: true},
 
         {name:"shipment.id", title:"<spring:message code='contact.name'/>",align:"center",hidden: true},
-        {name: "contactId", type: 'long', hidden: true},
+        {name: "contactByInspectionId", type: 'long', hidden: true},
+        {name: "contactByInspection.nameEN", },
         {name:"shipment.contact.nameEN", title:"<spring:message code='contact.name'/>",align:"center" , width :"10%"},
         {name:"emailType",title:"<spring:message code='shipment.emailType'/>",align:"center" , width :"10%"},
         {name:"emailSubject",title:"<spring:message code='global.emailSubject'/>",align:"center" , width :"10%"},
@@ -485,7 +480,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
         }
     });
 
-    /*JZ*/
+
     var hLayout_saveButton = isc.HLayout.create({
     width: "100%",
     height: "100%",
@@ -498,7 +493,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
     IButton_InspectionContract_Cancel
     ]
     });
-    /*JZ*/
+
 
 
     var VLayout_saveButton = isc.VLayout.create({
@@ -541,7 +536,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
             Window_InspectionContract.show();
         }
     }
-    /*Remove*/
+
     function ListGrid_InspectionContract_remove() {
 
         var record = ListGrid_InspectionContract.getSelectedRecord();
@@ -587,7 +582,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
         }
     };
 
-/*End Remove */
+
 var Menu_ListGrid_InspectionContract = isc.Menu.create({
     width:150,
     data:
@@ -669,7 +664,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
                selectionAppearance : "checkbox"
            });
 
-    /*Person*/
+
     var Window_InspectionContractEmailCC = isc.Window.create({
                             title: "<spring:message code='person.title'/> ",
                             textAlign:"center",
@@ -789,7 +784,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
                 expression:".+\\@.+\\..+",
                 }
                 ],
-                /*End Fix bug For Regex email */
+
                 },
 
 
@@ -848,7 +843,7 @@ DynamicForm_InspectionHeader.setValue("shipmentHeaderDate", datestring)
             <%--        },--%>
                 ]
             });
-    /*End Email */
+
 
 
 
@@ -956,7 +951,7 @@ DynamicForm_InspectionHeader.setValue("shipmentHeaderDate", datestring)
 
 
 
-//Email Window
+
     var Window_InspectionContract = isc.Window.create({
 
         title: "<spring:message code='inspectionContract.title'/> ",
@@ -993,7 +988,7 @@ DynamicForm_InspectionHeader.setValue("shipmentHeaderDate", datestring)
         ]
     });
 
-/*grid Bottom*/
+
     var ListGrid_InspectionContract = isc.ListGrid.create({
         width: "100%",
         height: "100%",

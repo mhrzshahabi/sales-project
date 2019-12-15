@@ -458,7 +458,8 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 },
                 pickListFields: [{
                     name: "nameFA"
-                }]
+                }],
+                disabled: true
             }, {
                 name: "sourceLoadDate",
                 title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
@@ -528,18 +529,12 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 colSpan: 1,
                 titleColSpan: 1
             },
-
             {
                 type: "Header",
-                defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"
+                defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
             }
         ]
     });
-
-
-
-
-
 
     var IButton_warehouseCAD_Save = isc.IButton.create({
         top: 260,

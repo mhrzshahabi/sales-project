@@ -554,7 +554,7 @@
         titleColSpan: 1
     }, {
         type: "Header",
-        defaultValue: "--------------------------------- &#8595;  قسمت وارد کردن آیتم های بیجک  &#8595;  --------------------------------"
+        defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
     }]
 });
 
