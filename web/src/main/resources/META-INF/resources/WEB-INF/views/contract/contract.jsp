@@ -5,21 +5,45 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "contractNo", title: "<spring:message code='contract.contractNo'/>"},
-                {name: "contractDate", title: "<spring:message code='contract.contractDate'/>"},
-                {name: "contactId", title: "<spring:message code='contact.name'/> "},
-                {name: "contact.nameFA", title: "<spring:message code='contact.name'/> "},
-                {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
-                {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
-                {name: "amount", title: "<spring:message code='global.amount'/>"},
-                {name: "sideContractDate", ID: "sideContractDate"},
-                {name: "refinaryCost", ID: "refinaryCost"},
-                {name: "treatCost", ID: "treatCost"},
-                {name: "materialId", title: "materialId"}
-            ],
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            hidden: true
+        }, {
+            name: "contractNo",
+            title: "<spring:message code='contract.contractNo'/>"
+        }, {
+            name: "contractDate",
+            title: "<spring:message code='contract.contractDate'/>"
+        }, {
+            name: "contactId",
+            title: "<spring:message code='contact.name'/> "
+        }, {
+            name: "contact.nameFA",
+            title: "<spring:message code='contact.name'/> "
+        }, {
+            name: "incotermsId",
+            title: "<spring:message code='incoterms.name'/>"
+        }, {
+            name: "incoterms.code",
+            title: "<spring:message code='incoterms.name'/>"
+        }, {
+            name: "amount",
+            title: "<spring:message code='global.amount'/>"
+        }, {
+            name: "sideContractDate",
+            ID: "sideContractDate"
+        }, {
+            name: "refinaryCost",
+            ID: "refinaryCost"
+        }, {
+            name: "treatCost",
+            ID: "treatCost"
+        }, {
+            name: "materialId",
+            title: "materialId"
+        }],
         // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });

@@ -341,14 +341,224 @@
     });
 
 
-    function  shipmentContract (){
+        /*Change Date Source Select from shipment*/
+        var RestDataSource_shipment = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "warehouseCad.warehouseYardId",title:"<spring:message code='warehouseCad.yard'/>"},
+                {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
+                {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
+                {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
+            ],
+        fetchDataURL: "${contextPath}/api/shipment/spec-list"
+        });
 
 
 
 
 
-    }
 
+
+  function warehouseIssueCathode_bijak () {
+
+        // var ClientData_WarehouseCadITEMByWarehouseIssueCathode = [];
+        // var ids= DynamicForm_WarehouseIssueCathode.getValue("bijakIds");
+        if (typeof(ids) != 'undefined' && ids.length > 0) {
+            // console.log('ids');
+            // console.log(ids);
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/warehouseCadItem/spec-list-ids/" + ids,
+                    httpMethod: "GET",
+                    callback: function (RpcResponse_o) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                            // console.log(JSON.parse(RpcResponse_o));
+                            var data = JSON.parse(RpcResponse_o.data);
+                            console.log('data');
+                            // console.log(data);
+                            // for (x of data) { // console.log(x);
+                            //     ClientData_WarehouseCadITEMByWarehouseIssueCathode.push(x);
+                            //     // dollar[x.nameEn] = x.nameEn;
+                            // }
+                            //  // console.log('client');
+                            // console.log(ClientData_WarehouseCadITEMByWarehouseIssueCathode);
+                            warehouseIssueCathode_bijak_show(data);
+                       } //if rpc
+                    } // callback
+                })
+            );
+        } else warehouseIssueCathode_bijak_show();
+
+    function warehouseIssueCathode_bijak_show(){
+        var ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode = isc.DataSource.create({
+            fields:
+            [
+                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "warehouseCad.bijackNo",title:"<spring:message code='warehouseCad.bijackNo'/>"},
+                {name: "bundleSerial",title:"<spring:message code='warehouseCadItem.bundleSerial'/>"},
+                {name: "sheetNo",title:"<spring:message code='warehouseCadItem.sheetNo'/>"},
+            ],
+            // testData: ClientData_WarehouseCadITEMByWarehouseIssueCathode,
+            clientOnly:true
+        });
+
+        /* ****************** */
+    var ListGrid_WarehouseCadITEMByWarehouseIssueCathode  = isc.ListGrid.create({
+        width: "100%",
+        height: "100%",
+        // dataSource: RestDataSource_WarehouseCadITEMByWarehouseIssueCathode ,
+        sortField: 0,
+        canDragRecordsOut: true,
+        dragDataAction: "copy",
+        canReorderRecords: true,
+        dataPageSize: 50,
+        autoFetchData: false,
+        showFilterEditor: true,
+        filterOnKeypress: true,
+        fields : [
+            {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
+            {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
+            {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
+            {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
+
+        ]
+    });
+
+
+    var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.create({
+        width: "100%",
+        height: "100%",
+        // dataSource: ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode ,
+        // data: ClientData_WarehouseCadITEMByWarehouseIssueCathode ,
+        sortField: 0,
+        canReorderRecords: true,
+        canRemoveRecords: true,
+        canAcceptDroppedRecords: true,
+        dataPageSize: 50,
+        autoFetchData: false,
+        showFilterEditor: true,
+        filterOnKeypress: true
+    });
+
+
+      var Window_warehouseIssueCathode_bijak = isc.Window.create({
+        title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/> ",
+        width: "800",
+        height: "700",
+        autoSize: false,
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items:
+            [
+                isc.VLayout.create({
+                    width: "100%",
+                    height: "100%",backgroundImage: "backgrounds/leaves.jpg",align: "center",
+                    members:
+                        [
+							 isc.HLayout.create({
+								ID: "hLayoutLayoutSpacers",
+								autoDraw: true,
+								// Specifying the width creates space for the LayoutSpacers to distribute.
+								width: "100%",
+								layoutMargin: 6,
+								membersMargin: 6,
+								border: "1px dashed blue",
+								// Note no alignment property! It's all done with LayoutSpacers
+								members: [
+									isc.Label.create({
+										height: 40,
+										width: "33%",
+										padding: 10,
+										backgroundColor: "green",
+										contents: "<b>INVENTORY انبار</b>"
+									}),
+									isc.Label.create({
+										height: 40,
+										width: "33%",
+										padding: 10,
+										backgroundColor: "white",
+										contents: "<b>ِDrag </b>from INVENTORY to SELECTED"
+									}),
+									isc.Label.create({
+										height: 40,
+										width: "33%",
+										padding: 10,
+										backgroundColor: "red",
+										contents: "<b>SELECTED انتخاب شده</b>"
+									}),
+								]
+							}),
+                           isc.HLayout.create({
+                                width: "100%",
+                                height: "100%",
+                                members:
+                                    [
+                                    ListGrid_WarehouseCadITEMByWarehouseIssueCathode,
+                                    ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected,
+                                    ]
+                                }),
+
+                           isc.HLayout.create({
+                                width: "100%",
+                                align: "center",
+                                members:
+                                    [
+ 			                           isc.Button.create({
+											title: "<spring:message code='global.ok'/>",
+											click: function () {
+												selectedTotalRows=ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.getTotalRows();
+												if (selectedTotalRows == 0) {
+													DynamicForm_WarehouseIssueCathode.setValue("bijakIds","");
+													DynamicForm_WarehouseIssueCathode.setValue("bijak","");
+													Window_warehouseIssueCathode_bijak.close();
+													return;
+												}
+												bijakIds="";
+												bijak=[];bijakIdx=[];
+												for (i = 0; i < selectedTotalRows; i++) {
+													bijakIds+=(i==0 ? '':',')+ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).id;
+													bjNo=ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).warehouseCad.bijackNo;
+													// console.log(bjNo);
+													var d=-1; c = bijak.find( function(b,i) { if (b== bjNo ) {d=i; return true;}   });
+													if (d==-1) {
+														j=bijak.push(bjNo);
+														bijakIdx.push(1);
+													} else {
+														bijakIdx[d]++;
+													}
+												 }
+												 // console.log(bijak);
+												if (bijak.length > 0){
+													bj="";
+													for (i=0;i<bijak.length;i++) {
+														bj+= (i==0 ? '' : '- ')+bijak[i]+'('+bijakIdx[i]+')';
+													}
+												}
+												DynamicForm_WarehouseIssueCathode.setValue("bijakIds",bijakIds);
+												DynamicForm_WarehouseIssueCathode.setValue("bijak",bj);
+												Window_warehouseIssueCathode_bijak.close();
+												return;
+											}
+										})
+									]
+								})
+                        ]
+                })
+
+            ]
+    });
+
+    ListGrid_WarehouseCadITEMByWarehouseIssueCathode.fetchData();
+    Window_warehouseIssueCathode_bijak.animateShow();
+    } //show func
+    } // main func
 
 
 
@@ -394,7 +604,7 @@
                     colSpan: 2 , width: "200" ,
                         icons: [{
                         src: "pieces/add-selection.png", click: function () {
-                            shipmentContract();
+                        warehouseIssueCathode_bijak();
 
                         }
                         }]

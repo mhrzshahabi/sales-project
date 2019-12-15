@@ -6,22 +6,49 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_WAREHOUSE_STOCK__BANK = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>"},
-                {name: "plant", title: "<spring:message code='warehouseCad.plant'/>"},
-                {name: "warehouseYardId"},
-                {name: "warehouseYard.nameFA", title: "<spring:message code='warehouseCad.yard'/>",sortNormalizer:function(recordObject) {return recordObject.warehouseYard.nameFA}},
-                {name: "sheet", title: "<spring:message code='warehouseCadItem.sheetNo'/>"},
-                {name: "bundle", title: "<spring:message code='warehouseStock.bundle'/>"},
-                {name: "amount", title: "<spring:message code='warehouseCadItem.weightKg'/>"},
-                {name: "barrel", title: "<spring:message code='warehouseCadItem.barrelNo'/>"},
-                {name: "lot", title: "<spring:message code='warehouseStock.lot'/>"},
-                {name: "materialItem.gdsName", title: "<spring:message code='material.descp'/>"}
-            ],
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "warehouseNo",
+            title: "<spring:message code='warehouseCad.warehouseNo'/>"
+        }, {
+            name: "plant",
+            title: "<spring:message code='warehouseCad.plant'/>"
+        }, {
+            name: "warehouseYardId"
+        }, {
+            name: "warehouseYard.nameFA", dataPath:""  ,
+            title: "<spring:message code='warehouseCad.yard'/>",
+            sortNormalizer: function(recordObject) {
+                return recordObject.warehouseYard.nameFA
+            }
+        }, {
+            name: "sheet",
+            title: "<spring:message code='warehouseCadItem.sheetNo'/>"
+        }, {
+            name: "bundle",
+            title: "<spring:message code='warehouseStock.bundle'/>"
+        }, {
+            name: "amount",
+            title: "<spring:message code='warehouseCadItem.weightKg'/>"
+        }, {
+            name: "barrel",
+            title: "<spring:message code='warehouseCadItem.barrelNo'/>"
+        }, {
+            name: "lot",
+            title: "<spring:message code='warehouseStock.lot'/>"
+        }, {
+            name: "materialItem.gdsName", dataPath:""  ,
+            title: "<spring:message code='material.descp'/>"
+        }],
         fetchDataURL: "${contextPath}/api/warehouseStock/spec-list"
     });
+
+
 
     function ListGrid_WarehouseStock_refresh() {
         ListGrid_WarehouseStock.invalidateCache();
@@ -46,39 +73,36 @@
         }
     }
 
-    var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
-        width: "200",
-        wrapItemTitles: false,
-        height: "100%",
-        setMethod: 'POST',
+var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
+    width: "200",
+    wrapItemTitles: false,
+    height: "100%",
+    setMethod: 'POST',
+    align: "center",
+    action: "report/printDailyReportBandarAbbas",
+    target: "_Blank",
+    canSubmit: true,
+    showInlineErrors: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    errorOrientation: "right",
+    titleWidth: "200",
+    titleAlign: "right",
+    requiredMessage: "<spring:message code='validator.field.is.required'/>",
+    numCols: 4,
+    fields: [{
+        name: "toDay",
+        ID: "toDayDate",
+        title: "",
+        type: 'date',
         align: "center",
-        action: "report/printDailyReportBandarAbbas",
-        target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 4,
-        fields:
-            [
-                {
-                    name: "toDay",
-                    ID: "toDayDate",
-                    title: "",
-                    type: 'date',
-                    align: "center",
-                    width: 150,
-                    colSpan: 1,
-                    titleColSpan: 1,format: 'YYYY/MM/DD',
-                    defaultValue: "2019/12/01",
-                },
-            ]
-    });
-
+        width: 150,
+        colSpan: 1,
+        titleColSpan: 1,
+        format: 'YYYY/MM/DD',
+        defaultValue: "2019/12/01",
+    }, ]
+});
     var Menu_ListGrid_WarehouseStock = isc.Menu.create({
         width: 150,
         data: [
@@ -122,36 +146,62 @@
         ]
     });
 
-    var DynamicForm_WarehouseStock = isc.DynamicForm.create({
-        width: 650,
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,
-        fields:
-            [
-                {type: "RowSpacerItem"},
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo", title: "<spring:message code='warehouseCad.warehouseNo'/>"},
-                {name: "plant", title: "<spring:message code='warehouseCad.plant'/>"},
-                {name: "warehouseYardId", hidden: true},
-                {name: "warehouseYard.nameFA", title: "<spring:message code='warehouseCad.yard'/>"},
-                {name: "sheet", title: "<spring:message code='warehouseCadItem.sheetNo'/>"},
-                {name: "bundle", title: "<spring:message code='warehouseStock.bundle'/>"},
-                {name: "amount", title: "<spring:message code='warehouseCadItem.weightKg'/>"},
-                {name: "barrel", title: "<spring:message code='warehouseCadItem.barrelNo'/>"},
-                {name: "lot", title: "<spring:message code='warehouseStock.lot'/>"},
-                {name: "materialItem.gdsName", title: "<spring:message code='material.descp'/>"}
-            ]
-    });
+
+var DynamicForm_WarehouseStock = isc.DynamicForm.create({
+    width: 650,
+    height: "100%",
+    setMethod: 'POST',
+    align: "center",
+    canSubmit: true,
+    showInlineErrors: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    errorOrientation: "right",
+    titleWidth: "100",
+    titleAlign: "right",
+    requiredMessage: "<spring:message code='validator.field.is.required'/>",
+    numCols: 2,
+    fields: [{
+        type: "RowSpacerItem"
+    }, {
+        name: "id",
+        title: "id",
+        primaryKey: true,
+        canEdit: false,
+        hidden: true
+    }, {
+        name: "warehouseNo",
+        title: "<spring:message code='warehouseCad.warehouseNo'/>"
+    }, {
+        name: "plant",
+        title: "<spring:message code='warehouseCad.plant'/>"
+    }, {
+        name: "warehouseYardId",
+        hidden: true
+    }, {
+        name: "warehouseYard.nameFA", dataPath:""  ,
+        title: "<spring:message code='warehouseCad.yard'/>"
+    }, {
+        name: "sheet",
+        title: "<spring:message code='warehouseCadItem.sheetNo'/>"
+    }, {
+        name: "bundle",
+        title: "<spring:message code='warehouseStock.bundle'/>"
+    }, {
+        name: "amount",
+        title: "<spring:message code='warehouseCadItem.weightKg'/>"
+    }, {
+        name: "barrel",
+        title: "<spring:message code='warehouseCadItem.barrelNo'/>"
+    }, {
+        name: "lot",
+        title: "<spring:message code='warehouseStock.lot'/>"
+    }, {
+        name: "materialItem.gdsName", dataPath:""  ,
+        title: "<spring:message code='material.descp'/>"
+    }]
+});
+
 
     var ToolStripButton_WarehouseStock_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -192,7 +242,7 @@
         console.log(datestringRs);
                      var toDay = datestringRs.replaceAll("/", "");
         console.log(toDay);
-                    "<spring:url value="/warehouseStock/print-commitment" var="printUrl"/>"
+                    "<spring:url value="/warehouseStock/print-commitment" var="printUrl"/>"  /*Bug*/
                     window.open('${printUrl}' + '/' + toDay);
         }
     });
@@ -208,7 +258,7 @@
         console.log(datestringRs);
                      var toDay = datestringRs.replaceAll("/", "");
         console.log(toDay);
-                    "<spring:url value="/warehouseStock/print-export" var="printUrl"/>"
+                    "<spring:url value="/warehouseStock/print-export" var="printUrl"/>" /*Bug*/
                     window.open('${printUrl}' + '/' + toDay);
         }
     });
@@ -253,34 +303,48 @@
                 DynamicForm_WarehouseStock
             ]
     });
-    var ListGrid_WarehouseStock = isc.ListGrid.create({
+
+
+        var ListGrid_WarehouseStock = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_WAREHOUSE_STOCK__BANK,
         contextMenu: Menu_ListGrid_WarehouseStock,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "warehouseNo"},
-                {name: "plant"},
-                {name: "warehouseYard.nameFA"},
-                {name: "sheet"},
-                {name: "bundle"},
-                {name: "amount"},
-                {name: "barrel"},
-                {name: "lot"},
-                {name: "materialItem.gdsName"}
-            ],
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "warehouseNo"
+        }, {
+            name: "plant"
+        }, {
+            name: "warehouseYard.nameFA" , dataPath:""  ,
+        }, {
+            name: "sheet"
+        }, {
+            name: "bundle"
+        }, {
+            name: "amount"
+        }, {
+            name: "barrel"
+        }, {
+            name: "lot"
+        }, {
+            name: "materialItem.gdsName" , dataPath:""  ,
+        }],
         sortField: 0,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {},
+        dataArrived: function(startRow, endRow) {}
     });
+
+
 
     var HLayout_WarehouseStock_Grid = isc.HLayout.create({
         width: "100%",
