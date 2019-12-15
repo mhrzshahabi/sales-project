@@ -64,7 +64,9 @@ public class ContractService implements IContractService {
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         JSONObject jsonObject = new JSONObject(request);
         String contractNo = jsonObject.getString("contractNo");
+        String contractId = jsonObject.getString("contractId");
         jsonObject.remove("contractNo");
+        jsonObject.remove("contractId");
         XWPFDocument printdoc = new XWPFDocument();
 
         jsonObject.sortedKeys().forEachRemaining(new Consumer() {
