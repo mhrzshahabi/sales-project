@@ -417,7 +417,8 @@ var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
         {name:"id", title:"id", primaryKey:true, canEdit:false, hidden: true},
 
         {name:"shipment.id", title:"<spring:message code='contact.name'/>",align:"center",hidden: true},
-        {name: "contactId", type: 'long', hidden: true},
+        {name: "contactByInspectionId", type: 'long', hidden: true},
+        {name: "contactByInspection.nameEN", },
         {name:"shipment.contact.nameEN", title:"<spring:message code='contact.name'/>",align:"center" , width :"10%"},
         {name:"emailType",title:"<spring:message code='shipment.emailType'/>",align:"center" , width :"10%"},
         {name:"emailSubject",title:"<spring:message code='global.emailSubject'/>",align:"center" , width :"10%"},

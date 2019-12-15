@@ -266,7 +266,7 @@
                 title: "<spring:message code='contact.name'/>",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA",
+                displayField: "nameEN",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -309,7 +309,7 @@
                 required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA",
+                displayField: "nameEN",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -373,7 +373,7 @@
                 required: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA",
+                displayField: "nameEN",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -417,7 +417,7 @@
                 required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA",
+                displayField: "nameEN",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -455,8 +455,7 @@
         ]
     });
 
-    isc.DynamicForm.create({
-        ID: "DynamicForm_ContactParameter_ValueNumber8",
+var DynamicForm_ContactParameter_ValueNumber8=isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle1",
         height: "20",
         width: "100%",
@@ -496,10 +495,15 @@
                 height: "30",
                 title: "Remove",
                 startRow: false,
-                icon: "icons/16/message.png",
+                icon: "[SKIN]/actions/remove.png",
                 click: function () {
                     DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");
                     DynamicForm_ContactParameter_ValueNumber8.removeField("button")
+                    var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                    delete dataSaveValueNumber8.feild_all_defintitons_save;
+                    delete dataSaveValueNumber8["definitionsOne"]
+                    DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
+                    console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
                 }
             }
         ]
@@ -515,17 +519,6 @@
                 contents: "Add",
                 click: function () {
                     itemsDefinitions('Add', itemsDefinitionsCount)
-                }
-            }),
-            isc.Label.create({
-                styleName: "buttonHtml buttonHtml3",
-                align: "center",
-                valign: "center",
-                wrap: false,
-                contents: "Remove",
-                click: function () {
-                    //to do abouzar
-                    itemsDefinitions('Remove', itemsDefinitionsCount)
                 }
             })
         ]
@@ -666,6 +659,9 @@ function itemsDefinitions(value, id) {
                     title: "NAME",
                     changed: function (form, item, value) {
                         DynamicForm_ContactParameter_ValueNumber8.setValue("valueNumber8" + id, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
+                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                        delete dataSaveValueNumber8.feild_all_defintitons_save;
+                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
                     }
                 }, {
                     name: "button" + id,
@@ -674,10 +670,14 @@ function itemsDefinitions(value, id) {
                     height: "30",
                     title: "Remove",
                     startRow: false,
-                    icon: "icons/16/message.png",
+                    icon: "[SKIN]/actions/remove.png",
                     click: function () {
                         DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);
                         DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)
+                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                        delete dataSaveValueNumber8.feild_all_defintitons_save;
+                        delete dataSaveValueNumber8["valueNumber8" + id]
+                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
                     }
                 }
             ]);

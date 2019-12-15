@@ -18,7 +18,7 @@ public class Contract extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT")
-	@SequenceGenerator(name = "SEQ_CONTRACT", sequenceName = "SEQ_CONTRACT")
+	@SequenceGenerator(name = "SEQ_CONTRACT", sequenceName = "SEQ_CONTRACT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
@@ -28,22 +28,22 @@ public class Contract extends Auditable {
 	@Column(name = "C_ADDENDUM_DESC", length = 1000)
 	private String addendumDesc;
 
-	@Column(name = "C_ADDENDUM_DATE", length = 20)
+	@Column(name = "C_ADDENDUM_DATE", length = 50)
 	private String addendumDate;
 
 	@Column(name = "C_CONTRACT_NO", nullable = false, length = 200)
 	private String contractNo;
 
-	@Column(name = "C_CONTRACT_DATE", length = 20)
+	@Column(name = "C_CONTRACT_DATE", length = 50)
 	private String contractDate;
 
 	@Column(name = "C_SIDE_CONTRACT_NO", length = 200)
 	private String sideContractNo;
 
-	@Column(name = "C_SIDE_CONTRACT_DATE", length = 20)
+	@Column(name = "C_SIDE_CONTRACT_DATE", length = 50)
 	private String sideContractDate;
 
-	@Column(name = "C_IS_COMPLETE", length = 2)
+	@Column(name = "C_IS_COMPLETE", length = 3)
 	private String isComplete;
 
 	@Column(name = "C_DESCL", length = 4000)
@@ -89,14 +89,6 @@ public class Contract extends Auditable {
 	@Column(name = "SELLER_ID")
 	private Long contactBySellerId;
 
-//	@Setter(AccessLevel.NONE)
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "BUYER_ID", insertable = false, updatable = false)
-//	private Contact contactByBuyer;
-//
-//	@Column(name = "BUYER_ID")
-//	private Long contactByBuyerId;
-//
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DEFINITION_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contract2parmtrByDefinitin"))
@@ -247,7 +239,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PORT_SOURCE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2portBySourceportId"))
+	@JoinColumn(name = "PORT_SOURCE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2PortBySourcePortId"))
 	private Port portByPortSource;
 
 	@Column(name = "PORT_SOURCE_ID")
@@ -255,18 +247,18 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2materialBymaterialId"))
+	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2materialByMaterialId"))
 	private Material material;
 
 	@Column(name = "MATERIAL_ID")
 	private Long materialId;
 
-	@Column(name = "AMOUNT", nullable = false, length = 20)
+	@Column(name = "AMOUNT")
 	private Double amount;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2unitByunitId"))
+	@JoinColumn(name = "UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2unitByUnitId"))
 	private Unit unit;
 
 	@Column(name = "UNIT_ID")

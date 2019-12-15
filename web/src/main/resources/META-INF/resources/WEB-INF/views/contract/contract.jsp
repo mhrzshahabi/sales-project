@@ -5,45 +5,21 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            hidden: true
-        }, {
-            name: "contractNo",
-            title: "<spring:message code='contract.contractNo'/>"
-        }, {
-            name: "contractDate",
-            title: "<spring:message code='contract.contractDate'/>"
-        }, {
-            name: "contactId",
-            title: "<spring:message code='contact.name'/> "
-        }, {
-            name: "contact.nameFA",
-            title: "<spring:message code='contact.name'/> "
-        }, {
-            name: "incotermsId",
-            title: "<spring:message code='incoterms.name'/>"
-        }, {
-            name: "incoterms.code",
-            title: "<spring:message code='incoterms.name'/>"
-        }, {
-            name: "amount",
-            title: "<spring:message code='global.amount'/>"
-        }, {
-            name: "sideContractDate",
-            ID: "sideContractDate"
-        }, {
-            name: "refinaryCost",
-            ID: "refinaryCost"
-        }, {
-            name: "treatCost",
-            ID: "treatCost"
-        }, {
-            name: "materialId",
-            title: "materialId"
-        }],
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "contractNo", title: "<spring:message code='contract.contractNo'/>"},
+                {name: "contractDate", title: "<spring:message code='contract.contractDate'/>"},
+                {name: "contactId", title: "<spring:message code='contact.name'/> "},
+                {name: "contact.nameFA", title: "<spring:message code='contact.name'/> "},
+                {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
+                {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
+                {name: "amount", title: "<spring:message code='global.amount'/>"},
+                {name: "sideContractDate", ID: "sideContractDate"},
+                {name: "refinaryCost", ID: "refinaryCost"},
+                {name: "treatCost", ID: "treatCost"},
+                {name: "material.descl", title: "materialId"}
+            ],
         // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
@@ -125,7 +101,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         click: function () {
            /* createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
             Window_SelectTypeContactMain.close();*/
-           isc.warn("Coming Soon");
+           isc.warn("<spring:message code='global.menu.contract.warn.contract'/>");
         }
     });
   var salesContractMoButtonMain = isc.IconButton.create({
@@ -142,8 +118,22 @@ var salesContractCADButtonMain = isc.IconButton.create({
             Window_SelectTypeContactMain.close();
         }
     });
+    var salesContractOtherButtonMain = isc.IconButton.create({
+        title: "<spring:message code='salesContractOtherButton.title'/>",
+        width: "25%",
+        height: "100%",
+        align: "center",
+        margin:"35",
+        icon: "contract/salesContract.png",
+        largeIcon: "contract/salesContract.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='salesContractOtherButton.title'/>", "<spring:url value="/contact/contractOther"/>")
+            Window_SelectTypeContactMain.close();
+        }
+    });
    var Window_SelectTypeContactMain = isc.Window.create({
-                            title: "Type Contact",
+                            title: "<spring:message code='global.menu.contract.type.contract'/>",
                             width: "50%",
                             height: "20%",
                             autoCenter: true,
@@ -155,7 +145,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                             this.Super("closeClick", arguments)
                             },
                             items: [
-                              isc.HLayout.create({autoCenter: true, members: [salesContractMoButtonMain,salesContractCADButtonMain,salesContractConcButtonMain]})
+                              isc.HLayout.create({autoCenter: true, members: [salesContractMoButtonMain,salesContractCADButtonMain,salesContractConcButtonMain,salesContractOtherButtonMain]})
                             ]
                             });
     function ListGrid_Contract_refresh() {
@@ -259,6 +249,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
     }
 
     var Menu_ListGrid_Contract = isc.Menu.create({
+        showIf:"false",
         width: 150,
         data: [
             {
@@ -718,7 +709,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
 
     var ToolStripButton_Contract_Add = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/add.png",
-        title: "Contract Management",
+        title: "<spring:message code='global.menu.contract.management'/>",
         click: function () {
             Window_SelectTypeContactMain.animateShow();
         }
@@ -867,9 +858,9 @@ var salesContractCADButtonMain = isc.IconButton.create({
             [
                 {name: "id", hidden: true},
                 {
-                    name: "materialId",
-                    title: "materialId",
-                    hidden: true,
+                    name: "material.descl",
+                    title: "Type material",
+                    hidden: false,
                     width: "5%",
                     align: "center"
                 },
@@ -929,13 +920,13 @@ var salesContractCADButtonMain = isc.IconButton.create({
         },
         getCellCSSText: function (record, rowNum, colNum) {
                             if (record.materialId == 952) {
-                                  return "font-weight:bold;background-color:#f1948a;";
+                                  return "font-weight:bold;background-color:#d1f2eb;";
                                 }
                             if (record.materialId == -32) {
                                   return "font-weight:bold;background-color:#fcf3cf;";
                                 }
                             if (record.materialId == 12952) {
-                                  return "font-weight:bold;background-color:#d1f2eb;";
+                                  return "font-weight:bold;background-color:#f1948a;";
                                 }
                             if (record.materialId == -42) {
                                 // color:#ad48f7;
@@ -971,7 +962,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             width: 100,
             padding: 2,
             margin: 3,
-            backgroundColor: "#f1948a",
+            backgroundColor: "#d1f2eb",
             align: "center",
             contents: "CATHODS"
         })
@@ -980,7 +971,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             width: 100,
             padding: 2,
             margin: 3,
-            backgroundColor: "#d1f2eb",
+            backgroundColor: "#f1948a",
             align: "center",
             contents: "Matte"
         })

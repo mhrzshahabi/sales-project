@@ -19,7 +19,6 @@
             wrap: false,
             showEdges: true,
             showShadow: true,
-            icon: "icons/16/world.png",
             contents: contents
         });
     }
@@ -80,11 +79,11 @@ var contactCadTabs = isc.TabSet.create({
     isc.IButton.create({
         ID: "IButton_ContactCad_Save",
         title: "save",
-        icon: "icons/16/world.png",
+        icon: "[SKIN]/actions/add.png",
         iconOrientation: "right",
         click: function () {
             contactCadHeader.validate();
-            DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
+            //DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
             var drs = contactCadHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             contactCadHeader.setValue("contractDate", contractTrueDate);
@@ -112,7 +111,7 @@ var contactCadTabs = isc.TabSet.create({
             dataSaveAndUpdateContractCad.runTill = "";
             dataSaveAndUpdateContractCad.runEndtDate = "";
             dataSaveAndUpdateContractCad.incotermsId = 1952;
-            dataSaveAndUpdateContractCad.portByPortSourceId = 1;
+            dataSaveAndUpdateContractCad.portByPortSourceId = 2;
             dataSaveAndUpdateContractCad.incotermsText = valuesManagerArticle6_quality.getValue("incotermsText");
             dataSaveAndUpdateContractCad.officeSource = "TEHRAN";
             dataSaveAndUpdateContractCad.priceCalPeriod = "any";
@@ -304,7 +303,7 @@ var contactCadTabs = isc.TabSet.create({
         var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:952},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
         RestDataSource_Contract.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
         if(data[0]!=undefined){
-                isc.warn("shomare contractNO tekrari ast");
+                isc.warn("<spring:message code='main.contractsDuplicate'/>");
                }else{
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
@@ -315,7 +314,6 @@ var contactCadTabs = isc.TabSet.create({
                         Window_ContactCad.close();
                         ListGrid_Cad.invalidateCache();
                         saveCotractCadDetails(dataSaveAndUpdateContractCadDetail,(JSON.parse(resp.data)).id);
-                        saveValueAllArticles();
                     } else
                         isc.say(RpcResponse_o.data);
                 }
@@ -381,7 +379,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
     };
 
     var dataALLArticle = {};
-    function saveValueAllArticles() {
+    function saveValueAllArticles(contractID) {
         dataALLArticle.Article03 = article3_quality.getValue("fullArticle3");
         dataALLArticle.Article04 = article4_quality.getValue("fullArticle4");
         dataALLArticle.Article05 = article5_quality.getValue("fullArticle5");
@@ -393,6 +391,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
         dataALLArticle.Article11 = article11_quality.getValue("fullArticle11");
         dataALLArticle.Article12 = article12_quality.getValue("fullArticle12");
         dataALLArticle.contractNo = contactCadHeader.getValue("contractNo");
+        dataALLArticle.contractId = contractID;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contract/writeWord",
             httpMethod: "POST",
@@ -408,7 +407,15 @@ function saveListGrid_ContractCadItemShipment(contractID) {
 
 function saveCotractCadDetails(data, contractID) {
         data.contract_id = contractID;
-        var allData = Object.assign(data,valuesManagerArticle1.getValues())
+        var allData={};
+        if(valuesManagerArticle1.getValue("feild_all_defintitons_save")==undefined){
+            allData=data;
+           // {"definitionsOne":"AHK=ALFRED H KNIGHT CO.,AN INDEPENDENT........."}
+            allData.feild_all_defintitons_save='{"definitionsOne":"'+DynamicForm_ContactParameter_ValueNumber8.getValue("definitionsOne")+'"}'
+        }else{
+            allData = Object.assign(data,valuesManagerArticle1.getValues())
+        }
+        console.log(allData)
         allData.string_Currency="null";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",
@@ -417,6 +424,7 @@ function saveCotractCadDetails(data, contractID) {
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     saveListGrid_ContractCadItemShipment(contractID);
+                    saveValueAllArticles(contractID);
                 } else
                     isc.say(RpcResponse_o.data);
             }
