@@ -5,386 +5,527 @@
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_PersonByInspectionContract_EmailCC  = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contactId"},
-            {name: "contact.nameFA"},
-            {
-                name: "fullName",
-                title: "<spring:message code='person.fullName'/>",
-                type: 'text',
-                required: true,
-                width: 400
-            },
-            {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 400},
-            {
-                name: "title",
-                title: "<spring:message code='person.title'/>",
-                type: 'text',
-                width: 400,
-                valueMap: {
-                    "MR": "<spring:message code='global.MR'/>",
-                    "MIS": "<spring:message code='global.MIS'/>",
-                    "MS": "<spring:message code='global.MRS'/>",
-                }
-            },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400,regex:"^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"},
-            {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
-            {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400},
-        ],
+    var RestDataSource_PersonByInspectionContract_EmailCC = isc.MyRestDataSource.create({
+    	fields: [{
+    			name: "id",
+    			title: "id",
+    			primaryKey: true,
+    			canEdit: false,
+    			hidden: true
+    		},
+    		{
+    			name: "contactId"
+    		},
+    		{
+    			name: "contact.nameFA"
+    		},
+    		{
+    			name: "fullName",
+    			title: "<spring:message code='person.fullName'/>",
+    			type: 'text',
+    			required: true,
+    			width: 400
+    		},
+    		{
+    			name: "jobTitle",
+    			title: "<spring:message code='person.jobTitle'/>",
+    			type: 'text',
+    			width: 400
+    		},
+    		{
+    			name: "title",
+    			title: "<spring:message code='person.title'/>",
+    			type: 'text',
+    			width: 400,
+    			valueMap: {
+    				"MR": "<spring:message code='global.MR'/>",
+    				"MIS": "<spring:message code='global.MIS'/>",
+    				"MS": "<spring:message code='global.MRS'/>",
+    			}
+    		},
+    		{
+    			name: "email",
+    			title: "<spring:message code='person.email'/>",
+    			type: 'text',
+    			required: true,
+    			width: 400,
+    			regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"
+    		},
+    		{
+    			name: "email1",
+    			title: "<spring:message code='person.email1'/>",
+    			type: 'text',
+    			width: 400
+    		},
+    		{
+    			name: "email2",
+    			title: "<spring:message code='person.email2'/>",
+    			type: 'text',
+    			width: 400
+    		},
+    	],
 
-        fetchDataURL: "${contextPath}/api/person/spec-list"
+    	fetchDataURL: "${contextPath}/api/person/spec-list"
     });
 
 
         //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+var RestDataSource_Inspection__Inspection = isc.MyRestDataSource.create({
+	fields: [{
+			name: "id",
+			title: "id",
+			primaryKey: true,
+			canEdit: false,
+			hidden: true
+		},
+		{
+			name: "contractShipmentId",
+			title: "<spring:message code='contact.name'/>",
+			type: 'long',
+			hidden: true
+		},
+		{
+			name: "contactId",
+			type: 'long',
+			hidden: true
+		},
+		{
+			name: "contract.contact.nameFA",
+			title: "<spring:message code='contact.name'/>",
+			type: 'text'
+		},
+		{
+			name: "contractId",
+			type: 'long',
+			hidden: true
+		},
+		{
+			name: "contract.contractNo",
 
-            var RestDataSource_Inspection__Inspection = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-            {name: "contactId", type: 'long', hidden: true},
-            {name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
-            {name: "contractId", type: 'long', hidden: true},
-            {
-                name: "contract.contractNo",
-
-                type: 'text',
-                width: 180
-            },
-            {
-                name: "contract.contractDate",
-                title: "<spring:message code='contract.contractDate'/>",
-                type: 'text',
-                width: 180
-            },
-            {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-            {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
-            {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
-            {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
-            {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {
-                name: "laycan",
-                title: "<spring:message code='shipmentContract.laycanStart'/>",
-                type: 'integer',
-                width: "10%",
-                align: "center",
-            },
-            {
-                name: "shipmentType",
-                title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text',
-                width: 400,
-                valueMap: {"bulk": "bulk", "container": "container"}
-            },
-            {
-                name: "bookingCat",
-                title: "<spring:message code='shipment.bookingCat'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true,
-            },
-            {
-                name: "loadingLetter",
-                title: "<spring:message code='shipment.loadingLetter'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", type: 'text', width: "10%"},
-            {
-                name: "portByLoading.port",
-                title: "<spring:message code='shipment.loading'/>",
-                type: 'text',
-                width: "10%"
-            },
-            {
-                name: "portByDischargeId",
-                title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
-                width: "10%"
-            },
-            {
-                name: "portByDischarge.port",
-                title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
-                width: "10%"
-            },
-            {name: "dischargeAddress", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "description", title: "<spring:message code='shipment.description'/>", type: 'text', width: "10%"},
-            {name: "swb", title: "<spring:message code='shipment.SWB'/>", type: 'text', width: "10%"},
-            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "50%"},
-            {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
-            {
-                name: "status",
-                title: "<spring:message code='shipment.staus'/>",
-                type: 'text',
-                width: "10%",
-                valueMap: {
-                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
-                    "Resource": "<spring:message code='shipment.resource'/>"
-                }
-            },
-            {
-                name: "contractShipment.sendDate",
-                title: "<spring:message code='global.sendDate'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
-            {
-                name: "contactByAgent.nameFA",
-                title: "<spring:message code='shipment.agent'/>",
-                type: 'text',
-                width: "20%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "vesselName",
-                title: "<spring:message	code='shipment.vesselName'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            }
-        ],
-        fetchDataURL: "${contextPath}/api/shipment/spec-list"
-    });
+			type: 'text',
+			width: 180
+		},
+		{
+			name: "contract.contractDate",
+			title: "<spring:message code='contract.contractDate'/>",
+			type: 'text',
+			width: 180
+		},
+		{
+			name: "materialId",
+			title: "<spring:message code='contact.name'/>",
+			type: 'long',
+			hidden: true
+		},
+		{
+			name: "material.descl",
+			title: "<spring:message code='material.descl'/>",
+			type: 'text'
+		},
+		{
+			name: "material.unit.nameEN",
+			title: "<spring:message code='unit.nameEN'/>",
+			type: 'text'
+		},
+		{
+			name: "amount",
+			title: "<spring:message code='global.amount'/>",
+			type: 'float'
+		},
+		{
+			name: "noContainer",
+			title: "<spring:message code='shipment.noContainer'/>",
+			type: 'integer'
+		},
+		{
+			name: "noPalete",
+			title: "<spring:message code='shipment.noContainer'/>",
+			type: 'integer'
+		},
+		{
+			name: "laycan",
+			title: "<spring:message code='shipmentContract.laycanStart'/>",
+			type: 'integer',
+			width: "10%",
+			align: "center",
+		},
+		{
+			name: "shipmentType",
+			title: "<spring:message code='shipment.shipmentType'/>",
+			type: 'text',
+			width: 400,
+			valueMap: {
+				"bulk": "bulk",
+				"container": "container"
+			}
+		},
+		{
+			name: "bookingCat",
+			title: "<spring:message code='shipment.bookingCat'/>",
+			type: 'text',
+			width: "10%",
+			showHover: true,
+		},
+		{
+			name: "loadingLetter",
+			title: "<spring:message code='shipment.loadingLetter'/>",
+			type: 'text',
+			width: "10%",
+			showHover: true
+		},
+		{
+			name: "loading",
+			title: "<spring:message code='global.address'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "portByLoadingId",
+			title: "<spring:message code='shipment.loading'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "portByLoading.port",
+			title: "<spring:message code='shipment.loading'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "portByDischargeId",
+			title: "<spring:message code='shipment.discharge'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "portByDischarge.port",
+			title: "<spring:message code='shipment.discharge'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "dischargeAddress",
+			title: "<spring:message code='global.address'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "description",
+			title: "<spring:message code='shipment.description'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "swb",
+			title: "<spring:message code='shipment.SWB'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "switchPort.port",
+			title: "<spring:message code='port.switchPort'/>",
+			type: 'text',
+			width: "50%"
+		},
+		{
+			name: "month",
+			title: "<spring:message code='shipment.month'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "status",
+			title: "<spring:message code='shipment.staus'/>",
+			type: 'text',
+			width: "10%",
+			valueMap: {
+				"Load Ready": "<spring:message code='shipment.loadReady'/>",
+				"Resource": "<spring:message code='shipment.resource'/>"
+			}
+		},
+		{
+			name: "contractShipment.sendDate",
+			title: "<spring:message code='global.sendDate'/>",
+			type: 'text',
+			required: true,
+			width: "10%",
+			align: "center",
+			showHover: true
+		},
+		{
+			name: "createDate",
+			title: "<spring:message code='shipment.createDate'/>",
+			type: 'text',
+			width: "10%"
+		},
+		{
+			name: "contactByAgent.nameFA",
+			title: "<spring:message code='shipment.agent'/>",
+			type: 'text',
+			width: "20%",
+			align: "center",
+			showHover: true
+		},
+		{
+			name: "vesselName",
+			title: "<spring:message	code='shipment.vesselName'/>",
+			type: 'text',
+			required: true,
+			width: "10%",
+			showHover: true
+		}
+	],
+	fetchDataURL: "${contextPath}/api/shipment/spec-list"
+});
 
 
 
         var ListGrid_Inspection = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Inspection__Inspection,
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", hidden: true, type: 'long'},
-            {name: "contactId", type: 'long', hidden: true},
-            {
-                name: "contract.contact.nameFA",
-                title: "<spring:message code='contact.name'/>",
-                type: 'text',
-                width: "20%",
-                align: "center",
-                showHover: true
-            },
-            {name: "contractId", type: 'long', hidden: true},
-            {
-                name: "contract.contractNo",
-                title: "<spring:message code='contract.contractNo'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "contract.contractDate",
-                title: "<spring:message code='contract.contractDate'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "materialId",
-                title: "<spring:message code='contact.name'/>",
-                type: 'long',
-                hidden: true,
-                showHover: true
-            },
-            {
-                name: "material.descl",
-                title: "<spring:message code='material.descl'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "material.unit.nameEN",
-                title: "<spring:message code='unit.nameEN'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "amount",
-                title: "<spring:message code='global.amount'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "shipmentType",
-                title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
+        	width: "100%",
+        	height: "100%",
+        	dataSource: RestDataSource_Inspection__Inspection,
+        	fields: [{
+        			name: "id",
+        			title: "id",
+        			primaryKey: true,
+        			canEdit: false,
+        			hidden: true
+        		},
+        		{
+        			name: "contractShipmentId",
+        			hidden: true,
+        			type: 'long'
+        		},
+        		{
+        			name: "contactId",
+        			type: 'long',
+        			hidden: true
+        		},
+        		{
+        			name: "contract.contact.nameFA",
+        			title: "<spring:message code='contact.name'/>",
+        			type: 'text',
+        			width: "20%",
+        			align: "center",
+        			showHover: true
+        		},
+        		{
+        			name: "contractId",
+        			type: 'long',
+        			hidden: true
+        		},
+        		{
+        			name: "contract.contractNo",
+        			title: "<spring:message code='contract.contractNo'/>",
+        			type: 'text',
+        			width: "10%",
+        			showHover: true
+        		},
+        		{
+        			name: "contract.contractDate",
+        			title: "<spring:message code='contract.contractDate'/>",
+        			type: 'text',
+        			width: "10%",
+        			showHover: true
+        		},
+        		{
+        			name: "materialId",
+        			title: "<spring:message code='contact.name'/>",
+        			type: 'long',
+        			hidden: true,
+        			showHover: true
+        		},
+        		{
+        			name: "material.descl",
+        			title: "<spring:message code='material.descl'/>",
+        			type: 'text',
+        			width: "10%",
+        			align: "center",
+        			showHover: true
+        		},
+        		{
+        			name: "material.unit.nameEN",
+        			title: "<spring:message code='unit.nameEN'/>",
+        			type: 'text',
+        			width: "10%",
+        			align: "center",
+        			showHover: true
+        		},
+        		{
+        			name: "amount",
+        			title: "<spring:message code='global.amount'/>",
+        			type: 'text',
+        			width: "10%",
+        			align: "center",
+        			showHover: true
+        		},
+        		{
+        			name: "shipmentType",
+        			title: "<spring:message code='shipment.shipmentType'/>",
+        			type: 'text',
+        			width: "10%",
+        			showHover: true
+        		},
 
-            {
-            name: "bookingCat",
-            title: "<spring:message code='shipment.bookingCat'/>",
-            type: 'text',
-            width: "10%",
-            showHover: true
-            },
+        		{
+        			name: "bookingCat",
+        			title: "<spring:message code='shipment.bookingCat'/>",
+        			type: 'text',
+        			width: "10%",
+        			showHover: true
+        		},
 
-            {
-                name: "loadingLetter",
-                title: "<spring:message code='shipment.loadingLetter'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "noContainer",
-                title: "<spring:message code='shipment.noContainer'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
+        		{
+        			name: "loadingLetter",
+        			title: "<spring:message code='shipment.loadingLetter'/>",
+        			type: 'text',
+        			width: "10%",
+        			showHover: true
+        		},
+        		{
+        			name: "noContainer",
+        			title: "<spring:message code='shipment.noContainer'/>",
+        			type: 'text',
+        			width: "10%",
+        			align: "center",
+        			showHover: true
+        		},
 
-            {
-                name: "portByLoading.port",
-                title: "<spring:message	code='shipment.loading'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "portByDischarge.port",
-                title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
+        		{
+        			name: "portByLoading.port",
+        			title: "<spring:message	code='shipment.loading'/>",
+        			type: 'text',
+        			required: true,
+        			width: "10%",
+        			showHover: true
+        		},
+        		{
+        			name: "portByDischarge.port",
+        			title: "<spring:message code='shipment.discharge'/>",
+        			type: 'text',
+        			required: true,
+        			width: "10%",
+        			showHover: true
+        		},
 
-            {
-                name: "description",
-                title: "<spring:message code='shipment.description'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "contractShipment.sendDate",
-                title: "<spring:message code='global.sendDate'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "createDate",
-                title: "<spring:message code='global.createDate'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "month",
-                title: "<spring:message code='shipment.month'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "contactByAgent.nameFA",
-                title: "<spring:message code='shipment.agent'/>",
-                type: 'text',
-                width: "20%",
-                align: "center",
-                showHover: true
-            },
-            {
-                name: "vesselName",
-                title: "<spring:message	code='shipment.vesselName'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "swb",
-                title: "<spring:message code='shipment.SWB'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "switchPort.port",
-                title: "<spring:message code='port.switchPort'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            },
-            {
-                name: "status",
-                title: "<spring:message	code='shipment.staus'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                valueMap: {
-                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
-                    "Resource": "<spring:message code='shipment.resource'/>"
-                },
-                showHover: true
-            }
-        ],
-        recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue){
-            ListGrid_InspectionContract.fetchData({
-            "operator": "and",
-            "criteria": [{
-            "fieldName":
-            "shipmentId",
-            "operator": "equals",
-            "value": record.id
-            }]
-            });this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue);},
+        		{
+        			name: "description",
+        			title: "<spring:message code='shipment.description'/>",
+        			type: 'text',
+        			required: true,
+        			width: "10%",
+        			align: "center",
+        			showHover: true
+        		},
+        		{
+        			name: "contractShipment.sendDate",
+        			title: "<spring:message code='global.sendDate'/>",
+        			type: 'text',
+        			required: true,
+        			width: "10%",
+        			align: "center",
+        			showHover: true
+        		},
+        		{
+        			name: "createDate",
+        			title: "<spring:message code='global.createDate'/>",
+        			type: 'text',
+        			required: true,
+        			width: "10%",
+        			align: "center",
+        			showHover: true
+        		},
+        		{
+        			name: "month",
+        			title: "<spring:message code='shipment.month'/>",
+        			type: 'text',
+        			required: true,
+        			width: "10%",
+        			align: "center",
+        			showHover: true
+        		},
+        		{
+        			name: "contactByAgent.nameFA",
+        			title: "<spring:message code='shipment.agent'/>",
+        			type: 'text',
+        			width: "20%",
+        			align: "center",
+        			showHover: true
+        		},
+        		{
+        			name: "vesselName",
+        			title: "<spring:message	code='shipment.vesselName'/>",
+        			type: 'text',
+        			required: true,
+        			width: "10%",
+        			showHover: true
+        		},
+        		{
+        			name: "swb",
+        			title: "<spring:message code='shipment.SWB'/>",
+        			type: 'text',
+        			required: true,
+        			width: "10%",
+        			showHover: true
+        		},
+        		{
+        			name: "switchPort.port",
+        			title: "<spring:message code='port.switchPort'/>",
+        			type: 'text',
+        			required: true,
+        			width: "10%",
+        			showHover: true
+        		},
+        		{
+        			name: "status",
+        			title: "<spring:message	code='shipment.staus'/>",
+        			type: 'text',
+        			width: "10%",
+        			align: "center",
+        			valueMap: {
+        				"Load Ready": "<spring:message code='shipment.loadReady'/>",
+        				"Resource": "<spring:message code='shipment.resource'/>"
+        			},
+        			showHover: true
+        		}
+        	],
+        	recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+        		ListGrid_InspectionContract.fetchData({
+        			"operator": "and",
+        			"criteria": [{
+        				"fieldName": "shipmentId",
+        				"operator": "equals",
+        				"value": record.id
+        			}]
+        		});
+        		this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue);
+        	},
 
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-            };
-            ListGrid_InspectionEmail.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_InspectionEmail.setData(data);
-            });
-            contractId = record.contractId;
-        },
-        dataArrived: function (startRow, endRow) {
-        },
-        sortField: 0,
-        dataPageSize: 50,
-        autoFetchData: false,
-        showFilterEditor: true,
-        filterOnKeypress: false
-    });
+        	updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+        		var record = this.getSelectedRecord();
+        		var criteria1 = {
+        			_constructor: "AdvancedCriteria",
+        			operator: "and",
+        			criteria: [{
+        				fieldName: "shipmentId",
+        				operator: "equals",
+        				value: record.id
+        			}]
+        		};
+        		ListGrid_InspectionEmail.fetchData(criteria1, function(dsResponse, data, dsRequest) {
+        			ListGrid_InspectionEmail.setData(data);
+        		});
+        		contractId = record.contractId;
+        	},
+        	dataArrived: function(startRow, endRow) {},
+        	sortField: 0,
+        	dataPageSize: 50,
+        	autoFetchData: false,
+        	showFilterEditor: true,
+        	filterOnKeypress: false
+        });
 
         var criteria1 = {
 	_constructor: "AdvancedCriteria",
@@ -412,60 +553,120 @@ ListGrid_Inspection.setData(data);
     });
 
 var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
-    fields:
-    [
-        {name:"id", title:"id", primaryKey:true, canEdit:false, hidden: true},
+	fields: [{
+			name: "id",
+			title: "id",
+			primaryKey: true,
+			canEdit: false,
+			hidden: true
+		},
 
-        {name:"shipment.id", title:"<spring:message code='contact.name'/>",align:"center",hidden: true},
-        {name: "contactByInspectionId", type: 'long', hidden: true},
-        {name: "contactByInspection.nameEN", },
-        {name:"shipment.contact.nameEN", title:"<spring:message code='contact.name'/>",align:"center" , width :"10%"},
-        {name:"emailType",title:"<spring:message code='shipment.emailType'/>",align:"center" , width :"10%"},
-        {name:"emailSubject",title:"<spring:message code='global.emailSubject'/>",align:"center" , width :"10%"},
-        {name:"emailTo",title:"<spring:message code='global.emailTo'/>",align:"center" , width :"10%"},
-        {name:"emailCC",title:"<spring:message code='global.emailCC'/>",align:"center" , width :"10%"},
-        {name:"emailBody",title:"<spring:message code='global.emailBody'/>",align:"center" , width :"10%"},
-        {name:"emailRespond",title:"<spring:message code='global.emailRespond'/>",align:"center" , width :"10%"},
-        {name:"createUser" ,title:"<spring:message code='global.createUser'/>",align:"center" , width :"10%"},
-        {name:"createDate",title:"<spring:message code='global.createDate'/>",align:"center" , width :"10%"},
-    ],
-    fetchDataURL: "${contextPath}/api/inspectionContract/spec-list"
+		{
+			name: "shipment.id",
+			title: "<spring:message code='contact.name'/>",
+			align: "center",
+			hidden: true
+		},
+		{
+			name: "contactByInspectionId",
+			type: 'long',
+			hidden: true
+		},
+		{
+			name: "contactByInspection.nameEN",
+		},
+		{
+			name: "shipment.contact.nameEN",
+			title: "<spring:message code='contact.name'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailType",
+			title: "<spring:message code='shipment.emailType'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailSubject",
+			title: "<spring:message code='global.emailSubject'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailTo",
+			title: "<spring:message code='global.emailTo'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailCC",
+			title: "<spring:message code='global.emailCC'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailBody",
+			title: "<spring:message code='global.emailBody'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailRespond",
+			title: "<spring:message code='global.emailRespond'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "createUser",
+			title: "<spring:message code='global.createUser'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "createDate",
+			title: "<spring:message code='global.createDate'/>",
+			align: "center",
+			width: "10%"
+		},
+	],
+	fetchDataURL: "${contextPath}/api/inspectionContract/spec-list"
 });
+
 
 var IButton_InspectionContract_Save = isc.IButton.create({
-    top: 260,
-    title:"<spring:message code='global.form.save'/>",
-    icon: "pieces/16/save.png",
+	top: 260,
+	title: "<spring:message code='global.form.save'/>",
+	icon: "pieces/16/save.png",
 
-    click : function () {
-        DynamicForm_InspectionContract.validate();
-        if (DynamicForm_InspectionContract.hasErrors())
-            return;
-        var date = DynamicForm_InspectionContract.getValues("createDate");
+	click: function() {
+		DynamicForm_InspectionContract.validate();
+		if (DynamicForm_InspectionContract.hasErrors())
+			return;
+		var date = DynamicForm_InspectionContract.getValues("createDate");
 
 
-        var data = DynamicForm_InspectionContract.getValues();
-        console.log(data);
-        var method = "PUT";
-        if(data.id == null)
-            method="POST";
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
-            actionURL: "${contextPath}/api/inspectionContract/",
-            httpMethod: method,
-            data: JSON.stringify(data),
-            callback: function (resp)   {
-                if(resp.httpResponseCode == 200 || resp.httpResponseCode == 201 ) {
-                    isc.say("<spring:message code='global.form.request.successful'/>.");
-                    Window_InspectionContract.hide();
-                    ListGrid_InspectionContract_refresh();
-                    }
-                else
-                    isc.say(RpcResponse_o.data);
-            }
-        })
-        );
-    }
+		var data = DynamicForm_InspectionContract.getValues();
+		console.log(data);
+		var method = "PUT";
+		if (data.id == null)
+			method = "POST";
+		isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+			actionURL: "${contextPath}/api/inspectionContract/",
+			httpMethod: method,
+			data: JSON.stringify(data),
+			callback: function(resp) {
+				if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+					isc.say("<spring:message code='global.form.request.successful'/>.");
+					Window_InspectionContract.hide();
+					ListGrid_InspectionContract_refresh();
+				} else
+					isc.say(RpcResponse_o.data);
+			}
+		}));
+	}
 });
+
 
 
     var IButton_InspectionContract_Cancel = isc.IButton.create({
@@ -621,48 +822,65 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
 
 
     var ListGrid_PersonByInspectionContract_EmailCC = isc.ListGrid.create({
-               width: "800",
-               height: "400",
-              dataSource: RestDataSource_PersonByInspectionContract_EmailCC,
-               fields:[
-                {
-                    name: "contact.nameFA",
-                    title: "<spring:message code='contact.name'/>",
-                    type: 'text',
-                    required: true,
-                    width: 400
-                },
-                {
-                    name: "title",
-                    title: "<spring:message code='person.title'/>",
-                    type: 'text',
-                    width: 400,
-                    valueMap: {
-                        "MR": "<spring:message code='global.MR'/>",
-                        "MIS": "<spring:message code='global.MIS'/>",
-                        "MS": "<spring:message code='global.MRS'/>",
-                    }
-                },
-                {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400,regex:"^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"},
-                {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
-                {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400}
-               ],
-               sortField: 0,
-               dataPageSize: 50,
-               autoFetchData: true,
-               showFilterEditor: true,
-               filterOnKeypress: true,
-               sortFieldAscendingText: "مرتب سازی صعودی",
-               sortFieldDescendingText: "مرتب سازی نزولی",
-               configureSortText: "تنظیم مرتب سازی",
-               autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-               autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-               filterUsingText: "فیلتر کردن",
-               groupByText: "گروه بندی",
-               freezeFieldText: "ثابت نگه داشتن",
-               startsWithTitle: "tt",
-               selectionAppearance : "checkbox"
-           });
+  	width: "800",
+  	height: "400",
+  	dataSource: RestDataSource_PersonByInspectionContract_EmailCC,
+  	fields: [{
+  			name: "contact.nameFA",
+  			title: "<spring:message code='contact.name'/>",
+  			type: 'text',
+  			required: true,
+  			width: 400
+  		},
+  		{
+  			name: "title",
+  			title: "<spring:message code='person.title'/>",
+  			type: 'text',
+  			width: 400,
+  			valueMap: {
+  				"MR": "<spring:message code='global.MR'/>",
+  				"MIS": "<spring:message code='global.MIS'/>",
+  				"MS": "<spring:message code='global.MRS'/>",
+  			}
+  		},
+  		{
+  			name: "email",
+  			title: "<spring:message code='person.email'/>",
+  			type: 'text',
+  			required: true,
+  			width: 400,
+  			regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"
+  		},
+  		{
+  			name: "email1",
+  			title: "<spring:message code='person.email1'/>",
+  			type: 'text',
+  			width: 400
+  		},
+  		{
+  			name: "email2",
+  			title: "<spring:message code='person.email2'/>",
+  			type: 'text',
+  			width: 400
+  		}
+  	],
+  	sortField: 0,
+  	dataPageSize: 50,
+  	autoFetchData: true,
+  	showFilterEditor: true,
+  	filterOnKeypress: true,
+  	sortFieldAscendingText: "مرتب سازی صعودی",
+  	sortFieldDescendingText: "مرتب سازی نزولی",
+  	configureSortText: "تنظیم مرتب سازی",
+  	autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
+  	autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
+  	filterUsingText: "فیلتر کردن",
+  	groupByText: "گروه بندی",
+  	freezeFieldText: "ثابت نگه داشتن",
+  	startsWithTitle: "tt",
+  	selectionAppearance: "checkbox"
+  });
+
 
 
     var Window_InspectionContractEmailCC = isc.Window.create({
@@ -758,7 +976,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
             // showEdges:true,
         fields:
         [
-    /*Comment By JZ*/
+    /**/
     <%--{name:"vesselName"                  , title:"<spring:message code='shipmentContract.vesselName'/>" },--%>
     <%--//{name:"tblPortByLoadPort.id"        , title:"<spring:message code='shipmentContract.loadPort'/>"  , hidden: true},--%>
     <%--//{name:"tblPortByLoadPort.port"      , title:"<spring:message code='shipmentContract.loadPort'/>"  ,canEdit:false},--%>
@@ -786,7 +1004,6 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
                 ],
 
                 },
-
 
 
             {name: "emailCC", title:"<spring:message code='global.emailCC'/>" , width:"700",type: "text" , align:"left" , textAlign:"left" , required:true
@@ -858,33 +1075,33 @@ DynamicForm_InspectionHeader.setValue("shipmentHeaderDate", datestring)
 
 
     var ToolStripButton_InspectionContract_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.form.new'/>",
-        click:function()
-        {
-            var record = ListGrid_Inspection.getSelectedRecord();
-            if(record == null || record.id == null){
-                isc.Dialog.create({
-                    message : "<spring:message code='global.grid.record.not.selected'/>",
-                    icon:"[SKIN]ask.png",
-                    title : "<spring:message code='global.message'/>",
-                    buttons : [isc.Button.create({ title:"<spring:message code='global.ok'/>" })],
-                    buttonClick : function (){
-                        this.hide();
-                    }
-                });
-            } else	{
-                DynamicForm_InspectionContract.clearValues();
-                // DynamicForm_Instruction.setValue("disableDateDummy", new Date(record.disableDate)); //TODO
-                DynamicForm_InspectionContract.setValue("shipmentId",record.id);
-                DynamicForm_InspectionContract.setValue("emailType","Inspection Contract");
-                DynamicForm_InspectionContract.setValue("emailSubject","ORDER FOR REPRESENTATION ");
+    	icon: "[SKIN]/actions/add.png",
+    	title: "<spring:message code='global.form.new'/>",
+    	click: function() {
+    		var record = ListGrid_Inspection.getSelectedRecord();
+    		if (record == null || record.id == null) {
+    			isc.Dialog.create({
+    				message: "<spring:message code='global.grid.record.not.selected'/>",
+    				icon: "[SKIN]ask.png",
+    				title: "<spring:message code='global.message'/>",
+    				buttons: [isc.Button.create({
+    					title: "<spring:message code='global.ok'/>"
+    				})],
+    				buttonClick: function() {
+    					this.hide();
+    				}
+    			});
+    		} else {
+    			DynamicForm_InspectionContract.clearValues();
+    			// DynamicForm_Instruction.setValue("disableDateDummy", new Date(record.disableDate)); //TODO
+    			DynamicForm_InspectionContract.setValue("shipmentId", record.id);
+    			DynamicForm_InspectionContract.setValue("emailType", "Inspection Contract");
+    			DynamicForm_InspectionContract.setValue("emailSubject", "ORDER FOR REPRESENTATION ");
 
-                Window_InspectionContract.show();
-            }
-        }
+    			Window_InspectionContract.show();
+    		}
+    	}
     });
-
 
 
     var ToolStripButton_InspectionContract_Edit = isc.ToolStripButton.create({
@@ -989,45 +1206,81 @@ DynamicForm_InspectionHeader.setValue("shipmentHeaderDate", datestring)
     });
 
 
+
     var ListGrid_InspectionContract = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_InspectionContract,
-        contextMenu: Menu_ListGrid_InspectionContract,
-        autoFetchData:false,
-        fields:
-        [
-            {name:"id", title:"id", primaryKey:true, canEdit:false, hidden: true},
-            {name:"shipment.id", title:"<spring:message code='contact.name'/>",align:"center",hidden: true},
-            {name:"shipment.contact.nameEN", title:"<spring:message code='contact.name'/>",align:"center" , width :"10%"},
-            {name:"emailType",title:"<spring:message code='shipment.emailType'/>",align:"center" , width :"10%"},
-            {name:"emailSubject",title:"<spring:message code='global.emailSubject'/>",align:"center" , width :"10%"},
-            {name:"emailTo",title:"<spring:message code='global.emailTo'/>",align:"center" , width :"10%"},
-            {name:"emailCC",title:"<spring:message code='global.emailCC'/>",align:"center" , width :"10%"},
+	width: "100%",
+	height: "100%",
+	dataSource: RestDataSource_InspectionContract,
+	contextMenu: Menu_ListGrid_InspectionContract,
+	autoFetchData: false,
+	fields: [{
+			name: "id",
+			title: "id",
+			primaryKey: true,
+			canEdit: false,
+			hidden: true
+		},
+		{
+			name: "shipment.id",
+			title: "<spring:message code='contact.name'/>",
+			align: "center",
+			hidden: true
+		},
+		{
+			name: "shipment.contact.nameEN",
+			title: "<spring:message code='contact.name'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailType",
+			title: "<spring:message code='shipment.emailType'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailSubject",
+			title: "<spring:message code='global.emailSubject'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailTo",
+			title: "<spring:message code='global.emailTo'/>",
+			align: "center",
+			width: "10%"
+		},
+		{
+			name: "emailCC",
+			title: "<spring:message code='global.emailCC'/>",
+			align: "center",
+			width: "10%"
+		},
 
-        ],
-        sortField: 0,
-        dataPageSize: 50,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
-        // startsWithTitle: "tt",
-        recordClick 			:	"this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails 			: function (viewer, record1, recordNum, field, fieldNum, value, rawValue)
-        {
-            var record = this.getSelectedRecord();
-        },
-        dataArrived : 	function (startRow, endRow) {
-        }
+	],
+	sortField: 0,
+	dataPageSize: 50,
+	showFilterEditor: true,
+	filterOnKeypress: true,
+	sortFieldAscendingText: "مرتب سازی صعودی",
+	sortFieldDescendingText: "مرتب سازی نزولی",
+	configureSortText: "تنظیم مرتب سازی",
+	autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
+	autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
+	filterUsingText: "فیلتر کردن",
+	groupByText: "گروه بندی",
+	freezeFieldText: "ثابت نگه داشتن",
+	// startsWithTitle: "tt",
+	recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+	updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+		var record = this.getSelectedRecord();
+	},
+	dataArrived: function(startRow, endRow) {}
 
-    });
+});
+
+
+
 
     var HLayout_InspectionContract_Grid = isc.HLayout.create({
         width: "100%",

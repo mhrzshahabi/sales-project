@@ -10,6 +10,7 @@
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
+
     isc.Window.create({
         title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
         width: "1560",
@@ -31,136 +32,268 @@
         ListGrid_TozinSales.invalidateCache();
     }
 
-    var RestDataSource_TozinSales = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "cardId", title: "<spring:message code='Tozin.cardId'/>", align: "center"},
-                {name: "carNo1", title: "<spring:message code='Tozin.carNo1'/>", align: "center"},
-                {name: "carNo3", title: "<spring:message code='Tozin.carNo3'/>", align: "center"},
-                {name: "plak", title: "<spring:message code='Tozin.plak'/>", align: "center"},
-                {name: "carName", title: "<spring:message code='Tozin.carName'/>", align: "center"},
-                {name: "customer", title: "<spring:message code='Tozin.customer'/>", align: "center"},
-                {name: "seller", title: "<spring:message code='Tozin.seller'/>", align: "center"},
-                {name: "vazn1", title: "<spring:message code='Tozin.vazn1'/>", align: "center"},
-                {name: "vazn2", title: "<spring:message code='Tozin.vazn2'/>", align: "center"},
-                {name: "condition", title: "<spring:message code='Tozin.condition'/>", align: "center"},
-                {name: "vazn", title: "<spring:message code='Tozin.vazn'/>", align: "center"},
-                {name: "tedad", title: "<spring:message code='Tozin.tedad'/>", align: "center"},
-                {name: "unitKala", title: "<spring:message code='Tozin.unitKala'/>", align: "center"},
-                {name: "packName", title: "<spring:message code='Tozin.packName'/>", align: "center"},
-                {name: "haveCode", title: "<spring:message code='Tozin.haveCode'/>", align: "center"},
-                {name: "date", title: "<spring:message code='Tozin.date'/>", align: "center"},
-                {name: "tozinId", title: "<spring:message code='Tozin.tozinId'/>", align: "center"},
-                {name: "tozinDate", title: "<spring:message code='Tozin.tozinDate'/>", align: "center"},
-                {name: "tozinTime", title: "<spring:message code='Tozin.tozinTime'/>", align: "center"},
-                {name: "codeKala", title: "<spring:message code='Tozin.codeKala'/>", align: "center"},
-                {name: "nameKala", title: "<spring:message code='Tozin.nameKala'/>", align: "center"},
-                {name: "sourceId", title: "<spring:message code='Tozin.sourceId'/>", align: "center"},
-                {name: "source", title: "<spring:message code='Tozin.source'/>", align: "center"},
-                {name: "targetId", title: "<spring:message code='Tozin.targetId'/>", align: "center"},
-                {name: "target", title: "<spring:message code='Tozin.target'/>", align: "center"},
-                {name: "havalehName", title: "<spring:message code='Tozin.havalehName'/>", align: "center"},
-                {name: "havalehDate", title: "<spring:message code='Tozin.havalehDate'/>", align: "center"},
-                {name: "isFinal", title: "<spring:message code='Tozin.isFinal'/>", align: "center"},
-                {name: "targetPlantId",title: "<spring:message code='Tozin.targetPlantId'/>"},
-                {name: "sourcePlantId",title: "<spring:message code='Tozin.sourcePlantId'/>"}
-            ],
-// ######@@@@###&&@@###
-        fetchDataURL: "${contextPath}/api/tozinSales/spec-list"
+
+ var RestDataSource_TozinSales = isc.MyRestDataSource.create({
+ 	fields: [{
+ 			name: "id",
+ 			title: "id",
+ 			primaryKey: true,
+ 			canEdit: false,
+ 			hidden: true
+ 		},
+ 		{
+ 			name: "cardId",
+ 			title: "<spring:message code='Tozin.cardId'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "carNo1",
+ 			title: "<spring:message code='Tozin.carNo1'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "carNo3",
+ 			title: "<spring:message code='Tozin.carNo3'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "plak",
+ 			title: "<spring:message code='Tozin.plak'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "carName",
+ 			title: "<spring:message code='Tozin.carName'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "customer",
+ 			title: "<spring:message code='Tozin.customer'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "seller",
+ 			title: "<spring:message code='Tozin.seller'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "vazn1",
+ 			title: "<spring:message code='Tozin.vazn1'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "vazn2",
+ 			title: "<spring:message code='Tozin.vazn2'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "condition",
+ 			title: "<spring:message code='Tozin.condition'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "vazn",
+ 			title: "<spring:message code='Tozin.vazn'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "tedad",
+ 			title: "<spring:message code='Tozin.tedad'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "unitKala",
+ 			title: "<spring:message code='Tozin.unitKala'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "packName",
+ 			title: "<spring:message code='Tozin.packName'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "haveCode",
+ 			title: "<spring:message code='Tozin.haveCode'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "date",
+ 			title: "<spring:message code='Tozin.date'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "tozinId",
+ 			title: "<spring:message code='Tozin.tozinId'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "tozinDate",
+ 			title: "<spring:message code='Tozin.tozinDate'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "tozinTime",
+ 			title: "<spring:message code='Tozin.tozinTime'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "codeKala",
+ 			title: "<spring:message code='Tozin.codeKala'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "nameKala",
+ 			title: "<spring:message code='Tozin.nameKala'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "sourceId",
+ 			title: "<spring:message code='Tozin.sourceId'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "source",
+ 			title: "<spring:message code='Tozin.source'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "targetId",
+ 			title: "<spring:message code='Tozin.targetId'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "target",
+ 			title: "<spring:message code='Tozin.target'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "havalehName",
+ 			title: "<spring:message code='Tozin.havalehName'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "havalehDate",
+ 			title: "<spring:message code='Tozin.havalehDate'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "isFinal",
+ 			title: "<spring:message code='Tozin.isFinal'/>",
+ 			align: "center"
+ 		},
+ 		{
+ 			name: "targetPlantId",
+ 			title: "<spring:message code='Tozin.targetPlantId'/>"
+ 		},
+ 		{
+ 			name: "sourcePlantId",
+ 			title: "<spring:message code='Tozin.sourcePlantId'/>"
+ 		}
+ 	],
+ 	// ######@@@@###&&@@###
+ 	fetchDataURL: "${contextPath}/api/tozinSales/spec-list"
+ });
+
+
+    var fltTozinSales = isc.FilterBuilder.create({
+    	dataSource: RestDataSource_TozinSales
     });
-
-
-    var fltTozinSales = isc.FilterBuilder.create({dataSource: RestDataSource_TozinSales});
     var HLayout_TozinSales_labels = isc.HLayout.create({
-        width: "100%",
-        layoutMargin: 5,
-        height: 22,
-        showEdges: false,
-        members: [
-            isc.Label.create({width: 10}),
-            isc.IButton.create({
-                width: 100,
-                height: 22,
-                title: "",
-                prompt: "<spring:message code='global.search'/>",
-                icon: "icon/search.png",
-                click: function () {
-                    ListGrid_TozinSales.fetchData(fltTozinSales.getCriteria());
-                }
-            }),
-            isc.Label.create({width: "100%"}),
-            isc.Label.create({
-                contents: "<spring:message code='global.record'/>",
-                align: "center",
-                width: 50,
-                height: 22
-            }),
-            isc.Label.create({
-                ID: "TozinSales_labels_NavigationAz",
-                contents: "0",
-                border: "1px blue solid",
-                align: "center",
-                width: 40,
-                height: 22
-            }),
-            isc.Label.create({
-                contents: "<spring:message code='global.from'/>",
-                align: "center",
-                width: 50,
-                height: 22
-            }),
+    	width: "100%",
+    	layoutMargin: 5,
+    	height: 22,
+    	showEdges: false,
+    	members: [
+    		isc.Label.create({
+    			width: 10
+    		}),
+    		isc.IButton.create({
+    			width: 100,
+    			height: 22,
+    			title: "",
+    			prompt: "<spring:message code='global.search'/>",
+    			icon: "icon/search.png",
+    			click: function() {
+    				ListGrid_TozinSales.fetchData(fltTozinSales.getCriteria());
+    			}
+    		}),
+    		isc.Label.create({
+    			width: "100%"
+    		}),
+    		isc.Label.create({
+    			contents: "<spring:message code='global.record'/>",
+    			align: "center",
+    			width: 50,
+    			height: 22
+    		}),
+    		isc.Label.create({
+    			ID: "TozinSales_labels_NavigationAz",
+    			contents: "0",
+    			border: "1px blue solid",
+    			align: "center",
+    			width: 40,
+    			height: 22
+    		}),
+    		isc.Label.create({
+    			contents: "<spring:message code='global.from'/>",
+    			align: "center",
+    			width: 50,
+    			height: 22
+    		}),
 
-            isc.Label.create({
-                ID: "TozinSales_labels_NavigationTa",
-                border: "1px blue solid",
-                align: "center",
-                contents: "0",
-                width: 40,
-                height: 22
-            })
-        ]
+    		isc.Label.create({
+    			ID: "TozinSales_labels_NavigationTa",
+    			border: "1px blue solid",
+    			align: "center",
+    			contents: "0",
+    			width: 40,
+    			height: 22
+    		})
+    	]
     });
 
 
-    var DynamicForm_DailyReport_TozinSales = isc.DynamicForm.create({
-        width: "200",
-        wrapItemTitles: false,
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        action: "report/printDailyReportBandarAbbas",
-        target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 4,
-        fields:
-            [
-                {
-                    name: "toDay",
-                    ID: "toDayDate",
-                    title: "<spring:message code='dailyWarehouse.toDay'/>",
-                    type: 'text',
-                    align: "center",
-                    width: 150,
-                    colSpan: 1,
-                    titleColSpan: 1
-                    ,
-                    icons: [{
-                        src: "pieces/pcal.png", click: function () {
-                            displayDatePicker('toDayDate', this, 'ymd', '/');
-                        }
-                    }],
-                    defaultValue: "1398/01/26",
-                },
-            ]
-    });
+
+ var DynamicForm_DailyReport_TozinSales = isc.DynamicForm.create({
+ 	width: "200",
+ 	wrapItemTitles: false,
+ 	height: "100%",
+ 	setMethod: 'POST',
+ 	align: "center",
+ 	action: "report/printDailyReportBandarAbbas",
+ 	target: "_Blank",
+ 	canSubmit: true,
+ 	showInlineErrors: true,
+ 	showErrorText: true,
+ 	showErrorStyle: true,
+ 	errorOrientation: "right",
+ 	titleWidth: "200",
+ 	titleAlign: "right",
+ 	requiredMessage: "<spring:message code='validator.field.is.required'/>",
+ 	numCols: 4,
+ 	fields: [{
+ 		name: "toDay",
+ 		ID: "toDayDate",
+ 		title: "<spring:message code='dailyWarehouse.toDay'/>",
+ 		type: 'text',
+ 		align: "center",
+ 		width: 150,
+ 		colSpan: 1,
+ 		titleColSpan: 1,
+ 		icons: [{
+ 			src: "pieces/pcal.png",
+ 			click: function() {
+ 				displayDatePicker('toDayDate', this, 'ymd', '/');
+ 			}
+ 		}],
+ 		defaultValue: "1398/01/26",
+ 	}, ]
+ });
+
+
+
+
+
 
     var Menu_ListGrid_Forosh_Bargiri = isc.Menu.create({
         width: 150,
@@ -192,6 +325,7 @@
         ]
     });
 
+
     var Menu_ListGrid_Kharid_Konstantere = isc.Menu.create({
         width: 150,
         data: [
@@ -221,6 +355,7 @@
             }
         ]
     });
+
 
     var Menu_ListGrid_Kharid_Zaieat = isc.Menu.create({
         width: 200,
@@ -252,6 +387,7 @@
         ]
     });
 
+
     var MenuButton_Forosh_Bargiri = isc.MenuButton.create({
         ID: "MenuButton_Forosh_Bargiri",
         autoDraw: false,
@@ -279,55 +415,177 @@
         menu: Menu_ListGrid_Kharid_Zaieat
     });
 
-    var DynamicForm_TozinSales = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
-        fields:
-            [
 
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "cardId", title: "<spring:message code='Tozin.cardId'/>", align: "center"},
-                {name: "carNo1", title: "<spring:message code='Tozin.carNo1'/>", align: "center"},
-                {name: "carNo3", title: "<spring:message code='Tozin.carNo3'/>", align: "center"},
-                {name: "plak", title: "<spring:message code='Tozin.plak'/>", align: "center"},
-                {name: "carName", title: "<spring:message code='Tozin.carName'/>", align: "center"},
-                {name: "customer", title: "<spring:message code='Tozin.customer'/>", align: "center"},
-                {name: "seller", title: "<spring:message code='Tozin.seller'/>", align: "center"},
-                {name: "vazn1", title: "<spring:message code='Tozin.vazn1'/>", align: "center"},
-                {name: "vazn2", title: "<spring:message code='Tozin.vazn2'/>", align: "center"},
-                {name: "condition", title: "<spring:message code='Tozin.condition'/>", align: "center"},
-                {name: "vazn", title: "<spring:message code='Tozin.vazn'/>", align: "center"},
-                {name: "tedad", title: "<spring:message code='Tozin.tedad'/>", align: "center"},
-                {name: "unitKala", title: "<spring:message code='Tozin.unitKala'/>", align: "center"},
-                {name: "packName", title: "<spring:message code='Tozin.packName'/>", align: "center"},
-                {name: "haveCode", title: "<spring:message code='Tozin.haveCode'/>", align: "center"},
-                {name: "date", title: "<spring:message code='Tozin.date'/>", align: "center"},
-                {name: "tozinId", title: "<spring:message code='Tozin.tozinId'/>", align: "center"},
-                {name: "tozinDate", title: "<spring:message code='Tozin.tozinDate'/>", align: "center"},
-                {name: "tozinTime", title: "<spring:message code='Tozin.tozinTime'/>", align: "center"},
-                {name: "codeKala", title: "<spring:message code='Tozin.codeKala'/>", align: "center"},
-                {name: "nameKala", title: "<spring:message code='Tozin.nameKala'/>", align: "center"},
-                {name: "sourceId", title: "<spring:message code='Tozin.sourceId'/>", align: "center"},
-                {name: "source", title: "<spring:message code='Tozin.source'/>", align: "center"},
-                {name: "targetId", title: "<spring:message code='Tozin.targetId'/>", align: "center"},
-                {name: "target", title: "<spring:message code='Tozin.target'/>", align: "center"},
-                {name: "havalehName", title: "<spring:message code='Tozin.havalehName'/>", align: "center"},
-                {name: "havalehDate", title: "<spring:message code='Tozin.havalehDate'/>", align: "center"},
-                {name: "isFinal", title: "<spring:message code='Tozin.isFinal'/>", align: "center"},
 
-            ]
+        var DynamicForm_TozinSales = isc.DynamicForm.create({
+    	width: "100%",
+    	height: "100%",
+    	setMethod: 'POST',
+    	align: "center",
+    	canSubmit: true,
+    	showInlineErrors: true,
+    	showErrorText: true,
+    	showErrorStyle: true,
+    	errorOrientation: "right",
+    	titleWidth: "100",
+    	titleAlign: "right",
+    	requiredMessage: "<spring:message code='validator.field.is.required'/>",
+    	numCols: 1,
+    	fields: [
+
+    		{
+    			name: "id",
+    			title: "id",
+    			primaryKey: true,
+    			canEdit: false,
+    			hidden: true
+    		},
+    		{
+    			name: "cardId",
+    			title: "<spring:message code='Tozin.cardId'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "carNo1",
+    			title: "<spring:message code='Tozin.carNo1'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "carNo3",
+    			title: "<spring:message code='Tozin.carNo3'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "plak",
+    			title: "<spring:message code='Tozin.plak'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "carName",
+    			title: "<spring:message code='Tozin.carName'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "customer",
+    			title: "<spring:message code='Tozin.customer'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "seller",
+    			title: "<spring:message code='Tozin.seller'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "vazn1",
+    			title: "<spring:message code='Tozin.vazn1'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "vazn2",
+    			title: "<spring:message code='Tozin.vazn2'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "condition",
+    			title: "<spring:message code='Tozin.condition'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "vazn",
+    			title: "<spring:message code='Tozin.vazn'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "tedad",
+    			title: "<spring:message code='Tozin.tedad'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "unitKala",
+    			title: "<spring:message code='Tozin.unitKala'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "packName",
+    			title: "<spring:message code='Tozin.packName'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "haveCode",
+    			title: "<spring:message code='Tozin.haveCode'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "date",
+    			title: "<spring:message code='Tozin.date'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "tozinId",
+    			title: "<spring:message code='Tozin.tozinId'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "tozinDate",
+    			title: "<spring:message code='Tozin.tozinDate'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "tozinTime",
+    			title: "<spring:message code='Tozin.tozinTime'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "codeKala",
+    			title: "<spring:message code='Tozin.codeKala'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "nameKala",
+    			title: "<spring:message code='Tozin.nameKala'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "sourceId",
+    			title: "<spring:message code='Tozin.sourceId'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "source",
+    			title: "<spring:message code='Tozin.source'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "targetId",
+    			title: "<spring:message code='Tozin.targetId'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "target",
+    			title: "<spring:message code='Tozin.target'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "havalehName",
+    			title: "<spring:message code='Tozin.havalehName'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "havalehDate",
+    			title: "<spring:message code='Tozin.havalehDate'/>",
+    			align: "center"
+    		},
+    		{
+    			name: "isFinal",
+    			title: "<spring:message code='Tozin.isFinal'/>",
+    			align: "center"
+    		},
+
+    	]
     });
+
+
+
 
     var ToolStripButton_TozinSales_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -370,19 +628,21 @@
         }
     });
 
-    var ToolStrip_Actions_TozinSales = isc.ToolStrip.create({
-        width: "100%",
-        membersMargin: 10,
-        members:
-            [
-                MenuButton_Forosh_Bargiri,
-                MenuButton_Kharid_Konstantere,
-                MenuButton_Kharid_Zaieat,
-                ToolStripButton_TozinSales_Refresh,
-                ToolStripButton_TozinSales_sum,
-                DynamicForm_DailyReport_TozinSales
-            ]
+
+
+        var ToolStrip_Actions_TozinSales = isc.ToolStrip.create({
+    	width: "100%",
+    	membersMargin: 10,
+    	members: [
+    		MenuButton_Forosh_Bargiri,
+    		MenuButton_Kharid_Konstantere,
+    		MenuButton_Kharid_Zaieat,
+    		ToolStripButton_TozinSales_Refresh,
+    		ToolStripButton_TozinSales_sum,
+    		DynamicForm_DailyReport_TozinSales
+    	]
     });
+
 
     var HLayout_TozinSales_Actions = isc.HLayout.create({
         width: "100%",
@@ -432,36 +692,39 @@
             Window_TozinSales.close();
         }
     });
+
+
     var Window_TozinSales = isc.Window.create({
-        title: "<spring:message code='warehouses.title'/> ",
-        width: 580,
-        height: 500,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                DynamicForm_TozinSales,
-                isc.HLayout.create({
-                    width: "100%",
-                    members:
-                        [
+    	title: "<spring:message code='warehouses.title'/> ",
+    	width: 580,
+    	height: 500,
+    	autoSize: true,
+    	autoCenter: true,
+    	isModal: true,
+    	showModalMask: true,
+    	align: "center",
+    	autoDraw: false,
+    	dismissOnEscape: true,
+    	closeClick: function() {
+    		this.Super("closeClick", arguments)
+    	},
+    	items: [
+    		DynamicForm_TozinSales,
+    		isc.HLayout.create({
+    			width: "100%",
+    			members: [
 
-                            IButton_TozinSales_Save,
-                            isc.Label.create({width: 5,})
-                            , IButton_TozinSales_Cancel
-                        ]
-                })
+    				IButton_TozinSales_Save,
+    				isc.Label.create({
+    					width: 5,
+    				}), IButton_TozinSales_Cancel
+    			]
+    		})
 
-            ]
+    	]
     });
+
+
     var ListGrid_TozinSales = isc.ListGrid.create({
         width: "100%",
         height: "100%",

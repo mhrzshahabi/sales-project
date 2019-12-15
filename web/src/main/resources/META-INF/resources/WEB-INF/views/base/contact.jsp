@@ -397,7 +397,7 @@
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 50, align: "center" , hidden: true },
+                    {name: "id", width: 500, align: "center" , hidden: true },
                     {name: "nameFa", width: 500, align: "center"},
                 ]
             },
@@ -659,19 +659,19 @@
                 name: "bankbankName", dataPath: "bank.bankName",
                 title: "<spring:message code='contactAccount.nameFA'/>",
                 align: "center",
-                width: 100
+                width: 300
             },
             {
                 name: "bankAccount",
                 title: "<spring:message code='contactAccount.accountNumber'/>",
                 align: "center",
-                width: 150, type: "number"
+                width: 300, type: "number"
             },
             {
                 name: "bankShaba",
                 title: "<spring:message code='contactAccount.shabaAccount'/>",
                 align: "center",
-                width: 250
+                width: 300
             },
             {
                 name: "bankSwift",
@@ -820,8 +820,8 @@
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "bankName", width: 150, align: "center"},
-                    {name: "bankCode", width: 150, align: "center"}
+                    {name: "bankName", width: 300, align: "center"},
+                    {name: "bankCode", width: 300, align: "center"}
                 ]
             },
             {
@@ -917,8 +917,8 @@
                 pickListWidth: "300",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
-                pickListFields: [{name: "bankName", width: 150, align: "center"},
-                    {name: "bankCode", width: 150, align: "center"}
+                pickListFields: [{name: "bankName", width: "300", align: "center"},
+                    {name: "bankCode", width: "300", align: "center"}
                 ]
             },
             {

@@ -534,10 +534,6 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
     startsWithTitle: "tt"
 });
 
-
-
-
-
     var HLayout_Grid_ShipmentByWarehouseIssueCons  = isc.HLayout.create({
         width: "100%",
         height: "100%",

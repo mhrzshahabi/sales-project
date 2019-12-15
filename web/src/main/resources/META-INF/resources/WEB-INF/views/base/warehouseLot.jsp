@@ -137,7 +137,6 @@
     function ListGrid_WarehouseLot_edit() {
 
         var record = ListGrid_WarehouseLot.getSelectedRecord();
-
         if (record == null || record.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -317,7 +316,6 @@
              width: 400
          },
 
-
          {
              name: "contractId",
              title: "<spring:message code='contract.id'/>",
@@ -332,6 +330,7 @@
          }
      ]
  });
+
     var ToolStripButton_WarehouseLot_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -395,6 +394,7 @@
             );
         }
     });
+
     var IButton_WarehouseLot_Cancel = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
@@ -403,6 +403,7 @@
             Window_WarehouseLot.close();
         }
     });
+
     var Window_WarehouseLot = isc.Window.create({
         title: "<spring:message code='molybdenum.title'/> ",
         width: 580,
@@ -537,8 +538,6 @@
                 title: "<spring:message code='contract.used'/>",
                 align: "center"
             },
-
-
         ],
         sortField: 0,
         autoFetchData: true,
