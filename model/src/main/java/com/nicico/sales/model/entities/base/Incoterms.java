@@ -18,7 +18,7 @@ public class Incoterms extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INCOTERMS")
-	@SequenceGenerator(name = "SEQ_INCOTERMS", sequenceName = "SEQ_INCOTERMS")
+	@SequenceGenerator(name = "SEQ_INCOTERMS", sequenceName = "SEQ_INCOTERMS", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

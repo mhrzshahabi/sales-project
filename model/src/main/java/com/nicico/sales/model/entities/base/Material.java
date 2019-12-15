@@ -22,7 +22,7 @@ public class Material extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_MATERIAL")
-	@SequenceGenerator(name = "SEQ_MATERIAL", sequenceName = "SEQ_MATERIAL")
+	@SequenceGenerator(name = "SEQ_MATERIAL", sequenceName = "SEQ_MATERIAL", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

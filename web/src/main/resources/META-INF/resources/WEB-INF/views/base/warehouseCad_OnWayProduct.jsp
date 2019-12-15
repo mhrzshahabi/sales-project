@@ -448,7 +448,6 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_WarehouseYard,
                 displayField: "nameFA",
-                defaultValue: "9",
                 valueField: "id",
                 pickListWidth: "215",
                 pickListHeight: "215",
@@ -459,7 +458,12 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 pickListFields: [{
                     name: "nameFA"
                 }],
-                disabled: true
+                changed: function (form, item, value) {
+                if(!item.getDisplayValue(value).includes("کاتد")){
+                    isc.warn("<spring:message code='warehouseYard.alert'/>");
+                    form.getItem("warehouseYardId").setValue("");
+                }
+                }
             }, {
                 name: "sourceLoadDate",
                 title: "<spring:message code='warehouseCad.sourceLoadDate'/>",

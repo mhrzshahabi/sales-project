@@ -18,7 +18,7 @@ public class WarehouseYard extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WAREHOUSE_YARD")
-	@SequenceGenerator(name = "SEQ_WAREHOUSE_YARD", sequenceName = "SEQ_WAREHOUSE_YARD")
+	@SequenceGenerator(name = "SEQ_WAREHOUSE_YARD", sequenceName = "SEQ_WAREHOUSE_YARD", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

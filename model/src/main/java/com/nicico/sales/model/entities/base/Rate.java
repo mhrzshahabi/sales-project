@@ -18,7 +18,7 @@ public class Rate extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_RATE")
-	@SequenceGenerator(name = "SEQ_RATE", sequenceName = "SEQ_RATE")
+	@SequenceGenerator(name = "SEQ_RATE", sequenceName = "SEQ_RATE", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

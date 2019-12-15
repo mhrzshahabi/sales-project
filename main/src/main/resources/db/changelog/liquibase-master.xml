@@ -6,7 +6,6 @@
 				   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
 	<!--<include file="classpath:/db/changelog/changes/liq-activiti.xml"/>-->
-	<!--<include file="classpath:/db/changelog/changes/liq-001.xml"/>-->
-	<!--<include file="classpath:/db/changelog/changes/liq-view.xml"/>-->
+	<!--<include file="classpath:/db/changelog/changes/liq-first.xml"/>-->
 
 </databaseChangeLog>

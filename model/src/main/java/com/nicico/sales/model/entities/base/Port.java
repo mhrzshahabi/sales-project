@@ -22,7 +22,7 @@ public class Port extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PORT")
-	@SequenceGenerator(name = "SEQ_PORT", sequenceName = "SEQ_PORT")
+	@SequenceGenerator(name = "SEQ_PORT", sequenceName = "SEQ_PORT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

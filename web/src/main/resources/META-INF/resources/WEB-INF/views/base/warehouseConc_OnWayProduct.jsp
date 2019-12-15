@@ -148,12 +148,6 @@
         }
     });
 
-    var yardCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "nameFA", operator: "contains", value: 'نسانتره'}]
-    };
-
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         setMethod: 'POST',
         align: "center",
@@ -284,7 +278,6 @@
             type: 'string',
             editorType: "SelectItem",
             optionDataSource: RestDataSource_WarehouseYard,
-            optionCriteria: yardCriteria,
             displayField: "nameFA",
             valueField: "id",
             pickListWidth: "215",
@@ -295,7 +288,13 @@
             },
             pickListFields: [{
                 name: "nameFA"
-            }]
+            }],
+            changed: function (form, item, value) {
+                if(!item.getDisplayValue(value).includes("نسانتره")){
+                    isc.warn("<spring:message code='warehouseYard.alert'/>");
+                    form.getItem("warehouseYardId").setValue("");
+                }
+                }
         }, {
             name: "sourceLoadDate",
             title: "<spring:message code='warehouseCad.sourceLoadDate'/>",

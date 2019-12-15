@@ -18,7 +18,7 @@ public class Groups extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_GROUPS")
-	@SequenceGenerator(name = "SEQ_GROUPS", sequenceName = "SEQ_GROUPS")
+	@SequenceGenerator(name = "SEQ_GROUPS", sequenceName = "SEQ_GROUPS", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
