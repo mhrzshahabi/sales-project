@@ -1118,7 +1118,7 @@ var criteria1 = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{
-        fieldName: "materialcode",
+        fieldName: "material.code",
         operator: "equals",
         value: "26030090"
     }]
