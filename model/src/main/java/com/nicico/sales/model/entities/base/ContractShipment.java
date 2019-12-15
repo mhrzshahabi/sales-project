@@ -50,7 +50,7 @@ public class ContractShipment extends Auditable {
 	@Column(name = "AMOUNT")
 	private Double amount;
 
-	@Column(name = "SEND_DATE", length = 20)
+	@Column(name = "SEND_DATE", length = 50)
 	private String sendDate;
 
 	@Column(name = "DURATION")

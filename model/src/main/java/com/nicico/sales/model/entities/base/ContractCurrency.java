@@ -30,7 +30,7 @@ public class ContractCurrency extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CURRENCY_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contractcurrcy2CURRENCY"))
+	@JoinColumn(name = "CURRENCY_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "ContractCurrency2CURRENCY"))
 	private Currency currency;
 
 	@Column(name = "CURRENCY_ID")
@@ -38,7 +38,7 @@ public class ContractCurrency extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contractcurrcy2contract"))
+	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "ContractCurrency2contract"))
 	private Contract contract;
 
 	@Column(name = "CONTRACT_ID")

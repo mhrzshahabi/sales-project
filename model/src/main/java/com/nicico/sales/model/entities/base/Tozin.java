@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Subselect("select * from tbl_tozin")
+@Subselect("select * from view_tozin")
 public class Tozin extends Auditable {
 
 	@Id
