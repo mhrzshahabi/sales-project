@@ -926,7 +926,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton , CharterButton ]})
+            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton /*, CharterButton*/ ]})
             // , purchaseContractButton
             // , shipmentContractButton
             // , inspectionContractButton
