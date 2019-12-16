@@ -278,7 +278,7 @@ var Window_ContactCad = isc.Window.create({
                                 article10_quality.setValue("fullArticle10",textMain.Article10);
                                 article11_quality.setValue("fullArticle11",textMain.Article11);
                                 article12_quality.setValue("fullArticle12",textMain.Article12);
-                        },100)
+                        },300)
                     }else{
                         alert(RpcResponse_o.data);
                         isc.say(RpcResponse_o.data);
@@ -287,7 +287,6 @@ var Window_ContactCad = isc.Window.create({
             }))
             var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
             setTimeout(function(){RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
-                        contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("mobile_ContactAgentSeller", data[0].mobile_ContactAgentSeller)
@@ -383,7 +382,7 @@ var Window_ContactCad = isc.Window.create({
                                      }
 
                         ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-            })},100)
+            })},300)
         }
     }});
 
