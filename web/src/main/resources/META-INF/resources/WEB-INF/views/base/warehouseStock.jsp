@@ -322,6 +322,7 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
             name: "plant"
         }, {
             name: "warehouseYardnameFA" , dataPath:"warehouseYard.nameFA"  ,
+            title: "<spring:message code='warehouseCad.yard'/>"
         }, {
             name: "sheet"
         }, {
@@ -333,7 +334,8 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         }, {
             name: "lot"
         }, {
-            name: "materialItemgdsName" , dataPath:"materialItem.gdsName"  ,
+            name: "materialItemgdsName" , dataPath:"materialItem.gdsName",
+            title: "<spring:message code='material.descp'/>"
         }],
         sortField: 0,
         autoFetchData: true,

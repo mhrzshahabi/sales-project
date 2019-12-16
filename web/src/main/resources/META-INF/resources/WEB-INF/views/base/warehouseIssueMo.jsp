@@ -857,7 +857,7 @@ var ListGrid_WarehouseIssueMo = isc.ListGrid.create({
         /*message*/
         {
             name: "bijak",
-            title: "<spring:message code='warehouseIssueMo.bijak'/>",  /*M*/
+            title: "<spring:message code='warehouseIssueCathode.bijak'/>",  /*M*/
             width: "10%",
             required: true,
             keyPressFilter: "[0-9]",
@@ -894,7 +894,7 @@ var ListGrid_WarehouseIssueMo = isc.ListGrid.create({
             }]
         }, {
             name: "amountPms",
-            title: "<spring:message code='warehouseIssueMo.amountPms'/>",  /*M*/
+            title: "<spring:message code='warehouseIssueCathode.amountPms'/>",  /*M*/
             width: "10%",
             required: true,
             length: "15",
@@ -918,21 +918,21 @@ var ListGrid_WarehouseIssueMo = isc.ListGrid.create({
             length: "15"
         }, {
             name: "bundle",
-            title: "<spring:message code='warehouseIssueMo.bundle'/>", /*M*/
+            title: "<spring:message code='warehouseIssueCathode.bundle'/>", /*M*/
             width: "10%",
             required: true,
             keyPressFilter: "[0-9]",
             length: "15"
         }, {
             name: "sheet",
-            title: "<spring:message code='warehouseIssueMo.sheet'/>",  /*M*/
+            title: "<spring:message code='warehouseIssueCathode.sheet'/>",  /*M*/
             width: "10%",
             required: true,
             keyPressFilter: "[0-9]",
             length: "15"
         }, {
             name: "totalAmount",
-            title: "<spring:message code='warehouseIssueMo.totalAmount'/>",  /*M*/
+            title: "<spring:message code='warehouseIssueCathode.totalAmount'/>",  /*M*/
             width: "10%",
             required: true,
             keyPressFilter: "[0-9]",
@@ -1015,7 +1015,7 @@ var ListGrid_WarehouseIssueMo = isc.ListGrid.create({
     /******************* End Attachment **********************/
 
 isc.SectionStack.create({
-    ID: "ShipmentMoistureHeader_Section_Stack",
+    ID: "ShipmentMoistureHeader_Section_StackMo",
     sections: [{
         title: "<spring:message code='Shipment.title'/>",
         items: VLayout_Body_ShipmentByWarehouseIssueMo,
@@ -1060,4 +1060,3 @@ function ListGrid_WarehouseIssueMo_refresh() {
 
     });
 }
-

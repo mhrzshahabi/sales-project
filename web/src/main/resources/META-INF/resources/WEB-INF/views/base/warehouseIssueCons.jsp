@@ -1098,7 +1098,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
 
 
 isc.SectionStack.create({
-    ID: "ShipmentMoistureHeader_Section_Stack",
+    ID: "ShipmentMoistureHeader_Section_StackCons",
     sections: [{
         title: "<spring:message code='Shipment.title'/>",
         items: VLayout_Body_ShipmentByWarehouseIssueCons,

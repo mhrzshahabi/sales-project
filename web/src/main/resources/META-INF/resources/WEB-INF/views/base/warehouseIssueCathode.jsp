@@ -1113,7 +1113,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
     /******************* End Attachment **********************/
 
 isc.SectionStack.create({
-    ID:"ShipmentMoistureHeader_Section_Stack",
+    ID:"ShipmentMoistureHeader_Section_StackCathode",
     sections:
     [
          {title:"<spring:message code='Shipment.title'/>", items:VLayout_Body_ShipmentByWarehouseIssueCathode   ,expanded:true}

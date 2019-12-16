@@ -232,7 +232,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "bijackNo", width: "16.66%"},
                 {name: "warehouseNo" , width: "16.66%"},
-                {name: "materialItem.gdsName", width: "16.66%"},
+                {name: "materialItemgdsName", width: "16.66%"},
                 {name: "movementType", width: "16.66%"},
                 {name: "plant", width: "16.66%"},
                 {name: "sourceLoadDate", width: "16.66%"},
