@@ -1674,11 +1674,11 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
         items: [
             {name: "title",disabled:"false",defaultValue:"Prefix",width:"80",title: "TITLE",startRow:true},       //title
             {name: "titleValue",disabled:"false",defaultValue:"Value",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "titleTolerance",disabled:"false",defaultValue:"Tolerance",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "titleTolerance",disabled:"false",keyPressFilter: "[0-9]",defaultValue:"Tolerance",title: "",width:"100",showTitle: false,startRow:false},
             {name: "titleUnit",disabled:"false",defaultValue:"Unit",title: "",width:"100",showTitle: false,startRow:false},
             {name: "PrefixMolybdenum",width:"80",title: "MO",defaultValue: "64(+-)4",startRow:true},       //molybdenum
-            {name: "molybdenum",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "toleranceMO",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "molybdenum",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceMO",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitMO",title:"",width:"100",showTitle:false,startRow:false,editorType: "SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1689,8 +1689,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixCopper",width:"80",defaultValue: "<=1.7",title: "CU",startRow:true},           //copper
-            {name: "copper",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceCU",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "copper",keyPressFilter: "[0-9]",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
+            {name: "toleranceCU",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitCU",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1703,7 +1703,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixC",width:"80",defaultValue: "<=0.04", title: "C",startRow:true},            //C
             {name: "typical_c",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceC",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceC",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitC",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1716,7 +1716,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixS",width:"80",defaultValue: "<=0.12",title: "S",startRow:true},                 //S
             {name: "typical_s",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceS",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceS",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitS",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1729,7 +1729,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixPb",width:"80",defaultValue: "<=0.12", title: "Pb",startRow:true},               //Pb
             {name: "typical_pb",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "tolerancePb",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "tolerancePb",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitPb",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1742,7 +1742,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixP",width:"80",defaultValue: "<=0.04", title: "P",startRow:true},               //P
             {name: "typical_p",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceP",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceP",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitP",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1755,7 +1755,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixSi",width:"80", defaultValue: "<=1.1",title: "Si",startRow:true},               //Si
             {name: "typical_Si",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceSi",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceSi",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitSi",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -3986,6 +3986,9 @@ function itemsEditDefinitions(key,value,id) {
                     title: "NAME",
                     changed: function (form, item, value) {
                         DynamicForm_ContactParameter_ValueNumber8.setValue(key, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
+                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
+                        delete dataSaveValueNumber8.feild_all_defintitons_save;
+                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
                     }
                 },{
                     name:"button"+id,

@@ -18,7 +18,6 @@ import java.util.List;
 public class WarehouseYardDTO {
     private String warehouseNo;
 	private String nameFA;
-	private String nameEN;
 
 	// ------------------------------
 
