@@ -75,16 +75,10 @@ public class ShipmentFormController {
                         replacePOI(doc, "port", " به مقصد " + port[1] );
 
 
-                        String[] portw = shipment.getPortByDischarge().getPort().split(",");
                         replacePOI(doc, "comp", " به مقصد بندر " + port[0] + " در کشور " + port[1] );
-
-                        /**/
-
                         replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()) );
-
-                        /*Date */
                         replacePOI(doc, "dateday", dateday );
-                        /*End Date*/
+
 
 
                         response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_bulk.doc\"");
@@ -114,7 +108,6 @@ public class ShipmentFormController {
 
 
                         replacePOI(doc,"noContainer", String.valueOf(shipment.getNoContainer()));
-
                         replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
 
                         String[] port = shipment.getPortByDischarge().getPort().split(",");
@@ -123,19 +116,12 @@ public class ShipmentFormController {
 
                         String[] portw = shipment.getPortByDischarge().getPort().split(",");
                         replacePOI(doc, "comp", " به مقصد بندر " + port[0] + " در کشور " + port[1] );
-
-
-
                         replacePOI(doc, "containerType", shipment.getContainerType());
                         replacePOI(doc, "blNumbers" ,   shipment.getBlNumbers());
-
-
                         replacePOI(doc, "bookingno" ,   "(Booking No."+shipment.getBookingCat() + ")" );
 
 
-                        /*Date*/
                         replacePOI(doc, "dateday", dateday );
-                        /*End Date*/
 
 
                         response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_Container.doc\"");
@@ -164,7 +150,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "company", shipment.getContact().getNameFA());
 
 
-                /*N*/
+
                     String[] port = shipment.getPortByDischarge().getPort().split(",");
                     replacePOI(doc, "port", " به مقصد " + port[1] );
 
@@ -172,18 +158,14 @@ public class ShipmentFormController {
                     String[] portw = shipment.getPortByDischarge().getPort().split(",");
                     replacePOI(doc, "comp", " به مقصد بندر " + port[0] + "در کشور " + port[1] );
 
-                    /*Date*/
-                replacePOI(doc, "dateday", dateday );
-                    /*End Date*/
 
+                     replacePOI(doc, "dateday", dateday );
 
                 List<String> inspector = shipmentService.inspector();
                 for(int i = 0 ; i < inspector.size() ; i++){
 
                     replacePOI(doc, "inspector",  inspector.get(i));
                 }
-
-
 
                 response.setHeader("Content-Disposition", "attachment; filename=\"Copper_Concentrate_bulk.doc\"");
                 response.setContentType("application/vnd.ms-word");
@@ -201,9 +183,9 @@ public class ShipmentFormController {
                 stream = new ClassPathResource("reports/word/Molybdenum Oxide.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
                 doc = (XWPFDocument) new XWPFDocument(stream);
-                /*Date*/
+
                 replacePOI(doc, "dateday", dateday );
-                /*End Date*/
+
 
                 replacePOI(doc,"contract_amount", shipment.getAmount().toString());
                 replacePOI(doc,"unitNameFa", shipment.getMaterial().getUnit().getNameFA());
@@ -214,16 +196,12 @@ public class ShipmentFormController {
                 replacePOI(doc, "containerType",    shipment.getContainerType() +  " فوت "   );
                 replacePOI(doc, "buyer",     shipment.getContact().getNameEN());
                 replacePOI(doc, "company", shipment.getContactByAgent().getNameEN());
-//                replacePOI(doc, "ffff", shipment.getContact().getNameFA());
 
 
                 String[] portw = shipment.getPortByDischarge().getPort().split(",");
                 replacePOI(doc, "comp", "به مقصد بندر " + portw[0] + "در کشور " + portw[1] );
 
 
-
-                //***************************************************************************************************************************
-                /*Add By Jalal Don't Forget To Add Moli */
 
                 String shipId = shipment.getContract().getId();
                 List<String> lotnamelist = shipmentService.findLotname(shipId);
@@ -257,40 +235,12 @@ public class ShipmentFormController {
 
                         }
 
-                }else {
-                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); //TODO
                 }
 
                 int sizelotnamelist = lotnamelist.size();
                 replacePOI(doc,"ola", String.valueOf(sizelotnamelist));
                 replacePOI(doc,"nocont",  shipment.getNoContainer().toString());
 
-
-//                for(int i = 0 ; i < lotnamelist.size() ; i++ )
-//                {
-//                    for(int j = 0 ; j < i ; j++){
-//                        replacePOI(doc,"lot",   lotnamelist.get(i)  + " & " + lotnamelist.get(j) );
-//
-//                        String jj = lotnamelist.get(i);
-//                        replacePOI(doc,"lone",  jj  );
-//                        replacePOI(doc,"ltwo",    lotnamelist.get(j));
-//
-//                    }
-//                }
-//                for(int k = 0 ; k < bookingNo.size(); k++)
-//                {
-//                    for (int s = 0 ; s < k ; s++){
-//                        replacePOI(doc,"booking",    bookingNo.get(k) + lotnamelist.get(jj) + "-" +  bookingNo.get(s));
-//                    }
-//                }
-
-
-
-
-
-
-                /*End By Jalal For Lot */
-//*****************************************************************************************************************************
 
                 response.setHeader("Content-Disposition", "attachment; filename=\"Molybdenum Oxide.doc\"");
                 response.setContentType("application/vnd.ms-word");
@@ -310,7 +260,7 @@ public class ShipmentFormController {
 
     }
 
-    //****************************************************************************************************************
+
     private static XWPFDocument replaceDynamicTable(XWPFDocument doc,ShipmentDTO.Info shipment) throws NumberFormatException, Exception {
         List<XWPFTable> tables = doc.getTables();
         XWPFTable table = tables.get(1);
