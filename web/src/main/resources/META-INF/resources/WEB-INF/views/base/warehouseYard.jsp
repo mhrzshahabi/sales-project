@@ -75,7 +75,7 @@
                     isc.Button.create({title: "<spring:message code='global.no'/>"})
                 ],
 
-/*  actionURL: "${contextPath}/api/warehouseYard/" + WarehouseYardId,*/
+
 
                 buttonClick: function (button, index) {
                     this.hide();
