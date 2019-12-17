@@ -205,426 +205,402 @@
     });
 
 
+   var IButton_ShipmentContract_Cancel = isc.IButton.create({
+   	top: 260,
+   	title: "<spring:message code='global.cancel'/>",
+   	icon: "pieces/16/icon_delete.png",
+   	click: function() {
+   		Window_ShipmentContract.close();
+   	}
+   });
 
-    var IButton_ShipmentContract_Cancel = isc.IButton.create({
-        top: 260,
-        title: "<spring:message code='global.cancel'/>",
-        icon: "pieces/16/icon_delete.png",
-        click: function () {
-            Window_ShipmentContract.close();
-        }
-    });
 
     function ListGrid_ShipmentContract_refresh() {
-        ListGrid_ShipmentContract.invalidateCache();
+    	ListGrid_ShipmentContract.invalidateCache();
     }
 
+
     function ListGrid_ShipmentContract_edit() {
-        var record = ListGrid_ShipmentContract.getSelectedRecord()
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            DynamicForm_ShipmentContract.editRecord(record);
-             Window_ShipmentContract.show();
-        }
+    	var record = ListGrid_ShipmentContract.getSelectedRecord()
+    	if (record == null || record.id == null) {
+    		isc.Dialog.create({
+    			message: "<spring:message code='global.grid.record.not.selected'/>",
+    			icon: "[SKIN]ask.png",
+    			title: "<spring:message code='global.message'/>",
+    			buttons: [isc.Button.create({
+    				title: "<spring:message code='global.ok'/>"
+    			})],
+    			buttonClick: function() {
+    				this.hide();
+    			}
+    		});
+    	} else {
+    		DynamicForm_ShipmentContract.editRecord(record);
+    		Window_ShipmentContract.show();
+    	}
     }
 
 
     function ListGrid_ShipmentContract_remove() {
 
-        var record = ListGrid_ShipmentContract.getSelectedRecord();
+    	var record = ListGrid_ShipmentContract.getSelectedRecord();
 
-   if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
-                ],
-
-               buttonClick: function (button, index) {
-                    this.hide();
-                    if (index == 0) {
-                       var shipmentContractId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                              actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
-                                httpMethod: "DELETE",
-                                callback: function (resp) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                 ListGrid_ShipmentContract_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
-                    }
-                }
-            });
-        }
+    	if (record == null || record.id == null) {
+    		isc.Dialog.create({
+    			message: "<spring:message code='global.grid.record.not.selected'/>",
+    			icon: "[SKIN]ask.png",
+    			title: "<spring:message code='global.message'/>",
+    			buttons: [isc.Button.create({
+    				title: "<spring:message code='global.ok'/>"
+    			})],
+    			buttonClick: function() {
+    				this.hide();
+    			}
+    		});
+    	} else {
+    		isc.Dialog.create({
+    			message: "<spring:message code='global.grid.record.remove.ask'/>",
+    			icon: "[SKIN]ask.png",
+    			title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+    			buttons: [
+    				isc.Button.create({
+    					title: "<spring:message code='global.yes'/>"
+    				}),
+    				isc.Button.create({
+    					title: "<spring:message code='global.no'/>"
+    				})
+    			],
+    			buttonClick: function(button, index) {
+    				this.hide();
+    				if (index == 0) {
+    					var shipmentContractId = record.id;
+    					isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+    						actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
+    						httpMethod: "DELETE",
+    						callback: function(resp) {
+    							if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+    								ListGrid_ShipmentContract_refresh();
+    								isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+    							} else {
+    								isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+    							}
+    						}
+    					}));
+    				}
+    			}
+    		});
+    	}
     }
 
-    var Menu_ListGrid_ShipmentContract = isc.Menu.create({
-    	width: 150,
-    	data: [{
-    			title: "<spring:message code='global.form.refresh'/>",
-    			icon: "pieces/16/refresh.png",
-    			click: function() {
-    				// DynamicForm_ShipmentContract.clearValues();
-    				Window_ShipmentContract.show();
-    			}
-    		},
-    		{
-    			title: "<spring:message code='global.form.new'/>",
-    			icon: "pieces/16/icon_add.png",
-    			click: function() {}
-    		},
-    		{
-    			title: "<spring:message code='global.form.edit'/>",
-    			icon: "pieces/16/icon_edit.png",
-    			click: function() {
-    				ListGrid_ShipmentContract_edit();
-    			}
-    		},
-    		{
-    			title: "<spring:message code='global.form.remove'/>",
-    			icon: "pieces/16/icon_delete.png",
-    			click: function() {
-    				ListGrid_ShipmentContract_remove();
-    			}
-    		}
-    	]
-    });
 
 
+var Menu_ListGrid_ShipmentContract = isc.Menu.create({
+	width: 150,
+	data: [{
+			title: "<spring:message code='global.form.refresh'/>",
+			icon: "pieces/16/refresh.png",
+			click: function() {
+				// DynamicForm_ShipmentContract.clearValues();
+				Window_ShipmentContract.show();
+			}
+		},
+		{
+			title: "<spring:message code='global.form.new'/>",
+			icon: "pieces/16/icon_add.png",
+			click: function() {}
+		},
+		{
+			title: "<spring:message code='global.form.edit'/>",
+			icon: "pieces/16/icon_edit.png",
+			click: function() {
+				ListGrid_ShipmentContract_edit();
+			}
+		},
+		{
+			title: "<spring:message code='global.form.remove'/>",
+			icon: "pieces/16/icon_delete.png",
+			click: function() {
+				ListGrid_ShipmentContract_remove();
+			}
+		}
+	]
+});
 
 
 
 var dash = "\n";
+ var DynamicForm_ShipmentContract = isc.DynamicForm.create({
+	styleName: 'Shipment_style',
+	width: "1000",
+	height: "100%",
+	wrapItemTitles: false,
+	autoDraw: false,
+	autoFocus: "true",
+	dataPageSize: 50,
+	setMethod: 'POST',
+	align: "center",
+	canSubmit: true,
+	showInlineErrors: true,
+	showErrorText: true,
+	showErrorStyle: true,
+	errorOrientation: "right",
+	titleWidth: "100",
+	titleAlign: "right",
+	numCols: 7,
+	membersMargin: '5px',
+	requiredMessage: "<spring:message code='validator.field.is.required'/>", //فیلد اجباری است.
+	fields: [{
+			name: "id",
+			title: "id",
+			primaryKey: true,
+			canEdit: false,
+			hidden: true
+		},
 
- var  DynamicForm_ShipmentContract = isc.DynamicForm.create({
-    styleName:'Shipment_style',
- 	width: "1000",
- 	height: "100%",
- 	wrapItemTitles: false,
- 	autoDraw: false,
- 	autoFocus: "true",
-     dataPageSize: 50,
- 	setMethod: 'POST',
- 	align: "center",
- 	canSubmit: true,
- 	showInlineErrors: true,
- 	showErrorText: true,
- 	showErrorStyle: true,
- 	errorOrientation: "right",
- 	titleWidth: "100",
- 	titleAlign: "right",
- 	numCols: 7,
-    membersMargin:'5px',
- 	requiredMessage: "<spring:message code='validator.field.is.required'/>", //فیلد اجباری است.
- 	fields: [{
- 			name: "id",
- 			title: "id",
- 			primaryKey: true,
- 			canEdit: false,
- 			hidden: true
- 		},
+		{
+			name: "no",
+			title: "<spring:message code='shipmentContract.no'/>", //شماره
+			align: "center",
+			colSpan: 2,
+			width: "200",
+			required: true,
+		},
 
- 		{
- 			name: "no",
- 			title: "<spring:message code='shipmentContract.no'/>", //شماره
- 			align: "center",
- 			colSpan: 2,
- 			width: "200",
-            required:true,
- 		},
+		{
+			colSpan: 2,
+			name: "capacity",
+			title: "<spring:message code='shipmentContract.capacity'/>", //ظرفیت
+			align: "center",
+			width: "200",
+			required: true,
+		},
 
- 		<%--{--%>
- 		<%--	name: "select_transport",--%>
- 		<%--	title: "<spring:message code='shipmentContract.selected'/>",--%>
- 		<%--	align: "center",--%>
- 		<%--	colSpan:2,--%>
- 		<%--	width: "200",--%>
- 		<%--	icons: [{--%>
- 		<%--		src: "pieces/add-selection.png",--%>
- 		<%--		click: function() {--%>
- 		<%--			warehouseIssueCathode_bijak();--%>
+		{
+			colSpan: 2,
+			name: "laycanEnd",
+			ID: "laycanEnd",
+			title: "<spring:message code='shipmentContract.laycanEnd'/>", //پایان لغو تاریخ
+			align: "right",
+			width: "200",
+			icons: [{
+				src: "pieces/pcal.png",
+				click: function() {
+					displayDatePicker('laycanEnd', this, 'ymd', '/');
+				}
+			}],
+			blur: function() {
+				var value = DynamicForm_ShipmentContract.getItem('laycanEnd').getValue();
+				if (value != null && value.length != 10 && value != "") {
+					DynamicForm_ShipmentContract.setValue('laycanEnd', CorrectDate(value))
+				}
+			},
 
- 		<%--		}--%>
- 		<%--	}] , required:true,--%>
- 		<%--},--%>
-
- 		{
- 		    colSpan: 2,
- 			name: "capacity",
- 			title: "<spring:message code='shipmentContract.capacity'/>", //ظرفیت
- 			align: "center",
- 			width: "200",
-            required:true,
- 		},
-
- 		{
- 		    colSpan: 2,
- 			name: "laycanEnd",
- 			ID: "laycanEnd",
- 			title: "<spring:message code='shipmentContract.laycanEnd'/>", //پایان لغو تاریخ
- 			align: "right",
- 			width: "200",
- 			icons: [{
- 				src: "pieces/pcal.png",
- 				click: function() {
- 					displayDatePicker('laycanEnd', this, 'ymd', '/');
- 				}
-
- 			}],
- 			blur: function() {
- 				var value = DynamicForm_ShipmentContract.getItem('laycanEnd').getValue();
- 				if (value != null && value.length != 10 && value != "") {
- 					DynamicForm_ShipmentContract.setValue('laycanEnd', CorrectDate(value))
- 				}
- 			},
-
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "loadingRate",
- 			title: "<spring:message code='shipmentContract.loadingRate'/>", //نرخ بارگیری
- 			align: "center",
- 			width: "200",
-
- 		},
- 		{
- 			name: "dischargeRate",
- 			title: "<spring:message code='shipmentContract.dischargeRate'/>", //میزان تخلیه
- 			align: "center",
-            colSpan: 2,
- 			width: "200",
-
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "demurrage",
- 			title: "<spring:message code='shipmentContract.demurrage'/>", //جریمه
- 			align: "center",
- 			width: "200"
- 		},
-
- 		{
- 		    colSpan: 2,
- 			name: "freight",
- 			title: "<spring:message code='shipmentContract.freight'/>", //کرایه
- 			align: "center",
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "bale",
- 			title: "<spring:message code='shipmentContract.bale'/>", //فضای موجود برای محموله های اندازه گیری شده
- 			align: "center",
- 			width: "200"
-
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "grain",
- 			title: "<spring:message code='shipmentContract.grain'/>", //حداکثر فضای موجود برای محمول
- 			align: "center",
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "grossWeight",
- 			title: "<spring:message code='shipmentContract.grossWeight'/>", //وزن ناخالص/مرطوب
- 			align: "center",
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "vesselName",
- 			title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
- 			align: "center",
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "yearOfBuilt",
- 			title: "<spring:message code='shipmentContract.yearOfBuilt'/>", //سال ساخت
- 			align: "center",
-
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "imoNo",
- 			title: "<spring:message code='shipmentContract.imoNo'/>", //(IMO)سازمان بین المللی دریایی
- 			align: "center",
-
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "officialNo",
- 			title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمس
- 			align: "center",
-
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "loa",
- 			title: "<spring:message code='shipmentContract.loa'/>", //(LOA)طول ماكزيمم كشتي
- 			align: "center",
-
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "beam",
- 			title: "<spring:message code='shipmentContract.beam'/>", //(BEAM)عرض ماكزيمم عرش كشتي
- 			align: "center",
-
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "cranes",
- 			title: "<spring:message code='shipmentContract.cranes'/>", //جرثقیل
- 			align: "center",
-
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "holds",
- 			title: "<spring:message code='shipmentContract.holds'/>", //نگه دارنده
- 			align: "center",
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "hatch",
- 			title: "<spring:message code='shipmentContract.hatch'/>", //انبار كشتي
- 			align: "center",
- 			width: "200"
- 		},
- 		{
- 		    colSpan: 2,
- 			name: "classType",
- 			title: "<spring:message code='shipmentContract.classType'/>", //نوع کلاس
- 			align: "center",
- 			width: "200"
- 		},
+		},
 
 
- 		{
- 		    colSpan: 2,
-            align: "center",
- 			name: "weighingMethodes",
- 			title: "<spring:message code='shipmentContract.weighingMethodes'/>", //روش توزين
- 			type: 'text',
- 			width: "200",
+		{
+			colSpan: 2,
+			name: "loadingRate",
+			title: "<spring:message code='shipmentContract.loadingRate'/>", //نرخ بارگیری
+			align: "center",
+			width: "200",
 
+		},
+		{
+			name: "dischargeRate",
+			title: "<spring:message code='shipmentContract.dischargeRate'/>", //میزان تخلیه
+			align: "center",
+			colSpan: 2,
+			width: "200",
 
- 			valueMap: {
- 				"draft survey": "<spring:message code='shipmentContract.draftSurvey'/>" //بازرسي درافت كشتي
- 					,
- 				"weighbridge": "<spring:message code='shipmentContract.weighbridge'/>" //باسكول
- 			}
- 		},
+		},
+		{
+			colSpan: 2,
+			name: "demurrage",
+			title: "<spring:message code='shipmentContract.demurrage'/>", //جریمه
+			align: "center",
+			width: "200"
+		},
 
+		{
+			colSpan: 2,
+			name: "freight",
+			title: "<spring:message code='shipmentContract.freight'/>", //کرایه
+			align: "center",
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "bale",
+			title: "<spring:message code='shipmentContract.bale'/>", //فضای موجود برای محموله های اندازه گیری شده
+			align: "center",
+			width: "200"
 
+		},
+		{
+			colSpan: 2,
+			name: "grain",
+			title: "<spring:message code='shipmentContract.grain'/>", //حداکثر فضای موجود برای محمول
+			align: "center",
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "grossWeight",
+			title: "<spring:message code='shipmentContract.grossWeight'/>", //وزن ناخالص/مرطوب
+			align: "center",
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "vesselName",
+			title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
+			align: "center",
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "yearOfBuilt",
+			title: "<spring:message code='shipmentContract.yearOfBuilt'/>", //سال ساخت
+			align: "center",
 
- 		{
- 		    colSpan: 2,
- 			name: "laycanStart",
- 			ID: "laycanStart",
- 			title: "<spring:message code='shipmentContract.laycanStart'/>", //شروع لغو تاریخ
- 			align: "center",
- 			width: "200",
- 			icons: [{
- 				src: "pieces/pcal.png",
- 				click: function() {
- 					displayDatePicker('laycanStart', this, 'ymd', '/');
- 				}
- 			}],
- 			blur: function() {
- 				var value = DynamicForm_ShipmentContract.getItem('laycanStart').getValue();
- 				if (value != null && value.length != 10 && value != "") {
- 					DynamicForm_ShipmentContract.setValue('laycanStart', CorrectDate(value))
- 				}
- 			},
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "imoNo",
+			title: "<spring:message code='shipmentContract.imoNo'/>", //(IMO)سازمان بین المللی دریایی
+			align: "center",
 
- 		},
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "officialNo",
+			title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمس
+			align: "center",
 
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "loa",
+			title: "<spring:message code='shipmentContract.loa'/>", //(LOA)طول ماكزيمم كشتي
+			align: "center",
 
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "beam",
+			title: "<spring:message code='shipmentContract.beam'/>", //(BEAM)عرض ماكزيمم عرش كشتي
+			align: "center",
 
- 		{
- 		    required:true,
- 		    colSpan: 2,
- 			name: "createDate",
- 			ID: "createDate",
- 			title: "<spring:message code='shipmentContract.shipmentContractDate'/>", //تاریخ ایجاد
- 			align: "center",
- 			width: "200",
- 			icons: [{
- 				src: "pieces/pcal.png",
- 				click: function() {
- 					displayDatePicker('createDate', this, 'ymd', '/');
- 				}
- 			}],
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "cranes",
+			title: "<spring:message code='shipmentContract.cranes'/>", //جرثقیل
+			align: "center",
 
- 			blur: function() {
- 				var value = DynamicForm_ShipmentContract.getItem('createDate').getValue();
- 				if (value != null && value.length != 10 && value != "") {
- 					DynamicForm_ShipmentContract.setValue('createDate', CorrectDate(value))
- 				}
- 			},
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "holds",
+			title: "<spring:message code='shipmentContract.holds'/>", //نگه دارنده
+			align: "center",
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "hatch",
+			title: "<spring:message code='shipmentContract.hatch'/>", //انبار كشتي
+			align: "center",
+			width: "200"
+		},
+		{
+			colSpan: 2,
+			name: "classType",
+			title: "<spring:message code='shipmentContract.classType'/>", //نوع کلاس
+			align: "center",
+			width: "200"
+		},
 
- 		},
+		{
+			colSpan: 2,
+			align: "center",
+			name: "weighingMethodes",
+			title: "<spring:message code='shipmentContract.weighingMethodes'/>", //روش توزين
+			type: 'text',
+			width: "200",
+			valueMap: {
+				"draft survey": "<spring:message code='shipmentContract.draftSurvey'/>" //بازرسي درافت كشتي
+					,
+				"weighbridge": "<spring:message code='shipmentContract.weighbridge'/>" //باسكول
+			}
+		},
+		{
+			colSpan: 2,
+			name: "laycanStart",
+			ID: "laycanStart",
+			title: "<spring:message code='shipmentContract.laycanStart'/>", //شروع لغو تاریخ
+			align: "center",
+			width: "200",
+			icons: [{
+				src: "pieces/pcal.png",
+				click: function() {
+					displayDatePicker('laycanStart', this, 'ymd', '/');
+				}
+			}],
+			blur: function() {
+				var value = DynamicForm_ShipmentContract.getItem('laycanStart').getValue();
+				if (value != null && value.length != 10 && value != "") {
+					DynamicForm_ShipmentContract.setValue('laycanStart', CorrectDate(value))
+				}
+			},
 
+		},
+		{
+			required: true,
+			colSpan: 2,
+			name: "createDate",
+			ID: "createDate",
+			title: "<spring:message code='shipmentContract.shipmentContractDate'/>", //تاریخ ایجاد
+			align: "center",
+			width: "200",
+			icons: [{
+				src: "pieces/pcal.png",
+				click: function() {
+					displayDatePicker('createDate', this, 'ymd', '/');
+				}
+			}],
+			blur: function() {
+				var value = DynamicForm_ShipmentContract.getItem('createDate').getValue();
+				if (value != null && value.length != 10 && value != "") {
+					DynamicForm_ShipmentContract.setValue('createDate', CorrectDate(value))
+				}
+			},
 
+		},
+		{
+			required: true,
+			colSpan: 2,
+			name: "shipFlag",
+			title: "<spring:message code='shipmentContract.countryFlag'/>",
+			type: 'text',
+			width: "200",
 
- 		{
- 		    required:true,
- 		    colSpan: 2,
- 			name: "shipFlag",
- 			title: "<spring:message code='shipmentContract.countryFlag'/>",
- 			type: 'text',
- 			width: "200",
-
- 			valueMap: {
- 				"IRAN": "<spring:message code='shipment.flag.iran'/>" //بازرسي درافت كشتي
- 			}
- 		},
-
-
-
-
-        {type: "Header", defaultValue: dash },
- 	]
- });
-
+			valueMap: {
+				"IRAN": "<spring:message code='shipment.flag.iran'/>" //بازرسي درافت كشتي
+			}
+		},
+		{
+			type: "Header", defaultValue: dash
+		},
+	]
+});
 
 
     var ToolStripButton_ShipmentContract_Refresh = isc.ToolStripButton.create({
@@ -684,7 +660,6 @@ var dash = "\n";
 
 
 
-
 var Window_ShipmentContract = isc.Window.create({
         title: "<spring:message code='shipmentContract.title'/>",
         width: 900,
@@ -716,9 +691,6 @@ var Window_ShipmentContract = isc.Window.create({
 
 
 
-
-
-/*قرارداد حمل*/
     var ListGrid_ShipmentContract = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -734,15 +706,11 @@ var Window_ShipmentContract = isc.Window.create({
                     hidden: true ,
                     width:"10%"
                 },
-
-
                 {
                     name: "createDate",
                     title: "<spring:message code='shipmentContract.shipmentContractDate'/>",
                     align: "center" ,width:"10%"
                 },
-
-
                 {
                     name: "shipFlag",
                     title: "<spring:message code='shipmentContract.countryFlag'/>",
@@ -762,14 +730,6 @@ var Window_ShipmentContract = isc.Window.create({
                     align: "center",
                     width: "10%"
                 },
-
-                <%--{--%>
-                <%--    name: "tblPortByDischargePort.port",--%>
-                <%--    title: "<spring:message    code='shipmentContract.dischargePort'/>",--%>
-                <%--    align: "center",--%>
-                <%--    width: "10%"--%>
-
-                <%--},--%>
 
                 {
                     name: "laycanStart",
@@ -798,41 +758,34 @@ var Window_ShipmentContract = isc.Window.create({
     });
 
 
+var HLayout_ShipmentContract_Grid = isc.HLayout.create({
+	width: "100%",
+	height: "100%",
+	members: [
+		ListGrid_ShipmentContract
+	]
+});
+
+var VLayout_ShipmentContract_Body = isc.VLayout.create({
+	width: "100%",
+	height: "100%",
+	members: [
+		HLayout_ShipmentContract_Actions, HLayout_ShipmentContract_Grid
+	]
+});
 
 
-    var HLayout_ShipmentContract_Grid = isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ListGrid_ShipmentContract
-        ]
-    });
 
-    var VLayout_ShipmentContract_Body = isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members:
-            [
-                HLayout_ShipmentContract_Actions, HLayout_ShipmentContract_Grid
-            ]
-    });
-
-    //-----------------------------------------SectionStack-----------------------------------------------------------------
-
-    isc.SectionStack.create({
-        ID: "Shipment_Section_Stack",
-        sections:
-            [
-                 {
-                title: "<spring:message code='shipmentContract.title'/>",
-                items: VLayout_ShipmentContract_Body,
-                expanded: true
-                 }
-            ],
-        visibilityMode: "multiple",
-        animateSections: true,
-        height: "100%",
-        width: "100%",
-        overflow: "hidden"
-    });
-
+isc.SectionStack.create({
+	ID: "Shipment_Section_Stack",
+	sections: [{
+		title: "<spring:message code='shipmentContract.title'/>",
+		items: VLayout_ShipmentContract_Body,
+		expanded: true
+	}],
+	visibilityMode: "multiple",
+	animateSections: true,
+	height: "100%",
+	width: "100%",
+	overflow: "hidden"
+});
