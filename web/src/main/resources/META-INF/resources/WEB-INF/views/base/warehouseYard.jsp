@@ -74,6 +74,9 @@
                     isc.Button.create({title: "<spring:message code='global.yes'/>"}),
                     isc.Button.create({title: "<spring:message code='global.no'/>"})
                 ],
+
+/*  actionURL: "${contextPath}/api/warehouseYard/" + WarehouseYardId,*/
+
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
@@ -93,9 +96,18 @@
                         );
                     }
                 }
+
+
+
             });
         }
     }
+
+ListGrid_ShipmentContract_refresh();
+actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
+var shipmentContractId = record.id;
+
+
 
     var Menu_ListGrid_WarehouseYard = isc.Menu.create({
         width: 150,
@@ -194,6 +206,9 @@
         }
     });
 
+
+
+
     var ToolStripButton_WarehouseYard_Remove = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -201,6 +216,8 @@
             ListGrid_WarehouseYard_remove();
         }
     });
+
+
 
     var ToolStrip_Actions_WarehouseYard = isc.ToolStrip.create({
         width: "100%",
