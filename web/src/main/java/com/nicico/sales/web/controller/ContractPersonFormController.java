@@ -9,6 +9,6 @@ public class ContractPersonFormController {
 
 	@RequestMapping("/showForm")
 	public String showContractPerson() {
-		return "base/contractPerson";
+		return "contract/contractPerson";
 	}
 }

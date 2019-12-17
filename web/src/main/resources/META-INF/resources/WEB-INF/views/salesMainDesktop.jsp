@@ -617,6 +617,15 @@
             createTab("<spring:message code='charter.title'/>", "<spring:url value="/shipmentContract/showForm" />")
         }
     });
+    var contracPersonButton = isc.IconButton.create({
+        title: "<spring:message code='contractPerson.title'/>",
+        icon: "basicTables/group-email-person.png",
+        largeIcon: "basicTables/group-email-person.png",
+        orientation: "vertical",
+        click: function () {
+            createTab("<spring:message code='contractPerson.title'/>", "<spring:url value="/contractPerson/showForm" />")
+        }
+    });
     var contractRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.contract.management'/>",
         numRows: 1,
@@ -624,7 +633,7 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton , CharterButton ]})
+            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton , CharterButton, contracPersonButton ]})
         ],
         autoDraw: false
     });
