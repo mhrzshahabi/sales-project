@@ -103,11 +103,6 @@
         }
     }
 
-ListGrid_ShipmentContract_refresh();
-actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
-var shipmentContractId = record.id;
-
-
 
     var Menu_ListGrid_WarehouseYard = isc.Menu.create({
         width: 150,
