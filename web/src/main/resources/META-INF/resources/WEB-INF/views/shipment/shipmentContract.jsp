@@ -341,280 +341,328 @@ var Menu_ListGrid_ShipmentContract = isc.Menu.create({
 
 
 var dash = "\n";
- var DynamicForm_ShipmentContract = isc.DynamicForm.create({
-	styleName: 'Shipment_style',
-	width: "900px",
-	height: "100%",
-	wrapItemTitles: false,
-	autoDraw: false,
-	autoFocus: "true",
-	dataPageSize: 50,
-	setMethod: 'POST',
-	align: "center",
-	canSubmit: true,
-	showInlineErrors: true,
-	showErrorText: true,
-	showErrorStyle: true,
-	titleWidth: "100",
-	titleAlign: "right",
-	numCols: 7,
-	membersMargin: '5px',
-	errorOrientation:"bottom",
-	animatePortletTime: 750,
-	requiredMessage: "<spring:message code='validator.field.is.required'/>", //فیلد اجباری است.
-	fields: [{
-			name: "id",
-			title: "id",
-			primaryKey: true,
-			canEdit: false,
-			hidden: true
-		},
-
-		{
-			name: "no",
-			title: "<spring:message code='shipmentContract.no'/>", //شماره
-			align: "center",
-			colSpan: 2,
-			width: "200",
-			required: true,
-			length:"30",
-		},
-
-		{
-			colSpan: 2,
-			name: "capacity",
-			title: "<spring:message code='shipmentContract.capacity'/>", //ظرفیت
-			align: "center",
-			width: "200",
-			required: true, length:"30", keyPressFilter: "[0-9]"
-		},
-
-		{
-			colSpan: 2,
-			name: "laycanEnd",
-			ID: "laycanEnd",
-			title: "<spring:message code='shipmentContract.laycanEnd'/>", //پایان لغو تاریخ
-			align: "right",
-			width: "200",
-			icons: [{
-				src: "pieces/pcal.png",
-				click: function() {
-					displayDatePicker('laycanEnd', this, 'ymd', '/');
-				}
-			}],
-			blur: function() {
-				var value = DynamicForm_ShipmentContract.getItem('laycanEnd').getValue();
-				if (value != null && value.length != 10 && value != "") {
-					DynamicForm_ShipmentContract.setValue('laycanEnd', CorrectDate(value))
-				}
-			},
-
-		},
 
 
-		{
-			colSpan: 2,
-			name: "loadingRate",
-			title: "<spring:message code='shipmentContract.loadingRate'/>", //نرخ بارگیری
-			align: "center",
-			width: "200", length:"30", keyPressFilter: "[0-9]"
-
-		},
-		{
-			name: "dischargeRate",
-			title: "<spring:message code='shipmentContract.dischargeRate'/>", //میزان تخلیه
-			align: "center",
-			colSpan: 2,
-			width: "200", length:"30", keyPressFilter: "[0-9]"
-
-		},
-		{
-			colSpan: 2,
-			name: "demurrage",
-			title: "<spring:message code='shipmentContract.demurrage'/>", //جریمه
-			align: "center",
-			width: "200" ,length:"30", keyPressFilter: "[0-9]"
-		},
-
-		{
-			colSpan: 2,
-			name: "freight",
-			title: "<spring:message code='shipmentContract.freight'/>", //کرایه
-			align: "center",
-			width: "200",length:"30", keyPressFilter: "[0-9]"
-		},
-		{
-			colSpan: 2,
-			name: "bale",
-			title: "<spring:message code='shipmentContract.bale'/>", //فضای موجود برای محموله های اندازه گیری شده
-			align: "center",
-			width: "200",length:"30", keyPressFilter: "[0-9]"
-
-		},
-		{
-			colSpan: 2,
-			name: "grain",
-			title: "<spring:message code='shipmentContract.grain'/>", //حداکثر فضای موجود برای محمول
-			align: "center",
-			width: "200",length:"30", keyPressFilter: "[0-9]"
-		},
-		{
-			colSpan: 2,
-			name: "grossWeight",
-			title: "<spring:message code='shipmentContract.grossWeight'/>", //وزن ناخالص/مرطوب
-			align: "center",
-			width: "200",length:"30", keyPressFilter: "[0-9]"
-		},
-		{
-			colSpan: 2,
-			name: "vesselName",
-			title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
-			align: "center",
-			width: "200",length:"30",
-		},
-		{
-			colSpan: 2,
-			name: "yearOfBuilt",
-			title: "<spring:message code='shipmentContract.yearOfBuilt'/>", //سال ساخت
-			align: "center",
-			keyPressFilter: "[0-9]",
-			width: "200",length:"4",
-		},
-		{
-			colSpan: 2,
-			name: "imoNo",
-			title: "<spring:message code='shipmentContract.imoNo'/>", //(IMO)سازمان بین المللی دریایی
-			align: "center",
-			width: "200",length:"30",
-		},
-		{
-			colSpan: 2,
-			name: "officialNo",
-			title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمس
-			align: "center",
-			width: "200",
-			required:true, length:"30", keyPressFilter: "[0-9]" , type: "isInteger",
 
 
-		},
-		{
-			colSpan: 2,
-			name: "loa",
-			title: "<spring:message code='shipmentContract.loa'/>", //(LOA)طول ماكزيمم كشتي
-			align: "center",
-			width: "200",length:"30", keyPressFilter: "[0-9]"
-		},
-		{
-			colSpan: 2,
-			name: "beam",
-			title: "<spring:message code='shipmentContract.beam'/>", //(BEAM)عرض ماكزيمم عرش كشتي
-			align: "center",
-			width: "200" ,length:"4",
-			keyPressFilter: "[0-9]"
-		},
-		{
-			colSpan: 2,
-			name: "cranes",
-			title: "<spring:message code='shipmentContract.cranes'/>", //جرثقیل
-			align: "center",
-			width: "200",length:"30",
-		},
-		{
-			colSpan: 2,
-			name: "holds",
-			title: "<spring:message code='shipmentContract.holds'/>", //نگه دارنده
-			align: "center",
-			width: "200",length:"30",
-		},
-		{
-			colSpan: 2,
-			name: "hatch",
-			title: "<spring:message code='shipmentContract.hatch'/>", //انبار كشتي
-			align: "center",
-			width: "200",length:"30",
-		},
-		{
-			colSpan: 2,
-			name: "classType",
-			title: "<spring:message code='shipmentContract.classType'/>", //نوع کلاس
-			align: "center",
-			width: "200",length:"30",
-		},
+var DynamicForm_ShipmentContract = isc.DynamicForm.create({
+    styleName: 'Shipment_style',
+    width: "900px",
+    height: "100%",
+    wrapItemTitles: false,
+    autoDraw: false,
+    autoFocus: "true",
+    dataPageSize: 50,
+    setMethod: 'POST',
+    align: "center",
+    canSubmit: true,
+    showInlineErrors: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    titleWidth: "100",
+    titleAlign: "right",
+    numCols: 7,
+    membersMargin: '5px',
+    errorOrientation: "bottom",
+    requiredMessage: "<spring:message code='validator.field.is.required'/>", //فیلد اجباری است.
+    fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
 
-		{
-			required:true,
-			colSpan: 2,
-			align: "center",
-			name: "weighingMethodes",
-			title: "<spring:message code='shipmentContract.weighingMethodes'/>", //روش توزين
-			type: 'text',
-			width: "200",
-			valueMap: {
-				"draft survey": "<spring:message code='shipmentContract.draftSurvey'/>" //بازرسي درافت كشتي
-					,
-				"weighbridge": "<spring:message code='shipmentContract.weighbridge'/>" //باسكول
-			}
-		},
-		{
-			colSpan: 2,
-			name: "laycanStart",
-			ID: "laycanStart",
-			title: "<spring:message code='shipmentContract.laycanStart'/>", //شروع لغو تاریخ
-			align: "center",
-			width: "200",
-			icons: [{
-				src: "pieces/pcal.png",
-				click: function() {
-					displayDatePicker('laycanStart', this, 'ymd', '/');
-				}
-			}],
-			blur: function() {
-				var value = DynamicForm_ShipmentContract.getItem('laycanStart').getValue();
-				if (value != null && value.length != 10 && value != "") {
-					DynamicForm_ShipmentContract.setValue('laycanStart', CorrectDate(value))
-				}
-			},
+        {
+            name: "no",
+            title: "<spring:message code='shipmentContract.no'/>", //شماره
+            align: "right",
+            colSpan: 2,
+            width: "200",
+            required: true,
+            length: "30",
+        },
 
-		},
-		{
+        {
+            colSpan: 2,
+            name: "capacity",
+            title: "<spring:message code='shipmentContract.capacity'/>", //ظرفیت
+            align: "right",
+            width: "200",
+            required: true,
+            length: "30",
+            keyPressFilter: "[0-9]"
+        },
 
-			colSpan: 2,
-			name: "createDate",
-			ID: "createDate",
-			title: "<spring:message code='shipmentContract.shipmentContractDate'/>", //تاریخ ایجاد
-			align: "center",
-			width: "200",
-			icons: [{
-				src: "pieces/pcal.png",
-				click: function() {
-					displayDatePicker('createDate', this, 'ymd', '/');
-				}
-			}],
-			blur: function() {
-				var value = DynamicForm_ShipmentContract.getItem('createDate').getValue();
-				if (value != null && value.length != 10 && value != "") {
-					DynamicForm_ShipmentContract.setValue('createDate', CorrectDate(value))
-				}
-			},
+        {
+            colSpan: 2,
+            name: "loadingRate",
+            title: "<spring:message code='shipmentContract.loadingRate'/>", //نرخ بارگیری
+            align: "right",
+            width: "200",
+            length: "30",
+            keyPressFilter: "[0-9]"
 
-		},
-		{
+        },
+        {
+            name: "dischargeRate",
+            title: "<spring:message code='shipmentContract.dischargeRate'/>", //میزان تخلیه
+            align: "right",
+            colSpan: 2,
+            width: "200",
+            length: "30",
+            keyPressFilter: "[0-9]"
 
-			colSpan: 2,
-			name: "shipFlag",
-			title: "<spring:message code='shipmentContract.countryFlag'/>",
-			type: 'text',
-			width: "200",
+        },
+        {
+            colSpan: 2,
+            name: "demurrage",
+            title: "<spring:message code='shipmentContract.demurrage'/>", //جریمه
+            align: "right",
+            width: "200",
+            length: "30",
+            keyPressFilter: "[0-9]"
+        },
 
-			valueMap: {
-				"IRAN": "<spring:message code='shipment.flag.iran'/>" //بازرسي درافت كشتي
-			}
-		},
-		{
-			type: "Header", defaultValue: dash
-		},
-	]
+        {
+            colSpan: 2,
+            name: "freight",
+            title: "<spring:message code='shipmentContract.freight'/>", //کرایه
+            align: "right",
+            width: "200",
+            length: "30",
+            keyPressFilter: "[0-9]"
+        },
+        {
+            colSpan: 2,
+            name: "bale",
+            title: "<spring:message code='shipmentContract.bale'/>", //فضای موجود برای محموله های اندازه گیری شده
+            align: "right",
+            width: "200",
+            length: "30",
+            keyPressFilter: "[0-9]"
+
+        },
+        {
+            colSpan: 2,
+            name: "grain",
+            title: "<spring:message code='shipmentContract.grain'/>", //حداکثر فضای موجود برای محمول
+            align: "right",
+            width: "200",
+            length: "30",
+            keyPressFilter: "[0-9]"
+        },
+        {
+            colSpan: 2,
+            name: "grossWeight",
+            title: "<spring:message code='shipmentContract.grossWeight'/>", //وزن ناخالص/مرطوب
+            align: "right",
+            width: "200",
+            length: "30",
+            keyPressFilter: "[0-9]"
+        },
+        {
+            colSpan: 2,
+            name: "vesselName",
+            title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
+            align: "right",
+            width: "200",
+            length: "30",
+        },
+        {
+            colSpan: 2,
+            name: "yearOfBuilt",
+            title: "<spring:message code='shipmentContract.yearOfBuilt'/>", //سال ساخت
+            align: "right",
+            keyPressFilter: "[0-9]",
+            width: "200",
+            length: "4",
+        },
+        {
+            colSpan: 2,
+            name: "imoNo",
+            title: "<spring:message code='shipmentContract.imoNo'/>", //(IMO)سازمان بین المللی دریایی
+            align: "right",
+            width: "200",
+            length: "30",
+        },
+        {
+            colSpan: 2,
+            name: "officialNo",
+            title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمس
+            align: "right",
+            width: "200",
+            required: true,
+            length: "30",
+            keyPressFilter: "[0-9]",
+            type: "isInteger",
+
+
+        },
+        {
+            colSpan: 2,
+            name: "loa",
+            title: "<spring:message code='shipmentContract.loa'/>", //(LOA)طول ماكزيمم كشتي
+            align: "right",
+            width: "200",
+            length: "30",
+            keyPressFilter: "[0-9]"
+        },
+        {
+            colSpan: 2,
+            name: "beam",
+            title: "<spring:message code='shipmentContract.beam'/>", //(BEAM)عرض ماكزيمم عرش كشتي
+            align: "right",
+            width: "200",
+            length: "4",
+            keyPressFilter: "[0-9]"
+        },
+        {
+            colSpan: 2,
+            name: "cranes",
+            title: "<spring:message code='shipmentContract.cranes'/>", //جرثقیل
+            align: "right",
+            width: "200",
+            length: "30",
+        },
+        {
+            colSpan: 2,
+            name: "holds",
+            title: "<spring:message code='shipmentContract.holds'/>", //نگه دارنده
+            align: "right",
+            width: "200",
+            length: "30",
+        },
+        {
+            colSpan: 2,
+            name: "hatch",
+            title: "<spring:message code='shipmentContract.hatch'/>", //انبار كشتي
+            align: "right",
+            width: "200",
+            length: "30",
+        },
+        {
+            colSpan: 2,
+            name: "classType",
+            title: "<spring:message code='shipmentContract.classType'/>", //نوع کلاس
+            align: "right",
+            width: "200",
+            length: "30",
+        },
+
+
+
+
+        {
+
+            colSpan: 2,
+            name: "createDate",
+            ID: "createDate",
+            title: "<spring:message code='shipmentContract.shipmentContractDate'/>", //تاریخ ایجاد
+            align: "right",
+            width: "200",
+            icons: [{
+                src: "pieces/pcal.png",
+                click: function() {
+                    displayDatePicker('createDate', this, 'ymd', '/');
+                }
+            }],
+            blur: function() {
+                var value = DynamicForm_ShipmentContract.getItem('createDate').getValue();
+                if (value != null && value.length != 10 && value != "") {
+                    DynamicForm_ShipmentContract.setValue('createDate', CorrectDate(value))
+                }
+            },
+
+        },
+        {
+            align: "right",
+            colSpan: 2,
+            name: "shipFlag",
+            title: "<spring:message code='shipmentContract.countryFlag'/>",
+            type: 'text',
+            width: "180",
+            valueMap: {
+                "IRAN": "<spring:message code='shipment.flag.iran'/>" //بازرسي درافت كشتي
+            }
+        },
+
+        {
+            required: true,
+            colSpan: 2,
+            align: "right",
+            name: "weighingMethodes",
+            title: "<spring:message code='shipmentContract.weighingMethodes'/>", //روش توزين
+            type: 'text',
+            width: "180",
+            valueMap: {
+                "draft survey": "<spring:message code='shipmentContract.draftSurvey'/>" //بازرسي درافت كشتي
+                    ,
+                "weighbridge": "<spring:message code='shipmentContract.weighbridge'/>" //باسكول
+            }
+        },
+
+
+
+
+        {
+            colSpan: 2,
+            name: "laycanStart",
+            ID: "laycanStart",
+            title: "<spring:message code='shipmentContract.laycanStart'/>", //شروع لغو تاریخ
+            align: "right",
+            width: "200",
+            icons: [{
+                src: "pieces/pcal.png",
+                click: function() {
+                    displayDatePicker('laycanStart', this, 'ymd', '/');
+                }
+            }],
+            blur: function() {
+                var value = DynamicForm_ShipmentContract.getItem('laycanStart').getValue();
+                if (value != null && value.length != 10 && value != "") {
+                    DynamicForm_ShipmentContract.setValue('laycanStart', CorrectDate(value))
+                }
+            },
+
+        },
+
+        {
+            colSpan: 2,
+            name: "laycanEnd",
+            ID: "laycanEnd",
+            title: "<spring:message code='shipmentContract.laycanEnd'/>", //پایان لغو تاریخ
+            align: "right",
+            width: "200",
+            icons: [{
+                src: "pieces/pcal.png",
+                click: function() {
+                    displayDatePicker('laycanEnd', this, 'ymd', '/');
+                }
+            }],
+            blur: function() {
+                var value = DynamicForm_ShipmentContract.getItem('laycanEnd').getValue();
+                if (value != null && value.length != 10 && value != "") {
+                    DynamicForm_ShipmentContract.setValue('laycanEnd', CorrectDate(value))
+                }
+            },
+
+        },
+
+
+
+        {
+            type: "Header",
+            defaultValue: dash
+        },
+    ]
 });
+
+
+
+
+
+
 
 
     var ToolStripButton_ShipmentContract_Refresh = isc.ToolStripButton.create({
