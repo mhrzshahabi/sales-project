@@ -550,9 +550,6 @@ var DynamicForm_ShipmentContract = isc.DynamicForm.create({
             length: "30",
         },
 
-
-
-
         {
 
             colSpan: 2,
@@ -602,9 +599,6 @@ var DynamicForm_ShipmentContract = isc.DynamicForm.create({
             }
         },
 
-
-
-
         {
             colSpan: 2,
             name: "laycanStart",
@@ -626,6 +620,7 @@ var DynamicForm_ShipmentContract = isc.DynamicForm.create({
             },
 
         },
+
 
         {
             colSpan: 2,
@@ -768,14 +763,15 @@ var Window_ShipmentContract = isc.Window.create({
                     primaryKey: true,
                     canEdit: false,
                     hidden: true ,
-                    width:"10%"
+                    width:"10%",
+
                 },
 
                 {
                     name: "no",
                     title: "<spring:message code='shipmentContract.no'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "capacity",
