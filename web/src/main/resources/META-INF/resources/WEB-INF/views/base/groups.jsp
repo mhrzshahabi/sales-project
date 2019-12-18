@@ -782,7 +782,7 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-            var record = ListGrid_Groups.getSelectedRecord();
+            var record = ListGrid.getSelectedRecord();
 
             if (record == null || record.id == null) {
                 isc.Dialog.create({
