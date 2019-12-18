@@ -407,7 +407,14 @@
 
             ]
     });
-
+     var recordNotFound = isc.Label.create({
+        height: 30,
+        padding: 10,
+        align: "center",
+        valign: "center",
+        wrap: false,
+        contents: "رکوردی یافت نشد"
+        })
     var ListGrid_Material = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -427,6 +434,7 @@
                 {name: "unitnameEN", dataPath:"unit.nameEN"  , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
             ],
         getExpansionComponent : function (record) {
+            console.log(record)
             var criteria1 = {
             _constructor: "AdvancedCriteria",
             operator: "and",
@@ -438,11 +446,31 @@
             }, {operationId: "00"});
 
             ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                console.log(data)
-            ListGrid_MaterialItem.setData(data);
+                if(data.length == 0){
+                        recordNotFound.show();
+                        ListGrid_MaterialItem.hide()
+                        }else{
+                            recordNotFound.hide();
+                            ListGrid_MaterialItem.setData(data);
+                            ListGrid_MaterialItem.show();
+                        }
             }, {operationId: "00"});
 
-            return ListGrid_MaterialItem;
+
+            var hLayout = isc.HLayout.create({
+                align: "center",padding: 5,
+                membersMargin: 10,
+                members: [
+                    ToolStripButton_MaterialItem_Add
+                ]
+                });
+
+                var layout = isc.VLayout.create({
+                    padding: 5,
+                    members: [ ListGrid_MaterialItem, recordNotFound, hLayout ]
+                });
+
+        return layout;
 
            /*return   isc.ListGrid.create({
                         width: "100%",
@@ -977,91 +1005,91 @@
                     name: "itemRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "featurenameFA",   dataPath:"feature.nameFA"  ,
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'text',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "featurenameEN",  dataPath:"feature.nameEN"  ,
                     title: "<spring:message code='feature.nameEN'/>",
                     type: 'text',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     type: 'float',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     type: 'float',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "avgValue",
                     title: "<spring:message code='MaterialFeature.avgValue'/>",
                     type: 'float',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "tolorance",
                     title: "<spring:message code='MaterialFeature.tolorance'/>",
                     type: 'float',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "ratenameFA",  dataPath:"rate.nameFA"  ,
                     title: "<spring:message code='rate.nameFa'/>",
                     type: 'text',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "ratenameEN", dataPath:"rate.nameEN"  ,
                     title: "<spring:message code='rate.nameEN'/>",
                     type: 'text',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "payableIfGraterThan",
                     title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
                     type: 'text',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "paymentPercent",
                     title: "<spring:message code='MaterialFeature.paymentPercent'/>",
                     type: 'text',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "treatCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
                     type: 'text',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: "refineryCost",
                     title: "<spring:message code='MaterialFeature.RC'/>",
                     type: 'text',
-                    width: 400,
+                    width: 100,
                     align: "center"
                 },
             ],
@@ -1073,11 +1101,11 @@
 
 
 
-    var loadWindowFeatureList = isc.Window.create({
+
+    var WindowFeature = isc.Window.create({
         title: "<spring:message code='MaterialFeature.title'/> ",
         width: 580,
-        // height: 500,
-        autoSize: true,
+        height: 500,
         autoCenter: true,
         isModal: true,
         showModalMask: true,
@@ -1088,10 +1116,23 @@
         this.Super("closeClick", arguments)
         },
         items:
-        [
-        ListGrid_MaterialFeature
-        ]
+            [
+              ListGrid_MaterialFeature
+            ]
         });
+
+    function loadWindowFeatureList(materialId){
+            var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "materialId", operator: "equals", value: materialId}]
+            };
+            ListGrid_MaterialFeature.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                console.log(data)
+            ListGrid_MaterialFeature.setData(data);
+            }, {operationId: "00"});
+            WindowFeature.show()
+        }
 var HLayout_MaterialFeature_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -1406,11 +1447,9 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
             ],
         sortField: 0,
         autoFetchData: false,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         recordDoubleClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue){
             console.log(record)
-           loadWindowFeatureList.show()
+           loadWindowFeatureList(record.materialId)
         }
     });
     var HLayout_MaterialItem_Grid = isc.HLayout.create({

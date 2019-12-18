@@ -10081,3 +10081,7 @@ hr {
 .toolStripButtonRefreshSelectedDisabled td {
   color: #8e8e8e;
 }
+.menu-tabs{
+  top:0 !important;
+  background-color: #fff;
+}
