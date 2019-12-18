@@ -215,6 +215,7 @@
    	title: "<spring:message code='global.cancel'/>",
    	icon: "pieces/16/icon_delete.png",
    	click: function() {
+		DynamicForm_ShipmentContract.clearValues();
    		Window_ShipmentContract.close();
    	}
    });
@@ -226,7 +227,7 @@
 
 
     function ListGrid_ShipmentContract_edit() {
-    	var record = ListGrid_ShipmentContract.getSelectedRecord()
+    	var record = ListGrid_ShipmentContract.getSelectedRecord();
     	if (record == null || record.id == null) {
     		isc.Dialog.create({
     			message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -241,7 +242,7 @@
     		});
     	} else {
     		DynamicForm_ShipmentContract.editRecord(record);
-    		Window_ShipmentContract.show();
+    		Window_ShipmentContract.animateShow();
     	}
     }
 
@@ -306,8 +307,8 @@ var Menu_ListGrid_ShipmentContract = isc.Menu.create({
 			title: "<spring:message code='global.form.refresh'/>",
 			icon: "pieces/16/refresh.png",
 			click: function() {
-				// DynamicForm_ShipmentContract.clearValues();
-				Window_ShipmentContract.show();
+			DynamicForm_ShipmentContract.clearValues();
+			ListGrid_ShipmentContract.invalidateCache();
 			}
 		},
 		{
@@ -315,13 +316,14 @@ var Menu_ListGrid_ShipmentContract = isc.Menu.create({
 			icon: "pieces/16/icon_add.png",
 			click: function() {
 			DynamicForm_ShipmentContract.clearValues();
-			Window_ShipmentContract.show();
+			Window_ShipmentContract.animateShow();
 			}
 		},
 		{
 			title: "<spring:message code='global.form.edit'/>",
 			icon: "pieces/16/icon_edit.png",
 			click: function() {
+				DynamicForm_ShipmentContract.clearValues();
 				ListGrid_ShipmentContract_edit();
 			}
 		},
@@ -329,6 +331,7 @@ var Menu_ListGrid_ShipmentContract = isc.Menu.create({
 			title: "<spring:message code='global.form.remove'/>",
 			icon: "pieces/16/icon_delete.png",
 			click: function() {
+				DynamicForm_ShipmentContract.clearValues();
 				ListGrid_ShipmentContract_remove();
 			}
 		}
@@ -357,6 +360,7 @@ var dash = "\n";
 	numCols: 7,
 	membersMargin: '5px',
 	errorOrientation:"bottom",
+	animatePortletTime: 750,
 	requiredMessage: "<spring:message code='validator.field.is.required'/>", //فیلد اجباری است.
 	fields: [{
 			name: "id",
@@ -628,7 +632,7 @@ var dash = "\n";
         click: function () {
 
 				DynamicForm_ShipmentContract.clearValues();
-                Window_ShipmentContract.show();
+				Window_ShipmentContract.animateShow();
             }
     });
 

@@ -120,9 +120,12 @@ span:hover {
 }
 
 
+
 .Shipment_style table tbody tr td nobr label{
-   font-weight: normal !important;
+    font-weight: normal !important;
 }
 
-
+.Shipment_style div {
+    padding-right: 18px !important;
+}
 
