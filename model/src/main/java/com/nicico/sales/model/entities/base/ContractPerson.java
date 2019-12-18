@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CONTRACT_PERSON")
+@Table(name = "TBL_CONTRACT_PERSON", uniqueConstraints = @UniqueConstraint(columnNames = {"CONTRACT_ID" , "PERSON_ID"}))
 public class ContractPerson extends Auditable {
 
 	@Id
@@ -36,7 +36,7 @@ public class ContractPerson extends Auditable {
 	@Column(name = "PERSON_ID")
 	private Long personId;
 
-	@Column(name = "STATUS", length = 20)
+	@Column(name = "STATUS")
 	private String status;
 
 }
