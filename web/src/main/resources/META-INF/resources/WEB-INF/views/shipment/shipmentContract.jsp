@@ -17,140 +17,143 @@
                         name: "no",
                         title: "<spring:message code='shipmentContract.no'/>",
                         align: "center",
-                        width: "10%"
-                },
+                        width: "10%",
 
+                },
 
                 {
                     name: "capacity",
                     title: "<spring:message code='shipmentContract.capacity'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%",
+					keyPressFilter: "[0-9.]" ,
                 },
 
                 {
                     name: "laycanStart",
                     title: "<spring:message code='shipmentContract.laycanStart'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "laycanEnd",
                     title: "<spring:message code='shipmentContract.laycanEnd'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
 
                 {
                     name: "dischargeRate",
                     title: "<spring:message code='shipmentContract.dischargeRate'/>",
                     align: "center",
-                    width: "10%"
-                },
+                    width: "10%" ,
+},
                 {
                     name: "demurrage",
                     title: "<spring:message code='shipmentContract.demurrage'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
 
                 {
                     name: "freight",
                     title: "<spring:message code='shipmentContract.freight'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "bale",
                     title: "<spring:message code='shipmentContract.bale'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "grain",
                     title: "<spring:message code='shipmentContract.grain'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "grossWeight",
                     title: "<spring:message code='shipmentContract.grossWeight'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "vesselName",
                     title: "<spring:message code='shipmentContract.vesselName'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%",
                 },
                 {
                     name: "yearOfBuilt",
                     title: "<spring:message code='shipmentContract.yearOfBuilt'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "imoNo",
                     title: "<spring:message code='shipmentContract.imoNo'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
+
                 {
                     name: "officialNo",
                     title: "<spring:message code='shipmentContract.officialNo'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
+
                 {
                     name: "loa",
                     title: "<spring:message code='shipmentContract.loa'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "beam",
                     title: "<spring:message code='shipmentContract.beam'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "cranes",
                     title: "<spring:message code='shipmentContract.cranes'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "holds",
                     title: "<spring:message code='shipmentContract.holds'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "hatch",
                     title: "<spring:message code='shipmentContract.hatch'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
                 {
                     name: "classType",
                     title: "<spring:message code='shipmentContract.classType'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
 
                 {
                     name: "createDate",
                     title: "<spring:message code='shipmentContract.shipmentContractDate'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
 
                 {
                     name: "shipFlag",
                     title: "<spring:message code='shipment.flag'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
 
 
@@ -158,14 +161,14 @@
                     name: "weighingMethodes",
                     title: "<spring:message code='shipmentContract.weighingMethodes'/>",
                     align: "center",
-                    width: "10%"
+                    width: "10%" ,
                 },
 
                 {
                 name: "dispatch",
                 title: "<spring:message code='shipmentContract.dispatch'/>",
                 align: "center",
-                width: "10%"
+                width: "10%" ,
                 },
 
             ],
@@ -270,6 +273,7 @@
     					title: "<spring:message code='global.no'/>"
     				})
     			],
+
     			buttonClick: function(button, index) {
     				this.hide();
     				if (index == 0) {
@@ -307,7 +311,10 @@ var Menu_ListGrid_ShipmentContract = isc.Menu.create({
 		{
 			title: "<spring:message code='global.form.new'/>",
 			icon: "pieces/16/icon_add.png",
-			click: function() {}
+			click: function() {
+			DynamicForm_ShipmentContract.clearValues();
+			Window_ShipmentContract.show();
+			}
 		},
 		{
 			title: "<spring:message code='global.form.edit'/>",
@@ -331,7 +338,7 @@ var Menu_ListGrid_ShipmentContract = isc.Menu.create({
 var dash = "\n";
  var DynamicForm_ShipmentContract = isc.DynamicForm.create({
 	styleName: 'Shipment_style',
-	width: "1000",
+	width: "900px",
 	height: "100%",
 	wrapItemTitles: false,
 	autoDraw: false,
@@ -343,11 +350,11 @@ var dash = "\n";
 	showInlineErrors: true,
 	showErrorText: true,
 	showErrorStyle: true,
-	errorOrientation: "right",
 	titleWidth: "100",
 	titleAlign: "right",
 	numCols: 7,
 	membersMargin: '5px',
+	errorOrientation:"bottom",
 	requiredMessage: "<spring:message code='validator.field.is.required'/>", //فیلد اجباری است.
 	fields: [{
 			name: "id",
@@ -364,6 +371,7 @@ var dash = "\n";
 			colSpan: 2,
 			width: "200",
 			required: true,
+			length:"30",
 		},
 
 		{
@@ -372,7 +380,7 @@ var dash = "\n";
 			title: "<spring:message code='shipmentContract.capacity'/>", //ظرفیت
 			align: "center",
 			width: "200",
-			required: true,
+			required: true, length:"30", keyPressFilter: "[0-9]"
 		},
 
 		{
@@ -403,7 +411,7 @@ var dash = "\n";
 			name: "loadingRate",
 			title: "<spring:message code='shipmentContract.loadingRate'/>", //نرخ بارگیری
 			align: "center",
-			width: "200",
+			width: "200", length:"30", keyPressFilter: "[0-9]"
 
 		},
 		{
@@ -411,7 +419,7 @@ var dash = "\n";
 			title: "<spring:message code='shipmentContract.dischargeRate'/>", //میزان تخلیه
 			align: "center",
 			colSpan: 2,
-			width: "200",
+			width: "200", length:"30", keyPressFilter: "[0-9]"
 
 		},
 		{
@@ -419,7 +427,7 @@ var dash = "\n";
 			name: "demurrage",
 			title: "<spring:message code='shipmentContract.demurrage'/>", //جریمه
 			align: "center",
-			width: "200"
+			width: "200" ,length:"30", keyPressFilter: "[0-9]"
 		},
 
 		{
@@ -427,14 +435,14 @@ var dash = "\n";
 			name: "freight",
 			title: "<spring:message code='shipmentContract.freight'/>", //کرایه
 			align: "center",
-			width: "200"
+			width: "200",length:"30", keyPressFilter: "[0-9]"
 		},
 		{
 			colSpan: 2,
 			name: "bale",
 			title: "<spring:message code='shipmentContract.bale'/>", //فضای موجود برای محموله های اندازه گیری شده
 			align: "center",
-			width: "200"
+			width: "200",length:"30", keyPressFilter: "[0-9]"
 
 		},
 		{
@@ -442,93 +450,91 @@ var dash = "\n";
 			name: "grain",
 			title: "<spring:message code='shipmentContract.grain'/>", //حداکثر فضای موجود برای محمول
 			align: "center",
-			width: "200"
+			width: "200",length:"30", keyPressFilter: "[0-9]"
 		},
 		{
 			colSpan: 2,
 			name: "grossWeight",
 			title: "<spring:message code='shipmentContract.grossWeight'/>", //وزن ناخالص/مرطوب
 			align: "center",
-			width: "200"
+			width: "200",length:"30", keyPressFilter: "[0-9]"
 		},
 		{
 			colSpan: 2,
 			name: "vesselName",
 			title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
 			align: "center",
-			width: "200"
+			width: "200",length:"30",
 		},
 		{
 			colSpan: 2,
 			name: "yearOfBuilt",
 			title: "<spring:message code='shipmentContract.yearOfBuilt'/>", //سال ساخت
 			align: "center",
-
-			width: "200"
+			keyPressFilter: "[0-9]",
+			width: "200",length:"4",
 		},
 		{
 			colSpan: 2,
 			name: "imoNo",
 			title: "<spring:message code='shipmentContract.imoNo'/>", //(IMO)سازمان بین المللی دریایی
 			align: "center",
-
-			width: "200"
+			width: "200",length:"30",
 		},
 		{
 			colSpan: 2,
 			name: "officialNo",
 			title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمس
 			align: "center",
-
-			width: "200"
+			width: "200",
+			required:true, length:"30",
 		},
 		{
 			colSpan: 2,
 			name: "loa",
 			title: "<spring:message code='shipmentContract.loa'/>", //(LOA)طول ماكزيمم كشتي
 			align: "center",
-
-			width: "200"
+			width: "200",length:"30", keyPressFilter: "[0-9]"
 		},
 		{
 			colSpan: 2,
 			name: "beam",
 			title: "<spring:message code='shipmentContract.beam'/>", //(BEAM)عرض ماكزيمم عرش كشتي
 			align: "center",
-
-			width: "200"
+			width: "200" ,length:"30",
+			keyPressFilter: "[0-9]"
 		},
 		{
 			colSpan: 2,
 			name: "cranes",
 			title: "<spring:message code='shipmentContract.cranes'/>", //جرثقیل
 			align: "center",
-
-			width: "200"
+			width: "200",length:"30",
 		},
 		{
 			colSpan: 2,
 			name: "holds",
 			title: "<spring:message code='shipmentContract.holds'/>", //نگه دارنده
 			align: "center",
-			width: "200"
+			width: "200",length:"30",
 		},
 		{
 			colSpan: 2,
 			name: "hatch",
 			title: "<spring:message code='shipmentContract.hatch'/>", //انبار كشتي
 			align: "center",
-			width: "200"
+			width: "200",length:"30",
 		},
 		{
 			colSpan: 2,
 			name: "classType",
 			title: "<spring:message code='shipmentContract.classType'/>", //نوع کلاس
 			align: "center",
-			width: "200"
+			width: "200",length:"30",
 		},
 
 		{
+			required:true,
 			colSpan: 2,
 			align: "center",
 			name: "weighingMethodes",
@@ -563,7 +569,7 @@ var dash = "\n";
 
 		},
 		{
-			required: true,
+
 			colSpan: 2,
 			name: "createDate",
 			ID: "createDate",
@@ -585,7 +591,7 @@ var dash = "\n";
 
 		},
 		{
-			required: true,
+
 			colSpan: 2,
 			name: "shipFlag",
 			title: "<spring:message code='shipmentContract.countryFlag'/>",
@@ -616,6 +622,8 @@ var dash = "\n";
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
+
+				DynamicForm_ShipmentContract.clearValues();
                 Window_ShipmentContract.show();
             }
     });
@@ -661,7 +669,7 @@ var dash = "\n";
 
 
 var Window_ShipmentContract = isc.Window.create({
-        title: "<spring:message code='shipmentContract.title'/>",
+        title: "<spring:message code='charter.title'/>",
         width: 900,
         height: "400",
         autoSize: true,
@@ -706,18 +714,7 @@ var Window_ShipmentContract = isc.Window.create({
                     hidden: true ,
                     width:"10%"
                 },
-                {
-                    name: "createDate",
-                    title: "<spring:message code='shipmentContract.shipmentContractDate'/>",
-                    align: "center" ,width:"10%"
-                },
-                {
-                    name: "shipFlag",
-                    title: "<spring:message code='shipmentContract.countryFlag'/>",
-                    align: "center",
-                    width: "10%"
 
-                },
                 {
                     name: "no",
                     title: "<spring:message code='shipmentContract.no'/>",
@@ -731,21 +728,22 @@ var Window_ShipmentContract = isc.Window.create({
                     width: "10%"
                 },
 
-                {
-                    name: "laycanStart",
-                    title: "<spring:message code='shipmentContract.laycanStart'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
-                    name: "laycanEnd",
-                    title: "<spring:message code='shipmentContract.laycanEnd'/>",
-                    align: "center",
-                    width: "10%"
-                },
+				{
+				name: "weighingMethodes",
+				title: "<spring:message code='shipmentContract.weighingMethodes'/>",
+				align: "center",
+				width: "10%" ,
+				},
+
+			{
+			name: "officialNo",
+			title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمس
+			align: "center",
+			width: "200",
+			},
 
             ],
-        sortField: 0,
+        sortField: "id",
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
@@ -779,7 +777,7 @@ var VLayout_ShipmentContract_Body = isc.VLayout.create({
 isc.SectionStack.create({
 	ID: "Shipment_Section_Stack",
 	sections: [{
-		title: "<spring:message code='shipmentContract.title'/>",
+		title: "<spring:message code='charter.title'/>",
 		items: VLayout_ShipmentContract_Body,
 		expanded: true
 	}],
