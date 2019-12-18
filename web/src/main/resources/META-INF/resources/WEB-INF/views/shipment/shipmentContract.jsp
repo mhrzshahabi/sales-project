@@ -103,6 +103,8 @@
                     title: "<spring:message code='shipmentContract.officialNo'/>",
                     align: "center",
                     width: "10%" ,
+					type: "isInteger",
+
                 },
 
                 {
@@ -487,7 +489,9 @@ var dash = "\n";
 			title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمس
 			align: "center",
 			width: "200",
-			required:true, length:"30",
+			required:true, length:"30", keyPressFilter: "[0-9]" , type: "isInteger",
+
+
 		},
 		{
 			colSpan: 2,
@@ -501,7 +505,7 @@ var dash = "\n";
 			name: "beam",
 			title: "<spring:message code='shipmentContract.beam'/>", //(BEAM)عرض ماكزيمم عرش كشتي
 			align: "center",
-			width: "200" ,length:"30",
+			width: "200" ,length:"4",
 			keyPressFilter: "[0-9]"
 		},
 		{
