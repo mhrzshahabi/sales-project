@@ -380,7 +380,7 @@ var ListGrid_Conc = isc.ListGrid.create({
                                 }
                             });
 
-    var ToolStrip_Actions_ContactConc = isc.ToolStrip.create({
+var ToolStrip_Actions_ContactConc = isc.ToolStrip.create({
         members: [
             ToolStripButton_ContactConc_Add, ToolStripButton_ContactConc_Edit, ToolStripButton_ContactConc_Refresh
         ]

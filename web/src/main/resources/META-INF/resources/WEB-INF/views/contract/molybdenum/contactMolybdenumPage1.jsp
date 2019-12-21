@@ -286,7 +286,23 @@
                     ViewLoader_createMoOx
                     ]
             });
-                    var ToolStripButton_ContactMo_Add = isc.ToolStripButton.create({
+     var ListGrid_contractMo = isc.ListGrid.create({
+                        width: "100%",
+                        height: "100%",
+                        dataSource: RestDataSource_Contract,
+                        initialCriteria: criteriaMo,
+                        dataPageSize: 50,
+                        showFilterEditor: true,
+                        autoFetchData: true,
+                        fields:
+                        [
+                            {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                            {name: "contractNo",showTitle:"true",width: "10%", title: "<spring:message code='contact.no'/>", align: "center",canEdit: false}  ,
+                            {name: "contractDate",showTitle:"true",width: "10%", title: "<spring:message code='contract.contractDate'/>", align: "center",canEdit: true}  ,
+                            {name: "contact.nameFA",showTitle:"true",width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
+                        ]
+                        });
+    var ToolStripButton_ContactMo_Add = isc.ToolStripButton.create({
                             icon: "[SKIN]/actions/add.png",
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
@@ -674,22 +690,7 @@
                 // ######@@@@###&&@@###
                 fetchDataURL: "${contextPath}/api/contract/spec-list"
             });
-            var ListGrid_contractMo = isc.ListGrid.create({
-                        width: "100%",
-                        height: "100%",
-                        dataSource: RestDataSource_Contract,
-                        initialCriteria: criteriaMo,
-                        dataPageSize: 50,
-                        showFilterEditor: true,
-                        autoFetchData: true,
-                        fields:
-                        [
-                            {name: "id", primaryKey: true, canEdit: false, hidden: true},
-                            {name: "contractNo",width: "10%", title: "<spring:message code='contact.no'/>", align: "center",canEdit: false}  ,
-                            {name: "contractDate",width: "10%", title: "<spring:message code='contract.contractDate'/>", align: "center",canEdit: true}  ,
-                            {name: "contact.nameFA",width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
-                        ]
-                        });
+
 
            isc.VLayout.create({
                         ID:"VLayout_MoOx_Grid",
