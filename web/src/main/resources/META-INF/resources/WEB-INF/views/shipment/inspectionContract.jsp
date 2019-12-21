@@ -640,16 +640,11 @@ var IButton_InspectionContract_Save = isc.IButton.create({
 	top: 260,
 	title: "<spring:message code='global.form.save'/>",
 	icon: "pieces/16/save.png",
-
 	click: function() {
 		DynamicForm_InspectionContract.validate();
 		if (DynamicForm_InspectionContract.hasErrors())
 			return;
-		var date = DynamicForm_InspectionContract.getValues("createDate");
-
-
 		var data = DynamicForm_InspectionContract.getValues();
-		console.log(data);
 		var method = "PUT";
 		if (data.id == null)
 			method = "POST";
@@ -659,7 +654,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
 			data: JSON.stringify(data),
 			callback: function(resp) {
 				if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-					isc.say("<spring:message code='global.form.request.successful'/>.");
+		           isc.say("<spring:message code='global.form.request.successful'/>.");
 					Window_InspectionContract.hide();
 					ListGrid_InspectionContract_refresh();
 				} else
@@ -729,17 +724,17 @@ var IButton_InspectionContract_Save = isc.IButton.create({
     function ListGrid_InspectionContract_edit() {
   	var record = ListGrid_InspectionContract.getSelectedRecord();
   	if (record == null || record.id == null) {
-  		isc.Dialog.create({
-  			message: "<spring:message code='global.grid.record.not.selected'/>",
-  			icon: "[SKIN]ask.png",
-  			title: "<spring:message code='global.message'/>",
-  			buttons: [isc.Button.create({
-  				title: "<spring:message code='global.ok'/>"
-  			})],
-  			buttonClick: function() {
-  				this.hide();
-  			}
-  		});
+        isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({
+                    title: "<spring:message code='global.ok'/>"
+                })],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
   	} else {
   		DynamicForm_InspectionContract.editRecord(record);
   		Window_InspectionContract.show();
@@ -968,9 +963,9 @@ DynamicForm_InspectionContract.clearValues();
 
 
     var DynamicForm_InspectionContract = isc.DynamicForm.create({
-
+	height: "100%",
  	setMethod: 'POST',
-		align: "center",
+    align: "center",
  	textAlign: "left",
  	canSubmit: true,
 	errorOrientation: "bottom",
@@ -979,7 +974,8 @@ DynamicForm_InspectionContract.clearValues();
  	showErrorStyle: true,
  	titleWidth: "100",
  	titleAlign: "center",
- 	requiredMessage: "<spring:message code='validator.field.is.required'/>.",
+	autoFocus: "true",
+ 	requiredMessage: "<spring:message code='validator.field.is.required'/>",
  	// numCols: 1,
  	fields: [
 
@@ -1144,6 +1140,7 @@ DynamicForm_InspectionContract.clearValues();
         title: "<spring:message code='global.form.edit'/>",
         click: function()
         {
+DynamicForm_InspectionContract.clearValues();
             ListGrid_InspectionContract_edit();
         }
     });
