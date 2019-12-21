@@ -4,6 +4,8 @@
 
 //<script>
 
+
+
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
     var contactId;
 
