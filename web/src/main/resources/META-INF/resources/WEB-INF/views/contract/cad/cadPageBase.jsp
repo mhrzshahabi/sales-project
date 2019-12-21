@@ -205,7 +205,7 @@ var contactCadTabs = isc.TabSet.create({
         dataSaveAndUpdateContractCadDetail.article6_Containerized_5 = "";
         dataSaveAndUpdateContractCadDetail.article7_number41 = "";
         dataSaveAndUpdateContractCadDetail.article7_number3 = "";
-        dataSaveAndUpdateContractCadDetail.article7_number37 = valuesManagerArticle7_quality.getValue("article7_quality1");
+        dataSaveAndUpdateContractCadDetail.article7_number37 = "";
         dataSaveAndUpdateContractCadDetail.article7_number3_1 = "";
         dataSaveAndUpdateContractCadDetail.article7_number39_1 = "";
         dataSaveAndUpdateContractCadDetail.article7_number40_2 = "";
@@ -320,8 +320,6 @@ var contactCadTabs = isc.TabSet.create({
             }))
             }
             })
-
-
         }
     })
     var contactCadFormButtonSaveLayout = isc.HStack.create({
@@ -359,15 +357,33 @@ var VLayout_contactCadMain = isc.VLayout.create({
 
 function saveListGrid_ContractCadItemShipment(contractID) {
         ListGrid_ContractItemShipment.selectAllRecords();
-        ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            var data_ContractItemShipment = ListGrid_ContractItemShipment.getEditedRecord(element);
-            data_ContractItemShipment.contractId = contractID;
-            data_ContractItemShipment.sendDate=sendDateSet;
-            data_ContractItemShipment.dischargeId = 11022;
+        var data_ContractItemShipment = {};
+        var ListGrid_ShipmentItems = [];
+
+        ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
+            var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
+            dataEditMain.contractId=contractID;
+            dataEditMain.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
-                data: JSON.stringify(data_ContractItemShipment),
+                data: JSON.stringify(dataEditMain),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }))
+            });
+        ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
+            var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
+            dataEdit.contractId=contractID;
+            dataEdit.dischargeId = 11022;
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contractShipment/",
+                httpMethod: "POST",
+                data: JSON.stringify(dataEdit),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
@@ -376,7 +392,8 @@ function saveListGrid_ContractCadItemShipment(contractID) {
                 }
             }))
         })
-    };
+        ListGrid_ContractItemShipment.deselectAllRecords();
+};
 
     var dataALLArticle = {};
     function saveValueAllArticles(contractID) {

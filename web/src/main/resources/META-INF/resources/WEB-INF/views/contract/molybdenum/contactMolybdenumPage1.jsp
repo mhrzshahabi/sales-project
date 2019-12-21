@@ -264,7 +264,7 @@
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
 
-    var ViewLoader_createTozin = isc.ViewLoader.create({
+    var ViewLoader_createMoOx = isc.ViewLoader.create({
                         width: "100%",
                         height: "100%",
                         autoDraw: false,
@@ -283,7 +283,7 @@
                     },
                     items:
                     [
-                    ViewLoader_createTozin
+                    ViewLoader_createMoOx
                     ]
             });
                     var ToolStripButton_ContactMo_Add = isc.ToolStripButton.create({

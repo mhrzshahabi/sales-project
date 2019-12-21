@@ -414,8 +414,6 @@ var Window_ContactCad = isc.Window.create({
         ]
     });
     var ListGrid_Cad = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
         dataSource: RestDataSource_Contract,
         initialCriteria: criteriaCad,
         dataPageSize: 50,
@@ -426,29 +424,27 @@ var Window_ContactCad = isc.Window.create({
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "contractNo",
-                    width: "10%",
                     title: "<spring:message code='contact.no'/>",
                     align: "center",
+                    showTitle:"true",
                     canEdit: false
                 },
                 {
                     name: "contractDate",
-                    width: "10%",
                     title: "<spring:message code='contract.contractDate'/>",
                     align: "center",
+                    showTitle:"true",
                     canEdit: true
                 },
-                {name: "contact.nameFA", width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
+                {name: "contact.nameFA",showTitle:"true",title: "<spring:message code='contact.name'/>", align: "center"}
             ]
     });
 
-    isc.VLayout.create({
-        ID: "VLayout_Cad",
-        width: "100%",
-        height: "100%",
+    isc.VStack.create({
+        ID: "VLayout_ContractCad",
         members: [
-            HLayout_Actions_ContactCad,
-            ListGrid_Cad
+            isc.HLayout.create({height: "4%",members: [HLayout_Actions_ContactCad]}),
+            isc.HLayout.create({height: "96%",members: [ListGrid_Cad]})
         ]
     });
 

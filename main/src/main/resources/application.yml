@@ -61,7 +61,7 @@ nicico:
     domain: nicico.com
     url: https://mail.nicico.com/ews/exchange.asmx
     username:
-    password: 
+    password:
   upload:
     dir: /var/nicico/${spring.application.name}/
   workflow:
