@@ -75,7 +75,7 @@
                     isc.Button.create({title: "<spring:message code='global.no'/>"})
                 ],
 
-/*  actionURL: "${contextPath}/api/warehouseYard/" + WarehouseYardId,*/
+
 
                 buttonClick: function (button, index) {
                     this.hide();
@@ -102,11 +102,6 @@
             });
         }
     }
-
-ListGrid_ShipmentContract_refresh();
-actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
-var shipmentContractId = record.id;
-
 
 
     var Menu_ListGrid_WarehouseYard = isc.Menu.create({

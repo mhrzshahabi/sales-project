@@ -62,7 +62,6 @@
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
 
-
     var RestDataSource_tozin = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -211,7 +210,6 @@
         fetchDataURL: "${contextPath}/api/tozin/search-tozin"
     });
 
-
         var RestDataSource_Tozin_Other_optionCriteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
@@ -330,16 +328,11 @@
     });
 
 
-
     var add_bundle_button = isc.IButton.create({
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
         click: "ListGrid_WarehouseCadItem.startEditingNew()"
     });
-
-
-
-
 
 
 
@@ -563,15 +556,6 @@
     }]
 });
 
-
-
-
-
-
-
-
-
-
     var IButton_warehouseCAD_Save = isc.IButton.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -619,10 +603,6 @@
             }));
         }
     });
-
-
-
-
 
 
     ListGrid_WarehouseCadItem.setData([]);

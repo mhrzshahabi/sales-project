@@ -147,6 +147,9 @@ var salesContractCADButtonMain = isc.IconButton.create({
                               isc.HLayout.create({autoCenter: true, members: [salesContractMoButtonMain,salesContractCADButtonMain,salesContractConcButtonMain,salesContractOtherButtonMain]})
                             ]
                             });
+
+
+
     function ListGrid_Contract_refresh() {
         ListGrid_Contract.invalidateCache();
         companyName.setTitle('Contracts');
@@ -198,7 +201,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 DynamicForm_Contract.getItem("molybdenum").hide();
                 DynamicForm_Contract.getItem("molybdenumTolorance").hide();
             }
-            Window_Contract.animateShow()
+            Window_Contract.animateShow();
         }
     }
 
