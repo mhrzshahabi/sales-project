@@ -812,10 +812,13 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
         },
         {title:"<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
             click: function() {
+        	DynamicForm_InspectionContract.clearValues();
+                Window_InspectionContract.show();
             }
         },
         {title:"<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
             click: function(){
+DynamicForm_InspectionContract.clearValues();
                 ListGrid_InspectionContract_edit();
             }
         },
