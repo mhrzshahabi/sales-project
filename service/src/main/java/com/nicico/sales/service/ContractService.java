@@ -10,8 +10,12 @@ import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.repository.ContractDAO;
 import lombok.RequiredArgsConstructor;
+import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.core.env.Environment;
@@ -19,10 +23,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @Service
@@ -55,63 +62,63 @@ public class ContractService implements IContractService {
     @Override
     public void writeToWord(String request) {
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
-//        JSONObject jsonObject = new JSONObject(request);
-//        String contractNo = jsonObject.getString("contractNo");
-//        String contractId = jsonObject.getString("contractId");
-//        jsonObject.remove("contractNo");
-//        jsonObject.remove("contractId");
+        JSONObject jsonObject = new JSONObject(request);
+        String contractNo = jsonObject.getString("contractNo");
+        String contractId = jsonObject.getString("contractId");
+        jsonObject.remove("contractNo");
+        jsonObject.remove("contractId");
         XWPFDocument printdoc = new XWPFDocument();
 
-//        jsonObject.sortedKeys().forEachRemaining(new Consumer() {
-//            @Override
-//            public void accept(Object s) {
-//                String key = s.toString();
-//                String value = jsonObject.getString(key);
-//                dataALLArticle = dataALLArticle + " " + key + "&" + " " + value;
-//                XWPFParagraph paragraphPrint = printdoc.createParagraph();
-//                XWPFRun runPrint = paragraphPrint.createRun();
-//                XWPFRun runPrintValue = paragraphPrint.createRun();
-//                switch(key) {
-//                    case "Article03":
-//                        runPrint.setText(key+"–OUALITY:");
-//                        break;
-//                    case "Article04":
-//                        runPrint.setText(key+"–PACKING:");
-//                        break;
-//                    case "Article05":
-//                        runPrint.setText(key+"–SHIPMENT:");
-//                        break;
-//                    case "Article06":
-//                        runPrint.setText(key+"- DELIVERY TERMS:");
-//                        break;
-//                    case "Article07":
-//                        runPrint.setText(key+"– PRICE:");
-//                        break;
-//                    case "Article08":
-//                        runPrint.setText(key+"- QUOTATIONAL PERIOD:");
-//                        break;
-//                    case "Article09":
-//                        runPrint.setText(key+"– PAYMENT:");
-//                        break;
-//                    case "Article10":
-//                        runPrint.setText(key+"- CURRENCY CONVERSION:");
-//                        break;
-//                    case "Article11":
-//                        runPrint.setText(key+"- TITLE AND RISK OF LOSS:");
-//                        break;
-//                    case "Article12":
-//                        runPrint.setText(key+"– WEIGHT:");
-//                        break;
-//                }
-//               // runPrint.setText(key);
-//                runPrint.setUnderline(UnderlinePatterns.SINGLE);
-//                runPrint.addBreak();
-//                runPrintValue.setText(value);
-//                runPrintValue.addBreak();
-//            }
-//        });
+        jsonObject.sortedKeys().forEachRemaining(new Consumer() {
+            @Override
+            public void accept(Object s) {
+                String key = s.toString();
+                String value = jsonObject.getString(key);
+                dataALLArticle = dataALLArticle + " " + key + "&" + " " + value;
+                XWPFParagraph paragraphPrint = printdoc.createParagraph();
+                XWPFRun runPrint = paragraphPrint.createRun();
+                XWPFRun runPrintValue = paragraphPrint.createRun();
+                switch(key) {
+                    case "Article03":
+                        runPrint.setText(key+"–OUALITY:");
+                        break;
+                    case "Article04":
+                        runPrint.setText(key+"–PACKING:");
+                        break;
+                    case "Article05":
+                        runPrint.setText(key+"–SHIPMENT:");
+                        break;
+                    case "Article06":
+                        runPrint.setText(key+"- DELIVERY TERMS:");
+                        break;
+                    case "Article07":
+                        runPrint.setText(key+"– PRICE:");
+                        break;
+                    case "Article08":
+                        runPrint.setText(key+"- QUOTATIONAL PERIOD:");
+                        break;
+                    case "Article09":
+                        runPrint.setText(key+"– PAYMENT:");
+                        break;
+                    case "Article10":
+                        runPrint.setText(key+"- CURRENCY CONVERSION:");
+                        break;
+                    case "Article11":
+                        runPrint.setText(key+"- TITLE AND RISK OF LOSS:");
+                        break;
+                    case "Article12":
+                        runPrint.setText(key+"– WEIGHT:");
+                        break;
+                }
+               // runPrint.setText(key);
+                runPrint.setUnderline(UnderlinePatterns.SINGLE);
+                runPrint.addBreak();
+                runPrintValue.setText(value);
+                runPrintValue.addBreak();
+            }
+        });
         XWPFDocument doc = new XWPFDocument();
-        /*try (OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo + ".doc")) {
+        try (OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo + ".doc")) {
             OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + "PrintCathod_" + contractNo + ".doc");
             XWPFParagraph paragraph = doc.createParagraph();
             XWPFRun run = paragraph.createRun();
@@ -121,7 +128,7 @@ public class ContractService implements IContractService {
             printdoc.write(printOs);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }*/
+        }
 
     }
 

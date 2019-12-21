@@ -334,23 +334,10 @@
         }
     }
 
-    var VLayout_Body_ContractPerson = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             ToolStrip_Actions_ContractPerson, HLayout_Grid_ContractPerson
         ]
-    });
-
-    isc.SectionStack.create({
-        height: "100%",
-        width: "100%",
-        sections:
-            [
-                {
-                    title: "<spring:message code='contractPerson.title'/>",
-                    items: VLayout_Body_ContractPerson,
-                    expanded: true
-                }
-            ]
     });
