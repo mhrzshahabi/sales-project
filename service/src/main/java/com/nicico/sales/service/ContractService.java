@@ -10,12 +10,8 @@ import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.repository.ContractDAO;
 import lombok.RequiredArgsConstructor;
-import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.core.env.Environment;
@@ -23,13 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @Service
@@ -61,7 +54,7 @@ public class ContractService implements IContractService {
 
     @Override
     public void writeToWord(String request) {
-        String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
+        /*String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         JSONObject jsonObject = new JSONObject(request);
         String contractNo = jsonObject.getString("contractNo");
         String contractId = jsonObject.getString("contractId");
@@ -148,7 +141,7 @@ public class ContractService implements IContractService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
+*/
     }
 
     @Override
