@@ -3,9 +3,9 @@
     <%@ page contentType="text/html;charset=UTF-8" %>
     <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
-    var RestDataSource_ShipmentContract = isc.MyRestDataSource.create({
+    var RestDataSource_ShipmentContract_In_ShipmentContract = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -297,7 +297,7 @@
     }
 
 
-    var Menu_ListGrid_ShipmentContract = isc.Menu.create({
+    var Menu_ListGrid_ShipmentContract_In_ShipmentContract = isc.Menu.create({
         width: 150,
         data: [{
             title: "<spring:message code='global.form.refresh'/>",
@@ -720,8 +720,8 @@
     var ListGrid_ShipmentContract = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_ShipmentContract,
-        contextMenu: Menu_ListGrid_ShipmentContract,
+        dataSource: RestDataSource_ShipmentContract_In_ShipmentContract,
+        contextMenu: Menu_ListGrid_ShipmentContract_In_ShipmentContract,
         fields:
             [
                 {
