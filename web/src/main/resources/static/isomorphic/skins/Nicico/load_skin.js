@@ -168,6 +168,20 @@ isc.loadSkin = function (theWindow) {
             showDownIcon: true,
             showSelectedIcon: true,
         });
+        isc.ClassFactory.defineClass("ToolStripButtonAddLarge", "Button").addProperties({
+            baseStyle: "toolStripButtonAddLarge",
+            icon: "[SKIN]/actions/add.png",
+            title: actions_btn.add,
+            autoFit: true,
+            iconSize: 15,
+            height: 17,
+            labelVPad: 0,
+            showTitle: false,
+            showRollOver: true,
+            showDown: true,
+            showDownIcon: true,
+            showSelectedIcon: true,
+        });
         isc.ClassFactory.defineClass("ToolStripButtonRemove", "Button").addProperties({
             baseStyle: "toolStripButtonRemove",
             icon: "[SKIN]/actions/remove.png",

@@ -415,12 +415,15 @@
         wrap: false,
         contents: "رکوردی یافت نشد"
         })
+
+    recordNotFound.hide();
     var ListGrid_Material = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 600,
         dataSource: RestDataSource_Material,
         contextMenu: Menu_ListGrid_Material,
         expansionFieldImageShowSelected:true,
+        styleName:'expandList',
         autoFetchData: true,
         canExpandRecords: true,
         autoFitExpandField: true,
@@ -446,14 +449,17 @@
             }, {operationId: "00"});
 
             ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                console.log(data)
                 if(data.length == 0){
                         recordNotFound.show();
                         ListGrid_MaterialItem.hide()
                         }else{
                             recordNotFound.hide();
                             ListGrid_MaterialItem.setData(data);
+                            ListGrid_MaterialItem.setAutoFitMaxRecords(1);
+
                             ListGrid_MaterialItem.show();
-                        }
+}
             }, {operationId: "00"});
 
 
@@ -1005,91 +1011,91 @@
                     name: "itemRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "featurenameFA",   dataPath:"feature.nameFA"  ,
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "featurenameEN",  dataPath:"feature.nameEN"  ,
                     title: "<spring:message code='feature.nameEN'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     type: 'float',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     type: 'float',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "avgValue",
                     title: "<spring:message code='MaterialFeature.avgValue'/>",
                     type: 'float',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "tolorance",
                     title: "<spring:message code='MaterialFeature.tolorance'/>",
                     type: 'float',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "ratenameFA",  dataPath:"rate.nameFA"  ,
                     title: "<spring:message code='rate.nameFa'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "ratenameEN", dataPath:"rate.nameEN"  ,
                     title: "<spring:message code='rate.nameEN'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "payableIfGraterThan",
                     title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "paymentPercent",
                     title: "<spring:message code='MaterialFeature.paymentPercent'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "treatCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "refineryCost",
                     title: "<spring:message code='MaterialFeature.RC'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
             ],
@@ -1104,8 +1110,8 @@
 
     var WindowFeature = isc.Window.create({
         title: "<spring:message code='MaterialFeature.title'/> ",
-        width: 580,
-        height: 500,
+        width: "80%",
+        height: "40%",
         autoCenter: true,
         isModal: true,
         showModalMask: true,
@@ -1294,7 +1300,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
         }
     });
 
-    var ToolStripButton_MaterialItem_Add = isc.ToolStripButtonAdd.create({
+    var ToolStripButton_MaterialItem_Add = isc.ToolStripButtonAddLarge.create({
         //icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -1434,9 +1440,10 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
 
     var ListGrid_MaterialItem = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 150,
         dataSource: RestDataSource_MaterialItem,
         contextMenu: Menu_ListGrid_MaterialItem,
+        setAutoFitExtraRecords: true,
         numCols: 2,
         fields:
             [
@@ -1452,9 +1459,8 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
            loadWindowFeatureList(record.materialId)
         }
     });
-    var HLayout_MaterialItem_Grid = isc.HLayout.create({
+var HLayout_MaterialItem_Grid = isc.HLayout.create({
         width: "100%",
-        height: "100%",
         members: [
             ListGrid_MaterialItem
         ]

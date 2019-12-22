@@ -144,7 +144,7 @@
         showRollOverIcon: false,
         showMenuOnRollOver: true,
         disabledCursor: "not-allowed",
-        border: "1px solid lightgray"
+       // border: "1px solid lightgray"
     });
 
     function createTab(title, url) {
@@ -369,7 +369,7 @@
 
 
     /*-------------------Cartable---------------------------*/
-    var cartableHomeButton = isc.IconButton.create({
+/*    var cartableHomeButton = isc.IconButton.create({
         title: "<spring:message code='mainCartable.title'/>",
         icon: "cartable/cartableHome.png",
         largeIcon: "cartable/cartableHome.png",
@@ -413,7 +413,7 @@
         click: function () {
             createTab("<spring:message code='global.process.file'/>", "<spring:url value="/web/workflow/processDefinition/showForm" />")
         }
-    });
+    });*/
 
     /*------------------- Cartable ---------------------------
     var cartableRibbonGroup = isc.RibbonGroup.create({
@@ -449,7 +449,7 @@
     });*/
 
     /*-------------------Report---------------------------*/
-    var routineReportButton = isc.IconButton.create({
+/*    var routineReportButton = isc.IconButton.create({
         title: "<spring:message code='reportGenerator.title'/>",
        // icon: "report/routineReports.png",
        // largeIcon: "report/routineReports.png",
@@ -505,7 +505,7 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [reportRibbonBar]
-    });
+    });*/
 
     /*--------------------Dashboard--------------------------
     var dashboardRibbonGroup = isc.RibbonGroup.create({
@@ -534,9 +534,371 @@
         members: [dashboardRibbonBar]
     });*/
 
-    /*----------------------Base------------------------*/
+    /*----------------------baseTab------------------------*/
 
-    var materialButton = isc.IconButton.create({
+    baseTab = isc.ToolStripMenuButton.create({
+        title: /*Canvas.imgHTML("<spring:url value="information.png"/>", 16, 16)+*/  "&nbsp; <spring:message code='main.baseTab'/>",
+        menu: isc.Menu.create({
+            data: [
+                {
+                    title: "<spring:message code='material.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='material.title'/>", "<spring:url value="/material/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='commercialParty.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='commercialParty.title'/>", "<spring:url value="/contact/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='unit.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='unit.title'/>", "<spring:url value="/unit/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='rate.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='rate.title'/>", "<spring:url value="/rate/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='feature.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='feature.title'/>", "<spring:url value="/feature/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='exchangeRate.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='currency.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='currency.title'/>", "<spring:url value="/currency/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='commercialIncoterms.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                 {
+                     title: "<spring:message code='glossary.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='glossary.title'/>", "<spring:url value="/glossary/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='bank.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='bank.title'/>", "<spring:url value="/bank/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='warehouseCad.yard'/>",
+                    click: function () {
+                        createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='country.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='port.port'/>",
+                    click: function () {
+                        createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='parameters.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='person.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='person.title'/>", "<spring:url value="/person/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='groups.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='groups.title'/>", "<spring:url value="/groups/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='LME.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='LME.title'/>", "<spring:url value="/LME/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='dcc.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='instruction.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='instruction.title'/>", "<spring:url value="/instruction/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='paymentOption.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='paymentOption.title'/>", "<spring:url value="/paymentOption/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+            ]
+        }),
+    });
+
+    /*----------------------settingTab------------------------*/
+    settingTab = isc.ToolStripMenuButton.create({
+        title: /*Canvas.imgHTML("<spring:url value="information.png"/>", 16, 16)+*/  "&nbsp; <spring:message code='main.settingTab'/>",
+        menu: isc.Menu.create({
+            data: [
+                {
+                    title: "<spring:message code='setting.appRoles'/>",
+                    click: function () {
+                        createTab("<spring:message code='setting.appRoles'/>", "<spring:url value="web/oauth/app-roles/show-form" />", false);
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='setting.groupPermission'/>",
+                    click: function () {
+                        createTab("<spring:message code='setting.groupPermission'/>", "<spring:url value="web/oauth/groups/show-form" />", false);
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='setting.roleUser'/>",
+                    click: function () {
+                        createTab("<spring:message code='setting.roleUser'/>", "<spring:url value="web/oauth/users/show-form" />", false);
+                    }
+                },
+                {isSeparator: true},
+            ]
+        })
+    });
+
+    /*----------------------contractsTab------------------------*/
+    contractsTab = isc.ToolStripMenuButton.create({
+        title: /*Canvas.imgHTML("<spring:url value="information.png"/>", 16, 16)+*/  "&nbsp; <spring:message code='main.contractsTab'/>",
+        menu: isc.Menu.create({
+            data: [
+                {
+                    title: "<spring:message code='salesContract.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='inspectionContract.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='charter.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='charter.title'/>", "<spring:url value="/shipmentContract/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+            ]
+        })
+    });
+        /*----------------------productTab------------------------*/
+    productTab = isc.ToolStripMenuButton.create({
+        title: /*Canvas.imgHTML("<spring:url value="information.png"/>", 16, 16)+*/  "&nbsp; <spring:message code='main.productTab'/>",
+        menu: isc.Menu.create({
+            data: [
+                {
+                    title: "<spring:message code='warehouses.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='warehouses.title'/>", "<spring:url value="/dailyWarehouse/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='tozin.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='tozin.title'/>", "<spring:url value="/tozin/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='tozin.onWay'/>",
+                    click: function () {
+                        createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
+                    }
+
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='tozinSales.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='tozinSales.title'/>", "<spring:url value="/tozinSales/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='molybdenum.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='bijack'/>",
+                    click: function () {
+                        createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='warehouseStock'/>",
+                    click: function () {
+                        createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
+                    click: function () {
+                        createTab("<spring:message code='Shipment.titleWarehouseIssueCathode'/>", "<spring:url value="/warehouseIssueCathode/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='Shipment.titleWarehouseIssueCons'/>",
+                    click: function () {
+                        createTab("<spring:message code='Shipment.titleWarehouseIssueCons'/>", "<spring:url value="/warehouseIssueCons/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
+                    click: function () {
+                        createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+            ]
+        })
+    });
+
+    /*----------------------shipmentTab------------------------*/
+    shipmentTab = isc.ToolStripMenuButton.create({
+        title: /*Canvas.imgHTML("<spring:url value="information.png"/>", 16, 16)+*/  "&nbsp; <spring:message code='main.shipmentTab'/>",
+        menu: isc.Menu.create({
+            data: [
+                {
+                    title: "<spring:message code='cargoAssignment.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='cargoAssignment.title'/>", "<spring:url value="/shipment/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='shipmentCost.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+            ]
+        })
+    });
+
+    /*----------------------inspectionTab------------------------*/
+    inspectionTab = isc.ToolStripMenuButton.create({
+        title: /*Canvas.imgHTML("<spring:url value="information.png"/>", 16, 16)+*/  "&nbsp; <spring:message code='main.inspectionTab'/>",
+        menu: isc.Menu.create({
+            data: [
+                {
+                    title: "<spring:message code='inspectionMoistureResults.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='inspectionAssayResults.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />" )
+                    }
+                },
+                {isSeparator: true},
+            ]
+        })
+    });
+
+    /*----------------------financialTab------------------------*/
+    financialTab = isc.ToolStripMenuButton.create({
+        title: /*Canvas.imgHTML("<spring:url value="information.png"/>", 16, 16)+*/  "&nbsp; <spring:message code='main.financialTab'/>",
+        menu: isc.Menu.create({
+            data: [
+                {
+                    title: "<spring:message code='issuedInvoices.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='issuedInternalInvoices.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='issuedInternalInvoices.title'/>", "<spring:url value="/invoiceInternal/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+            ]
+        })
+    });
+
+
+
+
+  /*  var materialButton = isc.IconButton.create({
         title: "<spring:message code='material.title'/>",
         //icon: "basicTables/package.png",
         //largeIcon: "basicTables/package.png",
@@ -720,8 +1082,8 @@
         click: function () {
             createTab("<spring:message code='paymentOption.title'/>", "<spring:url value="/paymentOption/showForm" />")
         }
-    });
-    var baseRibbonGroup = isc.RibbonGroup.create({
+    });*/
+   /* var baseRibbonGroup = isc.RibbonGroup.create({
         numRows: 1,
         styleName:"menu-tabs",
         colWidths: [20, "*"],
@@ -756,17 +1118,17 @@
         groupTitleOrientation: "top",
     });
     baseRibbonBar.addGroup(baseRibbonGroup, 0);
-
-    var baseRibbonHLayout = isc.HLayout.create({
+*/
+/*    var baseRibbonHLayout = isc.HLayout.create({
         width: "100%",
         height: "100%",
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
         members: [baseRibbonBar]
-    });
+    });*/
     /*-------------------Setting---------------------------*/
-    var userRoleButton = isc.IconButton.create({
+/*    var userRoleButton = isc.IconButton.create({
         orientation: "vertical",
         icon: "pieces/512/unauthorized-person.png",
         largeIcon: "pieces/512/unauthorized-person.png",
@@ -784,11 +1146,11 @@
             createTab("<spring:message code='setting.groupPermission'/>", "<spring:url value="web/oauth/groups/show-form" />", false);
         }
 
-    });
+    });*/
 
 
 
-    var userAssignUserButton = isc.IconButton.create({
+/*    var userAssignUserButton = isc.IconButton.create({
         orientation: "vertical",
         icon: "pieces/512/user.png",
         largeIcon: "pieces/512/user.png",
@@ -796,8 +1158,9 @@
         click: function () {
             createTab("<spring:message code='setting.roleUser'/>", "<spring:url value="web/oauth/users/show-form" />", false);
         }
-    });
+    });*/
 
+/*
 
     var settingRibbonGroup = isc.RibbonGroup.create({
         title: "تنظیمات",
@@ -827,6 +1190,7 @@
         backgroundColor: "#153560",
         members: [settingRibbonBar]
     });
+*/
 
     /*-------------------license---------------------------
     var boardCertificateButton = isc.IconButton.create({
@@ -936,7 +1300,7 @@
     });*/
 
     /*-------------------Contracts---------------------------*/
-    var salesContractButton = isc.IconButton.create({
+  /*  var salesContractButton = isc.IconButton.create({
         title: "<spring:message code='salesContract.title'/>",
         icon: "contract/salesContract.png",
         largeIcon: "contract/salesContract.png",
@@ -993,7 +1357,7 @@
         }
     });
 
-    /*Add Jz*/
+    /!*Add Jz*!/
     var inspectionContractButton = isc.IconButton.create({
         title: "<spring:message code='inspectionContract.title'/>",
         icon: "contract/inspectionContract.png",
@@ -1005,7 +1369,7 @@
     });
 
 
-    /*Add Jz*/
+    /!*Add Jz*!/
     var CharterButton = isc.IconButton.create({
         title: "<spring:message code='charter.title'/>",
         icon: "contract/sea.png",
@@ -1060,10 +1424,10 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [contractRibbonBar]
-    });
+    });*/
 
     /*-------------------Product---------------------------*/
-    var warehousesButton = isc.IconButton.create({
+    /*var warehousesButton = isc.IconButton.create({
         title: "<spring:message code='warehouses.title'/>",
         icon: "product/warehouse.png",
         largeIcon: "product/warehouse.png",
@@ -1238,18 +1602,18 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [productRibbonBar]
-    });
+    });*/
     /*-------------------shipment---------------------------*/
-    var cargoAssignmentButton = isc.IconButton.create({
+  /*  var cargoAssignmentButton = isc.IconButton.create({
         title: "<spring:message code='cargoAssignment.title'/>",
         icon: "basicTables/port_new.png",
         largeIcon: "basicTables/port_new.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='cargoAssignment.title'/>", "<spring:url value="/shipment/showForm" />")
-
         }
     });
+
     var shipmentAssignmentButton = isc.IconButton.create({
         title: "<spring:message code='shipmentAssignment.title'/>",
         icon: "shipment/shipmentAssignment.png",
@@ -1325,7 +1689,7 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [shipmentRibbonBar]
-    });
+    });*/
     /*-------------------inspection---------------------------*/
     /*var inspectorAppointmentButton = isc.IconButton.create({
         title: "<spring:message code='inspectorAppointment.title'/>",
@@ -1340,7 +1704,7 @@
 
 
     /*InspectionContract*/
-    var inspectionMoistureResultButton = isc.IconButton.create({
+  /*  var inspectionMoistureResultButton = isc.IconButton.create({
         title: "<spring:message code='inspectionMoistureResults.title'/>",
         icon: "inspection/",
         largeIcon: "inspection/detective.png",
@@ -1348,10 +1712,10 @@
         click: function () {
             createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")
         }
-    });
+    });*/
 
 /*JZ*/
-    var inspectionContractResultButton = isc.IconButton.create({
+ /*   var inspectionContractResultButton = isc.IconButton.create({
         title: "<spring:message code='inspection.contract.form'/>",
         icon: "inspection/inspectionContract.png",
         largeIcon: "inspection/inspectionContract.png",
@@ -1359,7 +1723,7 @@
         click: function () {
             createTab("<spring:message code='inspection.contract.form'/>", "<spring:url value="/inspectionContract/showForm" />")
         }
-    });
+    });*/
 
 
 
@@ -1376,15 +1740,15 @@
     <%--});--%>
 
 
-    var inspectionAssayResultButton = isc.IconButton.create({
-        title: "<spring:message code='inspectionAssayResults.title'/>",
+  /*  var inspectionAssayResultButton = isc.IconButton.create({
+            title: "<spring:message code='inspectionAssayResults.title'/>",
         icon: "inspection/detective.png",
         largeIcon: "inspection/detective.png",
         orientation: "vertical",
         click: function () {
             createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />" )
         }
-    });
+    });*/
     <%--/*--%>
     <%--var inspectionCostButton = isc.IconButton.create({--%>
     <%--    title: "<spring:message code='inspectionCost.title'/>",--%>
@@ -1396,7 +1760,7 @@
     <%--    }--%>
     <%--});*/--%>
 
-    var inspectionRibbonBar = isc.RibbonBar.create({
+    /*var inspectionRibbonBar = isc.RibbonBar.create({
         backgroundColor: "#f0f0f0",
         groupTitleAlign: "center",
         groupTitleOrientation: "top"
@@ -1427,7 +1791,7 @@
         showShadow: false,
         backgroundColor: "#153560",
         members: [inspectionRibbonBar]
-    });
+    });*/
     /!*-------------------insurance---------------------------*!/
     /*   var insurerNominationButton = isc.IconButton.create({
            title: "<spring:message code='insurerNomination.title'/>",
@@ -1507,7 +1871,7 @@
         members: [insuranceRibbonBar]
     });*/
     /*-------------------financial---------------------------*/
-    var issuedInvoicesButton = isc.IconButton.create({
+  /*  var issuedInvoicesButton = isc.IconButton.create({
         title: "<spring:message code='issuedInvoices.title'/>",
         icon: "financial/F-out.png",
         largeIcon: "financial/F-out.png",
@@ -1543,7 +1907,7 @@
             createTab("<spring:message code='organization.title'/>", "/department/showForm")
         }
     });
-
+*/
    /* var issuedInvoicesButtonContract = isc.IconButton.create({
         title: "<spring:message code='main.contractsTab'/>",
         icon: "financial/issuedInvoices.png",
@@ -1562,7 +1926,7 @@
     });
 */
 
-    var financialRibbonGroup = isc.RibbonGroup.create({
+   /* var financialRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.financial'/>",
         numRows: 1,
         colWidths: [20, "*"],
@@ -1581,7 +1945,7 @@
         groupTitleAlign: "center",
         groupTitleOrientation: "top"
     });
-    financialRibbonBar.addGroup(financialRibbonGroup, 0);
+    financialRibbonBar.addGroup(financialRibbonGroup, 0);*/
 
     /*var financialRibbonGroupContract = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.test'/>",
@@ -1609,14 +1973,14 @@
   /*  financialRibbonBarContract.addGroup(financialRibbonGroupContract, 0);*/
 
 
-    var financialRibbonHLayout = isc.HLayout.create({
+  /*  var financialRibbonHLayout = isc.HLayout.create({
         width: "100%",
         height: "60",
         showResizeBar: false,
         showShadow: false,
         backgroundColor: "#153560",
         members: [financialRibbonBar]
-    });
+    });*/
 
     //---------------------------------------
     var mainTabSet = isc.TabSet.create({
@@ -1649,14 +2013,14 @@
         ]
     });
 
+/*
     isc.TabSet.create({
         ID: "menuTabSet",
         tabBarPosition: "top",
         width: "100%",
-        height: "12%",
         border: "none",
         tabs: [
-            <%--{title: "<spring:message code='main.cartableTab'/>", pane: cartableRibbonHLayout},--%>
+/!*            <%--{title: "<spring:message code='main.cartableTab'/>", pane: cartableRibbonHLayout},--%>
             {title: "<spring:message code='main.reportTab'/>", pane: reportRibbonHLayout},
             <%--{title: "<spring:message code='main.dashboardTab'/>",  pane: dashboardRibbonHLayout},--%>
             {title: "<spring:message code='main.baseTab'/>", pane: baseRibbonHLayout},
@@ -1669,15 +2033,73 @@
             {title: "<spring:message code='main.inspectionTab'/>", pane: inspectionRibbonHLayout},
             <%--{title: "<spring:message code='main.insuranceTab'/>", pane: insuranceRibbonHLayout},--%>
             {title: "<spring:message code='main.financialTab'/>", pane: financialRibbonHLayout}
-           /* {title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}*/
+           /!* {title: "<spring:message code='main.contractsTabNew'/>", pane: financialRibbonHLayoutContract}*!/!*!/
         ]
     });
+*/
+
+
+
+
+
+
+    reportTab = isc.ToolStripMenuButton.create({
+        title: /*Canvas.imgHTML("<spring:url value="information.png"/>", 16, 16)+*/  "&nbsp; <spring:message code='main.reportTab'/>",
+        menu: isc.Menu.create({
+            data: [
+                {
+                    title: "<spring:message code='reportGenerator.title'/>",
+                    <%--icon: "<spring:url value="categorize.png"/>",--%>
+                    click: function () {
+                        createTab("<spring:message code='global.report.generator.contract'/>", "<spring:url value="/contractIncomeCost/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+            ]
+        }),
+    });
+
+
+
+    saleToolStrip = isc.ToolStrip.create({
+        align: "center",
+        membersMargin: 20,
+        layoutMargin: 5,
+        showShadow: true,
+        shadowDepth: 3,
+        shadowColor: "#153560",
+
+        members: [
+            reportTab,
+            baseTab,
+            settingTab,
+            contractsTab,
+            productTab,
+            shipmentTab,
+            inspectionTab,
+            financialTab
+        ]
+    });
+
+
+
+
+
+    var MainDesktopMenuH = isc.HLayout.create({
+        width: "100%",
+        height: "4%",
+        styleName: "main-menu",
+        align: "center",
+        members: [
+            saleToolStrip
+        ]
+    })
 
     isc.VLayout.create({
         width: "100%",
         height: "100%",
         backgroundColor: "",
-        members: [headerLayout, menuTabSet, mainTabSet]
+        members: [headerLayout, MainDesktopMenuH, mainTabSet]
     });
 
     var dollar = {};

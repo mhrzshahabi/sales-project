@@ -416,6 +416,50 @@ $window_header_bgColor: #fe9d2a !default;
 }
 
 /* tool strip button */
+.toolStripButtonAddLarge,
+.toolStripButtonAddLargeOver,
+.toolStripButtonAddLargeFocused,
+.toolStripButtonAddLargeFocusedOver,
+.toolStripButtonAddLargeDown,
+.toolStripButtonAddLargeFocusedDown,
+.toolStripButtonAddLargeSelected,
+.toolStripButtonAddLargeSelectedFocused,
+.toolStripButtonAddLargeSelectedDown,
+.toolStripButtonAddLargeSelectedFocusedDown,
+.toolStripButtonAddLargeSelectedOver,
+.toolStripButtonAddLargeSelectedFocusedOver,
+.toolStripButtonAddLargeDisabled,
+.toolStripButtonAddLargeSelectedDisabled,
+.toolStripButtonAddLargeOpened,
+.toolStripButtonAddLargeOverOpened,
+.toolStripButtonAddLargeDownOpened,
+.toolStripButtonAddLargeFocusedOpened,
+.toolStripButtonAddLargeFocusedDownOpened,
+.toolStripButtonAddLargeFocusedOverOpened,
+.toolStripButtonAddLargeSelectedOpened,
+.toolStripButtonAddLargeSelectedDownOpened,
+.toolStripButtonAddLargeSelectedOverOpened {
+  border: $standard_border_width solid transparent;
+  @include border-radius(0px);
+  color: $standard_color;
+  font-size: 13px;
+  padding: 3px 4px 3px 4px;
+  border-radius: 3px;
+  background-color: #e8f0e6;
+  border: solid 1px #05a74a;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #05a74a;
+    font-weight: bold;
+  }
+  width: 70px;
+  height: 20px;
+}
+
+
+/* tool strip button */
 .toolStripButtonAdd,
 .toolStripButtonAddOver,
 .toolStripButtonAddFocused,
@@ -863,4 +907,58 @@ $window_header_bgColor: #fe9d2a !default;
   td{
     color: #8e8e8e;
   }
+}
+
+
+
+
+
+.menu-tabs{
+  top:0 !important;
+  background-color: #fff;
+}
+
+
+
+.expandList .cellSelectedOverAltCol,
+.expandList .cellSelectedOverDarkAltCol,
+.expandList .cellPendingSelectedOverAltCol,
+.expandList .cellPendingSelectedOverDarkAltCol {
+  background-color: #CDCDCD;
+}
+
+
+.expandList .cellSelectedAltCol,
+.expandList .cellSelectedDarkAltCol,
+.expandList .cellSelectedOverAltCol,
+.expandList .cellSelectedOverDarkAltCol,
+.expandList .cellPendingSelectedAltCol,
+.expandList .cellPendingSelectedDarkAltCol,
+.expandList .cellPendingSelectedOverAltCol,
+.expandList .cellPendingSelectedOverDarkAltCol {
+  background-color: #CDCDCD;
+  color: #153560;
+}
+
+.expandList  .cellSelected,
+.expandList  .cellSelectedDark,
+.expandList  .cellPendingSelected,
+.expandList  .cellPendingSelectedDark,
+.expandList  .specialColSelected,
+.expandList  .recordSummaryCellSelected,
+.expandList  .recordSummaryCellSelectedDark {
+  background-color: #CDCDCD;
+  color: #153560;
+}
+
+.expandList  .cellSelected,
+.expandList  .cellSelectedDark,
+.expandList  .cellSelectedOver,
+.expandList  .cellSelectedOverDark{
+  background-color: #CDCDCD;
+  color: #153560;
+}
+
+.expandList-ButtonAdd td{
+  width: 150px;
 }
