@@ -1,5 +1,6 @@
 package com.nicico.sales.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -11,17 +12,20 @@ import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.repository.ContractDAO;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -53,83 +57,77 @@ public class ContractService implements IContractService {
     }
 
     @Override
-    public void writeToWord(String request) {
-        /*String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
-        JSONObject jsonObject = new JSONObject(request);
-        String contractNo = jsonObject.getString("contractNo");
-        String contractId = jsonObject.getString("contractId");
-        jsonObject.remove("contractNo");
-        jsonObject.remove("contractId");
+    public void writeToWord(String request) throws IOException {
+        String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> map = mapper.readValue(request, Map.class);
+        String contractNo = map.get("contractNo") + "";
+        Integer contractId = (Integer) map.get("contractId");
+        map.remove("contractNo");
+        map.remove("contractId");
         XWPFDocument printdoc = new XWPFDocument();
-
-        jsonObject.sortedKeys().forEachRemaining(new Consumer() {
-            @Override
-            public void accept(Object s) {
-                String key = s.toString();
-                String value = jsonObject.getString(key);
-                dataALLArticle = dataALLArticle + " " + key + "&" + " " + value;
-                XWPFParagraph paragraphPrint = printdoc.createParagraph();
-                XWPFRun runPrint = paragraphPrint.createRun();
-                XWPFRun runPrintValue = paragraphPrint.createRun();
-                switch(key) {
-                    case "Article01":
-                        runPrint.setText(key+"–DEFINITIONS:");
-                        break;
-                    case "Article02":
-                        runPrint.setText(key+"–OUANTITY:");
-                        break;
-                    case "Article03":
-                        runPrint.setText(key+"–OUALITY:");
-                        break;
-                    case "Article04":
-                        runPrint.setText(key+"–PACKING:");
-                        break;
-                    case "Article05":
-                        runPrint.setText(key+"–SHIPMENT:");
-                        break;
-                    case "Article06":
-                        runPrint.setText(key+"- DELIVERY TERMS:");
-                        break;
-                    case "Article07":
-                        runPrint.setText(key+"– PRICE:");
-                        break;
-                    case "Article08":
-                        runPrint.setText(key+"- QUOTATIONAL PERIOD:");
-                        break;
-                    case "Article09":
-                        runPrint.setText(key+"– PAYMENT:");
-                        break;
-                    case "Article10":
-                        runPrint.setText(key+"- CURRENCY CONVERSION:");
-                        break;
-                    case "Article11":
-                        runPrint.setText(key+"- TITLE AND RISK OF LOSS:");
-                        break;
-                    case "Article12":
-                        runPrint.setText(key+"– WEIGHT:");
-                        break;
-                }
-                // runPrint.setText(key);
-                runPrint.setUnderline(UnderlinePatterns.SINGLE);
-                runPrint.addBreak();
-                runPrintValue.setText(value);
-                runPrintValue.addBreak();
+        for (String key : map.keySet()) {
+            String value = map.get(key) + "";
+            dataALLArticle = dataALLArticle + " " + key + "&" + " " + value;
+            XWPFParagraph paragraphPrint = printdoc.createParagraph();
+            XWPFRun runPrint = paragraphPrint.createRun();
+            XWPFRun runPrintValue = paragraphPrint.createRun();
+            switch (key) {
+                case "Article01":
+                    runPrint.setText(key + "–DEFINITIONS:");
+                    break;
+                case "Article02":
+                    runPrint.setText(key + "–OUANTITY:");
+                    break;
+                case "Article03":
+                    runPrint.setText(key + "–OUALITY:");
+                    break;
+                case "Article04":
+                    runPrint.setText(key + "–PACKING:");
+                    break;
+                case "Article05":
+                    runPrint.setText(key + "–SHIPMENT:");
+                    break;
+                case "Article06":
+                    runPrint.setText(key + "- DELIVERY TERMS:");
+                    break;
+                case "Article07":
+                    runPrint.setText(key + "– PRICE:");
+                    break;
+                case "Article08":
+                    runPrint.setText(key + "- QUOTATIONAL PERIOD:");
+                    break;
+                case "Article09":
+                    runPrint.setText(key + "– PAYMENT:");
+                    break;
+                case "Article10":
+                    runPrint.setText(key + "- CURRENCY CONVERSION:");
+                    break;
+                case "Article11":
+                    runPrint.setText(key + "- TITLE AND RISK OF LOSS:");
+                    break;
+                case "Article12":
+                    runPrint.setText(key + "– WEIGHT:");
+                    break;
             }
-        });
+            runPrint.setUnderline(UnderlinePatterns.SINGLE);
+            runPrint.addBreak();
+            runPrintValue.setText(value);
+            runPrintValue.addBreak();
+        }
         XWPFDocument doc = new XWPFDocument();
         String ContractWrite;
         String prefixContractWrite;
         String prefixPrintContractWrite;
-        if(contractNo.contains("_Conc")){
-            ContractWrite = contractNo.replace("_Conc","");
-            prefixContractWrite="Conc_";
-            prefixPrintContractWrite="PrintConc_";
-        }else{
-            ContractWrite=contractNo;
-             prefixContractWrite="Cathod_";
-             prefixPrintContractWrite="PrintCathod_";
+        if (contractNo.contains("_Conc")) {
+            ContractWrite = contractNo.replace("_Conc", "");
+            prefixContractWrite = "Conc_";
+            prefixPrintContractWrite = "PrintConc_";
+        } else {
+            ContractWrite = contractNo;
+            prefixContractWrite = "Cathod_";
+            prefixPrintContractWrite = "PrintCathod_";
         }
-
         try (OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc")) {
             OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + ".doc");
             XWPFParagraph paragraph = doc.createParagraph();
@@ -141,7 +139,6 @@ public class ContractService implements IContractService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-*/
     }
 
     @Override
@@ -150,11 +147,11 @@ public class ContractService implements IContractService {
         List<String> allArticle = new ArrayList<>();
         try {
             InputStream inputstream;
-            if(contractNo.contains("_Conc")){
-                 String contractConc=contractNo.replace("_Conc","");
-                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc.substring(1, contractConc.length() - 1) + ".doc");
-            }else{
-                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo.substring(1, contractNo.length() - 1) + ".doc");
+            if (contractNo.contains("_Conc")) {
+                String contractConc = contractNo.replace("_Conc", "");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc.substring(1, contractConc.length() - 1) + ".doc");
+            } else {
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo.substring(1, contractNo.length() - 1) + ".doc");
             }
             allArticle = extractText(inputstream);
         } catch (Exception e) {
@@ -227,18 +224,17 @@ public class ContractService implements IContractService {
         List<String> allArticles = new ArrayList<>();
         int a, b;
         for (int i = 1; i <= 12; i++) {
-            if (i >= 9 && i!=12) {
+            if (i >= 9 && i != 12) {
                 if (i == 9) {
                     a = text.lastIndexOf("Article0" + i + "&");
                 } else {
                     a = text.lastIndexOf("Article" + i + "&");
                 }
                 b = text.indexOf("Article" + (i + 1) + "&", a);
-            }else if (i==12){
+            } else if (i == 12) {
                 a = text.lastIndexOf("Article" + i + "&");
                 b = text.length();
-            }
-            else {
+            } else {
                 a = text.lastIndexOf("Article0" + i + "&");
                 b = text.indexOf("Article0" + (i + 1) + "&", a);
             }
