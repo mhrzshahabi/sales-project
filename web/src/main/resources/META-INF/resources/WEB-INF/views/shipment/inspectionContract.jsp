@@ -5,7 +5,7 @@
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_PersonByInspectionContract_EmailCC = isc.MyRestDataSource.create({
+    var RestDataSource_PersonByInspectionContract_EmailCC_In_InspectionContract = isc.MyRestDataSource.create({
  	fields: [{
  			name: "id",
  			title: "id",
@@ -69,7 +69,7 @@
  });
 
 
-var RestDataSource_Inspection__Inspection = isc.MyRestDataSource.create({
+var RestDataSource_Inspection = isc.MyRestDataSource.create({
 	fields: [{
 			name: "id",
 			title: "id",
@@ -281,7 +281,7 @@ var RestDataSource_Inspection__Inspection = isc.MyRestDataSource.create({
     var ListGrid_Inspection = isc.ListGrid.create({
     	width: "100%",
     	height: "100%",
-    	dataSource: RestDataSource_Inspection__Inspection,
+    	dataSource: RestDataSource_Inspection,
     	fields: [{
     			name: "id",
     			title: "id",
@@ -510,8 +510,8 @@ var RestDataSource_Inspection__Inspection = isc.MyRestDataSource.create({
     				value: record.id
     			}]
     		};
-    		ListGrid_InspectionEmail.fetchData(criteria1, function(dsResponse, data, dsRequest) {
-    			ListGrid_InspectionEmail.setData(data);
+    		ListGrid_.fetchData(criteria1, function(dsResponse, data, dsRequest) {
+    			ListGrid_InspectionContract.setData(data);
     		});
     		contractId = record.contractId;
     	},
@@ -708,7 +708,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
 
     function ListGrid_InspectionContract_refresh() {
     	ListGrid_InspectionContract.invalidateCache();
-    	var record = ListGrid_InspectionByInspectionContract.getSelectedRecord();
+    	var record = ListGrid_InspectionContract.getSelectedRecord();
     	if (record == null || record.id == null)
     		return;
     	ListGrid_InspectionContract.fetchData({
@@ -838,7 +838,7 @@ DynamicForm_InspectionContract.clearValues();
  var ListGrid_PersonByInspectionContract_EmailCC = isc.ListGrid.create({
  	width: "800",
  	height: "400",
- 	dataSource: RestDataSource_PersonByInspectionContract_EmailCC,
+ 	dataSource: RestDataSource_PersonByInspectionContract_EmailCC_In_InspectionContract,
  	fields: [{
  			name: "contact.nameFA",
  			title: "<spring:message code='contact.name'/>",
@@ -963,7 +963,7 @@ DynamicForm_InspectionContract.clearValues();
 
 
     var DynamicForm_InspectionContract = isc.DynamicForm.create({
-	height: "100%",
+	height: "400",
  	setMethod: 'POST',
     align: "center",
  	textAlign: "left",
@@ -976,7 +976,6 @@ DynamicForm_InspectionContract.clearValues();
  	titleAlign: "center",
 	autoFocus: "true",
  	requiredMessage: "<spring:message code='validator.field.is.required'/>",
- 	// numCols: 1,
  	fields: [
 
  		{
@@ -993,7 +992,7 @@ DynamicForm_InspectionContract.clearValues();
  			hidden: true,
  			textAlign: "left"
  		},
-		 //*******************************************
+
  		{
  			name: "superviseWeighing",
  			title: "<spring:message code='inspectionContract.superviseWeighing'/>",
@@ -1017,7 +1016,7 @@ DynamicForm_InspectionContract.clearValues();
 
  		},
 
-		 //********************************
+
  		{
  			name: "emailType",
  			title: "<spring:message code='shipment.emailType'/>",
@@ -1128,7 +1127,6 @@ DynamicForm_InspectionContract.clearValues();
     			DynamicForm_InspectionContract.setValue("shipmentId", record.id);
     			DynamicForm_InspectionContract.setValue("emailType", "Inspection Contract");
     			DynamicForm_InspectionContract.setValue("emailSubject", "ORDER FOR REPRESENTATION ");
-
     			Window_InspectionContract.show();
     		}
     	}
@@ -1179,10 +1177,8 @@ DynamicForm_InspectionContract.clearValues();
 
 
 var Window_InspectionContract = isc.Window.create({
-
+	height:"400",
 	title: "<spring:message code='inspectionContract.title'/> ",
-
-	// height: 400,
 	autoSize: true,
 	autoCenter: true,
 	isModal: true,
@@ -1190,18 +1186,14 @@ var Window_InspectionContract = isc.Window.create({
 	align: "center",
 	autoDraw: false,
 	dismissOnEscape: true,
-
 	closeClick: function() {
 		this.Super("closeClick", arguments)
 	},
 	items: [
-
 		isc.VStack.create({
-			// width: "100%",
 			autoCenter: true,
 			members: [
 				DynamicForm_InspectionContract,
-
 				isc.HStack.create({
 					styleName: "testjalal",
 					backgroundColor: "#fefffd",
@@ -1280,7 +1272,6 @@ var Window_InspectionContract = isc.Window.create({
 	filterUsingText: "فیلتر کردن",
 	groupByText: "گروه بندی",
 	freezeFieldText: "ثابت نگه داشتن",
-	// startsWithTitle: "tt",
 	recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
 	updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {
 		var record = this.getSelectedRecord();
@@ -1288,7 +1279,6 @@ var Window_InspectionContract = isc.Window.create({
 	dataArrived: function(startRow, endRow) {}
 
 });
-
 
 
    var HLayout_InspectionContract_Grid = isc.HLayout.create({
@@ -1300,7 +1290,6 @@ var Window_InspectionContract = isc.Window.create({
    });
 
 
-
    var VLayout_InspectionContract_Body = isc.VLayout.create({
    	width: "100%",
    	height: "100%",
@@ -1308,8 +1297,6 @@ var Window_InspectionContract = isc.Window.create({
    		HLayout_InspectionContract_Actions, HLayout_InspectionContract_Grid
    	]
    });
-
-
 
    isc.SectionStack.create({
    	sections: [{
@@ -1327,149 +1314,3 @@ var Window_InspectionContract = isc.Window.create({
    	width: "100%",
    	overflow: "hidden"
    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<%--var RestDataSource_InspectionByInspectionContract = isc.MyRestDataSource.create({--%>
-<%--fields: [--%>
-<%--    {name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},--%>
-<%--    {name: "tblContractItemShipment.id", title:"<spring:message code='contact.name'/>", type:'long', hidden: true },--%>
-<%--    {name: "tblContact.id",  type:'long', hidden: true },--%>
-<%--    {name: "tblContact.nameFA", title:"<spring:message code='contact.name'/>", type:'text' },--%>
-<%--    {name: "tblContract.id",  type:'long', hidden: true },--%>
-<%--    {name: "tblContract.contractNo", title:"<spring:message code='contract.contractNo'/>", type:'text' , width: 180},--%>
-<%--    {name: "tblContract.contractDate", title:"<spring:message code='contract.contractDate'/>", type:'text' , width: 180},--%>
-<%--    {name: "tblMaterial.id", title:"<spring:message code='contact.name'/>", type:'long', hidden: true },--%>
-<%--    {name: "tblMaterial.descl", title:"<spring:message code='material.descl'/>", type:'text' },--%>
-<%--    {name: "tblMaterial.tblUnit.nameEN", title:"<spring:message code='unit.nameEN'/>", type:'text' },--%>
-<%--    {name: "amount", title:"<spring:message code='global.amount'/>", type:'float'},--%>
-<%--    {name: "noContainer", title:"<spring:message code='shipment.noContainer'/>", type:'integer'},--%>
-<%--    {name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",},--%>
-<%--    {name: "shipmentType", title:"<spring:message code='shipment.shipmentType'/>", type:'text', width: 400  ,valueMap:{"bulk":"bulk", "container":"container"}},--%>
-<%--    {name: "loading", title:"<spring:message code='global.address'/>", type:'text', width: "10%" },--%>
-<%--    {name: "tblPortByLoading.id", title:"<spring:message code='shipment.loading'/>", type:'text', required: true, width: "10%" },--%>
-<%--    {name: "tblPortByLoading.port", title:"<spring:message code='shipment.loading'/>", type:'text', required: true, width: "10%" },--%>
-<%--    {name: "tblPortByDischarge.id", title:"<spring:message code='shipment.discharge'/>", type:'text', required: true, width: "10%" },--%>
-<%--    {name: "tblPortByDischarge.port", title:"<spring:message code='shipment.discharge'/>", type:'text', required: true, width: "10%" },--%>
-<%--    {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" },--%>
-<%--    {name: "description", title:"<spring:message code='shipment.description'/>", type:'text', required: true, width: "10%" },--%>
-<%--    {name: "SWB", title:"<spring:message code='shipment.SWB'/>", type:'text', required: true, width: "10%" },--%>
-<%--    {name: "tblSwitchPort.port", title:"<spring:message code='port.switchPort'/>", type:'text', required: true, width: "10%" },--%>
-<%--    {name: "month", title:"<spring:message code='shipment.month'/>", type:'text', required: true, width: "10%" },--%>
-<%--    {name: "status", title:"<spring:message code='shipment.staus'/>", type:'text', width: "10%" ,valueMap:{"Load Ready":"<spring:message code='shipment.loadReady'/>","Resource":"<spring:message code='shipment.resource'/>"}},--%>
-<%--    {name: "createDate", title:"<spring:message code='shipment.createDate'/>", type:'text', required: true, width: "10%" },--%>
-<%--    ],--%>
-<%--dataFormat: "json",--%>
-<%--jsonPrefix: "",--%>
-<%--jsonSuffix: "",--%>
-<%--&lt;%&ndash;fetchDataURL: "${contextPath}/api/contact/spec-list"&ndash;%&gt;--%>
-<%--});--%>
-
-
-
-<%--     var RestDataSource_ContactByInspection = isc.MyRestDataSource.create({--%>
-<%--        fields: [--%>
-<%--            {name: "id", primaryKey: true, canEdit: false, hidden: true},--%>
-<%--            {name: "code", title: "<spring:message code='contact.code'/>"},--%>
-<%--            {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},--%>
-<%--            {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},--%>
-<%--            {name: "ceoPassportNo" },--%>
-<%--            {name: "ceo" },--%>
-<%--            {name: "commercialRegistration" },--%>
-<%--            {name: "branchName" },--%>
-<%--            {name: "commertialRole" },--%>
-<%--            {name: "phone", title: "<spring:message code='contact.phone'/>"},--%>
-<%--            {name: "mobile", title: "<spring:message code='contact.mobile'/>"},--%>
-<%--            {name: "fax", title: "<spring:message code='contact.fax'/>"},--%>
-<%--            {name: "address", title: "<spring:message code='contact.address'/>"},--%>
-<%--            {name: "webSite", title: "<spring:message code='contact.webSite'/>"},--%>
-<%--            {name: "email", title: "<spring:message code='contact.email'/>"},--%>
-<%--            {--%>
-<%--                name: "type",--%>
-<%--                title: "<spring:message code='contact.type'/>",--%>
-<%--                valueMap: {"true": "<spring:message code='contact.type.real'/>", "false": "<spring:message code='contact.type.legal'/>"}--%>
-<%--            },--%>
-<%--&lt;%&ndash;            {name: "nationalcode", title: "<spring:message code='contact.nationalcode'/>"},&ndash;%&gt;--%>
-<%--            {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},--%>
-<%--            {name: "bankAccount", title: "<spring:message code='contact.bankAccount'/>"},--%>
-<%--            {name: "bankShaba", title: "<spring:message code='contact.bankShaba'/>"},--%>
-<%--            {name: "bankSwift", title: "<spring:message code='contact.bankShaba'/>"},--%>
-<%--            {name: "bankName", title: "<spring:message code='contact.bankName'/>"},--%>
-<%--            {name: "contactAccounts"}--%>
-<%--        ],--%>
-<%--      --%>
-<%--        // fetchDataURL: "rest/contact/list"--%>
-<%--    });--%>
-
-
-<%--var RestDataSource_InspectionContractByInsContract = isc.MyRestDataSource.create({--%>
-<%--    fields:--%>
-<%--    [--%>
-<%--        {name:"id", title:"id", primaryKey:true, canEdit:false, hidden: true},--%>
-
-<%--        {name:"shipmentContractDate"        , title:"<spring:message code='shipmentContract.shipmentContractDate'/>",align:"center",hidden: true},--%>
-<%--        {name:"tblContactByOwners.id"       , title:"<spring:message code='shipmentContract.owners'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"tblContactByCharterer.id"    , title:"<spring:message code='shipmentContract.charterer'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"tblContactByChainOfOwners.id", title:"<spring:message code='shipmentContract.chainOfOwners'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"tblCountryFlag.id"           , title:"<spring:message code='shipmentContract.countryFlag'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"no"                          , title:"<spring:message code='shipmentContract.no'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"capacity"                    , title:"<spring:message code='shipmentContract.capacity'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"laycanStart"                 , title:"<spring:message code='shipmentContract.laycanStart'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"laycanEnd"                   , title:"<spring:message code='shipmentContract.laycanEnd'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"loadingRate"                 , title:"<spring:message code='shipmentContract.loadingRate'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"dischargeRate"               , title:"<spring:message code='shipmentContract.dischargeRate'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"demurrage"                   , title:"<spring:message code='shipmentContract.demurrage'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"dispatch"                    , title:"<spring:message code='shipmentContract.dispatch'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"freight"                     , title:"<spring:message code='shipmentContract.freight'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"bale"                        , title:"<spring:message code='shipmentContract.bale'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"grain"                       , title:"<spring:message code='shipmentContract.grain'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"grossWeight"                 , title:"<spring:message code='shipmentContract.grossWeight'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"vesselName"                  , title:"<spring:message code='shipmentContract.vesselName'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"yearOfBuilt"                 , title:"<spring:message code='shipmentContract.yearOfBuilt'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"imoNo"                       , title:"<spring:message code='shipmentContract.imoNo'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"officialNo"                  , title:"<spring:message code='shipmentContract.officialNo'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"loa"                         , title:"<spring:message code='shipmentContract.loa'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"beam"                        , title:"<spring:message code='shipmentContract.beam'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"cranes"                      , title:"<spring:message code='shipmentContract.cranes'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"holds"                       , title:"<spring:message code='shipmentContract.holds'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"hatch"                       , title:"<spring:message code='shipmentContract.hatch'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"classType"                   , title:"<spring:message code='shipmentContract.classType'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"createUser"                  , title:"<spring:message code='global.createUser'/>",align:"center" , width :"10%"},--%>
-<%--        {name:"createDate"                  , title:"<spring:message code='global.createDate'/>",align:"center" , width :"10%"},--%>
-<%--    ],--%>
-<%--    dataFormat: "json",--%>
-<%--    jsonPrefix: "",--%>
-<%--    jsonSuffix: "",--%>
-<%--        &lt;%&ndash;fetchDataURL: "${contextPath}/api/shipment/spec-list"&ndash;%&gt;--%>
-<%--});--%>
-
-/*JZ*/
-<%--var RestDataSource_PersonByInspectionContract_EmailCC = isc.MyRestDataSource.create({--%>
-<%--        fields: [--%>
-<%--        {name: "id", title: "id", primaryKey:true, canEdit:false, hidden: true},--%>
-<%--        {name: "tblContact.id"},--%>
-<%--        {name: "tblContact.nameFA"},--%>
-<%--        {name: "fullName", title:"<spring:message code='person.fullName'/>", type:'text', required: true, width: 400 },--%>
-<%--        {name: "jobTitle", title:"<spring:message code='person.jobTitle'/>", type:'text', width: 400 },--%>
-<%--        {name: "title", title:"<spring:message code='person.title'/>", type:'text', width: 400,valueMap:{"MR":"<spring:message code='global.MR'/>","MIS":"<spring:message code='global.MIS'/>","MRS":"<spring:message code='global.MRS'/>",} },--%>
-<%--        {name: "email", title:"<spring:message code='person.email'/>", type:'text', required: true, width: 400 },--%>
-<%--        {name: "email1", title:"<spring:message code='person.email1'/>", type:'text', width: 400 },--%>
-<%--        {name: "email2", title:"<spring:message code='person.email2'/>", type:'text', width: 400 }--%>
-<%--        ],--%>
-<%--        fetchDataURL: "${contextPath}/api/person/spec-list"--%>
-<%--});--%>
