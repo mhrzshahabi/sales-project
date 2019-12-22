@@ -6,6 +6,7 @@
 
 var criteriaContractConcItemShipment;
 
+
 var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
 fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
 });
@@ -336,13 +337,19 @@ var ListGrid_Conc = isc.ListGrid.create({
                                 valuesManagerArticle2Conc.setValue("optional", record.optional);
                                 valuesManagerArticle2Conc.setValue("plant", record.plant);
                                 valuesManagerArticle3_conc.setValue("CU",record.copper);
+                                valuesManagerArticle3_conc.setValue("MO",record.molybdenum);
+                                valuesManagerArticle3_conc.setValue("unitCu",record.timeIssuance);
+                                valuesManagerArticle3_conc.setValue("unitMo",record.prefixPayment);
+                                valuesManagerArticle9_conc.setValue("TC",record.treatCost);
+                                valuesManagerArticle9_conc.setValue("RC",record.refinaryCost);
                                 article5_ConcDeliveryTerms.setValue("incotermsId","FOB");
                                 article5_ConcDeliveryTerms.setValue("portByPortSourceId","BANDAR ABBAS");
                                 article5_ConcDeliveryTerms.setValue("incotermsText",record.incotermsText);
+                                ListGrid_ContractConcItemShipment.fetchData(criteriaContractConcItemShipment);
                         },300)
                         }
                         else{
-                            alert(RpcResponse_o.data);
+                            alert(RpcResponse_o.data+"Error");
                             isc.say(RpcResponse_o.data);
                         }
                         }
@@ -365,7 +372,13 @@ var ListGrid_Conc = isc.ListGrid.create({
                         contactHeaderConcAgent.setValue("phone_ContactBuyer", data[0].phone_ContactBuyer)
                         contactHeaderConcAgent.setValue("mobile_ContactBuyer", data[0].mobile_ContactBuyer)
                         contactHeaderConcAgent.setValue("address_ContactBuyer", data[0].address_ContactBuyer)
-                        ListGrid_ContractConcItemShipment.fetchData(criteriaContractConcItemShipment);
+                        valuesManagerArticle12_quality.setValue("article12_number56",data[0].article10_number56)
+                        valuesManagerArticle12_quality.setValue("article12_number57",data[0].article10_number57)
+                        valuesManagerArticle12_quality.setValue("article12_number58",data[0].article10_number58)
+                        valuesManagerArticle12_quality.setValue("article12_number59",data[0].article10_number59)
+                        valuesManagerArticle12_quality.setValue("article12_number60",data[0].article10_number60)
+                        valuesManagerArticle12_quality.setValue("article12_number61",data[0].article10_number61)
+                        valuesManagerArticle10_quality.setValue("article10_quality1",data[0].article9_ImportantNote)
                     })},300)
                 }
     }

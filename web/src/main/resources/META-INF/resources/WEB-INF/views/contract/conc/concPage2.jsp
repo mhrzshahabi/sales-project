@@ -147,7 +147,8 @@ var buttonAddConcItem=isc.IButton.create({
     click: "ListGrid_ContractConcItemShipment.startEditingNew()"
 })
 
-ListGrid_ContractConcItemShipment=isc.ListGrid.create({
+isc.ListGrid.create({
+        ID:"ListGrid_ContractConcItemShipment",
         width: "79%",
         height: "200",
         modalEditing: true,

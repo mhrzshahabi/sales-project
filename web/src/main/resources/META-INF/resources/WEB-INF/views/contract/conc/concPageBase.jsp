@@ -57,7 +57,7 @@ var contactConcTabs = isc.TabSet.create({
                 title: "page1", canClose: false,
                 pane: isc.ViewLoader.create({
                                     ID: "ViewLoaderpage1",
-                                    autoDraw:false,
+                                    autoDraw:true,
                                     viewURL:"<spring:url value="/contact/concPage1" />",
                                     loadingMessage:"Loading Page1.."
                                     })
@@ -66,7 +66,7 @@ var contactConcTabs = isc.TabSet.create({
                 title: "page2", canClose: false,
                 pane: isc.ViewLoader.create({
                                     ID: "ViewLoaderpage2",
-                                    autoDraw:false,
+                                    autoDraw:true,
                                     viewURL:"<spring:url value="/contact/concPage2" />",
                                     loadingMessage:"Loading Page2.."
                                     })
@@ -100,8 +100,8 @@ var IButton_ContactConc_Save = isc.IButton.create({
             dataSaveAndUpdateContractConc.molybdenum = valuesManagerArticle3_conc.getValue("MO");
             dataSaveAndUpdateContractConc.copper = valuesManagerArticle3_conc.getValue("CU");
             dataSaveAndUpdateContractConc.mo_amount = 0;
-            dataSaveAndUpdateContractConc.timeIssuance = "any";
-            dataSaveAndUpdateContractConc.prefixPayment = "any";
+            dataSaveAndUpdateContractConc.timeIssuance = valuesManagerArticle3_conc.getValue("unitCu");  ///unit1
+            dataSaveAndUpdateContractConc.prefixPayment = valuesManagerArticle3_conc.getValue("unitMo"); ///unit2
             dataSaveAndUpdateContractConc.invoiceType = "any";
             dataSaveAndUpdateContractConc.runStartDate = "";
             dataSaveAndUpdateContractConc.runTill = "";
@@ -121,6 +121,8 @@ var IButton_ContactConc_Save = isc.IButton.create({
             dataSaveAndUpdateContractConc.eventPayment = "any";
             dataSaveAndUpdateContractConc.contentType = "any";
             dataSaveAndUpdateContractConc.materialId = -42;
+            dataSaveAndUpdateContractConc.treatCost = valuesManagerArticle9_conc.getValue("TC");
+            dataSaveAndUpdateContractConc.refinaryCost = valuesManagerArticle9_conc.getValue("RC");
 
 var dataSaveAndUpdateContractConcDetail = {};
 
@@ -289,13 +291,13 @@ var dataSaveAndUpdateContractConcDetail = {};
         dataSaveAndUpdateContractConcDetail.article9_number54 = "";
         dataSaveAndUpdateContractConcDetail.article9_number54_1 = "";
         dataSaveAndUpdateContractConcDetail.article9_number55 = "";
-        dataSaveAndUpdateContractConcDetail.article9_ImportantNote = "";
-        dataSaveAndUpdateContractConcDetail.article10_number56 ="";
-        dataSaveAndUpdateContractConcDetail.article10_number57 ="";
-        dataSaveAndUpdateContractConcDetail.article10_number58 ="";
-        dataSaveAndUpdateContractConcDetail.article10_number59 ="";
-        dataSaveAndUpdateContractConcDetail.article10_number60 ="";
-        dataSaveAndUpdateContractConcDetail.article10_number61 ="";
+        dataSaveAndUpdateContractConcDetail.article9_ImportantNote = valuesManagerArticle10_quality.getValue("article10_quality1");
+        dataSaveAndUpdateContractConcDetail.article10_number56 =valuesManagerArticle12_quality.getValue("article12_number56");
+        dataSaveAndUpdateContractConcDetail.article10_number57 =valuesManagerArticle12_quality.getValue("article12_number57");
+        dataSaveAndUpdateContractConcDetail.article10_number58 =valuesManagerArticle12_quality.getValue("article12_number58");
+        dataSaveAndUpdateContractConcDetail.article10_number59 =valuesManagerArticle12_quality.getValue("article12_number59");
+        dataSaveAndUpdateContractConcDetail.article10_number60 =valuesManagerArticle12_quality.getValue("article12_number60");
+        dataSaveAndUpdateContractConcDetail.article10_number61 =valuesManagerArticle12_quality.getValue("article12_number61");
         recordContractNoConc=contactHeaderConc.getValue("contractNo");
         var criteriaContractNoConc={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:-42},{fieldName:"contractNo",operator:"equals",value:recordContractNoConc}]};
         RestDataSource_Contract.fetchData(criteriaContractNoConc,function(dsResponse, data, dsRequest) {
@@ -375,7 +377,6 @@ function saveListGrid_ContractConcItemShipment(contractID) {
             var dataEditMain=ListGrid_ContractConcItemShipment.getSelectedRecord(element)
             dataEditMain.contractId=contractID;
             dataEditMain.dischargeId = 11022;
-            alert("manaaaaam");
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
