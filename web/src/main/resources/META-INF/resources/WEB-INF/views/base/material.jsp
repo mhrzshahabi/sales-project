@@ -422,11 +422,21 @@
         height: 600,
         dataSource: RestDataSource_Material,
         contextMenu: Menu_ListGrid_Material,
-        expansionFieldImageShowSelected:true,
         styleName:'expandList',
         autoFetchData: true,
+        autoFitData: "vertical",
+        //height: 150,
+        alternateRecordStyles: true,
         canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
         autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -465,7 +475,7 @@
 
             var hLayout = isc.HLayout.create({
                 align: "center",padding: 5,
-                membersMargin: 10,
+                membersMargin: 20,
                 members: [
                     ToolStripButton_MaterialItem_Add
                 ]
@@ -473,6 +483,7 @@
 
                 var layout = isc.VLayout.create({
                     padding: 5,
+                    membersMargin: 10,
                     members: [ ListGrid_MaterialItem, recordNotFound, hLayout ]
                 });
 
@@ -877,7 +888,7 @@
         }
     });
 
-    var ToolStripButton_MaterialFeature_Add = isc.ToolStripButtonAdd.create({
+    var ToolStripButton_MaterialFeature_Add = isc.ToolStripButtonAddLarge.create({
         //icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -1177,7 +1188,7 @@
         });
 
         var layoutMaterialFeature = isc.VLayout.create({
-              padding: 5,
+
             members: [ ListGrid_MaterialFeature, hLayoutMaterialFeature ]
         });
 
@@ -1196,6 +1207,7 @@
         },
         items:
             [
+                ListGrid_MaterialFeature,
                 layoutMaterialFeature
             ]
         });
@@ -1513,7 +1525,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
 
     var ListGrid_MaterialItem = isc.ListGrid.create({
         width: "100%",
-        height: 150,
+        height: 180,
         dataSource: RestDataSource_MaterialItem,
         contextMenu: Menu_ListGrid_MaterialItem,
         setAutoFitExtraRecords: true,
@@ -1524,10 +1536,10 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
             [
                 {name: "id", hidden: true, primaryKey: true},
                 {name: "materialId", type: "long", hidden: true},
-                {name: "gdsCode", width: "10%", title: "<spring:message code='MaterialItem.gdsCode'/> "},
-                {name: "gdsName", width: "10%", title: "<spring:message code='MaterialItem.gdsName'/> "},
-                {name: "editIcon", width: 40 , showTitle:false},
-                {name: "removeIcon", width: 40 , showTitle:false},
+                {name: "gdsCode", width: "48%", title: "<spring:message code='MaterialItem.gdsCode'/> "},
+                {name: "gdsName", width: "48%", title: "<spring:message code='MaterialItem.gdsName'/> "},
+                {name: "editIcon", width: "4%" , align:"center", showTitle:false},
+                {name: "removeIcon", width: "4%" , align:"center", showTitle:false},
             ],
         sortField: 0,
         autoFetchData: false,
@@ -1577,21 +1589,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
             } else {
                 return null;
                 }
-            },
-
-
-            updateRecordComponent: function (record, colNum, component, recordChanged) {
-            var fieldName = this.getFieldName(colNum);
-                if (fieldName == "editIcon") {
-                    console.log(ListGrid_MaterialItem.getSelectedRecord())
-            }else {
-              return null;
             }
-                return component;
-            }
-
-
-
 
     });
 var HLayout_MaterialItem_Grid = isc.HLayout.create({

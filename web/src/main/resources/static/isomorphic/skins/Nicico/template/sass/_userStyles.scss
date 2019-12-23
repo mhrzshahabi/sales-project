@@ -103,7 +103,7 @@
 {
   border-bottom: 3px solid #e6e6e6;
   padding: 5px !important;
-  font-weight: bold;
+  //font-weight: bold;
   position: relative;
   &:after{
       content : "";
@@ -119,14 +119,14 @@
 .specialCol, .specialColOver, .specialColSelected, .specialColSelectedOver
 {
   border-bottom: 3px solid #e6e6e6;
-  font-weight: bold;
+  //font-weight: bold;
   position: relative;
 }
 .cell, .cellOver, .cellSelected, .cellSelectedOver
 {
   border-bottom: 3px solid #e6e6e6;
   padding: 5px !important;
-  font-weight: bold;
+  //font-weight: bold;
   position: relative;
   &:after{
     content : "";
@@ -142,7 +142,7 @@
 .cellDarkAltCol, .cellOverDarkAltCol, .cellSelectedDarkAltCol, .cellSelectedOverDarkAltCol{
   border-bottom: 3px solid #e6e6e6;
   padding: 5px !important;
-  font-weight: bold;
+  //font-weight: bold;
   position: relative;
   &:after{
     content : "";
@@ -158,7 +158,7 @@
 .cellAltCol, .cellOverAltCol, .cellSelectedAltCol, .cellSelectedOverAltCol  {
   border-bottom: 3px solid #e6e6e6;
   padding: 5px !important;
-  font-weight: bold;
+  //font-weight: bold;
   position: relative;
   &:after{
     content : "";

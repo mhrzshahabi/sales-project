@@ -59,11 +59,13 @@
 
 <script type="application/javascript">
 
+/*
     isc.DynamicForm.addProperties({
         width: "100%", errorOrientation: "right", showErrorStyle: false, wrapItemTitles: false,
         titleSuffix: "<span style='color:#ff0842;font-size:21px; padding-right: 2px;'> *</span>", requiredTitlePrefix: "",
         requiredTitleSuffix: "", requiredMessage: ""
     });
+*/
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
