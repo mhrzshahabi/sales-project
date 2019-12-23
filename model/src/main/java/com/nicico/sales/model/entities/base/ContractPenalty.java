@@ -22,13 +22,6 @@ public class ContractPenalty extends Auditable {
 	@Column(name = "ID")
 	private Long id;
 
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "CONTRACT_ITEM_FEATURE_ID", nullable = false, insertable = false, updatable = false)
-//	private ContractItemFeature contractItemFeature;
-//
-//	@Column(name = "CONTRACT_ITEM_FEATURE_ID")
-//	private Long contractItemFeatureId;
-
 	@Column(name = "DEDUCTION", length = 4)
 	private Double deduction;
 
