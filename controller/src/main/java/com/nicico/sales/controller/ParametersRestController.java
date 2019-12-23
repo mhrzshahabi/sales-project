@@ -1,17 +1,17 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
-import com.nicico.copper.common.dto.search.EOperator;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ParametersDTO;
 import com.nicico.sales.iservice.IParametersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,44 +75,9 @@ public class ParametersRestController {
 
 	@Loggable
 	@GetMapping(value = "/spec-list")
-//	@PreAuthorize("hasAuthority('r_parameters')")
-	public ResponseEntity<ParametersDTO.ParametersSpecRs> list(@RequestParam(value = "_startRow", required = false) Integer startRow,
-                                                         @RequestParam(value = "_endRow", required = false) Integer endRow,
-                                                         @RequestParam(value = "_constructor", required = false) String constructor,
-                                                         @RequestParam(value = "operator", required = false) String operator,
-                                                         @RequestParam(value = "_sortBy", required = false) String sortBy,
-                                                         @RequestParam(value = "criteria", required = false) String criteria) throws IOException {
-		SearchDTO.SearchRq request = new SearchDTO.SearchRq();
-		 SearchDTO.CriteriaRq criteriaRq;
-        if (StringUtils.isNotEmpty(constructor) && constructor.equals("AdvancedCriteria")) {
-            criteria = "[" + criteria + "]";
-            criteriaRq = new SearchDTO.CriteriaRq();
-            criteriaRq.setOperator(EOperator.valueOf(operator))
-                    .setCriteria(objectMapper.readValue(criteria, new TypeReference<List<SearchDTO.CriteriaRq>>() {
-                    }));
-
-            if (StringUtils.isNotEmpty(sortBy)) {
-                request.setSortBy(sortBy);
-            }
-
-            request.setCriteria(criteriaRq);
-        }
-
-		request.setStartIndex(startRow).setCount(endRow - startRow);
-
-
-		SearchDTO.SearchRs<ParametersDTO.Info> response = parametersService.search(request);
-
-		final ParametersDTO.SpecRs specResponse = new ParametersDTO.SpecRs();
-		specResponse.setData(response.getList())
-				.setStartRow(startRow)
-				.setEndRow(startRow + response.getTotalCount().intValue())
-				.setTotalRows(response.getTotalCount().intValue());
-
-		final ParametersDTO.ParametersSpecRs specRs = new ParametersDTO.ParametersSpecRs();
-		specRs.setResponse(specResponse);
-
-		return new ResponseEntity<>(specRs, HttpStatus.OK);
+	public ResponseEntity<TotalResponse<ParametersDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+		return new ResponseEntity<>(parametersService.search(nicicoCriteria), HttpStatus.OK);
 	}
 
 	// ------------------------------

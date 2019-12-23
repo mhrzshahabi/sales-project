@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CONTRACT_PERSON", uniqueConstraints = @UniqueConstraint(columnNames = {"CONTRACT_ID", "PERSON_ID"}))
+@Table(name = "TBL_CONTRACT_PERSON", uniqueConstraints = @UniqueConstraint(name = "CONTRACT_ID_PERSON_ID_UNIQUE", columnNames = {"CONTRACT_ID", "PERSON_ID"}))
 public class ContractPerson extends Auditable {
 
     @Id
