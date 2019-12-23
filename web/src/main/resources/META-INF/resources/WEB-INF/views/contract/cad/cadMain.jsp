@@ -12,6 +12,18 @@
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
 
+    var RestDataSource_Material = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "code", title: "<spring:message code='goods.code'/> "},
+                {name: "descl"},
+                {name: "unitId"},
+                {name: "unit.nameEN"},
+            ],
+        // ######@@@@###&&@@###
+        fetchDataURL: "${contextPath}/api/material/spec-list"
+    });
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
         fields:
@@ -161,7 +173,7 @@
     var criteriaCad = {
         _constructor: "AdvancedCriteria",
         operator: "and",
-        criteria: [{fieldName: "materialId", operator: "equals", value: 952}]
+        criteria: [{fieldName: "material.descl", operator: "contains", value: "Cath"}]
     };
 
     var ViewLoader_createCad = isc.ViewLoader.create({
@@ -213,13 +225,19 @@ var Window_ContactCad = isc.Window.create({
 
 var ListGrid_Cad = isc.ListGrid.create({
         dataSource: RestDataSource_Contract,
-        initialCriteria: criteriaCad,
         dataPageSize: 50,
         showFilterEditor: true,
         autoFetchData: true,
+        initialCriteria: criteriaCad,
         fields:
             [
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                {
+                    name: "material.descl",showTitle:"false",
+                    title: "Type material",
+                    hidden: false,
+                    align: "center",
+                },
                 {
                     name: "contractNo",
                     title: "<spring:message code='contact.no'/>",
@@ -281,6 +299,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                                 contactCadHeader.setValue("createDateDumy", record.contractDate)
                                 contactCadHeader.setValue("contractNo", record.contractNo)
                                 contactCadHeader.setValue("contactId", record.contactId)
+                                dynamicFormCath.setValue("materialId",record.materialId)
                                 contactCadHeader.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId)
                                 contactCadHeader.setValue("contactBySellerId", record.contactBySellerId)
                                 contactCadHeader.setValue("contactBySellerAgentId", record.contactBySellerAgentId)

@@ -1,5 +1,5 @@
 <%@ page import="com.nicico.copper.common.domain.ConstantVARs" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -91,13 +91,13 @@
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
                 case "Unauthorized":
-                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
+                    isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
                 case "DataIntegrityViolation_Unique":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
                 case "DataIntegrityViolation_FK":
-                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
+                    isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
                 case "DataIntegrityViolation":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
@@ -231,7 +231,7 @@
     });
     languageForm.setValue("languageName", "<c:out value='${pageContext.response.locale}'/>");
 
-    if(languageForm.getValue("languageName") === 'fa') {
+    if (languageForm.getValue("languageName") === 'fa') {
         isc.FileLoader.loadLocale("fa")
     } else {
         isc.FileLoader.loadLocale("en");
@@ -636,7 +636,10 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            isc.HLayout.create({align: "left", members: [salesContractButton , inspectionContractButton , CharterButton, contracPersonButton ]})
+            isc.HLayout.create({
+                align: "left",
+                members: [salesContractButton, inspectionContractButton, CharterButton, contracPersonButton]
+            })
         ],
         autoDraw: false
     });
@@ -740,51 +743,6 @@
             createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
         }
     });
-    var exportButton = isc.IconButton.create({
-        title: "<spring:message code='export.title'/>",
-        icon: "license/exportLicense.png",
-        largeIcon: "license/exportLicense.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='export.title'/>", "<spring:url value="/export/showForm" />")
-        }
-    });
-    var salesPlanButton = isc.IconButton.create({
-        title: "<spring:message code='salesPlan.title'/>",
-        icon: "product/salesPlan.png",
-        largeIcon: "product/salesPlan.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='organization.title'/>", "/department/showForm")
-        }
-    });
-    var purchasePlanButton = isc.IconButton.create({
-        title: "<spring:message code='purchasePlan.title'/>",
-        icon: "product/purchasePlan.png",
-        largeIcon: "product/purchasePlan.png",
-        orientation: "vertical",
-        click: function () {
-            <%--createTab("<spring:message code='organization.title'/>", "/department/showForm")--%>
-        }
-    });
-    var deliveryPlanButton = isc.IconButton.create({
-        title: "<spring:message code='deliveryPlan.title'/>",
-        icon: "product/deliveryPlan.png",
-        largeIcon: "product/deliveryPlan.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='organization.title'/>", "/department/showForm")
-        }
-    });
-    var productionPlanButton = isc.IconButton.create({
-        title: "<spring:message code='productionPlan.title'/>",
-        icon: "product/productionPlan.png",
-        largeIcon: "product/productionPlan.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='organization.title'/>", "/department/showForm")
-        }
-    });
 
     var productRibbonGroup = isc.RibbonGroup.create({
         title: "<spring:message code='global.menu.product.management'/>",
@@ -793,7 +751,6 @@
         showTitle: false,
         titleAlign: "left",
         controls: [
-            // warehousesButton,
             tozinButton,
             OnWayProductButton,
             tozinSalesButton,
@@ -803,11 +760,6 @@
             WarehouseIssueCathodeButton,
             WarehouseIssueConsButton,
             WarehouseIssueMoButton
-            // exportButton,
-            // salesPlanButton,
-            // purchasePlanButton,
-            // deliveryPlanButton,
-            // productionPlanButton
         ],
         autoDraw: false
     });
@@ -873,7 +825,6 @@
         backgroundColor: "#153560",
         members: [shipmentRibbonBar]
     });
-    /*InspectionContract*/
     var inspectionMoistureResultButton = isc.IconButton.create({
         title: "<spring:message code='inspectionMoistureResults.title'/>",
         icon: "inspection/",
@@ -883,14 +834,13 @@
             createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")
         }
     });
-
     var inspectionAssayResultButton = isc.IconButton.create({
         title: "<spring:message code='inspectionAssayResults.title'/>",
         icon: "inspection/detective.png",
         largeIcon: "inspection/detective.png",
         orientation: "vertical",
         click: function () {
-            createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />" )
+            createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")
         }
     });
 
