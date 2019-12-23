@@ -218,7 +218,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list1"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_ContactByDestinationInspector = isc.MyRestDataSource.create({
         fields:
@@ -229,7 +229,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list2"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_ContactByInsurance = isc.MyRestDataSource.create({
         fields:
@@ -241,7 +241,7 @@
                 {name: "commertialRole"},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"}
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list3"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
     var RestDataSource_Cost = isc.MyRestDataSource.create({
