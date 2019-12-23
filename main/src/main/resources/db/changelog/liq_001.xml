@@ -2,160 +2,160 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="RMazloom" id="1577100334566-1">
+    <changeSet author="RMazloom" id="1577102401579-1">
         <createSequence sequenceName="SEQ_BANK"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-2">
+    <changeSet author="RMazloom" id="1577102401579-2">
         <createSequence sequenceName="SEQ_CATOD_LIST"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-3">
+    <changeSet author="RMazloom" id="1577102401579-3">
         <createSequence sequenceName="SEQ_CONTACT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-4">
+    <changeSet author="RMazloom" id="1577102401579-4">
         <createSequence sequenceName="SEQ_CONTACT_ACCOUNT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-5">
+    <changeSet author="RMazloom" id="1577102401579-5">
         <createSequence sequenceName="SEQ_CONTRACT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-6">
+    <changeSet author="RMazloom" id="1577102401579-6">
         <createSequence sequenceName="SEQ_CONTRACT_CURRENCY"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-7">
+    <changeSet author="RMazloom" id="1577102401579-7">
         <createSequence sequenceName="SEQ_CONTRACT_DETAIL"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-8">
+    <changeSet author="RMazloom" id="1577102401579-8">
         <createSequence sequenceName="SEQ_CONTRACT_PENALTY"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-9">
+    <changeSet author="RMazloom" id="1577102401579-9">
         <createSequence sequenceName="SEQ_CONTRACT_PERSON"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-10">
+    <changeSet author="RMazloom" id="1577102401579-10">
         <createSequence sequenceName="SEQ_CONTRACT_SHIPMENT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-11">
+    <changeSet author="RMazloom" id="1577102401579-11">
         <createSequence sequenceName="SEQ_COST"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-12">
+    <changeSet author="RMazloom" id="1577102401579-12">
         <createSequence sequenceName="SEQ_COUNTRY"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-13">
+    <changeSet author="RMazloom" id="1577102401579-13">
         <createSequence sequenceName="SEQ_CURRENCY"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-14">
+    <changeSet author="RMazloom" id="1577102401579-14">
         <createSequence sequenceName="SEQ_CURRENCY_RATE"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-15">
+    <changeSet author="RMazloom" id="1577102401579-15">
         <createSequence sequenceName="SEQ_DCC"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-16">
+    <changeSet author="RMazloom" id="1577102401579-16">
         <createSequence sequenceName="SEQ_FEATURE"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-17">
+    <changeSet author="RMazloom" id="1577102401579-17">
         <createSequence sequenceName="SEQ_GLOSSARY"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-18">
+    <changeSet author="RMazloom" id="1577102401579-18">
         <createSequence sequenceName="SEQ_GROUPS"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-19">
+    <changeSet author="RMazloom" id="1577102401579-19">
         <createSequence sequenceName="SEQ_GROUPS_PERSON"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-20">
+    <changeSet author="RMazloom" id="1577102401579-20">
         <createSequence sequenceName="SEQ_INCOTERMS"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-21">
+    <changeSet author="RMazloom" id="1577102401579-21">
         <createSequence sequenceName="SEQ_INSPECTION_CONTRACT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-22">
+    <changeSet author="RMazloom" id="1577102401579-22">
         <createSequence sequenceName="SEQ_INSTRUCTION"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-23">
+    <changeSet author="RMazloom" id="1577102401579-23">
         <createSequence sequenceName="SEQ_INVOICE"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-24">
+    <changeSet author="RMazloom" id="1577102401579-24">
         <createSequence sequenceName="SEQ_INVOICE_INTERNAL"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-25">
+    <changeSet author="RMazloom" id="1577102401579-25">
         <createSequence sequenceName="SEQ_INVOICE_INTERNAL_CUSTOMER"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-26">
+    <changeSet author="RMazloom" id="1577102401579-26">
         <createSequence sequenceName="SEQ_INVOICE_INTERNAL_LC"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-27">
+    <changeSet author="RMazloom" id="1577102401579-27">
         <createSequence sequenceName="SEQ_ISSUE"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-28">
+    <changeSet author="RMazloom" id="1577102401579-28">
         <createSequence sequenceName="SEQ_LME"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-29">
+    <changeSet author="RMazloom" id="1577102401579-29">
         <createSequence sequenceName="SEQ_MATERIAL"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-30">
+    <changeSet author="RMazloom" id="1577102401579-30">
         <createSequence sequenceName="SEQ_MATERIAL_FEATURE"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-31">
+    <changeSet author="RMazloom" id="1577102401579-31">
         <createSequence sequenceName="SEQ_MATERIAL_ITEM"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-32">
+    <changeSet author="RMazloom" id="1577102401579-32">
         <createSequence sequenceName="SEQ_PARAMETER"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-33">
+    <changeSet author="RMazloom" id="1577102401579-33">
         <createSequence sequenceName="SEQ_PAYMENT_OPTION"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-34">
+    <changeSet author="RMazloom" id="1577102401579-34">
         <createSequence sequenceName="SEQ_PERSON"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-35">
+    <changeSet author="RMazloom" id="1577102401579-35">
         <createSequence sequenceName="SEQ_PORT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-36">
+    <changeSet author="RMazloom" id="1577102401579-36">
         <createSequence sequenceName="SEQ_RATE"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-37">
+    <changeSet author="RMazloom" id="1577102401579-37">
         <createSequence sequenceName="SEQ_SHIPMENT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-38">
+    <changeSet author="RMazloom" id="1577102401579-38">
         <createSequence sequenceName="SEQ_SHIPMENT_ASSAY_HEADER"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-39">
+    <changeSet author="RMazloom" id="1577102401579-39">
         <createSequence sequenceName="SEQ_SHIPMENT_ASSAY_ITEM"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-40">
+    <changeSet author="RMazloom" id="1577102401579-40">
         <createSequence sequenceName="SEQ_SHIPMENT_CONTRACT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-41">
+    <changeSet author="RMazloom" id="1577102401579-41">
         <createSequence sequenceName="SEQ_SHIPMENT_EMAIL"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-42">
+    <changeSet author="RMazloom" id="1577102401579-42">
         <createSequence sequenceName="SEQ_SHIPMENT_MOISTURE_HEADER"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-43">
+    <changeSet author="RMazloom" id="1577102401579-43">
         <createSequence sequenceName="SEQ_SHIPMENT_MOISTURE_ITEM"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-44">
+    <changeSet author="RMazloom" id="1577102401579-44">
         <createSequence sequenceName="SEQ_TOZIN"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-45">
+    <changeSet author="RMazloom" id="1577102401579-45">
         <createSequence sequenceName="SEQ_TOZIN_SALES"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-46">
+    <changeSet author="RMazloom" id="1577102401579-46">
         <createSequence sequenceName="SEQ_UNIT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-47">
+    <changeSet author="RMazloom" id="1577102401579-47">
         <createSequence sequenceName="SEQ_WAREHOUSE_CAD"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-48">
+    <changeSet author="RMazloom" id="1577102401579-48">
         <createSequence sequenceName="SEQ_WAREHOUSE_CAD_ITEM"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-49">
+    <changeSet author="RMazloom" id="1577102401579-49">
         <createSequence sequenceName="SEQ_WAREHOUSE_LOT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-50">
+    <changeSet author="RMazloom" id="1577102401579-50">
         <createSequence sequenceName="SEQ_WAREHOUSE_STOCK"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-51">
+    <changeSet author="RMazloom" id="1577102401579-51">
         <createSequence sequenceName="SEQ_WAREHOUSE_YARD"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-52">
+    <changeSet author="RMazloom" id="1577102401579-52">
         <createTable tableName="TBL_BANK">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_BANKPK"/>
@@ -179,7 +179,7 @@
             <column name="c_NAME_EN" type="VARCHAR2(1000 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-53">
+    <changeSet author="RMazloom" id="1577102401579-53">
         <createTable tableName="TBL_CONTACT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTACTPK"/>
@@ -235,7 +235,7 @@
             <column name="C_WEBSITE" type="VARCHAR2(100 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-54">
+    <changeSet author="RMazloom" id="1577102401579-54">
         <createTable tableName="TBL_CONTACT_ACCOUNT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTACT_ACCOUNTPK"/>
@@ -266,7 +266,7 @@
             <column name="b_STATUS" type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-55">
+    <changeSet author="RMazloom" id="1577102401579-55">
         <createTable tableName="TBL_CONTRACT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACTPK"/>
@@ -364,7 +364,7 @@
             <column name="WEIGHING_LP" type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-56">
+    <changeSet author="RMazloom" id="1577102401579-56">
         <createTable tableName="TBL_CONTRACT_CURRENCY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_CURRENCYPK"/>
@@ -386,7 +386,7 @@
             <column name="REFRENCE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-57">
+    <changeSet author="RMazloom" id="1577102401579-57">
         <createTable tableName="TBL_CONTRACT_DETAIL">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_DETAILPK"/>
@@ -578,7 +578,7 @@
             <column name="TYPICAL_UNITSI" type="VARCHAR2(4000 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-58">
+    <changeSet author="RMazloom" id="1577102401579-58">
         <createTable tableName="TBL_CONTRACT_PENALTY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_PENALTYPK"/>
@@ -599,7 +599,7 @@
             <column name="VALUE" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-59">
+    <changeSet author="RMazloom" id="1577102401579-59">
         <createTable tableName="TBL_CONTRACT_PERSON">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_PERSONPK"/>
@@ -620,7 +620,7 @@
             <column name="STATUS" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-60">
+    <changeSet author="RMazloom" id="1577102401579-60">
         <createTable tableName="TBL_CONTRACT_SHIPMENT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_SHIPMENTPK"/>
@@ -647,7 +647,7 @@
             <column name="TOLORANCE" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-61">
+    <changeSet author="RMazloom" id="1577102401579-61">
         <createTable tableName="TBL_COST">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_COSTPK"/>
@@ -700,7 +700,7 @@
             <column name="UMPIRE_COST_CUR" type="VARCHAR2(20 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-62">
+    <changeSet author="RMazloom" id="1577102401579-62">
         <createTable tableName="TBL_COUNTRY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_COUNTRYPK"/>
@@ -729,7 +729,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-63">
+    <changeSet author="RMazloom" id="1577102401579-63">
         <createTable tableName="TBL_CURRENCY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CURRENCYPK"/>
@@ -752,7 +752,7 @@
             <column name="c_SYMBOL" type="VARCHAR2(20 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-64">
+    <changeSet author="RMazloom" id="1577102401579-64">
         <createTable tableName="TBL_CURRENCY_RATE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CURRENCY_RATEPK"/>
@@ -775,7 +775,7 @@
             <column name="c_RMB_USD" type="VARCHAR2(100 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-65">
+    <changeSet author="RMazloom" id="1577102401579-65">
         <createTable tableName="TBL_DCC">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_DCCPK"/>
@@ -803,7 +803,7 @@
             <column name="c_TBL_NAME2" type="VARCHAR2(100 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-66">
+    <changeSet author="RMazloom" id="1577102401579-66">
         <createTable tableName="TBL_FEATURE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_FEATUREPK"/>
@@ -832,7 +832,7 @@
             <column name="SYMBOL" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-67">
+    <changeSet author="RMazloom" id="1577102401579-67">
         <createTable tableName="TBL_GLOSSARY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_GLOSSARYPK"/>
@@ -856,7 +856,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-68">
+    <changeSet author="RMazloom" id="1577102401579-68">
         <createTable tableName="TBL_GROUPS">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_GROUPSPK"/>
@@ -877,7 +877,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-69">
+    <changeSet author="RMazloom" id="1577102401579-69">
         <createTable tableName="TBL_GROUPS_PERSON">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_GROUPS_PERSONPK"/>
@@ -898,7 +898,7 @@
             <column name="PERSON_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-70">
+    <changeSet author="RMazloom" id="1577102401579-70">
         <createTable tableName="TBL_INCOTERMS">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INCOTERMSPK"/>
@@ -932,7 +932,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-71">
+    <changeSet author="RMazloom" id="1577102401579-71">
         <createTable tableName="TBL_INSPECTION_CONTRACT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INSPECTION_CONTRACTPK"/>
@@ -968,7 +968,7 @@
             <column name="VESSEL_NAME" type="VARCHAR2(1000 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-72">
+    <changeSet author="RMazloom" id="1577102401579-72">
         <createTable tableName="TBL_INSTRUCTION">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INSTRUCTIONPK"/>
@@ -995,7 +995,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-73">
+    <changeSet author="RMazloom" id="1577102401579-73">
         <createTable tableName="TBL_INVOICE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICEPK"/>
@@ -1074,7 +1074,7 @@
             <column name="UNIT_PRICE_CUR" type="VARCHAR2(10 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-74">
+    <changeSet author="RMazloom" id="1577102401579-74">
         <createTable tableName="TBL_INVOICE_INTERNAL">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_INTERNALPK"/>
@@ -1130,7 +1130,7 @@
             <column name="WEIGHTREAL" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-75">
+    <changeSet author="RMazloom" id="1577102401579-75">
         <createTable tableName="TBL_INVOICE_INTERNAL_CUSTOMER">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_INTERNAL_CUSTOMERPK"/>
@@ -1159,7 +1159,7 @@
             <column name="CUST_TELEX" type="VARCHAR2(100 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-76">
+    <changeSet author="RMazloom" id="1577102401579-76">
         <createTable tableName="TBL_INVOICE_INTERNAL_LC">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_INTERNAL_LCPK"/>
@@ -1202,7 +1202,7 @@
             <column name="USERNAME" type="VARCHAR2(500 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-77">
+    <changeSet author="RMazloom" id="1577102401579-77">
         <createTable tableName="TBL_INVOICE_ITEM">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_ITEMPK"/>
@@ -1231,7 +1231,7 @@
             <column name="UP_DOWN" type="VARCHAR2(10 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-78">
+    <changeSet author="RMazloom" id="1577102401579-78">
         <createTable tableName="TBL_INVOICE_MOLYBDENUM">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_MOLYBDENUMPK"/>
@@ -1259,7 +1259,7 @@
             <column name="PRICE_FEE" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-79">
+    <changeSet author="RMazloom" id="1577102401579-79">
         <createTable tableName="TBL_LME">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_LMEPK"/>
@@ -1285,7 +1285,7 @@
             <column name="SILVER_USD_OUNCE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-80">
+    <changeSet author="RMazloom" id="1577102401579-80">
         <createTable tableName="TBL_MATERIAL">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_MATERIALPK"/>
@@ -1313,7 +1313,7 @@
             <column name="UNIT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-81">
+    <changeSet author="RMazloom" id="1577102401579-81">
         <createTable tableName="TBL_MATERIAL_FEATURE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_MATERIAL_FEATUREPK"/>
@@ -1347,7 +1347,7 @@
             <column name="TREAT_COST" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-82">
+    <changeSet author="RMazloom" id="1577102401579-82">
         <createTable tableName="TBL_MATERIAL_ITEM">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_MATERIAL_ITEMPK"/>
@@ -1368,7 +1368,7 @@
             <column name="MATERIAL_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-83">
+    <changeSet author="RMazloom" id="1577102401579-83">
         <createTable tableName="TBL_PARAMETER">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PARAMETERPK"/>
@@ -1401,7 +1401,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-84">
+    <changeSet author="RMazloom" id="1577102401579-84">
         <createTable tableName="TBL_PAYMENT_OPTION">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PAYMENT_OPTIONPK"/>
@@ -1420,7 +1420,7 @@
             <column name="NAME_PAY" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-85">
+    <changeSet author="RMazloom" id="1577102401579-85">
         <createTable tableName="TBL_PERSON">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PERSONPK"/>
@@ -1458,7 +1458,7 @@
             <column name="WHATSAPP" type="VARCHAR2(200 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-86">
+    <changeSet author="RMazloom" id="1577102401579-86">
         <createTable tableName="TBL_PORT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PORTPK"/>
@@ -1481,7 +1481,7 @@
             <column name="c_PORT" type="VARCHAR2(4000 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-87">
+    <changeSet author="RMazloom" id="1577102401579-87">
         <createTable tableName="TBL_RATE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_RATEPK"/>
@@ -1510,7 +1510,7 @@
             <column name="SYMBOL" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-88">
+    <changeSet author="RMazloom" id="1577102401579-88">
         <createTable tableName="TBL_SHIPMENT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENTPK"/>
@@ -1573,7 +1573,7 @@
             <column name="VESSEL_NAME" type="VARCHAR2(500 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-89">
+    <changeSet author="RMazloom" id="1577102401579-89">
         <createTable tableName="TBL_SHIPMENT_ASSAY_HEADER">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_ASSAY_HEADERPK"/>
@@ -1600,7 +1600,7 @@
             <column name="TOTAL_DRY_WEIGHT" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-90">
+    <changeSet author="RMazloom" id="1577102401579-90">
         <createTable tableName="TBL_SHIPMENT_ASSAY_ITEM">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_ASSAY_ITEMPK"/>
@@ -1623,7 +1623,7 @@
             <column name="ASSAY_HEADER_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-91">
+    <changeSet author="RMazloom" id="1577102401579-91">
         <createTable tableName="TBL_SHIPMENT_CONTRACT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_CONTRACTPK"/>
@@ -1671,7 +1671,7 @@
             <column name="YEAR_OF_BUILT" type="VARCHAR2(20 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-92">
+    <changeSet author="RMazloom" id="1577102401579-92">
         <createTable tableName="TBL_SHIPMENT_EMAIL">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_EMAILPK"/>
@@ -1697,7 +1697,7 @@
             <column name="STATUS" type="VARCHAR2(20 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-93">
+    <changeSet author="RMazloom" id="1577102401579-93">
         <createTable tableName="TBL_SHIPMENT_MOISTURE_HEADER">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_MOISTURE_HEADERPK"/>
@@ -1724,7 +1724,7 @@
             <column name="TOTAL_WET_WEIGHT" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-94">
+    <changeSet author="RMazloom" id="1577102401579-94">
         <createTable tableName="TBL_SHIPMENT_MOISTURE_ITEM">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_MOISTURE_ITEMPK"/>
@@ -1748,7 +1748,7 @@
             <column name="WET_WEIGHT" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-95">
+    <changeSet author="RMazloom" id="1577102401579-95">
         <createTable tableName="TBL_UNIT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_UNITPK"/>
@@ -1777,7 +1777,7 @@
             <column name="c_SYMBOL" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-96">
+    <changeSet author="RMazloom" id="1577102401579-96">
         <createTable tableName="TBL_WAREHOUSE_CAD">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_CADPK"/>
@@ -1817,7 +1817,7 @@
             <column name="WEIGHT_KG" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-97">
+    <changeSet author="RMazloom" id="1577102401579-97">
         <createTable tableName="TBL_WAREHOUSE_CAD_ITEM">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_CAD_ITEMPK"/>
@@ -1843,7 +1843,7 @@
             <column name="WEIGHT_KG" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-98">
+    <changeSet author="RMazloom" id="1577102401579-98">
         <createTable tableName="TBL_WAREHOUSE_ISSUE_CATHODE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_ISSUE_CATHODEPK"/>
@@ -1873,7 +1873,7 @@
             <column name="TOTAL_AMOUNT" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-99">
+    <changeSet author="RMazloom" id="1577102401579-99">
         <createTable tableName="TBL_WAREHOUSE_ISSUE_CONS">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_ISSUE_CONSPK"/>
@@ -1898,7 +1898,7 @@
             <column name="TOTAL_AMOUNT" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-100">
+    <changeSet author="RMazloom" id="1577102401579-100">
         <createTable tableName="TBL_WAREHOUSE_ISSUE_MO">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_ISSUE_MOPK"/>
@@ -1924,7 +1924,7 @@
             <column name="WAREHOUSELOT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-101">
+    <changeSet author="RMazloom" id="1577102401579-101">
         <createTable tableName="TBL_WAREHOUSE_LOT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_LOTPK"/>
@@ -1973,7 +1973,7 @@
             <column name="WEIGHT_KG" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-102">
+    <changeSet author="RMazloom" id="1577102401579-102">
         <createTable tableName="TBL_WAREHOUSE_STOCK">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_STOCKPK"/>
@@ -2000,7 +2000,7 @@
             <column name="YARD_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-103">
+    <changeSet author="RMazloom" id="1577102401579-103">
         <createTable tableName="TBL_WAREHOUSE_YARD">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_YARDPK"/>
@@ -2022,240 +2022,413 @@
             <column name="WAREHOUSE_NO" type="VARCHAR2(20 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-104">
+    <changeSet author="RMazloom" id="1577102401579-104">
         <addUniqueConstraint columnNames="BIJACK_NO" constraintName="BIJACK_NO_UNIQUE" tableName="TBL_WAREHOUSE_CAD"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-105">
-        <addUniqueConstraint columnNames="CONTRACT_ID, PERSON_ID" constraintName="CONTRACT_ID_PERSON_ID_UNIQUE" tableName="TBL_CONTRACT_PERSON"/>
+    <changeSet author="RMazloom" id="1577102401579-105">
+        <addUniqueConstraint columnNames="CONTRACT_ID, PERSON_ID" constraintName="CONTRACT_ID_PERSON_ID_UNIQUE"
+                             tableName="TBL_CONTRACT_PERSON"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-106">
-        <addUniqueConstraint columnNames="GROUPS_ID, PERSON_ID" constraintName="GROUPS_ID_PERSON_ID_UNIQUE" tableName="TBL_GROUPS_PERSON"/>
+    <changeSet author="RMazloom" id="1577102401579-106">
+        <addUniqueConstraint columnNames="GROUPS_ID, PERSON_ID" constraintName="GROUPS_ID_PERSON_ID_UNIQUE"
+                             tableName="TBL_GROUPS_PERSON"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-107">
+    <changeSet author="RMazloom" id="1577102401579-107">
         <createIndex indexName="WAREHOUSECADITEM_IDX_ISSUEID" tableName="TBL_WAREHOUSE_CAD_ITEM">
             <column name="ISSUE_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-108">
-        <addForeignKeyConstraint baseColumnNames="BANK_ID" baseTableName="TBL_CONTACT_ACCOUNT" constraintName="ContactAccount2bank" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_BANK" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-109">
-        <addForeignKeyConstraint baseColumnNames="INCOTERMS_ID" baseTableName="TBL_CONTRACT" constraintName="Contract2incoterm" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_INCOTERMS" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-110">
-        <addForeignKeyConstraint baseColumnNames="DEFINITION_ID" baseTableName="TBL_CONTRACT" constraintName="Contract2parmtrByDefinitin" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PARAMETER" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-111">
-        <addForeignKeyConstraint baseColumnNames="CURRENCY_ID" baseTableName="TBL_CONTRACT_CURRENCY" constraintName="ContractCurrency2CURRENCY" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-112">
-        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_CURRENCY" constraintName="ContractCurrency2contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-113">
-        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_SHIPMENT" constraintName="Contractship2contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-114">
-        <addForeignKeyConstraint baseColumnNames="DISCHARGE" baseTableName="TBL_CONTRACT_SHIPMENT" constraintName="Contractship2dischargeport" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-115">
-        <addForeignKeyConstraint baseColumnNames="SOURCE_INSPECTOR_ID" baseTableName="TBL_COST" constraintName="Cost2contactinspector_S" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-116">
-        <addForeignKeyConstraint baseColumnNames="DEST_INSPECTOR_ID" baseTableName="TBL_COST" constraintName="Cost2contactinspector_d" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-117">
-        <addForeignKeyConstraint baseColumnNames="INSURANCE_ID" baseTableName="TBL_COST" constraintName="Cost2contactinsurance" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-118">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_COST" constraintName="Cost2shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-119">
-        <addForeignKeyConstraint baseColumnNames="CHARTERER" baseTableName="TBL_SHIPMENT_CONTRACT" constraintName="FK4xohstl6fiurx9kg14groh0rm" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-120">
-        <addForeignKeyConstraint baseColumnNames="FLAG" baseTableName="TBL_SHIPMENT_CONTRACT" constraintName="FK8aamg0oec7de935x13fms3num" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-121">
-        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_PERSON" constraintName="FK_CONTRACT" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-122">
-        <addForeignKeyConstraint baseColumnNames="PERSON_ID" baseTableName="TBL_CONTRACT_PERSON" constraintName="FK_PERSON" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PERSON" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-123">
-        <addForeignKeyConstraint baseColumnNames="CNT_ID" baseTableName="TBL_CONTACT_ACCOUNT" constraintName="FKh5t6obexbeiq2n981irskoxsn" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-124">
-        <addForeignKeyConstraint baseColumnNames="OWNERS" baseTableName="TBL_SHIPMENT_CONTRACT" constraintName="FKigp8cmkv5m6jjoqxpg7wejcr4" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-125">
-        <addForeignKeyConstraint baseColumnNames="CHAIN_OF_OWNERS" baseTableName="TBL_SHIPMENT_CONTRACT" constraintName="FKm0y3k5vdqcgp4li7qte3s345x" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-126">
-        <addForeignKeyConstraint baseColumnNames="BUYERID" baseTableName="TBL_INVOICE" constraintName="INVOICE2CONTACT_BUYER" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-127">
-        <addForeignKeyConstraint baseColumnNames="SELLERID" baseTableName="TBL_INVOICE" constraintName="INVOICE2CONTACT_SELLER" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-128">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_INVOICE" constraintName="INVOICE2SHIPMENT" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-129">
-        <addForeignKeyConstraint baseColumnNames="WAREHOUSE_CAD_ID" baseTableName="TBL_WAREHOUSE_CAD_ITEM" constraintName="WAREHOUSECADITEM2w_c_header" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_CAD" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-130">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_CAD" constraintName="WarehouseCad2material_itm" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-131">
-        <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_CAD" constraintName="WarehouseCad2yard" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-132">
-        <addForeignKeyConstraint baseColumnNames="WAREHOUSECADITEM_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="WarehouseLot2CadItem" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_CAD_ITEM" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-133">
-        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="WarehouseLot2Contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-134">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_STOCK" constraintName="WarehouseStock2matherialitem" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-135">
-        <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_STOCK" constraintName="WarehouseStock2yard" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-136">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_WAREHOUSE_ISSUE_CATHODE" constraintName="WarehouseissueCad2shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-137">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_WAREHOUSE_ISSUE_CONS" constraintName="Warehouseissuecons2shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-138">
-        <addForeignKeyConstraint baseColumnNames="WAREHOUSELOT_ID" baseTableName="TBL_WAREHOUSE_ISSUE_MO" constraintName="Warehouseissuemo2lot" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_LOT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-139">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_WAREHOUSE_ISSUE_MO" constraintName="Warehouseissuemo2shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-140">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="Warehouselot2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-141">
-        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_BANK" constraintName="bank2Country" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-142">
-        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_CONTACT" constraintName="contact2Country" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-143">
-        <addForeignKeyConstraint baseColumnNames="C_DEFAULT_BANK_ID" baseTableName="TBL_CONTACT" constraintName="contact2bank" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_BANK" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-144">
-        <addForeignKeyConstraint baseColumnNames="PORT_SOURCE_ID" baseTableName="TBL_CONTRACT" constraintName="contract2PortBySourcePortId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-145">
-        <addForeignKeyConstraint baseColumnNames="CONTACT_ID" baseTableName="TBL_CONTRACT" constraintName="contract2contactByBuyer" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-146">
-        <addForeignKeyConstraint baseColumnNames="BUYER_AGENT_ID" baseTableName="TBL_CONTRACT" constraintName="contract2contactByBuyerAgent" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-147">
-        <addForeignKeyConstraint baseColumnNames="SELLER_ID" baseTableName="TBL_CONTRACT" constraintName="contract2contactBySeller" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-148">
-        <addForeignKeyConstraint baseColumnNames="SELLER_AGENT_ID" baseTableName="TBL_CONTRACT" constraintName="contract2contactBySellerAgent" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-149">
-        <addForeignKeyConstraint baseColumnNames="CONTACT_INSPECTION_ID" baseTableName="TBL_CONTRACT" constraintName="contract2contactInspection" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-150">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_CONTRACT" constraintName="contract2materialByMaterialId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-151">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="TBL_CONTRACT" constraintName="contract2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-152">
-        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_DETAIL" constraintName="contractDetail2contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-153">
-        <addForeignKeyConstraint baseColumnNames="GROUPS_ID" baseTableName="TBL_GROUPS_PERSON" constraintName="groupprs2group" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_GROUPS" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-154">
-        <addForeignKeyConstraint baseColumnNames="PERSON_ID" baseTableName="TBL_GROUPS_PERSON" constraintName="groupprs2prs" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PERSON" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-155">
-        <addForeignKeyConstraint baseColumnNames="INSPECTION_CONTACT_ID" baseTableName="TBL_INSPECTION_CONTRACT" constraintName="insp_cont2inspectorcontact" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-156">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_CONTRACT_ID" baseTableName="TBL_INSPECTION_CONTRACT" constraintName="insp_cont2shipcontract" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT_CONTRACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-157">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_INSPECTION_CONTRACT" constraintName="insp_cont2shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-158">
-        <addForeignKeyConstraint baseColumnNames="INVOICE_ID" baseTableName="TBL_INVOICE_ITEM" constraintName="invoiceItem2invoice" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_INVOICE" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-159">
-        <addForeignKeyConstraint baseColumnNames="INVOICE_ID" baseTableName="TBL_INVOICE_MOLYBDENUM" constraintName="invoiceMolybdenum2invoice" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_INVOICE" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-160">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="TBL_MATERIAL" constraintName="material2unit" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-161">
-        <addForeignKeyConstraint baseColumnNames="FEATURE_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2feature" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_FEATURE" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-162">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-163">
-        <addForeignKeyConstraint baseColumnNames="RATE_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2rate" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_RATE" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-164">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_MATERIAL_ITEM" constraintName="material_itm2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-165">
-        <addForeignKeyConstraint baseColumnNames="CONTACT_ID" baseTableName="TBL_PERSON" constraintName="person2contact" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-166">
-        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_PORT" constraintName="port2country" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-167">
-        <addForeignKeyConstraint baseColumnNames="CONTACT_ID" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2Contactbybuyer" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-168">
-        <addForeignKeyConstraint baseColumnNames="AGENT" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2contactAgent" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-169">
-        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-170">
-        <addForeignKeyConstraint baseColumnNames="CONTRACT_SHIPMENT_ID" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2contractShipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTRACT_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-171">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-172">
-        <addForeignKeyConstraint baseColumnNames="LOADING" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2portByLoading" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-173">
-        <addForeignKeyConstraint baseColumnNames="DISCHARGE" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2portBydisch" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-174">
-        <addForeignKeyConstraint baseColumnNames="SWITCH_PORT" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2portBysw" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-175">
-        <addForeignKeyConstraint baseColumnNames="INSPECT_CONTACT_ID" baseTableName="TBL_SHIPMENT_ASSAY_HEADER" constraintName="shipmntassayH2inspector" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-176">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_SHIPMENT_ASSAY_HEADER" constraintName="shipmntassayH2shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-177">
-        <addForeignKeyConstraint baseColumnNames="ASSAY_HEADER_ID" baseTableName="TBL_SHIPMENT_ASSAY_ITEM" constraintName="shipmntassay_i2shipassayH" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT_ASSAY_HEADER" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-178">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_SHIPMENT_EMAIL" constraintName="shipmntemail2shipmnt" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-179">
-        <addForeignKeyConstraint baseColumnNames="INSPECT_CONTACT_ID" baseTableName="TBL_SHIPMENT_MOISTURE_HEADER" constraintName="shipmntmoist_H2contactinspect" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-180">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_SHIPMENT_MOISTURE_HEADER" constraintName="shipmntmoist_H2shipmnt" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="RMazloom" id="1577100334566-181">
-        <addForeignKeyConstraint baseColumnNames="MOISTURE_HEADER_ID" baseTableName="TBL_SHIPMENT_MOISTURE_ITEM" constraintName="shipmntmoist_i2shipmntmoist_H" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT_MOISTURE_HEADER" validate="true"/>
+    <changeSet author="RMazloom" id="1577102401579-108">
+        <addForeignKeyConstraint baseColumnNames="BANK_ID" baseTableName="TBL_CONTACT_ACCOUNT"
+                                 constraintName="ContactAccount2bank" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_BANK" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-109">
+        <addForeignKeyConstraint baseColumnNames="INCOTERMS_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="Contract2incoterm" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_INCOTERMS" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-110">
+        <addForeignKeyConstraint baseColumnNames="DEFINITION_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="Contract2parmtrByDefinitin" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_PARAMETER" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-111">
+        <addForeignKeyConstraint baseColumnNames="CURRENCY_ID" baseTableName="TBL_CONTRACT_CURRENCY"
+                                 constraintName="ContractCurrency2CURRENCY" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-112">
+        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_CURRENCY"
+                                 constraintName="ContractCurrency2contract" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-113">
+        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_SHIPMENT"
+                                 constraintName="Contractship2contract" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-114">
+        <addForeignKeyConstraint baseColumnNames="DISCHARGE" baseTableName="TBL_CONTRACT_SHIPMENT"
+                                 constraintName="Contractship2dischargeport" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-115">
+        <addForeignKeyConstraint baseColumnNames="SOURCE_INSPECTOR_ID" baseTableName="TBL_COST"
+                                 constraintName="Cost2contactinspector_S" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-116">
+        <addForeignKeyConstraint baseColumnNames="DEST_INSPECTOR_ID" baseTableName="TBL_COST"
+                                 constraintName="Cost2contactinspector_d" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-117">
+        <addForeignKeyConstraint baseColumnNames="INSURANCE_ID" baseTableName="TBL_COST"
+                                 constraintName="Cost2contactinsurance" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-118">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_COST" constraintName="Cost2shipment"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-119">
+        <addForeignKeyConstraint baseColumnNames="CHARTERER" baseTableName="TBL_SHIPMENT_CONTRACT"
+                                 constraintName="FK4xohstl6fiurx9kg14groh0rm" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-120">
+        <addForeignKeyConstraint baseColumnNames="FLAG" baseTableName="TBL_SHIPMENT_CONTRACT"
+                                 constraintName="FK8aamg0oec7de935x13fms3num" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-121">
+        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_PERSON"
+                                 constraintName="FK_CONTRACT" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-122">
+        <addForeignKeyConstraint baseColumnNames="PERSON_ID" baseTableName="TBL_CONTRACT_PERSON"
+                                 constraintName="FK_PERSON" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_PERSON" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-123">
+        <addForeignKeyConstraint baseColumnNames="CNT_ID" baseTableName="TBL_CONTACT_ACCOUNT"
+                                 constraintName="FKh5t6obexbeiq2n981irskoxsn" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-124">
+        <addForeignKeyConstraint baseColumnNames="OWNERS" baseTableName="TBL_SHIPMENT_CONTRACT"
+                                 constraintName="FKigp8cmkv5m6jjoqxpg7wejcr4" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-125">
+        <addForeignKeyConstraint baseColumnNames="CHAIN_OF_OWNERS" baseTableName="TBL_SHIPMENT_CONTRACT"
+                                 constraintName="FKm0y3k5vdqcgp4li7qte3s345x" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-126">
+        <addForeignKeyConstraint baseColumnNames="BUYERID" baseTableName="TBL_INVOICE"
+                                 constraintName="INVOICE2CONTACT_BUYER" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-127">
+        <addForeignKeyConstraint baseColumnNames="SELLERID" baseTableName="TBL_INVOICE"
+                                 constraintName="INVOICE2CONTACT_SELLER" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-128">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_INVOICE"
+                                 constraintName="INVOICE2SHIPMENT" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-129">
+        <addForeignKeyConstraint baseColumnNames="WAREHOUSE_CAD_ID" baseTableName="TBL_WAREHOUSE_CAD_ITEM"
+                                 constraintName="WAREHOUSECADITEM2w_c_header" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_WAREHOUSE_CAD" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-130">
+        <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_CAD"
+                                 constraintName="WarehouseCad2material_itm" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-131">
+        <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_CAD"
+                                 constraintName="WarehouseCad2yard" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-132">
+        <addForeignKeyConstraint baseColumnNames="WAREHOUSECADITEM_ID" baseTableName="TBL_WAREHOUSE_LOT"
+                                 constraintName="WarehouseLot2CadItem" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_CAD_ITEM"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-133">
+        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_WAREHOUSE_LOT"
+                                 constraintName="WarehouseLot2Contract" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-134">
+        <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_STOCK"
+                                 constraintName="WarehouseStock2matherialitem" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-135">
+        <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_STOCK"
+                                 constraintName="WarehouseStock2yard" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-136">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_WAREHOUSE_ISSUE_CATHODE"
+                                 constraintName="WarehouseissueCad2shipment" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-137">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_WAREHOUSE_ISSUE_CONS"
+                                 constraintName="Warehouseissuecons2shipment" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-138">
+        <addForeignKeyConstraint baseColumnNames="WAREHOUSELOT_ID" baseTableName="TBL_WAREHOUSE_ISSUE_MO"
+                                 constraintName="Warehouseissuemo2lot" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_LOT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-139">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_WAREHOUSE_ISSUE_MO"
+                                 constraintName="Warehouseissuemo2shipment" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-140">
+        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_WAREHOUSE_LOT"
+                                 constraintName="Warehouselot2material" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-141">
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_BANK" constraintName="bank2Country"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_COUNTRY" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-142">
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_CONTACT"
+                                 constraintName="contact2Country" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-143">
+        <addForeignKeyConstraint baseColumnNames="C_DEFAULT_BANK_ID" baseTableName="TBL_CONTACT"
+                                 constraintName="contact2bank" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_BANK" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-144">
+        <addForeignKeyConstraint baseColumnNames="PORT_SOURCE_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="contract2PortBySourcePortId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-145">
+        <addForeignKeyConstraint baseColumnNames="CONTACT_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="contract2contactByBuyer" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-146">
+        <addForeignKeyConstraint baseColumnNames="BUYER_AGENT_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="contract2contactByBuyerAgent" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-147">
+        <addForeignKeyConstraint baseColumnNames="SELLER_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="contract2contactBySeller" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-148">
+        <addForeignKeyConstraint baseColumnNames="SELLER_AGENT_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="contract2contactBySellerAgent" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-149">
+        <addForeignKeyConstraint baseColumnNames="CONTACT_INSPECTION_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="contract2contactInspection" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-150">
+        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="contract2materialByMaterialId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-151">
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="TBL_CONTRACT"
+                                 constraintName="contract2unitByUnitId" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-152">
+        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_DETAIL"
+                                 constraintName="contractDetail2contract" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-153">
+        <addForeignKeyConstraint baseColumnNames="GROUPS_ID" baseTableName="TBL_GROUPS_PERSON"
+                                 constraintName="groupprs2group" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_GROUPS" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-154">
+        <addForeignKeyConstraint baseColumnNames="PERSON_ID" baseTableName="TBL_GROUPS_PERSON"
+                                 constraintName="groupprs2prs" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_PERSON" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-155">
+        <addForeignKeyConstraint baseColumnNames="INSPECTION_CONTACT_ID" baseTableName="TBL_INSPECTION_CONTRACT"
+                                 constraintName="insp_cont2inspectorcontact" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-156">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_CONTRACT_ID" baseTableName="TBL_INSPECTION_CONTRACT"
+                                 constraintName="insp_cont2shipcontract" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT_CONTRACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-157">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_INSPECTION_CONTRACT"
+                                 constraintName="insp_cont2shipment" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-158">
+        <addForeignKeyConstraint baseColumnNames="INVOICE_ID" baseTableName="TBL_INVOICE_ITEM"
+                                 constraintName="invoiceItem2invoice" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_INVOICE" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-159">
+        <addForeignKeyConstraint baseColumnNames="INVOICE_ID" baseTableName="TBL_INVOICE_MOLYBDENUM"
+                                 constraintName="invoiceMolybdenum2invoice" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_INVOICE" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-160">
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="TBL_MATERIAL" constraintName="material2unit"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-161">
+        <addForeignKeyConstraint baseColumnNames="FEATURE_ID" baseTableName="TBL_MATERIAL_FEATURE"
+                                 constraintName="material_fea2feature" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_FEATURE" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-162">
+        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_MATERIAL_FEATURE"
+                                 constraintName="material_fea2material" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-163">
+        <addForeignKeyConstraint baseColumnNames="RATE_ID" baseTableName="TBL_MATERIAL_FEATURE"
+                                 constraintName="material_fea2rate" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_RATE" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-164">
+        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_MATERIAL_ITEM"
+                                 constraintName="material_itm2material" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-165">
+        <addForeignKeyConstraint baseColumnNames="CONTACT_ID" baseTableName="TBL_PERSON" constraintName="person2contact"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-166">
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_PORT" constraintName="port2country"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_COUNTRY" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-167">
+        <addForeignKeyConstraint baseColumnNames="CONTACT_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="shipmnt2Contactbybuyer" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-168">
+        <addForeignKeyConstraint baseColumnNames="AGENT" baseTableName="TBL_SHIPMENT"
+                                 constraintName="shipmnt2contactAgent" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-169">
+        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="shipmnt2contract" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTRACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-170">
+        <addForeignKeyConstraint baseColumnNames="CONTRACT_SHIPMENT_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="shipmnt2contractShipment" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTRACT_SHIPMENT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-171">
+        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="shipmnt2material" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-172">
+        <addForeignKeyConstraint baseColumnNames="LOADING" baseTableName="TBL_SHIPMENT"
+                                 constraintName="shipmnt2portByLoading" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-173">
+        <addForeignKeyConstraint baseColumnNames="DISCHARGE" baseTableName="TBL_SHIPMENT"
+                                 constraintName="shipmnt2portBydisch" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-174">
+        <addForeignKeyConstraint baseColumnNames="SWITCH_PORT" baseTableName="TBL_SHIPMENT"
+                                 constraintName="shipmnt2portBysw" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-175">
+        <addForeignKeyConstraint baseColumnNames="INSPECT_CONTACT_ID" baseTableName="TBL_SHIPMENT_ASSAY_HEADER"
+                                 constraintName="shipmntassayH2inspector" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-176">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_SHIPMENT_ASSAY_HEADER"
+                                 constraintName="shipmntassayH2shipment" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-177">
+        <addForeignKeyConstraint baseColumnNames="ASSAY_HEADER_ID" baseTableName="TBL_SHIPMENT_ASSAY_ITEM"
+                                 constraintName="shipmntassay_i2shipassayH" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT_ASSAY_HEADER"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-178">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_SHIPMENT_EMAIL"
+                                 constraintName="shipmntemail2shipmnt" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-179">
+        <addForeignKeyConstraint baseColumnNames="INSPECT_CONTACT_ID" baseTableName="TBL_SHIPMENT_MOISTURE_HEADER"
+                                 constraintName="shipmntmoist_H2contactinspect" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-180">
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_SHIPMENT_MOISTURE_HEADER"
+                                 constraintName="shipmntmoist_H2shipmnt" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1577102401579-181">
+        <addForeignKeyConstraint baseColumnNames="MOISTURE_HEADER_ID" baseTableName="TBL_SHIPMENT_MOISTURE_ITEM"
+                                 constraintName="shipmntmoist_i2shipmntmoist_H" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_SHIPMENT_MOISTURE_HEADER" validate="true"/>
     </changeSet>
 </databaseChangeLog>
