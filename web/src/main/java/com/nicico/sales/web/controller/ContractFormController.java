@@ -32,11 +32,4 @@ public class ContractFormController {
         params.put(ConstantVARs.REPORT_TYPE, type);
         reportUtil.export("/reports/Contract.jasper", params, response);
     }
-
-    @RequestMapping("/printIncome/{type}")
-    public void printIncome(HttpServletResponse response, @PathVariable String type) throws SQLException, IOException, JRException {
-        Map<String, Object> params = new HashMap<>();
-        params.put(ConstantVARs.REPORT_TYPE, type);
-        reportUtil.export("/reports/ContractIncomeCosts.jasper", params, response);
-    }
 }
