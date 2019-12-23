@@ -173,7 +173,7 @@
             ]
     });
 
-    var ToolStripButton_CurrencyRate_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_CurrencyRate_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -181,7 +181,7 @@
         }
     });
 
-    var ToolStripButton_CurrencyRate_Add = isc.ToolStripButton.create({
+    var ToolStripButton_CurrencyRate_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -190,7 +190,7 @@
         }
     });
 
-    var ToolStripButton_CurrencyRate_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_CurrencyRate_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -199,7 +199,7 @@
         }
     });
 
-    var ToolStripButton_CurrencyRate_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_CurrencyRate_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -211,10 +211,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_CurrencyRate_Refresh,
                 ToolStripButton_CurrencyRate_Add,
                 ToolStripButton_CurrencyRate_Edit,
-                ToolStripButton_CurrencyRate_Remove
+                ToolStripButton_CurrencyRate_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_CurrencyRate_Refresh,
+                ]
+                })
+
             ]
     });
 
