@@ -1065,14 +1065,14 @@ width:"10%",
         }
     }
 
-    var ToolStripButton_Shipment_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_refresh();
         }
     });
-    var ToolStripButton_Shipment_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Shipment_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -1084,7 +1084,7 @@ width:"10%",
             Window_Shipment.animateShow();
         }
     });
-    var ToolStripButton_Shipment_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Shipment_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -1094,7 +1094,7 @@ width:"10%",
             ListGrid_Shipment_edit();
         }
     });
-    var ToolStripButton_Shipment_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Shipment_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -1103,11 +1103,20 @@ width:"10%",
     });
     var ToolStrip_Actions_Shipment = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members: [
-            ToolStripButton_Shipment_Refresh,
             ToolStripButton_Shipment_Add,
             ToolStripButton_Shipment_Edit,
-            ToolStripButton_Shipment_Remove
+            ToolStripButton_Shipment_Remove,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_Shipment_Refresh,
+            ]
+            })
+
         ]
     });
 
@@ -1647,7 +1656,7 @@ width:"10%",
             ]
     });
 
-    var ToolStripButton_ShipmentEmail_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentEmail_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -1655,7 +1664,7 @@ width:"10%",
         }
     });
 
-    var ToolStripButton_ShipmentEmail_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentEmail_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='shipment.email.createAndSend'/>",
         click: function () {
@@ -1702,7 +1711,7 @@ width:"10%",
         }
     });
 
-    var ToolStripButton_ShipmentEmail_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentEmail_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='shipment.email.saveRespond'/>",
         click: function () {
@@ -1712,11 +1721,20 @@ width:"10%",
 
     var ToolStrip_Actions_ShipmentEmail = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members:
             [
-                ToolStripButton_ShipmentEmail_Refresh,
                 ToolStripButton_ShipmentEmail_Add,
-                ToolStripButton_ShipmentEmail_Edit
+                ToolStripButton_ShipmentEmail_Edit,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_ShipmentEmail_Refresh,
+                ]
+                })
+
             ]
     });
 

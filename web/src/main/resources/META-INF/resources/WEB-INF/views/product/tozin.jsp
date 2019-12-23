@@ -707,7 +707,7 @@
     });
 
 
-    var ToolStripButton_Tozin_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Tozin_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -756,9 +756,17 @@
         members:
             [
                 MenuButton_Tozin,
-                ToolStripButton_Tozin_Refresh,
                 ToolStripButton_Tozin_sum,
                 DynamicForm_DailyReport_Tozin,
+				isc.ToolStrip.create({
+				width: "100%",
+				align: "left",
+				border: '0px',
+				members: [
+					ToolStripButton_Tozin_Refresh
+				]
+				})
+
             ]
     });
 

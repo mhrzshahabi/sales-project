@@ -701,7 +701,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ]
     });
 
-    var ToolStripButton_Contract_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -709,7 +709,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_Contract_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.menu.contract.management'/>",
         click: function () {
@@ -717,7 +717,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_Contract_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         showIf: "false",
         title: "<spring:message code='global.form.edit'/>",
@@ -727,7 +727,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_Contract_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -737,11 +737,20 @@ var salesContractCADButtonMain = isc.IconButton.create({
 
     var ToolStrip_Actions_Contract = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members:
             [
-                ToolStripButton_Contract_Refresh,
                 ToolStripButton_Contract_Add,
-                ToolStripButton_Contract_Remove//,
+                ToolStripButton_Contract_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Contract_Refresh,
+                ]
+                })
+
             ]
     });
 

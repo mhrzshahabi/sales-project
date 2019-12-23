@@ -794,7 +794,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
      }]
  });
 
- var ToolStripButton_WarehouseIssueCons_Refresh = isc.ToolStripButton.create({
+ var ToolStripButton_WarehouseIssueCons_Refresh = isc.ToolStripButtonRefresh.create({
      icon: "[SKIN]/actions/refresh.png",
      title: "<spring:message code='global.form.refresh'/>",
      click: function() {
@@ -805,7 +805,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
 
 
 
-    var ToolStripButton_WarehouseIssueCons_Add = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCons_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -830,7 +830,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         }
     });
 
-    var ToolStripButton_WarehouseIssueCons_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCons_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -839,7 +839,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         }
     });
 
-    var ToolStripButton_WarehouseIssueCons_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCons_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -851,10 +851,18 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         width: "100%",
         members:
             [
-                ToolStripButton_WarehouseIssueCons_Refresh,
                 ToolStripButton_WarehouseIssueCons_Add,
                 ToolStripButton_WarehouseIssueCons_Edit,
-                ToolStripButton_WarehouseIssueCons_Remove
+                ToolStripButton_WarehouseIssueCons_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_WarehouseIssueCons_Refresh,
+                ]
+                })
+
             ]
     });
 

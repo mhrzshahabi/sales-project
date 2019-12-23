@@ -331,7 +331,7 @@
      ]
  });
 
-    var ToolStripButton_WarehouseLot_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseLot_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -339,7 +339,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseLot_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseLot_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -351,8 +351,16 @@
         width: "100%",
         members:
             [
-                ToolStripButton_WarehouseLot_Refresh,
-                ToolStripButton_WarehouseLot_Edit
+                ToolStripButton_WarehouseLot_Edit,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_WarehouseLot_Refresh,
+                ]
+                })
+
             ]
     });
 

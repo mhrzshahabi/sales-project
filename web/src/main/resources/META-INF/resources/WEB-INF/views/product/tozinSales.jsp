@@ -587,7 +587,7 @@
 
 
 
-    var ToolStripButton_TozinSales_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_TozinSales_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -637,9 +637,16 @@
     		MenuButton_Forosh_Bargiri,
     		MenuButton_Kharid_Konstantere,
     		MenuButton_Kharid_Zaieat,
-    		ToolStripButton_TozinSales_Refresh,
     		ToolStripButton_TozinSales_sum,
-    		DynamicForm_DailyReport_TozinSales
+    		DynamicForm_DailyReport_TozinSales,
+			isc.ToolStrip.create({
+			width: "100%",
+			align: "left",
+			border: '0px',
+			members: [
+				ToolStripButton_TozinSales_Refresh,
+			]
+			})
     	]
     });
 

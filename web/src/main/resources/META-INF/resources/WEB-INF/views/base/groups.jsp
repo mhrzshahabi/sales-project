@@ -405,7 +405,14 @@
     var ToolStrip_Actions_Person = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_Person_Refresh
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Person_Refresh
+                ]
+            })
 
         ]
     });

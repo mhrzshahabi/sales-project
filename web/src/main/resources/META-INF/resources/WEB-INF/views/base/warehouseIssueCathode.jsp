@@ -859,7 +859,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
             ]
     });
 
-    var ToolStripButton_WarehouseIssueCathode_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCathode_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -867,7 +867,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         }
     });
 
-    var ToolStripButton_WarehouseIssueCathode_Add = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCathode_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -891,7 +891,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         }
     });
 
-    var ToolStripButton_WarehouseIssueCathode_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCathode_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -900,7 +900,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         }
     });
 
-    var ToolStripButton_WarehouseIssueCathode_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCathode_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -912,10 +912,18 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         width: "100%",
         members:
             [
-                ToolStripButton_WarehouseIssueCathode_Refresh,
                 ToolStripButton_WarehouseIssueCathode_Add,
                 ToolStripButton_WarehouseIssueCathode_Edit,
-                ToolStripButton_WarehouseIssueCathode_Remove
+                ToolStripButton_WarehouseIssueCathode_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_WarehouseIssueCathode_Refresh,
+                ]
+                })
+
             ]
     });
 

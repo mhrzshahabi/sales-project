@@ -52,7 +52,7 @@
             }
         ]
     });
-    var ToolStripButton_Shipment_CostHeader_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Shipment_CostHeader_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -62,8 +62,17 @@
     });
     var ToolStrip_Actions_Shipment_CostHeader = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members: [
-            ToolStripButton_Shipment_CostHeader_Refresh,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_Shipment_CostHeader_Refresh
+              ]
+            })
+
         ]
     });
     //-------------------
@@ -912,7 +921,7 @@
             ]
     });
 
-    var ToolStripButton_Cost_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Cost_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -920,7 +929,7 @@
         }
     });
 
-    var ToolStripButton_Cost_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Cost_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -972,7 +981,7 @@
         }
     });
 
-    var ToolStripButton_Cost_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Cost_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -981,7 +990,7 @@
         }
     });
 
-    var ToolStripButton_Cost_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Cost_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -991,12 +1000,21 @@
 
     var ToolStrip_Actions_Cost = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members:
             [
-                ToolStripButton_Cost_Refresh,
                 ToolStripButton_Cost_Add,
                 ToolStripButton_Cost_Edit,
-                ToolStripButton_Cost_Remove
+                ToolStripButton_Cost_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Cost_Refresh,
+                ]
+                })
+
             ]
     });
 
