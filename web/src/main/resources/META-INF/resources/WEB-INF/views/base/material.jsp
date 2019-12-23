@@ -445,7 +445,7 @@
             };
 
             ListGrid_MaterialFeature.fetchRelatedData(record, function (dsResponse, data, dsRequest) {
-            ListGrid_MaterialFeature.setData(data);
+                ListGrid_MaterialFeature.setData(data);
             }, {operationId: "00"});
 
             ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
@@ -998,11 +998,26 @@
                 HLayout_MaterialFeature_IButton
             ]
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
     var ListGrid_MaterialFeature = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_MaterialFeature,
         contextMenu: Menu_ListGrid_MaterialFeature,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
         numCols: 2,
         fields:
             [
@@ -1098,15 +1113,73 @@
                     width: "10%",
                     align: "center"
                 },
+                {name: "editIcon", width: 40 , showTitle:false},
+                {name: "removeIcon", width: 40 , showTitle:false},
             ],
         sortField: 0,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+    createRecordComponent : function (record, colNum) {
+        var fieldName = this.getFieldName(colNum);
+        var recordCanvas = isc.HLayout.create({
+        height: 22,
+        width: "100%",
+        align: "center"
+      });
+    if(fieldName == "editIcon"){
+    var editImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_edit.png",
+        prompt: "ویرایش",
+        height: 16,
+        width: 16,
+        grid: this,
+    click : function () {
+        ListGrid_MaterialFeature.selectSingleRecord(record);
+        ListGrid_MaterialFeature_edit();
+    }
+    });
+     return editImg;
+    } else  if (fieldName == "removeIcon") {
+    var removeImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_delete.png",
+        prompt: "حذف",
+        height: 16,
+        width: 16,
+        grid: this,
+    click : function () {
+        ListGrid_MaterialFeature.selectSingleRecord(record);
+        ListGrid_MaterialFeature_remove();
+    }
+    });
+        return removeImg;
+        } else {
+        return null;
+        }
+    },
+
     });
 
 
 
+        var hLayoutMaterialFeature = isc.HLayout.create({
+        align: "center",padding: 5,
+        membersMargin: 10,
+        members: [
+              ToolStripButton_MaterialFeature_Add
+        ]
+        });
+
+        var layoutMaterialFeature = isc.VLayout.create({
+              padding: 5,
+            members: [ ListGrid_MaterialFeature, hLayoutMaterialFeature ]
+        });
 
     var WindowFeature = isc.Window.create({
         title: "<spring:message code='MaterialFeature.title'/> ",
@@ -1123,7 +1196,7 @@
         },
         items:
             [
-              ListGrid_MaterialFeature
+                layoutMaterialFeature
             ]
         });
 
@@ -1444,6 +1517,8 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
         dataSource: RestDataSource_MaterialItem,
         contextMenu: Menu_ListGrid_MaterialItem,
         setAutoFitExtraRecords: true,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
         numCols: 2,
         fields:
             [
@@ -1451,13 +1526,73 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
                 {name: "materialId", type: "long", hidden: true},
                 {name: "gdsCode", width: "10%", title: "<spring:message code='MaterialItem.gdsCode'/> "},
                 {name: "gdsName", width: "10%", title: "<spring:message code='MaterialItem.gdsName'/> "},
+                {name: "editIcon", width: 40 , showTitle:false},
+                {name: "removeIcon", width: 40 , showTitle:false},
             ],
         sortField: 0,
         autoFetchData: false,
         recordDoubleClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue){
             console.log(record)
            loadWindowFeatureList(record.materialId)
-        }
+        },
+        createRecordComponent : function (record, colNum) {
+            var fieldName = this.getFieldName(colNum);
+            var recordCanvas = isc.HLayout.create({
+            height: 22,
+            width: "100%",
+            align: "center"
+            });
+            if(fieldName == "editIcon"){
+                var editImg = isc.ImgButton.create({
+                showDown: false,
+                showRollOver: false,
+                layoutAlign: "center",
+                src: "pieces/16/icon_edit.png",
+                prompt: "ویرایش",
+                height: 16,
+                width: 16,
+                grid: this,
+                    click : function () {
+                        ListGrid_MaterialItem.selectSingleRecord(record);
+                        ListGrid_MaterialItem_edit();
+                    }
+            });
+                return editImg;
+            } else  if (fieldName == "removeIcon") {
+            var removeImg = isc.ImgButton.create({
+                showDown: false,
+                showRollOver: false,
+                layoutAlign: "center",
+                src: "pieces/16/icon_delete.png",
+                prompt: "حذف",
+                height: 16,
+                width: 16,
+                grid: this,
+            click : function () {
+                    ListGrid_MaterialItem.selectSingleRecord(record);
+                    ListGrid_MaterialItem_remove();
+            }
+            });
+            return removeImg;
+            } else {
+                return null;
+                }
+            },
+
+
+            updateRecordComponent: function (record, colNum, component, recordChanged) {
+            var fieldName = this.getFieldName(colNum);
+                if (fieldName == "editIcon") {
+                    console.log(ListGrid_MaterialItem.getSelectedRecord())
+            }else {
+              return null;
+            }
+                return component;
+            }
+
+
+
+
     });
 var HLayout_MaterialItem_Grid = isc.HLayout.create({
         width: "100%",
