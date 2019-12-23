@@ -414,7 +414,7 @@
     };
 
 
-    var ToolStripButton_Person_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Person_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -422,7 +422,7 @@
         }
     });
 
-    var ToolStripButton_Person_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Person_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -431,7 +431,7 @@
         }
     });
 
-    var ToolStripButton_Person_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Person_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -441,7 +441,7 @@
     });
 
 
-    var ToolStripButton_Person_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Person_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -452,10 +452,18 @@
     var ToolStrip_Actions_Person = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_Person_Refresh,
             ToolStripButton_Person_Add,
             ToolStripButton_Person_Edit,
-            ToolStripButton_Person_Remove
+            ToolStripButton_Person_Remove,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_Person_Refresh,
+            ]
+            })
+
         ]
     });
 
