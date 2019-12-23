@@ -212,7 +212,7 @@
         width: "100",
         baseStyle: "header-logout",
         title: "<spring:message code='global.exit'/>",
-        icon: "pieces/512/logOut.png",
+        icon: "pieces/512/logout.png",
         click: function () {
             document.getElementById("logoutForm").submit();
         }
