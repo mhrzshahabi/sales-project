@@ -1,6 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContactDTO;
@@ -11,7 +13,6 @@ import com.nicico.sales.repository.ContactDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -106,6 +107,13 @@ public class ContactService implements IContactService {
         final List<Contact> contacts = contactDAO.findAllById(request.getIds());
 
         contactDAO.deleteAll(contacts);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+//    @PreAuthorize("hasAuthority('R_BANK')")
+    public TotalResponse<ContactDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(contactDAO, criteria, contact -> modelMapper.map(contact, ContactDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
