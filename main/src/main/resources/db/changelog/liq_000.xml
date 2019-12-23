@@ -26,6 +26,23 @@
             <column name="TARGET" type="VARCHAR2(200 BYTE)"/>
         </createTable>
 
+        <createTable tableName="TBL_CATOD_LIST">
+            <column name="ID" type="NUMBER"/>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="GDSCODE" type="NUMBER(20, 0)"/>
+            <column name="PACKINGTYPEID" type="NUMBER(10, 0)"/>
+            <column name="SHEETNUMBER" type="NUMBER(10, 0)"/>
+            <column name="WAZN" type="NUMBER(10, 0)"/>
+            <column name="PRODUCTID" type="VARCHAR2(60 BYTE)"/>
+            <column name="PRODUCTLABEL" type="VARCHAR2(60 BYTE)"/>
+            <column name="STOREID" type="VARCHAR2(60 BYTE)"/>
+            <column name="TOZINEID" type="VARCHAR2(30 BYTE)"/>
+        </createTable>
+
         <createTable tableName="V_TOZINE_CONTENT_B">
             <column name="CARD_ID" type="VARCHAR2(100 BYTE)"/>
             <column name="CARNO1" type="VARCHAR2(100 BYTE)"/>
@@ -173,23 +190,6 @@
             ]]>
         </createView>
 
-        <createTable tableName="TBL_CATOD_LIST">
-            <column name="ID" type="NUMBER"/>
-            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
-            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
-            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
-            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
-            <column name="N_VERSION" type="NUMBER(10, 0)"/>
-            <column name="GDSCODE" type="NUMBER(20, 0)"/>
-            <column name="PACKINGTYPEID" type="NUMBER(10, 0)"/>
-            <column name="SHEETNUMBER" type="NUMBER(10, 0)"/>
-            <column name="WAZN" type="NUMBER(10, 0)"/>
-            <column name="PRODUCTID" type="VARCHAR2(60 BYTE)"/>
-            <column name="PRODUCTLABEL" type="VARCHAR2(60 BYTE)"/>
-            <column name="STOREID" type="VARCHAR2(60 BYTE)"/>
-            <column name="TOZINEID" type="VARCHAR2(30 BYTE)"/>
-        </createTable>
-
         <createView viewName="VIEW_TOZIN_S">
             <![CDATA[
               SELECT card_id,carno1,carno3,carpelak plak,carname,customerid,customer,sellerid,seller,
@@ -220,71 +220,6 @@
 
                 order by carpelak ,carname,v.TZN_DATE,v.TZN_TIME,customerid,customer,sellerid
             ]]>
-        </createView>
-
-        <createView viewName="VIEW_CONTRACT_INCOME_COST">
-            <![CDATA[
-                select id,n_version,c_created_by,c_last_modified_by,d_created_date,d_last_modified_date,
-                C_CONTRACT_NO,C_FULLNAME_EN,C_DESCL,C_NAME_EN ,AMOUNT,
-                TOTAL_FREIGHT, SHIPMENT_AMOUNT,BL_DATE,DEMURRAGE,DISPATCH,FREIGHT,LOADING_LETTER,MONTH,VESSEL_NAME,
-                INVOIC_DATE_P,NET_P,INVOICE_TYPE_P,INVOICE_NO_P,INVOICE_VALUE_P,INVOICE_DOLLAR_P,INVOICE_EURO_P,INVOICE_IRR_P,
-                INVOIC_DATE_F,NET_F,INVOICE_TYPE_F,INVOICE_NO_F,INVOICE_VALUE_F,INVOICE_DOLLAR_F,INVOICE_EURO_F,INVOICE_IRR_F,
-                CAST(FREIGHT_DOLLAR+SOURCE_INSPEC_DOLLAR+DEST_INSPEC_DOLLAR+INSURANCE_COST_DOLLAR+UMPIRE_COST_DOLLAR+OTHER_COST_DOLLAR AS FLOAT)  COST_DOLLAR,
-                CAST(FREIGHT_EURO+SOURCE_INSPEC_EURO+DEST_INSPEC_EURO+INSURANCE_COST_EURO+UMPIRE_COST_EURO+OTHER_COST_EURO AS FLOAT)  COST_EURO,
-                CAST(FREIGHT_IRR+SOURCE_INSPEC_IRR+DEST_INSPEC_IRR+INSURANCE_COST_IRR+UMPIRE_COST_IRR+OTHER_COST_IRR+COSTs_IRR AS FLOAT) COSTS_IRR,
-                DEST_INSPEC_COST,SOURCE_INSPEC_COST,INSURANCE_COST,UMPIRE_COST
-                from (
-                select s.id,s.n_version,s.c_created_by,s.c_last_modified_by,s.d_created_date,s.d_last_modified_date, C_CONTRACT_NO,c.C_FULLNAME_EN,m.C_DESCL,u.c_NAME_EN,cr.AMOUNT,
-                ip.INVOIC_DATE INVOIC_DATE_p,ip.net net_p,ip.invoice_type invoice_type_p,ip.INVOICE_NO INVOICE_NO_p,
-                substr(ip.INVOICE_VALUE_CUR,1,1)||trim(to_char((nvl(IP.INVOICE_VALUE,0)),'999,999,999,999,999.99')) INVOICE_VALUE_p,
-                CAST(decode(ip.INVOICE_VALUE_CUR,'DOLLAR',nvl(IP.INVOICE_VALUE,0),0) AS FLOAT) INVOICE_DOLLAR_p,
-                CAST(decode(ip.INVOICE_VALUE_CUR,'EURO'  ,nvl(IP.INVOICE_VALUE,0),0) AS FLOAT) INVOICE_EURO_p,
-                CAST(decode(ip.INVOICE_VALUE_CUR,'IRR'   ,nvl(IP.INVOICE_VALUE,0),0) AS FLOAT) INVOICE_IRR_p,
-                if.INVOIC_DATE INVOIC_DATE_F,if.net net_F,if.invoice_type invoice_type_F,if.INVOICE_NO INVOICE_NO_F,
-                substr(if.INVOICE_VALUE_CUR,1,1)||trim(to_char((nvl(IF.INVOICE_VALUE,0)),'999,999,999,999,999.99')) INVOICE_VALUE_F,
-                CAST(decode(if.INVOICE_VALUE_CUR,'DOLLAR',nvl(IF.INVOICE_VALUE,0),0) AS FLOAT) INVOICE_DOLLAR_F,
-                CAST(decode(if.INVOICE_VALUE_CUR,'EURO'  ,nvl(IF.INVOICE_VALUE,0),0) AS FLOAT) INVOICE_EURO_F,
-                CAST(decode(if.INVOICE_VALUE_CUR,'IRR'   ,nvl(IF.INVOICE_VALUE,0),0) AS FLOAT) INVOICE_IRR_F,
-                substr(s.FREIGHT_CUR,1,1)||trim(to_char((nvl(s.TOTAL_FREIGHT,0)+nvl(s.DEMURRAGE,0)+nvl(s.DETENSION,0)-nvl(s.DISPATCH,0)),'999,999,999,999,999.99')) TOTAL_FREIGHT,
-                S.AMOUNT SHIPMENT_AMOUNT,BL_DATE,DEMURRAGE,DISPATCH,FREIGHT,LOADING_LETTER,MONTH,VESSEL_NAME,
-                decode(s.FREIGHT_CUR,'DOLLAR',(nvl(s.TOTAL_FREIGHT,0)+nvl(s.DEMURRAGE,0)+nvl(s.DETENSION,0)-nvl(s.DISPATCH,0)),0) FREIGHT_DOLLAR,
-                decode(s.FREIGHT_CUR,'EURO'  ,(nvl(s.TOTAL_FREIGHT,0)+nvl(s.DEMURRAGE,0)+nvl(s.DETENSION,0)-nvl(s.DISPATCH,0)),0) FREIGHT_EURO,
-                decode(s.FREIGHT_CUR,'IRR'   ,(nvl(s.TOTAL_FREIGHT,0)+nvl(s.DEMURRAGE,0)+nvl(s.DETENSION,0)-nvl(s.DISPATCH,0)),0) FREIGHT_IRR,
-
-                substr(t.DEST_INSPEC_CUR,1,1)||trim(to_char((nvl(t.DEST_INSPEC_COST,0)),'999,999,999,999,999.99')) DEST_INSPEC_COST,
-                decode(t.DEST_INSPEC_CUR,'DOLLAR',nvl(t.DEST_INSPEC_COST,0),0) DEST_INSPEC_DOLLAR,
-                decode(t.DEST_INSPEC_CUR,'EURO'  ,nvl(t.DEST_INSPEC_COST,0),0) DEST_INSPEC_EURO,
-                decode(t.DEST_INSPEC_CUR,'IRR'   ,nvl(t.DEST_INSPEC_COST,0),0) DEST_INSPEC_IRR,
-
-                substr(t.SOURCE_INSPEC_CUR,1,1)||trim(to_char((nvl(t.SOURCE_INSPEC_COST,0)),'999,999,999,999,999.99')) SOURCE_INSPEC_COST,
-                decode(t.SOURCE_INSPEC_CUR,'DOLLAR',nvl(t.SOURCE_INSPEC_COST,0),0) SOURCE_INSPEC_DOLLAR,
-                decode(t.SOURCE_INSPEC_CUR,'EURO'  ,nvl(t.SOURCE_INSPEC_COST,0),0) SOURCE_INSPEC_EURO,
-                decode(t.SOURCE_INSPEC_CUR,'IRR'   ,nvl(t.SOURCE_INSPEC_COST,0),0) SOURCE_INSPEC_IRR,
-
-                substr(t.INSURANCE_COST_CUR,1,1)||trim(to_char((nvl(t.INSURANCE_COST,0)),'999,999,999,999,999.99')) INSURANCE_COST,
-                decode(t.INSURANCE_COST_CUR,'DOLLAR',nvl(t.INSURANCE_COST,0),0) INSURANCE_COST_DOLLAR,
-                decode(t.INSURANCE_COST_CUR,'EURO'  ,nvl(t.INSURANCE_COST,0),0) INSURANCE_COST_EURO,
-                decode(t.INSURANCE_COST_CUR,'IRR'   ,nvl(t.INSURANCE_COST,0),0) INSURANCE_COST_IRR,
-
-                substr(t.UMPIRE_COST_CUR,1,1)||trim(to_char((nvl(t.UMPIRE_COST,0)),'999,999,999,999,999.99')) UMPIRE_COST,
-                decode(t.UMPIRE_COST_CUR,'DOLLAR',nvl(t.UMPIRE_COST,0),0) UMPIRE_COST_DOLLAR,
-                decode(t.UMPIRE_COST_CUR,'EURO'  ,nvl(t.UMPIRE_COST,0),0) UMPIRE_COST_EURO,
-                decode(t.UMPIRE_COST_CUR,'IRR'   ,nvl(t.UMPIRE_COST,0),0) UMPIRE_COST_IRR,
-
-                decode(t.OTHER_COST_CUR,'DOLLAR',nvl(t.OTHER_COST,0),0) OTHER_COST_DOLLAR,
-                decode(t.OTHER_COST_CUR,'EURO'  ,nvl(t.OTHER_COST,0),0) OTHER_COST_EURO,
-                decode(t.OTHER_COST_CUR,'IRR'   ,nvl(t.OTHER_COST,0),0) OTHER_COST_IRR,
-                nvl(t.CONTRACTOR_COST,0)+nvl(t.COUNTER_COST,0)+nvl(t.DEMAND_COST,0)+nvl(t.DISINFECTION_COST,0)+nvl(t.INVENTORY_RENT_COST,0)+nvl(t.PORT_COST,0)+nvl(t.THC_COST,0)+nvl(t.POST_COST,0)+nvl(t.BL_FEE_COST,0) COSTS_IRR
-                from tbl_contract cr
-                left join tbl_unit u on u.id=cr.UNIT_ID
-                join tbl_contact c on c.id=cr.CONTACT_ID
-                join TBL_MATERIAL m on m.id=cr.MATERIAL_ID
-                join TBL_SHIPMENT s on s.CONTRACT_ID=cr.id
-                left join tbl_cost t on t.SHIPMENT_ID=s.id
-                left join TBL_INVOICE ip on ip.SHIPMENT_ID=s.id and ip.INVOICE_TYPE='PROVISIONAL'
-                left join TBL_INVOICE if on if.SHIPMENT_ID=s.id and if.INVOICE_TYPE='FINAL'
-                )
-		    ]]>
         </createView>
 
         <createSequence sequenceName="SEQ_IMAGE_NUMBER"/>

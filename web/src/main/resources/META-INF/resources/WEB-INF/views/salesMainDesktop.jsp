@@ -262,43 +262,6 @@
         members: [salesIcon, emptyLabel_Before, emptyLabel_After, label_Username, languageForm, logoutButton]
     });
 
-    /*-------------------Report---------------------------*/
-    var routineReportButton = isc.IconButton.create({
-        title: "<spring:message code='reportGenerator.title'/>",
-        icon: "report/routineReports.png",
-        largeIcon: "report/routineReports.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='global.report.generator.contract'/>", "<spring:url value="/contractIncomeCost/showForm" />")
-        }
-    });
-
-    var reportRibbonGroup = isc.RibbonGroup.create({
-        numRows: 1,
-        colWidths: [20, "*"],
-        showTitle: false,
-        controls: [
-            routineReportButton
-        ],
-        autoDraw: false
-    });
-
-    var reportRibbonBar = isc.RibbonBar.create({
-        backgroundColor: "#f0f0f0",
-        groupTitleAlign: "center",
-        groupTitleOrientation: "top"
-    });
-    reportRibbonBar.addGroup(reportRibbonGroup, 0);
-
-    var reportRibbonHLayout = isc.HLayout.create({
-        width: "100%",
-        height: "60",
-        showResizeBar: false,
-        showShadow: false,
-        backgroundColor: "#153560",
-        members: [reportRibbonBar]
-    });
-
     /*----------------------Base------------------------*/
 
     var materialButton = isc.IconButton.create({
@@ -955,7 +918,6 @@
         width: "100%",
         height: "18%",
         tabs: [
-            {title: "<spring:message code='main.reportTab'/>", pane: reportRibbonHLayout},
             {title: "<spring:message code='main.baseTab'/>", pane: baseRibbonHLayout},
             {title: "<spring:message code='main.settingTab'/>", pane: settingRibbonHLayout},
             {title: "<spring:message code='main.contractsTab'/>", pane: contractRibbonHLayout},

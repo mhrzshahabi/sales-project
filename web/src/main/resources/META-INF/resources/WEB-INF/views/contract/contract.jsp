@@ -735,14 +735,6 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    /*var ToolStripButton_Contract_PrintIncome = isc.ToolStripButton.create({
-        icon: "[SKIN]/RichTextEditor/print.png",
-        title: "<spring:message code='global.form.print'/>",
-        click: function () {
-            "<spring:url value="/contract/printIncome/pdf" var="printIncomeUrl"/>"
-            window.open('${printIncomeUrl}');
-        }
-    });*/
     var ToolStrip_Actions_Contract = isc.ToolStrip.create({
         width: "100%",
         members:
