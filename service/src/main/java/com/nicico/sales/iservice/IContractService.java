@@ -5,6 +5,7 @@ import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContractDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IContractService {
@@ -13,7 +14,7 @@ public interface IContractService {
 
 	List<ContractDTO.Info> list();
 
-	void writeToWord(String request);
+	void writeToWord(String request) throws IOException;
 
 	List<String> readFromWord(String contractNo);
 

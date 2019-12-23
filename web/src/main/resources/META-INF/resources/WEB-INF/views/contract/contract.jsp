@@ -99,9 +99,8 @@ var salesContractCADButtonMain = isc.IconButton.create({
         largeIcon: "contract/salesContract.png",
         orientation: "vertical",
         click: function () {
-           /* createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
-            Window_SelectTypeContactMain.close();*/
-           isc.warn("<spring:message code='global.menu.contract.warn.contract'/>");
+           createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+           Window_SelectTypeContactMain.close();
         }
     });
   var salesContractMoButtonMain = isc.IconButton.create({
@@ -750,9 +749,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             [
                 ToolStripButton_Contract_Refresh,
                 ToolStripButton_Contract_Add,
-                //ToolStripButton_Contract_Edit,
                 ToolStripButton_Contract_Remove//,
-                // ToolStripButton_Contract_PrintIncome
             ]
     });
 
@@ -991,7 +988,9 @@ var salesContractCADButtonMain = isc.IconButton.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Contract_Actions,isc.HLayout.create({height: "30", align: "left", members: [labelMO,labelCa,labelCopperMatte,labelConcentrate]}),HLayout_Contract_Grid
+            HLayout_Contract_Actions,
+            isc.HLayout.create({height: "30", align: "left", members: [labelMO,labelCa,labelCopperMatte,labelConcentrate]})
+            ,HLayout_Contract_Grid
         ]
     });
     isc.ViewLoader.create({

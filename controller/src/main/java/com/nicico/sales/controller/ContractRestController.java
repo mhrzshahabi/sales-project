@@ -73,7 +73,7 @@ public class ContractRestController {
 
     @Loggable
     @PostMapping(value = "/writeWord")
-    public ResponseEntity<ContractDTO.Info> saveValueAllArticles(@RequestBody String request) {
+    public ResponseEntity<ContractDTO.Info> saveValueAllArticles(@RequestBody String request) throws IOException {
         contractService.writeToWord(request);
         return new ResponseEntity(HttpStatus.OK);
     }

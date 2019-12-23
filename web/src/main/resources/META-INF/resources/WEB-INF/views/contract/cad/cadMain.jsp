@@ -211,6 +211,33 @@ var Window_ContactCad = isc.Window.create({
         ]
     });
 
+var ListGrid_Cad = isc.ListGrid.create({
+        dataSource: RestDataSource_Contract,
+        initialCriteria: criteriaCad,
+        dataPageSize: 50,
+        showFilterEditor: true,
+        autoFetchData: true,
+        fields:
+            [
+                {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                {
+                    name: "contractNo",
+                    title: "<spring:message code='contact.no'/>",
+                    align: "center",
+                    showTitle:"true",
+                    canEdit: false
+                },
+                {
+                    name: "contractDate",
+                    title: "<spring:message code='contract.contractDate'/>",
+                    align: "center",
+                    showTitle:"true",
+                    canEdit: true
+                },
+                {name: "contact.nameFA",showTitle:"true",title: "<spring:message code='contact.name'/>", align: "center"}
+            ]
+    });
+
     var ToolStripButton_ContactCad_Add = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -386,71 +413,12 @@ var Window_ContactCad = isc.Window.create({
         }
     }});
 
-    var ToolStripButton_ContactCad_Remove = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/remove.png",
-        title: "<spring:message code='global.form.remove'/>",
-        click: function () {
-            Contract_Cathod_remove();
-        }
-    });
-    var ToolStripButton_ContactCad_Refresh = isc.ToolStripButton.create({
-                                icon: "[SKIN]/actions/refresh.png",
-                                title: "<spring:message code='global.form.refresh'/>",
-                                click: function () {
-                                    ListGrid_Cad.fetchData(criteriaCad);
-                                }
-                            });
-    var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ToolStripButton_ContactCad_Add, ToolStripButton_ContactCad_Edit, ToolStripButton_ContactCad_Remove,ToolStripButton_ContactCad_Refresh
-        ]
-    });
-    var HLayout_Actions_ContactCad = isc.HLayout.create({
-        width: "100%",
-        members: [
-            ToolStrip_Actions_ContactCad
-        ]
-    });
-    var ListGrid_Cad = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Contract,
-        initialCriteria: criteriaCad,
-        dataPageSize: 50,
-        showFilterEditor: true,
-        autoFetchData: true,
-        fields:
-            [
-                {name: "id", primaryKey: true, canEdit: false, hidden: true},
-                {
-                    name: "contractNo",
-                    width: "10%",
-                    title: "<spring:message code='contact.no'/>",
-                    align: "center",
-                    canEdit: false
-                },
-                {
-                    name: "contractDate",
-                    width: "10%",
-                    title: "<spring:message code='contract.contractDate'/>",
-                    align: "center",
-                    canEdit: true
-                },
-                {name: "contact.nameFA", width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
-            ]
-    });
 
-    isc.VLayout.create({
-        ID: "VLayout_Cad",
-        width: "100%",
-        height: "100%",
-        members: [
-            HLayout_Actions_ContactCad,
-            ListGrid_Cad
-        ]
-    });
+
+
+
+
+
 
 function itemsEditDefinitions(key,value,id) {
        DynamicForm_ContactParameter_ValueNumber8.addFields([
@@ -576,3 +544,34 @@ function deleteFromContractShipment(id){
                                 }
                             }))
 }
+
+    var ToolStripButton_ContactCad_Remove = isc.ToolStripButton.create({
+        icon: "[SKIN]/actions/remove.png",
+        title: "<spring:message code='global.form.remove'/>",
+        click: function () {
+            Contract_Cathod_remove();
+        }
+    });
+    var ToolStripButton_ContactCad_Refresh = isc.ToolStripButton.create({
+                                icon: "[SKIN]/actions/refresh.png",
+                                title: "<spring:message code='global.form.refresh'/>",
+                                click: function () {
+                                    ListGrid_Cad.fetchData(criteriaCad);
+                                }
+                            });
+
+    var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
+            members: [
+                ToolStripButton_ContactCad_Add,ToolStripButton_ContactCad_Edit,ToolStripButton_ContactCad_Refresh,ToolStripButton_ContactCad_Remove
+            ]
+        });
+
+isc.VStack.create({
+        ID: "VLayout_ContractCad",
+        width: "100%",
+        height: "100%",
+        members: [
+            isc.HLayout.create({height: "4%",members: [ToolStrip_Actions_ContactCad]}),
+            isc.HLayout.create({height: "96%",members: [ListGrid_Cad]})
+        ]
+    });

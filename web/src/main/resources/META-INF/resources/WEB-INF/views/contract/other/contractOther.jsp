@@ -79,6 +79,103 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
+    var ListGrid_ContractOther = isc.ListGrid.create({
+        width: "100%",
+        height: "100%",
+        dataSource: RestDataSource_Contract,
+        initialCriteria: criteriaOther,
+        fields:
+            [
+                {name: "id", hidden: true},
+                {
+                    name: "addendum",
+                    title: "<spring:message code='contract.addendum'/>",
+                    type: 'text',
+                    required: true,
+                    width: "5%",
+                    showTitle:"true",
+                    align: "center", hidden: true
+                },
+                {
+                    name: "contractNo",
+                    title: "<spring:message code='contract.contractNo'/>",
+                    type: 'text',
+                    width: "7%",
+                    showTitle:"true",
+                    align: "center"
+                },
+                {
+                    name: "contractDate",
+                    title: "<spring:message code='contract.contractDate'/>",
+                    type: 'text',
+                    width: "7%",
+                    showTitle:"true",
+                    align: "center"
+                },
+                {
+                    name: "contact.nameFA",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'long',
+                    width: "12%",
+                    showTitle:"true",
+                    align: "center"
+                },
+                {
+                    name: "incoterms.code",
+                    title: "<spring:message code='incoterms.name'/>",
+                    type: 'long',
+                    width: "10%",
+                    showTitle:"true",
+                    align: "center"
+                },
+                {
+                    name: "amount",
+                    title: "<spring:message code='contract.amount'/>",
+                    type: 'text',
+                    width: "7%",
+                    showTitle:"true",
+                    align: "center"
+                },
+                {
+                    name: "prepaid",
+                    title: "<spring:message code='contract.prepaid'/>",
+                    type: 'integer',
+                    showTitle:"true",
+                    required: true,
+                    width: "100"
+                }
+            ],
+        sortField: 0,
+        dataPageSize: 50,
+        autoFetchData: true,
+        showFilterEditor: true,
+        filterOnKeypress: true,
+        sortFieldAscendingText: "مرتب سازی صعودی",
+        sortFieldDescendingText: "مرتب سازی نزولی",
+        configureSortText: "تنظیم مرتب سازی",
+        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
+        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
+        filterUsingText: "فیلتر کردن",
+        groupByText: "گروه بندی",
+        freezeFieldText: "ثابت نگه داشتن",
+        startsWithTitle: "tt",
+        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+            var record = this.getSelectedRecord();
+            var criteria1 = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
+            };
+            ListGrid_ContractShipment.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                ListGrid_ContractShipment.setData(data);
+            });
+        },
+        dataArrived: function (startRow, endRow) {
+        }
+
+    });
+
     var ToolStripButton_Contract_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -115,95 +212,7 @@ var ToolStrip_Actions_ContractOther = isc.ToolStrip.create({
             ]
     });
 
-var ListGrid_ContractOther = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Contract,
-        initialCriteria: criteriaOther,
-        fields:
-            [
-                {name: "id", hidden: true,},
-                {
-                    name: "addendum",
-                    title: "<spring:message code='contract.addendum'/>",
-                    type: 'text',
-                    required: true,
-                    width: "5%",
-                    align: "center"
-                },
-                {
-                    name: "contractNo",
-                    title: "<spring:message code='contract.contractNo'/>",
-                    type: 'text',
-                    width: "7%",
-                    align: "center"
-                },
-                {
-                    name: "contractDate",
-                    title: "<spring:message code='contract.contractDate'/>",
-                    type: 'text',
-                    width: "7%",
-                    align: "center"
-                },
-                {
-                    name: "contact.nameFA",
-                    title: "<spring:message code='contact.name'/>",
-                    type: 'long',
-                    width: "12%",
-                    align: "center"
-                },
-                {
-                    name: "incoterms.code",
-                    title: "<spring:message code='incoterms.name'/>",
-                    type: 'long',
-                    width: "10%",
-                    align: "center"
-                },
-                {
-                    name: "amount",
-                    title: "<spring:message code='contract.amount'/>",
-                    type: 'text',
-                    width: "7%",
-                    align: "center"
-                },
-                {
-                    name: "prepaid",
-                    title: "<spring:message code='contract.prepaid'/>",
-                    type: 'integer',
-                    required: true,
-                    width: "100"
-                }
-            ],
-        sortField: 0,
-        dataPageSize: 50,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
-        startsWithTitle: "tt",
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
-            };
-            ListGrid_ContractShipment.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ContractShipment.setData(data);
-            });
-        },
-        dataArrived: function (startRow, endRow) {
-        }
 
-    });
 
 var DynamicForm_ContractOther = isc.DynamicForm.create({
         width: "100%",
