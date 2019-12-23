@@ -11,6 +11,19 @@ var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
 fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
 });
 
+var RestDataSource_Material = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "code", title: "<spring:message code='goods.code'/> "},
+                {name: "descl"},
+                {name: "unitId"},
+                {name: "unit.nameEN"},
+            ],
+        // ######@@@@###&&@@###
+        fetchDataURL: "${contextPath}/api/material/spec-list"
+    });
+
 var RestDataSource_Unit = isc.MyRestDataSource.create({
         fields:
             [
@@ -196,7 +209,7 @@ var RestDataSource_Unit = isc.MyRestDataSource.create({
     var criteriaConc = {
         _constructor: "AdvancedCriteria",
         operator: "and",
-        criteria: [{fieldName: "materialId", operator: "equals", value: -42}]
+        criteria: [{fieldName: "material.descl", operator: "contains", value: "Con"}]
     };
 
     var ViewLoader_createConc = isc.ViewLoader.create({
@@ -254,6 +267,11 @@ var ListGrid_Conc = isc.ListGrid.create({
         fields:
             [
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                {
+                    name: "material.descl",showTitle:"false",
+                    title: "Type material",
+                    align: "center",hidden: true
+                },
                 {
                     name: "contractNo",
                     showTitle:"true",
@@ -327,6 +345,7 @@ var ListGrid_Conc = isc.ListGrid.create({
                                 contactHeaderConc.setValue("createDateDumy", record.contractDate)
                                 contactHeaderConc.setValue("contractNo", record.contractNo)
                                 contactHeaderConc.setValue("contactId", record.contactId)
+                                dynamicFormConc.setValue("materialId",record.materialId)
                                 contactHeaderConc.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId) //***** to do
                                 contactHeaderConc.setValue("contactBySellerId", record.contactBySellerId)
                                 contactHeaderConc.setValue("contactBySellerAgentId", record.contactBySellerAgentId)

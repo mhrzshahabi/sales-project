@@ -537,6 +537,26 @@ var vlayoutBody = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContact]}),
+            isc.HLayout.create({height: "50", align: "left", members: [
+                isc.DynamicForm.create({ID:"dynamicFormCath",items:[{type: "text",name:"materialId",
+                    title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
+                    width: "250",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Material,
+                    displayField: "descl",
+                    valueField: "id",
+                    pickListWidth: "500",
+                    pickListHeight: "500",
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "descl", width: 440, align: "center"}
+                    ],
+                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                        {fieldName: "descl", operator: "contains", value: "Cath"}]
+                    },
+                    }]})
+            ]}),
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2", align: "center", members: [dynamicForm1, dynamicForm2]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),

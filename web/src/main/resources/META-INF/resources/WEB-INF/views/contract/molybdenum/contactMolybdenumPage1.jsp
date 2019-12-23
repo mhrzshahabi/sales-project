@@ -98,6 +98,20 @@
             ],
         fetchDataURL: "${contextPath}/api/incoterms/spec-list"
     });
+
+       var RestDataSource_Material = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "code", title: "<spring:message code='goods.code'/> "},
+                {name: "descl"},
+                {name: "unitId"},
+                {name: "unit.nameEN"},
+            ],
+        // ######@@@@###&&@@###
+        fetchDataURL: "${contextPath}/api/material/spec-list"
+    });
+
     var RestDataSource_Contact_optionCriteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
@@ -126,7 +140,7 @@
     var criteriaMo = {
         _constructor: "AdvancedCriteria",
         operator: "and",
-        criteria: [{fieldName: "materialId", operator: "equals", value: -32}]
+        criteria: [{fieldName: "material.descl", operator: "contains", value: "Mol"}]
     };
 
        var RestDataSource_ContractPenalty = isc.RestDataSource.create({
@@ -297,6 +311,12 @@
                         fields:
                         [
                             {name: "id", primaryKey: true, canEdit: false, hidden: true},
+                           {
+                            name: "material.descl",showTitle:"false",
+                            title: "Type material",
+                            hidden: false,
+                            align: "center",hidden: true
+                            },
                             {name: "contractNo",showTitle:"true",width: "10%", title: "<spring:message code='contact.no'/>", align: "center",canEdit: false}  ,
                             {name: "contractDate",showTitle:"true",width: "10%", title: "<spring:message code='contract.contractDate'/>", align: "center",canEdit: true}  ,
                             {name: "contact.nameFA",showTitle:"true",width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
@@ -343,9 +363,8 @@
                             var criterialotList={_constructor:"AdvancedCriteria",operator:"or",criteria:[{fieldName:"contractId",operator:"equals",value:record.id},{fieldName: "used", operator: "equals",value: 0 }]};
                                     criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
                                     RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
-
+                                    dynamicFormMaterial.setValue("materialId",record.materialId)
                                     contactHeader.setValue("createDateDumy", record.contractDate)
-
                                     contactHeader.setValue("contractNo", record.contractNo)
                                     contactHeader.setValue("contactId", record.contactId)
                                     contactHeader.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId)
@@ -1456,6 +1475,26 @@ var vlayoutBody = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContact]}),
+            isc.HLayout.create({height: "50", align: "left", members: [
+                isc.DynamicForm.create({ID:"dynamicFormMaterial",items:[{type: "text",name:"materialId",
+                    title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
+                    width: "250",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Material,
+                    displayField: "descl",
+                    valueField: "id",
+                    pickListWidth: "500",
+                    pickListHeight: "500",
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "descl", width: 440, align: "center"}
+                    ],
+                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                        {fieldName: "descl", operator: "contains", value: "Mol"}]
+                    },
+                    }]})
+            ]}),
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2", align: "center", members: [dynamicForm1, dynamicForm2]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
@@ -3450,6 +3489,7 @@ var IButton_Contact_Save = isc.IButton.create({
         click: function () {
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
+            dynamicFormMaterial.validate();
             contactHeader.validate();
             console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
            // DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save")));
@@ -3493,7 +3533,7 @@ var IButton_Contact_Save = isc.IButton.create({
                     dataSaveAndUpdateContract.pricePeriod=valuesManagerArticle9.getValue("pricePeriod");
                     dataSaveAndUpdateContract.eventPayment=valuesManagerArticle9.getValue("eventPayment");
                     dataSaveAndUpdateContract.contentType=valuesManagerArticle9.getValue("contentType");
-                    dataSaveAndUpdateContract.materialId=-32;
+                    dataSaveAndUpdateContract.materialId=dynamicFormMaterial.getValue("materialId");
 
 
 
@@ -3675,7 +3715,7 @@ var IButton_Contact_Save = isc.IButton.create({
                       //  dataSaveAndUpdateContract.id=contractIdEdit;
                         dataSaveAndUpdateContractDetail.contractNo=contactHeader.getValue("contractNo");
             }
-            var criteriaContractNoMoOx={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:-32},{fieldName:"contractNo",operator:"equals",value:dataSaveAndUpdateContractDetail.contractNo}]};
+            var criteriaContractNoMoOx={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "descl", operator: "contains", value: "Mol"},{fieldName:"contractNo",operator:"equals",value:dataSaveAndUpdateContractDetail.contractNo}]};
             RestDataSource_Contract.fetchData(criteriaContractNoMoOx,function(dsResponse, data, dsRequest) {
             if(data[0]!=undefined){
                 isc.warn("<spring:message code='main.contractsDuplicate'/>");

@@ -83,6 +83,7 @@ var contactCadTabs = isc.TabSet.create({
         iconOrientation: "right",
         click: function () {
             contactCadHeader.validate();
+            dynamicFormCath.validate();
             //DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
             var drs = contactCadHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
@@ -124,7 +125,7 @@ var contactCadTabs = isc.TabSet.create({
             dataSaveAndUpdateContractCad.pricePeriod = "any";
             dataSaveAndUpdateContractCad.eventPayment = "any";
             dataSaveAndUpdateContractCad.contentType = "any";
-            dataSaveAndUpdateContractCad.materialId = 952;
+            dataSaveAndUpdateContractCad.materialId = dynamicFormCath.getValue("materialId");
 ////////
         var dataSaveAndUpdateContractCadDetail = {};
         dataSaveAndUpdateContractCadDetail.name_ContactAgentSeller = contactCadHeaderCadAgent.getValue("name_ContactAgentSeller")
@@ -300,7 +301,7 @@ var contactCadTabs = isc.TabSet.create({
         dataSaveAndUpdateContractCadDetail.article10_number60 =valuesManagerArticle10_quality.getValue("article10_number60");
         dataSaveAndUpdateContractCadDetail.article10_number61 =valuesManagerArticle10_quality.getValue("article10_number61");
         recordContractNo=contactCadHeader.getValue("contractNo");
-        var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:952},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
+        var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "descl", operator: "contains", value: "Cath"},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
         RestDataSource_Contract.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
         if(data[0]!=undefined){
                 isc.warn("<spring:message code='main.contractsDuplicate'/>");

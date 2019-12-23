@@ -80,6 +80,7 @@ var IButton_ContactConc_Save = isc.IButton.create({
     iconOrientation: "right",
     click: function(){
             contactHeaderConc.validate();
+            dynamicFormConc.validate();
             var drs = contactHeaderConc.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             contactHeaderConc.setValue("contractDate", contractTrueDate);
@@ -120,7 +121,7 @@ var IButton_ContactConc_Save = isc.IButton.create({
             dataSaveAndUpdateContractConc.pricePeriod = "any";
             dataSaveAndUpdateContractConc.eventPayment = "any";
             dataSaveAndUpdateContractConc.contentType = "any";
-            dataSaveAndUpdateContractConc.materialId = -42;
+            dataSaveAndUpdateContractConc.materialId = dynamicFormConc.getValue("materialId");
             dataSaveAndUpdateContractConc.treatCost = valuesManagerArticle9_conc.getValue("TC");
             dataSaveAndUpdateContractConc.refinaryCost = valuesManagerArticle9_conc.getValue("RC");
 
