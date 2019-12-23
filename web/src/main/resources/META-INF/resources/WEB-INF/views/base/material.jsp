@@ -353,10 +353,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_Material_Refresh,
                 ToolStripButton_Material_Add,
                 ToolStripButton_Material_Edit,
-                ToolStripButton_Material_Remove
+                ToolStripButton_Material_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Material_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -917,10 +925,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_MaterialFeature_Refresh,
                 ToolStripButton_MaterialFeature_Add,
                 ToolStripButton_MaterialFeature_Edit,
-                ToolStripButton_MaterialFeature_Remove
+                ToolStripButton_MaterialFeature_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_MaterialFeature_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -1188,7 +1204,7 @@
         });
 
         var layoutMaterialFeature = isc.VLayout.create({
-
+            membersMargin: 10,
             members: [ ListGrid_MaterialFeature, hLayoutMaterialFeature ]
         });
 
@@ -1430,10 +1446,18 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
         width: "100%",
         members:
             [
-                ToolStripButton_MaterialItem_Refresh,
                 ToolStripButton_MaterialItem_Add,
                 ToolStripButton_MaterialItem_Edit,
-                ToolStripButton_MaterialItem_Remove
+                ToolStripButton_MaterialItem_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_MaterialItem_Refresh,
+                ]
+                })
+
             ]
     });
 
