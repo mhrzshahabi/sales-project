@@ -1,6 +1,5 @@
 package com.nicico.sales.util;
 
-import com.nicico.sales.dto.ContractIncomeCostDTO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.*;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
@@ -32,11 +31,11 @@ public class ReportBuilder {
         for (String myField : fields) {
             JRDesignField field = new JRDesignField();
             field.setName(myField);
-            try {
+            /*try {
                 field.setValueClass(ContractIncomeCostDTO.class.getDeclaredField(myField).getType());
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
-            }
+            }*/
             jasDes.addField(field);
         }
 

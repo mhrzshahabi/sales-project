@@ -22,7 +22,6 @@ public class SalesException extends NICICOException {
         WarehouseCadItemNotFound(404),
         WarehouseCadNotFound(404),
 		DuplicateRecord(403),
-        ContractIncomeCostNotFound(404),
 		CostNotFound(404),
 		InvoiceNotFound(404),
 		ContractShipmentNotFound(404),
