@@ -14,7 +14,6 @@
     font-family: B Titr, serif !important;
 }
 
-
 .myBoxedGridCell {
     font-family: Arial, serif;
     font-size: 11px;
@@ -96,36 +95,15 @@ span:hover {
 }
 
 
-#isc_KT{
-    position: absolute !important;
-    left: 0px !important;
-    top: 234px !important;
-    width: 906px !important;
-    height: 473px !important;
-    z-index: 800666 !important;
-    padding: 0px !important;
-    margin: 5px !important;
-    box-sizing: border-box !important;
-    overflow: visible !important;
-    right: 0px !important;
-    justify-content: center !important;
-    text-align: center !important;
-    margin: 0 auto !important;
-}
-
-
-.Shipment_style table tbody:nth-of-type(2) tr td input {
-    margin: 5px 0px !important;
+#isc_W0{
 
 }
 
+/*.formTitle{*/
+/*    font-weight: lighter !important;*/
+/*    white-space: nowrap !important;*/
+/*}*/
 
-
-.Shipment_style table tbody tr td nobr label{
-    font-weight: normal !important;
-}
-
-.Shipment_style div {
-    padding-right: 18px !important;
-}
-
+/*#isc_8I{*/
+/*    height: 400px !important;*/
+/*}*/

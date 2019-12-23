@@ -160,7 +160,7 @@
             ]
     });
 
-    var ToolStripButton_Country_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Country_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -168,7 +168,7 @@
         }
     });
 
-    var ToolStripButton_Country_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Country_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -177,7 +177,7 @@
         }
     });
 
-    var ToolStripButton_Country_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Country_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -186,7 +186,7 @@
         }
     });
 
-    var ToolStripButton_Country_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Country_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -198,10 +198,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_Country_Refresh,
                 ToolStripButton_Country_Add,
                 ToolStripButton_Country_Edit,
-                ToolStripButton_Country_Remove
+                ToolStripButton_Country_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Country_Refresh,
+                ]
+                })
+
             ]
     });
 

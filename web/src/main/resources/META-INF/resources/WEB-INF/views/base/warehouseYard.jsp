@@ -175,7 +175,7 @@
                ]
     });
 
-    var ToolStripButton_WarehouseYard_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseYard_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -183,7 +183,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseYard_Add = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseYard_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -192,7 +192,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseYard_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseYard_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -204,7 +204,7 @@
 
 
 
-    var ToolStripButton_WarehouseYard_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseYard_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -218,11 +218,19 @@
         width: "100%",
         members:
             [
-                ToolStripButton_WarehouseYard_Refresh,
                 ToolStripButton_WarehouseYard_Add,
                 ToolStripButton_WarehouseYard_Edit,
-                ToolStripButton_WarehouseYard_Remove
-            ]
+                ToolStripButton_WarehouseYard_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_WarehouseYard_Refresh,
+                ]
+                })
+
+]
     });
 
     var HLayout_WarehouseYard_Actions = isc.HLayout.create({
