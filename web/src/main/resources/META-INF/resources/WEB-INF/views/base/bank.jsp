@@ -14,7 +14,12 @@
                 {name: "enBankName", title: "<spring:message code='bank.nameEn'/>", width: 200},
                 {name: "address", title: "<spring:message code='bank.address'/>", width: 200},
                 {name: "coreBranch", title: "<spring:message code='bank.coreBranch'/>", width: 200},
-                {name: "countrynameFa", dataPath: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
+                {
+                    name: "countrynameFa",
+                    dataPath: "country.nameFa",
+                    title: "<spring:message code='country.nameFa'/>",
+                    width: 200
+                }
             ],
 
         fetchDataURL: "${contextPath}/api/bank/spec-list"
@@ -219,9 +224,9 @@
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
-                        {name: "id", width:"10%", align: "center", colSpan: 1, titleColSpan: 1 , hidden:true},
-                        {name: "nameFa", width:"10%", align: "center", colSpan: 1, titleColSpan: 1},
-                        {name: "nameEn", width:"10%", align: "center", colSpan: 1, titleColSpan: 1},
+                        {name: "id", width: "10%", align: "center", colSpan: 1, titleColSpan: 1, hidden: true},
+                        {name: "nameFa", width: "10%", align: "center", colSpan: 1, titleColSpan: 1},
+                        {name: "nameEn", width: "10%", align: "center", colSpan: 1, titleColSpan: 1},
                         // {name: "isActive", width:"10%", align: "center", colSpan: 1, titleColSpan: 1}
                     ]
                 }
@@ -270,12 +275,12 @@
                 ToolStripButton_Bank_Edit,
                 ToolStripButton_Bank_Remove,
                 isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Bank_Refresh,
-                ]
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_Bank_Refresh,
+                    ]
                 })
 
             ]
@@ -288,7 +293,6 @@
                 ToolStrip_Actions_Bank
             ]
     });
-
 
     var IButton_Bank_Save = isc.IButtonSave.create({
         top: 260,
@@ -320,8 +324,6 @@
             );
         }
     });
-
-
 
     var Window_Bank = isc.Window.create({
         title: "<spring:message code='bank.title'/> ",
@@ -362,6 +364,7 @@
                 })
             ]
     });
+
     var ListGrid_Bank = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -386,11 +389,6 @@
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
     });
 
     var HLayout_Bank_Grid = isc.HLayout.create({
@@ -401,7 +399,7 @@
         ]
     });
 
-    var VLayout_Bank_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

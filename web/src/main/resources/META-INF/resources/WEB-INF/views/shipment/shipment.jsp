@@ -1,5 +1,5 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -40,11 +40,7 @@
                 {name: "contactAccounts"},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
 
-                {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align:"center"}
-
-
-
-
+                {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
 
 
             ],
@@ -107,7 +103,12 @@
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "contactId", type: 'long', hidden: true},
-            {name: "contractcontactnameFA",dataPath: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
+            {
+                name: "contractcontactnameFA",
+                dataPath: "contract.contact.nameFA",
+                title: "<spring:message code='contact.name'/>",
+                type: 'text'
+            },
             {name: "contractId", type: 'long', hidden: true},
             {
                 name: "contractcontractNo",
@@ -143,11 +144,11 @@
                 valueMap: {"bulk": "bulk", "container": "container"}
             },
             {
-            name: "bookingCat",
-            title: "<spring:message code='shipment.bookingCat'/>",
-            type: 'text',
-            width: "10%",
-            showHover: true,
+                name: "bookingCat",
+                title: "<spring:message code='shipment.bookingCat'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true,
 
             },
             {
@@ -285,7 +286,7 @@
                 title: "<spring:message code='global.form.print.word'/>", icon: "icon/word.png", click: function () {
                     var record = ListGrid_Shipment.getSelectedRecord();
                     "<spring:url value="/shipment/print/" var="printUrl"/>"
-                    window.open('${printUrl}'+record.id);
+                    window.open('${printUrl}' + record.id);
                 }
             }
 
@@ -294,7 +295,7 @@
 
     var dash = "\n";
     var DynamicForm_Shipment = isc.DynamicForm.create({
-        styleName:"testmain",
+        styleName: "testmain",
         width: "100%",
         height: "100%",
         setMethod: 'POST',
@@ -309,40 +310,30 @@
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
-        // backgroundImage: "backgrounds/ship1.png",
 
         fields: [
-            {name: "id", hidden: true,},
-            {name: "contactId", hidden: true,},
-            {name: "contractId", hidden: true,},
-            {name: "materialId", hidden: true,},
-            // {type: "Header", defaultValue: dash},
+            {name: "id", hidden: true},
+            {name: "contactId", hidden: true},
+            {name: "contractId", hidden: true},
+            {name: "materialId", hidden: true},
             {
                 name: "contractShipmentId", ID: "abal", colSpan: 4,
                 title: "<spring:message	code='contact.name'/>",
                 type: 'long',
-                width: 400,
+                width: 600,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_pickShipmentItem,
                 displayField: "contractNo",
                 valueField: "cisId",
-                pickListWidth: 400,
+                pickListWidth: 600,
                 pickListHeight: "500",
                 required: true,
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "contractNo", width:"10%", align: "center"},
-                    {
-                        name: "fullname",
-width:"10%",
-                        align: "center"
-                    },
-                    {name: "amount", width: 150, align: "center"}, {
-                        name: "sendDate",
-width:"10%",
-                        align: "center"
-                    },
-                    {name: "plan", width:"10%", align: "center"}
+                    {name: "contractNo", width: "10%", align: "center"},
+                    {name: "fullname", width: "10%", align: "center"},
+                    {name: "amount", width: "10%", align: "center"},
+                    {name: "sendDate",width: "10%",align: "center"}
                 ],
                 changed: function () {
                     var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
@@ -427,16 +418,16 @@ width:"10%",
             // {type: "Header", defaultValue: dash},
             {
                 name: "shipmentType", colSpan: 2, title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required:true
+                type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required: true
             },
             {
-            name: "bookingCat",
-            title: "<spring:message code='shipment.bookingCat'/>",
-            type: 'text',
-            width: "100%",
-            colSpan:2,
-            showHover: true,
-            hint:"<spring:message code='shipment.bookingCat.hint'/>",
+                name: "bookingCat",
+                title: "<spring:message code='shipment.bookingCat'/>",
+                type: 'text',
+                width: "100%",
+                colSpan: 2,
+                showHover: true,
+                hint: "<spring:message code='shipment.bookingCat.hint'/>",
                 showHintInField: true,
 
             },
@@ -511,9 +502,9 @@ width:"10%",
 // portByDischargeId,consignee,contactByAgentId,vesselName,freight,demurrage,dispatch,status
         ]
     });
-// Bill of Lading
+    // Bill of Lading
     var DynamicForm_Shipment1 = isc.DynamicForm.create({
-        styleName:"testmain",
+        styleName: "testmain",
         width: "100%",
         height: "100%",
         setMethod: 'POST',
@@ -558,11 +549,11 @@ width:"10%",
             },
             {
                 name: "blNumbers",
-                colSpan:2,
+                colSpan: 2,
                 title: "<spring:message code='shipment.blNumbers'/>",
                 type: 'text',
                 width: 300,
-                required:true,
+                required: true,
 
             },
             // {type: "Header", defaultValue: dash},
@@ -612,7 +603,7 @@ width:"10%",
                 pickListProperties: {showFilterEditor: true}
                 ,
                 pickListFields: [{name: "port", align: "center"},
-                {name: "country.nameFa", align: "center"}]
+                    {name: "country.nameFa", align: "center"}]
             },
             {
                 name: "switchBl",
@@ -667,7 +658,7 @@ width:"10%",
         criteria: [{fieldName: "transporter", operator: "equals", value: true}]
     };
     var DynamicForm_Shipment2 = isc.DynamicForm.create({
-        styleName:"testmain",
+        styleName: "testmain",
         width: "100%",
         height: "100%",
         setMethod: 'POST',
@@ -1109,12 +1100,12 @@ width:"10%",
             ToolStripButton_Shipment_Edit,
             ToolStripButton_Shipment_Remove,
             isc.ToolStrip.create({
-            width: "100%",
-            align: "left",
-            border: '0px',
-            members: [
-                ToolStripButton_Shipment_Refresh,
-            ]
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Shipment_Refresh,
+                ]
             })
 
         ]
@@ -1196,15 +1187,15 @@ width:"10%",
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required:true
+                required: true
             },
 
             {
-            name: "bookingCat",
-            title: "<spring:message code='shipment.bookingCat'/>" ,
-            type: 'text',
-            width: "10%",
-            showHover: true,
+                name: "bookingCat",
+                title: "<spring:message code='shipment.bookingCat'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true,
 
             },
 
@@ -1214,7 +1205,7 @@ width:"10%",
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required:true
+                required: true
             },
             {
                 name: "noContainer",
@@ -1243,13 +1234,13 @@ width:"10%",
             },
 // {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
             <%--{--%>
-                <%--name: "description",--%>
-                <%--title: "<spring:message code='shipment.description'/>",--%>
-                <%--type: 'text',--%>
-                <%--required: true,--%>
-                <%--width: "10%",--%>
-                <%--align: "center",--%>
-                <%--showHover: true--%>
+            <%--name: "description",--%>
+            <%--title: "<spring:message code='shipment.description'/>",--%>
+            <%--type: 'text',--%>
+            <%--required: true,--%>
+            <%--width: "10%",--%>
+            <%--align: "center",--%>
+            <%--showHover: true--%>
             <%--},--%>
             {
                 name: "contractShipment.sendDate",
@@ -1680,7 +1671,7 @@ width:"10%",
                     }
                 });
             } else {
-                 var contractNo = record.contract.contractNo;
+                var contractNo = record.contract.contractNo;
                 DynamicForm_ShipmentEmail.clearValues();
                 DynamicForm_ShipmentEmail.setValue("shipmentId", record.id);
                 DynamicForm_ShipmentEmail.setValue("emailType", record.status);
@@ -1701,7 +1692,7 @@ width:"10%",
                 var criteria1 = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",
-                    criteria: [{fieldName: "id", operator: "equals", value:  record.contract.contact.id}]
+                    criteria: [{fieldName: "id", operator: "equals", value: record.contract.contact.id}]
                 };
                 RestDataSource_Contact__SHIPMENT.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                     DynamicForm_ShipmentEmail.setValue("emailTo", data[0].email);
@@ -1727,12 +1718,12 @@ width:"10%",
                 ToolStripButton_ShipmentEmail_Add,
                 ToolStripButton_ShipmentEmail_Edit,
                 isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_ShipmentEmail_Refresh,
-                ]
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_ShipmentEmail_Refresh,
+                    ]
                 })
 
             ]
@@ -1894,7 +1885,7 @@ width:"10%",
                                 ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                             }
                         },
-                         {title: "<spring:message code='global.email'/>", pane: VLayout_ShipmentEmail_Body, }
+                        {title: "<spring:message code='global.email'/>", pane: VLayout_ShipmentEmail_Body,}
                     ]
             })
         ]
