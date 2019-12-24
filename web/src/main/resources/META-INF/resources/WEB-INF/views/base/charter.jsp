@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -47,8 +47,8 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -215,7 +215,7 @@
                 ToolStrip_Actions_PaymentOption
             ]
     });
-    var RestDataSource_PaymentOption = isc.MyRestDataSource.create({
+    var RestDataSource_PaymentOption_IN_CHARTER = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -227,7 +227,7 @@
         <%--fetchDataURL: "${contextPath}/api/paymentOption/spec-list"--%>
 
     });
-    var IButton_PaymentOption_Save = isc.IButton.create({
+    var IButton_PaymentOption_Save = isc.IButtonSave.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -258,7 +258,7 @@
         }
     });
 
-    var PaymentOptionCancelBtn = isc.IButton.create({
+    var PaymentOptionCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -303,7 +303,7 @@
     var ListGrid_PaymentOption = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_PaymentOption,
+        dataSource: RestDataSource_PaymentOption_IN_CHARTER,
         contextMenu: Menu_ListGrid_PaymentOption,
         doubleClick: function () {
             ListGrid_PaymentOption_edit();
@@ -326,12 +326,7 @@
         sortField: 0,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
     });
 
 

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -481,7 +481,6 @@
             HLayout_Grid_ShipmentByWarehouseIssueMo 
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
     function ListGrid_WarehouseIssueMo_edit() {
         var record = ListGrid_WarehouseIssueMo.getSelectedRecord();
@@ -524,10 +523,10 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({
+                    isc.IButtonSave.create({
                         title: "<spring:message code='global.yes'/>"
                     }),
-                    isc.Button.create({
+                    isc.IButtonCancel.create({
                         title: "<spring:message code='global.no'/>"
                     })
                 ],
@@ -702,7 +701,7 @@
             ]
     });
 
-    var ToolStripButton_WarehouseIssueMo_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueMo_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -710,7 +709,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseIssueMo_Add = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueMo_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -734,7 +733,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseIssueMo_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueMo_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -743,7 +742,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseIssueMo_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueMo_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -755,10 +754,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_WarehouseIssueMo_Refresh,
                 ToolStripButton_WarehouseIssueMo_Add,
                 ToolStripButton_WarehouseIssueMo_Edit,
-                ToolStripButton_WarehouseIssueMo_Remove
+                ToolStripButton_WarehouseIssueMo_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_WarehouseIssueMo_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -770,7 +777,7 @@
             ]
     });
 
-    var IButton_WarehouseIssueMo_Save = isc.IButton.create({
+    var IButton_WarehouseIssueMo_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -825,7 +832,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -965,7 +972,6 @@ var ListGrid_WarehouseIssueMo = isc.ListGrid.create({
             HLayout_WarehouseIssueMo_Actions, HLayout_WarehouseIssueMo_Grid
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
 /******************* Start Attachment **********************/
     isc.ViewLoader.create({

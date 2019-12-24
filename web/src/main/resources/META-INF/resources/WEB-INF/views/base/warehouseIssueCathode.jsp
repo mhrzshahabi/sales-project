@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 
@@ -460,7 +460,6 @@
             HLayout_Grid_ShipmentByWarehouseIssueCathode 
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
     function ListGrid_WarehouseIssueCathode_edit() {
         var record = ListGrid_WarehouseIssueCathode.getSelectedRecord();
@@ -501,8 +500,8 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -859,7 +858,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
             ]
     });
 
-    var ToolStripButton_WarehouseIssueCathode_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCathode_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -867,7 +866,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         }
     });
 
-    var ToolStripButton_WarehouseIssueCathode_Add = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCathode_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -891,7 +890,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         }
     });
 
-    var ToolStripButton_WarehouseIssueCathode_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCathode_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -900,7 +899,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         }
     });
 
-    var ToolStripButton_WarehouseIssueCathode_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCathode_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -912,10 +911,18 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         width: "100%",
         members:
             [
-                ToolStripButton_WarehouseIssueCathode_Refresh,
                 ToolStripButton_WarehouseIssueCathode_Add,
                 ToolStripButton_WarehouseIssueCathode_Edit,
-                ToolStripButton_WarehouseIssueCathode_Remove
+                ToolStripButton_WarehouseIssueCathode_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_WarehouseIssueCathode_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -927,7 +934,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
             ]
     });
 
-    var IButton_WarehouseIssueCathode_Save = isc.IButton.create({
+    var IButton_WarehouseIssueCathode_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -982,7 +989,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -998,7 +1005,6 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_WarehouseIssueCathode,
-        showFilterEditor: true,
         contextMenu: Menu_ListGrid_WarehouseIssueCathode,
         fields:
             [
@@ -1039,12 +1045,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         sortField: 0,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
     });
 
     var HLayout_WarehouseIssueCathode_Grid = isc.HLayout.create({
@@ -1062,7 +1063,6 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
             HLayout_WarehouseIssueCathode_Actions, HLayout_WarehouseIssueCathode_Grid
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
     /******************* Start Attachment **********************/
     isc.ViewLoader.create({

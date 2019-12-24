@@ -3,7 +3,7 @@
 <%@ page import="com.nicico.sales.dto.InvoiceItemDTO" %>
 <%@ page import="com.nicico.sales.dto.InvoiceMolybdenumDTO" %>
 <%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -562,7 +562,7 @@
                 loopDown++;
             }
      %>
-     var IButton_Invoice_Molybdenum_Save = isc.IButton.create({
+     var IButton_Invoice_Molybdenum_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -744,7 +744,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",

@@ -1,5 +1,5 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 //<script>
 
@@ -617,8 +617,8 @@
                                             icon: "[SKIN]ask.png",
                                             title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                                             buttons: [
-                                                isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                                                isc.Button.create({title: "<spring:message code='global.no'/>"})
+                                                isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                                                isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                                             ],
                                             buttonClick: function (button, index) {
                                                 this.hide();

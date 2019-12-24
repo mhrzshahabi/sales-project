@@ -19,7 +19,7 @@
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
-    var RestDataSource_Unit = isc.MyRestDataSource.create({
+    var RestDataSource_Unit_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -31,7 +31,7 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
-    var RestDataSource_Rate = isc.MyRestDataSource.create({
+    var RestDataSource_Rate_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -44,7 +44,7 @@
         fetchDataURL: "${contextPath}/api/rate/spec-list"
     });
 
-    var RestDataSource_Feature = isc.MyRestDataSource.create({
+    var RestDataSource_Feature_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -57,7 +57,7 @@
         fetchDataURL: "${contextPath}/api/feature/spec-list"
     });
 
-    var RestDataSource_MaterialItem = isc.MyRestDataSource.create({
+    var RestDataSource_MaterialItem_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -101,7 +101,7 @@
         fetchDataURL: "${contextPath}/api/materialFeature/spec-list"
     });
 
-    var IButton_Material_Save = isc.IButton.create({
+    var IButton_Material_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -179,7 +179,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -298,7 +298,7 @@
                     type: 'long',
                     width: 400,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Unit,
+                    optionDataSource: RestDataSource_Unit_IN_MATERIAL,
                     displayField: "nameFA",
                     valueField: "id",
                     pickListWidth: "400",
@@ -400,7 +400,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "materialExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -502,7 +502,7 @@
                         height: "100%",
                         align: "right",
                         textAlign: "right",
-                        dataSource: RestDataSource_MaterialItem,
+                        dataSource: RestDataSource_MaterialItem_IN_MATERIAL,
                         contextMenu: Menu_ListGrid_MaterialItem,
                         initialCriteria: { _constructor: "AdvancedCriteria", operator: "and",
                         criteria: [
@@ -640,7 +640,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -734,7 +734,7 @@
                     width: 300, required: true,
                     editorType: "SelectItem"
                     ,
-                    optionDataSource: RestDataSource_Feature,
+                    optionDataSource: RestDataSource_Feature_IN_MATERIAL,
                     displayField: "nameFA"
                     ,
                     valueField: "id",
@@ -810,7 +810,7 @@
                     width: 300,
                     editorType: "SelectItem"
                     ,
-                    optionDataSource: RestDataSource_Rate,
+                    optionDataSource: RestDataSource_Rate_IN_MATERIAL,
                     displayField: "nameFA"
                     ,
                     valueField: "id",
@@ -948,7 +948,7 @@
             ]
     });
 
-    var IButton_MaterialFeature_Save = isc.IButton.create({
+    var IButton_MaterialFeature_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -983,7 +983,7 @@
         }
     });
 
-    var MaterialFeatureCancelBtn = isc.IButton.create({
+    var MaterialFeatureCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -1254,8 +1254,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
             HLayout_MaterialFeature_Actions, HLayout_MaterialFeature_Grid
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-     // ----------------------------------------------------------------------------------------------------------------------
+
     function ListGrid_MaterialItem_refresh() {
         ListGrid_MaterialItem.invalidateCache();
         var record = ListGrid_Material.getSelectedRecord();
@@ -1309,7 +1308,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -1469,7 +1468,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
             ]
     });
 
-    var IButton_MaterialItem_Save = isc.IButton.create({
+    var IButton_MaterialItem_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1504,7 +1503,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
         }
     });
 
-    var MaterialItemCancelBtn = isc.IButton.create({
+    var MaterialItemCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -1550,7 +1549,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
     var ListGrid_MaterialItem = isc.ListGrid.create({
         width: "100%",
         height: 180,
-        dataSource: RestDataSource_MaterialItem,
+        dataSource: RestDataSource_MaterialItem_IN_MATERIAL,
         contextMenu: Menu_ListGrid_MaterialItem,
         setAutoFitExtraRecords: true,
         showRecordComponents: true,
@@ -1629,7 +1628,7 @@ var HLayout_MaterialItem_Grid = isc.HLayout.create({
             HLayout_MaterialItem_Actions, HLayout_MaterialItem_Grid
         ]
     });
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
    isc.SectionStack.create({
         ID: "Material_Section_Stack",
         sections:

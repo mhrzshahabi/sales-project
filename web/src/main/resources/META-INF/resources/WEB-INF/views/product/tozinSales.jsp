@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -587,7 +587,7 @@
 
 
 
-    var ToolStripButton_TozinSales_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_TozinSales_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -637,9 +637,16 @@
     		MenuButton_Forosh_Bargiri,
     		MenuButton_Kharid_Konstantere,
     		MenuButton_Kharid_Zaieat,
-    		ToolStripButton_TozinSales_Refresh,
     		ToolStripButton_TozinSales_sum,
-    		DynamicForm_DailyReport_TozinSales
+    		DynamicForm_DailyReport_TozinSales,
+			isc.ToolStrip.create({
+			width: "100%",
+			align: "left",
+			border: '0px',
+			members: [
+				ToolStripButton_TozinSales_Refresh,
+			]
+			})
     	]
     });
 
@@ -652,7 +659,7 @@
             ]
     });
 
-    var IButton_TozinSales_Save = isc.IButton.create({
+    var IButton_TozinSales_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -684,7 +691,7 @@
             );
         }
     });
-    var IButton_TozinSales_Cancel = isc.IButton.create({
+    var IButton_TozinSales_Cancel = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",

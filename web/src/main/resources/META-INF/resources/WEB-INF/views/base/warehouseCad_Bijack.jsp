@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_BIJACK = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -40,7 +40,7 @@
         fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
     });
 
-    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseYard_IN_WAREHOUSECAD_BIJACK = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -62,7 +62,7 @@
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
 
-    var RestDataSource_tozin = isc.MyRestDataSource.create({
+    var RestDataSource_tozin_IN_WAREHOUSECAD_BIJACK = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -247,7 +247,7 @@
         autoFetchData: false,
         canRemoveRecords: true,
         autoSaveEdits: true,
-        dataSource: RestDataSource_WarehouseCadITEM,
+        dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_BIJACK,
         showGridSummary: true,
         fields: [{
             name: "id",
@@ -390,7 +390,7 @@
         type: 'string',
         width: "100%",
         editorType: "SelectItem",
-        optionDataSource: RestDataSource_tozin,
+        optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_BIJACK,
         optionCriteria: RestDataSource_Tozin_Other_optionCriteria,
         displayField: "tozinPlantId",
         valueField: "tozinPlantId",
@@ -431,7 +431,7 @@
         type: 'string',
         width: "100%",
         editorType: "SelectItem",
-        optionDataSource: RestDataSource_tozin,
+        optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_BIJACK,
         optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
         displayField: "tozinPlantId",
         valueField: "tozinPlantId",
@@ -464,7 +464,7 @@
         title: "<spring:message code='warehouseCad.yard'/>",
         type: 'string',
         editorType: "SelectItem",
-        optionDataSource: RestDataSource_WarehouseYard,
+        optionDataSource: RestDataSource_WarehouseYard_IN_WAREHOUSECAD_BIJACK,
         displayField: "nameFA",
         valueField: "id",
         pickListWidth: "215",
@@ -556,7 +556,7 @@
     }]
 });
 
-    var IButton_warehouseCAD_Save = isc.IButton.create({
+    var IButton_warehouseCAD_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -637,7 +637,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "warehouseCADEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,

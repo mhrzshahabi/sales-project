@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
@@ -279,7 +279,7 @@ function createPasteDialog () {
                                 }
                              }),
 
-                            isc.Button.create({
+                            isc.IButtonSave.create({
                               title:"<spring:message code='global.form.save'/>",
                               prompt: "<spring:message code='shipment.Moisture.saveButton'/>",
                               icon: "pieces/16/save.png",
@@ -656,7 +656,7 @@ var criteria1Inspector = {
 
 
 
-    var IButton_Shipment_Save_MoistureHeader = isc.IButton.create({
+    var IButton_Shipment_Save_MoistureHeader = isc.IButtonSave.create({
     top: 260,
     title:"<spring:message code='global.form.save'/>",
     icon: "pieces/16/save.png",
@@ -746,7 +746,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 				message : "<spring:message code='global.grid.record.remove.ask'/>",
 				icon:"[SKIN]ask.png",
 				title : "<spring:message code='global.grid.record.remove.ask.title'/>",
-				buttons : [ isc.Button.create({ title:"<spring:message code='global.yes'/>" }), isc.Button.create({ title:"<spring:message code='global.no'/>" })],
+				buttons : [ isc.IButtonSave.create({ title:"<spring:message code='global.yes'/>" }), isc.IButtonCancel.create({ title:"<spring:message code='global.no'/>" })],
 				buttonClick : function (button, index) {
 					this.hide();
 					if (index == 0) {
@@ -794,14 +794,14 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             Window_ShipmentMoistureHeader.show();
         }
     };
-    var ToolStripButton_ShipmentMoistureHeader_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureHeader_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function(){
             ListGrid_ShipmentMoistureHeader_refresh();
     }
     });
-    var ToolStripButton_ShipmentMoistureHeader_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureHeader_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click:function(){
@@ -824,7 +824,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 				}
         }
     });
-    var ToolStripButton_ShipmentMoistureHeader_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureHeader_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function(){
@@ -834,14 +834,14 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             }
         }
     });
-    var ToolStripButton_ShipmentMoistureHeader_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureHeader_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click:function(){
             ListGrid_ShipmentMoistureHeader_remove();
         }
     });
-    var ToolStripButton_ShipmentMoistureHeader_Print = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureHeader_Print = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/print.png",
         title: "<spring:message code='global.form.print'/>",
         click:function(){
@@ -851,12 +851,21 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
     });
     var ToolStrip_Actions_ShipmentMoistureHeader = isc.ToolStrip.create({
     width: "100%",
+    membersMargin: 5,
     members: [
-        ToolStripButton_ShipmentMoistureHeader_Refresh,
         ToolStripButton_ShipmentMoistureHeader_Add,
         ToolStripButton_ShipmentMoistureHeader_Edit,
         ToolStripButton_ShipmentMoistureHeader_Remove,
         ToolStripButton_ShipmentMoistureHeader_Print,
+        isc.ToolStrip.create({
+        width: "100%",
+        align: "left",
+        border: '0px',
+        members: [
+            ToolStripButton_ShipmentMoistureHeader_Refresh,
+        ]
+        })
+
     ]
     });
 
@@ -931,8 +940,6 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
         ]
     });
 
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//*******************************************************************************
 var Menu_ListGrid_ShipmentMoistureItem = isc.Menu.create({
     width:150,
     data:[
@@ -993,7 +1000,7 @@ var Menu_ListGrid_ShipmentMoistureItem = isc.Menu.create({
 		  , type:'float', validators : [{type: "isFloat", validateOnExit : true, stopOnError : true, errorMessage: "<spring:message code='global.form.correctType'/>"}]},
 	]
     });
-    var IButton_Shipment_Save_MoistureItem = isc.IButton.create({
+    var IButton_Shipment_Save_MoistureItem = isc.IButtonSave.create({
     top: 260,
     title:"<spring:message code='global.form.save'/>",
     icon: "pieces/16/save.png",
@@ -1083,8 +1090,8 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             icon:"[SKIN]ask.png",
             title : "<spring:message code='global.grid.record.remove.ask.title'/>",
             buttons : [
-                isc.Button.create({ title:"<spring:message code='global.yes'/>" }),
-                isc.Button.create({ title:"<spring:message code='global.no'/>" })
+                isc.IButtonSave.create({ title:"<spring:message code='global.yes'/>" }),
+                isc.IButtonCancel.create({ title:"<spring:message code='global.no'/>" })
                 ],
             buttonClick : function (button, index) {
                 this.hide();
@@ -1128,14 +1135,14 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             Window_ShipmentMoistureItem.show();
         }
     };
-    var ToolStripButton_ShipmentMoistureItem_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureItem_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function(){
             ListGrid_ShipmentMoistureItem_refresh();
     }
     });
-    var ToolStripButton_ShipmentMoistureItem_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureItem_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click:function(){
@@ -1158,7 +1165,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 				}
         }
     });
-    var ToolStripButton_ShipmentMoistureItem_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureItem_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function(){
@@ -1168,14 +1175,14 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             }
         }
     });
-    var ToolStripButton_ShipmentMoistureItem_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureItem_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click:function(){
             ListGrid_ShipmentMoistureItem_remove();
         }
     });
-    var ToolStripButton_ShipmentMoistureItem_Print = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentMoistureItem_Print = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/print.png",
         title: "<spring:message code='global.form.print'/>",
         click:function(){
@@ -1185,13 +1192,22 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
     });
     var ToolStrip_Actions_ShipmentMoistureItem = isc.ToolStrip.create({
     width: "100%",
+    membersMargin: 5,
     members: [
-        ToolStripButton_ShipmentMoistureItem_Refresh,
         ToolStripButton_ShipmentMoistureItem_Add,
         ToolStripButton_ShipmentMoistureItem_Edit,
         ToolStripButton_ShipmentMoistureItem_Remove,
         ToolStripButton_ShipmentMoistureItem_Paste,
         ToolStripButton_ShipmentMoistureItem_Print,
+        isc.ToolStrip.create({
+        width: "100%",
+        align: "left",
+        border: '0px',
+        members: [
+            ToolStripButton_ShipmentMoistureItem_Refresh,
+        ]
+        })
+
     ]
     });
 
@@ -1254,8 +1270,6 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             HLayout_Actions_ShipmentMoistureItem, HLayout_Grid_ShipmentMoistureItem
         ]
     });
-
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
 isc.SectionStack.create({
     ID:"ShipmentMoistureHeader_Section_Stack",

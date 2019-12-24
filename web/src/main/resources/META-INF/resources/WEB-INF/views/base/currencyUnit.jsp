@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -123,7 +123,7 @@
         ]
     });
 
-    var IButton_CurrencyUnit_Save = isc.IButton.create({
+    var IButton_CurrencyUnit_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -181,7 +181,7 @@
                         isc.Label.create({
                             width: 5,
                         }),
-                        isc.IButton.create({
+                        isc.IButtonCancel.create({
                             ID: "courseEditExitIButton",
                             title: "<spring:message code='global.cancel'/>",
                             width: 100,
@@ -219,10 +219,10 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({
+                buttons: [isc.IButtonSave.create({
                     title: "<spring:message
 		code='global.yes'/>"
-                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+                }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {

@@ -1,5 +1,5 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -74,7 +74,7 @@ var contactConcTabs = isc.TabSet.create({
         ]
     });
 
-var IButton_ContactConc_Save = isc.IButton.create({
+var IButton_ContactConc_Save = isc.IButtonSave.create({
     title: "save",
     icon: "pieces/16/save.png",
     iconOrientation: "right",

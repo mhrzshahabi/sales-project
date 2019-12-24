@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -694,7 +694,7 @@ var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
 
 
 
-    var ToolStripButton_Tozin_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Tozin_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -709,7 +709,6 @@ var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
     	height: 40,
     	membersMargin: 10,
     	members: [
-    		ToolStripButton_Tozin_Refresh,
     		DynamicForm_DailyReport_Tozin,
     		DynamicForm_DailyReport_Tozin1,
     		DynamicForm_DailyReport_Tozin2,
@@ -809,7 +808,16 @@ var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
 
     				ListGrid_Tozin.fetchData(criteria);
     			}
-    		})
+    		}),
+		isc.ToolStrip.create({
+			width: "100%",
+			align: "left",
+			border: '0px',
+			members: [
+			ToolStripButton_Tozin_Refresh,
+			]
+		})
+
     	]
     });
 
@@ -827,7 +835,7 @@ var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
             ]
     });
 
-    var IButton_Tozin_Save = isc.IButton.create({
+    var IButton_Tozin_Save = isc.IButtonSave.create({
     	top: 260,
     	title: "<spring:message code='global.form.save'/>",
     	icon: "pieces/16/save.png",
@@ -860,7 +868,7 @@ var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
     });
 
 
-    var IButton_Tozin_Cancel = isc.IButton.create({
+    var IButton_Tozin_Cancel = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",
