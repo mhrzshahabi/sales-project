@@ -743,6 +743,13 @@
                     }
                 },
                 {isSeparator: true},
+                {
+                    title: "<spring:message code='contractPerson.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='contractPerson.title'/>", "<spring:url value="/contractPerson/showForm" />")
+                    }
+                },
+                {isSeparator: true},
 
             ]
         })
