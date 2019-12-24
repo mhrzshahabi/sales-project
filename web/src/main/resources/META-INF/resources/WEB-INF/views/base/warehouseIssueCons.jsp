@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -549,7 +549,6 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             HLayout_Grid_ShipmentByWarehouseIssueCons 
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
     function ListGrid_WarehouseIssueCons_edit() {
         var record = ListGrid_WarehouseIssueCons.getSelectedRecord();
@@ -1054,7 +1053,6 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             HLayout_WarehouseIssueCons_Actions, HLayout_WarehouseIssueCons_Grid
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
 /******************* Start Attachment **********************/
     isc.ViewLoader.create({

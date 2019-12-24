@@ -19,7 +19,7 @@
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
-    var RestDataSource_Unit = isc.MyRestDataSource.create({
+    var RestDataSource_Unit_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -31,7 +31,7 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
-    var RestDataSource_Rate = isc.MyRestDataSource.create({
+    var RestDataSource_Rate_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -44,7 +44,7 @@
         fetchDataURL: "${contextPath}/api/rate/spec-list"
     });
 
-    var RestDataSource_Feature = isc.MyRestDataSource.create({
+    var RestDataSource_Feature_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -57,7 +57,7 @@
         fetchDataURL: "${contextPath}/api/feature/spec-list"
     });
 
-    var RestDataSource_MaterialItem = isc.MyRestDataSource.create({
+    var RestDataSource_MaterialItem_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -298,7 +298,7 @@
                     type: 'long',
                     width: 400,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Unit,
+                    optionDataSource: RestDataSource_Unit_IN_MATERIAL,
                     displayField: "nameFA",
                     valueField: "id",
                     pickListWidth: "400",
@@ -502,7 +502,7 @@
                         height: "100%",
                         align: "right",
                         textAlign: "right",
-                        dataSource: RestDataSource_MaterialItem,
+                        dataSource: RestDataSource_MaterialItem_IN_MATERIAL,
                         contextMenu: Menu_ListGrid_MaterialItem,
                         initialCriteria: { _constructor: "AdvancedCriteria", operator: "and",
                         criteria: [
@@ -734,7 +734,7 @@
                     width: 300, required: true,
                     editorType: "SelectItem"
                     ,
-                    optionDataSource: RestDataSource_Feature,
+                    optionDataSource: RestDataSource_Feature_IN_MATERIAL,
                     displayField: "nameFA"
                     ,
                     valueField: "id",
@@ -810,7 +810,7 @@
                     width: 300,
                     editorType: "SelectItem"
                     ,
-                    optionDataSource: RestDataSource_Rate,
+                    optionDataSource: RestDataSource_Rate_IN_MATERIAL,
                     displayField: "nameFA"
                     ,
                     valueField: "id",
@@ -1254,8 +1254,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
             HLayout_MaterialFeature_Actions, HLayout_MaterialFeature_Grid
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-     // ----------------------------------------------------------------------------------------------------------------------
+
     function ListGrid_MaterialItem_refresh() {
         ListGrid_MaterialItem.invalidateCache();
         var record = ListGrid_Material.getSelectedRecord();
@@ -1550,7 +1549,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
     var ListGrid_MaterialItem = isc.ListGrid.create({
         width: "100%",
         height: 180,
-        dataSource: RestDataSource_MaterialItem,
+        dataSource: RestDataSource_MaterialItem_IN_MATERIAL,
         contextMenu: Menu_ListGrid_MaterialItem,
         setAutoFitExtraRecords: true,
         showRecordComponents: true,
@@ -1629,7 +1628,7 @@ var HLayout_MaterialItem_Grid = isc.HLayout.create({
             HLayout_MaterialItem_Actions, HLayout_MaterialItem_Grid
         ]
     });
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
    isc.SectionStack.create({
         ID: "Material_Section_Stack",
         sections:

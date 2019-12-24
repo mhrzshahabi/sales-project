@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -24,7 +24,7 @@
     });
 
 
-var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
+var RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
     fields: [{
         name: "id",
         title: "id",
@@ -54,7 +54,7 @@ var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
 });
 
 
-    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -270,7 +270,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         autoFetchData: false,
         canRemoveRecords: true,
         autoSaveEdits: true,
-        dataSource: RestDataSource_WarehouseCadITEM,
+        dataSource: RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT,
         showGridSummary: true,
         fields: [{
             name: "id",
@@ -446,7 +446,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 title: "<spring:message code='warehouseCad.yard'/>",
                 type: 'string',
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_WarehouseYard,
+                optionDataSource: RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT,
                 displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: "215",

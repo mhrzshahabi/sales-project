@@ -1,19 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
-
-    var RestDataSource_Country = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-                {name: "nameFa", title: "<spring:message code='global.country'/> "}
-            ],
-        fetchDataURL: "${contextPath}/api/country/spec-list"
-    });
 
     var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [

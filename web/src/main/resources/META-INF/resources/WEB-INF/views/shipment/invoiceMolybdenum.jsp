@@ -3,7 +3,7 @@
 <%@ page import="com.nicico.sales.dto.InvoiceItemDTO" %>
 <%@ page import="com.nicico.sales.dto.InvoiceMolybdenumDTO" %>
 <%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>

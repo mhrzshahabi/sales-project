@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
  <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
@@ -1075,8 +1075,6 @@ httpMethod: "DELETE",
             ]
     });
 
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    //*******************************************************************************
     var Menu_ListGrid_ShipmentAssayItem = isc.Menu.create({
         width: 150,
         data: [
@@ -1438,11 +1436,6 @@ httpMethod: methodXXXX,
                 }]
             }
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        },
         sortField: 0,
         dataPageSize: 50,
         showFilterEditor: true,
@@ -1465,8 +1458,6 @@ httpMethod: methodXXXX,
                 HLayout_Actions_ShipmentAssayItem, HLayout_Grid_ShipmentAssayItem
             ]
     });
-
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     isc.SectionStack.create({
         ID: "ShipmentAssayHeader_Section_Stack",

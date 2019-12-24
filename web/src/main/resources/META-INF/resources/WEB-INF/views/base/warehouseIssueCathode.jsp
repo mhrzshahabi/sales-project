@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 
@@ -460,7 +460,6 @@
             HLayout_Grid_ShipmentByWarehouseIssueCathode 
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
     function ListGrid_WarehouseIssueCathode_edit() {
         var record = ListGrid_WarehouseIssueCathode.getSelectedRecord();
@@ -1006,7 +1005,6 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_WarehouseIssueCathode,
-        showFilterEditor: true,
         contextMenu: Menu_ListGrid_WarehouseIssueCathode,
         fields:
             [
@@ -1047,12 +1045,7 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
         sortField: 0,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
     });
 
     var HLayout_WarehouseIssueCathode_Grid = isc.HLayout.create({
@@ -1070,7 +1063,6 @@ var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected  = isc.ListGrid.cr
             HLayout_WarehouseIssueCathode_Actions, HLayout_WarehouseIssueCathode_Grid
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
     /******************* Start Attachment **********************/
     isc.ViewLoader.create({

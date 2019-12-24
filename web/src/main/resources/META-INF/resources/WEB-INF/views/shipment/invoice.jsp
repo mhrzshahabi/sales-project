@@ -1,5 +1,5 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
  //      <script>
@@ -306,7 +306,6 @@
         ]
     });
 
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     var ViewLoader_Invoice_Attachment = isc.ViewLoader.create({
         width: "100%",
         height: "100%",
@@ -1259,12 +1258,7 @@
         sortField: 0,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
 
     });
     var HLayout_Invoice_Grid = isc.HLayout.create({
@@ -1282,9 +1276,6 @@
             HLayout_Invoice_Actions, HLayout_Invoice_Grid
         ]
     });
-
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
 
     isc.SectionStack.create({
         ID: "Shipment_InvoiceHeader_Section_Stack",

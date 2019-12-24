@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -123,7 +123,7 @@
 });
 
     //*******************************************************************************
-var RestDataSource_Contract = isc.MyRestDataSource.create({
+var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create({
     fields: [{
             name: "id",
             title: "id",
@@ -192,7 +192,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
     //*******************************************************************************
 
     //*******************************************************************************
- var RestDataSource_Material = isc.MyRestDataSource.create({
+ var RestDataSource_Material_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create({
     fields: [{
             name: "id",
             title: "id",
@@ -215,17 +215,6 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
     ],
     fetchDataURL: "rest/material/materialList"
 });
-
-    //*******************************************************************************
-function ThousandSeparate1(item) {
-    var V = item;
-    V = V.replace(/,/g, '');
-    var R = new RegExp('(-?[0-9]+)([0-9]{3})');
-    while (R.test(V)) {
-        V = V.replace(R, '$1,$2');
-    }
-    return V;
-}
 
     function ListGrid_ProvisionalInvoice_refresh() {
         ListGrid_ProvisionalInvoice.invalidateCache();
@@ -365,7 +354,7 @@ function ThousandSeparate1(item) {
                     width: "100%",
                     editorType: "SelectItem"
                     ,
-                    optionDataSource: RestDataSource_Contract,
+                    optionDataSource: RestDataSource_Contract_IN_PROVISIONAL_INVOICE,
                     displayField: "contractNo",
                     colSpan: 1,
                     wrapTitle: false,
@@ -406,7 +395,7 @@ function ThousandSeparate1(item) {
                     width: "100%",
                     editorType: "SelectItem"
                     ,
-                    optionDataSource: RestDataSource_Material,
+                    optionDataSource: RestDataSource_Material_IN_PROVISIONAL_INVOICE,
                     displayField: "descl",
                     autoFetchData: false,
                     colSpan: 1,
@@ -905,12 +894,7 @@ var Window_ProvisionalInvoice = isc.Window.create({
         sortField: 0,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
 
     });
 

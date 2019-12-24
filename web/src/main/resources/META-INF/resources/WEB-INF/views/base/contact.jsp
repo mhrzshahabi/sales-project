@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -43,7 +43,7 @@
         fetchDataURL: "${contextPath}/api/contactAccount/spec-list"
     });
 
-    var RestDataSource_Bank = isc.MyRestDataSource.create({
+    var RestDataSource_Bank_IN_CONTACT = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -818,7 +818,7 @@
                 title: "<spring:message code='contactAccount.nameFA'/>",
                 type: 'long',
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Bank,
+                optionDataSource: RestDataSource_Bank_IN_CONTACT,
                 displayField: "bankName",
                 valueField: "id",
                 pickListWidth: "300",
@@ -916,7 +916,7 @@
                 type: 'long',
                 editorType: "SelectItem"
                 ,
-                optionDataSource: RestDataSource_Bank,
+                optionDataSource: RestDataSource_Bank_IN_CONTACT,
                 displayField: "bankName",
                 valueField: "id",
                 pickListWidth: "300",

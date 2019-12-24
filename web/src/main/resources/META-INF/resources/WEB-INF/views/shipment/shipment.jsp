@@ -2042,7 +2042,6 @@
             ]
     });
 
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     var SectionStack_shipment = isc.SectionStack.create({
         ID: "Shipment_Section_Stack",
         sections:
