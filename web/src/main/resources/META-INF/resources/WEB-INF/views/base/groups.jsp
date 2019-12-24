@@ -105,7 +105,7 @@
         ]
     });
 
-    var IButton_Groups_Save = isc.IButton.create({
+    var IButton_Groups_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -136,7 +136,7 @@
         }
     });
 
-    var GroupsCancelBtn = isc.IButton.create({
+    var GroupsCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -201,7 +201,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message	code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {
@@ -600,7 +600,7 @@
             ]
     });
 
-    var IButton_GroupsPerson_Save = isc.IButton.create({
+    var IButton_GroupsPerson_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -631,7 +631,7 @@
         }
     });
 
-    var GroupsPersonCancelBtn = isc.IButton.create({
+    var GroupsPersonCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -739,7 +739,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message	code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {

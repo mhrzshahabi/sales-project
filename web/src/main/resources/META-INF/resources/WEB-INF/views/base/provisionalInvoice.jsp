@@ -271,10 +271,10 @@ function ThousandSeparate1(item) {
             message: "<spring:message code='global.grid.record.remove.ask'/>",
             icon: "[SKIN]ask.png",
             title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-            buttons: [isc.Button.create({
+            buttons: [isc.IButtonSave.create({
                 title: "<spring:message
                 code = 'global.yes' / > "
-            }), isc.Button.create({
+            }), isc.IButtonCancel.create({
                 title: "<spring:message code='global.no'/>"
             })],
             buttonClick: function(button, index) {
@@ -720,7 +720,7 @@ function ThousandSeparate1(item) {
 
 
 
-    var IButton_ProvisionalInvoice_Save = isc.IButton.create({
+    var IButton_ProvisionalInvoice_Save = isc.IButtonSave.create({
     top: 260,
     title: "<spring:message code='global.form.save'/>",
     icon: "pieces/16/save.png",
@@ -754,7 +754,7 @@ function ThousandSeparate1(item) {
 });
 
 
-    <%--var IButton_ProvisionalInvoice_Calcute = isc.IButton.create({
+    <%--var IButton_ProvisionalInvoice_Calcute = isc.IButtonSave.create({
         top: 260,
         title:"<spring:message code='global.form.calcute'/>",
         icon: "pieces/16/save.png",
@@ -818,7 +818,7 @@ var Window_ProvisionalInvoice = isc.Window.create({
                 isc.Label.create({
                 width: 5,
                 }),*/
-                isc.IButton.create({
+                isc.IButtonCancel.create({
                     ID: "provisionalInvoiceEditExitIButton",
                     title: "<spring:message code='global.cancel'/>",
                     width: 100,

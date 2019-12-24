@@ -762,7 +762,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ]
     });
 
-    var IButton_Contract_Save = isc.IButton.create({
+    var IButton_Contract_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -836,7 +836,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                             isc.Label.create({
                                 width: 15,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "contractEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -1350,7 +1350,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 ToolStrip_Actions_ContractShipment
             ]
     });
-    var IButton_ContractShipment_Save = isc.IButton.create({
+    var IButton_ContractShipment_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1416,7 +1416,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "shipmentEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,

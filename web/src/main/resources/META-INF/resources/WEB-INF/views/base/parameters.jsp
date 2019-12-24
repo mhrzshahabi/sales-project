@@ -62,10 +62,10 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({
+                buttons: [isc.IButtonSave.create({
                     title: "<spring:message
 		code='global.yes'/>"
-                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+                }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
@@ -227,7 +227,7 @@
                 ToolStrip_Actions_Parameters
             ]
     });
-    var IButton_Parameters_Save = isc.IButton.create({
+    var IButton_Parameters_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -258,7 +258,7 @@
         }
     });
 
-    var ParametersCancelBtn = isc.IButton.create({
+    var ParametersCancelBtn = isc.IButtonCancel.create({
         top: 260,
         icon: "pieces/16/icon_delete.png",
         layoutMargin: 5,

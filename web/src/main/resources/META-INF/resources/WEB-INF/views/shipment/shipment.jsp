@@ -860,7 +860,7 @@ width:"10%",
         ]
     });
 
-    var IButton_Shipment_Save = isc.IButton.create({
+    var IButton_Shipment_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -935,7 +935,7 @@ width:"10%",
         }
     });
 
-    var ShipmentCancelBtn = isc.IButton.create({
+    var ShipmentCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -1011,8 +1011,8 @@ width:"10%",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -1417,7 +1417,7 @@ width:"10%",
         fetchDataURL: "${contextPath}/api/shipmentEmail/spec-list"
     });
 
-    var IButton_ShipmentEmail_Save = isc.IButton.create({
+    var IButton_ShipmentEmail_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='shipment.email.createAndSend'/>",
         icon: "pieces/16/save.png",

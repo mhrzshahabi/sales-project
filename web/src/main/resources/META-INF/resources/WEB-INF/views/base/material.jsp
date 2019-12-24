@@ -101,7 +101,7 @@
         fetchDataURL: "${contextPath}/api/materialFeature/spec-list"
     });
 
-    var IButton_Material_Save = isc.IButton.create({
+    var IButton_Material_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -179,7 +179,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -400,7 +400,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "materialExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -640,7 +640,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -948,7 +948,7 @@
             ]
     });
 
-    var IButton_MaterialFeature_Save = isc.IButton.create({
+    var IButton_MaterialFeature_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -983,7 +983,7 @@
         }
     });
 
-    var MaterialFeatureCancelBtn = isc.IButton.create({
+    var MaterialFeatureCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -1309,7 +1309,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -1469,7 +1469,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
             ]
     });
 
-    var IButton_MaterialItem_Save = isc.IButton.create({
+    var IButton_MaterialItem_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1504,7 +1504,7 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
         }
     });
 
-    var MaterialItemCancelBtn = isc.IButton.create({
+    var MaterialItemCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,

@@ -659,7 +659,7 @@
             ]
     });
 
-    var IButton_TozinSales_Save = isc.IButton.create({
+    var IButton_TozinSales_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -691,7 +691,7 @@
             );
         }
     });
-    var IButton_TozinSales_Cancel = isc.IButton.create({
+    var IButton_TozinSales_Cancel = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",

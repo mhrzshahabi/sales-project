@@ -175,7 +175,7 @@
     });
 
 
-    var IButton_ShipmentContract_Save = isc.IButton.create({
+    var IButton_ShipmentContract_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -207,7 +207,7 @@
     });
 
 
-    var IButton_ShipmentContract_Cancel = isc.IButton.create({
+    var IButton_ShipmentContract_Cancel = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",
@@ -266,10 +266,10 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({
+                    isc.IButtonSave.create({
                         title: "<spring:message code='global.yes'/>"
                     }),
-                    isc.Button.create({
+                    isc.IButtonCancel.create({
                         title: "<spring:message code='global.no'/>"
                     })
                 ],

@@ -835,7 +835,7 @@ var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
             ]
     });
 
-    var IButton_Tozin_Save = isc.IButton.create({
+    var IButton_Tozin_Save = isc.IButtonSave.create({
     	top: 260,
     	title: "<spring:message code='global.form.save'/>",
     	icon: "pieces/16/save.png",
@@ -868,7 +868,7 @@ var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
     });
 
 
-    var IButton_Tozin_Cancel = isc.IButton.create({
+    var IButton_Tozin_Cancel = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",

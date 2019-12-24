@@ -49,8 +49,8 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -220,7 +220,7 @@
         fetchDataURL: "${contextPath}/api/instruction/spec-list"
     });
 
-    var IButton_Instruction_Save = isc.IButton.create({
+    var IButton_Instruction_Save = isc.IButtonSave.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -263,7 +263,7 @@
         }
     });
 
-    var InstructionCancelBtn = isc.IButton.create({
+    var InstructionCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,

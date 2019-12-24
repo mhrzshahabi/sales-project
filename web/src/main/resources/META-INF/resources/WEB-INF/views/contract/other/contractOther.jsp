@@ -595,7 +595,7 @@ var DynamicForm_ContractOther = isc.DynamicForm.create({
             ]
     });
 
-var IButton_ContactOther_Save = isc.IButton.create({
+var IButton_ContactOther_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",

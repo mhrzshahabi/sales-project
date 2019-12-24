@@ -372,7 +372,7 @@
             ]
     });
 
-    var IButton_WarehouseLot_Save = isc.IButton.create({
+    var IButton_WarehouseLot_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -403,7 +403,7 @@
         }
     });
 
-    var IButton_WarehouseLot_Cancel = isc.IButton.create({
+    var IButton_WarehouseLot_Cancel = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",

@@ -486,7 +486,7 @@
         DynamicForm_Contact_Connection.clearValues();
     }
 
-    var IButton_Contact_Save = isc.IButton.create({
+    var IButton_Contact_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -495,7 +495,7 @@
         }
     });
 
-    var contactCancelBtn = isc.Button.create({
+    var contactCancelBtn = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.close'/>",
         icon: "pieces/16/icon_delete.png",
@@ -562,8 +562,8 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/> ",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/> "})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/> "})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -972,7 +972,7 @@
         ]
     });
 
-    var ContactAccount_CreateSaveButton = isc.IButton.create({
+    var ContactAccount_CreateSaveButton = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1003,7 +1003,7 @@
         }
     });
 
-    var ContactAccount_EditSaveButton = isc.IButton.create({
+    var ContactAccount_EditSaveButton = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         autoDraw: false,
@@ -1032,7 +1032,7 @@
         }
     });
 
-    var ContactAccountCancelBtn = isc.IButton.create({
+    var ContactAccountCancelBtn = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.form.close'/>",
         icon: "pieces/16/icon_delete.png",
@@ -1109,8 +1109,8 @@
                         icon: "[SKIN]ask.png",
                         title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                         buttons: [
-                            isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                            isc.Button.create({title: "<spring:message code='global.no'/>"})
+                            isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                            isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                         ],
                         buttonClick: function (button, index) {
                             this.hide();

@@ -636,7 +636,7 @@ var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
 });
 
 
-var IButton_InspectionContract_Save = isc.IButton.create({
+var IButton_InspectionContract_Save = isc.IButtonSave.create({
 	top: 260,
 	title: "<spring:message code='global.form.save'/>",
 	icon: "pieces/16/save.png",
@@ -666,7 +666,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
 
 
 
-    var IButton_InspectionContract_Cancel = isc.IButton.create({
+    var IButton_InspectionContract_Cancel = isc.IButtonCancel.create({
         top: 300,
         title:"<spring:message code='global.cancel'/>",
     layoutMargin: 5,
@@ -763,9 +763,9 @@ function ListGrid_InspectionContract_remove() {
 			message: "<spring:message code='global.grid.record.remove.ask'/>",
 			icon: "[SKIN]ask.png",
 			title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-			buttons: [isc.Button.create({
+			buttons: [isc.IButtonSave.create({
 				title: "<spring:message code='global.yes'/>"
-			}), isc.Button.create({
+			}), isc.IButtonCancel.create({
 				title: "<spring:message code='global.no'/>"
 			})],
 			buttonClick: function(button, index) {

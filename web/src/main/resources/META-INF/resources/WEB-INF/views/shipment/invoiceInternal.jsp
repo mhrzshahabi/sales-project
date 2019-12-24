@@ -96,8 +96,8 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -124,7 +124,7 @@
     }
 
 
-    var ToolStripButton_InvoiceInternal_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_InvoiceInternal_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -132,7 +132,7 @@
         }
     });
 
-    var ToolStripButton_InvoiceInternal_Pdf = isc.ToolStripButton.create({
+    var ToolStripButton_InvoiceInternal_Pdf = isc.ToolStripButtonPrint.create({
                     title: "<spring:message code='global.form.print.pdf'/>",
                     icon: "icon/pdf.png",
                      click: function () {
@@ -150,7 +150,7 @@
 }
     });*/
 
-    var ToolStripButton_InvoiceInternal_html = isc.ToolStripButton.create({
+    var ToolStripButton_InvoiceInternal_html = isc.ToolStripButtonPrint.create({
                 title: "<spring:message code='global.form.print.html'/>",
                 icon: "icon/html.jpg",
                 click: function () {
@@ -304,13 +304,22 @@
     /*Add To ToolStrip Right*/
     var ToolStrip_Actions_InvoiceInternal = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members:
             [
-                ToolStripButton_InvoiceInternal_Refresh,
                 ToolStripButton_InvoiceInternal_Pdf,
                 // ToolStripButton_InvoiceInternal_excel,
                 ToolStripButton_InvoiceInternal_html,
-                ToolStripButton_InvoiceInternal_Send2Accounting
+                ToolStripButton_InvoiceInternal_Send2Accounting,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_InvoiceInternal_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -322,7 +331,7 @@
             ]
     });
 
-    var IButton_InvoiceInternal_Save = isc.IButton.create({
+    var IButton_InvoiceInternal_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -377,7 +386,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
