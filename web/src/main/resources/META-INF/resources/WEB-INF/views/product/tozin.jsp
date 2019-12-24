@@ -707,7 +707,7 @@
     });
 
 
-    var ToolStripButton_Tozin_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Tozin_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -756,9 +756,17 @@
         members:
             [
                 MenuButton_Tozin,
-                ToolStripButton_Tozin_Refresh,
                 ToolStripButton_Tozin_sum,
                 DynamicForm_DailyReport_Tozin,
+				isc.ToolStrip.create({
+				width: "100%",
+				align: "left",
+				border: '0px',
+				members: [
+					ToolStripButton_Tozin_Refresh
+				]
+				})
+
             ]
     });
 
@@ -770,7 +778,7 @@
             ]
     });
 
-    var IButton_Tozin_Save = isc.IButton.create({
+    var IButton_Tozin_Save = isc.IButtonSave.create({
     	top: 260,
     	title: "<spring:message code='global.form.save'/>",
     	icon: "pieces/16/save.png",
@@ -803,7 +811,7 @@
 
 
 
-    var IButton_Tozin_Cancel = isc.IButton.create({
+    var IButton_Tozin_Cancel = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",

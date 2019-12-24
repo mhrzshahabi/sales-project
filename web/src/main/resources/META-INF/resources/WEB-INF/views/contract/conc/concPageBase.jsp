@@ -74,7 +74,7 @@ var contactConcTabs = isc.TabSet.create({
         ]
     });
 
-var IButton_ContactConc_Save = isc.IButton.create({
+var IButton_ContactConc_Save = isc.IButtonSave.create({
     title: "save",
     icon: "pieces/16/save.png",
     iconOrientation: "right",

@@ -203,7 +203,7 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
 });
 
 
-    var ToolStripButton_WarehouseStock_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseStock_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -222,7 +222,7 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
     <%--});--%>
 <%--*/--%>
 
-    var ToolStripButton_WarehouseStock_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseStock_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -231,8 +231,8 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         }
     });
 
-   var ToolStripButton_WarehouseStock_Print = isc.ToolStripButton.create({
-         icon: "[SKIN]/actions/print.png",
+   var ToolStripButton_WarehouseStock_Print = isc.ToolStripButtonPrint.create({
+         //icon: "[SKIN]/actions/print.png",
          title: "<spring:message code='WarehouseStock.Reportoncommitmentsleadingupto'/>",
         click:function()
         {
@@ -247,8 +247,8 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         }
     });
 
-   var ToolStripButton_WarehouseStock_export_Print = isc.ToolStripButton.create({
-         icon: "[SKIN]/actions/print.png",
+   var ToolStripButton_WarehouseStock_export_Print = isc.ToolStripButtonPrint.create({
+         //icon: "[SKIN]/actions/print.png",
          title: "<spring:message code='WarehouseStock.ReportExport'/>",
         click:function()
         {

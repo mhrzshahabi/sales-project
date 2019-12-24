@@ -102,7 +102,7 @@
         listGrid_DccView.invalidateCache();
     }
 
-    var ToolStripButton_DccView_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_DccView_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -114,7 +114,15 @@
         width: "100%",
         members:
             [
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
                 ToolStripButton_DccView_Refresh
+            ]
+            })
+
             ]
     });
 

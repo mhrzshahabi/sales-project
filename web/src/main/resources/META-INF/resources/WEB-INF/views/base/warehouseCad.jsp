@@ -189,7 +189,7 @@
         ]
     });
 
-    var ToolStripButton_warehouseCAD_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_warehouseCAD_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -197,7 +197,7 @@
         }
     });
 
-    var ToolStripButton_warehouseCAD_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_warehouseCAD_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -207,10 +207,19 @@
 
     var ToolStrip_Actions_warehouseCAD = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members:
             [
-                ToolStripButton_warehouseCAD_Refresh,
-                ToolStripButton_warehouseCAD_Edit
+                ToolStripButton_warehouseCAD_Edit,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_warehouseCAD_Refresh,
+                ]
+                })
+
             ]
     });
 

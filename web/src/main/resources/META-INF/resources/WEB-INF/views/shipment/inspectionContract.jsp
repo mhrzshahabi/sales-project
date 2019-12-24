@@ -636,7 +636,7 @@ var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
 });
 
 
-var IButton_InspectionContract_Save = isc.IButton.create({
+var IButton_InspectionContract_Save = isc.IButtonSave.create({
 	top: 260,
 	title: "<spring:message code='global.form.save'/>",
 	icon: "pieces/16/save.png",
@@ -666,7 +666,7 @@ var IButton_InspectionContract_Save = isc.IButton.create({
 
 
 
-    var IButton_InspectionContract_Cancel = isc.IButton.create({
+    var IButton_InspectionContract_Cancel = isc.IButtonCancel.create({
         top: 300,
         title:"<spring:message code='global.cancel'/>",
     layoutMargin: 5,
@@ -763,9 +763,9 @@ function ListGrid_InspectionContract_remove() {
 			message: "<spring:message code='global.grid.record.remove.ask'/>",
 			icon: "[SKIN]ask.png",
 			title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-			buttons: [isc.Button.create({
+			buttons: [isc.IButtonSave.create({
 				title: "<spring:message code='global.yes'/>"
-			}), isc.Button.create({
+			}), isc.IButtonCancel.create({
 				title: "<spring:message code='global.no'/>"
 			})],
 			buttonClick: function(button, index) {
@@ -1093,7 +1093,7 @@ DynamicForm_InspectionContract.clearValues();
 
 
 
-    var ToolStripButton_InspectionContract_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_InspectionContract_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function()
@@ -1104,7 +1104,7 @@ DynamicForm_InspectionContract.clearValues();
 
 
 
-    var ToolStripButton_InspectionContract_Add = isc.ToolStripButton.create({
+    var ToolStripButton_InspectionContract_Add = isc.ToolStripButtonAdd.create({
     	icon: "[SKIN]/actions/add.png",
     	title: "<spring:message code='global.form.new'/>",
     	click: function() {
@@ -1133,7 +1133,7 @@ DynamicForm_InspectionContract.clearValues();
     });
 
 
-    var ToolStripButton_InspectionContract_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_InspectionContract_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function()
@@ -1144,7 +1144,7 @@ DynamicForm_InspectionContract.clearValues();
     });
 
 
-    var ToolStripButton_InspectionContract_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_InspectionContract_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click:function()
@@ -1158,12 +1158,21 @@ DynamicForm_InspectionContract.clearValues();
 
     var ToolStrip_Actions_InspectionContract = isc.ToolStrip.create({
         width: "100%",
+		membersMargin: 5,
         members:
         [
-            ToolStripButton_InspectionContract_Refresh,
             ToolStripButton_InspectionContract_Add,
             ToolStripButton_InspectionContract_Edit,
             ToolStripButton_InspectionContract_Remove,
+			isc.ToolStrip.create({
+			width: "100%",
+			align: "left",
+			border: '0px',
+			members: [
+				ToolStripButton_InspectionContract_Refresh,
+			]
+			})
+
         ]
     });
 

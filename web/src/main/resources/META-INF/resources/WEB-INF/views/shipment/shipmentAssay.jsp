@@ -328,7 +328,7 @@
                             }
                         }),
 
-                       isc.Button.create({
+                       isc.IButtonSave.create({
                             title: "<spring:message code='global.form.save'/>",
                             prompt: "<spring:message code='shipment.Moisture.saveButton'/>",
                             icon: "pieces/16/save.png",
@@ -761,7 +761,7 @@
                 },
             ]
     });
-    var IButton_Shipment_Save_AssayHeader = isc.IButton.create({
+    var IButton_Shipment_Save_AssayHeader = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -912,14 +912,14 @@ httpMethod: "DELETE",
             Window_ShipmentAssayHeader.show();
         }
     }
-    var ToolStripButton_ShipmentAssayHeader_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayHeader_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentAssayHeader_refresh();
         }
     });
-    var ToolStripButton_ShipmentAssayHeader_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayHeader_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -942,21 +942,21 @@ httpMethod: "DELETE",
             }
         }
     });
-    var ToolStripButton_ShipmentAssayHeader_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayHeader_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
             ListGrid_ShipmentAssayHeader_edit();
         }
     });
-    var ToolStripButton_ShipmentAssayHeader_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayHeader_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             ListGrid_ShipmentAssayHeader_remove();
         }
     });
-    var ToolStripButton_ShipmentAssayHeader_Print = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayHeader_Print = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/print.png",
         title: "<spring:message code='global.form.print'/>",
         click: function () {
@@ -967,11 +967,19 @@ httpMethod: "DELETE",
     var ToolStrip_Actions_ShipmentAssayHeader = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_ShipmentAssayHeader_Refresh,
             ToolStripButton_ShipmentAssayHeader_Add,
             ToolStripButton_ShipmentAssayHeader_Edit,
             ToolStripButton_ShipmentAssayHeader_Remove,
             ToolStripButton_ShipmentAssayHeader_Print,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_ShipmentAssayHeader_Refresh,
+            ]
+            })
+
         ]
     });
 
@@ -1169,7 +1177,7 @@ httpMethod: "DELETE",
                 },
             ]
     });
-    var IButton_Shipment_Save_AssayItem = isc.IButton.create({
+    var IButton_Shipment_Save_AssayItem = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1301,14 +1309,14 @@ httpMethod: methodXXXX,
             Window_ShipmentAssayItem.show();
         }
     }
-    var ToolStripButton_ShipmentAssayItem_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayItem_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentAssayItem_refresh();
         }
     });
-    var ToolStripButton_ShipmentAssayItem_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayItem_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -1331,7 +1339,7 @@ httpMethod: methodXXXX,
             }
         }
     });
-    var ToolStripButton_ShipmentAssayItem_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayItem_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -1341,14 +1349,14 @@ httpMethod: methodXXXX,
             }
         }
     });
-    var ToolStripButton_ShipmentAssayItem_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayItem_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             ListGrid_ShipmentAssayItem_remove();
         }
     });
-    var ToolStripButton_ShipmentAssayItem_Print = isc.ToolStripButton.create({
+    var ToolStripButton_ShipmentAssayItem_Print = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/print.png",
         title: "<spring:message code='global.form.print'/>",
         click: function () {
@@ -1358,13 +1366,21 @@ httpMethod: methodXXXX,
     });
     var ToolStrip_Actions_ShipmentAssayItem = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members: [
-            ToolStripButton_ShipmentAssayItem_Refresh,
             ToolStripButton_ShipmentAssayItem_Add,
             ToolStripButton_ShipmentAssayItem_Edit,
             ToolStripButton_ShipmentAssayItem_Remove,
             ToolStripButton_ShipmentAssayItem_Paste,
             ToolStripButton_ShipmentAssayItem_Print,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_ShipmentAssayItem_Refresh,
+            ]
+            })
         ]
     });
 

@@ -69,7 +69,7 @@
         ]
     });
 
-    var ToolStripButton_ContractPerson_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_ContractPerson_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -77,7 +77,7 @@
         }
     });
 
-    var ToolStripButton_ContractPerson_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ContractPerson_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -85,7 +85,7 @@
         }
     });
 
-    var ToolStripButton_ContractPerson_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ContractPerson_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -94,7 +94,7 @@
     });
 
 
-    var ToolStripButton_ContractPerson_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_ContractPerson_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -120,7 +120,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message	code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {
@@ -225,7 +225,7 @@
         ]
     });
 
-    var ContractPersonCancelBtn = isc.IButton.create({
+    var ContractPersonCancelBtn = isc.IButtonCancel.create({
         width: 120,
         layoutMargin: 5,
         membersMargin: 5,
@@ -236,7 +236,7 @@
         }
     });
 
-    var IButton_ContractPerson_Save = isc.IButton.create({
+    var IButton_ContractPerson_Save = isc.IButtonSave.create({
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
@@ -297,11 +297,20 @@
 
     var ToolStrip_Actions_ContractPerson = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members: [
-            ToolStripButton_ContractPerson_Refresh,
             ToolStripButton_ContractPerson_Add,
             ToolStripButton_ContractPerson_Edit,
-            ToolStripButton_ContractPerson_Remove
+            ToolStripButton_ContractPerson_Remove,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                    ToolStripButton_ContractPerson_Refresh,
+            ]
+            })
+
         ]
     });
 
