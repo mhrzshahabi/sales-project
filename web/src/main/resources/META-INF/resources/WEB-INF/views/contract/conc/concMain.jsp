@@ -290,7 +290,7 @@ var ListGrid_Conc = isc.ListGrid.create({
     ]
     });
 
-    var ToolStripButton_ContactConc_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ContactConc_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -299,7 +299,7 @@ var ListGrid_Conc = isc.ListGrid.create({
         }
     });
 
-    var ToolStripButton_ContactConc_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ContactConc_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
          click: function () {
@@ -404,7 +404,7 @@ var ListGrid_Conc = isc.ListGrid.create({
     });
 
 
-     var ToolStripButton_ContactConc_Refresh = isc.ToolStripButton.create({
+     var ToolStripButton_ContactConc_Refresh = isc.ToolStripButtonRefresh.create({
                                 icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
@@ -413,8 +413,19 @@ var ListGrid_Conc = isc.ListGrid.create({
                             });
 
 var ToolStrip_Actions_ContactConc = isc.ToolStrip.create({
+        membersMargin: 5,
         members: [
-            ToolStripButton_ContactConc_Add, ToolStripButton_ContactConc_Edit, ToolStripButton_ContactConc_Refresh
+            ToolStripButton_ContactConc_Add,
+            ToolStripButton_ContactConc_Edit,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_ContactConc_Refresh,
+                ]
+            })
+
         ]
     });
 
