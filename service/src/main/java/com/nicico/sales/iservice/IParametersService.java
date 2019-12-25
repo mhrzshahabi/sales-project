@@ -1,5 +1,7 @@
 package com.nicico.sales.iservice;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ParametersDTO;
 
@@ -18,6 +20,8 @@ public interface IParametersService {
 	void delete(Long id);
 
 	void delete(ParametersDTO.Delete request);
+
+	TotalResponse<ParametersDTO.Info> search(NICICOCriteria criteria);
 
 	SearchDTO.SearchRs<ParametersDTO.Info> search(SearchDTO.SearchRq request);
 }

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -22,7 +22,7 @@
             title: "<spring:message code='warehouseCad.yard'/>",
             width: 200
         }
-         ],
+        ],
 
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
@@ -71,9 +71,11 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
+
+
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
@@ -93,9 +95,12 @@
                         );
                     }
                 }
+
+
             });
         }
     }
+
 
     var Menu_ListGrid_WarehouseYard = isc.Menu.create({
         width: 150,
@@ -144,20 +149,20 @@
         numCols: 2,
         fields:
             [
-                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "warehouseNo",
                     title: "<spring:message code='warehouseCad.warehouseNo'/>",
                     width: 500,
                     colSpan: 1, required: true,
-                    titleColSpan: 1, keyPressFilter: "[0-9]", length: "15",defaultValue:"BandarAbbas",
+                    titleColSpan: 1, keyPressFilter: "[0-9]", length: "15", defaultValue: "BandarAbbas",
                     valueMap:
                         {
                             "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",
                             "Sarcheshmeh": "<spring:message code='global.Sarcheshmeh'/>",
                             "Sungun": "<spring:message code='global.Sungun'/>"
                         }
-               },
+                },
                 {
                     name: "nameFA",
                     title: "<spring:message code='warehouseCad.yard'/>",
@@ -165,10 +170,10 @@
                     colSpan: 1, required: true,
                     titleColSpan: 1
                 },
-               ]
+            ]
     });
 
-    var ToolStripButton_WarehouseYard_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseYard_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -176,7 +181,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseYard_Add = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseYard_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -185,7 +190,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseYard_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseYard_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -194,7 +199,8 @@
         }
     });
 
-    var ToolStripButton_WarehouseYard_Remove = isc.ToolStripButton.create({
+
+    var ToolStripButton_WarehouseYard_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -202,14 +208,23 @@
         }
     });
 
+
     var ToolStrip_Actions_WarehouseYard = isc.ToolStrip.create({
         width: "100%",
         members:
             [
-                ToolStripButton_WarehouseYard_Refresh,
                 ToolStripButton_WarehouseYard_Add,
                 ToolStripButton_WarehouseYard_Edit,
-                ToolStripButton_WarehouseYard_Remove
+                ToolStripButton_WarehouseYard_Remove,
+                isc.ToolStrip.create({
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_WarehouseYard_Refresh,
+                    ]
+                })
+
             ]
     });
 
@@ -221,7 +236,7 @@
             ]
     });
 
-    var IButton_WarehouseYard_Save = isc.IButton.create({
+    var IButton_WarehouseYard_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -251,7 +266,6 @@
     });
 
 
-
     var Window_WarehouseYard = isc.Window.create({
         title: "<spring:message code='warehouseCad.warehouseNo'/> ",
         width: 580,
@@ -277,7 +291,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "warehouseYardEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -299,8 +313,13 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                 {
-                    name: "warehouseNo", title: "<spring:message code='dailyWarehouse.warehouse'/>", align: "center", colSpan: 1, titleColSpan: 1, defaultValue: "BandarAbbas",
+                {
+                    name: "warehouseNo",
+                    title: "<spring:message code='dailyWarehouse.warehouse'/>",
+                    align: "center",
+                    colSpan: 1,
+                    titleColSpan: 1,
+                    defaultValue: "BandarAbbas",
                     valueMap:
                         {
                             "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",
@@ -313,12 +332,7 @@
         sortField: 0,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
     });
 
     var HLayout_WarehouseYard_Grid = isc.HLayout.create({

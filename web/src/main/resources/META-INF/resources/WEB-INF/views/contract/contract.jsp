@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -20,7 +20,6 @@
                 {name: "treatCost", ID: "treatCost"},
                 {name: "material.descl", title: "materialId"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
 
@@ -32,7 +31,6 @@
                 {name: "nameFA", title: "<spring:message code='contact.nameFa'/> "},
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/> "}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
@@ -42,7 +40,6 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/incoterms/spec-list"
     });
 
@@ -55,7 +52,6 @@
                 {name: "unitId"},
                 {name: "unit.nameEN"},
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
@@ -69,7 +65,6 @@
                 {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
                 {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
@@ -99,9 +94,8 @@ var salesContractCADButtonMain = isc.IconButton.create({
         largeIcon: "contract/salesContract.png",
         orientation: "vertical",
         click: function () {
-           /* createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
-            Window_SelectTypeContactMain.close();*/
-           isc.warn("<spring:message code='global.menu.contract.warn.contract'/>");
+           createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+           Window_SelectTypeContactMain.close();
         }
     });
   var salesContractMoButtonMain = isc.IconButton.create({
@@ -148,6 +142,9 @@ var salesContractCADButtonMain = isc.IconButton.create({
                               isc.HLayout.create({autoCenter: true, members: [salesContractMoButtonMain,salesContractCADButtonMain,salesContractConcButtonMain,salesContractOtherButtonMain]})
                             ]
                             });
+
+
+
     function ListGrid_Contract_refresh() {
         ListGrid_Contract.invalidateCache();
         companyName.setTitle('Contracts');
@@ -199,7 +196,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 DynamicForm_Contract.getItem("molybdenum").hide();
                 DynamicForm_Contract.getItem("molybdenumTolorance").hide();
             }
-            Window_Contract.animateShow()
+            Window_Contract.animateShow();
         }
     }
 
@@ -281,24 +278,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 click: function () {
                     ListGrid_Contract_remove();
                 }
-            },
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png", click: function () {
-                    "<spring:url value="/contract/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png", click: function () {
-                    "<spring:url value="/contract/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg", click: function () {
-                    "<spring:url value="/contract/print/html" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
             }
-
         ]
     });
 
@@ -699,7 +679,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ]
     });
 
-    var ToolStripButton_Contract_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -707,7 +687,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_Contract_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.menu.contract.management'/>",
         click: function () {
@@ -715,7 +695,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_Contract_Edit = isc.ToolStripButton.create({
+    /*var ToolStripButton_Contract_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         showIf: "false",
         title: "<spring:message code='global.form.edit'/>",
@@ -723,9 +703,20 @@ var salesContractCADButtonMain = isc.IconButton.create({
             DynamicForm_Contract.clearValues();
             ListGrid_Contract_edit();
         }
+    });*/
+
+    var ToolStripButton_Contract_Print = isc.ToolStripButtonEdit.create({
+        icon: "[SKIN]/actions/print.png",
+        showIf: "true",
+        title: "<spring:message code='global.form.print'/>",
+        click: function () {
+             "<spring:url value="/contract/print" var="printUrl"/>";
+             var recordIdPrint = ListGrid_Contract.getSelectedRecord();
+             window.open('${printUrl}'+"/"+recordIdPrint.id);
+        }
     });
 
-    var ToolStripButton_Contract_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -733,23 +724,23 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    /*var ToolStripButton_Contract_PrintIncome = isc.ToolStripButton.create({
-        icon: "[SKIN]/RichTextEditor/print.png",
-        title: "<spring:message code='global.form.print'/>",
-        click: function () {
-            "<spring:url value="/contract/printIncome/pdf" var="printIncomeUrl"/>"
-            window.open('${printIncomeUrl}');
-        }
-    });*/
     var ToolStrip_Actions_Contract = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members:
             [
-                ToolStripButton_Contract_Refresh,
                 ToolStripButton_Contract_Add,
-                //ToolStripButton_Contract_Edit,
-                ToolStripButton_Contract_Remove//,
-                // ToolStripButton_Contract_PrintIncome
+                ToolStripButton_Contract_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Contract_Refresh,
+                ]
+                }),
+                ToolStripButton_Contract_Print
+
             ]
     });
 
@@ -761,7 +752,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ]
     });
 
-    var IButton_Contract_Save = isc.IButton.create({
+    var IButton_Contract_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -835,7 +826,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                             isc.Label.create({
                                 width: 15,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "contractEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -988,7 +979,9 @@ var salesContractCADButtonMain = isc.IconButton.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Contract_Actions,isc.HLayout.create({height: "30", align: "left", members: [labelMO,labelCa,labelCopperMatte,labelConcentrate]}),HLayout_Contract_Grid
+            HLayout_Contract_Actions,
+            isc.HLayout.create({height: "30", align: "left", members: [labelMO,labelCa,labelCopperMatte,labelConcentrate]})
+            ,HLayout_Contract_Grid
         ]
     });
     isc.ViewLoader.create({
@@ -1050,7 +1043,6 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 },
                 {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
 
@@ -1119,11 +1111,9 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     if (index == 0) {
                         var ContractShipmentId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                // ######@@@@###&&@@### pls correct callback
                                 actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    // ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_ContractShipment_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
@@ -1285,7 +1275,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ]
     });
 
-    var ToolStripButton_ContractShipment_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_ContractShipment_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -1293,7 +1283,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_ContractShipment_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ContractShipment_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -1305,7 +1295,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_ContractShipment_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ContractShipment_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -1313,7 +1303,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_ContractShipment_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_ContractShipment_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -1325,10 +1315,18 @@ var salesContractCADButtonMain = isc.IconButton.create({
         width: "100%",
         members:
             [
-                ToolStripButton_ContractShipment_Refresh,
                 ToolStripButton_ContractShipment_Add,
                 ToolStripButton_ContractShipment_Edit,
-                ToolStripButton_ContractShipment_Remove
+                ToolStripButton_ContractShipment_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_ContractShipment_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -1339,7 +1337,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 ToolStrip_Actions_ContractShipment
             ]
     });
-    var IButton_ContractShipment_Save = isc.IButton.create({
+    var IButton_ContractShipment_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1359,16 +1357,13 @@ var salesContractCADButtonMain = isc.IconButton.create({
             }
 
             var data = DynamicForm_ContractShipment.getValues();
-            // ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    // ######@@@@###&&@@### pls correct callback
                     actionURL: "${contextPath}/api/contractShipment/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        // ######@@@@###&&@@###
                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_ContractShipment_refresh();
@@ -1405,7 +1400,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "shipmentEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,

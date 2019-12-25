@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -331,7 +331,7 @@
      ]
  });
 
-    var ToolStripButton_WarehouseLot_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseLot_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -339,7 +339,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseLot_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseLot_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -351,8 +351,16 @@
         width: "100%",
         members:
             [
-                ToolStripButton_WarehouseLot_Refresh,
-                ToolStripButton_WarehouseLot_Edit
+                ToolStripButton_WarehouseLot_Edit,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_WarehouseLot_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -364,7 +372,7 @@
             ]
     });
 
-    var IButton_WarehouseLot_Save = isc.IButton.create({
+    var IButton_WarehouseLot_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -395,7 +403,7 @@
         }
     });
 
-    var IButton_WarehouseLot_Cancel = isc.IButton.create({
+    var IButton_WarehouseLot_Cancel = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",

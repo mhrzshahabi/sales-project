@@ -13,30 +13,30 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CONTRACT_PERSON")
+@Table(name = "TBL_CONTRACT_PERSON", uniqueConstraints = @UniqueConstraint(name = "CONTRACT_ID_PERSON_ID_UNIQUE", columnNames = {"CONTRACT_ID", "PERSON_ID"}))
 public class ContractPerson extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_PERSON")
-	@SequenceGenerator(name = "SEQ_CONTRACT_PERSON", sequenceName = "SEQ_CONTRACT_PERSON", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_PERSON")
+    @SequenceGenerator(name = "SEQ_CONTRACT_PERSON", sequenceName = "SEQ_CONTRACT_PERSON", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "ContractPerson2contract"))
-	private Contract contract;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_CONTRACT"))
+    private Contract contract;
 
-	@Column(name = "CONTRACT_ID")
-	private Long contractId;
+    @Column(name = "CONTRACT_ID")
+    private Long contractId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PERSON_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "ContractPerson2person"))
-	private Person person;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERSON_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_PERSON"))
+    private Person person;
 
-	@Column(name = "PERSON_ID")
-	private Long personId;
+    @Column(name = "PERSON_ID")
+    private Long personId;
 
-	@Column(name = "STATUS", length = 20)
-	private String status;
+    @Column(name = "STATUS")
+    private String status;
 
 }

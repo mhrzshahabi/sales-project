@@ -1,28 +1,30 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
-  isc.SimpleType.create({
-    name:"currencyFloat3",
-        inheritsFrom:"float",
-         editFormatter:function (value) {
+
+    isc.SimpleType.create({
+        name: "currencyFloat3",
+        inheritsFrom: "float",
+        editFormatter: function (value) {
             return isc.isA.Number(value) ? value.toFixed(3) : value;
         },
-        parseInput:function(value) {
+        parseInput: function (value) {
             var fVal = parseFloat(value);
             if (!isNaN(fVal)) return fVal;
             return value;
         },
 
-        validators:[
-            {type:"floatRange", min:0, errorMessage:"notValid"},
-            {type:"floatPrecision", precision:3, roundToPrecision:true}
+        validators: [
+            {type: "floatRange", min: 0, errorMessage: "notValid"},
+            {type: "floatPrecision", precision: 3, roundToPrecision: true}
         ]
 
     });
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
     var stocks = {};
+
     function fetch_stock() {
         stocks = {};
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -36,14 +38,17 @@
                             stocks[x.plant] = x.amount;
                         }
                         console.log(stocks);
-                        t=DynamicForm_WarehouseIssueCons.getValue("amountSungon");t=typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
-                        DynamicForm_WarehouseIssueCons.setValue("StockSungon", t+parseFloat(stocks["Sungon"]));
+                        t = DynamicForm_WarehouseIssueCons.getValue("amountSungon");
+                        t = typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockSungon", t + parseFloat(stocks["Sungon"]));
 
-                        t=DynamicForm_WarehouseIssueCons.getValue("amountMiduk");t=typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
-                        DynamicForm_WarehouseIssueCons.setValue("StockMiduk", t+parseFloat(stocks["Miduk"]));
+                        t = DynamicForm_WarehouseIssueCons.getValue("amountMiduk");
+                        t = typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockMiduk", t + parseFloat(stocks["Miduk"]));
 
-                        t=DynamicForm_WarehouseIssueCons.getValue("amountSarcheshmeh");t=typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
-                        DynamicForm_WarehouseIssueCons.setValue("StockSarcheshmeh", t+parseFloat(stocks["Sarcheshmeh"]));
+                        t = DynamicForm_WarehouseIssueCons.getValue("amountSarcheshmeh");
+                        t = typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockSarcheshmeh", t + parseFloat(stocks["Sarcheshmeh"]));
 
                     } //if rpc
                 } // callback
@@ -55,18 +60,8 @@
         fields:
             [
                 {name: "shipmentId"},
-                {name: "amountSarcheshmeh",
-                    type: 'currencyFloat3',
-                    required: true,
-                    width: "100%",
-                    keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]                },
-                {name: "amountMiduk",
+                {
+                    name: "amountSarcheshmeh",
                     type: 'currencyFloat3',
                     required: true,
                     width: "100%",
@@ -78,7 +73,8 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-                {name: "amountSungon",
+                {
+                    name: "amountMiduk",
                     type: 'currencyFloat3',
                     required: true,
                     width: "100%",
@@ -90,7 +86,8 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-                {name: "totalAmount",
+                {
+                    name: "amountSungon",
                     type: 'currencyFloat3',
                     required: true,
                     width: "100%",
@@ -102,7 +99,8 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-                {name: "amountDraft",
+                {
+                    name: "totalAmount",
                     type: 'currencyFloat3',
                     required: true,
                     width: "100%",
@@ -114,7 +112,21 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-                {name: "amountPms",
+                {
+                    name: "amountDraft",
+                    type: 'currencyFloat3',
+                    required: true,
+                    width: "100%",
+                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "amountPms",
                     type: 'currencyFloat3',
                     required: true,
                     width: "100%",
@@ -127,7 +139,7 @@
                     }]
                 },
                 {name: "id"},
-             ],
+            ],
 
         fetchDataURL: "${contextPath}/api/warehouseIssueCons/spec-list"
     });
@@ -137,13 +149,12 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "bijackNo"},
-                {name: "yardnameFA" ,dataPath:"yard.nameFA"     },
+                {name: "yardnameFA", dataPath: "yard.nameFA"},
             ],
         fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
     });
 
-//*******************************************************************************
-
+    //*******************************************************************************
 
 
     var MyRestDataSource_ShipmentByWarehouseIssueCons = isc.MyRestDataSource.create({
@@ -163,7 +174,7 @@
             type: 'long',
             hidden: true
         }, {
-            name: "contractcontactnameFA",  dataPath:"contract.contact.nameFA"  ,
+            name: "contractcontactnameFA", dataPath: "contract.contact.nameFA",
             title: "<spring:message code='contact.name'/>",
             type: 'text'
         }, {
@@ -171,12 +182,14 @@
             type: 'long',
             hidden: true
         }, {
-            name: "contractcontractNo", dataPath:"contract.contractNo"  ,
+            name: "contractcontractNo", dataPath: "contract.contractNo",
             title: "<spring:message code='contract.contractNo'/>",
             type: 'text',
             width: 180
         }, {
-            name: "contractcontractDate",dataPath:"contract.contractDate" , title: "<spring:message code='contract.contractDate'/>",
+            name: "contractcontractDate",
+            dataPath: "contract.contractDate",
+            title: "<spring:message code='contract.contractDate'/>",
             type: 'text',
             width: 180
         }, {
@@ -185,11 +198,11 @@
             type: 'long',
             hidden: true
         }, {
-            name: "materialdescl",dataPath:"material.descl"  ,
+            name: "materialdescl", dataPath: "material.descl",
             title: "<spring:message code='material.descl'/>",
             type: 'text'
         }, {
-            name: "materialunitnameEN", dataPath:"material.unit.nameEN"  ,
+            name: "materialunitnameEN", dataPath: "material.unit.nameEN",
             title: "<spring:message code='unit.nameEN'/>",
             type: 'text'
         }, {
@@ -236,7 +249,7 @@
             type: 'text',
             width: "10%"
         }, {
-            name: "portByLoadingport", dataPath:"portByLoading.port",
+            name: "portByLoadingport", dataPath: "portByLoading.port",
             title: "<spring:message code='shipment.loading'/>",
             type: 'text',
             width: "10%"
@@ -246,7 +259,7 @@
             type: 'text',
             width: "10%"
         }, {
-            name: "portByDischargeport",  dataPath:"portByDischarge.port",
+            name: "portByDischargeport", dataPath: "portByDischarge.port",
             title: "<spring:message code='shipment.discharge'/>",
             type: 'text',
             width: "10%"
@@ -266,7 +279,7 @@
             type: 'text',
             width: "10%"
         }, {
-            name: "switchPortport",  dataPath:"switchPort.port",
+            name: "switchPortport", dataPath: "switchPort.port",
             title: "<spring:message code='port.switchPort'/>",
             type: 'text',
             width: "10%"
@@ -285,7 +298,7 @@
                 "Resource": "<spring:message code='shipment.resource'/>"
             }
         }, {
-            name: "contractShipmentsendDate", dataPath:"contractShipment.sendDate",
+            name: "contractShipmentsendDate", dataPath: "contractShipment.sendDate",
             title: "<spring:message code='global.sendDate'/>",
             type: 'text',
             required: true,
@@ -300,7 +313,7 @@
         }, {
             name: "contactByAgentnameFA",
             align: "center",
-            showHover: true , dataPath:"contactByAgent.nameFA",
+            showHover: true, dataPath: "contactByAgent.nameFA",
         }, {
             name: "vesselName",
             title: "<spring:message	code='shipment.vesselName'/>",
@@ -309,19 +322,15 @@
             width: "10%",
             showHover: true
         }],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
 
 
-
-
-
-var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
-    width: "100%",
-    height: "100%",
-    dataSource: MyRestDataSource_ShipmentByWarehouseIssueCons,
-    fields: [{
+    var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
+        width: "100%",
+        height: "100%",
+        dataSource: MyRestDataSource_ShipmentByWarehouseIssueCons,
+        fields: [{
             name: "id",
             title: "id",
             primaryKey: true,
@@ -336,7 +345,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             type: 'long',
             hidden: true
         }, {
-            name: "contractcontactnameFA",  dataPath:"contract.contact.nameFA"  ,
+            name: "contractcontactnameFA", dataPath: "contract.contact.nameFA",
             title: "<spring:message code='contact.name'/>",
             type: 'text',
             width: "20%",
@@ -347,13 +356,13 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             type: 'long',
             hidden: true
         }, {
-            name: "contractcontractNo", dataPath:"contract.contractNo"  ,
+            name: "contractcontractNo", dataPath: "contract.contractNo",
             title: "<spring:message code='contract.contractNo'/>",
             type: 'text',
             width: "10%",
             showHover: true
         }, {
-            name: "contractcontractDate", dataPath:"contract.contractDate"  ,
+            name: "contractcontractDate", dataPath: "contract.contractDate",
             title: "<spring:message code='contract.contractDate'/>",
             type: 'text',
             width: "10%",
@@ -365,14 +374,14 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             hidden: true,
             showHover: true
         }, {
-            name: "materialdescl", dataPath:"material.descl"  ,
+            name: "materialdescl", dataPath: "material.descl",
             title: "<spring:message code='material.descl'/>",
             type: 'text',
             width: "10%",
             align: "center",
             showHover: true
         }, {
-            name: "materialunitnameEN", dataPath:"material.unit.nameEN"  ,
+            name: "materialunitnameEN", dataPath: "material.unit.nameEN",
             title: "<spring:message code='unit.nameEN'/>",
             type: 'text',
             width: "10%",
@@ -411,145 +420,145 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             width: "10%",
             align: "center",
             showHover: true
-        },  {
-            name: "portByLoadingport", dataPath:"portByLoading.port"  ,
+        }, {
+            name: "portByLoadingport", dataPath: "portByLoading.port",
             title: "<spring:message	code='shipment.loading'/>",
             type: 'text',
             required: true,
             width: "10%",
             showHover: true
         }, {
-            name: "portByDischargeport", dataPath:"portByDischarge.port"  ,
+            name: "portByDischargeport", dataPath: "portByDischarge.port",
             title: "<spring:message code='shipment.discharge'/>",
             type: 'text',
             required: true,
             width: "10%",
             showHover: true
         },
-        // {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
-        {
-            name: "description",
-            title: "<spring:message code='shipment.description'/>",
-            type: 'text',
-            required: true,
-            width: "10%",
-            align: "center",
-            showHover: true
-        }, {
-            name: "contractShipmentsendDate", dataPath:"contractShipment.sendDate"  ,
-            title: "<spring:message code='global.sendDate'/>",
-            type: 'text',
-            required: true,
-            width: "10%",
-            align: "center",
-            showHover: true
-        }, {
-            name: "createDate",
-            title: "<spring:message code='global.createDate'/>",
-            type: 'text',
-            required: true,
-            width: "10%",
-            align: "center",
-            showHover: true
-        }, {
-            name: "month",
-            title: "<spring:message code='shipment.month'/>",
-            type: 'text',
-            required: true,
-            width: "10%",
-            align: "center",
-            showHover: true
-        }, {
-            name: "contactByAgentnameFA", dataPath:"contactByAgent.nameFA"  ,
-            title: "<spring:message code='shipment.agent'/>",
-            type: 'text',
-            width: "20%",
-            align: "center",
-            showHover: true
-        }, {
-            name: "vesselName",
-            title: "<spring:message	code='shipment.vesselName'/>",
-            type: 'text',
-            required: true,
-            width: "10%",
-            showHover: true
-        }, {
-            name: "swb",
-            title: "<spring:message code='shipment.SWB'/>",
-            type: 'text',
-            required: true,
-            width: "10%",
-            showHover: true
-        }, {
-            name: "switchPortport", dataPath:"switchPort.port"  ,
-            title: "<spring:message code='port.switchPort'/>",
-            type: 'text',
-            required: true,
-            width: "10%",
-            showHover: true
-        }, {
-            name: "status",
-            title: "<spring:message	code='shipment.staus'/>",
-            type: 'text',
-            width: "10%",
-            align: "center",
-            valueMap: {
-                "Load Ready": "<spring:message code='shipment.loadReady'/>",
-                "Resource": "<spring:message code='shipment.resource'/>"
-            },
-            showHover: true
-        }
-    ],
-    recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-    updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        var record = this.getSelectedRecord();
-        var criteria1 = {
-            _constructor: "AdvancedCriteria",
-            operator: "and",
-            criteria: [{
-                fieldName: "shipmentId",
-                operator: "equals",
-                value: record.id
-            }]
-        };
-        ListGrid_WarehouseIssueCons.fetchData(criteria1, function(dsResponse, data, dsRequest) {
-            ListGrid_WarehouseIssueCons.setData(data);
+            // {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
+            {
+                name: "description",
+                title: "<spring:message code='shipment.description'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
+            }, {
+                name: "contractShipmentsendDate", dataPath: "contractShipment.sendDate",
+                title: "<spring:message code='global.sendDate'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
+            }, {
+                name: "createDate",
+                title: "<spring:message code='global.createDate'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
+            }, {
+                name: "month",
+                title: "<spring:message code='shipment.month'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true
+            }, {
+                name: "contactByAgentnameFA", dataPath: "contactByAgent.nameFA",
+                title: "<spring:message code='shipment.agent'/>",
+                type: 'text',
+                width: "20%",
+                align: "center",
+                showHover: true
+            }, {
+                name: "vesselName",
+                title: "<spring:message	code='shipment.vesselName'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
+            }, {
+                name: "swb",
+                title: "<spring:message code='shipment.SWB'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
+            }, {
+                name: "switchPortport", dataPath: "switchPort.port",
+                title: "<spring:message code='port.switchPort'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true
+            }, {
+                name: "status",
+                title: "<spring:message	code='shipment.staus'/>",
+                type: 'text',
+                width: "10%",
+                align: "center",
+                valueMap: {
+                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                    "Resource": "<spring:message code='shipment.resource'/>"
+                },
+                showHover: true
+            }
+        ],
+        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+            var record = this.getSelectedRecord();
+            var criteria1 = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{
+                    fieldName: "shipmentId",
+                    operator: "equals",
+                    value: record.id
+                }]
+            };
+            ListGrid_WarehouseIssueCons.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                ListGrid_WarehouseIssueCons.setData(data);
 
-        });
-    },
-    dataArrived: function(startRow, endRow) {},
-    sortField: 0,
-    dataPageSize: 50,
-    autoFetchData: false,
-    showFilterEditor: true,
-    filterOnKeypress: true,
-    sortFieldAscendingText: "مرتب سازی صعودی",
-    sortFieldDescendingText: "مرتب سازی نزولی",
-    configureSortText: "تنظیم مرتب سازی",
-    autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-    autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-    filterUsingText: "فیلتر کردن",
-    groupByText: "گروه بندی",
-    freezeFieldText: "ثابت نگه داشتن",
-    startsWithTitle: "tt"
-});
+            });
+        },
+        dataArrived: function (startRow, endRow) {
+        },
+        sortField: 0,
+        dataPageSize: 50,
+        autoFetchData: false,
+        showFilterEditor: true,
+        filterOnKeypress: true,
+        sortFieldAscendingText: "مرتب سازی صعودی",
+        sortFieldDescendingText: "مرتب سازی نزولی",
+        configureSortText: "تنظیم مرتب سازی",
+        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
+        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
+        filterUsingText: "فیلتر کردن",
+        groupByText: "گروه بندی",
+        freezeFieldText: "ثابت نگه داشتن",
+        startsWithTitle: "tt"
+    });
 
-    var HLayout_Grid_ShipmentByWarehouseIssueCons  = isc.HLayout.create({
+    var HLayout_Grid_ShipmentByWarehouseIssueCons = isc.HLayout.create({
         width: "100%",
         height: "100%",
         members: [
-                ListGrid_ShipmentByWarehouseIssueCons 
+            ListGrid_ShipmentByWarehouseIssueCons
         ]
     });
 
-    var VLayout_Body_ShipmentByWarehouseIssueCons  = isc.VLayout.create({
+    var VLayout_Body_ShipmentByWarehouseIssueCons = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Grid_ShipmentByWarehouseIssueCons 
+            HLayout_Grid_ShipmentByWarehouseIssueCons
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
     function ListGrid_WarehouseIssueCons_edit() {
         var record = ListGrid_WarehouseIssueCons.getSelectedRecord();
@@ -591,8 +600,8 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -623,13 +632,13 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         data: [{
             title: "<spring:message code='global.form.refresh'/>",
             icon: "pieces/16/refresh.png",
-            click: function() {
+            click: function () {
                 ListGrid_WarehouseIssueCons_refresh();
             }
         }, {
             title: "<spring:message code='global.form.new'/>",
             icon: "pieces/16/icon_add.png",
-            click: function() {
+            click: function () {
                 DynamicForm_WarehouseIssueCons.clearValues();
                 fetch_stock();
                 Window_WarehouseIssueCons.animateShow();
@@ -637,179 +646,177 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         }, {
             title: "<spring:message code='global.form.edit'/>",
             icon: "pieces/16/icon_edit.png",
-            click: function() {
+            click: function () {
                 ListGrid_WarehouseIssueCons_edit();
             }
         }, {
             title: "<spring:message code='global.form.remove'/>",
             icon: "pieces/16/icon_delete.png",
-            click: function() {
+            click: function () {
                 ListGrid_WarehouseIssueCons_remove();
             }
         }]
     });
 
 
- var DynamicForm_WarehouseIssueCons = isc.DynamicForm.create({
-     width: 650,
-     height: "100%",
-     setMethod: 'POST',
-     align: "center",
-     canSubmit: true,
-     showInlineErrors: true,
-     showErrorText: true,
-     showErrorStyle: true,
-     errorOrientation: "right",
-     titleWidth: "150",
-     titleAlign: "right",
-     requiredMessage: "<spring:message code='validator.field.is.required'/>",
-     numCols: 4,
-     backgroundImage: "backgrounds/leaves.jpg",
-     fields: [{
-         name: "id",
-         hidden: true,
-     }, {
-         name: "shipmentId",
-         hidden: true
-     }, {
-         type: "RowSpacerItem"
-     }, {
-         name: "amountSarcheshmeh",
-         title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",
-         width: "100%",
-         required: true,
-         length: "15",
-         wrapTitle: false,
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }],
-         changed: function(form, item, value) {
-             if (value != null && typeof(value) != 'undefined') {
-                 if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountSarcheshmeh")) > parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockSarcheshmeh"))) {
-                     DynamicForm_WarehouseIssueCons.setValue("amountSarcheshmeh", 0);
-                 }
-             }
-         }
+    var DynamicForm_WarehouseIssueCons = isc.DynamicForm.create({
+        width: 650,
+        height: "100%",
+        setMethod: 'POST',
+        align: "center",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "150",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 4,
+        backgroundImage: "backgrounds/leaves.jpg",
+        fields: [{
+            name: "id",
+            hidden: true,
+        }, {
+            name: "shipmentId",
+            hidden: true
+        }, {
+            type: "RowSpacerItem"
+        }, {
+            name: "amountSarcheshmeh",
+            title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",
+            width: "100%",
+            required: true,
+            length: "15",
+            wrapTitle: false,
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }],
+            changed: function (form, item, value) {
+                if (value != null && typeof(value) != 'undefined') {
+                    if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountSarcheshmeh")) > parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockSarcheshmeh"))) {
+                        DynamicForm_WarehouseIssueCons.setValue("amountSarcheshmeh", 0);
+                    }
+                }
+            }
 
-     }, {
-         name: "StockSarcheshmeh",
-         title: "<spring:message code='warehouseIssueCons.StockSarcheshmeh'/>",
-         canEdit: false,
-         width: "100%",
-         wrapTitle: false,
-         defaultValue: stocks["Sarcheshmeh"]
-     }, {
-         name: "amountMiduk",
-         title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",
-         width: "100%",
-         required: true,
-         length: "15",
-         wrapTitle: false,
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }],
-         changed: function(form, item, value) {
-             if (value != null && typeof(value) != 'undefined') {
-                 if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountMiduk")) > parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockMiduk"))) {
-                     DynamicForm_WarehouseIssueCons.setValue("amountMiduk", 0);
-                 }
-             }
-         }
+        }, {
+            name: "StockSarcheshmeh",
+            title: "<spring:message code='warehouseIssueCons.StockSarcheshmeh'/>",
+            canEdit: false,
+            width: "100%",
+            wrapTitle: false,
+            defaultValue: stocks["Sarcheshmeh"]
+        }, {
+            name: "amountMiduk",
+            title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",
+            width: "100%",
+            required: true,
+            length: "15",
+            wrapTitle: false,
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }],
+            changed: function (form, item, value) {
+                if (value != null && typeof(value) != 'undefined') {
+                    if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountMiduk")) > parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockMiduk"))) {
+                        DynamicForm_WarehouseIssueCons.setValue("amountMiduk", 0);
+                    }
+                }
+            }
 
-     }, {
-         name: "StockMiduk",
-         title: "<spring:message code='warehouseIssueCons.StockMiduk'/>",
-         canEdit: false,
-         width: "100%",
-         wrapTitle: false,
-         defaultValue: stocks["Miduk"]
-     }, {
-         name: "amountSungon",
-         title: "<spring:message code='warehouseIssueCons.amountSungon'/>",
-         width: "100%",
-         required: true,
-         length: "15",
-         wrapTitle: false,
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }],
-         changed: function(form, item, value) {
-             if (value != null && typeof(value) != 'undefined') {
-                 if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountSungon")) > parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockSungon"))) {
-                     DynamicForm_WarehouseIssueCons.setValue("amountSungon", 0);
-                 }
-             }
-         }
+        }, {
+            name: "StockMiduk",
+            title: "<spring:message code='warehouseIssueCons.StockMiduk'/>",
+            canEdit: false,
+            width: "100%",
+            wrapTitle: false,
+            defaultValue: stocks["Miduk"]
+        }, {
+            name: "amountSungon",
+            title: "<spring:message code='warehouseIssueCons.amountSungon'/>",
+            width: "100%",
+            required: true,
+            length: "15",
+            wrapTitle: false,
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }],
+            changed: function (form, item, value) {
+                if (value != null && typeof(value) != 'undefined') {
+                    if (parseFloat(DynamicForm_WarehouseIssueCons.getValue("amountSungon")) > parseFloat(DynamicForm_WarehouseIssueCons.getValue("StockSungon"))) {
+                        DynamicForm_WarehouseIssueCons.setValue("amountSungon", 0);
+                    }
+                }
+            }
 
-     }, {
-         name: "StockSungon",
-         title: "<spring:message code='warehouseIssueCons.StockSungon'/>",
-         canEdit: false,
-         width: "100%",
-         wrapTitle: false,
-         defaultValue: stocks["Sungon"]
-     }, {
-         name: "amountPms",
-         title: "<spring:message code='warehouseIssueCons.amountPms'/>",
-         width: "100%",
-         required: true,
-         length: "15",
-         wrapTitle: false,
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }],
-         colSpan: 3,
-         titleColSpan: 1
-     }, {
-         name: "amountDraft",
-         title: "<spring:message code='warehouseIssueCons.amountDraft'/>",
-         width: "100%",
-         required: true,
-         length: "15",
-         wrapTitle: false,
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }],
-         colSpan: 3,
-         titleColSpan: 1
-     }, {
-         type: "RowSpacerItem"
-     }, {
-         type: "RowSpacerItem"
-     }]
- });
+        }, {
+            name: "StockSungon",
+            title: "<spring:message code='warehouseIssueCons.StockSungon'/>",
+            canEdit: false,
+            width: "100%",
+            wrapTitle: false,
+            defaultValue: stocks["Sungon"]
+        }, {
+            name: "amountPms",
+            title: "<spring:message code='warehouseIssueCons.amountPms'/>",
+            width: "100%",
+            required: true,
+            length: "15",
+            wrapTitle: false,
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }],
+            colSpan: 3,
+            titleColSpan: 1
+        }, {
+            name: "amountDraft",
+            title: "<spring:message code='warehouseIssueCons.amountDraft'/>",
+            width: "100%",
+            required: true,
+            length: "15",
+            wrapTitle: false,
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }],
+            colSpan: 3,
+            titleColSpan: 1
+        }, {
+            type: "RowSpacerItem"
+        }, {
+            type: "RowSpacerItem"
+        }]
+    });
 
- var ToolStripButton_WarehouseIssueCons_Refresh = isc.ToolStripButton.create({
-     icon: "[SKIN]/actions/refresh.png",
-     title: "<spring:message code='global.form.refresh'/>",
-     click: function() {
-         ListGrid_WarehouseIssueCons_refresh();
-     }
- });
-
-
+    var ToolStripButton_WarehouseIssueCons_Refresh = isc.ToolStripButtonRefresh.create({
+        icon: "[SKIN]/actions/refresh.png",
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+            ListGrid_WarehouseIssueCons_refresh();
+        }
+    });
 
 
-    var ToolStripButton_WarehouseIssueCons_Add = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCons_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-            var record = ListGrid_ShipmentByWarehouseIssueCons .getSelectedRecord();
+            var record = ListGrid_ShipmentByWarehouseIssueCons.getSelectedRecord();
 
             if (record == null || record.id == null) {
                 isc.Dialog.create({
@@ -830,7 +837,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         }
     });
 
-    var ToolStripButton_WarehouseIssueCons_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCons_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -839,7 +846,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         }
     });
 
-    var ToolStripButton_WarehouseIssueCons_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_WarehouseIssueCons_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -851,10 +858,18 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         width: "100%",
         members:
             [
-                ToolStripButton_WarehouseIssueCons_Refresh,
                 ToolStripButton_WarehouseIssueCons_Add,
                 ToolStripButton_WarehouseIssueCons_Edit,
-                ToolStripButton_WarehouseIssueCons_Remove
+                ToolStripButton_WarehouseIssueCons_Remove,
+                isc.ToolStrip.create({
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_WarehouseIssueCons_Refresh,
+                    ]
+                })
+
             ]
     });
 
@@ -866,7 +881,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             ]
     });
 
-    var IButton_WarehouseIssueCons_Save = isc.IButton.create({
+    var IButton_WarehouseIssueCons_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -914,14 +929,14 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             [
                 DynamicForm_WarehouseIssueCons,
                 isc.HLayout.create({
-                    width: "100%",align: "center",
+                    width: "100%", align: "center",
                     members:
                         [
                             IButton_WarehouseIssueCons_Save,
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -936,99 +951,100 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
     });
 
 
-
- var ListGrid_WarehouseIssueCons = isc.ListGrid.create({
-     width: "100%",
-     height: "100%",
-     dataSource: RestDataSource_WarehouseIssueCons,
-     contextMenu: Menu_ListGrid_WarehouseIssueCons,
-     fields: [{
-         name: "id",
-         hidden: true,
-     }, {
-         name: "shipmentId",
-         hidden: true
-     }, {
-         name: "amountSarcheshmeh",
-         title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",
-         width: "10%",
-         required: true,
-         length: "15",
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }]
-     }, {
-         name: "amountMiduk",
-         title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",
-         width: "10%",
-         required: true,
-         length: "15",
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }]
-     }, {
-         name: "amountSungon",
-         title: "<spring:message code='warehouseIssueCons.amountSungon'/>",
-         width: "10%",
-         required: true,
-         length: "15",
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }]
-     }, {
-         name: "amountPms",
-         title: "<spring:message code='warehouseIssueCons.amountPms'/>",
-         width: "10%",
-         required: true,
-         length: "15",
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }]
-     }, {
-         name: "amountDraft",
-         title: "<spring:message code='warehouseIssueCons.amountDraft'/>",
-         width: "10%",
-         required: true,
-         length: "15",
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }]
-     }, {
-         name: "totalAmount",
-         title: "<spring:message code='warehouseIssueCons.totalAmount'/>",
-         width: "10%",
-         required: true,
-         length: "15",
-         validators: [{
-             type: "isFloat",
-             validateOnExit: true,
-             stopOnError: true,
-             errorMessage: "!"
-         }]
-     }, ],
-     sortField: 0,
-     autoFetchData: false,
-     showFilterEditor: true,
-     filterOnKeypress: true,
-     recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-     updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {},
-     dataArrived: function(startRow, endRow) {}
- });
+    var ListGrid_WarehouseIssueCons = isc.ListGrid.create({
+        width: "100%",
+        height: "100%",
+        dataSource: RestDataSource_WarehouseIssueCons,
+        contextMenu: Menu_ListGrid_WarehouseIssueCons,
+        fields: [{
+            name: "id",
+            hidden: true,
+        }, {
+            name: "shipmentId",
+            hidden: true
+        }, {
+            name: "amountSarcheshmeh",
+            title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",
+            width: "10%",
+            required: true,
+            length: "15",
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }]
+        }, {
+            name: "amountMiduk",
+            title: "<spring:message code='warehouseIssueCons.amountMiduk'/>",
+            width: "10%",
+            required: true,
+            length: "15",
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }]
+        }, {
+            name: "amountSungon",
+            title: "<spring:message code='warehouseIssueCons.amountSungon'/>",
+            width: "10%",
+            required: true,
+            length: "15",
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }]
+        }, {
+            name: "amountPms",
+            title: "<spring:message code='warehouseIssueCons.amountPms'/>",
+            width: "10%",
+            required: true,
+            length: "15",
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }]
+        }, {
+            name: "amountDraft",
+            title: "<spring:message code='warehouseIssueCons.amountDraft'/>",
+            width: "10%",
+            required: true,
+            length: "15",
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }]
+        }, {
+            name: "totalAmount",
+            title: "<spring:message code='warehouseIssueCons.totalAmount'/>",
+            width: "10%",
+            required: true,
+            length: "15",
+            validators: [{
+                type: "isFloat",
+                validateOnExit: true,
+                stopOnError: true,
+                errorMessage: "!"
+            }]
+        },],
+        sortField: 0,
+        autoFetchData: false,
+        showFilterEditor: true,
+        filterOnKeypress: true,
+        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+        },
+        dataArrived: function (startRow, endRow) {
+        }
+    });
 
 
     var HLayout_WarehouseIssueCons_Grid = isc.HLayout.create({
@@ -1046,9 +1062,8 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             HLayout_WarehouseIssueCons_Actions, HLayout_WarehouseIssueCons_Grid
         ]
     });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
-/******************* Start Attachment **********************/
+    /******************* Start Attachment **********************/
     isc.ViewLoader.create({
         ID: "warehouseIssueConsAttachmentViewLoader",
         autoDraw: false,
@@ -1097,49 +1112,48 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
     /******************* End Attachment **********************/
 
 
-isc.SectionStack.create({
-    ID: "ShipmentMoistureHeader_Section_StackCons",
-    sections: [{
-        title: "<spring:message code='Shipment.title'/>",
-        items: VLayout_Body_ShipmentByWarehouseIssueCons,
-        expanded: true
-    }, {
-        title: "<spring:message code='Shipment.titleWarehouseIssueCons'/>",
-        items: warehouseIssueConsMainTabSet,
-        expanded: true
-    }],
-    visibilityMode: "multiple",
-    animateSections: true,
-    height: "100%",
-    width: "100%",
-    overflow: "hidden"
-});
-var criteria1 = {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{
-        fieldName: "material.code",
-        operator: "equals",
-        value: "26030090"
-    }]
-};
-ListGrid_ShipmentByWarehouseIssueCons.fetchData(criteria1, function(dsResponse, data, dsRequest) {
-    ListGrid_ShipmentByWarehouseIssueCons.setData(data);
-});
-
-function ListGrid_WarehouseIssueCons_refresh() {
-    record = ListGrid_ShipmentByWarehouseIssueCons.getSelectedRecord();
+    isc.SectionStack.create({
+        sections: [{
+            title: "<spring:message code='Shipment.title'/>",
+            items: VLayout_Body_ShipmentByWarehouseIssueCons,
+            expanded: true
+        }, {
+            title: "<spring:message code='Shipment.titleWarehouseIssueCons'/>",
+            items: warehouseIssueConsMainTabSet,
+            expanded: true
+        }],
+        visibilityMode: "multiple",
+        animateSections: true,
+        height: "100%",
+        width: "100%",
+        overflow: "hidden"
+    });
     var criteria1 = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [{
-            fieldName: "shipmentId",
+            fieldName: "material.code",
             operator: "equals",
-            value: record.id
+            value: "26030090"
         }]
     };
-    ListGrid_WarehouseIssueCons.fetchData(criteria1, function(dsResponse, data, dsRequest) {
-        ListGrid_WarehouseIssueCons.setData(data);
-
+    ListGrid_ShipmentByWarehouseIssueCons.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+        ListGrid_ShipmentByWarehouseIssueCons.setData(data);
     });
-}
+
+    function ListGrid_WarehouseIssueCons_refresh() {
+        record = ListGrid_ShipmentByWarehouseIssueCons.getSelectedRecord();
+        var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{
+                fieldName: "shipmentId",
+                operator: "equals",
+                value: record.id
+            }]
+        };
+        ListGrid_WarehouseIssueCons.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            ListGrid_WarehouseIssueCons.setData(data);
+
+        });
+    }

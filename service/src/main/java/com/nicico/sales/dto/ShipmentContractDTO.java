@@ -46,7 +46,7 @@ public class ShipmentContractDTO {
 	private String vesselName;
 	private String yearOfBuilt;
 	private String imoNo;
-	private String officialNo;
+	private Integer officialNo;
 	private String loa;
 	private String beam;
 	private String cranes;

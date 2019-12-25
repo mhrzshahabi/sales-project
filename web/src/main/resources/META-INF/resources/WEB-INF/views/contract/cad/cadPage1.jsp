@@ -6,12 +6,11 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
 
-    var itemsDefinitionsCount = 0;
-    var optionSet;
     factoryLableHedear("LablePage", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
     factoryLable("lableNameContact", '<b><font size=4px>COPPER CATHODES CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
     factoryLableArticle("lableArticle1", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle2", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
+    factoryLableArticle("lableArticleSelectConc", '<b><font size=4px>SELECT ITEMS</font><b>', "25",5);
 
     var dynamicForm1 = isc.HLayout.create({align: "center", members: []});
     var dynamicForm2 = isc.HLayout.create({align: "center", members: []});
@@ -266,7 +265,7 @@
                 title: "<spring:message code='contact.name'/>",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameEN",
+                displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -309,7 +308,7 @@
                 required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameEN",
+                displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -373,7 +372,7 @@
                 required: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameEN",
+                displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -417,7 +416,7 @@
                 required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameEN",
+                displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
@@ -456,12 +455,12 @@
     });
 
 var DynamicForm_ContactParameter_ValueNumber8=isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle1",
+        valuesManager: "valuesManagerCadArticle1",
         height: "20",
         width: "100%",
         wrapItemTitles: true,
+        numCols: 4,
         items: [
-            {name: "feild_all_defintitons_save", showIf: "false"},
             {
                 name: "definitionsOne",
                 length: 5000,
@@ -486,48 +485,44 @@ var DynamicForm_ContactParameter_ValueNumber8=isc.DynamicForm.create({
                 height: "30",
                 title: "NAME",
                 changed: function (form, item, value) {
-                    DynamicForm_ContactParameter_ValueNumber8.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue)
-                }
-            }, {
-                name: "button",
-                type: "button",
-                width: "10%",
-                height: "30",
-                title: "Remove",
-                startRow: false,
-                icon: "[SKIN]/actions/remove.png",
-                click: function () {
-                    DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");
-                    DynamicForm_ContactParameter_ValueNumber8.removeField("button")
-                    var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
-                    delete dataSaveValueNumber8.feild_all_defintitons_save;
-                    delete dataSaveValueNumber8["definitionsOne"]
-                    DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
-                    console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
-                }
+                    DynamicForm_ContactParameter_ValueNumber8.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue);
+                    dynamicFormCad_fullArticle01.setValue("fullArticle01",dynamicFormCad_fullArticle01.getValue("fullArticle01")+"\n"+"-"+DynamicForm_ContactParameter_ValueNumber8.getValue("definitionsOne"))
+                    DynamicForm_ContactParameter_ValueNumber8.clearValue("definitionsOne");
+                    }
             }
         ]
     })
 
-    HLayout_button_ValueNumber8 = isc.HLayout.create({
-        members: [
-            isc.Label.create({
-                styleName: "buttonHtml buttonHtml1",
-                align: "center",
-                valign: "center",
-                wrap: false,
-                contents: "Add",
-                click: function () {
-                    itemsDefinitions('Add', itemsDefinitionsCount)
-                }
-            })
-        ]
-    })
 
 var VLayout_ContactParameter_ValueNumber8 = isc.VLayout.create({
         width: "100%",
         height: "1",
-        members: [DynamicForm_ContactParameter_ValueNumber8,HLayout_button_ValueNumber8]
+        members: [DynamicForm_ContactParameter_ValueNumber8]
+    })
+
+var dynamicFormCad_fullArticle01 = isc.DynamicForm.create({
+        valuesManager: "valuesManagerfullArticle",
+        height: "50",
+        width: "100%",
+        wrapItemTitles: false,
+        items: [
+            {
+                name: "fullArticle01",
+                disabled: false,
+                type: "text",
+                length: 6000,
+                showTitle: false,
+                colSpan: 2,
+                defaultValue: "",
+                title: "fullArticle01",
+                width: "*",changed: function (form, item, value) {
+                    if(value==undefined)
+                      dynamicFormCad_fullArticle01.setValue("fullArticle01","")
+                    else
+                      dynamicFormCad_fullArticle01.setValue("fullArticle01",value)
+                    }
+            }
+        ]
     })
 
 var vlayoutBody = isc.VLayout.create({
@@ -537,6 +532,26 @@ var vlayoutBody = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContact]}),
+            isc.HLayout.create({height: "50", align: "left", members: [
+                isc.DynamicForm.create({ID:"dynamicFormCath",items:[{type: "text",name:"materialId",
+                    title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
+                    width: "250",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Material,
+                    displayField: "descl",
+                    valueField: "id",
+                    pickListWidth: "500",
+                    pickListHeight: "500",
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "descl", width: 440, align: "center"}
+                    ],
+                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                        {fieldName: "descl", operator: "contains", value: "Cath"}]
+                    },
+                    }]})
+            ]}),
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2", align: "center", members: [dynamicForm1, dynamicForm2]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
@@ -611,7 +626,25 @@ var vlayoutBody = isc.VLayout.create({
             }
         ]
     });
-
+var dynamicForm_fullArticle02Cad = isc.DynamicForm.create({
+        valuesManager: "valuesManagerfullArticle",
+        height: "50",
+        width: "100%",
+        wrapItemTitles: false,
+        items: [
+            {
+                name: "fullArticle02",
+                disabled: false,
+                type: "text",
+                length: 6000,
+                showTitle: false,
+                colSpan: 2,
+                defaultValue: "",
+                title: "fullArticle02",
+                width: "*"
+            }
+        ]
+    })
 
 isc.VLayout.create({
         ID: "VLayout_PageOne_Contract",
@@ -623,68 +656,10 @@ isc.VLayout.create({
             LablePage,
             vlayoutBody,
             lableArticle1,
-            VLayout_ContactParameter_ValueNumber8,
+            isc.HLayout.create({align: "left", members: [lableArticleSelectConc,VLayout_ContactParameter_ValueNumber8]}),
+            dynamicFormCad_fullArticle01,
             lableArticle2,
-            isc.HLayout.create({align: "left", members: [article2]})
+            isc.HLayout.create({align: "left", members: [article2]}),
+            dynamicForm_fullArticle02Cad
         ]
     });
-
-function itemsDefinitions(value, id) {
-        if (value == 'Add') {
-            DynamicForm_ContactParameter_ValueNumber8.addFields([
-                {
-                    name: "valueNumber8" + id,
-                    type: "text",
-                    length: 5000,
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Parameters,
-                    displayField: "paramValue",
-                    valueField: "paramValue",
-                    showTitle: false,
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                        {name: "paramName", width: "25%", align: "center"},
-                        {name: "paramType", width: "25%", align: "center"},
-                        {name: "paramValue", width: "50%", align: "center"}
-                    ],
-                    pickListCriteria: {
-                        _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                            {fieldName: "contractId", operator: "equals", value: 1},
-                            {fieldName: "categoryValue", operator: "equals", value: 1}]
-                    },
-                    showTitle: false,
-                    startRow: false,
-                    width: "1500",
-                    height: "30",
-                    title: "NAME",
-                    changed: function (form, item, value) {
-                        DynamicForm_ContactParameter_ValueNumber8.setValue("valueNumber8" + id, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
-                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
-                        delete dataSaveValueNumber8.feild_all_defintitons_save;
-                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
-                    }
-                }, {
-                    name: "button" + id,
-                    type: "button",
-                    width: "10%",
-                    height: "30",
-                    title: "Remove",
-                    startRow: false,
-                    icon: "[SKIN]/actions/remove.png",
-                    click: function () {
-                        DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + id);
-                        DynamicForm_ContactParameter_ValueNumber8.removeField("button" + id)
-                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
-                        delete dataSaveValueNumber8.feild_all_defintitons_save;
-                        delete dataSaveValueNumber8["valueNumber8" + id]
-                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
-                    }
-                }
-            ]);
-            itemsDefinitionsCount++;
-        } else {
-            --itemsDefinitionsCount;
-            DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + itemsDefinitionsCount);
-            DynamicForm_ContactParameter_ValueNumber8.removeField("button" + itemsDefinitionsCount);
-        }
-    }

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -59,10 +59,10 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({
+                buttons: [isc.IButtonSave.create({
                     title: "<spring:message
 		code='global.yes'/>"
-                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+                }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
@@ -160,7 +160,7 @@
             ]
     });
 
-    var ToolStripButton_Country_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Country_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -168,7 +168,7 @@
         }
     });
 
-    var ToolStripButton_Country_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Country_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -177,7 +177,7 @@
         }
     });
 
-    var ToolStripButton_Country_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Country_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -186,7 +186,7 @@
         }
     });
 
-    var ToolStripButton_Country_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Country_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -198,10 +198,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_Country_Refresh,
                 ToolStripButton_Country_Add,
                 ToolStripButton_Country_Edit,
-                ToolStripButton_Country_Remove
+                ToolStripButton_Country_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Country_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -213,7 +221,7 @@
             ]
     });
 
-    var IButton_Country_Save = isc.IButton.create({
+    var IButton_Country_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -241,7 +249,7 @@
         }
     });
 
-    var CountryCancelBtn = isc.IButton.create({
+    var CountryCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -299,17 +307,7 @@
         sortField: 0,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-// ListGrid_CountryFeature.fetchData({"tblCountry.id":record.id},function (dsResponse, data, dsRequest) {
-// ListGrid_CountryFeature.setData(data);
-// },{operationId:"00"});
-        },
-        dataArrived: function (startRow, endRow) {
-        }
-
+        filterOnKeypress: true
     });
     var HLayout_Country_Grid = isc.HLayout.create({
         width: "100%",

@@ -486,7 +486,7 @@
         DynamicForm_Contact_Connection.clearValues();
     }
 
-    var IButton_Contact_Save = isc.IButton.create({
+    var IButton_Contact_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -495,7 +495,7 @@
         }
     });
 
-    var contactCancelBtn = isc.Button.create({
+    var contactCancelBtn = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.close'/>",
         icon: "pieces/16/icon_delete.png",
@@ -562,8 +562,8 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/> ",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/> "})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/> "})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -610,7 +610,7 @@
         }
     }
 
-    var ToolStripButton_Contact_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Contact_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -618,7 +618,7 @@
         }
     });
 
-    var ToolStripButton_Contact_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Contact_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -627,7 +627,7 @@
         }
     });
 
-    var ToolStripButton_Contact_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Contact_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -635,7 +635,7 @@
         }
     });
 
-    var ToolStripButton_Contact_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Contact_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -972,7 +972,7 @@
         ]
     });
 
-    var ContactAccount_CreateSaveButton = isc.IButton.create({
+    var ContactAccount_CreateSaveButton = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1003,7 +1003,7 @@
         }
     });
 
-    var ContactAccount_EditSaveButton = isc.IButton.create({
+    var ContactAccount_EditSaveButton = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         autoDraw: false,
@@ -1032,7 +1032,7 @@
         }
     });
 
-    var ContactAccountCancelBtn = isc.IButton.create({
+    var ContactAccountCancelBtn = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.form.close'/>",
         icon: "pieces/16/icon_delete.png",
@@ -1109,8 +1109,8 @@
                         icon: "[SKIN]ask.png",
                         title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                         buttons: [
-                            isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                            isc.Button.create({title: "<spring:message code='global.no'/>"})
+                            isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                            isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                         ],
                         buttonClick: function (button, index) {
                             this.hide();
@@ -1233,11 +1233,19 @@
     var ToolStrip_Actions_Contact = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_Contact_Refresh,
             ToolStripButton_Contact_Add,
             ToolStripButton_Contact_Edit,
             ToolStripButton_Contact_Remove,
-            ToolStripButton_Contact_Accounts
+            ToolStripButton_Contact_Accounts,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_Contact_Refresh,
+            ]
+            })
+
         ]
     });
     var HLayout_Actions_Contact = isc.HLayout.create({

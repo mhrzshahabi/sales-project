@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -354,7 +354,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
 });
 
 
- var IButton_warehouseCAD_Save = isc.IButton.create({
+ var IButton_warehouseCAD_Save = isc.IButtonSave.create({
      top: 260,
      title: "<spring:message code='global.form.save'/>",
      icon: "pieces/16/save.png",
@@ -430,7 +430,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
                     isc.Label.create({
                         width: 5,
                     }),
-                    isc.IButton.create({
+                    isc.IButtonCancel.create({
                         ID: "warehouseCADEditExitIButton",
                         title: "<spring:message code='global.cancel'/>",
                         width: 100,

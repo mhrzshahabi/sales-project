@@ -73,14 +73,14 @@
                 }
             ]
     });
-    var ToolStripButton_Dcc_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Dcc_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Dcc_refresh();
         }
     });
-    var ToolStripButton_Dcc_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Dcc_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -96,7 +96,7 @@
         <%--}--%>
     <%--});--%>
 
-    var ToolStripButton_Dcc_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Dcc_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -107,10 +107,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_Dcc_Refresh,
                 ToolStripButton_Dcc_Add,
                 // ToolStripButton_Dcc_Edit,
-                ToolStripButton_Dcc_Remove
+                ToolStripButton_Dcc_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Dcc_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -150,8 +158,8 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -271,7 +279,7 @@
         fetchDataURL: "${contextPath}/api/dcc/spec-list"
     });
 
-    var dccSaveIButton = isc.IButton.create({
+    var dccSaveIButton = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -371,7 +379,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "rateEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,

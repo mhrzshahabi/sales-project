@@ -24,8 +24,6 @@ public class ContractPersonRestController {
 
 	private final IContractPersonService contractPersonService;
 
-	// ------------------------------s
-
 	@Loggable
 	@GetMapping(value = "/{id}")
 	// @PreAuthorize("hasAuthority('r_contractPerson')")

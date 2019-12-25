@@ -18,8 +18,8 @@ import javax.persistence.*;
 public class CatodList extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq")
-	@SequenceGenerator(name = "base_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CATOD_LIST")
+	@SequenceGenerator(name = "SEQ_CATOD_LIST", sequenceName = "SEQ_CATOD_LIST", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

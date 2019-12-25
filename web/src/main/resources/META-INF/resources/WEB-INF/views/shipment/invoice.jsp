@@ -1,5 +1,5 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
  //      <script>
@@ -153,7 +153,7 @@
             }
         ]
     });
-    var ToolStripButton_Shipment_InvoiceHeader_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Shipment_InvoiceHeader_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -306,7 +306,6 @@
         ]
     });
 
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     var ViewLoader_Invoice_Attachment = isc.ViewLoader.create({
         width: "100%",
         height: "100%",
@@ -525,10 +524,10 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({
+                buttons: [isc.IButtonSave.create({
                     title: "<spring:message
 		code='global.yes'/>"
-                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+                }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
@@ -929,7 +928,7 @@
             ]
     });
 
-    var ToolStripButton_Invoice_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Invoice_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -937,7 +936,7 @@
         }
     });
 
-    var ToolStripButton_Invoice_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Invoice_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -974,7 +973,7 @@
         }
     });
 
-    var ToolStripButton_Invoice_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Invoice_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -983,7 +982,7 @@
         }
     });
 
-    var ToolStripButton_Invoice_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Invoice_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -1000,7 +999,7 @@
 
 
 
-    var ToolStripButton_Invoice_Pdf = isc.ToolStripButton.create({
+    var ToolStripButton_Invoice_Pdf = isc.ToolStripButtonPrint.create({
                     title: "<spring:message code='global.form.print.pdf'/>",
                     icon: "icon/pdf.png",
                      click: function () {
@@ -1009,7 +1008,7 @@
        }
     });
 
-    var ToolStripButton_Invoice_excel = isc.ToolStripButton.create({
+    var ToolStripButton_Invoice_excel = isc.ToolStripButtonPrint.create({
                 title: "<spring:message code='global.form.print.excel'/>",
                 icon: "icon/excel.png",
                  click: function () {
@@ -1018,7 +1017,7 @@
 }
     });
 
-    var ToolStripButton_Invoice_html = isc.ToolStripButton.create({
+    var ToolStripButton_Invoice_html = isc.ToolStripButtonPrint.create({
                 title: "<spring:message code='global.form.print.html'/>",
                 icon: "icon/html.jpg",
                 click: function () {
@@ -1092,9 +1091,9 @@
     /*Edit By Jalal */
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
         width: "100%",
-        members:
+     membersMargin: 5,
+     members:
             [
-                ToolStripButton_Invoice_Refresh,
                 ToolStripButton_Invoice_Add,
                 ToolStripButton_Invoice_Edit,
                 ToolStripButton_Invoice_Remove,
@@ -1103,7 +1102,16 @@
                 ToolStripButton_Invoice_Pdf,
                 ToolStripButton_Invoice_excel,
                 ToolStripButton_Invoice_html,
-                 ] //Add Print
+             isc.ToolStrip.create({
+              width: "100%",
+              align: "left",
+              border: '0px',
+              members: [
+               ToolStripButton_Invoice_Refresh,
+              ]
+             })
+
+            ] //Add Print
     });
 
     var HLayout_Invoice_Actions = isc.HLayout.create({
@@ -1115,7 +1123,7 @@
     });
 
 
-    var IButton_Invoice_Save = isc.IButton.create({
+    var IButton_Invoice_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1177,7 +1185,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -1250,12 +1258,7 @@
         sortField: 0,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
 
     });
     var HLayout_Invoice_Grid = isc.HLayout.create({
@@ -1273,9 +1276,6 @@
             HLayout_Invoice_Actions, HLayout_Invoice_Grid
         ]
     });
-
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
 
     isc.SectionStack.create({
         ID: "Shipment_InvoiceHeader_Section_Stack",

@@ -250,7 +250,7 @@ public class Contract extends Auditable {
 	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2materialByMaterialId"))
 	private Material material;
 
-	@Column(name = "MATERIAL_ID")
+	@Column(name = "MATERIAL_ID", nullable = false)
 	private Long materialId;
 
 	@Column(name = "AMOUNT")

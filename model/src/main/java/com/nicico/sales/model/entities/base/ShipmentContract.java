@@ -99,7 +99,7 @@ public class ShipmentContract extends Auditable {
 	private String imoNo;
 
 	@Column(name = "OFFICIAL_NO", length = 100)
-	private String officialNo;
+	private Integer officialNo;
 
 	@Column(name = "LOA", length = 100)
 	private String loa;

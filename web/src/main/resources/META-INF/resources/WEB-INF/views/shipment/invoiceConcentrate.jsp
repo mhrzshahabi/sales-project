@@ -2,7 +2,7 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ page import="com.nicico.sales.dto.InvoiceItemDTO" %>
 <%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -148,7 +148,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list2"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_Contact_optionCriteria_seller_Concentrate  = {
         _constructor: "AdvancedCriteria",
@@ -1065,7 +1065,7 @@
                 loopDown++;
             }
      %>
-     var IButton_Invoice_Concentrate_Save = isc.IButton.create({
+     var IButton_Invoice_Concentrate_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1223,7 +1223,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",

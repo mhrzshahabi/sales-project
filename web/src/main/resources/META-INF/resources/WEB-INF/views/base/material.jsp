@@ -19,7 +19,7 @@
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
-    var RestDataSource_Unit = isc.MyRestDataSource.create({
+    var RestDataSource_Unit_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -31,7 +31,7 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
-    var RestDataSource_Rate = isc.MyRestDataSource.create({
+    var RestDataSource_Rate_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -44,7 +44,7 @@
         fetchDataURL: "${contextPath}/api/rate/spec-list"
     });
 
-    var RestDataSource_Feature = isc.MyRestDataSource.create({
+    var RestDataSource_Feature_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -57,7 +57,7 @@
         fetchDataURL: "${contextPath}/api/feature/spec-list"
     });
 
-    var RestDataSource_MaterialItem = isc.MyRestDataSource.create({
+    var RestDataSource_MaterialItem_IN_MATERIAL = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -101,7 +101,7 @@
         fetchDataURL: "${contextPath}/api/materialFeature/spec-list"
     });
 
-    var IButton_Material_Save = isc.IButton.create({
+    var IButton_Material_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -179,7 +179,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -298,7 +298,7 @@
                     type: 'long',
                     width: 400,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Unit,
+                    optionDataSource: RestDataSource_Unit_IN_MATERIAL,
                     displayField: "nameFA",
                     valueField: "id",
                     pickListWidth: "400",
@@ -315,16 +315,16 @@
             ]
     });
 
-    var ToolStripButton_Material_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
+    var ToolStripButton_Material_Refresh = isc.ToolStripButtonRefresh.create({
+        //icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Material_refresh();
         }
     });
 
-    var ToolStripButton_Material_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
+    var ToolStripButton_Material_Add = isc.ToolStripButtonAdd.create({
+        //icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Material.clearValues();
@@ -332,8 +332,8 @@
         }
     });
 
-    var ToolStripButton_Material_Edit = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/edit.png",
+    var ToolStripButton_Material_Edit = isc.ToolStripButtonEdit.create({
+        //icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
             DynamicForm_Material.clearValues();
@@ -341,8 +341,8 @@
         }
     });
 
-    var ToolStripButton_Material_Remove = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/remove.png",
+    var ToolStripButton_Material_Remove = isc.ToolStripButtonRemove.create({
+        //icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             ListGrid_Material_remove();
@@ -353,10 +353,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_Material_Refresh,
                 ToolStripButton_Material_Add,
                 ToolStripButton_Material_Edit,
-                ToolStripButton_Material_Remove
+                ToolStripButton_Material_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Material_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -392,7 +400,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "materialExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -407,12 +415,36 @@
 
             ]
     });
+     var recordNotFound = isc.Label.create({
+        height: 30,
+        padding: 10,
+        align: "center",
+        valign: "center",
+        wrap: false,
+        contents: "رکوردی یافت نشد"
+        })
 
+    recordNotFound.hide();
     var ListGrid_Material = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 600,
         dataSource: RestDataSource_Material,
         contextMenu: Menu_ListGrid_Material,
+        styleName:'expandList',
+        autoFetchData: true,
+        autoFitData: "vertical",
+        //height: 150,
+        alternateRecordStyles: true,
+        canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -422,28 +454,101 @@
                 {name: "unitnameFA", dataPath:"unit.nameFA"  , title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
                 {name: "unitnameEN", dataPath:"unit.nameEN"  , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
             ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
+        getExpansionComponent : function (record) {
+            console.log(record)
             var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "materialId", operator: "equals", value: record.id}]
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "materialId", operator: "equals", value: record.id}]
             };
-            ListGrid_MaterialFeature.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+
+            ListGrid_MaterialFeature.fetchRelatedData(record, function (dsResponse, data, dsRequest) {
                 ListGrid_MaterialFeature.setData(data);
             }, {operationId: "00"});
+
             ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_MaterialItem.setData(data);
+                console.log(data)
+                if(data.length == 0){
+                        recordNotFound.show();
+                        ListGrid_MaterialItem.hide()
+                        }else{
+                            recordNotFound.hide();
+                            ListGrid_MaterialItem.setData(data);
+                            ListGrid_MaterialItem.setAutoFitMaxRecords(1);
+
+                            ListGrid_MaterialItem.show();
+}
             }, {operationId: "00"});
+
+
+            var hLayout = isc.HLayout.create({
+                align: "center",padding: 5,
+                membersMargin: 20,
+                members: [
+                    ToolStripButton_MaterialItem_Add
+                ]
+                });
+
+                var layout = isc.VLayout.create({
+                    padding: 5,
+                    membersMargin: 10,
+                    members: [ ListGrid_MaterialItem, recordNotFound, hLayout ]
+                });
+
+        return layout;
+
+           /*return   isc.ListGrid.create({
+                        width: "100%",
+                        height: "100%",
+                        align: "right",
+                        textAlign: "right",
+                        dataSource: RestDataSource_MaterialItem_IN_MATERIAL,
+                        contextMenu: Menu_ListGrid_MaterialItem,
+                        initialCriteria: { _constructor: "AdvancedCriteria", operator: "and",
+                        criteria: [
+                            { fieldName: "materialId", operator: "equals", value: record.id },
+                            ]
+                        },
+                        numCols: 2,
+                        fields:
+                        [
+                            {name: "id", hidden: true, primaryKey: true},
+                            {name: "materialId", type: "long", hidden: true},
+                            {name: "gdsCode", width: "10%", title: "<spring:message code='MaterialItem.gdsCode'/> "},
+                            {name: "gdsName", width: "10%", title: "<spring:message code='MaterialItem.gdsName'/> "},
+                        ],
+                        sortField: 0,
+                        autoFetchData: true,
+                        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+                        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+                            var record = this.getSelectedRecord();
+                            loadWindowFeatureList(record.id)
+                        }
+
+                        });*/
         },
+        /*recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",*/
+
+        // updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+        // var record = this.getSelectedRecord();
+        // var criteria1 = {
+        // _constructor: "AdvancedCriteria",
+        // operator: "and",
+        // criteria: [{fieldName: "materialId", operator: "equals", value: record.id}]
+        // };
+        // // ListGrid_MaterialFeature.fetchRelatedData(record, function (dsResponse, data, dsRequest) {
+        // // ListGrid_MaterialFeature.setData(data);
+        // // }, {operationId: "00"});
+        //
+        // ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+        //     console.log(data)
+        // ListGrid_MaterialItem.setData(data);
+        // }, {operationId: "00"});
+        // },
         dataArrived: function (startRow, endRow) {
         }
     });
+
 
     var HLayout_Material_Grid = isc.HLayout.create({
         width: "100%",
@@ -535,7 +640,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -543,13 +648,10 @@
                     this.hide();
                     if (index == 0) {
                         var MaterialFeatureId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${contextPath}/api/materialFeature/" + MaterialFeatureId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_MaterialFeature_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -629,7 +731,7 @@
                     width: 300, required: true,
                     editorType: "SelectItem"
                     ,
-                    optionDataSource: RestDataSource_Feature,
+                    optionDataSource: RestDataSource_Feature_IN_MATERIAL,
                     displayField: "nameFA"
                     ,
                     valueField: "id",
@@ -705,7 +807,7 @@
                     width: 300,
                     editorType: "SelectItem"
                     ,
-                    optionDataSource: RestDataSource_Rate,
+                    optionDataSource: RestDataSource_Rate_IN_MATERIAL,
                     displayField: "nameFA"
                     ,
                     valueField: "id",
@@ -783,24 +885,24 @@
             ]
     });
 
-    var ToolStripButton_MaterialFeature_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
+    var ToolStripButton_MaterialFeature_Refresh = isc.ToolStripButtonRefresh.create({
+        //icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_MaterialFeature_refresh();
         }
     });
 
-    var ToolStripButton_MaterialFeature_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
+    var ToolStripButton_MaterialFeature_Add = isc.ToolStripButtonAddLarge.create({
+        //icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             ListGrid_MaterialFeature_add();
         }
     });
 
-    var ToolStripButton_MaterialFeature_Edit = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/edit.png",
+    var ToolStripButton_MaterialFeature_Edit = isc.ToolStripButtonEdit.create({
+        //icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
             DynamicForm_MaterialFeature.clearValues();
@@ -808,8 +910,8 @@
         }
     });
 
-    var ToolStripButton_MaterialFeature_Remove = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/remove.png",
+    var ToolStripButton_MaterialFeature_Remove = isc.ToolStripButtonRemove.create({
+        //icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             ListGrid_MaterialFeature_remove();
@@ -820,10 +922,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_MaterialFeature_Refresh,
                 ToolStripButton_MaterialFeature_Add,
                 ToolStripButton_MaterialFeature_Edit,
-                ToolStripButton_MaterialFeature_Remove
+                ToolStripButton_MaterialFeature_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_MaterialFeature_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -835,7 +945,7 @@
             ]
     });
 
-    var IButton_MaterialFeature_Save = isc.IButton.create({
+    var IButton_MaterialFeature_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -870,7 +980,7 @@
         }
     });
 
-    var MaterialFeatureCancelBtn = isc.IButton.create({
+    var MaterialFeatureCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -913,11 +1023,25 @@
             ]
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
     var ListGrid_MaterialFeature = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_MaterialFeature,
         contextMenu: Menu_ListGrid_MaterialFeature,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
         numCols: 2,
         fields:
             [
@@ -926,115 +1050,208 @@
                     name: "itemRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "featurenameFA",   dataPath:"feature.nameFA"  ,
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "featurenameEN",  dataPath:"feature.nameEN"  ,
                     title: "<spring:message code='feature.nameEN'/>",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
                     type: 'float',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
                     type: 'float',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "avgValue",
                     title: "<spring:message code='MaterialFeature.avgValue'/>",
                     type: 'float',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "tolorance",
                     title: "<spring:message code='MaterialFeature.tolorance'/>",
                     type: 'float',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "ratenameFA",  dataPath:"rate.nameFA"  ,
                     title: "<spring:message code='rate.nameFa'/>",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "ratenameEN", dataPath:"rate.nameEN"  ,
                     title: "<spring:message code='rate.nameEN'/>",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "payableIfGraterThan",
                     title: "<spring:message code='MaterialFeature.payableIfGraterThan'/>",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "paymentPercent",
                     title: "<spring:message code='MaterialFeature.paymentPercent'/>",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "treatCost",
                     title: "<spring:message code='MaterialFeature.TC'/>",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "refineryCost",
                     title: "<spring:message code='MaterialFeature.RC'/>",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     align: "center"
                 },
+                {name: "editIcon", width: 40 , showTitle:false},
+                {name: "removeIcon", width: 40 , showTitle:false},
             ],
         sortField: 0,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+    createRecordComponent : function (record, colNum) {
+        var fieldName = this.getFieldName(colNum);
+        var recordCanvas = isc.HLayout.create({
+        height: 22,
+        width: "100%",
+        align: "center"
+      });
+    if(fieldName == "editIcon"){
+    var editImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_edit.png",
+        prompt: "ویرایش",
+        height: 16,
+        width: 16,
+        grid: this,
+    click : function () {
+        ListGrid_MaterialFeature.selectSingleRecord(record);
+        ListGrid_MaterialFeature_edit();
+    }
     });
-    var HLayout_MaterialFeature_Grid = isc.HLayout.create({
+     return editImg;
+    } else  if (fieldName == "removeIcon") {
+    var removeImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_delete.png",
+        prompt: "حذف",
+        height: 16,
+        width: 16,
+        grid: this,
+    click : function () {
+        ListGrid_MaterialFeature.selectSingleRecord(record);
+        ListGrid_MaterialFeature_remove();
+    }
+    });
+        return removeImg;
+        } else {
+        return null;
+        }
+    },
+
+    });
+
+
+
+        var hLayoutMaterialFeature = isc.HLayout.create({
+        align: "center",padding: 5,
+        membersMargin: 10,
+        members: [
+              ToolStripButton_MaterialFeature_Add
+        ]
+        });
+
+        var layoutMaterialFeature = isc.VLayout.create({
+            membersMargin: 10,
+            members: [ ListGrid_MaterialFeature, hLayoutMaterialFeature ]
+        });
+
+    var WindowFeature = isc.Window.create({
+        title: "<spring:message code='MaterialFeature.title'/> ",
+        width: "80%",
+        height: "40%",
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+        this.Super("closeClick", arguments)
+        },
+        items:
+            [
+                ListGrid_MaterialFeature,
+                layoutMaterialFeature
+            ]
+        });
+
+    function loadWindowFeatureList(materialId){
+            var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "materialId", operator: "equals", value: materialId}]
+            };
+            ListGrid_MaterialFeature.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                console.log(data)
+            ListGrid_MaterialFeature.setData(data);
+            }, {operationId: "00"});
+            WindowFeature.show()
+        }
+var HLayout_MaterialFeature_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",
         members: [
             ListGrid_MaterialFeature
         ]
     });
-    var VLayout_MaterialFeature_Body = isc.VLayout.create({
+var VLayout_MaterialFeature_Body = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_MaterialFeature_Actions, HLayout_MaterialFeature_Grid
         ]
     });
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-     // ----------------------------------------------------------------------------------------------------------------------
+
     function ListGrid_MaterialItem_refresh() {
         ListGrid_MaterialItem.invalidateCache();
         var record = ListGrid_Material.getSelectedRecord();
@@ -1088,7 +1305,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -1096,13 +1313,10 @@
                     this.hide();
                     if (index == 0) {
                         var MaterialItemId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${contextPath}/api/materialItem/" + MaterialItemId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_MaterialItem_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -1172,16 +1386,16 @@
             ]
     });
 
-    var ToolStripButton_MaterialItem_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
+    var ToolStripButton_MaterialItem_Refresh = isc.ToolStripButtonRefresh.create({
+        //icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_MaterialItem_refresh();
         }
     });
 
-    var ToolStripButton_MaterialItem_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
+    var ToolStripButton_MaterialItem_Add = isc.ToolStripButtonAddLarge.create({
+        //icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_Material.getSelectedRecord();
@@ -1204,8 +1418,8 @@
         }
     });
 
-    var ToolStripButton_MaterialItem_Edit = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/edit.png",
+    var ToolStripButton_MaterialItem_Edit = isc.ToolStripButtonEdit.create({
+        //icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
             DynamicForm_MaterialItem.clearValues();
@@ -1213,8 +1427,8 @@
         }
     });
 
-    var ToolStripButton_MaterialItem_Remove = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/remove.png",
+    var ToolStripButton_MaterialItem_Remove = isc.ToolStripButtonRemove.create({
+        //icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             ListGrid_MaterialItem_remove();
@@ -1225,10 +1439,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_MaterialItem_Refresh,
                 ToolStripButton_MaterialItem_Add,
                 ToolStripButton_MaterialItem_Edit,
-                ToolStripButton_MaterialItem_Remove
+                ToolStripButton_MaterialItem_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_MaterialItem_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -1240,7 +1462,7 @@
             ]
     });
 
-    var IButton_MaterialItem_Save = isc.IButton.create({
+    var IButton_MaterialItem_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1275,7 +1497,7 @@
         }
     });
 
-    var MaterialItemCancelBtn = isc.IButton.create({
+    var MaterialItemCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -1320,25 +1542,75 @@
 
     var ListGrid_MaterialItem = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_MaterialItem,
+        height: 180,
+        dataSource: RestDataSource_MaterialItem_IN_MATERIAL,
         contextMenu: Menu_ListGrid_MaterialItem,
+        setAutoFitExtraRecords: true,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
         numCols: 2,
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true},
                 {name: "materialId", type: "long", hidden: true},
-                {name: "gdsCode", width: "10%", title: "<spring:message code='MaterialItem.gdsCode'/> "},
-                {name: "gdsName", width: "10%", title: "<spring:message code='MaterialItem.gdsName'/> "},
+                {name: "gdsCode", width: "48%", title: "<spring:message code='MaterialItem.gdsCode'/> "},
+                {name: "gdsName", width: "48%", title: "<spring:message code='MaterialItem.gdsName'/> "},
+                {name: "editIcon", width: "4%" , align:"center", showTitle:false},
+                {name: "removeIcon", width: "4%" , align:"center", showTitle:false},
             ],
         sortField: 0,
         autoFetchData: false,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        recordDoubleClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue){
+            console.log(record)
+           loadWindowFeatureList(record.materialId)
+        },
+        createRecordComponent : function (record, colNum) {
+            var fieldName = this.getFieldName(colNum);
+            var recordCanvas = isc.HLayout.create({
+            height: 22,
+            width: "100%",
+            align: "center"
+            });
+            if(fieldName == "editIcon"){
+                var editImg = isc.ImgButton.create({
+                showDown: false,
+                showRollOver: false,
+                layoutAlign: "center",
+                src: "pieces/16/icon_edit.png",
+                prompt: "ویرایش",
+                height: 16,
+                width: 16,
+                grid: this,
+                    click : function () {
+                        ListGrid_MaterialItem.selectSingleRecord(record);
+                        ListGrid_MaterialItem_edit();
+                    }
+            });
+                return editImg;
+            } else  if (fieldName == "removeIcon") {
+            var removeImg = isc.ImgButton.create({
+                showDown: false,
+                showRollOver: false,
+                layoutAlign: "center",
+                src: "pieces/16/icon_delete.png",
+                prompt: "حذف",
+                height: 16,
+                width: 16,
+                grid: this,
+            click : function () {
+                    ListGrid_MaterialItem.selectSingleRecord(record);
+                    ListGrid_MaterialItem_remove();
+            }
+            });
+            return removeImg;
+            } else {
+                return null;
+                }
+            }
+
     });
-    var HLayout_MaterialItem_Grid = isc.HLayout.create({
+var HLayout_MaterialItem_Grid = isc.HLayout.create({
         width: "100%",
-        height: "100%",
         members: [
             ListGrid_MaterialItem
         ]
@@ -1350,14 +1622,14 @@
             HLayout_MaterialItem_Actions, HLayout_MaterialItem_Grid
         ]
     });
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
    isc.SectionStack.create({
         ID: "Material_Section_Stack",
         sections:
             [
                 {title: "<spring:message code='ProductGroup'/>", items: VLayout_Material_Body, expanded: true}
-                , {title: "<spring:message code='Product'/>",items: VLayout_MaterialItem_Body,expanded: true}
-                , {title: "<spring:message code='ProductFeature'/>",items: VLayout_MaterialFeature_Body,expanded: true}
+                , {title: "<spring:message code='Product'/>", hidden: true, items: VLayout_MaterialItem_Body,expanded: false}
+                , {title: "<spring:message code='ProductFeature'/>",hidden: true,items: VLayout_MaterialFeature_Body,expanded: false}
             ],
         visibilityMode: "multiple",
         animateSections: true,

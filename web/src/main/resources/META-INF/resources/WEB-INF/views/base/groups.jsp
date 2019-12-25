@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 // <script>
@@ -105,7 +105,7 @@
         ]
     });
 
-    var IButton_Groups_Save = isc.IButton.create({
+    var IButton_Groups_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -136,7 +136,7 @@
         }
     });
 
-    var GroupsCancelBtn = isc.IButton.create({
+    var GroupsCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -201,7 +201,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message	code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {
@@ -247,7 +247,7 @@
         }
     }
 
-    var ToolStripButton_Groups_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Groups_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -255,7 +255,7 @@
         }
     });
 
-    var ToolStripButton_Groups_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Groups_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -264,7 +264,7 @@
         }
     });
 
-    var ToolStripButton_Groups_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Groups_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -274,7 +274,7 @@
     });
 
 
-    var ToolStripButton_Groups_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Groups_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -285,10 +285,18 @@
     var ToolStrip_Actions_Groups = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_Groups_Refresh,
             ToolStripButton_Groups_Add,
             ToolStripButton_Groups_Edit,
-            ToolStripButton_Groups_Remove
+            ToolStripButton_Groups_Remove,
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Groups_Refresh,
+                ]
+            })
+
         ]
     });
 
@@ -386,7 +394,7 @@
         ListGrid_Person_GroupEmail.invalidateCache();
     }
 
-    var ToolStripButton_Person_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Person_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -397,7 +405,14 @@
     var ToolStrip_Actions_Person = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_Person_Refresh
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Person_Refresh
+                ]
+            })
 
         ]
     });
@@ -585,7 +600,7 @@
             ]
     });
 
-    var IButton_GroupsPerson_Save = isc.IButton.create({
+    var IButton_GroupsPerson_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -616,7 +631,7 @@
         }
     });
 
-    var GroupsPersonCancelBtn = isc.IButton.create({
+    var GroupsPersonCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -724,7 +739,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message	code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {
@@ -770,7 +785,7 @@
         }
     }
 
-    var ToolStripButton_GroupsPerson_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_GroupsPerson_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -778,11 +793,11 @@
         }
     });
 
-    var ToolStripButton_GroupsPerson_Add = isc.ToolStripButton.create({
+    var ToolStripButton_GroupsPerson_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-            var record = ListGrid_Groups.getSelectedRecord();
+            var record = ListGrid.getSelectedRecord();
 
             if (record == null || record.id == null) {
                 isc.Dialog.create({
@@ -807,7 +822,7 @@
         }
     });
 
-    var ToolStripButton_GroupsPerson_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_GroupsPerson_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -815,7 +830,7 @@
             ListGrid_GroupsPerson_edit();
         }
     });
-    var ToolStripButton_GroupsPerson_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_GroupsPerson_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -826,10 +841,18 @@
     var ToolStrip_Actions_GroupsPerson = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_GroupsPerson_Refresh,
             ToolStripButton_GroupsPerson_Add,
             ToolStripButton_GroupsPerson_Edit,
-            ToolStripButton_GroupsPerson_Remove
+            ToolStripButton_GroupsPerson_Remove,
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_GroupsPerson_Refresh,
+                ]
+            })
+
         ]
     });
     var HLayout_Actions_GroupsPerson = isc.HLayout.create({

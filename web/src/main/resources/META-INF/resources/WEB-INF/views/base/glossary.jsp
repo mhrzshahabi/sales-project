@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -47,10 +47,10 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({
+                buttons: [isc.IButtonSave.create({
                     title: "<spring:message
 		code='global.yes'/>"
-                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+                }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
@@ -174,7 +174,7 @@
             ]
     });
 
-    var ToolStripButton_Glossary_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Glossary_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -182,7 +182,7 @@
         }
     });
 
-    var ToolStripButton_Glossary_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Glossary_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -191,7 +191,7 @@
         }
     });
 
-    var ToolStripButton_Glossary_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Glossary_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -200,7 +200,7 @@
         }
     });
 
-    var ToolStripButton_Glossary_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Glossary_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -211,10 +211,18 @@
         width: "100%",
         members:
             [
-                ToolStripButton_Glossary_Refresh,
                 ToolStripButton_Glossary_Add,
                 ToolStripButton_Glossary_Edit,
-                ToolStripButton_Glossary_Remove
+                ToolStripButton_Glossary_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Glossary_Refresh,
+                ]
+                })
+
             ]
     });
 
@@ -234,7 +242,7 @@
             ],
         fetchDataURL: "${contextPath}/api/glossary/spec-list"
     });
-    var IButton_Glossary_Save = isc.IButton.create({
+    var IButton_Glossary_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -252,7 +260,6 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_Glossary_refresh();
@@ -289,7 +296,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "glossaryEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,

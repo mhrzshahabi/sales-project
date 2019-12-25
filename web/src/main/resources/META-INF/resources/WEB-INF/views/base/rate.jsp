@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -81,7 +81,7 @@
         ]
     });
 
-    var IButton_Rate_Save = isc.IButton.create({
+    var IButton_Rate_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -138,7 +138,7 @@
                         isc.Label.create({
                             width: 5,
                         }),
-                        isc.IButton.create({
+                        isc.IButtonCancel.create({
                             ID: "rateEditExitIButton",
                             title: "<spring:message code='global.cancel'/>",
                             width: 100,
@@ -176,7 +176,7 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
                     title: "<spring:message
 		code='global.no'/>"
                 })],
@@ -225,7 +225,7 @@
     };
 
 
-    var ToolStripButton_Rate_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Rate_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -233,7 +233,7 @@
         }
     });
 
-    var ToolStripButton_Rate_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Rate_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -242,7 +242,7 @@
         }
     });
 
-    var ToolStripButton_Rate_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Rate_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -252,7 +252,7 @@
     });
 
 
-    var ToolStripButton_Rate_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Rate_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -264,10 +264,17 @@
     var ToolStrip_Actions_Rate = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_Rate_Refresh,
             ToolStripButton_Rate_Add,
             ToolStripButton_Rate_Edit,
-            ToolStripButton_Rate_Remove
+            ToolStripButton_Rate_Remove,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_Rate_Refresh,
+            ]
+            })
         ]
     });
 
@@ -287,7 +294,6 @@
             {name: "symbol", title: "<spring:message code='rate.symbol'/>"},
             {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
         ],
-// ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/rate/spec-list"
     });
 
