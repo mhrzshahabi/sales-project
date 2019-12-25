@@ -196,7 +196,7 @@ public class ContractService implements IContractService {
         Contract contract = contractDAO.findById(id).get();
         String flag=""  ;
         if(contract.getMaterial().getDescl().contains("Mo")){
-            flag="PrintCathod_MO_"+contract.getContractNo();
+            flag="PrintCathod_MO_OX"+contract.getContractNo();
         }else if(contract.getMaterial().getDescl().contains("Conc")){
             flag="PrintConc_"+contract.getContractNo();
         }else if(contract.getMaterial().getDescl().contains("Cath")){
