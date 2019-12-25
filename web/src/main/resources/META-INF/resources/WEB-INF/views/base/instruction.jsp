@@ -9,6 +9,10 @@
         ListGrid_Instruction.invalidateCache();
     }
 
+
+
+
+
     function ListGrid_Instruction_edit() {
         var record = ListGrid_Instruction.getSelectedRecord();
 
@@ -29,6 +33,9 @@
             Window_Instruction.show();
         }
     }
+
+
+
 
     function ListGrid_Instruction_remove() {
         var record = ListGrid_Instruction.getSelectedRecord();
