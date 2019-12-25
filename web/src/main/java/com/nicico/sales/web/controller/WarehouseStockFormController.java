@@ -56,16 +56,13 @@ public class WarehouseStockFormController {
 	@Loggable
 	@GetMapping(value = {"/print-commitment/{date}"})
 	public void printCommit(HttpServletResponse response, @PathVariable("date") String date)
-			throws SQLException, IOException, JRException {
+			throws Exception {
 		String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
 		InputStream stream;
 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		dtf.format(PersianDate.now());
 
-		String dateday = PersianDate.now().format(dtf).toString();
-
-		try {
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFFont font = workbook.createFont();
 			font.setFontName("B Nazanin");
@@ -83,12 +80,6 @@ public class WarehouseStockFormController {
 			doc.write(out);
 			baos.writeTo(out);
 			out.flush();
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println(ex.getMessage());
-		}
-
 	}
 
 	//****************************************************************************************************************
@@ -162,16 +153,13 @@ public class WarehouseStockFormController {
 	@Loggable
 	@GetMapping(value = {"/print-export/{date}"})
 	public void printExport(HttpServletResponse response, @PathVariable("date") String date)
-			throws SQLException, IOException, JRException {
+			throws Exception {
 		String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
 		InputStream stream;
 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		dtf.format(PersianDate.now());
 
-		String dateday = PersianDate.now().format(dtf).toString();
-
-		try {
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFFont font = workbook.createFont();
 			font.setFontName("B Nazanin");
@@ -189,12 +177,6 @@ public class WarehouseStockFormController {
 			doc.write(out);
 			baos.writeTo(out);
 			out.flush();
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println(ex.getMessage());
-		}
-
 	}
 
 	//****************************************************************************************************************

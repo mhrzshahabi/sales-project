@@ -37,10 +37,9 @@ public class ContractFormController {
     }
 
     @RequestMapping("/print/{id}")
-    public void print(HttpServletRequest request, HttpServletResponse response, @PathVariable Long id) {
+    public void print(HttpServletRequest request, HttpServletResponse response, @PathVariable Long id) throws IOException {
         String docName = contractService.printContract(id);
 
-        try {
             String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
             String filePath = UPLOAD_FILE_DIR + File.separator + "contract" + File.separator + docName+".doc";
             File downloadFile = new File(filePath);
@@ -66,8 +65,5 @@ public class ContractFormController {
             outputStream.flush();
             inputStream.close();
             fileUtil.download(docName, response);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
     }
 }

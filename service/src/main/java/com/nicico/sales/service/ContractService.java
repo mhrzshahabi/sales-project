@@ -308,7 +308,6 @@ public class ContractService implements IContractService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date c = sdf.parse(contractDAO.findById(contractId).getContractDate());
         String date = sdf.format(c);
-        System.out.println(date);
 
         tableNo.getRow(0).getCell(0).setText("DATE:" + " " + date);
         tableNo.getRow(0).getCell(0).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);

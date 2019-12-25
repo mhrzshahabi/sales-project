@@ -15,6 +15,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import static com.nicico.sales.web.controller.ShipmentFormController.replacePOI;
@@ -47,12 +48,8 @@ public class WarehouseCadFormController {
     }
 
     @RequestMapping("/print/{id}")
-    public void printDocx(HttpServletRequest request, HttpServletResponse response, @PathVariable String id) {
-
-        InputStream stream;
-
-
-        try {
+    public void printDocx(HttpServletRequest request, HttpServletResponse response, @PathVariable String id) throws IOException {
+            InputStream stream;
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFFont font = workbook.createFont();
             font.setFontName("B Nazanin");
@@ -78,11 +75,5 @@ public class WarehouseCadFormController {
             doc.write(out);
             baos.writeTo(out);
             out.flush();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println(ex.getMessage());
-        }
-
     }
 }
