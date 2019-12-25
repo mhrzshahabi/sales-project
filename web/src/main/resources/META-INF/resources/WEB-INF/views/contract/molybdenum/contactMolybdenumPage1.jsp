@@ -322,7 +322,7 @@
                             {name: "contact.nameFA",showTitle:"true",width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
                         ]
                         });
-    var ToolStripButton_ContactMo_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ContactMo_Add = isc.ToolStripButtonAdd.create({
                             icon: "[SKIN]/actions/add.png",
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
@@ -343,7 +343,7 @@
                                     lotList.fetchData(RestDataSource_ShipmentContractUsed);
                             }
                     });
-                    var ToolStripButton_ContactMo_Edit = isc.ToolStripButton.create({
+                    var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
                             icon: "[SKIN]/actions/edit.png",
                             title: "<spring:message code='global.form.edit'/>",
                             click: function () {
@@ -597,7 +597,7 @@
                             }
                             }});
 
-                    var ToolStripButton_Contact_Remove= isc.ToolStripButton.create({
+                    var ToolStripButton_Contact_Remove= isc.ToolStripButtonRemove.create({
                             icon: "[SKIN]/actions/remove.png",
                             showIf: "false",
                             title: "<spring:message code='global.form.remove'/>",
@@ -671,7 +671,7 @@
                                         });
                                     }}
                             });
-                     var ToolStripButton_ContactMO_Refresh = isc.ToolStripButton.create({
+                     var ToolStripButton_ContactMO_Refresh = isc.ToolStripButtonRefresh.create({
                                 icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
@@ -681,8 +681,18 @@
                     var ToolStrip_Actions_ContactMO = isc.ToolStrip.create({
                         width: "100%",
                         height: "100%",
+                        membersMargin: 5,
                         members: [
-                             ToolStripButton_ContactMo_Add,ToolStripButton_ContactMo_Edit,ToolStripButton_ContactMO_Refresh
+                            ToolStripButton_ContactMo_Add,
+                            ToolStripButton_ContactMo_Edit,
+                            isc.ToolStrip.create({
+                            width: "100%",
+                            align: "left",
+                            border: '0px',
+                            members: [
+                                    ToolStripButton_ContactMO_Refresh,
+                            ]
+                            })
                         ]
                         });
                     var HLayout_Actions_ContactMo = isc.HLayout.create({
