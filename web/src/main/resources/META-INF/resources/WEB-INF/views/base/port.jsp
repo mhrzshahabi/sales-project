@@ -1,18 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
-
-    function ThousandSeparate1(item) {
-        var V = item;
-        V = V.replace(/,/g, '');
-        var R = new RegExp('(-?[0-9]+)([0-9]{3})');
-        while (R.test(V)) {
-            V = V.replace(R, '$1,$2');
-        }
-        return V;
-    }
-
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 

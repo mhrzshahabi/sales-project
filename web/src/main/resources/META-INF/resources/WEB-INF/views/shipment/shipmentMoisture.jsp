@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
@@ -676,7 +676,6 @@ var criteria1Inspector = {
 
         var data = DynamicForm_ShipmentMoistureHeader.getValues();
 
- // ######@@@@###&&@@###
 var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -940,8 +939,6 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
         ]
     });
 
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//*******************************************************************************
 var Menu_ListGrid_ShipmentMoistureItem = isc.Menu.create({
     width:150,
     data:[
@@ -1017,7 +1014,6 @@ var Menu_ListGrid_ShipmentMoistureItem = isc.Menu.create({
 
         var data = DynamicForm_ShipmentMoistureItem.getValues();
 
- // ######@@@@###&&@@###
 var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 
 
@@ -1272,8 +1268,6 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             HLayout_Actions_ShipmentMoistureItem, HLayout_Grid_ShipmentMoistureItem
         ]
     });
-
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@titleMoistureHeader titleMoistureItem
 
 isc.SectionStack.create({
     ID:"ShipmentMoistureHeader_Section_Stack",

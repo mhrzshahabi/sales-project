@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -294,7 +294,6 @@
             {name: "symbol", title: "<spring:message code='rate.symbol'/>"},
             {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
         ],
-// ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/rate/spec-list"
     });
 

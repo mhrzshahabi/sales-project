@@ -13,11 +13,11 @@
             height: height,
             styleName: "helloWorldText",
             padding: padding,
-            backgroundColor: "#84c1ed",
+            //backgroundColor: "#84c1ed",
             align: "center",
             valign: "center",
             wrap: false,
-            showEdges: true,
+            //showEdges: true,
             showShadow: true,
             contents: contents
         });
@@ -76,10 +76,10 @@ var contactCadTabs = isc.TabSet.create({
     });
 
 
-    isc.IButton.create({
+    isc.IButtonSave.create({
         ID: "IButton_ContactCad_Save",
         title: "save",
-        icon: "[SKIN]/actions/add.png",
+        //icon: "[SKIN]/actions/add.png",
         iconOrientation: "right",
         click: function () {
             contactCadHeader.validate();
@@ -301,7 +301,7 @@ var contactCadTabs = isc.TabSet.create({
         dataSaveAndUpdateContractCadDetail.article10_number60 =valuesManagerArticle10_quality.getValue("article10_number60");
         dataSaveAndUpdateContractCadDetail.article10_number61 =valuesManagerArticle10_quality.getValue("article10_number61");
         recordContractNo=contactCadHeader.getValue("contractNo");
-        var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "descl", operator: "contains", value: "Cath"},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
+        var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "material.descl", operator: "contains", value: "Cath"},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
         RestDataSource_Contract.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
         if(data[0]!=undefined){
                 isc.warn("<spring:message code='main.contractsDuplicate'/>");
@@ -327,8 +327,8 @@ var contactCadTabs = isc.TabSet.create({
         width: "100%",
         height: "3%",
         align: "center",
-        showEdges: true,
-        backgroundColor: "#CCFFFF",
+       // showEdges: true,
+        //backgroundColor: "#CCFFFF",
         membersMargin: 5,
         layoutMargin: 10,
         members: [
@@ -398,16 +398,78 @@ function saveListGrid_ContractCadItemShipment(contractID) {
 
     var dataALLArticle = {};
     function saveValueAllArticles(contractID) {
-        dataALLArticle.Article03 = article3_quality.getValue("fullArticle3");
-        dataALLArticle.Article04 = article4_quality.getValue("fullArticle4");
-        dataALLArticle.Article05 = article5_quality.getValue("fullArticle5");
-        dataALLArticle.Article06 = article6_quality.getValue("fullArticle6");
-        dataALLArticle.Article07 = article7_quality.getValue("fullArticle7");
-        dataALLArticle.Article08 = article8_quality.getValue("fullArticle8");
-        dataALLArticle.Article09 = article9_quality.getValue("fullArticle9");
-        dataALLArticle.Article10 = article10_quality.getValue("fullArticle10");
-        dataALLArticle.Article11 = article11_quality.getValue("fullArticle11");
-        dataALLArticle.Article12 = article12_quality.getValue("fullArticle12");
+
+        if(valuesManagerfullArticle.getValue("fullArticle01")==undefined){
+          dataALLArticle.Article01="";
+        }else{
+          dataALLArticle.Article01 = valuesManagerfullArticle.getValue("fullArticle01");
+        }
+
+        if(valuesManagerfullArticle.getValue("fullArticle02")==undefined){
+          dataALLArticle.Article02="";
+        }else{
+          dataALLArticle.Article02 = valuesManagerfullArticle.getValue("fullArticle02");
+        }
+
+        if(article3_quality.getValue("fullArticle3")==undefined){
+          dataALLArticle.Article03="";
+        }else{
+          dataALLArticle.Article03 = article3_quality.getValue("fullArticle3");
+        }
+
+        if(article4_quality.getValue("fullArticle4")==undefined){
+          dataALLArticle.Article04="";
+        }else{
+          dataALLArticle.Article04 = article4_quality.getValue("fullArticle4");
+        }
+
+        if(article5_quality.getValue("fullArticle5")==undefined){
+          dataALLArticle.Article05="";
+        }else{
+          dataALLArticle.Article05 = article5_quality.getValue("fullArticle5");
+        }
+
+        if(article6_quality.getValue("fullArticle6")==undefined){
+          dataALLArticle.Article06="";
+        }else{
+          dataALLArticle.Article06 = article6_quality.getValue("fullArticle6");
+        }
+
+        if(article7_quality.getValue("fullArticle7")==undefined){
+          dataALLArticle.Article07="";
+        }else{
+          dataALLArticle.Article07 = article7_quality.getValue("fullArticle7");
+        }
+
+        if(article8_quality.getValue("fullArticle8")==undefined){
+          dataALLArticle.Article08="";
+        }else{
+          dataALLArticle.Article08 = article8_quality.getValue("fullArticle8");
+        }
+
+        if(article9_quality.getValue("fullArticle9")==undefined){
+          dataALLArticle.Article09="";
+        }else{
+          dataALLArticle.Article09 = article9_quality.getValue("fullArticle9");
+        }
+
+        if(article10_quality.getValue("fullArticle10")==undefined){
+          dataALLArticle.Article10="";
+        }else{
+          dataALLArticle.Article10 = article10_quality.getValue("fullArticle10");
+        }
+
+        if(article11_quality.getValue("fullArticle11")==undefined){
+          dataALLArticle.Article11="";
+        }else{
+          dataALLArticle.Article11 = article11_quality.getValue("fullArticle11");
+        }
+
+        if(article12_quality.getValue("fullArticle12")==undefined){
+          dataALLArticle.Article12="";
+        }else{
+          dataALLArticle.Article12 = article12_quality.getValue("fullArticle12");
+        }
         dataALLArticle.contractNo = contactCadHeader.getValue("contractNo");
         dataALLArticle.contractId = contractID;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -425,15 +487,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
 
 function saveCotractCadDetails(data, contractID) {
         data.contract_id = contractID;
-        var allData={};
-        if(valuesManagerArticle1.getValue("feild_all_defintitons_save")==undefined){
-            allData=data;
-           // {"definitionsOne":"AHK=ALFRED H KNIGHT CO.,AN INDEPENDENT........."}
-            allData.feild_all_defintitons_save='{"definitionsOne":"'+DynamicForm_ContactParameter_ValueNumber8.getValue("definitionsOne")+'"}'
-        }else{
-            allData = Object.assign(data,valuesManagerArticle1.getValues())
-        }
-        console.log(allData)
+        var allData = data
         allData.string_Currency="null";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",
@@ -455,6 +509,8 @@ function clearAdd(){
         contactCadHeaderCadAgent.clearValues();
         valuesManagerArticle1.clearValues();
         valuesManagerArticle2Cad.clearValues();
+        valuesManagerCadArticle1.clearValues();
+        dynamicForm_fullArticle02Cad.clearValues();
         valuesManagerArticle3_quality.clearValues();
         valuesManagerArticle4_quality.clearValues();
         valuesManagerArticle5_quality.clearValues();

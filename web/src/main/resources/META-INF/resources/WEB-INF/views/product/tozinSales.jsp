@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -190,7 +190,6 @@
  			title: "<spring:message code='Tozin.sourcePlantId'/>"
  		}
  	],
- 	// ######@@@@###&&@@###
  	fetchDataURL: "${contextPath}/api/tozinSales/spec-list"
  });
 
@@ -670,16 +669,13 @@
                 return;
 
             var data = DynamicForm_TozinSales.getValues();
-// ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                     actionURL: "${contextPath}/api/tozinSales/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_TozinSales_refresh();

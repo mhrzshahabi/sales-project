@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -213,7 +213,6 @@
  			title: "<spring:message code='Tozin.sourcePlantId'/>"
  		},
  	],
- 	// ######@@@@###&&@@###
  	fetchDataURL: "${contextPath}/api/tozin/spec-list"
  });
 
@@ -493,15 +492,12 @@
     				this.hide();
     				if (index == 0) {
     					var TozinId = record.id;
-    					// ######@@@@###&&@@###
     					var methodXXXX = "PUT";
     					if (data.id == null) methodXXXX = "POST";
     					isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-    						// ######@@@@###&&@@### pls correct callback
     						actionURL: "${contextPath}/api/tozin/" + TozinId,
     						httpMethod: "DELETE",
     						callback: function(RpcResponse_o) {
-    							// ######@@@@###&&@@###
     							if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
     								ListGrid_Tozin_refresh();
     								isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -788,16 +784,13 @@
     		if (DynamicForm_Tozin.hasErrors())
     			return;
     		var data = DynamicForm_Tozin.getValues();
-    		// ######@@@@###&&@@###
     		var methodXXXX = "PUT";
     		if (data.id == null) methodXXXX = "POST";
     		isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-    			// ######@@@@###&&@@### pls correct callback
     			actionURL: "${contextPath}/api/tozin/",
     			httpMethod: methodXXXX,
     			data: JSON.stringify(data),
     			callback: function(RpcResponse_o) {
-    				// ######@@@@###&&@@###
     				if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
     					isc.say("<spring:message code='global.form.request.successful'/>.");
     					ListGrid_Tozin_refresh();

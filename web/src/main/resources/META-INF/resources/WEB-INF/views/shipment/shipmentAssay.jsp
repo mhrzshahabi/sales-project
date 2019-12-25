@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
  <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
@@ -19,7 +19,6 @@
                 {name: "averageAgPercent",title: "<spring:message code='shipment.Assay.averageAgPercent'/>",type: 'text'},
                 {name: "totalDryWeight", title: "<spring:message code='shipment.Assay.totalDryWeight'/>", type: 'text'},
             ],
- // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/shipmentAssayHeader/spec-list"
     });
     var MyRestDataSource_ShipmentAssayItem = isc.MyRestDataSource.create({
@@ -53,7 +52,6 @@
                     }]
                 },
             ],
- // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/shipmentAssayItem/spec-list"
     });
 
@@ -98,7 +96,6 @@
             },
             {name: "contactAccounts"}
         ],
- // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     //*******************************************************************************
@@ -781,10 +778,8 @@
 
             var data = DynamicForm_ShipmentAssayHeader.getValues();
 
- // ######@@@@###&&@@###
 var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
- // ######@@@@###&&@@### pls correct callback
 actionURL: "${contextPath}/api/shipmentAssayHeader/" ,
 httpMethod: methodXXXX,
                 data: JSON.stringify(data),
@@ -877,7 +872,6 @@ httpMethod: methodXXXX,
 actionURL: "${contextPath}/api/shipmentAssayHeader/" +  shipmentId,
 httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
- // ######@@@@###&&@@###
    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_ShipmentAssayHeader_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -1075,8 +1069,6 @@ httpMethod: "DELETE",
             ]
     });
 
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    //*******************************************************************************
     var Menu_ListGrid_ShipmentAssayItem = isc.Menu.create({
         width: 150,
         data: [
@@ -1438,11 +1430,6 @@ httpMethod: methodXXXX,
                 }]
             }
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        },
         sortField: 0,
         dataPageSize: 50,
         showFilterEditor: true,
@@ -1465,8 +1452,6 @@ httpMethod: methodXXXX,
                 HLayout_Actions_ShipmentAssayItem, HLayout_Grid_ShipmentAssayItem
             ]
     });
-
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     isc.SectionStack.create({
         ID: "ShipmentAssayHeader_Section_Stack",

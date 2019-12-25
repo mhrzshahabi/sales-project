@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -8,6 +8,10 @@
     function ListGrid_Instruction_refresh() {
         ListGrid_Instruction.invalidateCache();
     }
+
+
+
+
 
     function ListGrid_Instruction_edit() {
         var record = ListGrid_Instruction.getSelectedRecord();
@@ -29,6 +33,9 @@
             Window_Instruction.show();
         }
     }
+
+
+
 
     function ListGrid_Instruction_remove() {
         var record = ListGrid_Instruction.getSelectedRecord();
@@ -331,12 +338,7 @@
         sortField: 0,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
 
     });
     var HLayout_Instruction_Grid = isc.HLayout.create({

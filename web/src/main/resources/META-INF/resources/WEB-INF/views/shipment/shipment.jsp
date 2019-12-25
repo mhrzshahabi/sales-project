@@ -12,77 +12,8 @@
     var RestDataSource_ContractPerson;
     var ListGrid_Person_EmailCC;
 
-    var RestDataSource_Contact_IN_SHIPMENT = isc.MyRestDataSource.create({
-        fields: [
-            {
-                name: "id",
-                primaryKey: true,
-                canEdit: false,
-                hidden: true
-            },
-            {
-                name: "code",
-                title: "<spring:message code='contact.code'/>"
-            },
-            {
-                name: "nameFA",
-                title: "<spring:message code='contact.nameFa'/>"
-            },
-            {
-                name: "nameEN",
-                title: "<spring:message code='contact.nameEn'/>"
-            },
-            {
-                name: "commertialRole"
-            },
-            {
-                name: "phone",
-                title: "<spring:message code='contact.phone'/>"
-            },
-            {
-                name: "mobile",
-                title: "<spring:message code='contact.mobile'/>"
-            },
-            {
-                name: "email",
-                title: "<spring:message code='contact.email'/>"
-            },
-            {
-                name: "type",
-                title: "<spring:message code='contact.type'/>",
-                valueMap: {
-                    "true": "<spring:message code='contact.type.real'/>",
-                    "false": "<spring:message code='contact.type.legal'/>"
-                }
-            },
-            {
-                name: "economicalCode",
-                title: "<spring:message code='contact.economicalCode'/>"
-            },
-            {
-                name: "status",
-                title: "<spring:message code='contact.status'/>",
-                valueMap: {
-                    "true": "<spring:message code='enabled'/>",
-                    "false": "<spring:message code='disabled'/>"
-                }
-            },
-            {
-                name: "contactAccounts"
-            },
-            {
-                name: "country.nameFa",
-                title: "<spring:message code='country.nameFa'/>"
-            },
-            {
-                name: "bookingCat",
-                title: "<spring:message code='shipment.bookingCat'/>",
-                align: "center"
-            }
-        ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list"
-    });
-
+/*Start Date Source*/
+/*RestDataSource_LoadingPort*/
     var RestDataSource_LoadingPort = isc.MyRestDataSource.create({
         fields: [
             {
@@ -105,7 +36,10 @@
         ],
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
+/*RestDataSource_LoadingPort*/
 
+
+/*RestDataSource_DischargePort*/
     var RestDataSource_DischargePort = isc.MyRestDataSource.create({
         fields: [
             {
@@ -128,7 +62,10 @@
         ],
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
+/*RestDataSource_DischargePort*/
 
+
+/*RestDataSource_SwitchPort*/
     var RestDataSource_SwitchPort = isc.MyRestDataSource.create({
         fields: [
             {
@@ -151,7 +88,9 @@
         ],
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
+/*RestDataSource_SwitchPort*/
 
+/*RestDataSource_pickShipmentItem*/
     var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
         fields: [
             {
@@ -216,7 +155,9 @@
         ],
         fetchDataURL: "${contextPath}/api/shipment/pick-list"
     });
+/*RestDataSource_pickShipmentItem*/
 
+/*RestDataSource_Shipment*/
     var RestDataSource_Shipment = isc.MyRestDataSource.create({
         fields: [
             {
@@ -428,7 +369,9 @@
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
+/*RestDataSource_Shipment*/
 
+/*RestDataSource_Person_EmailCC*/
     var RestDataSource_Person_EmailCC = isc.MyRestDataSource.create({
         fields: [
             {
@@ -490,6 +433,9 @@
         ],
         fetchDataURL: "${contextPath}/api/person/spec-list"
     });
+/*RestDataSource_Person_EmailCC*/
+
+/*End Data Source*/
 
     var Menu_ListGrid_Shipment = isc.Menu.create({
         width: 150,
@@ -1345,6 +1291,7 @@
         ]
     });
 
+    /*RestDataSource_Shipment*/
     var ListGrid_Shipment = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -2042,7 +1989,6 @@
             ]
     });
 
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     var SectionStack_shipment = isc.SectionStack.create({
         ID: "Shipment_Section_Stack",
         sections:

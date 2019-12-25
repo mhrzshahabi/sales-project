@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -24,7 +24,7 @@
     });
 
 
-var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
+var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
     fields: [{
         name: "id",
         title: "id",
@@ -76,7 +76,7 @@ var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
 
-    var RestDataSource_tozin = isc.MyRestDataSource.create({
+    var RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -270,7 +270,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         autoFetchData: false,
         canRemoveRecords: true,
         autoSaveEdits: true,
-        dataSource: RestDataSource_WarehouseCadITEM,
+        dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT,
         showGridSummary: true,
         fields: [{
             name: "id",
@@ -371,7 +371,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 type: 'string',
                 width: "100%",
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_tozin,
+                optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT,
                 optionCriteria: RestDataSource_Tozin_Other_optionCriteria,
                 displayField: "tozinPlantId",
                 valueField: "tozinPlantId",
@@ -412,7 +412,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 type: 'string',
                 width: "100%",
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_tozin,
+                optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT,
                 optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
                 displayField: "tozinPlantId",
                 valueField: "tozinPlantId",

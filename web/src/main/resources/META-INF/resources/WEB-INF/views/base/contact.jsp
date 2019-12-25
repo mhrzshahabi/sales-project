@@ -5,7 +5,7 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_Country_IN_CONTACT = isc.MyRestDataSource.create({
+    var RestDataSource_Country = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -21,7 +21,7 @@
             {name: "contactId", canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contactAccount.code'/>"},
             {name: "bankId", title: "<spring:message code='contactAccount.nameFA'/>"},
-            {name: "bankbankName", dataPath: "bank.bankName", title: "<spring:message code='contactAccount.nameFA'/>"},
+            {name: "bankbankName",  dataPath:"bank.bankName", title: "<spring:message code='contactAccount.nameFA'/>"},
             {name: "bankAccount", title: "<spring:message code='contactAccount.accountNumber'/>", type: "number"},
             {name: "bankShaba", title: "<spring:message code='contactAccount.shabaAccount'/>"},
             {name: "bankSwift", title: "<spring:message code='contactAccount.bankSwift'/>"},
@@ -52,12 +52,7 @@
                 {name: "enBankName", title: "<spring:message code='bank.nameEn'/>", width: 200},
                 {name: "address", title: "<spring:message code='bank.address'/>", width: 200},
                 {name: "coreBranch", title: "<spring:message code='bank.coreBranch'/>", width: 200},
-                {
-                    name: "countrynameFa",
-                    dataPath: "country.nameFa",
-                    title: "<spring:message code='country.nameFa'/>",
-                    width: 200
-                }
+                {name: "countrynameFa",  dataPath:"country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
         fetchDataURL: "${contextPath}/api/bank/spec-list"
     });
@@ -70,15 +65,15 @@
             {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
             {name: "phone", title: "<spring:message code='contact.phone'/>"},
             {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
-            {name: "fax", title: "<spring:message code='contact.fax'/>"},
+            {name: "fax",       title: "<spring:message code='contact.fax'/>"},
             {name: "address", title: "<spring:message code='contact.address'/>"},
             {name: "webSite", title: "<spring:message code='contact.webSite'/>"},
-            {name: "email", title: "<spring:message code='contact.email'/>"},
+            {name: "email",     title: "<spring:message code='contact.email'/>"},
             {
                 name: "type",
                 title: "<spring:message code='contact.type'/>",
                 valueMap: {
-                    "true": "<spring:message code='contact.type.real'/>",
+                    "true":  "<spring:message code='contact.type.real'/>",
                     "false": "<spring:message code='contact.type.legal'/>"
                 }
             },
@@ -99,7 +94,7 @@
             {name: "commercialRegistration"},
             {name: "branchName"},
             {name: "countryId", title: "<spring:message code='country.nameFa'/>", type: 'long'},
-            {name: "countrynameFa", dataPath: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+            {name: "countrynameFa",  dataPath:"country.nameFa" , title: "<spring:message code='country.nameFa'/>"},
             {name: "contactAccounts"}
         ],
         fetchDataURL: "${contextPath}/api/contact/spec-list"
@@ -265,7 +260,7 @@
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
             },
-            {
+           {
                 name: "agentBuyer",
                 title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
                 type: 'checkbox',
@@ -273,7 +268,7 @@
                 colSpan: 1, titleColSpan: 1,
                 wrapTitle: false
             },
-            {
+           {
                 name: "transporter",
                 title: "<spring:message code='contact.commercialRole.transporter'/>",
                 type: 'checkbox',
@@ -371,7 +366,7 @@
                 type: 'text',
                 width: 500,
                 wrapTitle: false, keyPressFilter: "[0-9.+]",
-                length: "20"
+                length:"20"
             },
             {
                 name: "mobile",
@@ -379,7 +374,7 @@
                 width: 500,
                 wrapTitle: false,
                 keyPressFilter: "[0-9.+]",
-                length: "20"
+                length:"20"
             },
             {
                 name: "fax",
@@ -387,7 +382,7 @@
                 width: 500,
                 wrapTitle: false,
                 keyPressFilter: "[0-9.+]",
-                length: "20"
+                length:"20"
             },
             {
                 name: "countryId",
@@ -395,14 +390,14 @@
                 type: 'long',
                 width: 500,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Country_IN_CONTACT,
+                optionDataSource: RestDataSource_Country,
                 displayField: "nameFa",
                 valueField: "id",
                 pickListWidth: "500",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 500, align: "center", hidden: true},
+                    {name: "id", width: 500, align: "center" , hidden: true },
                     {name: "nameFa", width: 500, align: "center"},
                 ]
             },
@@ -413,14 +408,14 @@
                 title: "<spring:message code='contact.webSite'/>",
                 width: 500,
                 wrapTitle: false,
-                validators: [
-                    {
-                        type: "regexp",
-                        expression: "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
-                        validateOnChange: true,
-                    }
+                validators:[
+                {
+                type:"regexp",
+                expression:"^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+                validateOnChange:true,
+                }
                 ],
-            },
+                },
             {
                 name: "email",
                 title: "<spring:message code='contact.email'/>",
@@ -428,12 +423,12 @@
                 wrapTitle: false,
                 validateOnExit: true,
                 /*Fix bug For Regex email */
-                validators: [
-                    {
-                        type: "regexp",
-                        expression: ".+\\@.+\\..+",
-                        validateOnChange: true,
-                    }
+                validators:[
+                {
+                type:"regexp",
+                expression:".+\\@.+\\..+",
+                validateOnChange:true,
+                }
                 ],
                 /*End Fix bug For Regex email */
             },
@@ -729,7 +724,7 @@
         width: "100%",
         numCols: 10,
         fields: [
-            {name: "id", type: "hidden", title: "", hidden: true},
+            {name: "id", type: "hidden", title: "" , hidden: true},
             {
                 name: "nameFA",
                 type: "staticText",
@@ -1243,12 +1238,12 @@
             ToolStripButton_Contact_Remove,
             ToolStripButton_Contact_Accounts,
             isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Contact_Refresh,
-                ]
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_Contact_Refresh,
+            ]
             })
 
         ]
@@ -1274,8 +1269,7 @@
         contextMenu: Menu_ListGrid_Contact,
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
-            {
-                name: "code", title: "<spring:message code='contact.code'/>", align: "center", width: 100
+            {name: "code", title: "<spring:message code='contact.code'/>", align: "center", width: 100
 
             },
             {name: "nameFA", title: "<spring:message code='contact.nameFa'/>", align: "center", width: 200},
@@ -1311,15 +1305,8 @@
             {name: "phone", title: "<spring:message code='contact.phone'/>", align: "center", width: 200},
             {name: "mobile", title: "<spring:message code='contact.mobile'/>", align: "center", width: 200},
             {name: "fax", title: "<spring:message code='contact.fax'/>", align: "center", width: 200},
-            {
-                name: "countrynameFa",
-                dataPath: "country.nameFa",
-                title: "<spring:message code='country.nameFa'/>",
-                width: 200,
-                sortNormalizer: function (recordObject) {
-                    return recordObject.country.nameFa;
-                }
-            },
+            {name: "countrynameFa",  dataPath:"country.nameFa" , title: "<spring:message code='country.nameFa'/>", width: 200,
+            sortNormalizer:function(recordObject) { return recordObject.country.nameFa;}} ,
             {name: "address", title: "<spring:message code='contact.address'/>", align: "center", hidden: true},
             {name: "webSite", title: "<spring:message code='contact.webSite'/>", align: "center", hidden: true},
             {name: "email", title: "<spring:message code='contact.email'/>", align: "center", hidden: true},
