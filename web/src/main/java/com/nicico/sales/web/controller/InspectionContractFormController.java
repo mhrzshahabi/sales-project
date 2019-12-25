@@ -48,7 +48,6 @@ public class InspectionContractFormController {
 
 
 		/*Start Running Code With Exception*/ //TODO
-		try {
 			/*Apache POI*/
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFFont font = workbook.createFont();
@@ -121,10 +120,6 @@ public class InspectionContractFormController {
 			doc.write(out);
 			outputStream.writeTo(out);
 			out.flush();
-
-		}catch (Exception ex){
-			ex.printStackTrace();
-		}
 	}
 
 
