@@ -1079,7 +1079,6 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
  			name:"createDate",
  			type: "date",
 			title: "<spring:message code='global.createDate'/>",
- 			format: 'DD-MM-YYYY',
  			width: "650" ,
 			required: true 	,
 			align:"left",
@@ -1264,14 +1263,6 @@ var Window_InspectionContract = isc.Window.create({
 			align: "center",
 			width: "10%"
 		},
-
-		{
-		name: "createDate",
-		title: "<spring:message code='global.createDate'/>",
-		align: "right",
-		width: "10%"
-		},
-
 
 
 	],
