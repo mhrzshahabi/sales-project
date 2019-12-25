@@ -133,7 +133,7 @@ public class ContractService implements IContractService {
             prefixContractWrite = "Cathod_";
             prefixPrintContractWrite = "PrintCathod_";
         }
-        try (OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc")) {
+        OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc");
             OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + ".doc");
             XWPFParagraph paragraph = doc.createParagraph();
             XWPFRun run = paragraph.createRun();
@@ -141,9 +141,6 @@ public class ContractService implements IContractService {
             run.setText(dataALLArticle);
             doc.write(os);
             printdoc.write(printOs);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     @Override
@@ -199,7 +196,7 @@ public class ContractService implements IContractService {
         Contract contract = contractDAO.findById(id).get();
         String flag=""  ;
         if(contract.getMaterial().getDescl().contains("Mo")){
-            flag="PrintCathod_MO_"+contract.getContractNo();
+            flag="PrintCathod_MO_OX"+contract.getContractNo();
         }else if(contract.getMaterial().getDescl().contains("Conc")){
             flag="PrintConc_"+contract.getContractNo();
         }else if(contract.getMaterial().getDescl().contains("Cath")){
@@ -296,7 +293,7 @@ public class ContractService implements IContractService {
         headerParagraph = header.getParagraphArray(0);
         if (headerParagraph == null) headerParagraph = header.createParagraph();
         headerParagraph.setAlignment(ParagraphAlignment.CENTER);
-        FileInputStream in = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "ArmNicico.JPG");
+        InputStream in = this.getClass().getResourceAsStream("/reports/report-logo/ArmNicico.JPG");
         run.addPicture(in, Document.PICTURE_TYPE_JPEG, "ArmNicico.JPG", Units.toEMU(400), Units.toEMU(75));
         in.close();
 
@@ -308,7 +305,6 @@ public class ContractService implements IContractService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date c = sdf.parse(contractDAO.findById(contractId).getContractDate());
         String date = sdf.format(c);
-        System.out.println(date);
 
         tableNo.getRow(0).getCell(0).setText("DATE:" + " " + date);
         tableNo.getRow(0).getCell(0).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);

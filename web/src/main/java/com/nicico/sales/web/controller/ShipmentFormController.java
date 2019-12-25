@@ -16,6 +16,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ShipmentFormController {
 	}
 
 	@RequestMapping("/print/{shipmentId}")
-    public void printDocx(HttpServletRequest request, HttpServletResponse response,@PathVariable String shipmentId) {
+    public void printDocx(HttpServletRequest request, HttpServletResponse response,@PathVariable String shipmentId) throws IOException {
 
              InputStream stream;
 
@@ -41,7 +42,6 @@ public class ShipmentFormController {
         dtf.format(PersianDate.now());
         String dateday =  PersianDate.now().format(dtf);
 
-        try {
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFFont font = workbook.createFont();
             font.setFontName("B Nazanin");
@@ -250,13 +250,6 @@ public class ShipmentFormController {
                 out.flush();
 
             }
-        }
-
-        }
-
-        catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println(ex.getMessage());
         }
 
     }
