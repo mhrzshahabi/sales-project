@@ -133,7 +133,7 @@ public class ContractService implements IContractService {
             prefixContractWrite = "Cathod_";
             prefixPrintContractWrite = "PrintCathod_";
         }
-        try (OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc")) {
+        OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc");
             OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + ".doc");
             XWPFParagraph paragraph = doc.createParagraph();
             XWPFRun run = paragraph.createRun();
@@ -141,9 +141,6 @@ public class ContractService implements IContractService {
             run.setText(dataALLArticle);
             doc.write(os);
             printdoc.write(printOs);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     @Override
