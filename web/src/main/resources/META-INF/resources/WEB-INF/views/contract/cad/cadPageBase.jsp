@@ -309,7 +309,7 @@ var contactCadTabs = isc.TabSet.create({
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
                 httpMethod: methodHtpp,
-                data: JSON.stringify(dataSaveAndUpdateContractCad),i
+                data: JSON.stringify(dataSaveAndUpdateContractCad),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         Window_ContactCad.close();
@@ -503,22 +503,3 @@ function saveCotractCadDetails(data, contractID) {
         }))
     }
 
-function clearAdd(){
-        contactCadTabs.selectTab(0);
-        contactCadHeader.clearValues();
-        contactCadHeaderCadAgent.clearValues();
-        valuesManagerArticle1.clearValues();
-        valuesManagerArticle2Cad.clearValues();
-        valuesManagerCadArticle1.clearValues();
-        dynamicForm_fullArticle02Cad.clearValues();
-        valuesManagerArticle3_quality.clearValues();
-        valuesManagerArticle4_quality.clearValues();
-        valuesManagerArticle5_quality.clearValues();
-        valuesManagerArticle6_quality.clearValues();
-        valuesManagerArticle7_quality.clearValues();
-        valuesManagerArticle8_quality.clearValues();
-        valuesManagerArticle9_quality.clearValues();
-        valuesManagerArticle10_quality.clearValues();
-        valuesManagerArticle11_quality.clearValues();
-        valuesManagerArticle12_quality.clearValues();
-}
