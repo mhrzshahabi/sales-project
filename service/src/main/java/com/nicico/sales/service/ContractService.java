@@ -293,7 +293,7 @@ public class ContractService implements IContractService {
         headerParagraph = header.getParagraphArray(0);
         if (headerParagraph == null) headerParagraph = header.createParagraph();
         headerParagraph.setAlignment(ParagraphAlignment.CENTER);
-        FileInputStream in = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "ArmNicico.JPG");
+        InputStream in = this.getClass().getResourceAsStream("/reports/report-logo/ArmNicico.JPG");
         run.addPicture(in, Document.PICTURE_TYPE_JPEG, "ArmNicico.JPG", Units.toEMU(400), Units.toEMU(75));
         in.close();
 
