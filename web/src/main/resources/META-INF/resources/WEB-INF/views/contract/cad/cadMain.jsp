@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -7,7 +7,6 @@
     var criteriaContractItemShipment;
     var methodHtpp="";
     var recordContractNo;
-    var feild_all_defintitons_save;
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
@@ -233,9 +232,8 @@ var ListGrid_Cad = isc.ListGrid.create({
             [
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
-                    name: "material.descl",showTitle:"false",
+                    name: "material.descl",showTitle:"false",hidden: true,
                     title: "Type material",
-                    hidden: false,
                     align: "center",
                 },
                 {
@@ -255,6 +253,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                 {name: "contact.nameFA",showTitle:"true",title: "<spring:message code='contact.name'/>", align: "center"}
             ]
     });
+
 
     var ToolStripButton_ContactCad_Add = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/add.png",
@@ -296,6 +295,18 @@ var ListGrid_Cad = isc.ListGrid.create({
                         setTimeout(function(){
                                 recordContractNo=contactCadHeader.getValue("contractNo");
                                 contactCadTabs.selectTab(0);
+                                valuesManagerfullArticle.setValue("fullArticle01",textMain.Article01);
+                                valuesManagerfullArticle.setValue("fullArticle02",textMain.Article02);
+                                article3_quality.setValue("fullArticle3",textMain.Article03);
+                                article4_quality.setValue("fullArticle4",textMain.Article04);
+                                article5_quality.setValue("fullArticle5",textMain.Article05);
+                                article6_quality.setValue("fullArticle6",textMain.Article06);
+                                article7_quality.setValue("fullArticle7",textMain.Article07);
+                                article8_quality.setValue("fullArticle8",textMain.Article08);
+                                article9_quality.setValue("fullArticle9",textMain.Article09);
+                                article10_quality.setValue("fullArticle10",textMain.Article10);
+                                article11_quality.setValue("fullArticle11",textMain.Article11);
+                                article12_quality.setValue("fullArticle12",textMain.Article12);
                                 contactCadHeader.setValue("createDateDumy", record.contractDate)
                                 contactCadHeader.setValue("contractNo", record.contractNo)
                                 contactCadHeader.setValue("contactId", record.contactId)
@@ -314,16 +325,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                                 valuesManagerArticle6_quality.setValue("incotermsId","FOB");
                                 valuesManagerArticle6_quality.setValue("portByPortSourceId","BANDAR ABBAS");
                                 valuesManagerArticle6_quality.setValue("incotermsText",record.incotermsText);
-                                article3_quality.setValue("fullArticle3",textMain.Article03);
-                                article4_quality.setValue("fullArticle4",textMain.Article04);
-                                article5_quality.setValue("fullArticle5",textMain.Article05);
-                                article6_quality.setValue("fullArticle6",textMain.Article06);
-                                article7_quality.setValue("fullArticle7",textMain.Article07);
-                                article8_quality.setValue("fullArticle8",textMain.Article08);
-                                article9_quality.setValue("fullArticle9",textMain.Article09);
-                                article10_quality.setValue("fullArticle10",textMain.Article10);
-                                article11_quality.setValue("fullArticle11",textMain.Article11);
-                                article12_quality.setValue("fullArticle12",textMain.Article12);
+
                         },300)
                     }else{
                         alert(RpcResponse_o.data);
@@ -358,74 +360,6 @@ var ListGrid_Cad = isc.ListGrid.create({
                         valuesManagerArticle10_quality.setValue("article10_number59",data[0].article10_number59);
                         valuesManagerArticle10_quality.setValue("article10_number60",data[0].article10_number60);
                         valuesManagerArticle10_quality.setValue("article10_number61",data[0].article10_number61);
-                        feild_all_defintitons_save = JSON.parse(data[0].feild_all_defintitons_save)
-                        DynamicForm_ContactParameter_ValueNumber8.destroy();
-                        isc.DynamicForm.create({
-                                        ID: "DynamicForm_ContactParameter_ValueNumber8",
-                                        valuesManager: "valuesManagerArticle1",
-                                        height: "20",
-                                        width: "100%",
-                                        wrapItemTitles: true,
-                                        items: [
-                                            {name: "feild_all_defintitons_save", showIf: "false"},
-                                            {
-                                                name: "definitionsOne",
-                                                length: 5000,
-                                                startRow: false,
-                                                editorType: "SelectItem",
-                                                optionDataSource: RestDataSource_Parameters,
-                                                displayField: "paramValue",
-                                                valueField: "paramValue",
-                                                showTitle: false,
-                                                pickListProperties: {showFilterEditor: true},
-                                                pickListFields: [
-                                                    {name: "paramName", width: "20%", align: "center"},
-                                                    {name: "paramType", width: "20%", align: "center"},
-                                                    {name: "paramValue", width: "60%", align: "center"}
-                                                ],
-                                                pickListCriteria: {
-                                                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                                                        {fieldName: "contractId", operator: "equals", value: 1},
-                                                        {fieldName: "categoryValue", operator: "equals", value: 1}]
-                                                },
-                                                width: "1500",
-                                                height: "30",
-                                                title: "NAME",
-                                                changed: function (form, item, value) {
-                                                    DynamicForm_ContactParameter_ValueNumber8.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue)
-                                                    var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
-                                                    delete dataSaveValueNumber8.feild_all_defintitons_save;
-                                                    delete dataSaveValueNumber8["definitionsOne"]
-                                                    DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
-                                                    console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
-                                                }
-                                            }, {
-                                                name: "button",
-                                                type: "button",
-                                                width: "10%",
-                                                height: "30",
-                                                title: "Remove",
-                                                startRow: false,
-                                                icon: "[SKIN]/actions/remove.png",
-                                                click: function () {
-                                                    DynamicForm_ContactParameter_ValueNumber8.removeField("definitionsOne");
-                                                    DynamicForm_ContactParameter_ValueNumber8.removeField("button")
-                                                    var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
-                                                    delete dataSaveValueNumber8.feild_all_defintitons_save;
-                                                    delete dataSaveValueNumber8["definitionsOne"]
-                                                    DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
-                                                    console.log(DynamicForm_ContactParameter_ValueNumber8.getValue("feild_all_defintitons_save"));
-                                                }
-                                            }
-                                        ]
-                                    })
-                                    VLayout_ContactParameter_ValueNumber8.addMember(DynamicForm_ContactParameter_ValueNumber8,0)
-                                    for (const [key, value] of Object.entries(feild_all_defintitons_save)) {
-                                        valuesManagerArticle1.setValue(key,value);
-                                        if(key != 'definitionsOne' && key != 'feild_all_defintitons_save'){
-                                            itemsEditDefinitions(key,value,itemsDefinitionsCount)
-                                          }
-                                     }
 
                         ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
             })},300)
@@ -439,56 +373,7 @@ var ListGrid_Cad = isc.ListGrid.create({
 
 
 
-function itemsEditDefinitions(key,value,id) {
-       DynamicForm_ContactParameter_ValueNumber8.addFields([
-                {
-                    name: key,
-                    type: "text",
-                    length: 5000,
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Parameters,
-                    defaultValue:value,
-                    displayField: "paramValue",
-                    valueField: "paramValue",
-                    showTitle: false,
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                        {name: "paramName", width: "25%", align: "center"},
-                        {name: "paramType", width: "25%", align: "center"},
-                        {name: "paramValue", width: "50%", align: "center"}
-                    ],
-                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName:"categoryValue",operator:"equals",value:1}]
-                    },
-                    showTitle: false,
-                    startRow: false,
-                    width: "1500",
-                    height: "30",
-                    title: "NAME",
-                    changed: function (form, item, value) {
-                        DynamicForm_ContactParameter_ValueNumber8.setValue(key, (item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue))
-                        var dataSaveValueNumber8=DynamicForm_ContactParameter_ValueNumber8.getValues();
-                        delete dataSaveValueNumber8.feild_all_defintitons_save;
-                        DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(dataSaveValueNumber8));
-                    }
-                },{
-                    name:"button"+id,
-                    type: "button",
-                    width: "10%",
-                    height: "30",
-                    title: "Remove",
-                    startRow: false,
-                    icon: "[SKIN]/actions/remove.png",
-                    click: function(){
-                        --itemsDefinitionsCount;
-                        DynamicForm_ContactParameter_ValueNumber8.removeField("valueNumber8" + itemsDefinitionsCount);
-                        DynamicForm_ContactParameter_ValueNumber8.removeField("button" + itemsDefinitionsCount);
-                        }
-                    }
-            ]);
-       itemsDefinitionsCount++;
-    }
+
 
 function Contract_Cathod_remove() {
         var record = ListGrid_Cad.getSelectedRecord();
@@ -508,8 +393,8 @@ function Contract_Cathod_remove() {
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();

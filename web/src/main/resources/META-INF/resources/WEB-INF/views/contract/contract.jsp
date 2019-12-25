@@ -283,24 +283,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 click: function () {
                     ListGrid_Contract_remove();
                 }
-            },
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png", click: function () {
-                    "<spring:url value="/contract/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png", click: function () {
-                    "<spring:url value="/contract/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
-            }, {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg", click: function () {
-                    "<spring:url value="/contract/print/html" var="printUrl"/>"
-                    window.open('${printUrl}');
-                }
             }
-
         ]
     });
 
@@ -717,13 +700,24 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_Contract_Edit = isc.ToolStripButtonEdit.create({
+    /*var ToolStripButton_Contract_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         showIf: "false",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
             DynamicForm_Contract.clearValues();
             ListGrid_Contract_edit();
+        }
+    });*/
+
+    var ToolStripButton_Contract_Print = isc.ToolStripButtonEdit.create({
+        icon: "[SKIN]/actions/print.png",
+        showIf: "true",
+        title: "<spring:message code='global.form.print'/>",
+        click: function () {
+             "<spring:url value="/contract/print" var="printUrl"/>";
+             var recordIdPrint = ListGrid_Contract.getSelectedRecord();
+             window.open('${printUrl}'+"/"+recordIdPrint.id);
         }
     });
 
@@ -749,7 +743,8 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 members: [
                     ToolStripButton_Contract_Refresh,
                 ]
-                })
+                }),
+                ToolStripButton_Contract_Print
 
             ]
     });
