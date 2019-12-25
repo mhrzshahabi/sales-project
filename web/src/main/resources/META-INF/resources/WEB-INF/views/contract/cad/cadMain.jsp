@@ -259,7 +259,9 @@ var ListGrid_Cad = isc.ListGrid.create({
         click: function () {
         methodHtpp="POST";
         Window_ContactCad.show();
-        setTimeout(function(){clearAdd()},250)
+        setTimeout(function(){
+            clearAdd()
+            },250)
         }
     });
 
@@ -489,3 +491,23 @@ isc.VStack.create({
             isc.HLayout.create({height: "96%",members: [ListGrid_Cad]})
         ]
     });
+
+function clearAdd(){
+        contactCadTabs.selectTab(0);
+        contactCadHeader.clearValues();
+        contactCadHeaderCadAgent.clearValues();
+        valuesManagerArticle1.clearValues();
+        valuesManagerArticle2Cad.clearValues();
+        valuesManagerCadArticle1.clearValues();
+        dynamicForm_fullArticle02Cad.clearValues();
+        valuesManagerArticle3_quality.clearValues();
+        valuesManagerArticle4_quality.clearValues();
+        valuesManagerArticle5_quality.clearValues();
+        valuesManagerArticle6_quality.clearValues();
+        valuesManagerArticle7_quality.clearValues();
+        valuesManagerArticle8_quality.clearValues();
+        valuesManagerArticle9_quality.clearValues();
+        valuesManagerArticle10_quality.clearValues();
+        valuesManagerArticle11_quality.clearValues();
+        valuesManagerArticle12_quality.clearValues();
+}
