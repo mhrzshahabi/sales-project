@@ -108,7 +108,6 @@
                 {name: "unitId"},
                 {name: "unit.nameEN"},
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
@@ -763,11 +762,9 @@ function factoryLableHedear(id, contents, width, height, padding) {
             height: height,
             styleName: "helloWorldText",
             padding: padding,
-            backgroundColor: "#84c1ed",
             align: "center",
             valign: "center",
             wrap: false,
-            showEdges: true,
             showShadow: true,
             contents: contents
         });
@@ -821,7 +818,7 @@ Window_ContactCad = isc.Window.create({
                 ]
                 });
     //START PAGE ONE
-    factoryLableHedear("LablePage", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
+    factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
     factoryLable("lableNameContact", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
     factoryLable("lableArticle2", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
     factoryLable("lableImportantNote", '<b><font size=2px>IMPORTANT Note :</font><b>', "100%", '4%', 20);
@@ -3522,10 +3519,10 @@ var contactTabs = isc.TabSet.create({
     });
 
 
-var IButton_Contact_Save = isc.IButton.create({
+var IButton_Contact_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
-        icon: "[SKIN]/actions/add.png",
+        //icon: "[SKIN]/actions/add.png",
         click: function () {
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
@@ -3775,10 +3772,9 @@ var contactFormButtonSaveLayout = isc.HStack.create({
         width: "100%",
         height: "3%",
         align: "center",
-        showEdges: true,
-        backgroundColor: "#CCFFFF",
         membersMargin: 5,
         layoutMargin: 10,
+        showShadow: true,
         members: [
             IButton_Contact_Save
         ]
@@ -3980,7 +3976,6 @@ function saveValuelotListForADD(contractID) {
 
     var dataALLArticleMO = {};
     function saveValueAllArticlesMoOx(contractID) {
-        alert(valuesManagerfullArticle.getValue("fullArticle01"));
         dataALLArticleMO.Article01 = valuesManagerfullArticle.getValue("fullArticle01");
         dataALLArticleMO.Article02 = valuesManagerfullArticle.getValue("fullArticle02");
         dataALLArticleMO.Article03 = valuesManagerfullArticle.getValue("fullArticle03");

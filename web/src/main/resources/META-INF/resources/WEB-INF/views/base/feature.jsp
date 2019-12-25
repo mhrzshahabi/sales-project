@@ -204,14 +204,11 @@
                     if (index == 0) {
 
                         var featureId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${contextPath}/api/feature/" + featureId,
                                 httpMethod: "DELETE",
                                 serverOutputAsString: false,
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Feature.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");

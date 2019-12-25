@@ -20,7 +20,6 @@
                 {name: "unitId"},
                 {name: "unit.nameEN"},
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
@@ -254,8 +253,7 @@ var ListGrid_Cad = isc.ListGrid.create({
             ]
     });
 
-
-    var ToolStripButton_ContactCad_Add = isc.ToolStripButton.create({
+    var ToolStripButton_ContactCad_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -265,7 +263,7 @@ var ListGrid_Cad = isc.ListGrid.create({
         }
     });
 
-    var ToolStripButton_ContactCad_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_ContactCad_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -393,8 +391,8 @@ function Contract_Cathod_remove() {
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -449,14 +447,14 @@ function deleteFromContractShipment(id){
                             }))
 }
 
-    var ToolStripButton_ContactCad_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_ContactCad_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             Contract_Cathod_remove();
         }
     });
-    var ToolStripButton_ContactCad_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_ContactCad_Refresh = isc.ToolStripButtonRefresh.create({
                                 icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
@@ -465,8 +463,20 @@ function deleteFromContractShipment(id){
                             });
 
     var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
+            membersMargin: 5,
             members: [
-                ToolStripButton_ContactCad_Add,ToolStripButton_ContactCad_Edit,ToolStripButton_ContactCad_Refresh,ToolStripButton_ContactCad_Remove
+                ToolStripButton_ContactCad_Add,
+                ToolStripButton_ContactCad_Edit,
+                ToolStripButton_ContactCad_Remove,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_ContactCad_Refresh,
+                ]
+                })
+
             ]
         });
 

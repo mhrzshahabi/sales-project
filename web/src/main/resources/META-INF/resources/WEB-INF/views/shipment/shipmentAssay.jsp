@@ -19,7 +19,6 @@
                 {name: "averageAgPercent",title: "<spring:message code='shipment.Assay.averageAgPercent'/>",type: 'text'},
                 {name: "totalDryWeight", title: "<spring:message code='shipment.Assay.totalDryWeight'/>", type: 'text'},
             ],
- // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/shipmentAssayHeader/spec-list"
     });
     var MyRestDataSource_ShipmentAssayItem = isc.MyRestDataSource.create({
@@ -53,7 +52,6 @@
                     }]
                 },
             ],
- // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/shipmentAssayItem/spec-list"
     });
 
@@ -98,7 +96,6 @@
             },
             {name: "contactAccounts"}
         ],
- // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     //*******************************************************************************
@@ -781,10 +778,8 @@
 
             var data = DynamicForm_ShipmentAssayHeader.getValues();
 
- // ######@@@@###&&@@###
 var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
- // ######@@@@###&&@@### pls correct callback
 actionURL: "${contextPath}/api/shipmentAssayHeader/" ,
 httpMethod: methodXXXX,
                 data: JSON.stringify(data),
@@ -877,7 +872,6 @@ httpMethod: methodXXXX,
 actionURL: "${contextPath}/api/shipmentAssayHeader/" +  shipmentId,
 httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
- // ######@@@@###&&@@###
    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_ShipmentAssayHeader_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");

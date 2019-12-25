@@ -8,7 +8,7 @@
 
     var itemsDefinitionsCount = 0;
 
-    factoryLableHedear("LablePage", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
+    factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
     factoryLable("lableNameContact", '<b><font size=4px>COPPER CONCENTRATE CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
     factoryLableArticle("lableArticle1", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle2", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
@@ -570,6 +570,7 @@ var vlayoutBody = isc.VLayout.create({
                 keyPressFilter: "[0-9]", ///article2_number10
                 changed: function (form, item, value) {
                     article2.setValue("amount_en", numberToEnglish(value))
+                        dynamicForm_fullArticle02.setValue("fullArticle02",value);
                     }
             },
             {
@@ -592,6 +593,7 @@ var vlayoutBody = isc.VLayout.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}
                 ],changed: function (form, item, value) {
+                    dynamicForm_fullArticle02.setValue("fullArticle02",dynamicForm_fullArticle02.getValue("fullArticle02")+" "+article2.getItem("unitId").getDisplayValue(value));;
                 }
             },
             {
@@ -599,9 +601,13 @@ var vlayoutBody = isc.VLayout.create({
                 width: "80",
                 name: "cathodesTolorance",
                 title: "+/-",
-                defaultValue: "2",
+                defaultValue: "",
                 keyPressFilter: "[0-9]", //article2_13
                 changed: function (form, item, value) {
+                        dynamicForm_fullArticle02.clearValue("optional");
+                        dynamicForm_fullArticle02.clearValue("date");
+                       dynamicForm_fullArticle02.setValue("fullArticle02",dynamicForm_fullArticle02.getValue("fullArticle02")+" "+"+/-"+value);
+
                 }
             },
             {
@@ -615,6 +621,7 @@ var vlayoutBody = isc.VLayout.create({
                     "2": "BUYER"
                 },
                 changed: function (form, item, value) {
+                    dynamicForm_fullArticle02.setValue("fullArticle02",dynamicForm_fullArticle02.getValue("fullArticle02")+" "+"(IN"+" "+article2.getItem("optional").getDisplayValue(value)+" "+"OPTION) DURING");
                 }
             },
             {
@@ -640,7 +647,7 @@ var dynamicForm_fullArticle02 = isc.DynamicForm.create({
                 length: 6000,
                 showTitle: false,
                 colSpan: 2,
-                defaultValue: "",
+                defaultValue: "1,000 MT +/- 2% (SELLER’S OPTION).",
                 title: "fullArticle02",
                 width: "*"
             }

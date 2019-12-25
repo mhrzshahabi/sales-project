@@ -13,11 +13,11 @@
             height: height,
             styleName: "helloWorldText",
             padding: padding,
-            backgroundColor: "#84c1ed",
+            //backgroundColor: "#84c1ed",
             align: "center",
             valign: "center",
             wrap: false,
-            showEdges: true,
+            //showEdges: true,
             showShadow: true,
             contents: contents
         });
@@ -76,10 +76,10 @@ var contactCadTabs = isc.TabSet.create({
     });
 
 
-    isc.IButton.create({
+    isc.IButtonSave.create({
         ID: "IButton_ContactCad_Save",
         title: "save",
-        icon: "[SKIN]/actions/add.png",
+        //icon: "[SKIN]/actions/add.png",
         iconOrientation: "right",
         click: function () {
             contactCadHeader.validate();
@@ -309,7 +309,7 @@ var contactCadTabs = isc.TabSet.create({
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
                 httpMethod: methodHtpp,
-                data: JSON.stringify(dataSaveAndUpdateContractCad),
+                data: JSON.stringify(dataSaveAndUpdateContractCad),i
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         Window_ContactCad.close();
@@ -327,8 +327,8 @@ var contactCadTabs = isc.TabSet.create({
         width: "100%",
         height: "3%",
         align: "center",
-        showEdges: true,
-        backgroundColor: "#CCFFFF",
+       // showEdges: true,
+        //backgroundColor: "#CCFFFF",
         membersMargin: 5,
         layoutMargin: 10,
         members: [

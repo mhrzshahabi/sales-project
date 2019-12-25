@@ -14,11 +14,11 @@ function factoryLableHedear(id, contents, width, height, padding) {
             height: height,
             styleName: "helloWorldText",
             padding: padding,
-            backgroundColor: "#84c1ed",
+           // backgroundColor: "#84c1ed",
             align: "center",
             valign: "center",
             wrap: false,
-            showEdges: true,
+            //showEdges: true,
             showShadow: true,
             contents: contents
         });
@@ -327,8 +327,8 @@ var contactFormButtonSaveLayout = isc.HStack.create({
         width: "100%",
         height: "3%",
         align: "center",
-        showEdges: true,
-        backgroundColor: "#CCFFFF",
+        //showEdges: true,
+        //backgroundColor: "#CCFFFF",
         membersMargin: 5,
         layoutMargin: 10,
         members: [

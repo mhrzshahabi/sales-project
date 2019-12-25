@@ -20,7 +20,6 @@
                 {name: "treatCost", ID: "treatCost"},
                 {name: "material.descl", title: "materialId"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
 
@@ -32,7 +31,6 @@
                 {name: "nameFA", title: "<spring:message code='contact.nameFa'/> "},
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/> "}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
@@ -42,7 +40,6 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/incoterms/spec-list"
     });
 
@@ -55,7 +52,6 @@
                 {name: "unitId"},
                 {name: "unit.nameEN"},
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
@@ -69,7 +65,6 @@
                 {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
                 {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
@@ -1048,7 +1043,6 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 },
                 {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
 
@@ -1117,11 +1111,9 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     if (index == 0) {
                         var ContractShipmentId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                // ######@@@@###&&@@### pls correct callback
                                 actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    // ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_ContractShipment_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
@@ -1365,16 +1357,13 @@ var salesContractCADButtonMain = isc.IconButton.create({
             }
 
             var data = DynamicForm_ContractShipment.getValues();
-            // ######@@@@###&&@@###
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    // ######@@@@###&&@@### pls correct callback
                     actionURL: "${contextPath}/api/contractShipment/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        // ######@@@@###&&@@###
                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_ContractShipment_refresh();

@@ -20,7 +20,6 @@ var RestDataSource_Material = isc.MyRestDataSource.create({
                 {name: "unitId"},
                 {name: "unit.nameEN"},
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 

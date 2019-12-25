@@ -5,7 +5,7 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECONC_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -24,7 +24,7 @@
         fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
     });
 
-    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseYard_IN_WAREHOUSECONC_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -47,7 +47,7 @@
     });
 
 
-    var RestDataSource_tozin = isc.MyRestDataSource.create({
+    var RestDataSource_tozin_IN_WAREHOUSECONC_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -107,7 +107,7 @@
         autoFetchData: false,
         canRemoveRecords: true,
         autoSaveEdits: true,
-        dataSource: RestDataSource_WarehouseCadITEM,
+        dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECONC_ONWAYPRODUCT,
         showGridSummary: true,
         fields: [{
             name: "id",
@@ -202,7 +202,7 @@
             type: 'string',
             width: "100%",
             editorType: "SelectItem",
-            optionDataSource: RestDataSource_tozin,
+            optionDataSource: RestDataSource_tozin_IN_WAREHOUSECONC_ONWAYPRODUCT,
             optionCriteria: RestDataSource_Tozin_Other_optionCriteria,
             displayField: "tozinPlantId",
             valueField: "tozinPlantId",
@@ -243,7 +243,7 @@
             type: 'string',
             width: "100%",
             editorType: "SelectItem",
-            optionDataSource: RestDataSource_tozin,
+            optionDataSource: RestDataSource_tozin_IN_WAREHOUSECONC_ONWAYPRODUCT,
             optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
             displayField: "tozinPlantId",
             valueField: "tozinPlantId",
@@ -277,7 +277,7 @@
             title: "<spring:message code='warehouseCad.yard'/>",
             type: 'string',
             editorType: "SelectItem",
-            optionDataSource: RestDataSource_WarehouseYard,
+            optionDataSource: RestDataSource_WarehouseYard_IN_WAREHOUSECONC_ONWAYPRODUCT,
             displayField: "nameFA",
             valueField: "id",
             pickListWidth: "215",

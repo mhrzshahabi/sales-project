@@ -21,9 +21,9 @@
         }, {
             name: "warehouseYardId"
         }, {
-            name: "warehouseYardnameFA", dataPath:"warehouseYard.nameFA"  ,
+            name: "warehouseYardnameFA", dataPath: "warehouseYard.nameFA",
             title: "<spring:message code='warehouseCad.yard'/>",
-            sortNormalizer: function(recordObject) {
+            sortNormalizer: function (recordObject) {
                 return recordObject.warehouseYard.nameFA
             }
         }, {
@@ -42,12 +42,11 @@
             name: "lot",
             title: "<spring:message code='warehouseStock.lot'/>"
         }, {
-            name: "materialItemgdsName", dataPath:"materialItem.gdsName"  ,
+            name: "materialItemgdsName", dataPath: "materialItem.gdsName",
             title: "<spring:message code='material.descp'/>"
         }],
         fetchDataURL: "${contextPath}/api/warehouseStock/spec-list"
     });
-
 
 
     function ListGrid_WarehouseStock_refresh() {
@@ -73,36 +72,36 @@
         }
     }
 
-var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
-    width: "200",
-    wrapItemTitles: false,
-    height: "100%",
-    setMethod: 'POST',
-    align: "center",
-    action: "report/printDailyReportBandarAbbas",
-    target: "_Blank",
-    canSubmit: true,
-    showInlineErrors: true,
-    showErrorText: true,
-    showErrorStyle: true,
-    errorOrientation: "right",
-    titleWidth: "200",
-    titleAlign: "right",
-    requiredMessage: "<spring:message code='validator.field.is.required'/>",
-    numCols: 4,
-    fields: [{
-        name: "toDay",
-        ID: "toDayDate",
-        title: "",
-        type: 'date',
+    var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
+        width: "200",
+        wrapItemTitles: false,
+        height: "100%",
+        setMethod: 'POST',
         align: "center",
-        width: 150,
-        colSpan: 1,
-        titleColSpan: 1,
-        format: 'YYYY/MM/DD',
-        defaultValue: "2019/12/01",
-    }, ]
-});
+        action: "report/printDailyReportBandarAbbas",
+        target: "_Blank",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "200",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 4,
+        fields: [{
+            name: "toDay",
+            ID: "toDayDate",
+            title: "",
+            type: 'date',
+            align: "center",
+            width: 150,
+            colSpan: 1,
+            titleColSpan: 1,
+            format: 'YYYY/MM/DD',
+            defaultValue: "2019/12/01",
+        },]
+    });
     var Menu_ListGrid_WarehouseStock = isc.Menu.create({
         width: 150,
         data: [
@@ -118,7 +117,7 @@ var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
                     ListGrid_WarehouseStock_edit();
                 }
             },
-             {isSeparator: true},
+            {isSeparator: true},
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
@@ -147,60 +146,60 @@ var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
     });
 
 
-var DynamicForm_WarehouseStock = isc.DynamicForm.create({
-    width: 650,
-    height: "100%",
-    setMethod: 'POST',
-    align: "center",
-    canSubmit: true,
-    showInlineErrors: true,
-    showErrorText: true,
-    showErrorStyle: true,
-    errorOrientation: "right",
-    titleWidth: "100",
-    titleAlign: "right",
-    requiredMessage: "<spring:message code='validator.field.is.required'/>",
-    numCols: 2,
-    fields: [{
-        type: "RowSpacerItem"
-    }, {
-        name: "id",
-        title: "id",
-        primaryKey: true,
-        canEdit: false,
-        hidden: true
-    }, {
-        name: "warehouseNo",
-        title: "<spring:message code='warehouseCad.warehouseNo'/>"
-    }, {
-        name: "plant",
-        title: "<spring:message code='warehouseCad.plant'/>"
-    }, {
-        name: "warehouseYardId",
-        hidden: true
-    }, {
-        name: "warehouseYardnameFA", dataPath:"warehouseYard.nameFA"  ,
-        title: "<spring:message code='warehouseCad.yard'/>"
-    }, {
-        name: "sheet",
-        title: "<spring:message code='warehouseCadItem.sheetNo'/>"
-    }, {
-        name: "bundle",
-        title: "<spring:message code='warehouseStock.bundle'/>"
-    }, {
-        name: "amount",
-        title: "<spring:message code='warehouseCadItem.weightKg'/>"
-    }, {
-        name: "barrel",
-        title: "<spring:message code='warehouseCadItem.barrelNo'/>"
-    }, {
-        name: "lot",
-        title: "<spring:message code='warehouseStock.lot'/>"
-    }, {
-        name: "materialItemgdsName", dataPath:"materialItem.gdsName"  ,
-        title: "<spring:message code='material.descp'/>"
-    }]
-});
+    var DynamicForm_WarehouseStock = isc.DynamicForm.create({
+        width: 650,
+        height: "100%",
+        setMethod: 'POST',
+        align: "center",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "100",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 2,
+        fields: [{
+            type: "RowSpacerItem"
+        }, {
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "warehouseNo",
+            title: "<spring:message code='warehouseCad.warehouseNo'/>"
+        }, {
+            name: "plant",
+            title: "<spring:message code='warehouseCad.plant'/>"
+        }, {
+            name: "warehouseYardId",
+            hidden: true
+        }, {
+            name: "warehouseYardnameFA", dataPath: "warehouseYard.nameFA",
+            title: "<spring:message code='warehouseCad.yard'/>"
+        }, {
+            name: "sheet",
+            title: "<spring:message code='warehouseCadItem.sheetNo'/>"
+        }, {
+            name: "bundle",
+            title: "<spring:message code='warehouseStock.bundle'/>"
+        }, {
+            name: "amount",
+            title: "<spring:message code='warehouseCadItem.weightKg'/>"
+        }, {
+            name: "barrel",
+            title: "<spring:message code='warehouseCadItem.barrelNo'/>"
+        }, {
+            name: "lot",
+            title: "<spring:message code='warehouseStock.lot'/>"
+        }, {
+            name: "materialItemgdsName", dataPath: "materialItem.gdsName",
+            title: "<spring:message code='material.descp'/>"
+        }]
+    });
 
 
     var ToolStripButton_WarehouseStock_Refresh = isc.ToolStripButtonRefresh.create({
@@ -211,16 +210,16 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         }
     });
 
-<%--/*--%>
+    <%--/*--%>
     <%--var ToolStripButton_WarehouseStock_Add = isc.ToolStripButton.create({--%>
-        <%--icon: "[SKIN]/actions/add.png",--%>
-        <%--title: "<spring:message code='global.form.new'/>",--%>
-        <%--click: function () {--%>
-            <%--DynamicForm_WarehouseStock.clearValues();--%>
-            <%--Window_WarehouseStock.show();--%>
-        <%--}--%>
+    <%--icon: "[SKIN]/actions/add.png",--%>
+    <%--title: "<spring:message code='global.form.new'/>",--%>
+    <%--click: function () {--%>
+    <%--DynamicForm_WarehouseStock.clearValues();--%>
+    <%--Window_WarehouseStock.show();--%>
+    <%--}--%>
     <%--});--%>
-<%--*/--%>
+    <%--*/--%>
 
     var ToolStripButton_WarehouseStock_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
@@ -231,35 +230,35 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         }
     });
 
-   var ToolStripButton_WarehouseStock_Print = isc.ToolStripButtonPrint.create({
-         //icon: "[SKIN]/actions/print.png",
-         title: "<spring:message code='WarehouseStock.Reportoncommitmentsleadingupto'/>",
-        click:function()
-        {
+    var ToolStripButton_WarehouseStock_Print = isc.ToolStripButtonPrint.create({
+        //icon: "[SKIN]/actions/print.png",
+        title: "<spring:message code='WarehouseStock.Reportoncommitmentsleadingupto'/>",
+        click: function () {
 
             var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-        console.log(datestringRs);
-                     var toDay = datestringRs.replaceAll("/", "");
-        console.log(toDay);
-                    "<spring:url value="/warehouseStock/print-commitment" var="printUrl"/>"  /*Bug*/
-                    window.open('${printUrl}' + '/' + toDay);
+            console.log(datestringRs);
+            var toDay = datestringRs.replaceAll("/", "");
+            console.log(toDay);
+            "<spring:url value="/warehouseStock/print-commitment" var="printUrl"/>"
+            /*Bug*/
+            window.open('${printUrl}' + '/' + toDay);
         }
     });
 
-   var ToolStripButton_WarehouseStock_export_Print = isc.ToolStripButtonPrint.create({
-         //icon: "[SKIN]/actions/print.png",
-         title: "<spring:message code='WarehouseStock.ReportExport'/>",
-        click:function()
-        {
+    var ToolStripButton_WarehouseStock_export_Print = isc.ToolStripButtonPrint.create({
+        //icon: "[SKIN]/actions/print.png",
+        title: "<spring:message code='WarehouseStock.ReportExport'/>",
+        click: function () {
 
             var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-        console.log(datestringRs);
-                     var toDay = datestringRs.replaceAll("/", "");
-        console.log(toDay);
-                    "<spring:url value="/warehouseStock/print-export" var="printUrl"/>" /*Bug*/
-                    window.open('${printUrl}' + '/' + toDay);
+            console.log(datestringRs);
+            var toDay = datestringRs.replaceAll("/", "");
+            console.log(toDay);
+            "<spring:url value="/warehouseStock/print-export" var="printUrl"/>"
+            /*Bug*/
+            window.open('${printUrl}' + '/' + toDay);
         }
     });
 
@@ -305,7 +304,7 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
     });
 
 
-        var ListGrid_WarehouseStock = isc.ListGrid.create({
+    var ListGrid_WarehouseStock = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_WAREHOUSE_STOCK__BANK,
@@ -321,7 +320,7 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         }, {
             name: "plant"
         }, {
-            name: "warehouseYardnameFA" , dataPath:"warehouseYard.nameFA"  ,
+            name: "warehouseYardnameFA", dataPath: "warehouseYard.nameFA",
         }, {
             name: "sheet"
         }, {
@@ -333,17 +332,18 @@ var DynamicForm_WarehouseStock = isc.DynamicForm.create({
         }, {
             name: "lot"
         }, {
-            name: "materialItemgdsName" , dataPath:"materialItem.gdsName"  ,
+            name: "materialItemgdsName", dataPath: "materialItem.gdsName",
         }],
         sortField: 0,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {},
-        dataArrived: function(startRow, endRow) {}
+        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+        },
+        dataArrived: function (startRow, endRow) {
+        }
     });
-
 
 
     var HLayout_WarehouseStock_Grid = isc.HLayout.create({

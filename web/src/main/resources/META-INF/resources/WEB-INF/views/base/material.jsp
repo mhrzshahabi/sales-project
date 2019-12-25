@@ -648,13 +648,10 @@
                     this.hide();
                     if (index == 0) {
                         var MaterialFeatureId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${contextPath}/api/materialFeature/" + MaterialFeatureId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_MaterialFeature_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -1316,13 +1313,10 @@ var VLayout_MaterialFeature_Body = isc.VLayout.create({
                     this.hide();
                     if (index == 0) {
                         var MaterialItemId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${contextPath}/api/materialItem/" + MaterialItemId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_MaterialItem_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
