@@ -35,7 +35,7 @@ public class ContractFormController {
         String docName = contractService.printContract(id);
         docName = docName + ".doc";
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
-        String filePath = UPLOAD_FILE_DIR + File.separator + "contract" + File.separator + docName + ".doc";
+        String filePath = UPLOAD_FILE_DIR + File.separator + "contract" + File.separator + docName;
         File downloadFile = new File(filePath);
         FileInputStream inputStream = new FileInputStream(downloadFile);
 
