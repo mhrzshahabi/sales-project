@@ -3976,7 +3976,6 @@ function saveValuelotListForADD(contractID) {
 
     var dataALLArticleMO = {};
     function saveValueAllArticlesMoOx(contractID) {
-        alert(valuesManagerfullArticle.getValue("fullArticle01"));
         dataALLArticleMO.Article01 = valuesManagerfullArticle.getValue("fullArticle01");
         dataALLArticleMO.Article02 = valuesManagerfullArticle.getValue("fullArticle02");
         dataALLArticleMO.Article03 = valuesManagerfullArticle.getValue("fullArticle03");

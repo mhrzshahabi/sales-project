@@ -309,7 +309,7 @@ var contactCadTabs = isc.TabSet.create({
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
                 httpMethod: methodHtpp,
-                data: JSON.stringify(dataSaveAndUpdateContractCad),
+                data: JSON.stringify(dataSaveAndUpdateContractCad),i
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         Window_ContactCad.close();
