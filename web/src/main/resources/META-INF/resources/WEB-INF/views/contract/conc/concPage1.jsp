@@ -8,7 +8,7 @@
 
     var itemsDefinitionsCount = 0;
 
-    factoryLableHedear("LablePage", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
+    factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
     factoryLable("lableNameContact", '<b><font size=4px>COPPER CONCENTRATE CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
     factoryLableArticle("lableArticle1", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle2", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);

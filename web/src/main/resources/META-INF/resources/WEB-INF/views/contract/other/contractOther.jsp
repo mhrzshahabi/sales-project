@@ -176,7 +176,7 @@
 
     });
 
-    var ToolStripButton_Contract_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -184,7 +184,7 @@
         }
     });
 
-    var ToolStripButton_Contract_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -193,7 +193,7 @@
         }
     });
 
-    var ToolStripButton_Contract_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Contract_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -204,11 +204,19 @@
 
 var ToolStrip_Actions_ContractOther = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members:
             [
-                ToolStripButton_Contract_Refresh,
                 ToolStripButton_Contract_Add,
-                ToolStripButton_Contract_Edit
+                ToolStripButton_Contract_Edit,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Contract_Refresh,
+                ]
+                })
             ]
     });
 
@@ -227,13 +235,13 @@ var DynamicForm_ContractOther = isc.DynamicForm.create({
         wrapTitle: false,
         requiredMessage: "<spring:message code='validator.field.is.required'/>.",
         numCols: 4,
-        backgroundImage: "backgrounds/leaves.jpg",
+       // backgroundImage: "backgrounds/leaves.jpg",
         titleWidth: "120",
         titleAlign: "right",
         fields:
             [
                 {name: "id", hidden: true,},
-                {type: "Header", defaultValue: ""},
+      /*          {type: "Header", defaultValue: ""},*/
                 {
                     name: "contractNo",
                     colSpan: 1,
@@ -300,10 +308,10 @@ var DynamicForm_ContractOther = isc.DynamicForm.create({
                     required: false,
                     width: "100%"
                 },
-                {
+        /*        {
                     type: "Header",
                     defaultValue: "------------------<spring:message code="contractItem.material"/>----------------------------------------------------------------"
-                },
+                },*/
                 {
                     name: "incotermsId",
                     colSpan: 3,
@@ -324,10 +332,10 @@ var DynamicForm_ContractOther = isc.DynamicForm.create({
                         {name: "code", width: 440, align: "center"}
                     ]
                 },
-                {
+         /*       {
                     type: "Header",
                     defaultValue: "------------------<spring:message code="contract.incoterms"/>--------------------------------------------------------------"
-                },
+                },*/
                 {
                     name: "materialId",
                     colSpan: 3,
@@ -383,10 +391,10 @@ var DynamicForm_ContractOther = isc.DynamicForm.create({
                         {name: "nameEN", width: 440, align: "center"}
                     ]
                 },
-                {
+/*                {
                     type: "Header",
                     defaultValue: "------------------<spring:message code="MaterialFeature.parameter"/>--------------------------------------------------------------"
-                },
+                },*/
                 {
                     name: "copper",
                     title: "<spring:message code='contract.copper'/>",
@@ -499,10 +507,10 @@ var DynamicForm_ContractOther = isc.DynamicForm.create({
                     }],
                     hidden: true
                 },
-                {
+/*                {
                     type: "Header",
                     defaultValue: "------------------<spring:message code="contract.payment"/>---------------------------------------------------------------"
-                },
+                },*/
                 {
                     name: "premium",
                     title: "<spring:message code='contract.premium'/>",
@@ -575,10 +583,10 @@ var DynamicForm_ContractOther = isc.DynamicForm.create({
                     defaultValue: "DOLLAR", valueMap: {"EURO": "EURO", "DOLLAR": "DOLLAR"},
                     width: "100%"
                 },
-                {
+   /*             {
                     type: "Header",
                     defaultValue: "------------------<spring:message code="contract.timeIssuance"/>----------------------------------------------------------------"
-                },
+                },*/
                 {
                     name: "runStartDateDumy",
                     title: "<spring:message code='contract.runStartDate'/>",
@@ -701,8 +709,8 @@ var contactOtherFormButtonSaveLayout = isc.HStack.create({
         width: "100%",
         height: "2%",
         align: "center",
-        showEdges: true,
-        backgroundColor: "#CCFFFF",
+        //showEdges: true,
+       // backgroundColor: "#CCFFFF",
         membersMargin: 5,
         layoutMargin: 5,
         members: [
