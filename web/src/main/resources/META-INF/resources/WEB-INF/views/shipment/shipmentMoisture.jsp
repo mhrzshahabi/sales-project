@@ -676,7 +676,6 @@ var criteria1Inspector = {
 
         var data = DynamicForm_ShipmentMoistureHeader.getValues();
 
- // ######@@@@###&&@@###
 var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -1015,7 +1014,6 @@ var Menu_ListGrid_ShipmentMoistureItem = isc.Menu.create({
 
         var data = DynamicForm_ShipmentMoistureItem.getValues();
 
- // ######@@@@###&&@@###
 var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 
 

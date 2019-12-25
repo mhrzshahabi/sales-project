@@ -201,15 +201,11 @@
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
-
                         var unitId = record.id;
-
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${contextPath}/api/unit/" + unitId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Unit.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
@@ -330,7 +326,6 @@
             name: "decimalDigit",
             title: "<spring:message code='rate.decimalDigit'/>"
         }],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 

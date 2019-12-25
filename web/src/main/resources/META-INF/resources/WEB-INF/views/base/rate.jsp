@@ -294,7 +294,6 @@
             {name: "symbol", title: "<spring:message code='rate.symbol'/>"},
             {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
         ],
-// ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/rate/spec-list"
     });
 

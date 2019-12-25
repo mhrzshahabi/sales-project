@@ -26,7 +26,6 @@
                 {name: "treatCost", ID: "treatCost"},
                 {name: "material.descl", title: "materialId"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
 
@@ -48,7 +47,6 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/incoterms/spec-list"
     });
 
@@ -75,7 +73,6 @@
                 {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
                 {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 

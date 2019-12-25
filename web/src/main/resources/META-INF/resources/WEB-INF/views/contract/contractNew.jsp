@@ -180,7 +180,6 @@ var DynamicForm_ContactParameter_ValueNumber8;
                 {name: "refinaryCost", ID: "refinaryCost"},
                 {name: "treatCost", ID: "treatCost"},
                 ],
-                // ######@@@@###&&@@###
                 fetchDataURL: "${contextPath}/api/contract/spec-list"
             });
             var ListGrid_Tozin = isc.ListGrid.create({

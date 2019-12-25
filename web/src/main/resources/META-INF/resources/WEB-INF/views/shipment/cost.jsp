@@ -1,13 +1,9 @@
-<%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
 
-    <% DateUtil dateUtil = new DateUtil();%>
-
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
-
 
     var RestDataSource_Shipment_CostHeader = isc.MyRestDataSource.create({
         fields: [
@@ -65,12 +61,12 @@
         membersMargin: 5,
         members: [
             isc.ToolStrip.create({
-            width: "100%",
-            align: "left",
-            border: '0px',
-            members: [
-                ToolStripButton_Shipment_CostHeader_Refresh
-              ]
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Shipment_CostHeader_Refresh
+                ]
             })
 
         ]
@@ -1006,12 +1002,12 @@
                 ToolStripButton_Cost_Edit,
                 ToolStripButton_Cost_Remove,
                 isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Cost_Refresh,
-                ]
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_Cost_Refresh,
+                    ]
                 })
 
             ]
