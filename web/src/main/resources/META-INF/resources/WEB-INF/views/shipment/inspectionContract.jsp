@@ -792,7 +792,17 @@ function ListGrid_InspectionContract_remove() {
 	}
 };
 
+function check_Insp_Print() {
+			var record = ListGrid_InspectionContract.getSelectedRecord();
 
+			if(record===null)
+			{
+				isc.say("<spring:message code='global.grid.print.inspection'/>");
+			}else{
+				"<spring:url value="/inspectionContract/print/" var="printUrl"/>";
+				 window.open('${printUrl}'+record.id);
+			}
+}
 
 var Menu_ListGrid_InspectionContract = isc.Menu.create({
     width:150,
@@ -823,11 +833,11 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
             }
         },
             {
-                title: "<spring:message code='global.form.print.inspection'/>", icon: "icon/word.png", click: function () {
-                    var record = ListGrid_InspectionContract.getSelectedRecord();
-                    "<spring:url value="/inspectionContract/print/" var="printUrl"/>";
-                    window.open('${printUrl}'+record.id);
-                }
+            		title:"<spring:message code='global.form.print.inspection'/>",
+					click:function()
+					{
+						check_Insp_Print();
+					}
             }
     ]
 });
