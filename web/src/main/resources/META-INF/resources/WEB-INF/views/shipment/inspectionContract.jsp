@@ -100,7 +100,6 @@ var RestDataSource_Inspection = isc.MyRestDataSource.create({
 		},
 		{
 			name: "contract.contractNo",
-
 			type: 'text',
 			width: 180
 		},
@@ -533,7 +532,7 @@ var RestDataSource_Inspection = isc.MyRestDataSource.create({
         	}]
         };
 
-ListGrid_Inspection.fetchData(criteria1, function(dsResponse, data, dsRequest) {
+	ListGrid_Inspection.fetchData(criteria1, function(dsResponse, data, dsRequest) {
 	ListGrid_Inspection.setData(data);
 });
 
@@ -807,13 +806,13 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
         },
         {title:"<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
             click: function() {
-        	DynamicForm_InspectionContract.clearValues();
+        		DynamicForm_InspectionContract.clearValues();
                 Window_InspectionContract.show();
             }
         },
         {title:"<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
             click: function(){
-DynamicForm_InspectionContract.clearValues();
+				DynamicForm_InspectionContract.clearValues();
                 ListGrid_InspectionContract_edit();
             }
         },
@@ -823,7 +822,6 @@ DynamicForm_InspectionContract.clearValues();
             }
         },
             {
-
                 title: "<spring:message code='global.form.print.inspection'/>", icon: "icon/word.png", click: function () {
                     var record = ListGrid_InspectionContract.getSelectedRecord();
                     "<spring:url value="/inspectionContract/print/" var="printUrl"/>";
@@ -1015,8 +1013,6 @@ DynamicForm_InspectionContract.clearValues();
 			width:"650",
 
  		},
-
-
  		{
  			name: "emailType",
  			title: "<spring:message code='shipment.emailType'/>",
@@ -1079,7 +1075,6 @@ DynamicForm_InspectionContract.clearValues();
  		},
 
  		{
-
  			type: "date",
  			format: 'DD-MM-YYYY',
  			width: "650" ,

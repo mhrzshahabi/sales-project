@@ -336,6 +336,7 @@
 
     var dash = "\n";
 
+
     var DynamicForm_ShipmentContract = isc.DynamicForm.create({
         styleName: 'Shipment_style',
         width: "900px",
@@ -362,7 +363,7 @@
             primaryKey: true,
             canEdit: false,
             hidden: true
-        },
+            },
             {
                 name: "no",
                 title: "<spring:message code='shipmentContract.no'/>", //شماره
