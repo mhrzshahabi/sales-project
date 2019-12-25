@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +44,7 @@ public class DCCFormController {
     }
 
     @GetMapping(value = "/downloadFile")
-    public void downloadFile(@RequestParam String table, @RequestParam String file, HttpServletRequest request, HttpServletResponse response) {
-        try {
+    public void downloadFile(@RequestParam String table, @RequestParam String file, HttpServletRequest request, HttpServletResponse response) throws IOException {
             String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
             String filePath = UPLOAD_FILE_DIR + File.separator + table + File.separator + file;
             File downloadFile = new File(filePath);
@@ -70,8 +70,5 @@ public class DCCFormController {
             outputStream.flush();
             inputStream.close();
             fileUtil.download(file, response);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
     }
 }

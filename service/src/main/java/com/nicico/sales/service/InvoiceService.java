@@ -89,7 +89,6 @@ public class InvoiceService implements IInvoiceService {
 		final Invoice invoice=invoiceDAO.findById(id)
 				.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
 		ResponseEntity<String> processId = restTemplate.postForEntity(accountingAppUrl + "/rest/workflow/startSalesProcess", data, String.class);
-		System.out.println("#### forObject = " + processId.getBody().toString());
 		invoice.setProcessId(processId.getBody().toString());
 		return save(invoice);
 
