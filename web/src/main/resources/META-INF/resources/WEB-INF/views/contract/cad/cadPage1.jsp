@@ -6,16 +6,16 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
 
-    factoryLableHedear("LablePage", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
-    factoryLable("lableNameContact", '<b><font size=4px>COPPER CATHODES CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
-    factoryLableArticle("lableArticle1", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
-    factoryLableArticle("lableArticle2", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
+    factoryLableHedear("LablePageCad", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
+    factoryLable("lableNameContactCad", '<b><font size=4px>COPPER CATHODES CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
+    factoryLableArticle("lableArticle1Cad", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
+    factoryLableArticle("lableArticle2Cad", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
     factoryLableArticle("lableArticleSelectConc", '<b><font size=4px>SELECT ITEMS</font><b>', "25",5);
 
-    var dynamicForm1 = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm2 = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm3 = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm4 = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm1Cad = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm2Cad = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm3Cad = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm4Cad = isc.HLayout.create({align: "center", members: []});
 
     var dynamicForm_ContactCadHeader = isc.DynamicForm.create({
         valuesManager: "contactCadHeader",
@@ -103,7 +103,7 @@
             }
         ]
     })
-    dynamicForm1.addMember("Contact_ContactCadBuyer", 1);
+    dynamicForm1Cad.addMember("Contact_ContactCadBuyer", 1);
     var Contact_ContactCadAgentBuyer = isc.DynamicForm.create({
         valuesManager: "contactCadHeaderCadAgent",
         height: "20",
@@ -148,7 +148,7 @@
             }
         ]
     })
-    dynamicForm2.addMember("Contact_ContactCadAgentBuyer", 2);
+    dynamicForm2Cad.addMember("Contact_ContactCadAgentBuyer", 2);
     var Contact_ContactCadSeller = isc.DynamicForm.create({
         valuesManager: "contactCadHeaderCadAgent",
         height: "20",
@@ -193,8 +193,8 @@
             }
         ]
     })
-    dynamicForm3.addMember("Contact_ContactCadSeller", 3);
-    var Contact_ContactAgentSeller = isc.DynamicForm.create({
+    dynamicForm3Cad.addMember("Contact_ContactCadSeller", 3);
+    var Contact_ContactAgentSellerCad = isc.DynamicForm.create({
         valuesManager: "contactCadHeaderCadAgent",
         height: "20",
         width: "50%",
@@ -238,7 +238,7 @@
             }
         ]
     })
-    dynamicForm4.addMember("Contact_ContactAgentSeller", 4);
+    dynamicForm4Cad.addMember("Contact_ContactAgentSellerCad", 4);
 
     var dynamicForm_ContactCadCustomer = isc.DynamicForm.create({
         setMethod: 'POST',
@@ -435,26 +435,26 @@
                     var mobile = "";
                     if (item.getSelectedRecord().address != undefined) {
                         address = item.getSelectedRecord().address;
-                        Contact_ContactAgentSeller.setValue("address_ContactAgentSeller", address);
+                        Contact_ContactAgentSellerCad.setValue("address_ContactAgentSeller", address);
                     }
                     if (item.getSelectedRecord().nameEN != undefined) {
                         name = item.getSelectedRecord().nameEN;
-                        Contact_ContactAgentSeller.setValue("name_ContactAgentSeller", name);
+                        Contact_ContactAgentSellerCad.setValue("name_ContactAgentSeller", name);
                     }
                     if (item.getSelectedRecord().phone != undefined) {
                         phone = item.getSelectedRecord().phone;
-                        Contact_ContactAgentSeller.setValue("phone_ContactAgentSeller", phone);
+                        Contact_ContactAgentSellerCad.setValue("phone_ContactAgentSeller", phone);
                     }
                     if (item.getSelectedRecord().mobile != undefined) {
                         mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactAgentSeller.setValue("mobile_ContactAgentSeller", mobile);
+                        Contact_ContactAgentSellerCad.setValue("mobile_ContactAgentSeller", mobile);
                     }
                 }
             }
         ]
     });
 
-var DynamicForm_ContactParameter_ValueNumber8=isc.DynamicForm.create({
+var DynamicForm_ContactParameter_ValueNumber8Cad=isc.DynamicForm.create({
         valuesManager: "valuesManagerCadArticle1",
         height: "20",
         width: "100%",
@@ -485,19 +485,19 @@ var DynamicForm_ContactParameter_ValueNumber8=isc.DynamicForm.create({
                 height: "30",
                 title: "NAME",
                 changed: function (form, item, value) {
-                    DynamicForm_ContactParameter_ValueNumber8.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue);
-                    dynamicFormCad_fullArticle01.setValue("fullArticle01",dynamicFormCad_fullArticle01.getValue("fullArticle01")+"\n"+"-"+DynamicForm_ContactParameter_ValueNumber8.getValue("definitionsOne"))
-                    DynamicForm_ContactParameter_ValueNumber8.clearValue("definitionsOne");
+                    DynamicForm_ContactParameter_ValueNumber8Cad.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue);
+                    dynamicFormCad_fullArticle01.setValue("fullArticle01",dynamicFormCad_fullArticle01.getValue("fullArticle01")+"\n"+"-"+DynamicForm_ContactParameter_ValueNumber8Cad.getValue("definitionsOne"))
+                    DynamicForm_ContactParameter_ValueNumber8Cad.clearValue("definitionsOne");
                     }
             }
         ]
     })
 
 
-var VLayout_ContactParameter_ValueNumber8 = isc.VLayout.create({
+var VLayout_ContactParameter_ValueNumber8Cad = isc.VLayout.create({
         width: "100%",
         height: "1",
-        members: [DynamicForm_ContactParameter_ValueNumber8]
+        members: [DynamicForm_ContactParameter_ValueNumber8Cad]
     })
 
 var dynamicFormCad_fullArticle01 = isc.DynamicForm.create({
@@ -525,13 +525,13 @@ var dynamicFormCad_fullArticle01 = isc.DynamicForm.create({
         ]
     })
 
-var vlayoutBody = isc.VLayout.create({
+var vlayoutBodyCad = isc.VLayout.create({
         width: "100%",
         height: "5",
         styleName: "box-shaddow",
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadHeader]}),
-            isc.HLayout.create({height: "50", align: "left", members: [lableNameContact]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableNameContactCad]}),
             isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormCath",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
@@ -553,13 +553,13 @@ var vlayoutBody = isc.VLayout.create({
                     }]})
             ]}),
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadCustomer]}),
-            isc.HLayout.create({ID: "dynamicForm1And2", align: "center", members: [dynamicForm1, dynamicForm2]}),
+            isc.HLayout.create({ID: "dynamicForm1And2Cad", align: "center", members: [dynamicForm1Cad, dynamicForm2Cad]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
-            isc.HLayout.create({ID: "dynamicForm3And4", align: "center", members: [dynamicForm3, dynamicForm4]})
+            isc.HLayout.create({ID: "dynamicForm3And4Cad", align: "center", members: [dynamicForm3Cad, dynamicForm4Cad]})
         ]
     });
 
- var article2 = isc.DynamicForm.create({
+ var article2Cad = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle2Cad",
         height: "50%",
         numCols: 14,
@@ -574,7 +574,7 @@ var vlayoutBody = isc.VLayout.create({
                 showTitle: false,
                 keyPressFilter: "[0-9]", ///article2_number10
                 changed: function (form, item, value) {
-                    article2.setValue("amount_en", numberToEnglish(value))
+                    article2Cad.setValue("amount_en", numberToEnglish(value))
                     }
             },
             {
@@ -647,19 +647,19 @@ var dynamicForm_fullArticle02Cad = isc.DynamicForm.create({
     })
 
 isc.VLayout.create({
-        ID: "VLayout_PageOne_Contract",
+        ID: "VLayout_PageOne_ContractCathod",
         width: "100%",
         height: "100%",
         align: "top",
         overflow: "scroll",
         members: [
-            LablePage,
-            vlayoutBody,
-            lableArticle1,
-            isc.HLayout.create({align: "left", members: [lableArticleSelectConc,VLayout_ContactParameter_ValueNumber8]}),
+            LablePageCad,
+            vlayoutBodyCad,
+            lableArticle1Cad,
+            isc.HLayout.create({align: "left", members: [lableArticleSelectConc,VLayout_ContactParameter_ValueNumber8Cad]}),
             dynamicFormCad_fullArticle01,
-            lableArticle2,
-            isc.HLayout.create({align: "left", members: [article2]}),
+            lableArticle2Cad,
+            isc.HLayout.create({align: "left", members: [article2Cad]}),
             dynamicForm_fullArticle02Cad
         ]
     });

@@ -6,11 +6,9 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
  var contractIdEdit;
- var Window_ContactCad;
+ var Window_ContactMo;
  var VLayout_contactMoOxMain;
- var itemsDefinitionsCount = 0;
  var imanageNote = 0;
- var varOptional=0;
  var methodUrl="POST";
  var lotList;
  var ListGrid_ContractItemShipment;
@@ -800,7 +798,7 @@ function pageMolibdenAll(method){
         }else{
         methodUrl="PUT";
         }
-Window_ContactCad = isc.Window.create({
+Window_ContactMo = isc.Window.create({
                 title: "<spring:message code='salesContractMoButton.title'/>",
                 width: "100%",
                 height: "100%",
@@ -819,16 +817,16 @@ Window_ContactCad = isc.Window.create({
                 });
     //START PAGE ONE
     factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
-    factoryLable("lableNameContact", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
-    factoryLable("lableArticle2", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
+    factoryLable("lableNameContactMo", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
+    factoryLable("lableArticle2Mo", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
     factoryLable("lableImportantNote", '<b><font size=2px>IMPORTANT Note :</font><b>', "100%", '4%', 20);
-    factoryLableArticle("lableArticle1", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
-    factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUANTITY</font><b>', "30", 5)
-    factoryLableArticle("lableArticle6", '<b><font size=4px>ARTICLE 6 -</font><b>', "30", 5)
-    factoryLableArticle("lableArticle7", '<b><font size=4px>ARTICLE 7 -</font><b>', '30', 5);
-    factoryLableArticle("lableArticle8", '<b><font size=4px>ARTICLE 8 -</font><b>', '30', 5);
-    factoryLableArticle("lableArticle9", '<b><font size=4px>ARTICLE 9 -</font><b>', '30', 5);
-    factoryLableArticle("lableArticle10", '<b><font size=4px>ARTICLE 10  - CURRENCY OPTION:</font><b>', '30', 5);
+    factoryLableArticle("lableArticle1Mo", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
+    factoryLableArticle("lableArticle3MO", '<b><font size=4px>Article 3 -QUANTITY</font><b>', "30", 5)
+    factoryLableArticle("lableArticle6Mo", '<b><font size=4px>ARTICLE 6 -</font><b>', "30", 5)
+    factoryLableArticle("lableArticle7Mo", '<b><font size=4px>ARTICLE 7 -</font><b>', '30', 5);
+    factoryLableArticle("lableArticle8Mo", '<b><font size=4px>ARTICLE 8 -</font><b>', '30', 5);
+    factoryLableArticle("lableArticle9Mo", '<b><font size=4px>ARTICLE 9 -</font><b>', '30', 5);
+    factoryLableArticle("lableArticle10Mo", '<b><font size=4px>ARTICLE 10  - CURRENCY OPTION:</font><b>', '30', 5);
     factoryLableArticle("lableContainerized", '<b><font size=4px>CONTAINERIZED DELIVERY:</font><b>', "30", 5)
     var lable_article2_1 = isc.Label.create({
         wrap: false,
@@ -876,10 +874,10 @@ Window_ContactCad = isc.Window.create({
             }
         ]
     });
-    var dynamicForm1 = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm2 = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm3 = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm4 = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm1Mo = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm2Mo = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm3Mo = isc.HLayout.create({align: "center", members: []});
+    var dynamicForm4Mo = isc.HLayout.create({align: "center", members: []});
 var DynamicForm_ContactCustomer = isc.DynamicForm.create({
         setMethod: 'POST',
         valuesManager: "contactHeader",
@@ -1026,7 +1024,7 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                                     }
                                 ]
                             })
-    dynamicForm1.addMember("Contact_ContactBuyer",1);
+    dynamicForm1Mo.addMember("Contact_ContactBuyer",1);
     isc.DynamicForm.create({
                                 ID: "Contact_ContactAgentBuyer",
                                 valuesManager: "contactHeaderAgent",
@@ -1072,7 +1070,7 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                                     }
                                 ]
                             })
-    dynamicForm2.addMember("Contact_ContactAgentBuyer",2);
+    dynamicForm2Mo.addMember("Contact_ContactAgentBuyer",2);
     var DynamicForm_ContactSeller = isc.DynamicForm.create({
         valuesManager: "contactHeader",
         width: "100%",
@@ -1158,19 +1156,19 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                     var mobile = "";
                     if (item.getSelectedRecord().address != undefined) {
                         address = item.getSelectedRecord().address;
-                        Contact_ContactAgentSeller.setValue("address_ContactAgentSeller", address);
+                        Contact_ContactAgentSellerMo.setValue("address_ContactAgentSeller", address);
                     }
                     if (item.getSelectedRecord().nameEN != undefined) {
                         name = item.getSelectedRecord().nameEN;
-                        Contact_ContactAgentSeller.setValue("name_ContactAgentSeller", name);
+                        Contact_ContactAgentSellerMo.setValue("name_ContactAgentSeller", name);
                     }
                     if (item.getSelectedRecord().phone != undefined) {
                         phone = item.getSelectedRecord().phone;
-                        Contact_ContactAgentSeller.setValue("phone_ContactAgentSeller", phone);
+                        Contact_ContactAgentSellerMo.setValue("phone_ContactAgentSeller", phone);
                     }
                     if (item.getSelectedRecord().mobile != undefined) {
                         mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactAgentSeller.setValue("mobile_ContactAgentSeller", mobile);
+                        Contact_ContactAgentSellerMo.setValue("mobile_ContactAgentSeller", mobile);
                     }
                 }
             }
@@ -1222,9 +1220,9 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                                     }
                                 ]
                             })
-    dynamicForm3.addMember("Contact_ContactSeller",3);
+    dynamicForm3Mo.addMember("Contact_ContactSeller",3);
     isc.DynamicForm.create({
-                                ID: "Contact_ContactAgentSeller",
+                                ID: "Contact_ContactAgentSellerMo",
                                 valuesManager: "contactHeaderAgent",
                                 height: "20",
                                 width: "50%",
@@ -1268,7 +1266,7 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                                     }
                                 ]
                             })
-     dynamicForm4.addMember("Contact_ContactAgentSeller",4);
+     dynamicForm4Mo.addMember("Contact_ContactAgentSellerMo",4);
 
 var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
         valuesManager: "valuesManagerMooXArticle1",
@@ -1311,7 +1309,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
 
 
 
-    var VLayout_ContactParameter_ValueNumber8 = isc.VLayout.create({
+    var VLayout_ContactParameter_ValueNumber8MO = isc.VLayout.create({
         width: "100%",
         members: [DynamicForm_ContactMooxParameter_ValueNumber8]
     })
@@ -1341,7 +1339,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
         ]
     })
 
-    var article2 = isc.DynamicForm.create({
+    var article2Mo = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle2",
         height: "50%",
         numCols: 14,
@@ -1356,7 +1354,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 showTitle: false,
                 keyPressFilter: "[0-9]", ///article2_number10
                 changed: function (form, item, value) {
-                    article2.setValue("amount_en", numberToEnglish(value))
+                    article2Mo.setValue("amount_en", numberToEnglish(value))
                     }
             },
             {
@@ -1379,7 +1377,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}
                 ],changed: function (form, item, value) {
-                    dynamicForm_article3_3.setValue("article3_number17_13",article2.getItem("unitId").getDisplayValue(value));
+                    dynamicForm_article3_3.setValue("article3_number17_13",article2Mo.getItem("unitId").getDisplayValue(value));
                 }
             },
             {
@@ -1407,7 +1405,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 },
                 changed: function (form, item, value) {
                     article2_1.setValue("responsibleTelerons", value);
-                    dynamicForm_article3_3.setValue("article3_number17_5", "(" + article2.getItem("optional").getDisplayValue(value) + " " + "'S OPTION) IN PARTIAL SHIPMENT")
+                    dynamicForm_article3_3.setValue("article3_number17_5", "(" + article2Mo.getItem("optional").getDisplayValue(value) + " " + "'S OPTION) IN PARTIAL SHIPMENT")
                 }
             },
             {
@@ -1503,13 +1501,13 @@ lotList = isc.ListGrid.create({
 
 
 
-var vlayoutBody = isc.VLayout.create({
+var vlayoutBodyMo = isc.VLayout.create({
         width: "100%",
         height: "8%",
         styleName: "box-shaddow",
         members: [
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactHeader]}),
-            isc.HLayout.create({height: "50", align: "left", members: [lableNameContact]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableNameContactMo]}),
             isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormMaterial",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
@@ -1531,21 +1529,21 @@ var vlayoutBody = isc.VLayout.create({
                     }]})
             ]}),
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactCustomer]}),
-            isc.HLayout.create({ID: "dynamicForm1And2", align: "center", members: [dynamicForm1, dynamicForm2]}),
+            isc.HLayout.create({ID: "dynamicForm1And2Mo", align: "center", members: [dynamicForm1Mo, dynamicForm2Mo]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
-            isc.HLayout.create({ID: "dynamicForm3And4", align: "center", members: [dynamicForm3, dynamicForm4]})
+            isc.HLayout.create({ID: "dynamicForm3And4Mo", align: "center", members: [dynamicForm3Mo, dynamicForm4Mo]})
         ]
     });
-var vlayoutArticle1 = isc.VLayout.create({
+var vlayoutArticle1Mo = isc.VLayout.create({
         width: "100%",
         height: "30%",
         styleName: "box-shaddow",
         members: [
             isc.HLayout.create({
                 align: "left",
-                members: [lableArticle1]
+                members: [lableArticle1Mo]
             }),
-            isc.HLayout.create({align: "left", members: [VLayout_ContactParameter_ValueNumber8]}),
+            isc.HLayout.create({align: "left", members: [VLayout_ContactParameter_ValueNumber8MO]}),
             dynamicFormMoox_fullArticle01
         ]
     });
@@ -1554,8 +1552,8 @@ var vlayoutArticle2 = isc.VLayout.create({
         height: "30%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "center", members: [lableArticle2]}),
-            isc.HLayout.create({align: "left", members: [article2]}),
+            isc.HLayout.create({height: "50", align: "center", members: [lableArticle2Mo]}),
+            isc.HLayout.create({align: "left", members: [article2Mo]}),
             isc.HLayout.create({align: "left", members: [article2_1, lable_article2_1]}),
             dynamicForm_fullArticle02MoOx
         ]
@@ -1565,20 +1563,20 @@ var vlayoutArticle3 = isc.VLayout.create({
         height: "30%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "5%", align: "left", members: [lableArticle3]}),
+            isc.HLayout.create({height: "5%", align: "left", members: [lableArticle3MO]}),
             isc.HLayout.create({height: "95%", width: "100%", align: "center", members: [lotList]})
         ]
     });
     isc.VLayout.create({
-        ID: "VLayout_PageOne_Contract",
+        ID: "VLayout_PageOne_ContractMo",
         width: "100%",
         height: "100%",
         align: "center",
         overflow: "scroll",
         members: [
             isc.HStack.create({height: "10",width: "100%",align: "center",members: [LablePage]}),
-            vlayoutBody,
-            vlayoutArticle1,
+            vlayoutBodyMo,
+            vlayoutArticle1Mo,
             vlayoutArticle2,
             vlayoutArticle3
         ]
@@ -1867,7 +1865,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     dynamicForm_fullArticle03.clearValues();
                     valuesManagerfullArticle.setValue("fullArticle03","\n"+valuesManagerfullArticle.getValue("fullArticle03")+value+"MT"+"+/-"+valuesManagerArticle2.getValue("molybdenumTolorance")+"%"+" "+"AS A WHOLE AFTER CONTRACT SETTLEMENT WITH BELOW ANALYSIS AND SIZE DETERMINATION:")//TO DO 13
                     valuesManagerfullArticle.setValue("fullArticle03",valuesManagerfullArticle.getValue("fullArticle03")+"\n"+valuesManagerArticle3.getValue("contactInspectionId")+" "
-+"ANALYSIS RESULTS FOR THE REMAINING QUANTITY ("+value+"MT +/-"+article2.getValue("molybdenumTolorance")+"-IN "+article2_1.getItem("responsibleTelerons").getDisplayValue(article2_1.getValue("responsibleTelerons"))+" OPTION) WHICH WILL BE PERFORMED AT "+" "+valuesManagerArticle3.getValue("contactInspectionId")+", IS FINAL AND BINDING FOR SETTLEMENT PURPOSES.");
++"ANALYSIS RESULTS FOR THE REMAINING QUANTITY ("+value+"MT +/-"+article2Mo.getValue("molybdenumTolorance")+"-IN "+article2_1.getItem("responsibleTelerons").getDisplayValue(article2_1.getValue("responsibleTelerons"))+" OPTION) WHICH WILL BE PERFORMED AT "+" "+valuesManagerArticle3.getValue("contactInspectionId")+", IS FINAL AND BINDING FOR SETTLEMENT PURPOSES.");
                 }
             },{
                 type: "text",
@@ -2724,7 +2722,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         height: "100%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "left", members: [lableArticle6, dynamicForm_article6_number31]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableArticle6Mo, dynamicForm_article6_number31]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_number32_33_34_35]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableContainerized]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized]}),
@@ -2983,7 +2981,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         width: "100%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "left", members: [lableArticle7, dynamicForm_article7_number41]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableArticle7Mo, dynamicForm_article7_number41]}),
             isc.HLayout.create({
                 height: "30",
                 align: "left",
@@ -3083,7 +3081,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         height: "50",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "30", align: "left", members: [lableArticle8, dynamicForm_article8_number42]}),
+            isc.HLayout.create({height: "30", align: "left", members: [lableArticle8Mo, dynamicForm_article8_number42]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article8_3]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle08]})
         ]
@@ -3348,7 +3346,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         width: "100%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "30", align: "left", members: [lableArticle9, dynamicForm_article9_number45]}),
+            isc.HLayout.create({height: "30", align: "left", members: [lableArticle9Mo, dynamicForm_article9_number45]}),
             isc.HLayout.create({
                 height: "30",
                 align: "left",
@@ -3479,7 +3477,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         height: "50",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({ height: "30",align: "left", members: [lableArticle10] }),
+            isc.HLayout.create({ height: "30",align: "left", members: [lableArticle10Mo] }),
             isc.HLayout.create({height: "30", align: "center", members: [isc.VLayout.create({align: "center", members: [dynamicForm_article10]})]}),
                 isc.HLayout.create({ height: "30",align: "left", members: [dynamicForm_fullArticle10] })
         ]
@@ -3505,7 +3503,7 @@ var contactTabs = isc.TabSet.create({
         tabs: [
             {
                 title: "page1", canClose: false,
-                pane: VLayout_PageOne_Contract
+                pane: VLayout_PageOne_ContractMo
             },
             {
                 title: "page2", canClose: false,
@@ -3799,8 +3797,8 @@ VLayout_contactMoOxMain=isc.VLayout.create({
             ]
             })
 
-    Window_ContactCad.addItems([VLayout_contactMoOxMain]);
-    Window_ContactCad.show();
+    Window_ContactMo.addItems([VLayout_contactMoOxMain]);
+    Window_ContactMo.show();
 
 }
 /////////////////////////// end function()
@@ -3883,7 +3881,7 @@ function saveCotractDetails(data, contractID) {
                     saveValuelotListForADD(contractID);
                     saveListGrid_ContractItemShipment(contractID);
                     //saveContractCurrency(contractID);
-                    Window_ContactCad.close();
+                    Window_ContactMo.close();
                     ListGrid_contractMo.invalidateCache();
                     isc.say("<spring:message code='global.form.request.successful'/>.");
                 } else
