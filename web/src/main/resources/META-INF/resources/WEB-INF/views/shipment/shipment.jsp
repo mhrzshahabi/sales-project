@@ -1240,16 +1240,6 @@
                 width: "10%",
                 showHover: true
             },
-// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
-            <%--{--%>
-            <%--name: "description",--%>
-            <%--title: "<spring:message code='shipment.description'/>",--%>
-            <%--type: 'text',--%>
-            <%--required: true,--%>
-            <%--width: "10%",--%>
-            <%--align: "center",--%>
-            <%--showHover: true--%>
-            <%--},--%>
             {
                 name: "contractShipment.sendDate",
                 title: "<spring:message code='global.sendDate'/>",
