@@ -73,7 +73,7 @@ public class ContractService implements IContractService {
         map.remove("contractId");
         for (String key : map.keySet()) {
             String value = map.get(key) + "";
-            dataALLArticle = dataALLArticle + " " + key + "&" + " " + value;
+            dataALLArticle = dataALLArticle + " " + key + "&?" + " " + value;
             XWPFParagraph paragraphPrint = printdoc.createParagraph();
             XWPFRun runPrint = paragraphPrint.createRun();
             XWPFRun runPrintValue = paragraphPrint.createRun();
@@ -152,7 +152,11 @@ public class ContractService implements IContractService {
             if (contractNo.contains("_Conc")) {
                 String contractConc = contractNo.replace("_Conc", "");
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc.substring(1, contractConc.length() - 1) + ".doc");
-            } else {
+            }else if(contractNo.contains("?Mo")){
+                String contractMo = contractNo.replace("?Mo", "");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_MO_OX" + contractMo.substring(1, contractMo.length() - 1) + ".doc");
+            }
+            else {
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo.substring(1, contractNo.length() - 1) + ".doc");
             }
             allArticle = extractText(inputstream);
@@ -248,17 +252,17 @@ public class ContractService implements IContractService {
         for (int i = 1; i <= 12; i++) {
             if (i >= 9 && i != 12) {
                 if (i == 9) {
-                    a = text.lastIndexOf("Article0" + i + "&");
+                    a = text.lastIndexOf("Article0" + i + "&?");
                 } else {
-                    a = text.lastIndexOf("Article" + i + "&");
+                    a = text.lastIndexOf("Article" + i + "&?");
                 }
-                b = text.indexOf("Article" + (i + 1) + "&", a);
+                b = text.indexOf("Article" + (i + 1) + "&?", a);
             } else if (i == 12) {
-                a = text.lastIndexOf("Article" + i + "&");
+                a = text.lastIndexOf("Article" + i + "&?");
                 b = text.length();
             } else {
-                a = text.lastIndexOf("Article0" + i + "&");
-                b = text.indexOf("Article0" + (i + 1) + "&", a);
+                a = text.lastIndexOf("Article0" + i + "&?");
+                b = text.indexOf("Article0" + (i + 1) + "&?", a);
             }
 
             if (a > b) {
