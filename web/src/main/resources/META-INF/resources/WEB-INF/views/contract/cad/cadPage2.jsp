@@ -11,16 +11,16 @@
     var imanageNote = 0;
     var amountSet;
     var sendDateSet;
-    factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>', "30", 5)
-    factoryLableArticle("lableArticle4", '<b><font size=4px>Article 4 -PACKING</font><b>', "30", 5)
-    factoryLableArticle("lableArticle5", '<b><font size=4px>Article 5 -SHIPMENT</font><b>', "30", 5)
-    factoryLableArticle("lableArticle6", '<b><font size=4px>ARTICLE 6 - DELIVERY TERMS</font><b>', "30", 5)
-    factoryLableArticle("lableArticle7", '<b><font size=4px>ARTICLE 7 – PRICE</font><b>', "30", 5)
-    factoryLableArticle("lableArticle8", '<b><font size=4px>ARTICLE 8 - QUOTATIONAL PERIOD</font><b>', "30", 5)
-    factoryLableArticle("lableArticle9", '<b><font size=4px>ARTICLE 9 – PAYMENT</font><b>', "30", 5)
-    factoryLableArticle("lableArticle10", '<b><font size=4px>ARTICLE 10 - CURRENCY CONVERSION</font><b>', "30", 5)
-    factoryLableArticle("lableArticle11", '<b><font size=4px>ARTICLE 11 - TITLE AND RISK OF LOSS</font><b>', "30", 5)
-    factoryLableArticle("lableArticle12", '<b><font size=4px>ARTICLE 12 – WEIGHTS AND QUALITY CONTROL</font><b>', "30", 5)
+    factoryLableArticle("lableArticle3Cad", '<b><font size=4px>Article 3 -QUALITY</font><b>', "30", 5)
+    factoryLableArticle("lableArticle4Cad", '<b><font size=4px>Article 4 -PACKING</font><b>', "30", 5)
+    factoryLableArticle("lableArticle5Cad", '<b><font size=4px>Article 5 -SHIPMENT</font><b>', "30", 5)
+    factoryLableArticle("lableArticle6Cad", '<b><font size=4px>ARTICLE 6 - DELIVERY TERMS</font><b>', "30", 5)
+    factoryLableArticle("lableArticle7Cad", '<b><font size=4px>ARTICLE 7 – PRICE</font><b>', "30", 5)
+    factoryLableArticle("lableArticle8Cad", '<b><font size=4px>ARTICLE 8 - QUOTATIONAL PERIOD</font><b>', "30", 5)
+    factoryLableArticle("lableArticle9Cad", '<b><font size=4px>ARTICLE 9 – PAYMENT</font><b>', "30", 5)
+    factoryLableArticle("lableArticle10Cad", '<b><font size=4px>ARTICLE 10 - CURRENCY CONVERSION</font><b>', "30", 5)
+    factoryLableArticle("lableArticle11Cad", '<b><font size=4px>ARTICLE 11 - TITLE AND RISK OF LOSS</font><b>', "30", 5)
+    factoryLableArticle("lableArticle12Cad", '<b><font size=4px>ARTICLE 12 – WEIGHTS AND QUALITY CONTROL</font><b>', "30", 5)
 
     var article3_quality = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3_quality",
@@ -550,27 +550,27 @@ var article12_quality = isc.DynamicForm.create({
         align: "top",
         overflow: "scroll",
         members: [
-            lableArticle3,
+            lableArticle3Cad,
             article3_quality,
-            lableArticle4,
+            lableArticle4Cad,
             article4_quality,
-            lableArticle5,
+            lableArticle5Cad,
             buttonAddItem,
             ListGrid_ContractItemShipment,
             article5_quality,
-            lableArticle6,
+            lableArticle6Cad,
             article6_quality,
-            lableArticle7,
+            lableArticle7Cad,
             article7_quality,
-            lableArticle8,
+            lableArticle8Cad,
             article8_quality,
-            lableArticle9,
+            lableArticle9Cad,
             article9_quality,
-            lableArticle10,
+            lableArticle10Cad,
             article10_quality,
-            lableArticle11,
+            lableArticle11Cad,
             article11_quality,
-            lableArticle12,
+            lableArticle12Cad,
             article12_quality
         ]
     });
