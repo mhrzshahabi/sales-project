@@ -710,6 +710,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         showIf: "true",
         title: "<spring:message code='global.form.print'/>",
         click: function () {
+
              "<spring:url value="/contract/print" var="printUrl"/>";
              var recordIdPrint = ListGrid_Contract.getSelectedRecord();
              window.open('${printUrl}'+"/"+recordIdPrint.id);

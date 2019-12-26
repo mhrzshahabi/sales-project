@@ -11,6 +11,8 @@ var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
 fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
 });
 
+
+
 var RestDataSource_Material = isc.MyRestDataSource.create({
         fields:
             [

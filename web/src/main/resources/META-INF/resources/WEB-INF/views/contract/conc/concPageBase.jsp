@@ -81,6 +81,7 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
     click: function(){
             contactHeaderConc.validate();
             dynamicFormConc.validate();
+            valuesManagerArticle5_DeliveryTermsConc.validate();
             var drs = contactHeaderConc.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             contactHeaderConc.setValue("contractDate", contractTrueDate);
@@ -107,8 +108,8 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
             dataSaveAndUpdateContractConc.runStartDate = "";
             dataSaveAndUpdateContractConc.runTill = "";
             dataSaveAndUpdateContractConc.runEndtDate = "";
-            dataSaveAndUpdateContractConc.incotermsId = 1952;
-            dataSaveAndUpdateContractConc.portByPortSourceId = 2;
+            dataSaveAndUpdateContractConc.incotermsId = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermsId");
+            dataSaveAndUpdateContractConc.portByPortSourceId = valuesManagerArticle5_DeliveryTermsConc.getValue("portByPortSourceId");
             dataSaveAndUpdateContractConc.incotermsText = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermsText");
             dataSaveAndUpdateContractConc.officeSource = "TEHRAN";
             dataSaveAndUpdateContractConc.priceCalPeriod = "any";
@@ -377,7 +378,7 @@ function saveListGrid_ContractConcItemShipment(contractID) {
         ListGrid_ContractConcItemShipment.getSelectedRecords().forEach(function(element) {
             var dataEditMain=ListGrid_ContractConcItemShipment.getSelectedRecord(element)
             dataEditMain.contractId=contractID;
-            dataEditMain.dischargeId = 11022;
+            //dataEditMain.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -393,7 +394,7 @@ function saveListGrid_ContractConcItemShipment(contractID) {
     ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
             var dataEdit=ListGrid_ContractConcItemShipment.getEditedRecord(element);
             dataEdit.contractId=contractID;
-            dataEdit.dischargeId = 11022;
+            //dataEdit.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -411,19 +412,19 @@ ListGrid_ContractConcItemShipment.deselectAllRecords();
 
 var dataALLArticleConc = {};
     function saveValueAllArticlesConc(contractID) {
-        dataALLArticleConc.Article01 = valuesManagerfullArticle.getValue("fullArticle01");
-        dataALLArticleConc.Article02 = valuesManagerfullArticle.getValue("fullArticle02");
-        dataALLArticleConc.Article03 = valuesManagerfullArticle.getValue("fullArticle03");
-        dataALLArticleConc.Article04 = valuesManagerfullArticle.getValue("fullArticle04");
-        dataALLArticleConc.Article05 = valuesManagerfullArticle.getValue("fullArticle05");
-        dataALLArticleConc.Article06 = valuesManagerfullArticle.getValue("fullArticle06");
-        dataALLArticleConc.Article07 = valuesManagerfullArticle.getValue("fullArticle07");
-        dataALLArticleConc.Article08 = valuesManagerfullArticle.getValue("fullArticle08");
-        dataALLArticleConc.Article09 = valuesManagerfullArticle.getValue("fullArticle09");
-        dataALLArticleConc.Article10 = valuesManagerArticle10_quality.getValue("fullArticle10");
-        dataALLArticleConc.Article11 = valuesManagerfullArticle.getValue("fullArticle11");
-        dataALLArticleConc.Article12 = valuesManagerArticle12_quality.getValue("fullArticle12");
-        dataALLArticleConc.contractNo = contactHeaderConc.getValue("contractNo")+"_Conc";
+        dataALLArticleConc.Article01 = nvlConc(valuesManagerfullArticle.getValue("fullArticle01"));
+        dataALLArticleConc.Article02 = nvlConc(valuesManagerfullArticle.getValue("fullArticle02"));
+        dataALLArticleConc.Article03 = nvlConc(valuesManagerfullArticle.getValue("fullArticle03"));
+        dataALLArticleConc.Article04 = nvlConc(valuesManagerfullArticle.getValue("fullArticle04"));
+        dataALLArticleConc.Article05 = nvlConc(valuesManagerfullArticle.getValue("fullArticle05"));
+        dataALLArticleConc.Article06 = nvlConc(valuesManagerfullArticle.getValue("fullArticle06"));
+        dataALLArticleConc.Article07 = nvlConc(valuesManagerfullArticle.getValue("fullArticle07"));
+        dataALLArticleConc.Article08 = nvlConc(valuesManagerfullArticle.getValue("fullArticle08"));
+        dataALLArticleConc.Article09 = nvlConc(valuesManagerfullArticle.getValue("fullArticle09"));
+        dataALLArticleConc.Article10 = nvlConc(valuesManagerArticle10_quality.getValue("fullArticle10"));
+        dataALLArticleConc.Article11 = nvlConc(valuesManagerfullArticle.getValue("fullArticle11"));
+        dataALLArticleConc.Article12 = nvlConc(valuesManagerArticle12_quality.getValue("fullArticle12"));
+        dataALLArticleConc.contractNo =contactHeaderConc.getValue("contractNo")+"_Conc";
         dataALLArticleConc.contractId = contractID;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contract/writeWord",
@@ -437,6 +438,16 @@ var dataALLArticleConc = {};
             }
         }))
 }
+
+function nvlConc(articleIsNotNull){
+        if(articleIsNotNull == undefined){
+            return "";
+        }else{
+            return articleIsNotNull;
+        }
+    }
+
+
 
 
 
