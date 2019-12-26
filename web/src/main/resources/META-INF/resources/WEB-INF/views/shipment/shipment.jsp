@@ -64,7 +64,7 @@
                 {name: "port", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
-        fetchDataURL: "${contextPath}/api/port/spec-list2"
+        fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
     var RestDataSource_SwitchPort = isc.MyRestDataSource.create({
@@ -1240,16 +1240,6 @@
                 width: "10%",
                 showHover: true
             },
-// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
-            <%--{--%>
-            <%--name: "description",--%>
-            <%--title: "<spring:message code='shipment.description'/>",--%>
-            <%--type: 'text',--%>
-            <%--required: true,--%>
-            <%--width: "10%",--%>
-            <%--align: "center",--%>
-            <%--showHover: true--%>
-            <%--},--%>
             {
                 name: "contractShipment.sendDate",
                 title: "<spring:message code='global.sendDate'/>",
