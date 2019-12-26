@@ -93,7 +93,7 @@ public class Invoice extends Auditable {
 	@Column(name = "GOLD_UNIT_PRICE")
 	private Double goldUnitPrice;
 
-	@Column(name = "PRICE_BASE", length = 255)
+	@Column(name = "PRICE_BASE")
 	private String priceBase;
 
 	@Column(name = "MOLYBDENUM_CONTENT")
@@ -108,7 +108,7 @@ public class Invoice extends Auditable {
 	@Column(name = "INVOIVE_VALUE_D")
 	private Double invoiceValueD;
 
-	@Column(name = "RATE_BASE", length = 255)
+	@Column(name = "RATE_BASE")
 	private String rateBase;
 
 	@Column(name = "RATE2DOLLAR")
@@ -189,16 +189,16 @@ public class Invoice extends Auditable {
 	@Column(name = "SUB_TOTAL_DEDUCTION")
 	private Double subTotalDeduction;
 
-	@Column(name = "PRICE_REFERENCE", length = 255)
+	@Column(name = "PRICE_REFERENCE")
 	private String priceReference;
 
-	@Column(name = "PRICE_FUNCTION", length = 255)
+	@Column(name = "PRICE_FUNCTION")
 	private String priceFunction;
 
-	@Column(name = "PRICE_FROM_DATE", length = 255)
+	@Column(name = "PRICE_FROM_DATE")
 	private String priceFromDate;
 
-	@Column(name = "PRICE_TO_DATE", length = 255)
+	@Column(name = "PRICE_TO_DATE")
 	private String priceToDate;
 
 	@Column(name = "SELLERID")

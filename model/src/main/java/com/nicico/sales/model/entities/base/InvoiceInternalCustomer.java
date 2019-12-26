@@ -43,4 +43,5 @@ public class InvoiceInternalCustomer extends Auditable {
 	private String customerFax;
 	@Column(name = "CUST_CODENOSA" , length = 100)
 	private String customerCodeNosa;
+
 }

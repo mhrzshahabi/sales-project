@@ -41,4 +41,5 @@ public class CurrencyRate extends Auditable {
 
 	@Column(name = "c_RMB_USD",length = 100)
 	private String rmbUsd;
+
 }

@@ -30,4 +30,5 @@ public class Instruction extends Auditable {
 
 	@Column(name = "RUN_DATE", nullable = false, length = 200)
 	private String runDate;
+
 }

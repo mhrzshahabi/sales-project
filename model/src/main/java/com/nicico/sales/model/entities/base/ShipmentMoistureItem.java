@@ -43,6 +43,7 @@ public class ShipmentMoistureItem extends Auditable {
 
 	@Column(name = "H2O_WEIGHT")
 	private Double totalH2oWeight;
+
 }
 
 

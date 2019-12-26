@@ -36,4 +36,5 @@ public class Unit extends Auditable {
 
 	@Column(name = "n_DECIMAL_DIGITS")
 	private Long decimalDigit;
+
 }

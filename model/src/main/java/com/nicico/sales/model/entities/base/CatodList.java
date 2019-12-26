@@ -46,4 +46,5 @@ public class CatodList extends Auditable {
 
 	@Column(name = "GDSCODE")
 	private Long gdsCode;
+
 }

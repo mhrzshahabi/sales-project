@@ -61,6 +61,4 @@ public class InvoiceItem extends Auditable {
 	@Column(name = "RATE_REFERENCE", length = 100)
 	private String rateReference;
 
-
-
 }

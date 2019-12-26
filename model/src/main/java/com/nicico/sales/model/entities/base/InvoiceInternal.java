@@ -47,7 +47,7 @@ public class InvoiceInternal extends Auditable {
 	private Double totalKosorat;
 	@Column(name = "MABLAGHKOL", precision = 10)
 	private Double mablaghKol;
-	@Column(name = "SHOMAREHSORATHESAB", length = 255)
+	@Column(name = "SHOMAREHSORATHESAB")
 	private String shomarehSoratHesab;
 	@Column(name = "PAYFORAVAREZMALEYATE", precision = 10)
 	private Double payForAvarezMalyat;

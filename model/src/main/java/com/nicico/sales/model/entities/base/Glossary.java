@@ -22,11 +22,10 @@ public class Glossary extends Auditable {
 	@Column(name = "ID")
 	private Long id;
 
-	//SUMMARY
 	@Column(name = "SUMMARY", nullable = false, length = 20)
 	private String summary;
 
-	//MEANING
 	@Column(name = "MEANING", nullable = false, length = 200)
 	private String meaning;
+
 }

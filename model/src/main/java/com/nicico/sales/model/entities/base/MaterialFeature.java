@@ -73,4 +73,5 @@ public class MaterialFeature extends Auditable {
 
     @Column(name = "REFINERY_COST")
     private Double refineryCost;
+
 }

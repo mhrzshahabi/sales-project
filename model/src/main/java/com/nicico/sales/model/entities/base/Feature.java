@@ -36,4 +36,5 @@ public class Feature extends Auditable {
 
 	@Column(name = "DECIMAL_DIGITS")
 	private Long decimalDigit;
+
 }

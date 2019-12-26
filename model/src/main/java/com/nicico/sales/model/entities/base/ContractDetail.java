@@ -378,5 +378,4 @@ public class ContractDetail extends Auditable {
     @Column(name = "ARTICLE10_NUMBER61")
     private Double article10_number61;
 
-
 }

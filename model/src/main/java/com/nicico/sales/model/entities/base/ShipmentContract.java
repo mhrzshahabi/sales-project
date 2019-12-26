@@ -122,7 +122,6 @@ public class ShipmentContract extends Auditable {
 	@Column(name = "WEIGHING_METHODES", length = 100)
 	private String weighingMethodes;
 
-
 	@Column(name = "SHIP_FLAG", length = 100)
 	private String shipFlag;
 
