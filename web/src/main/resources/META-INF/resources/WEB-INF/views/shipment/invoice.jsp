@@ -530,13 +530,13 @@
                 }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         var InvoiceId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                             actionURL: "${contextPath}/api/invoice/" + record.id,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                     ListGrid_Invoice_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -1067,7 +1067,7 @@
                                     httpMethod: "PUT",
                                     data: JSON.stringify(data2acc),
                                     callback: function (resp) {
-                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                             isc.say("<spring:message code='global.form.request.successful'/>.");
                                             ListGrid_Invoice_refresh();
                                         } else
@@ -1146,7 +1146,7 @@
                 httpMethod: method,
                 data: JSON.stringify(data),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_Invoice_refresh();
                         Window_Invoice.close();
@@ -1304,16 +1304,9 @@ function validatedate(inputText1)
   // Match the date format through regular expression
   if(inputText.length==8 )
   {
-  // document.form1.text1.focus();
-  //Test which seperator is used '/' or '-'
-
-  console.log("inputText ok="+inputText);
-  // var pdate = inputText.split('/');
-
   var yy  = parseInt(inputText.substring(0,4));
   var mm = parseInt(inputText.substring(4,6));
   var dd = parseInt(inputText.substring(6,8));
-  console.log("date=m"+mm+'d '+dd+'y '+yy)
   // Create list of days of a month [assume there is no leap year by default]
 if (yy<1990 || yy>2020) {
 	alert('Invalid Year 1990-2020 is ok');
@@ -1321,7 +1314,6 @@ if (yy<1990 || yy>2020) {
 }
 if (mm<1 || mm>12) {
 	alert('Invalid month');
-	 console.log("month error =m "+mm)
 	return false;
 }
   var ListofDays = [31,28,31,30,31,30,31,31,30,31,30,31];

@@ -310,7 +310,7 @@ var dataSaveAndUpdateContractConcDetail = {};
                 httpMethod: "POST",
                 data: JSON.stringify(dataSaveAndUpdateContractConc),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         Window_ContactConc.close();
                         ListGrid_Conc.invalidateCache();
                         saveCotractConcDetails(dataSaveAndUpdateContractConcDetail,(JSON.parse(resp.data)).id);
@@ -363,7 +363,7 @@ function saveCotractConcDetails(data, contractID) {
             httpMethod: "POST",
             data: JSON.stringify(data),
             callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                     saveListGrid_ContractConcItemShipment(contractID);
                     saveValueAllArticlesConc(contractID);
                 } else
@@ -383,7 +383,7 @@ function saveListGrid_ContractConcItemShipment(contractID) {
                 httpMethod: "POST",
                 data: JSON.stringify(dataEditMain),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                     } else
                         isc.say(RpcResponse_o.data);
@@ -399,7 +399,7 @@ function saveListGrid_ContractConcItemShipment(contractID) {
                 httpMethod: "POST",
                 data: JSON.stringify(dataEdit),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                     } else
                         isc.say(RpcResponse_o.data);
@@ -430,7 +430,7 @@ var dataALLArticleConc = {};
             httpMethod: "POST",
             data: JSON.stringify(dataALLArticleConc),
             callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>.");
                 } else
                     isc.say(RpcResponse_o.data);

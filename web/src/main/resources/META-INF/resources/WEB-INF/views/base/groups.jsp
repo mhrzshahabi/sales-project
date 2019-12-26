@@ -123,7 +123,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Groups_refresh();
                             Window_Groups.close();
@@ -206,14 +206,14 @@
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
 
                         var groupsId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/groups/" + groupsId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                         ListGrid_Groups.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     } else {
@@ -472,7 +472,6 @@
         recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
-            console.log(record);
             var criteria = {
                 _constructor: "AdvancedCriteria",
                 operator: "and",
@@ -618,7 +617,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_GroupsPerson_refresh();
                             Window_GroupsPerson.close();
@@ -744,13 +743,13 @@
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         var groupsPersonId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/groupsPerson/" + groupsPersonId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                         ListGrid_GroupsPerson.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     } else {
@@ -967,7 +966,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_GroupsPerson_refresh();
                         } else

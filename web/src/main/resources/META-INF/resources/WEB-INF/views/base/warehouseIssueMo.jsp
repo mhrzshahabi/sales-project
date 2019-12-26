@@ -531,13 +531,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         var WarehouseIssueMoId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/warehouseIssueMo/" + WarehouseIssueMoId,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                     ListGrid_WarehouseIssueMo_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                 } else {
@@ -665,17 +665,12 @@
                     changed: function (form, item, value) {
                         rcd = item.getSelectedRecord();
                         rcd1 = DynamicForm_WarehouseIssueMo.getOldValues().warehouseLotId;
-                        console.log(rcd.contractId);
-                        console.log(ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord().contractId)
                         if (rcd != undefined && rcd.contractId != undefined
                             && ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord().contractId != rcd.contractId) {
                             isc.warn("<spring:message code='warehouseIssueMo.Already_Assigend_2_other_Contract'/>");
                             DynamicForm_WarehouseIssueMo.setValue("warehouseLotId", "");
                             return;
                         }
-                        /* console.log(rcd.contractId);
-                         console.log('issue id='+rcd.warehouseCadItem.issueId);*/
-
                         if (rcd1 != undefined && rcd1 == rcd.id) {
 
                         } else if (rcd.warehouseCadItem != undefined && rcd.warehouseCadItem.issueId != undefined) {
@@ -684,9 +679,6 @@
                             return;
                         }
                         if (rcd.id != undefined) {
-                            console.log('rcd');
-                            console.log(rcd);
-                            // DynamicForm_WarehouseIssueMo.setValue("warehouseLotId", rcd.id);
                             DynamicForm_WarehouseIssueMo.setValue("warehouseLot", rcd);
                             DynamicForm_WarehouseIssueMo.setValue("warehouseLot.warehouseCadItemId", rcd.warehouseCadItemId);
 
@@ -849,7 +841,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_WarehouseIssueMo_refresh();
                             Window_WarehouseIssueMo.close();

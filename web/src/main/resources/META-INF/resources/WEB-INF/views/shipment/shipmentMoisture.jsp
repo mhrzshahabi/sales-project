@@ -300,7 +300,7 @@ function createPasteDialog () {
                                         httpMethod: methodXXXX,
                                         data: JSON.stringify(data),
                                         callback: function (resp) {
-                                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                                 isc.say("<spring:message code='global.form.request.successful'/>.");
                                                                 ListGrid_ShipmentMoistureItem_refresh();
                                                                 PasteDialogShipmentMoistureItem_windows.close();
@@ -683,7 +683,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_ShipmentMoistureHeader_refresh();
                             Window_ShipmentMoistureHeader.close();
@@ -748,7 +748,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
 				buttons : [ isc.IButtonSave.create({ title:"<spring:message code='global.yes'/>" }), isc.IButtonCancel.create({ title:"<spring:message code='global.no'/>" })],
 				buttonClick : function (button, index) {
 					this.hide();
-					if (index == 0) {
+					if (index === 0) {
 
 						var shipmentId = record.id;
 
@@ -756,7 +756,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
                                 actionURL: "${contextPath}/api/shipmentMoistureHeader/" + shipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                         ListGrid_ShipmentMoistureHeader_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     } else {
@@ -1022,7 +1022,7 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_ShipmentMoistureItem_refresh();
                             Window_ShipmentMoistureItem.close();
@@ -1093,12 +1093,12 @@ var methodXXXX="PUT";if (data.id==null) methodXXXX="POST";
                 ],
             buttonClick : function (button, index) {
                 this.hide();
-                if (index == 0) {
+                if (index === 0) {
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/shipmentMoistureItem/list/" + ids ,
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                     ListGrid_ShipmentMoistureItem_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                 } else {

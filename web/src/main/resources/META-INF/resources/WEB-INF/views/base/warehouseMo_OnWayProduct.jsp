@@ -146,13 +146,7 @@ var ListGrid_WarehouseCadItem = isc.ListGrid.create({
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
         click: function() {
-            console.log(ListGrid_WarehouseCadItem.selectAllRecords());
-            console.log(ListGrid_WarehouseCadItem.getSelectedRecords());
-            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
             ListGrid_WarehouseCadItem.deselectAllRecords();
-            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
-            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
-            console.log(ListGrid_WarehouseCadItem.getAllEditRows());
             ListGrid_WarehouseCadItem.startEditingNew();
         }
     });
@@ -392,7 +386,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
              httpMethod: method,
              data: JSON.stringify(data_WarehouseCad),
              callback: function(resp) {
-                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                      isc.say("<spring:message code='global.form.request.successful'/>.");
                      ListGrid_Tozin_refresh();
                      Window_Bijack.close();

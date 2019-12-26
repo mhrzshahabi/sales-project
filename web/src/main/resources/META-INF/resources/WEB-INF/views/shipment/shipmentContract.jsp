@@ -181,7 +181,6 @@
         icon: "pieces/16/save.png",
         click: function () {
             DynamicForm_ShipmentContract.validate();
-            // console.log(DynamicForm_ShipmentContract);
             if (DynamicForm_ShipmentContract.hasErrors())
                 return;
             var data = DynamicForm_ShipmentContract.getValues();
@@ -195,7 +194,7 @@
                 httpMethod: method,
                 data: JSON.stringify(data),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_ShipmentContract_refresh();
                         Window_ShipmentContract.hide();
@@ -276,13 +275,13 @@
 
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         var shipmentContractId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                     ListGrid_ShipmentContract_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                 } else {

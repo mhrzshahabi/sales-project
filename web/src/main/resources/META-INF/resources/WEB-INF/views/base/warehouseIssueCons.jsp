@@ -32,12 +32,11 @@
                 httpMethod: "GET",
                 data: "",
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                         var data = JSON.parse(RpcResponse_o.data);
                         for (x of data.data) {
                             stocks[x.plant] = x.amount;
                         }
-                        console.log(stocks);
                         t = DynamicForm_WarehouseIssueCons.getValue("amountSungon");
                         t = typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
                         DynamicForm_WarehouseIssueCons.setValue("StockSungon", t + parseFloat(stocks["Sungon"]));
@@ -605,13 +604,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         var WarehouseIssueConsId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/warehouseIssueCons/" + WarehouseIssueConsId,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                         ListGrid_WarehouseIssueCons_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     } else {
@@ -899,7 +898,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_WarehouseIssueCons_refresh();
                             Window_WarehouseIssueCons.close();
