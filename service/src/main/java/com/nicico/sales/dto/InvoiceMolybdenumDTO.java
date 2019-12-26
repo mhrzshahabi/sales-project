@@ -29,7 +29,7 @@ public class InvoiceMolybdenumDTO {
 	private Double discountPercent;
 	private Double priceFee;
 	private Double price;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -45,7 +45,7 @@ public class InvoiceMolybdenumDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -54,7 +54,7 @@ public class InvoiceMolybdenumDTO {
 	public static class Create extends InvoiceMolybdenumDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -69,7 +69,7 @@ public class InvoiceMolybdenumDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -81,7 +81,7 @@ public class InvoiceMolybdenumDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

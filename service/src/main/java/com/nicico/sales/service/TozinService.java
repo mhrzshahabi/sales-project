@@ -160,7 +160,7 @@ public class TozinService implements ITozinService {
 
 	}
 
-	// ------------------------------
+
 
 	private TozinDTO.Info save(Tozin tozin) {
 		final Tozin saved = tozinDAO.saveAndFlush(tozin);

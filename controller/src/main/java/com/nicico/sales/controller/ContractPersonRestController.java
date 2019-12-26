@@ -74,5 +74,4 @@ public class ContractPersonRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractPersonService.search(nicicoCriteria), HttpStatus.OK);
     }
-
 }

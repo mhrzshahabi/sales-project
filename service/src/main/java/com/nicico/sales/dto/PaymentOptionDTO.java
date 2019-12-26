@@ -20,7 +20,7 @@ public class PaymentOptionDTO {
 	@ApiModelProperty(required = true)
 	private String namePay;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -35,7 +35,7 @@ public class PaymentOptionDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -44,7 +44,7 @@ public class PaymentOptionDTO {
 	public static class Create extends PaymentOptionDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -59,7 +59,7 @@ public class PaymentOptionDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -71,7 +71,7 @@ public class PaymentOptionDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

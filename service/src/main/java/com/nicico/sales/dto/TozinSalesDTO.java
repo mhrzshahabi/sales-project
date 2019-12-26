@@ -51,7 +51,7 @@ public class TozinSalesDTO {
 	private String sourcePlantId;
 	private String targetPlantId;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -66,7 +66,7 @@ public class TozinSalesDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -75,7 +75,7 @@ public class TozinSalesDTO {
 	public static class Create extends TozinSalesDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -90,7 +90,7 @@ public class TozinSalesDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -102,7 +102,7 @@ public class TozinSalesDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

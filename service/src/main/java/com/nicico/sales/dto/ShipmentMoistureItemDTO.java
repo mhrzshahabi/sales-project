@@ -25,7 +25,7 @@ public class ShipmentMoistureItemDTO {
 	private Double dryWeight;
 	private Double totalH2oWeight;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -41,7 +41,7 @@ public class ShipmentMoistureItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -50,7 +50,7 @@ public class ShipmentMoistureItemDTO {
 	public static class Create extends ShipmentMoistureItemDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -65,7 +65,7 @@ public class ShipmentMoistureItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -77,7 +77,7 @@ public class ShipmentMoistureItemDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

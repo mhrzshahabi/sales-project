@@ -90,7 +90,7 @@ public class MaterialFeatureService implements IMaterialFeatureService {
 		return SearchUtil.search(materialFeatureDAO, criteria, materialFeature -> modelMapper.map(materialFeature, MaterialFeatureDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private MaterialFeatureDTO.Info save(MaterialFeature materialFeature) {
 		final MaterialFeature saved = materialFeatureDAO.saveAndFlush(materialFeature);

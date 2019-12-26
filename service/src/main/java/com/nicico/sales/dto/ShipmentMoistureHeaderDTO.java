@@ -29,7 +29,7 @@ public class ShipmentMoistureHeaderDTO {
 	private Double totalDryWeight;
 	private Double totalH2oWeight;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -46,7 +46,7 @@ public class ShipmentMoistureHeaderDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -55,7 +55,7 @@ public class ShipmentMoistureHeaderDTO {
 	public static class Create extends ShipmentMoistureHeaderDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -70,7 +70,7 @@ public class ShipmentMoistureHeaderDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -82,7 +82,7 @@ public class ShipmentMoistureHeaderDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

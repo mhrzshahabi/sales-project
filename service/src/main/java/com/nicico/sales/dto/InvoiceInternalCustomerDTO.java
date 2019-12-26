@@ -31,7 +31,7 @@ public class InvoiceInternalCustomerDTO {
 	private String customerFax;
 	private String customerCodeNosa;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -46,7 +46,7 @@ public class InvoiceInternalCustomerDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -55,7 +55,7 @@ public class InvoiceInternalCustomerDTO {
 	public static class Create extends InvoiceInternalCustomerDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -70,7 +70,7 @@ public class InvoiceInternalCustomerDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -82,7 +82,7 @@ public class InvoiceInternalCustomerDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

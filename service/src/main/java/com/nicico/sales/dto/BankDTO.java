@@ -30,7 +30,7 @@ public class BankDTO {
 	@ApiModelProperty(required = true)
 	private String coreBranch;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -46,7 +46,7 @@ public class BankDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -55,7 +55,7 @@ public class BankDTO {
 	public static class Create extends BankDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -67,7 +67,7 @@ public class BankDTO {
 		private Long id;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -79,7 +79,7 @@ public class BankDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

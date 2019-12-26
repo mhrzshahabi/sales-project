@@ -19,7 +19,7 @@ public class WarehouseYardDTO {
     private String warehouseNo;
 	private String nameFA;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -34,7 +34,7 @@ public class WarehouseYardDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -43,7 +43,7 @@ public class WarehouseYardDTO {
 	public static class Create extends WarehouseYardDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -55,7 +55,7 @@ public class WarehouseYardDTO {
 		private Long id;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -67,7 +67,7 @@ public class WarehouseYardDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

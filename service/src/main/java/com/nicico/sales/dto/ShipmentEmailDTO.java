@@ -26,7 +26,7 @@ public class ShipmentEmailDTO {
 	private String emailCC;
 	private String emailBody;
 	private String emailRespond;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -42,7 +42,7 @@ public class ShipmentEmailDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -51,7 +51,7 @@ public class ShipmentEmailDTO {
 	public static class Create extends ShipmentEmailDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -66,7 +66,7 @@ public class ShipmentEmailDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -78,7 +78,7 @@ public class ShipmentEmailDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

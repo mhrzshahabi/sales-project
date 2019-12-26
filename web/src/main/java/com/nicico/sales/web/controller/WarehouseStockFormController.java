@@ -40,7 +40,6 @@ public class WarehouseStockFormController {
 		return "base/warehouseStock";
 	}
 
-	//---------------------------------------------------------------
 	@Loggable
 	@GetMapping(value = {"/print/{type}/{date}"})
 	public void print(HttpServletResponse response, @PathVariable String type, @PathVariable("date") String date)
@@ -52,7 +51,6 @@ public class WarehouseStockFormController {
 		reportUtil.export("/reports/warehouse.jasper", params, response);
 	}
 
-	//---------------------------------------------------------------
 	@Loggable
 	@GetMapping(value = {"/print-commitment/{date}"})
 	public void printCommit(HttpServletResponse response, @PathVariable("date") String date)

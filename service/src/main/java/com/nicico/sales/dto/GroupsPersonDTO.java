@@ -21,7 +21,7 @@ public class GroupsPersonDTO {
 	private Long groupsId;
 	private Long personId;
 	private String desc;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -39,7 +39,7 @@ public class GroupsPersonDTO {
 
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -48,7 +48,7 @@ public class GroupsPersonDTO {
 	public static class Create extends GroupsPersonDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -63,7 +63,7 @@ public class GroupsPersonDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -75,7 +75,7 @@ public class GroupsPersonDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

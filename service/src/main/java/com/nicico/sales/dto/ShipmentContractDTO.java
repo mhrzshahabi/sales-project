@@ -2,7 +2,6 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.model.entities.base.Contact;
-import com.nicico.sales.model.entities.base.Country;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -58,7 +57,7 @@ public class ShipmentContractDTO {
 	private String createDate;
 
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -73,7 +72,7 @@ public class ShipmentContractDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -82,7 +81,7 @@ public class ShipmentContractDTO {
 	public static class Create extends ShipmentContractDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -97,7 +96,7 @@ public class ShipmentContractDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -109,7 +108,7 @@ public class ShipmentContractDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

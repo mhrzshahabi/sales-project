@@ -60,7 +60,7 @@ public class InvoiceInternalDTO {
 
 
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -79,7 +79,7 @@ public class InvoiceInternalDTO {
 		private InvoiceInternalCustomerDTO.Info buyer;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -88,7 +88,7 @@ public class InvoiceInternalDTO {
 	public static class Create extends InvoiceInternalDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -103,7 +103,7 @@ public class InvoiceInternalDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -115,7 +115,7 @@ public class InvoiceInternalDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

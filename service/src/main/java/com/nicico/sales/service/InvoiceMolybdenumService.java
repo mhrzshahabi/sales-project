@@ -159,7 +159,7 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 		return SearchUtil.search(invoiceMolybdenumDAO, request, invoiceMolybdenum -> modelMapper.map(invoiceMolybdenum, InvoiceMolybdenumDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private InvoiceMolybdenumDTO.Info save(InvoiceMolybdenum invoiceMolybdenum) {
 		final InvoiceMolybdenum saved = invoiceMolybdenumDAO.saveAndFlush(invoiceMolybdenum);

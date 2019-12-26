@@ -26,8 +26,6 @@ public class WarehouseYardRestController {
 
     private final IWarehouseYardService warehouseYardService;
 
-    // ------------------------------s
-
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<WarehouseYardDTO.Info> get(@PathVariable Long id) {
@@ -40,8 +38,6 @@ public class WarehouseYardRestController {
     public ResponseEntity<List<WarehouseYardDTO.Info>> list() {
         return new ResponseEntity<>(warehouseYardService.list(), HttpStatus.OK);
     }
-
-
 
     @Loggable
     @PostMapping
@@ -75,8 +71,6 @@ public class WarehouseYardRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(warehouseYardService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

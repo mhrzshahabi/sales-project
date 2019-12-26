@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -22,65 +21,58 @@ import java.util.List;
 @RequestMapping(value = "/api/warehouseLot")
 public class WarehouseLotRestController {
 
-	private final IWarehouseLotService warehouseLotService;
-	private final ObjectMapper objectMapper;
+    private final IWarehouseLotService warehouseLotService;
 
-	// ------------------------------s
+    @Loggable
+    @GetMapping(value = "/{id}")
+    // @PreAuthorize("hasAuthority('r_warehouseLot')")
+    public ResponseEntity<WarehouseLotDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(warehouseLotService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/{id}")
-	// @PreAuthorize("hasAuthority('r_warehouseLot')")
-	public ResponseEntity<WarehouseLotDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(warehouseLotService.get(id), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/list")
+    // @PreAuthorize("hasAuthority('r_warehouseLot')")
+    public ResponseEntity<List<WarehouseLotDTO.Info>> list() {
+        return new ResponseEntity<>(warehouseLotService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
-	// @PreAuthorize("hasAuthority('r_warehouseLot')")
-	public ResponseEntity<List<WarehouseLotDTO.Info>> list() {
-		return new ResponseEntity<>(warehouseLotService.list(), HttpStatus.OK);
-	}
+    @Loggable
+    @PostMapping
+    public ResponseEntity<WarehouseLotDTO.Info> create(@Validated @RequestBody WarehouseLotDTO.Create request) {
+        return new ResponseEntity<>(warehouseLotService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PostMapping
-	public ResponseEntity<WarehouseLotDTO.Info> create(@Validated @RequestBody WarehouseLotDTO.Create request) {
-		return new ResponseEntity<>(warehouseLotService.create(request), HttpStatus.CREATED);
-	}
+    @Loggable
+    @PutMapping
+    // @PreAuthorize("hasAuthority('u_warehouseLot')")
+    public ResponseEntity<WarehouseLotDTO.Info> update(@RequestBody WarehouseLotDTO.Update request) {
+        return new ResponseEntity<>(warehouseLotService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PutMapping
-	// @PreAuthorize("hasAuthority('u_warehouseLot')")
-	public ResponseEntity<WarehouseLotDTO.Info> update(@RequestBody WarehouseLotDTO.Update request) {
-		return new ResponseEntity<>(warehouseLotService.update(request.getId(), request), HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    // @PreAuthorize("hasAuthority('d_warehouseLot')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        warehouseLotService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
-	// @PreAuthorize("hasAuthority('d_warehouseLot')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		warehouseLotService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/list")
+    // @PreAuthorize("hasAuthority('d_warehouseLot')")
+    public ResponseEntity<Void> delete(@Validated @RequestBody WarehouseLotDTO.Delete request) {
+        warehouseLotService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
-	// @PreAuthorize("hasAuthority('d_warehouseLot')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody WarehouseLotDTO.Delete request) {
-		warehouseLotService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
-
-	@Loggable
-	@GetMapping(value = "/spec-list")
+    @Loggable
+    @GetMapping(value = "/spec-list")
 //	@PreAuthorize("hasAuthority('r_instruction')")
-	public ResponseEntity<TotalResponse<WarehouseLotDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(warehouseLotService.search(nicicoCriteria), HttpStatus.OK);
-	}
-
-
-	// ------------------------------
-
+    public ResponseEntity<TotalResponse<WarehouseLotDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(warehouseLotService.search(nicicoCriteria), HttpStatus.OK);
+    }
 }
 
 

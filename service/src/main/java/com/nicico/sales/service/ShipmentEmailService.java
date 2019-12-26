@@ -98,7 +98,7 @@ public class ShipmentEmailService implements IShipmentEmailService {
 		return SearchUtil.search(shipmentEmailDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentEmailDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ShipmentEmailDTO.Info save(ShipmentEmail shipmentEmail) {
 		final ShipmentEmail saved = shipmentEmailDAO.saveAndFlush(shipmentEmail);

@@ -26,7 +26,7 @@ public class WarehouseStockDTO {
 	private Long lot;
 	private Long materialItemId;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -43,7 +43,7 @@ public class WarehouseStockDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -52,7 +52,7 @@ public class WarehouseStockDTO {
 	public static class Create extends WarehouseStockDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -64,7 +64,7 @@ public class WarehouseStockDTO {
 		private Long id;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -76,7 +76,7 @@ public class WarehouseStockDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

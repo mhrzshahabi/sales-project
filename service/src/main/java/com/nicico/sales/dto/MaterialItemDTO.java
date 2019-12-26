@@ -19,7 +19,7 @@ public class MaterialItemDTO {
     private String gdsCode;
     private String gdsName;
     private Long materialId;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -35,7 +35,7 @@ public class MaterialItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -44,7 +44,7 @@ public class MaterialItemDTO {
 	public static class Create extends MaterialItemDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -56,7 +56,7 @@ public class MaterialItemDTO {
 		private Long id;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -68,7 +68,7 @@ public class MaterialItemDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

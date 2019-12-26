@@ -49,7 +49,7 @@ public class ContractItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -58,7 +58,7 @@ public class ContractItemDTO {
 	public static class Create extends ContractItemDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -73,7 +73,7 @@ public class ContractItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -85,7 +85,7 @@ public class ContractItemDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

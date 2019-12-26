@@ -1,7 +1,6 @@
 package com.nicico.sales.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
@@ -33,9 +32,7 @@ import java.util.Map;
 public class InvoiceInternalRestController {
 
     private final IInvoiceInternalService invoiceInternalService;
-    private final ObjectMapper objectMapper;
     private final ReportUtil reportUtil;
-    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -88,8 +85,6 @@ public class InvoiceInternalRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(invoiceInternalService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

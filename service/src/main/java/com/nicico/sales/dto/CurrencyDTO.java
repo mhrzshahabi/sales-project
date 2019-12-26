@@ -37,7 +37,7 @@ public class CurrencyDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -46,7 +46,7 @@ public class CurrencyDTO {
 	public static class Create extends CurrencyDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -61,7 +61,7 @@ public class CurrencyDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -73,7 +73,7 @@ public class CurrencyDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

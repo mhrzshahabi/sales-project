@@ -127,7 +127,7 @@ isc.loadSkin = function (theWindow) {
 			3
 		);
 
-		// -----------------------------------------------------
+		-----------------------
 		// css3 and spriting are required for the Tahoe skin
 		var useCSS3 = isc.Browser.useCSS3,
 			useSpriting = isc.Browser.useSpriting;
@@ -137,7 +137,7 @@ isc.loadSkin = function (theWindow) {
 				"unsupported in this browser. The appearance of components cannot " +
 				"be guaranteed. See the 'Skinning' documentation topic for more information.");
 		}
-		// -----------------------------------------------------
+		-----------------------
 
 		//----------------------------------------
 		// 1) Scrollbars
@@ -1735,17 +1735,17 @@ isc.loadSkin = function (theWindow) {
 			isc.CubeGrid.changeDefaults("rollOverCanvasDefaults", {styleName: "cubeSelectionOver"});
 		}
 
-		// -------------------------------------------
+		-------------
 		// 19) Printing
-		// -------------------------------------------
+		-------------
 		if (isc.PrintWindow) {
 			isc.PrintWindow.changeDefaults("printButtonDefaults", {
 				height: 27
 			});
 		}
-		// -------------------------------------------
+		-------------
 		// 20) SplitPane
-		// -------------------------------------------
+		-------------
 		if (isc.SplitPanePagedPanel) {
 			isc.SplitPanePagedPanel.addProperties({
 				skinUsesCSSTransitions: true
@@ -1784,9 +1784,9 @@ isc.loadSkin = function (theWindow) {
 			});
 		}
 
-		// -------------------------------------------
+		-------------
 		// 21) Drawing
-		// -------------------------------------------
+		-------------
 		if (isc.Gauge) {
 			isc.Gauge.addProperties({
 				fontSize: 11,
@@ -1799,9 +1799,9 @@ isc.loadSkin = function (theWindow) {
 			});
 		}
 
-		// -------------------------------------------
+		-------------
 		// 22) FacetChart
-		// -------------------------------------------
+		-------------
 		if (isc.FacetChart) {
 			isc.FacetChart.addProperties({
 				// General Chart changes

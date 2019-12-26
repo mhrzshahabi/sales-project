@@ -33,7 +33,7 @@ public class GroupsDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -42,7 +42,7 @@ public class GroupsDTO {
 	public static class Create extends GroupsDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -57,7 +57,7 @@ public class GroupsDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -69,7 +69,7 @@ public class GroupsDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

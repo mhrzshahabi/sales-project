@@ -30,7 +30,7 @@ public class IncotermsDTO {
 	private String expenses;
 	private String namedPlace;
 	private String namedPort;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -45,7 +45,7 @@ public class IncotermsDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -54,7 +54,7 @@ public class IncotermsDTO {
 	public static class Create extends IncotermsDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -69,7 +69,7 @@ public class IncotermsDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -81,7 +81,7 @@ public class IncotermsDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

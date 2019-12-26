@@ -23,67 +23,63 @@ import java.util.List;
 @RequestMapping(value = "/api/groups")
 public class GroupsRestController {
 
-	private final IGroupsService groupsService;
+    private final IGroupsService groupsService;
 
-	// ------------------------------s
-
-	@Loggable
-	@GetMapping(value = "/{id}")
+    @Loggable
+    @GetMapping(value = "/{id}")
 //	@PreAuthorize("hasAuthority('r_groups')")
-	public ResponseEntity<GroupsDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(groupsService.get(id), HttpStatus.OK);
-	}
+    public ResponseEntity<GroupsDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(groupsService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
+    @Loggable
+    @GetMapping(value = "/list")
 //	@PreAuthorize("hasAuthority('r_groups')")
-	public ResponseEntity<List<GroupsDTO.Info>> list() {
-		return new ResponseEntity<>(groupsService.list(), HttpStatus.OK);
-	}
+    public ResponseEntity<List<GroupsDTO.Info>> list() {
+        return new ResponseEntity<>(groupsService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PostMapping
+    @Loggable
+    @PostMapping
 //	@PreAuthorize("hasAuthority('c_groups')")
-	public ResponseEntity<GroupsDTO.Info> create(@Validated @RequestBody GroupsDTO.Create request) {
-		return new ResponseEntity<>(groupsService.create(request), HttpStatus.CREATED);
-	}
+    public ResponseEntity<GroupsDTO.Info> create(@Validated @RequestBody GroupsDTO.Create request) {
+        return new ResponseEntity<>(groupsService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PutMapping
+    @Loggable
+    @PutMapping
 //	@PreAuthorize("hasAuthority('u_groups')")
-	public ResponseEntity<GroupsDTO.Info> update(@RequestBody GroupsDTO.Update request) {
-		return new ResponseEntity<>(groupsService.update(request.getId(), request), HttpStatus.OK);
-	}
+    public ResponseEntity<GroupsDTO.Info> update(@RequestBody GroupsDTO.Update request) {
+        return new ResponseEntity<>(groupsService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
+    @Loggable
+    @DeleteMapping(value = "/{id}")
 //	@PreAuthorize("hasAuthority('d_groups')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		groupsService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        groupsService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
+    @Loggable
+    @DeleteMapping(value = "/list")
 //	@PreAuthorize("hasAuthority('d_groups')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody GroupsDTO.Delete request) {
-		groupsService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@Validated @RequestBody GroupsDTO.Delete request) {
+        groupsService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-	public ResponseEntity<TotalResponse<GroupsDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(groupsService.search(nicicoCriteria), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<GroupsDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(groupsService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
-	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
+    @Loggable
+    @GetMapping(value = "/search")
 //	@PreAuthorize("hasAuthority('r_groups')")
-	public ResponseEntity<SearchDTO.SearchRs<GroupsDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(groupsService.search(request), HttpStatus.OK);
-	}
+    public ResponseEntity<SearchDTO.SearchRs<GroupsDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
+        return new ResponseEntity<>(groupsService.search(request), HttpStatus.OK);
+    }
 }

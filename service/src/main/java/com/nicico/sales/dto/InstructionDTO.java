@@ -22,7 +22,7 @@ public class InstructionDTO {
 	private String disableDate;
 	private String runDate;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -37,7 +37,7 @@ public class InstructionDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -46,7 +46,7 @@ public class InstructionDTO {
 	public static class Create extends InstructionDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -61,7 +61,7 @@ public class InstructionDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -73,7 +73,7 @@ public class InstructionDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

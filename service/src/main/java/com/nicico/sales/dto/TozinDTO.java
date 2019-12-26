@@ -72,7 +72,7 @@ public class TozinDTO {
 	@ApiModelProperty(required = true)
 	private Country country;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -87,7 +87,7 @@ public class TozinDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -96,7 +96,7 @@ public class TozinDTO {
 	public static class Create extends TozinDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -111,7 +111,7 @@ public class TozinDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -123,7 +123,7 @@ public class TozinDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

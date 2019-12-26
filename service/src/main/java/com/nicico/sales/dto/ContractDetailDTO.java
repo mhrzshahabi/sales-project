@@ -162,7 +162,7 @@ public class ContractDetailDTO {
      private Integer discountValueEleven;
      private Integer discountValueEleven_1;
      private Integer discountValueEleven_2;
-    // ------------------------------
+
     private String discountFor;
     private String discountPerfixOne;
     private String discountUnitOne;
@@ -209,7 +209,7 @@ public class ContractDetailDTO {
         private Integer version;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -218,7 +218,7 @@ public class ContractDetailDTO {
     public static class Create extends ContractDetailDTO {
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -230,7 +230,7 @@ public class ContractDetailDTO {
         private Long id;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -242,7 +242,7 @@ public class ContractDetailDTO {
         private List<Long> ids;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter

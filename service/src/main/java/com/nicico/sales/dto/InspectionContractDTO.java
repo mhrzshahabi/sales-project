@@ -1,9 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.Contact;
-import com.nicico.sales.model.entities.base.Shipment;
-import com.nicico.sales.model.entities.base.ShipmentContract;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -44,7 +41,7 @@ public class InspectionContractDTO {
 	private Boolean superviseWeighing;
 	private Boolean sampling;
 	private Boolean moistureDetermination;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -64,7 +61,7 @@ public class InspectionContractDTO {
 
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -73,7 +70,7 @@ public class InspectionContractDTO {
 	public static class Create extends InspectionContractDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -88,7 +85,7 @@ public class InspectionContractDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -100,7 +97,7 @@ public class InspectionContractDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

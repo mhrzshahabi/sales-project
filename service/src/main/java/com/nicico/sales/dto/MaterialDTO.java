@@ -27,7 +27,7 @@ public class MaterialDTO {
 	private String code;
 	private Long unitId;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -43,7 +43,7 @@ public class MaterialDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -58,7 +58,7 @@ public class MaterialDTO {
 		private UnitDTO unit;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -69,7 +69,7 @@ public class MaterialDTO {
 		private Long unitId;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -87,7 +87,7 @@ public class MaterialDTO {
 		private Long unitId;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -99,7 +99,7 @@ public class MaterialDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

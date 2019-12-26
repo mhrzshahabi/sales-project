@@ -104,7 +104,7 @@ public class ContractDTO {
 		private ContactDTO contactByBuyerAgent;
 		}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -113,7 +113,7 @@ public class ContractDTO {
 	public static class Create extends ContractDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -125,7 +125,7 @@ public class ContractDTO {
 		private Long id;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -137,7 +137,7 @@ public class ContractDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

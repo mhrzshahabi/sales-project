@@ -34,7 +34,7 @@ public class PersonDTO {
 	private String whatsApp;
 	private String weChat;
 	private String address;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -51,7 +51,7 @@ public class PersonDTO {
 
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -60,7 +60,7 @@ public class PersonDTO {
 	public static class Create extends PersonDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -75,7 +75,7 @@ public class PersonDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -87,7 +87,7 @@ public class PersonDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

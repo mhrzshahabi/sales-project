@@ -23,7 +23,7 @@ public class WarehouseIssueConsDTO {
 	private Double totalAmount;
 	private Double amountDraft;
 	private Double amountPms;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -39,7 +39,7 @@ public class WarehouseIssueConsDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -48,7 +48,7 @@ public class WarehouseIssueConsDTO {
 	public static class Create extends WarehouseIssueConsDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -60,7 +60,7 @@ public class WarehouseIssueConsDTO {
 		private Long id;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -72,7 +72,7 @@ public class WarehouseIssueConsDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

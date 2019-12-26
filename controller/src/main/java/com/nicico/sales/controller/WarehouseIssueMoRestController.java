@@ -26,8 +26,6 @@ public class WarehouseIssueMoRestController {
 
     private final IWarehouseIssueMoService warehouseIssueMoService;
 
-    // ------------------------------s
-
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<WarehouseIssueMoDTO.Info> get(@PathVariable Long id) {
@@ -72,8 +70,6 @@ public class WarehouseIssueMoRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(warehouseIssueMoService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

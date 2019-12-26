@@ -24,7 +24,7 @@ public class ShipmentAssayItemDTO {
 	private Double ag;
 	private Double au;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -40,7 +40,7 @@ public class ShipmentAssayItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -49,7 +49,7 @@ public class ShipmentAssayItemDTO {
 	public static class Create extends ShipmentAssayItemDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -64,7 +64,7 @@ public class ShipmentAssayItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -76,7 +76,7 @@ public class ShipmentAssayItemDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

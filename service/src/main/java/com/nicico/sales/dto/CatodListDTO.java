@@ -25,7 +25,7 @@ public class CatodListDTO {
 	private Long packingTypeId;
 	private Long gdsCode;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -40,7 +40,7 @@ public class CatodListDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -49,7 +49,7 @@ public class CatodListDTO {
 	public static class Create extends CatodListDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -61,7 +61,7 @@ public class CatodListDTO {
 		private Long id;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -73,7 +73,7 @@ public class CatodListDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

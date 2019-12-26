@@ -24,7 +24,7 @@ public class WarehouseIssueMoDTO {
 	private String sealedInspector;
 	private String sealedShip;
 	private Double emptyWeight;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -41,7 +41,7 @@ public class WarehouseIssueMoDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -50,7 +50,7 @@ public class WarehouseIssueMoDTO {
 	public static class Create extends WarehouseIssueMoDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -62,7 +62,7 @@ public class WarehouseIssueMoDTO {
 		private Long id;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -74,7 +74,7 @@ public class WarehouseIssueMoDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

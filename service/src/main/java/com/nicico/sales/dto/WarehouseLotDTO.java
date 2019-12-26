@@ -46,7 +46,7 @@ public class WarehouseLotDTO {
 	private String typical;
 	private Long WarehouseCadItemId;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -65,7 +65,7 @@ public class WarehouseLotDTO {
 	}
 
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -74,7 +74,7 @@ public class WarehouseLotDTO {
 	public static class Create extends WarehouseLotDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -89,7 +89,7 @@ public class WarehouseLotDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -101,7 +101,7 @@ public class WarehouseLotDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

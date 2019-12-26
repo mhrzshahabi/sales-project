@@ -27,7 +27,7 @@ public class ShipmentAssayHeaderDTO {
 	private Double averageAuPercent;
 	private Double averageAgPercent;
 	private Double totalDryWeight;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -44,7 +44,7 @@ public class ShipmentAssayHeaderDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -53,7 +53,7 @@ public class ShipmentAssayHeaderDTO {
 	public static class Create extends ShipmentAssayHeaderDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -68,7 +68,7 @@ public class ShipmentAssayHeaderDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -80,7 +80,7 @@ public class ShipmentAssayHeaderDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

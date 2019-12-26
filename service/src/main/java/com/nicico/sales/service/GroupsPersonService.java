@@ -90,7 +90,7 @@ public class GroupsPersonService implements IGroupsPersonService {
 		return SearchUtil.search(groupsPersonDAO, criteria, groupsPerson -> modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private GroupsPersonDTO.Info save(GroupsPerson groupsPerson) {
 		final GroupsPerson saved = groupsPersonDAO.saveAndFlush(groupsPerson);

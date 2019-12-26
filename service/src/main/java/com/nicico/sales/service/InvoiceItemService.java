@@ -90,7 +90,7 @@ public class InvoiceItemService implements IInvoiceItemService {
 		return SearchUtil.search(invoiceItemDAO, criteria, invoiceItem -> modelMapper.map(invoiceItem, InvoiceItemDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private InvoiceItemDTO.Info save(InvoiceItem invoiceItem) {
 		final InvoiceItem saved = invoiceItemDAO.saveAndFlush(invoiceItem);

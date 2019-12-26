@@ -25,7 +25,7 @@ public class CountryDTO {
 	private String invId;
 	private String code;
 
-	// ------------------------------
+
 	@Getter
 	@Setter
 	@ApiModel("CountryInfoTuple")
@@ -33,7 +33,7 @@ public class CountryDTO {
 		private String nameFa;
 		private String nameEn;
 	}
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -48,7 +48,7 @@ public class CountryDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -57,7 +57,7 @@ public class CountryDTO {
 	public static class Create extends CountryDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -72,7 +72,7 @@ public class CountryDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -84,7 +84,7 @@ public class CountryDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

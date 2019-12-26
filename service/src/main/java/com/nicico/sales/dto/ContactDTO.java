@@ -77,7 +77,7 @@ public class ContactDTO {
         private Integer version;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -86,7 +86,7 @@ public class ContactDTO {
     public static class Create extends ContactDTO {
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -98,7 +98,7 @@ public class ContactDTO {
         private Long id;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -110,7 +110,7 @@ public class ContactDTO {
         private List<Long> ids;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter

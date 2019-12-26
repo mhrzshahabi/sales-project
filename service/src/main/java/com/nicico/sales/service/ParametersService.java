@@ -90,7 +90,7 @@ public class ParametersService implements IParametersService {
 		return SearchUtil.search(parametersDAO, criteria, parameters -> modelMapper.map(parameters, ParametersDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ParametersDTO.Info save(Parameters parameters) {
 		final Parameters saved = parametersDAO.saveAndFlush(parameters);

@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -26,7 +25,6 @@ import java.util.List;
 public class ContractRestController {
 
     private final IContractService contractService;
-    private final ObjectMapper objectMapper;
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -79,6 +77,7 @@ public class ContractRestController {
         contractService.writeToWord(request);
         return new ResponseEntity(HttpStatus.OK);
     }
+
     @Loggable
     @PutMapping(value = "/readWord")
     public ResponseEntity<List<String>> updateValueAllArticles(@RequestBody String contractNo) {

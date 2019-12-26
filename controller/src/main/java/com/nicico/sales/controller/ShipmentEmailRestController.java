@@ -24,8 +24,6 @@ public class ShipmentEmailRestController {
 
 	private final IShipmentEmailService shipmentEmailService;
 
-	// ------------------------------s
-
 	@Loggable
 	@GetMapping(value = "/{id}")
 	//@PreAuthorize("hasAuthority('r_shipmentEmail')")

@@ -81,7 +81,7 @@ public class ContractPersonService implements IContractPersonService {
     public TotalResponse<ContractPersonDTO.Info> search(NICICOCriteria criteria) {
 		return SearchUtil.search(contractPersonDAO, criteria, contractPerson -> modelMapper.map(contractPerson, ContractPersonDTO.Info.class));
 	}
-	// ------------------------------
+
 
 	private ContractPersonDTO.Info save(ContractPerson contractPerson) {
 		final ContractPerson saved = contractPersonDAO.saveAndFlush(contractPerson);

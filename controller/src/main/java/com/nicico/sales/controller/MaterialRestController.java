@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -25,8 +24,6 @@ import java.util.List;
 public class MaterialRestController {
 
     private final IMaterialService materialService;
-    private final ObjectMapper objectMapper;
-    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -78,8 +75,6 @@ public class MaterialRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(materialService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

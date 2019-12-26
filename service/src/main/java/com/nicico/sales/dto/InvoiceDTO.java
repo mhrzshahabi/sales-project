@@ -82,7 +82,7 @@ public class InvoiceDTO {
 	private String processId;
 
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -99,7 +99,7 @@ public class InvoiceDTO {
 		private ContactDTO.ContactInfoTuple buyer;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -108,7 +108,7 @@ public class InvoiceDTO {
 	public static class Create extends InvoiceDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -123,7 +123,7 @@ public class InvoiceDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -135,7 +135,7 @@ public class InvoiceDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

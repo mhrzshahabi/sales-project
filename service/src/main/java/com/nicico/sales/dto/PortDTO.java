@@ -30,7 +30,7 @@ public class PortDTO {
 	private String beam;
 	private String arrival;
 
-	// ------------------------------
+
 	@Getter
 	@Setter
 	@ApiModel("PortInfoTuple")
@@ -38,7 +38,7 @@ public class PortDTO {
 	public static class PortInfoTuple {
 		private String port;
 	}
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -54,7 +54,7 @@ public class PortDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -63,7 +63,7 @@ public class PortDTO {
 	public static class Create extends PortDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -78,7 +78,7 @@ public class PortDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -90,7 +90,7 @@ public class PortDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

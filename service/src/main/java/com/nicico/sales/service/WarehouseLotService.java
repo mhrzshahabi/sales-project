@@ -82,7 +82,7 @@ public class WarehouseLotService implements IWarehouseLotService {
 		return SearchUtil.search(warehouseLotDAO, criteria, warehouseLot -> modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private WarehouseLotDTO.Info save(WarehouseLot warehouseLot) {
 		final WarehouseLot saved = warehouseLotDAO.saveAndFlush(warehouseLot);

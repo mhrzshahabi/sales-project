@@ -34,7 +34,7 @@ public class GlossaryDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -43,7 +43,7 @@ public class GlossaryDTO {
 	public static class Create extends GlossaryDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -58,7 +58,7 @@ public class GlossaryDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -70,7 +70,7 @@ public class GlossaryDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

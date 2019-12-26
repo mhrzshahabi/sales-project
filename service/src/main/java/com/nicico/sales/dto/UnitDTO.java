@@ -29,7 +29,7 @@ public class UnitDTO {
 	private String symbol;
 	@ApiModelProperty(required = true)
 	private Long decimalDigit;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -44,7 +44,7 @@ public class UnitDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -53,7 +53,7 @@ public class UnitDTO {
 	public static class Create extends UnitDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -68,7 +68,7 @@ public class UnitDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -80,7 +80,7 @@ public class UnitDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

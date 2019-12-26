@@ -24,7 +24,7 @@ public class RateDTO {
 	private String symbol;
 	private Long decimalDigit;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -39,7 +39,7 @@ public class RateDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -48,7 +48,7 @@ public class RateDTO {
 	public static class Create extends RateDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -63,7 +63,7 @@ public class RateDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -75,7 +75,7 @@ public class RateDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

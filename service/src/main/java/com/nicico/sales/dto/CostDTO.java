@@ -54,8 +54,8 @@ public class CostDTO {
 	private Double disinfectionCost;
 	private Double portCost;
 
-	// ------------------------------
-	// ------------------------------
+
+
 
 	@Getter
 	@Setter
@@ -74,7 +74,7 @@ public class CostDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -83,7 +83,7 @@ public class CostDTO {
 	public static class Create extends CostDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -98,7 +98,7 @@ public class CostDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -110,7 +110,7 @@ public class CostDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

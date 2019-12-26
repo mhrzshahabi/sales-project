@@ -119,7 +119,7 @@ public class ContactAccountService implements IContactAccountService {
         return SearchUtil.search(contactAccountDAO, criteria, contactAccount -> modelMapper.map(contactAccount, ContactAccountDTO.Info.class));
     }
 
-    // ------------------------------
+
 
     private ContactAccountDTO.Info save(ContactAccount contactAccount) {
         final ContactAccount saved = contactAccountDAO.saveAndFlush(contactAccount);

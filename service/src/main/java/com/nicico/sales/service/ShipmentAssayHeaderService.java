@@ -82,7 +82,7 @@ public class ShipmentAssayHeaderService implements IShipmentAssayHeaderService {
 		return SearchUtil.search(shipmentAssayHeaderDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentAssayHeaderDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ShipmentAssayHeaderDTO.Info save(ShipmentAssayHeader shipmentAssayHeader) {
 		final ShipmentAssayHeader saved = shipmentAssayHeaderDAO.saveAndFlush(shipmentAssayHeader);

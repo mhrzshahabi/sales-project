@@ -90,7 +90,7 @@ public class LMEService implements ILMEService {
 		return SearchUtil.search(lMEDAO, criteria, lme -> modelMapper.map(lme, LMEDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private LMEDTO.Info save(LME lME) {
 		final LME saved = lMEDAO.saveAndFlush(lME);

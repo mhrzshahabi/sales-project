@@ -37,7 +37,7 @@ public class WarehouseCadDTO {
     private Double sourceWeight;
     private Double destinationWeight;
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -75,7 +75,7 @@ public class WarehouseCadDTO {
     }
 
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -85,7 +85,7 @@ public class WarehouseCadDTO {
         private List<WarehouseCadItemDTO.Create> warehouseCadItems;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -97,7 +97,7 @@ public class WarehouseCadDTO {
         private Long id;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -109,7 +109,7 @@ public class WarehouseCadDTO {
         private List<Long> ids;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter

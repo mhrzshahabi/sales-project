@@ -42,7 +42,7 @@ public class ContractCurrencyDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -51,7 +51,7 @@ public class ContractCurrencyDTO {
 	public static class Create extends ContractCurrencyDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -66,7 +66,7 @@ public class ContractCurrencyDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -78,7 +78,7 @@ public class ContractCurrencyDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

@@ -90,7 +90,7 @@ public class CurrencyRateService implements ICurrencyRateService {
 		return SearchUtil.search(currencyRateDAO, criteria, currencyRate -> modelMapper.map(currencyRate, CurrencyRateDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private CurrencyRateDTO.Info save(CurrencyRate currencyRate) {
 		final CurrencyRate saved = currencyRateDAO.saveAndFlush(currencyRate);

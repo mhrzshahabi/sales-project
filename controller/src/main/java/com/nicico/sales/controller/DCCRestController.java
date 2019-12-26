@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nicico.copper.common.Loggable;
@@ -32,8 +31,6 @@ public class DCCRestController {
 
     private final IDCCService dCCService;
     private final Environment environment;
-    private final ObjectMapper objectMapper;
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -135,7 +132,6 @@ public class DCCRestController {
         return new ResponseEntity<>(dCCService.search(nicicoCriteria), HttpStatus.OK);
     }
 
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

@@ -45,7 +45,7 @@ public class InvoiceInternalLcDTO {
 	private String lcBankGroupDesc;
 	private String lcStateInOut;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -60,7 +60,7 @@ public class InvoiceInternalLcDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -69,7 +69,7 @@ public class InvoiceInternalLcDTO {
 	public static class Create extends InvoiceInternalLcDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -84,7 +84,7 @@ public class InvoiceInternalLcDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -96,7 +96,7 @@ public class InvoiceInternalLcDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

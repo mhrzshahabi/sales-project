@@ -29,7 +29,7 @@ public class WarehouseIssueCathodeDTO {
     private String sheet;
 	private Double totalAmount;
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -45,7 +45,7 @@ public class WarehouseIssueCathodeDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -54,7 +54,7 @@ public class WarehouseIssueCathodeDTO {
 	public static class Create extends WarehouseIssueCathodeDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -66,7 +66,7 @@ public class WarehouseIssueCathodeDTO {
 		private Long id;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -78,7 +78,7 @@ public class WarehouseIssueCathodeDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

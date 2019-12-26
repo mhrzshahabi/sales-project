@@ -37,7 +37,7 @@ public class FeatureDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -46,7 +46,7 @@ public class FeatureDTO {
 	public static class Create extends FeatureDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -61,7 +61,7 @@ public class FeatureDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -73,7 +73,7 @@ public class FeatureDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

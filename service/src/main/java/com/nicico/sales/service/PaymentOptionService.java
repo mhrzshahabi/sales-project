@@ -90,7 +90,7 @@ public class PaymentOptionService implements IPaymentOptionService {
 		return SearchUtil.search(paymentOptionDAO, criteria, paymentOption -> modelMapper.map(paymentOption, PaymentOptionDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private PaymentOptionDTO.Info save(PaymentOption paymentOption) {
 		final PaymentOption saved = paymentOptionDAO.saveAndFlush(paymentOption);

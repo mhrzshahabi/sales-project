@@ -30,7 +30,7 @@ public class InvoiceItemDTO {
 	private Double conversionRate;
 	private String dateRate;
 	private String rateReference;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -46,7 +46,7 @@ public class InvoiceItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -55,7 +55,7 @@ public class InvoiceItemDTO {
 	public static class Create extends InvoiceItemDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -70,7 +70,7 @@ public class InvoiceItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -82,7 +82,7 @@ public class InvoiceItemDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

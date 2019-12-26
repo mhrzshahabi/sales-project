@@ -64,7 +64,7 @@ public class ShipmentDTO {
 	private Double postFreight;
 	private String postFreightCurrency;
 	private String bookingCat;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -92,7 +92,7 @@ public class ShipmentDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 
 
@@ -103,7 +103,7 @@ public class ShipmentDTO {
 	public static class Create extends ShipmentDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -118,7 +118,7 @@ public class ShipmentDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -130,7 +130,7 @@ public class ShipmentDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

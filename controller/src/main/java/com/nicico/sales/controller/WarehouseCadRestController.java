@@ -25,8 +25,6 @@ public class WarehouseCadRestController {
 
     private final IWarehouseCadService warehouseCadService;
 
-    // ------------------------------s
-
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<WarehouseCadDTO.Info> get(@PathVariable Long id) {
@@ -79,12 +77,9 @@ public class WarehouseCadRestController {
         return new ResponseEntity<>(warehouseCadService.search1(nicicoCriteria), HttpStatus.OK);
     }
 
-    // ------------------------------
-
     @Loggable
     @GetMapping(value = "/search")
     public ResponseEntity<SearchDTO.SearchRs<WarehouseCadDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(warehouseCadService.search(request), HttpStatus.OK);
     }
-
 }

@@ -106,7 +106,7 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
 		return SearchUtil.search(invoiceInternalLcDAO, request, invoiceInternalLc -> modelMapper.map(invoiceInternalLc, InvoiceInternalLcDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private InvoiceInternalLcDTO.Info save(InvoiceInternalLc invoiceInternalLc) {
 

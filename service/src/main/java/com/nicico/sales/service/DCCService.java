@@ -90,7 +90,7 @@ public class DCCService implements IDCCService {
 		return SearchUtil.search(dCCDAO, criteria, dcc -> modelMapper.map(dcc, DCCDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private DCCDTO.Info save(DCC dCC) {
 		final DCC saved = dCCDAO.saveAndFlush(dCC);

@@ -28,8 +28,8 @@ public class ContractShipmentDTO {
 	private Long duration;
 	private Long tolorance;
 
-	// ------------------------------
-	// ------------------------------
+
+
 
 	@Getter
 	@Setter
@@ -46,7 +46,7 @@ public class ContractShipmentDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -55,7 +55,7 @@ public class ContractShipmentDTO {
 	public static class Create extends ContractShipmentDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -70,7 +70,7 @@ public class ContractShipmentDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -82,7 +82,7 @@ public class ContractShipmentDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

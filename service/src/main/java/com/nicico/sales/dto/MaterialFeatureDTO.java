@@ -32,7 +32,7 @@ public class MaterialFeatureDTO {
 	private Long featureId;
 	@ApiModelProperty(required = true)
 	private Long rateId;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -49,7 +49,7 @@ public class MaterialFeatureDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -59,7 +59,7 @@ public class MaterialFeatureDTO {
 
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -74,7 +74,7 @@ public class MaterialFeatureDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -86,7 +86,7 @@ public class MaterialFeatureDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

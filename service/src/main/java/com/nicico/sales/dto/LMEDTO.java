@@ -24,7 +24,7 @@ public class LMEDTO {
 	private String platinumUsdOunce;
 	private String palladiumUsdOunce;
 	private String molybdenumUsdLb;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -39,7 +39,7 @@ public class LMEDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -48,7 +48,7 @@ public class LMEDTO {
 	public static class Create extends LMEDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -63,7 +63,7 @@ public class LMEDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -75,7 +75,7 @@ public class LMEDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

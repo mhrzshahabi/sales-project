@@ -26,8 +26,6 @@ public class CatodListRestController {
 
     private final ICatodListService catodListService;
 
-    // ------------------------------s
-
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<CatodListDTO.Info> get(@PathVariable Long id) {
@@ -72,8 +70,6 @@ public class CatodListRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(catodListService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

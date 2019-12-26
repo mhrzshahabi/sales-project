@@ -25,7 +25,7 @@ public class WarehouseCadItemDTO {
     private Double issueId;
     private Double description;
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -72,7 +72,7 @@ public class WarehouseCadItemDTO {
         private Integer version;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -84,7 +84,7 @@ public class WarehouseCadItemDTO {
         private Long warehouseCadId;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -96,7 +96,7 @@ public class WarehouseCadItemDTO {
         private Long id;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter
@@ -108,7 +108,7 @@ public class WarehouseCadItemDTO {
         private List<Long> ids;
     }
 
-    // ------------------------------
+
 
     @Getter
     @Setter

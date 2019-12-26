@@ -40,7 +40,7 @@ public class DCCDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -49,7 +49,7 @@ public class DCCDTO {
 	public static class Create extends DCCDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -64,7 +64,7 @@ public class DCCDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -76,7 +76,7 @@ public class DCCDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter

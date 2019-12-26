@@ -90,7 +90,7 @@ public class FeatureService implements IFeatureService {
 		return SearchUtil.search(featureDAO, criteria, feature -> modelMapper.map(feature, FeatureDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private FeatureDTO.Info save(Feature feature) {
 		final Feature saved = featureDAO.saveAndFlush(feature);

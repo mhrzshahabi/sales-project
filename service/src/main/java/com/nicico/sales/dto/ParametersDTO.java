@@ -23,7 +23,7 @@ public class ParametersDTO {
 	private String paramValue;
 	private Integer contractId;
 	private Integer categoryValue;
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -38,7 +38,7 @@ public class ParametersDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -47,7 +47,7 @@ public class ParametersDTO {
 	public static class Create extends ParametersDTO {
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -62,7 +62,7 @@ public class ParametersDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
@@ -74,7 +74,7 @@ public class ParametersDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
+
 
 	@Getter
 	@Setter
