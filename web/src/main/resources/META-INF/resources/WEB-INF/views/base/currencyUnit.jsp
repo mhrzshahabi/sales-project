@@ -209,7 +209,7 @@
                 message: "<spring:message code='global.grid.record.not.selected'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.message'/>.",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                 buttonClick: function () {
                     hide();
                 }

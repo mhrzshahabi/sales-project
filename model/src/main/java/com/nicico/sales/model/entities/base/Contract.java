@@ -67,7 +67,7 @@ public class Contract extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTACT_INSPECTION_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactInspection"))
+    @JoinColumn(name = "CONTACT_INSPECTION_ID", insertable = false, updatable = false/*, foreignKey = @ForeignKey(name = "contract2contactInspection")*/)
     private Contact contactInspection;
 
     @Column(name = "CONTACT_INSPECTION_ID")
@@ -299,6 +299,5 @@ public class Contract extends Auditable {
 
 	@Column(name = "MOLYBDENUM_TOLORANCE")
 	private Double molybdenumTolorance;
-
 
 }
