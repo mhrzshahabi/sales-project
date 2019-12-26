@@ -300,5 +300,4 @@ public class Contract extends Auditable {
 	@Column(name = "MOLYBDENUM_TOLORANCE")
 	private Double molybdenumTolorance;
 
-
 }
