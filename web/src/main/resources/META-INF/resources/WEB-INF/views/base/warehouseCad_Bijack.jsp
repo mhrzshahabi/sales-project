@@ -286,7 +286,7 @@
                 httpMethod: method,
                 data: JSON.stringify(warehouseCadItem),
                 callback: function(resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         //fetch data automatically
                         ListGrid_WarehouseCadItem.setData([]);
@@ -310,7 +310,7 @@
                 actionURL: "${contextPath}/api/warehouseCadItem/" + warehouseCadItemId,
                 httpMethod: "DELETE",
                 callback: function(resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         ListGrid_WarehouseCadItem.setData([]);
                         ListGrid_WarehouseCadItem.fetchData({
                             "warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id
@@ -594,7 +594,7 @@
                 httpMethod: method,
                 data: JSON.stringify(data_WarehouseCad),
                 callback: function(resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         Window_Bijack.close();
                     } else

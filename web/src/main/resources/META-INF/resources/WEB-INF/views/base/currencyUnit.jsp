@@ -225,7 +225,7 @@
                 }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
 
                         var currencyUnitId = record.id;
                         isc.RPCManager.sendRequest({

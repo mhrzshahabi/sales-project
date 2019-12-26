@@ -101,14 +101,14 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         var InvoiceInternalId = record.id;
     return;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/invoiceInternal0000/" + InvoiceInternalId,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                         ListGrid_InvoiceInternal_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     } else {
@@ -280,7 +280,7 @@
                                     httpMethod: "PUT",
                                     data: JSON.stringify(data2acc),
                                     callback: function (resp) {
-                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                             isc.say("<spring:message code='global.form.request.successful'/>.");
                                             ListGrid_InvoiceInternal_refresh();
                                         } else
@@ -349,7 +349,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_InvoiceInternal_refresh();
                             Window_InvoiceInternal.close();

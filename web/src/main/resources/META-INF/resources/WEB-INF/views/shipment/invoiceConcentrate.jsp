@@ -70,14 +70,12 @@
 	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
 	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
 	  m=multiply(val1,val2)/((name1=="paidPercent" || name2=="paidPercent" || name1=="copper" || name2=="copper") ? 100 : 1);
-	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
 	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
 	}
 	function multiplyAndSet3 (name1,name2,setName0,number1) {
 	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
 	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
 	  m=multiply(val1,val2)*number1;
-	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
 	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
 	}
 	function DynamicForm_Invoice_Concentrate_getValue(fld){
@@ -1196,7 +1194,7 @@
                 httpMethod: method,
                 data: dataOut,
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_Invoice_refresh();
                         Window_Invoice_Concentrate.close();

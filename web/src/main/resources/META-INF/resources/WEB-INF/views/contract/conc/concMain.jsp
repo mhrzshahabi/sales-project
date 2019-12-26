@@ -321,7 +321,7 @@ var ListGrid_Conc = isc.ListGrid.create({
                 httpMethod: "PUT",
                 data: JSON.stringify(record.contractNo+"_Conc"),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         var text = resp.httpResponseText;
                         var text2 = text.replaceAll('","', '","').replaceAll('&','":"')
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));

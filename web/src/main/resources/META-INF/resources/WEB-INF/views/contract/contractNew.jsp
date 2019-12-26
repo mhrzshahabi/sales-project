@@ -128,7 +128,6 @@ var DynamicForm_ContactParameter_ValueNumber8;
 
                             var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
                                         RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
-                                    console.log();
                                     var feild_all_defintitons_save =   JSON.parse(data[0].feild_all_defintitons_save)
                                     contactHeaderAgent.editRecord(data[0]);
                                     valuesManagerArticle1.editRecord(data[0]);

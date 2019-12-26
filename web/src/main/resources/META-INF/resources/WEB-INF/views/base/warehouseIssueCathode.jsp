@@ -47,7 +47,6 @@
         fetchDataURL: "${contextPath}/api/warehouseCad/spec-list-issue-cad"
     });
 
-    //*******************************************************************************
     var MyRestDataSource_ShipmentByWarehouseIssueCathode = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -239,7 +238,6 @@
         fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list-issue-cad"
     });
 
-
     var ListGrid_ShipmentByWarehouseIssueCathode = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -324,7 +322,6 @@
                 align: "center",
                 showHover: true
             },
-            <%--{name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},--%>
             {
                 name: "portByLoadingport", dataPath: "portByLoading.port",
                 title: "<spring:message	code='shipment.loading'/>",
@@ -341,7 +338,6 @@
                 width: "10%",
                 showHover: true
             },
-            <%--// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},--%>
             {
                 name: "description",
                 title: "<spring:message code='shipment.description'/>",
@@ -435,9 +431,7 @@
                 ListGrid_WarehouseIssueCathode.setData(data);
 
             });
-        },
-        dataArrived: function (startRow, endRow) {
-        },
+        }
         sortField: 0,
         dataPageSize: 50,
         autoFetchData: false,
@@ -453,6 +447,7 @@
         freezeFieldText: "ثابت نگه داشتن",
         startsWithTitle: "tt"
     });
+
     var HLayout_Grid_ShipmentByWarehouseIssueCathode = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -513,13 +508,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         var WarehouseIssueCathodeId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/warehouseIssueCathode/" + WarehouseIssueCathodeId,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                         ListGrid_WarehouseIssueCathode_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     } else {
@@ -567,27 +562,15 @@
 
     /******************************************************************************************************************************************************************************/
     function warehouseIssueCathode_bijak() {
-
         var ClientData_WarehouseCadITEMByWarehouseIssueCathode = [];
         var ids = DynamicForm_WarehouseIssueCathode.getValue("bijakIds");
         if (typeof(ids) != 'undefined' && ids.length > 0) {
-            // console.log('ids');
-            // console.log(ids);
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/warehouseCadItem/spec-list-ids/" + ids,
                     httpMethod: "GET",
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                            // console.log(JSON.parse(RpcResponse_o));
+                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                             var data = JSON.parse(RpcResponse_o.data);
-                            console.log('data');
-                            // console.log(data);
-                            // for (x of data) { // console.log(x);
-                            //     ClientData_WarehouseCadITEMByWarehouseIssueCathode.push(x);
-                            //     // dollar[x.nameEn] = x.nameEn;
-                            // }
-                            //  // console.log('client');
-                            // console.log(ClientData_WarehouseCadITEMByWarehouseIssueCathode);
                             warehouseIssueCathode_bijak_show(data);
                         } //if rpc
                     } // callback
@@ -612,7 +595,6 @@
                 clientOnly: true
             });
 
-            /* ****************** */
             var ListGrid_WarehouseCadITEMByWarehouseIssueCathode = isc.ListGrid.create({
                 width: "100%",
                 height: "100%",
@@ -741,7 +723,6 @@
                                                         for (i = 0; i < selectedTotalRows; i++) {
                                                             bijakIds += (i == 0 ? '' : ',') + ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).id;
                                                             bjNo = ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected.data.get(i).warehouseCad.bijackNo;
-                                                            // console.log(bjNo);
                                                             var d = -1;
                                                             c = bijak.find(function (b, i) {
                                                                 if (b == bjNo) {
@@ -756,7 +737,6 @@
                                                                 bijakIdx[d]++;
                                                             }
                                                         }
-                                                        // console.log(bijak);
                                                         if (bijak.length > 0) {
                                                             bj = "";
                                                             for (i = 0; i < bijak.length; i++) {
@@ -834,10 +814,8 @@
                         },
                     ],
                     changed(form, item, value) {
-                        console.log(item.getSelectedRecord());
                         ids = "";
                         for (x of  item.getSelectedRecord().warehouseCadItems) {
-                            // console.log(x);
                             ids += ',' + x.id;
                         }
                         DynamicForm_WarehouseIssueCathode.setValue("bijakIds", ids.substring(1));
@@ -1012,7 +990,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_WarehouseIssueCathode_refresh();
                             Window_WarehouseIssueCathode.close();

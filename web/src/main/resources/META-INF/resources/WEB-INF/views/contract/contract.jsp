@@ -225,12 +225,12 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/contract/" + record.id,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                         ListGrid_Contract_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                     } else {
@@ -790,7 +790,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_Contract_refresh();
                             Window_Contract.close();
@@ -1108,13 +1108,13 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         var ContractShipmentId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                         ListGrid_ContractShipment_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -1349,7 +1349,6 @@ var salesContractCADButtonMain = isc.IconButton.create({
             var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2));
             DynamicForm_ContractShipment.setValue("sendDate", datestring);
 
-            console.log(DynamicForm_ContractShipment.getValue("contractDate"));
             var contractDate = DynamicForm_ContractShipment.getValue("contractDate").split("/");
             if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
                 isc.warn("<spring:message code='shipment.date.validation'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
@@ -1364,7 +1363,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
+                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_ContractShipment_refresh();
                             Window_ContractShipment.close();

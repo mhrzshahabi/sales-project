@@ -268,7 +268,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
             })],
             buttonClick: function(button, index) {
                 this.hide();
-                if (index == 0) {
+                if (index === 0) {
                     var ProvisionalInvoiceId = record.id;
                     isc.RPCManager.sendRequest({
                         actionURL: "rest/provisionalInvoiceRestController/remove/" + ProvisionalInvoiceId,

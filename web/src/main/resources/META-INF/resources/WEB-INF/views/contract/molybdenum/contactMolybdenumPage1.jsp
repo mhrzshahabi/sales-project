@@ -364,7 +364,7 @@
                                                 httpMethod: "PUT",
                                                 data: JSON.stringify(record.contractNo),
                                                 callback: function (resp) {
-                                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                                         var text = resp.httpResponseText;
                                                         var text2 = text.replaceAll('","', '","').replaceAll('&','":"')
                                                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
@@ -640,7 +640,7 @@
                                             ],
                                             buttonClick: function (button, index) {
                                                 this.hide();
-                                                if (index == 0) {
+                                                if (index === 0) {
                                                     var idContractRemove = ListGrid_contractMo.getSelectedRecord().id;
                                                     var criteriaRemove={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:idContractRemove}]};
                                                     RestDataSource_contractDetail_list.fetchData(criteriaRemove,function (dsResponse, data, dsRequest) {
@@ -649,7 +649,7 @@
                                                                     actionURL: "${contextPath}/api/contract/" + idContractRemove,
                                                                     httpMethod: "DELETE",
                                                                     callback: function (resp) {
-                                                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                                                             isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                                                             ListGrid_contractMo.invalidateCache();
                                                                         } else {
@@ -663,12 +663,12 @@
                                                                     actionURL: "${contextPath}/api/contractDetail/" + contractDetailIDRemove,
                                                                     httpMethod: "DELETE",
                                                                     callback: function (resp) {
-                                                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                                                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                                                             actionURL: "${contextPath}/api/contract/" + idContractRemove,
                                                                             httpMethod: "DELETE",
                                                                             callback: function (resp) {
-                                                                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                                                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                                                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                                                                     ListGrid_contractMo.invalidateCache();
                                                                                 } else {
@@ -2208,7 +2208,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                         httpMethod: "PUT",
                         data: JSON.stringify(ContractItemShipmentRecord),
                         callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>.");
                                 ListGrid_ContractItemShipment.setData([]);
                                 ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
@@ -2225,7 +2225,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                     httpMethod: "DELETE",
                     callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             ListGrid_ContractItemShipment.invalidateCache();
                             isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                         } else {
@@ -3743,7 +3743,6 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContractDetail.article10_number59=valuesManagerArticle10.getValue("article10_number59");
                     dataSaveAndUpdateContractDetail.article10_number60=valuesManagerArticle10.getValue("article10_number60");
                     dataSaveAndUpdateContractDetail.article10_number61=valuesManagerArticle10.getValue("article10_number61");
-             console.log(dataSaveAndUpdateContract);
             if(methodUrl=="PUT"){
                         dataSaveAndUpdateContractDetail.contractNo=contactHeader.getValue("contractNo");
             }
@@ -3757,7 +3756,7 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                 httpMethod: "POST",
                 data: JSON.stringify(dataSaveAndUpdateContract),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                  saveCotractDetails(dataSaveAndUpdateContractDetail, (JSON.parse(resp.data)).id);
                     } else
                         isc.say(RpcResponse_o.data);
@@ -3876,7 +3875,7 @@ function saveCotractDetails(data, contractID) {
             httpMethod: "POST",
             data: JSON.stringify(allData),
             callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                     saveValueAllArticlesMoOx(contractID);
                     saveValuelotListForADD(contractID);
                     saveListGrid_ContractItemShipment(contractID);
@@ -3904,7 +3903,7 @@ function saveListGrid_ContractItemShipment(contractID) {
                 httpMethod: "POST",
                 data: JSON.stringify(dataEditMain),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                     } else
                         isc.say(RpcResponse_o.data);
@@ -3920,7 +3919,7 @@ function saveListGrid_ContractItemShipment(contractID) {
                 httpMethod: "POST",
                 data: JSON.stringify(dataEdit),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                     } else
                         isc.say(RpcResponse_o.data);
@@ -3939,7 +3938,7 @@ function saveContractCurrency(contractID){
                 httpMethod: methodUrl,
                 data: JSON.stringify(currencyData),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                     } else
                         isc.say(RpcResponse_o.data);
@@ -3962,7 +3961,7 @@ function saveValuelotListForADD(contractID) {
                 httpMethod: "PUT",
                 data: JSON.stringify(data_lotList),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                     } else{
                         isc.say(RpcResponse_o.data);
@@ -3993,7 +3992,7 @@ function saveValuelotListForADD(contractID) {
             httpMethod: "POST",
             data: JSON.stringify(dataALLArticleMO),
             callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>.");
                 } else
                     isc.say(RpcResponse_o.data);

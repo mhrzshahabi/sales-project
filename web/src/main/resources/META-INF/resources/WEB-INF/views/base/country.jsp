@@ -65,13 +65,13 @@
                 }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index == 0) {
+                    if (index === 0) {
                         var CountryId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                             actionURL: "${contextPath}/api/country/" + record.id,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                     ListGrid_Country_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                 } else {
@@ -238,7 +238,7 @@
                 httpMethod: method,
                 data: JSON.stringify(data),
                 callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_Country_refresh();
                         Window_Country.close();

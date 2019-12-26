@@ -383,7 +383,7 @@
                 httpMethod: method,
                 data: JSON.stringify(data_WarehouseCad),
                 callback: function(resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                         ListGrid_Tozin_refresh();
                         Window_Bijack.close();
