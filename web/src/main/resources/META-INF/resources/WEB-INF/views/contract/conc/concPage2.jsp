@@ -247,7 +247,7 @@ isc.ListGrid.create({
                         data: JSON.stringify(ContractItemShipmentRecord),
                         callback: function (resp) {
                             if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                                isc.say("<spring:message code='global.form.request.successful'/>.");
+                                isc.say("<spring:message code='global.form.request.successful'/>");
                                     ListGrid_ContractConcItemShipment.setData([]);
                                     ListGrid_ContractConcItemShipment.fetchData(criteriaContractItemShipment);
                             } else
@@ -263,7 +263,7 @@ isc.ListGrid.create({
                     callback: function (resp) {
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             ListGrid_ContractConcItemShipment.invalidateCache();
-                            isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
                         } else {
                             isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                         }

@@ -133,7 +133,7 @@
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                         ListGrid_ContractPerson.invalidateCache();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -166,6 +166,7 @@
     }
 
     var DynamicForm_ContractPerson = isc.DynamicForm.create({
+        width:"500",
         setMethod: 'POST',
         align: "center",
         canSubmit: true,
@@ -173,7 +174,7 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "bottom",
-        titleWidth: "100",
+        titleWidth: "300",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
@@ -183,8 +184,8 @@
                 name: "contractId",
                 title: "<spring:message code='contract.contractNo'/>",
                 type: 'text',
-                width: 400,
                 required: true,
+                width: "370",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contract_In_ContractPerson,
                 displayField: "contractNo",
@@ -202,7 +203,7 @@
                 name: "personId",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
-                width: 400,
+                width: "370",
                 required: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Person_In_ContractPerson,
@@ -278,6 +279,7 @@
     });
 
     var Window_ContractPerson = isc.Window.create({
+        width:"200",
         title: "<spring:message code='contractPerson.title'/>",
         autoSize: true,
         autoCenter: true,

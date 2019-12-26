@@ -232,7 +232,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                                 callback: function (resp) {
                                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                         ListGrid_Contract_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -792,7 +792,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
                         if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Contract_refresh();
                             Window_Contract.close();
                         } else
@@ -1365,7 +1365,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
                         if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ContractShipment_refresh();
                             Window_ContractShipment.close();
                         } else

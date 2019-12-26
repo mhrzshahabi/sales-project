@@ -680,7 +680,7 @@ var IButton_ContactOther_Save = isc.IButtonSave.create({
                     data: JSON.stringify(dataSaveAndUpdateContractOther),
                     callback: function (RpcResponse_o) {
                         if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             windowOther.close();
                             ListGrid_ContractOther.fetchData(criteriaOther);
                             ListGrid_ContractOther.invalidateCache();
