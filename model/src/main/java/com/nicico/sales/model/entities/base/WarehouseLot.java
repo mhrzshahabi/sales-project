@@ -109,5 +109,4 @@ public class WarehouseLot extends Auditable {
     @Column(name = "WAREHOUSECADITEM_ID")
 	private Long warehouseCadItemId;
 
-
 }

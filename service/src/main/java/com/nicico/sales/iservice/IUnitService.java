@@ -9,19 +9,19 @@ import java.util.List;
 
 public interface IUnitService {
 
-	UnitDTO.Info get(Long id);
+    UnitDTO.Info get(Long id);
 
-	List<UnitDTO.Info> list();
+    List<UnitDTO.Info> list();
 
-	UnitDTO.Info create(UnitDTO.Create request);
+    UnitDTO.Info create(UnitDTO.Create request);
 
-	UnitDTO.Info update(Long id, UnitDTO.Update request);
+    UnitDTO.Info update(Long id, UnitDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(UnitDTO.Delete request);
+    void delete(UnitDTO.Delete request);
 
-	SearchDTO.SearchRs<UnitDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<UnitDTO.Info> search(SearchDTO.SearchRq request);
 
-	TotalResponse<UnitDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<UnitDTO.Info> search(NICICOCriteria criteria);
 }

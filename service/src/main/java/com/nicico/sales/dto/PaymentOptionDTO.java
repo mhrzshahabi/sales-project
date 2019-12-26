@@ -20,8 +20,6 @@ public class PaymentOptionDTO {
 	@ApiModelProperty(required = true)
 	private String namePay;
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -35,16 +33,12 @@ public class PaymentOptionDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("PaymentOptionCreateRq")
 	public static class Create extends PaymentOptionDTO {
 	}
-
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -59,8 +53,6 @@ public class PaymentOptionDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -71,8 +63,6 @@ public class PaymentOptionDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -81,8 +71,6 @@ public class PaymentOptionDTO {
 	public static class PaymentOptionSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

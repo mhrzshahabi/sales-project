@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -25,11 +24,9 @@ import java.util.List;
 public class ContactRestController {
 
     private final IContactService contactService;
-    private final ObjectMapper objectMapper;
 
     @Loggable
     @GetMapping(value = "/{id}")
-
     public ResponseEntity<ContactDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(contactService.get(id), HttpStatus.OK);
     }

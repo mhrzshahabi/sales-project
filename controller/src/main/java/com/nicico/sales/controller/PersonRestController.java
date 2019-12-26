@@ -23,67 +23,63 @@ import java.util.List;
 @RequestMapping(value = "/api/person")
 public class PersonRestController {
 
-	private final IPersonService personService;
+    private final IPersonService personService;
 
-	// ------------------------------s
-
-	@Loggable
-	@GetMapping(value = "/{id}")
+    @Loggable
+    @GetMapping(value = "/{id}")
 //	@PreAuthorize("hasAuthority('r_person')")
-	public ResponseEntity<PersonDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(personService.get(id), HttpStatus.OK);
-	}
+    public ResponseEntity<PersonDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(personService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
+    @Loggable
+    @GetMapping(value = "/list")
 //	@PreAuthorize("hasAuthority('r_person')")
-	public ResponseEntity<List<PersonDTO.Info>> list() {
-		return new ResponseEntity<>(personService.list(), HttpStatus.OK);
-	}
+    public ResponseEntity<List<PersonDTO.Info>> list() {
+        return new ResponseEntity<>(personService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PostMapping
+    @Loggable
+    @PostMapping
 //	@PreAuthorize("hasAuthority('c_person')")
-	public ResponseEntity<PersonDTO.Info> create(@Validated @RequestBody PersonDTO.Create request) {
-		return new ResponseEntity<>(personService.create(request), HttpStatus.CREATED);
-	}
+    public ResponseEntity<PersonDTO.Info> create(@Validated @RequestBody PersonDTO.Create request) {
+        return new ResponseEntity<>(personService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PutMapping
+    @Loggable
+    @PutMapping
 //	@PreAuthorize("hasAuthority('u_person')")
-	public ResponseEntity<PersonDTO.Info> update(@RequestBody PersonDTO.Update request) {
-		return new ResponseEntity<>(personService.update(request.getId(), request), HttpStatus.OK);
-	}
+    public ResponseEntity<PersonDTO.Info> update(@RequestBody PersonDTO.Update request) {
+        return new ResponseEntity<>(personService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
+    @Loggable
+    @DeleteMapping(value = "/{id}")
 //	@PreAuthorize("hasAuthority('d_person')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		personService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        personService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
+    @Loggable
+    @DeleteMapping(value = "/list")
 //	@PreAuthorize("hasAuthority('d_person')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody PersonDTO.Delete request) {
-		personService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@Validated @RequestBody PersonDTO.Delete request) {
+        personService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-	public ResponseEntity<TotalResponse<PersonDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(personService.search(nicicoCriteria), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<PersonDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(personService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
-	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
+    @Loggable
+    @GetMapping(value = "/search")
 //	@PreAuthorize("hasAuthority('r_person')")
-	public ResponseEntity<SearchDTO.SearchRs<PersonDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(personService.search(request), HttpStatus.OK);
-	}
+    public ResponseEntity<SearchDTO.SearchRs<PersonDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
+        return new ResponseEntity<>(personService.search(request), HttpStatus.OK);
+    }
 }

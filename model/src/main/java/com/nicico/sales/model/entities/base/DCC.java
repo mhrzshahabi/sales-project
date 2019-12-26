@@ -50,4 +50,5 @@ public class DCC extends Auditable {
 
 	@Column(name = "c_DOCUMENT_TYPE", length = 60)
 	private String documentType;
+
 }

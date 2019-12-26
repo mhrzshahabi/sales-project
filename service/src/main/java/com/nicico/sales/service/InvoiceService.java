@@ -100,7 +100,7 @@ public class InvoiceService implements IInvoiceService {
 		return SearchUtil.search(invoiceDAO, criteria, instruction -> modelMapper.map(instruction, InvoiceDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private InvoiceDTO.Info save(Invoice invoice) {
 		final Invoice saved = invoiceDAO.saveAndFlush(invoice);

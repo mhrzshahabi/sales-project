@@ -89,7 +89,7 @@ public class ShipmentMoistureItemService implements IShipmentMoistureItemService
 		return SearchUtil.search(shipmentMoistureItemDAO, criteria, shipmentMoistureItem -> modelMapper.map(shipmentMoistureItem, ShipmentMoistureItemDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ShipmentMoistureItemDTO.Info save(ShipmentMoistureItem shipmentMoistureItem) {
 		final ShipmentMoistureItem saved = shipmentMoistureItemDAO.saveAndFlush(shipmentMoistureItem);

@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
@@ -31,11 +30,8 @@ import java.util.Map;
 @RequestMapping(value = "/api/tozinSales")
 public class TozinSalesRestController {
 
-    private final ObjectMapper objectMapper;
     private final ITozinSalesService tozinSalesService;
     private final ReportUtil reportUtil;
-
-    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -88,8 +84,6 @@ public class TozinSalesRestController {
         return new ResponseEntity<>(tozinSalesService.search(nicicoCriteria), HttpStatus.OK);
     }
 
-    // ------------------------------
-
     @Loggable
     @GetMapping(value = "/search")
 //	@PreAuthorize("hasAuthority('r_tozinSales')")
@@ -97,7 +91,6 @@ public class TozinSalesRestController {
         return new ResponseEntity<>(tozinSalesService.search(request), HttpStatus.OK);
     }
 
-    //---------------------------------------------------------------
     @Loggable
     @GetMapping(value = {"/print/{name}/{type}/{date}"})
     public void print(HttpServletResponse response, @PathVariable String name, @PathVariable String type,
@@ -114,5 +107,4 @@ public class TozinSalesRestController {
             reportUtil.export("/reports/tozin_kharid_zayeat.jasper", params, response);
         }
     }
-
 }

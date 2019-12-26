@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContractDetailDAO extends JpaRepository<ContractDetail, Long>, JpaSpecificationExecutor<ContractDetail> {
 
-    @Query(nativeQuery = true,value = "select * from tbl_contract_detail tc where tc.contract_id=?1")
+    @Query(nativeQuery = true, value = "select * from tbl_contract_detail tc where tc.contract_id=?1")
     ContractDetail findByContract_id(long id);
 
 }

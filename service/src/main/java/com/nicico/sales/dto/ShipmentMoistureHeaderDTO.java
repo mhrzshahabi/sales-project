@@ -29,8 +29,6 @@ public class ShipmentMoistureHeaderDTO {
 	private Double totalDryWeight;
 	private Double totalH2oWeight;
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -46,16 +44,12 @@ public class ShipmentMoistureHeaderDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("ShipmentMoistureHeaderCreateRq")
 	public static class Create extends ShipmentMoistureHeaderDTO {
 	}
-
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -70,8 +64,6 @@ public class ShipmentMoistureHeaderDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -82,8 +74,6 @@ public class ShipmentMoistureHeaderDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -92,8 +82,6 @@ public class ShipmentMoistureHeaderDTO {
 	public static class ShipmentMoistureHeaderSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

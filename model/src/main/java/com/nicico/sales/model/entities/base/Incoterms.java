@@ -57,4 +57,5 @@ public class Incoterms extends Auditable {
 
 	@Column(name = "NAMED_PORT", length = 10)
 	private String namedPort;
+
 }

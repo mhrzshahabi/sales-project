@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -9,7 +8,6 @@ import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.iservice.IContractShipmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -26,9 +24,6 @@ import java.util.List;
 public class ContractShipmentRestController {
 
     private final IContractShipmentService contractShipmentService;
-    private final ObjectMapper objectMapper;
-    private final ModelMapper modelMapper;
-    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -55,7 +50,7 @@ public class ContractShipmentRestController {
     @PutMapping
 //	@PreAuthorize("hasAuthority('u_contractShipment')")
     public ResponseEntity<ContractShipmentDTO.Info> update(@RequestBody ContractShipmentDTO.Update request) {
-            return new ResponseEntity<>(contractShipmentService.update(request.getId(), request), HttpStatus.OK);
+        return new ResponseEntity<>(contractShipmentService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
@@ -81,7 +76,6 @@ public class ContractShipmentRestController {
         return new ResponseEntity<>(contractShipmentService.search(nicicoCriteria), HttpStatus.OK);
     }
 
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

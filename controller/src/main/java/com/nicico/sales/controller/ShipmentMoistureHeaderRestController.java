@@ -21,62 +21,57 @@ import java.util.List;
 @RequestMapping(value = "/api/shipmentMoistureHeader")
 public class ShipmentMoistureHeaderRestController {
 
-	private final IShipmentMoistureHeaderService shipmentMoistureHeaderService;
+    private final IShipmentMoistureHeaderService shipmentMoistureHeaderService;
 
-	// ------------------------------s
+    @Loggable
+    @GetMapping(value = "/{id}")
+    //	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
+    public ResponseEntity<ShipmentMoistureHeaderDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(shipmentMoistureHeaderService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/{id}")
-	//	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
-	public ResponseEntity<ShipmentMoistureHeaderDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(shipmentMoistureHeaderService.get(id), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/list")
+    //	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
+    public ResponseEntity<List<ShipmentMoistureHeaderDTO.Info>> list() {
+        return new ResponseEntity<>(shipmentMoistureHeaderService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
-	//	@PreAuthorize("hasAuthority('r_shipmentMoistureHeader')")
-	public ResponseEntity<List<ShipmentMoistureHeaderDTO.Info>> list() {
-		return new ResponseEntity<>(shipmentMoistureHeaderService.list(), HttpStatus.OK);
-	}
+    @Loggable
+    @PostMapping
+    //	@PreAuthorize("hasAuthority('c_shipmentMoistureHeader')")
+    public ResponseEntity<ShipmentMoistureHeaderDTO.Info> create(@Validated @RequestBody ShipmentMoistureHeaderDTO.Create request) {
+        return new ResponseEntity<>(shipmentMoistureHeaderService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PostMapping
-	//	@PreAuthorize("hasAuthority('c_shipmentMoistureHeader')")
-	public ResponseEntity<ShipmentMoistureHeaderDTO.Info> create(@Validated @RequestBody ShipmentMoistureHeaderDTO.Create request) {
-		return new ResponseEntity<>(shipmentMoistureHeaderService.create(request), HttpStatus.CREATED);
-	}
+    @Loggable
+    @PutMapping
+    //	@PreAuthorize("hasAuthority('u_shipmentMoistureHeader')")
+    public ResponseEntity<ShipmentMoistureHeaderDTO.Info> update(@RequestBody ShipmentMoistureHeaderDTO.Update request) {
+        return new ResponseEntity<>(shipmentMoistureHeaderService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PutMapping
-	//	@PreAuthorize("hasAuthority('u_shipmentMoistureHeader')")
-	public ResponseEntity<ShipmentMoistureHeaderDTO.Info> update(@RequestBody ShipmentMoistureHeaderDTO.Update request) {
-		return new ResponseEntity<>(shipmentMoistureHeaderService.update(request.getId(), request), HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    //	@PreAuthorize("hasAuthority('d_shipmentMoistureHeader')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        shipmentMoistureHeaderService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
-	//	@PreAuthorize("hasAuthority('d_shipmentMoistureHeader')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		shipmentMoistureHeaderService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/list")
+    //	@PreAuthorize("hasAuthority('d_shipmentMoistureHeader')")
+    public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentMoistureHeaderDTO.Delete request) {
+        shipmentMoistureHeaderService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
-	//	@PreAuthorize("hasAuthority('d_shipmentMoistureHeader')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentMoistureHeaderDTO.Delete request) {
-		shipmentMoistureHeaderService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
-
-	@Loggable
-	@GetMapping(value = "/spec-list")
+    @Loggable
+    @GetMapping(value = "/spec-list")
 //	@PreAuthorize("hasAuthority('r_instruction')")
-	public ResponseEntity<TotalResponse<ShipmentMoistureHeaderDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(shipmentMoistureHeaderService.search(nicicoCriteria), HttpStatus.OK);
-	}
-
-	// ------------------------------
-
+    public ResponseEntity<TotalResponse<ShipmentMoistureHeaderDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(shipmentMoistureHeaderService.search(nicicoCriteria), HttpStatus.OK);
+    }
 }

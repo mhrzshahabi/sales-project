@@ -9,19 +9,19 @@ import java.util.List;
 
 public interface IWarehouseIssueMoService {
 
-	WarehouseIssueMoDTO.Info get(Long id);
+    WarehouseIssueMoDTO.Info get(Long id);
 
-	List<WarehouseIssueMoDTO.Info> list();
+    List<WarehouseIssueMoDTO.Info> list();
 
-	WarehouseIssueMoDTO.Info create(WarehouseIssueMoDTO.Create request);
+    WarehouseIssueMoDTO.Info create(WarehouseIssueMoDTO.Create request);
 
-	WarehouseIssueMoDTO.Info update(Long id, WarehouseIssueMoDTO.Update request);
+    WarehouseIssueMoDTO.Info update(Long id, WarehouseIssueMoDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(WarehouseIssueMoDTO.Delete request);
+    void delete(WarehouseIssueMoDTO.Delete request);
 
-	TotalResponse<WarehouseIssueMoDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<WarehouseIssueMoDTO.Info> search(NICICOCriteria criteria);
 
-	SearchDTO.SearchRs<WarehouseIssueMoDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<WarehouseIssueMoDTO.Info> search(SearchDTO.SearchRq request);
 }

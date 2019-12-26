@@ -90,7 +90,7 @@ public class TozinSalesService implements ITozinSalesService {
 		return SearchUtil.search(tozinSalesDAO, criteria, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private TozinSalesDTO.Info save(TozinSales tozinSales) {
 		final TozinSales saved = tozinSalesDAO.saveAndFlush(tozinSales);

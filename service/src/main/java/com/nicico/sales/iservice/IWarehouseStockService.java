@@ -9,20 +9,21 @@ import java.util.List;
 
 public interface IWarehouseStockService {
 
-	WarehouseStockDTO.Info get(Long id);
+    WarehouseStockDTO.Info get(Long id);
 
-	List<WarehouseStockDTO.Info> list();
+    List<WarehouseStockDTO.Info> list();
 
-	WarehouseStockDTO.Info create(WarehouseStockDTO.Create request);
+    WarehouseStockDTO.Info create(WarehouseStockDTO.Create request);
 
-	WarehouseStockDTO.Info update(Long id, WarehouseStockDTO.Update request);
+    WarehouseStockDTO.Info update(Long id, WarehouseStockDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(WarehouseStockDTO.Delete request);
+    void delete(WarehouseStockDTO.Delete request);
 
-	TotalResponse<WarehouseStockDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<WarehouseStockDTO.Info> search(NICICOCriteria criteria);
 
-	SearchDTO.SearchRs<WarehouseStockDTO.Info> search(SearchDTO.SearchRq request);
-	 List<Object[]>  warehouseStockConc();
+    SearchDTO.SearchRs<WarehouseStockDTO.Info> search(SearchDTO.SearchRq request);
+
+    List<Object[]> warehouseStockConc();
 }

@@ -21,5 +21,4 @@ public interface IContractPersonService {
 	void delete(ContractPersonDTO.Delete request);
 
 	TotalResponse<ContractPersonDTO.Info> search(NICICOCriteria criteria);
-
 }

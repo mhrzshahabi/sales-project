@@ -98,7 +98,7 @@ public class InspectionContractService implements IInspectionContractService {
 		});
 		}
 
-	// ------------------------------
+
 
 	private InspectionContractDTO.Info save(InspectionContract inspectionContract) {
 		final InspectionContract saved = inspectionContractDAO.saveAndFlush(inspectionContract);

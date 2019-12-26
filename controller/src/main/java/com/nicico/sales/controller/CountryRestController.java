@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -25,7 +24,6 @@ import java.util.List;
 public class CountryRestController {
 
     private final ICountryService countryService;
-    private final ObjectMapper objectMapper;
 
     @Loggable
     @GetMapping(value = "/{id}")

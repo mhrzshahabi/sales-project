@@ -193,7 +193,6 @@ public class Shipment extends Auditable {
 	@Column(name = "DETENSION")
 	private Double detention;
 
-
 	@Column(name = "BOOKING_NO_cat")
 	private String bookingCat;
 

@@ -90,4 +90,5 @@ public class InspectionContract extends Auditable {
 
 	@Column(name = "MOISTURE_DETERMINATION", length = 20)
 	private Boolean moistureDetermination;
+
 }

@@ -23,14 +23,10 @@ public class PortDTO {
 	@ApiModelProperty(required = true)
 	private String port;
 	private Long countryId;
-
-
-
 	private String loa;
 	private String beam;
 	private String arrival;
 
-	// ------------------------------
 	@Getter
 	@Setter
 	@ApiModel("PortInfoTuple")
@@ -38,7 +34,6 @@ public class PortDTO {
 	public static class PortInfoTuple {
 		private String port;
 	}
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -54,16 +49,12 @@ public class PortDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("PortCreateRq")
 	public static class Create extends PortDTO {
 	}
-
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -78,8 +69,6 @@ public class PortDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -90,8 +79,6 @@ public class PortDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -100,8 +87,6 @@ public class PortDTO {
 	public static class PortSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

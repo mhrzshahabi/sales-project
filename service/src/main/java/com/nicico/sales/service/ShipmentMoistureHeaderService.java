@@ -82,7 +82,7 @@ public class ShipmentMoistureHeaderService implements IShipmentMoistureHeaderSer
 		return SearchUtil.search(shipmentMoistureHeaderDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentMoistureHeaderDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ShipmentMoistureHeaderDTO.Info save(ShipmentMoistureHeader shipmentMoistureHeader) {
 		final ShipmentMoistureHeader saved = shipmentMoistureHeaderDAO.saveAndFlush(shipmentMoistureHeader);

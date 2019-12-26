@@ -1,9 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.Contact;
-import com.nicico.sales.model.entities.base.Shipment;
-import com.nicico.sales.model.entities.base.ShipmentContract;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -20,9 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InspectionContractDTO {
 
-	/*Comment By JZ*/
-//	@NotNull
-//	@ApiModelProperty(required = true)
 	private ShipmentDTO.Info shipment;
 	private Long shipmentId;
 	private ContactDTO.Info contactByInspection;
@@ -44,7 +38,6 @@ public class InspectionContractDTO {
 	private Boolean superviseWeighing;
 	private Boolean sampling;
 	private Boolean moistureDetermination;
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -60,11 +53,7 @@ public class InspectionContractDTO {
 
 		private PortDTO.PortInfoTuple portByLoading;
 		private PortDTO.PortInfoTuple portByDischarge;
-
-
 	}
-
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -72,8 +61,6 @@ public class InspectionContractDTO {
 	@ApiModel("InspectionContractCreateRq")
 	public static class Create extends InspectionContractDTO {
 	}
-
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -88,8 +75,6 @@ public class InspectionContractDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -100,8 +85,6 @@ public class InspectionContractDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -110,8 +93,6 @@ public class InspectionContractDTO {
 	public static class InspectionContractSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

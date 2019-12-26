@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -25,8 +26,6 @@ import java.util.List;
 public class BankRestController {
 
     private final IBankService bankService;
-
-    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -72,8 +71,6 @@ public class BankRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(bankService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

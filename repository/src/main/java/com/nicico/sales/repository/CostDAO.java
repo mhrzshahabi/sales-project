@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CostDAO extends JpaRepository<Cost, Long>, JpaSpecificationExecutor<Cost> {
 
-    Cost findByShipmentId(Long id);
 }

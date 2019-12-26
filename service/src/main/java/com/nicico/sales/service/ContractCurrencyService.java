@@ -90,7 +90,7 @@ public class ContractCurrencyService implements IContractCurrencyService {
 		return SearchUtil.search(contractCurrencyDAO, criteria, contractCurrency -> modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ContractCurrencyDTO.Info save(ContractCurrency contractCurrency) {
 		final ContractCurrency saved = contractCurrencyDAO.saveAndFlush(contractCurrency);

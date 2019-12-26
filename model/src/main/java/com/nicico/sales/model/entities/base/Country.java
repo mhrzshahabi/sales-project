@@ -22,7 +22,6 @@ import javax.persistence.*;
 @Table(name = "TBL_COUNTRY")
 public class Country extends Auditable {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_COUNTRY")
 	@SequenceGenerator(name = "SEQ_COUNTRY", sequenceName = "SEQ_COUNTRY", allocationSize = 1)
@@ -43,6 +42,5 @@ public class Country extends Auditable {
 
 	@Column(name = "c_CODE", nullable = false, length = 200)
 	private String code;
-
 
 }

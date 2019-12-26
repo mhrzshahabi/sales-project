@@ -16,6 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ParametersDTO {
+
 	@NotNull
 	@ApiModelProperty(required = true)
 	private String paramName;
@@ -23,7 +24,6 @@ public class ParametersDTO {
 	private String paramValue;
 	private Integer contractId;
 	private Integer categoryValue;
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -38,16 +38,12 @@ public class ParametersDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("ParametersCreateRq")
 	public static class Create extends ParametersDTO {
 	}
-
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -62,8 +58,6 @@ public class ParametersDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -74,8 +68,6 @@ public class ParametersDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -84,8 +76,6 @@ public class ParametersDTO {
 	public static class ParametersSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

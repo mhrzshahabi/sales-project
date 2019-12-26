@@ -32,23 +32,18 @@ public class ContactAccount extends Auditable {
 	@Column(name = "BANK_ID")
 	private Long bankId;
 
-	//c_BANKCODE
 	@Column(name = "C_BANKCODE", nullable = false,length = 100)
 	private String code;
 
-	//c_BANKACCOUNT
 	@Column(name = "C_BANKACCOUNT",length = 200)
 	private String bankAccount;
 
-	//c_BANK_SHABA
 	@Column(name = "C_BANK_SHABA",length = 100)
 	private String bankShaba;
 
-	//c_DEFAULT_BANK_SWIFT
 	@Column(name = "C_DEFAULT_BANK_SWIFT",length = 100)
 	private String bankSwift;
 
-	//c_ACCOUNT_OWNER
 	@Column(name = "C_ACCOUNT_OWNER",length = 200)
 	private String accountOwner;
 
@@ -57,4 +52,5 @@ public class ContactAccount extends Auditable {
 
 	@Column(name = "b_ISDEFAULT")
 	private Boolean isDefault;
+
 }

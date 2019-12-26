@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -23,8 +22,6 @@ import java.util.List;
 public class ShipmentRestController {
 
     private final IShipmentService shipmentService;
-    private final ObjectMapper objectMapper;
-    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -71,17 +68,14 @@ public class ShipmentRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
+    @Loggable
+    @GetMapping(value = "/spec-list")
 //	@PreAuthorize("hasAuthority('r_instruction')")
-	public ResponseEntity<TotalResponse<ShipmentDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(shipmentService.search(nicicoCriteria), HttpStatus.OK);
-	}
+    public ResponseEntity<TotalResponse<ShipmentDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(shipmentService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
-
-
-    // ------------------------------
     @Loggable
     @GetMapping(value = "/pick-list")
 //	@PreAuthorize("hasAuthority('r_shipment')")
@@ -112,6 +106,4 @@ public class ShipmentRestController {
         ResponseEntity responseEntity = new ResponseEntity(body, HttpStatus.OK);
         return responseEntity;
     }
-
-    // ------------------------------
 }

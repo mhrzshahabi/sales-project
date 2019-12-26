@@ -90,7 +90,7 @@ public class PersonService implements IPersonService {
 		return SearchUtil.search(personDAO, request, person -> modelMapper.map(person, PersonDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private PersonDTO.Info save(Person person) {
 		final Person saved = personDAO.saveAndFlush(person);

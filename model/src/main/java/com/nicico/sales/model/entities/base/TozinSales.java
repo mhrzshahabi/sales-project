@@ -91,4 +91,5 @@ public class TozinSales extends Auditable {
 	private String sourcePlantId;
 	@Column(name = "target_plant_id")
 	private String targetPlantId;
+
 }

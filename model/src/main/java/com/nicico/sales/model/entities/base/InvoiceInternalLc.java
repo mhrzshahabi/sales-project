@@ -73,5 +73,4 @@ public class InvoiceInternalLc extends Auditable {
 	@Column(name = "STATEINOUT", length = 100)
 	private String lcStateInOut;
 
-
 }

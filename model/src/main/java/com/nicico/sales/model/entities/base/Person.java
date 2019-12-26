@@ -74,4 +74,5 @@ public class Person extends Auditable {
 
 	@Column(name = "ADDRESS", length = 1000)
 	private String address;
+
 }

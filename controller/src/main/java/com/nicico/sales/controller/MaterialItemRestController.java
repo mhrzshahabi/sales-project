@@ -26,8 +26,6 @@ public class MaterialItemRestController {
 
     private final IMaterialItemService materialItemService;
 
-    // ------------------------------s
-
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<MaterialItemDTO.Info> get(@PathVariable Long id) {
@@ -72,8 +70,6 @@ public class MaterialItemRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(materialItemService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

@@ -25,8 +25,6 @@ public class ContractDetailRestController {
 
     private final IContractDetailService contractDetailService;
 
-    // ------------------------------s
-
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<ContractDetailDTO.Info> get(@PathVariable Long id) {
@@ -61,7 +59,7 @@ public class ContractDetailRestController {
     @Loggable
     @DeleteMapping(value = "/deleteByContractId/{id}")
     public ResponseEntity deleteByContractId(@PathVariable Long id) {
-        long contractID=contractDetailService.FindByContractID(id).getId();
+        long contractID = contractDetailService.FindByContractID(id).getId();
         contractDetailService.delete(contractID);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -79,8 +77,6 @@ public class ContractDetailRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    // ------------------------------
 
     @Loggable
     @GetMapping(value = "/search")

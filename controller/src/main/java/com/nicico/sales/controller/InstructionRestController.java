@@ -25,8 +25,6 @@ public class InstructionRestController {
 
 	private final IInstructionService instructionService;
 
-	// ------------------------------s
-
 	@Loggable
 	@GetMapping(value = "/{id}")
 //	@PreAuthorize("hasAuthority('r_instruction')")
@@ -77,8 +75,6 @@ public class InstructionRestController {
 		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
 		return new ResponseEntity<>(instructionService.search(nicicoCriteria), HttpStatus.OK);
 	}
-
-	// ------------------------------
 
 	@Loggable
 	@GetMapping(value = "/search")

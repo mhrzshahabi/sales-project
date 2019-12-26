@@ -90,7 +90,7 @@ public class GlossaryService implements IGlossaryService {
 		return SearchUtil.search(glossaryDAO, criteria, glossary -> modelMapper.map(glossary, GlossaryDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private GlossaryDTO.Info save(Glossary glossary) {
 		final Glossary saved = glossaryDAO.saveAndFlush(glossary);

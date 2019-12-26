@@ -90,7 +90,7 @@ public class RateService implements IRateService {
 		return SearchUtil.search(rateDAO, criteria, rate -> modelMapper.map(rate, RateDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private RateDTO.Info save(Rate rate) {
 		final Rate saved = rateDAO.saveAndFlush(rate);

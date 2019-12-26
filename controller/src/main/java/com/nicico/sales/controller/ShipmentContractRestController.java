@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -24,68 +23,64 @@ import java.util.List;
 @RequestMapping(value = "/api/shipmentContract")
 public class ShipmentContractRestController {
 
-	private final IShipmentContractService shipmentContractService;
-	private final ObjectMapper objectMapper;
-	// ------------------------------s
+    private final IShipmentContractService shipmentContractService;
 
-	@Loggable
-	@GetMapping(value = "/{id}")
+    @Loggable
+    @GetMapping(value = "/{id}")
 //	@PreAuthorize("hasAuthority('r_shipmentContract')")
-	public ResponseEntity<ShipmentContractDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(shipmentContractService.get(id), HttpStatus.OK);
-	}
+    public ResponseEntity<ShipmentContractDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(shipmentContractService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
+    @Loggable
+    @GetMapping(value = "/list")
 //	@PreAuthorize("hasAuthority('r_shipmentContract')")
-	public ResponseEntity<List<ShipmentContractDTO.Info>> list() {
-		return new ResponseEntity<>(shipmentContractService.list(), HttpStatus.OK);
-	}
+    public ResponseEntity<List<ShipmentContractDTO.Info>> list() {
+        return new ResponseEntity<>(shipmentContractService.list(), HttpStatus.OK);
+    }
 
 
-	@Loggable
-	@PostMapping
+    @Loggable
+    @PostMapping
 //	@PreAuthorize("hasAuthority('c_shipmentContract')")
-	public ResponseEntity<ShipmentContractDTO.Info> create(@Validated @RequestBody ShipmentContractDTO.Create request) {
-		return new ResponseEntity<>(shipmentContractService.create(request), HttpStatus.CREATED);
-	}
+    public ResponseEntity<ShipmentContractDTO.Info> create(@Validated @RequestBody ShipmentContractDTO.Create request) {
+        return new ResponseEntity<>(shipmentContractService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PutMapping
+    @Loggable
+    @PutMapping
 //	@PreAuthorize("hasAuthority('u_shipmentContract')")
-	public ResponseEntity<ShipmentContractDTO.Info> update(@RequestBody ShipmentContractDTO.Update request) {
-		return new ResponseEntity<>(shipmentContractService.update(request.getId(), request), HttpStatus.OK);
-	}
+    public ResponseEntity<ShipmentContractDTO.Info> update(@RequestBody ShipmentContractDTO.Update request) {
+        return new ResponseEntity<>(shipmentContractService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
+    @Loggable
+    @DeleteMapping(value = "/{id}")
 //	@PreAuthorize("hasAuthority('d_shipmentContract')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		shipmentContractService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        shipmentContractService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
+    @Loggable
+    @DeleteMapping(value = "/list")
 //	@PreAuthorize("hasAuthority('d_shipmentContract')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentContractDTO.Delete request) {
-		shipmentContractService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentContractDTO.Delete request) {
+        shipmentContractService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-	public ResponseEntity<TotalResponse<ShipmentContractDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(shipmentContractService.search(nicicoCriteria), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<ShipmentContractDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(shipmentContractService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
-	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
+    @Loggable
+    @GetMapping(value = "/search")
 //	@PreAuthorize("hasAuthority('r_shipmentContract')")
-	public ResponseEntity<SearchDTO.SearchRs<ShipmentContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(shipmentContractService.search(request), HttpStatus.OK);
-	}
+    public ResponseEntity<SearchDTO.SearchRs<ShipmentContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
+        return new ResponseEntity<>(shipmentContractService.search(request), HttpStatus.OK);
+    }
 }

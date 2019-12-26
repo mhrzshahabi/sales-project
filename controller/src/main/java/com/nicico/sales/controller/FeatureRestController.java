@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -24,67 +23,63 @@ import java.util.List;
 @RequestMapping(value = "/api/feature")
 public class FeatureRestController {
 
-	private final IFeatureService featureService;
-	private final ObjectMapper objectMapper;
-	// ------------------------------s
+    private final IFeatureService featureService;
 
-	@Loggable
-	@GetMapping(value = "/{id}")
+    @Loggable
+    @GetMapping(value = "/{id}")
 //    @PreAuthorize("hasAuthority('r_feature')")
-	public ResponseEntity<FeatureDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(featureService.get(id), HttpStatus.OK);
-	}
+    public ResponseEntity<FeatureDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(featureService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
+    @Loggable
+    @GetMapping(value = "/list")
 //    @PreAuthorize("hasAuthority('r_feature')")
-	public ResponseEntity<List<FeatureDTO.Info>> list() {
-		return new ResponseEntity<>(featureService.list(), HttpStatus.OK);
-	}
+    public ResponseEntity<List<FeatureDTO.Info>> list() {
+        return new ResponseEntity<>(featureService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PostMapping
+    @Loggable
+    @PostMapping
 //    @PreAuthorize("hasAuthority('c_feature')")
-	public ResponseEntity<FeatureDTO.Info> create(@Validated @RequestBody FeatureDTO.Create request) {
-		return new ResponseEntity<>(featureService.create(request), HttpStatus.CREATED);
-	}
+    public ResponseEntity<FeatureDTO.Info> create(@Validated @RequestBody FeatureDTO.Create request) {
+        return new ResponseEntity<>(featureService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PutMapping
+    @Loggable
+    @PutMapping
 // @PreAuthorize("hasAuthority('u_feature')")
-	public ResponseEntity<FeatureDTO.Info> update(@RequestBody FeatureDTO.Update request) {
-		return new ResponseEntity<>(featureService.update(request.getId(), request), HttpStatus.OK);
-	}
+    public ResponseEntity<FeatureDTO.Info> update(@RequestBody FeatureDTO.Update request) {
+        return new ResponseEntity<>(featureService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
+    @Loggable
+    @DeleteMapping(value = "/{id}")
 //    @PreAuthorize("hasAuthority('d_feature')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		featureService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        featureService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
+    @Loggable
+    @DeleteMapping(value = "/list")
 //    @PreAuthorize("hasAuthority('d_feature')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody FeatureDTO.Delete request) {
-		featureService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@Validated @RequestBody FeatureDTO.Delete request) {
+        featureService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-	public ResponseEntity<TotalResponse<FeatureDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(featureService.search(nicicoCriteria), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<FeatureDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(featureService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
-	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
+    @Loggable
+    @GetMapping(value = "/search")
 //    @PreAuthorize("hasAuthority('r_feature')")
-	public ResponseEntity<SearchDTO.SearchRs<FeatureDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(featureService.search(request), HttpStatus.OK);
-	}
+    public ResponseEntity<SearchDTO.SearchRs<FeatureDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
+        return new ResponseEntity<>(featureService.search(request), HttpStatus.OK);
+    }
 }

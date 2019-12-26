@@ -90,7 +90,7 @@ public class IncotermsService implements IIncotermsService {
 		return SearchUtil.search(incotermsDAO, criteria, incoterms -> modelMapper.map(incoterms, IncotermsDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private IncotermsDTO.Info save(Incoterms incoterms) {
 		final Incoterms saved = incotermsDAO.saveAndFlush(incoterms);

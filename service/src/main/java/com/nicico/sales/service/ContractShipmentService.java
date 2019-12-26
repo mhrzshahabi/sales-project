@@ -91,7 +91,7 @@ public class ContractShipmentService implements IContractShipmentService {
 		return SearchUtil.search(contractShipmentDAO, criteria, contractShipment -> modelMapper.map(contractShipment, ContractShipmentDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ContractShipmentDTO.Info save(ContractShipment contractShipment) {
 		final ContractShipment saved = contractShipmentDAO.saveAndFlush(contractShipment);

@@ -5,7 +5,6 @@ import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
-import com.nicico.sales.dto.BankDTO;
 import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.iservice.IPortService;
 import com.nicico.sales.model.entities.base.Port;
@@ -92,7 +91,7 @@ public class PortService implements IPortService {
 	}
 
 
-	// ------------------------------
+
 
 	private PortDTO.Info save(Port port) {
 		final Port saved = portDAO.saveAndFlush(port);

@@ -45,4 +45,5 @@ public class LME extends Auditable {
 
 	@Column(name = "MOLYBDENUM_USD_LB")
 	private String molybdenumUsdLb;
+
 }

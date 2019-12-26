@@ -9,19 +9,19 @@ import java.util.List;
 
 public interface IContractShipmentService {
 
-	ContractShipmentDTO.Info get(Long id);
+    ContractShipmentDTO.Info get(Long id);
 
-	List<ContractShipmentDTO.Info> list();
+    List<ContractShipmentDTO.Info> list();
 
-	ContractShipmentDTO.Info create(ContractShipmentDTO.Create request);
+    ContractShipmentDTO.Info create(ContractShipmentDTO.Create request);
 
-	ContractShipmentDTO.Info update(Long id, ContractShipmentDTO.Update request);
+    ContractShipmentDTO.Info update(Long id, ContractShipmentDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ContractShipmentDTO.Delete request);
+    void delete(ContractShipmentDTO.Delete request);
 
-	SearchDTO.SearchRs<ContractShipmentDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<ContractShipmentDTO.Info> search(SearchDTO.SearchRq request);
 
-	TotalResponse<ContractShipmentDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ContractShipmentDTO.Info> search(NICICOCriteria criteria);
 }

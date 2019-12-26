@@ -90,7 +90,7 @@ public class InstructionService implements IInstructionService {
 		return SearchUtil.search(instructionDAO, criteria, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private InstructionDTO.Info save(Instruction instruction) {
 		final Instruction saved = instructionDAO.saveAndFlush(instruction);

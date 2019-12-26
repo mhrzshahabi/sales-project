@@ -16,10 +16,10 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MaterialItemDTO {
+
     private String gdsCode;
     private String gdsName;
     private Long materialId;
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -27,7 +27,7 @@ public class MaterialItemDTO {
 	@ApiModel("MaterialItemInfo")
 	public static class Info extends MaterialItemDTO {
 		private Long id;
-    	private MaterialDTO material;
+		private MaterialDTO material;
 		private Date createdDate;
 		private String createdBy;
 		private Date lastModifiedDate;
@@ -35,16 +35,12 @@ public class MaterialItemDTO {
 		private Integer version;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("MaterialItemCreateRq")
 	public static class Create extends MaterialItemDTO {
 	}
-
-	// ------------------------------
 
 	@Getter
 	@Setter
@@ -56,8 +52,6 @@ public class MaterialItemDTO {
 		private Long id;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -68,8 +62,6 @@ public class MaterialItemDTO {
 		private List<Long> ids;
 	}
 
-	// ------------------------------
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -78,8 +70,6 @@ public class MaterialItemDTO {
 	public static class MaterialItemSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

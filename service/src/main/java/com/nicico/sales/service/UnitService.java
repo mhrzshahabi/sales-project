@@ -90,7 +90,7 @@ public class UnitService implements IUnitService {
 		return SearchUtil.search(unitDAO, criteria, unit -> modelMapper.map(unit, UnitDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private UnitDTO.Info save(Unit unit) {
 		final Unit saved = unitDAO.saveAndFlush(unit);

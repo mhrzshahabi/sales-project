@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -24,67 +23,63 @@ import java.util.List;
 @RequestMapping(value = "/api/unit")
 public class UnitRestController {
 
-	private final IUnitService unitService;
-	private final ObjectMapper objectMapper;
+    private final IUnitService unitService;
 
-	// ------------------------------s
-
-	@Loggable
-	@GetMapping(value = "/{id}")
+    @Loggable
+    @GetMapping(value = "/{id}")
 //    @PreAuthorize("hasAuthority('r_unit')")
-	public ResponseEntity<UnitDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(unitService.get(id), HttpStatus.OK);
-	}
+    public ResponseEntity<UnitDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(unitService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
+    @Loggable
+    @GetMapping(value = "/list")
 //    @PreAuthorize("hasAuthority('r_unit')")
-	public ResponseEntity<List<UnitDTO.Info>> list() {
-		return new ResponseEntity<>(unitService.list(), HttpStatus.OK);
-	}
+    public ResponseEntity<List<UnitDTO.Info>> list() {
+        return new ResponseEntity<>(unitService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PostMapping
+    @Loggable
+    @PostMapping
 //    @PreAuthorize("hasAuthority('c_unit')")
-	public ResponseEntity<UnitDTO.Info> create(@Validated @RequestBody UnitDTO.Create request) {
-		return new ResponseEntity<>(unitService.create(request), HttpStatus.CREATED);
-	}
+    public ResponseEntity<UnitDTO.Info> create(@Validated @RequestBody UnitDTO.Create request) {
+        return new ResponseEntity<>(unitService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PutMapping
+    @Loggable
+    @PutMapping
 //    @PreAuthorize("hasAuthority('u_unit')")
-	public ResponseEntity<UnitDTO.Info> update(@RequestBody UnitDTO.Update request) {
-		return new ResponseEntity<>(unitService.update(request.getId(), request), HttpStatus.OK);
-	}
+    public ResponseEntity<UnitDTO.Info> update(@RequestBody UnitDTO.Update request) {
+        return new ResponseEntity<>(unitService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
+    @Loggable
+    @DeleteMapping(value = "/{id}")
 //    @PreAuthorize("hasAuthority('d_unit')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		unitService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        unitService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
+    @Loggable
+    @DeleteMapping(value = "/list")
 //    @PreAuthorize("hasAuthority('d_unit')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody UnitDTO.Delete request) {
-		unitService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@Validated @RequestBody UnitDTO.Delete request) {
+        unitService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-	public ResponseEntity<TotalResponse<UnitDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(unitService.search(nicicoCriteria), HttpStatus.OK);
-	}
-	// ------------------------------
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<UnitDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(unitService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/search")
+    @Loggable
+    @GetMapping(value = "/search")
 //    @PreAuthorize("hasAuthority('r_unit')")
-	public ResponseEntity<SearchDTO.SearchRs<UnitDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(unitService.search(request), HttpStatus.OK);
-	}
+    public ResponseEntity<SearchDTO.SearchRs<UnitDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
+        return new ResponseEntity<>(unitService.search(request), HttpStatus.OK);
+    }
 }

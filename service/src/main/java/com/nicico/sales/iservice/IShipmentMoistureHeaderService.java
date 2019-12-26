@@ -20,5 +20,5 @@ public interface IShipmentMoistureHeaderService {
 
 	void delete(ShipmentMoistureHeaderDTO.Delete request);
 
-	public TotalResponse<ShipmentMoistureHeaderDTO.Info> search(NICICOCriteria criteria);
+	TotalResponse<ShipmentMoistureHeaderDTO.Info> search(NICICOCriteria criteria);
 }

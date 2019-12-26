@@ -90,7 +90,7 @@ public class ShipmentAssayItemService implements IShipmentAssayItemService {
 		return SearchUtil.search(shipmentAssayItemDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentAssayItemDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ShipmentAssayItemDTO.Info save(ShipmentAssayItem shipmentAssayItem) {
 		final ShipmentAssayItem saved = shipmentAssayItemDAO.saveAndFlush(shipmentAssayItem);

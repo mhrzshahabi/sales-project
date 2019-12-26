@@ -77,7 +77,7 @@ public class SalesException extends NICICOException {
 		}
 	}
 
-	// ------------------------------
+
 
 	public SalesException(IErrorCode errorCode) {
 		super(errorCode);

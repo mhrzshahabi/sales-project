@@ -23,67 +23,63 @@ import java.util.List;
 @RequestMapping(value = "/api/paymentOption")
 public class PaymentOptionRestController {
 
-	private final IPaymentOptionService paymentOptionService;
+    private final IPaymentOptionService paymentOptionService;
 
-	// ------------------------------s
-
-	@Loggable
-	@GetMapping(value = "/{id}")
+    @Loggable
+    @GetMapping(value = "/{id}")
 //	@PreAuthorize("hasAuthority('r_paymentOption')")
-	public ResponseEntity<PaymentOptionDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(paymentOptionService.get(id), HttpStatus.OK);
-	}
+    public ResponseEntity<PaymentOptionDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(paymentOptionService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
+    @Loggable
+    @GetMapping(value = "/list")
 //	@PreAuthorize("hasAuthority('r_paymentOption')")
-	public ResponseEntity<List<PaymentOptionDTO.Info>> list() {
-		return new ResponseEntity<>(paymentOptionService.list(), HttpStatus.OK);
-	}
+    public ResponseEntity<List<PaymentOptionDTO.Info>> list() {
+        return new ResponseEntity<>(paymentOptionService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PostMapping
+    @Loggable
+    @PostMapping
 //	@PreAuthorize("hasAuthority('c_paymentOption')")
-	public ResponseEntity<PaymentOptionDTO.Info> create(@Validated @RequestBody PaymentOptionDTO.Create request) {
-		return new ResponseEntity<>(paymentOptionService.create(request), HttpStatus.CREATED);
-	}
+    public ResponseEntity<PaymentOptionDTO.Info> create(@Validated @RequestBody PaymentOptionDTO.Create request) {
+        return new ResponseEntity<>(paymentOptionService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PutMapping
+    @Loggable
+    @PutMapping
 //	@PreAuthorize("hasAuthority('u_paymentOption')")
-	public ResponseEntity<PaymentOptionDTO.Info> update(@RequestBody PaymentOptionDTO.Update request) {
-		return new ResponseEntity<>(paymentOptionService.update(request.getId(), request), HttpStatus.OK);
-	}
+    public ResponseEntity<PaymentOptionDTO.Info> update(@RequestBody PaymentOptionDTO.Update request) {
+        return new ResponseEntity<>(paymentOptionService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
+    @Loggable
+    @DeleteMapping(value = "/{id}")
 //	@PreAuthorize("hasAuthority('d_paymentOption')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		paymentOptionService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        paymentOptionService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
+    @Loggable
+    @DeleteMapping(value = "/list")
 //	@PreAuthorize("hasAuthority('d_paymentOption')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody PaymentOptionDTO.Delete request) {
-		paymentOptionService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    public ResponseEntity<Void> delete(@Validated @RequestBody PaymentOptionDTO.Delete request) {
+        paymentOptionService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-	public ResponseEntity<TotalResponse<PaymentOptionDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(paymentOptionService.search(nicicoCriteria), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<PaymentOptionDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(paymentOptionService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
-	// ------------------------------
-
-	@Loggable
-	@GetMapping(value = "/search")
+    @Loggable
+    @GetMapping(value = "/search")
 //	@PreAuthorize("hasAuthority('r_paymentOption')")
-	public ResponseEntity<SearchDTO.SearchRs<PaymentOptionDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(paymentOptionService.search(request), HttpStatus.OK);
-	}
+    public ResponseEntity<SearchDTO.SearchRs<PaymentOptionDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
+        return new ResponseEntity<>(paymentOptionService.search(request), HttpStatus.OK);
+    }
 }

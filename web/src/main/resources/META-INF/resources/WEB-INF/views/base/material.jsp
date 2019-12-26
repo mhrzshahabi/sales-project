@@ -513,7 +513,7 @@
         ]
     });
 
-    // ----------------------------------------------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------------------
     function ListGrid_MaterialFeature_refresh() {
         ListGrid_MaterialFeature.invalidateCache();
         var record = ListGrid_Material.getSelectedRecord();

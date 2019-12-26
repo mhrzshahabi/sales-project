@@ -20,5 +20,5 @@ public interface IShipmentAssayHeaderService {
 
 	void delete(ShipmentAssayHeaderDTO.Delete request);
 
-	public TotalResponse<ShipmentAssayHeaderDTO.Info> search(NICICOCriteria criteria);
+	TotalResponse<ShipmentAssayHeaderDTO.Info> search(NICICOCriteria criteria);
 }

@@ -126,7 +126,6 @@
 		}
 
 	}
-//-----------------------------------------------------------------------------------------------------------------------------------
    var RestDataSource_ContactBySellerMolybdenum = isc.MyRestDataSource.create({
         fields:
             [
@@ -159,7 +158,7 @@
         operator: "or",
         criteria: [{fieldName: "buyer", operator: "equals", value: true},{fieldName: "agentBuyer", operator: "equals", value: true}]
     };
-//-----------------------------------------------------------------------------------------------------------------------------------
+
      var DynamicForm_Invoice_Molybdenum = isc.DynamicForm.create({
         width: "100%",
         height: "100%",

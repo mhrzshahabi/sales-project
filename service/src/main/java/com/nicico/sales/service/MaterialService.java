@@ -90,7 +90,7 @@ public class MaterialService implements IMaterialService {
 		return SearchUtil.search(materialDAO, criteria, material -> modelMapper.map(material, MaterialDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private MaterialDTO.Info save(Material material) {
 		final Material saved = materialDAO.saveAndFlush(material);

@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -24,7 +23,6 @@ import java.util.List;
 public class ContactAccountRestController {
 
     private final IContactAccountService contactAccountService;
-    private final ObjectMapper objectMapper;
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -63,7 +61,6 @@ public class ContactAccountRestController {
         contactAccountService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
     }
-
 
     @Loggable
     @GetMapping(value = "/spec-list")

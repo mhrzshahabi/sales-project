@@ -8,29 +8,27 @@ import java.util.List;
 
 public interface IShipmentService {
 
-	ShipmentDTO.Info get(Long id);
+    ShipmentDTO.Info get(Long id);
 
-	List<ShipmentDTO.Info> list();
+    List<ShipmentDTO.Info> list();
 
-	ShipmentDTO.Info create(ShipmentDTO.Create request);
+    ShipmentDTO.Info create(ShipmentDTO.Create request);
 
-	ShipmentDTO.Info update(Long id, ShipmentDTO.Update request);
+    ShipmentDTO.Info update(Long id, ShipmentDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ShipmentDTO.Delete request);
+    void delete(ShipmentDTO.Delete request);
 
-   TotalResponse<ShipmentDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ShipmentDTO.Info> search(NICICOCriteria criteria);
 
-   List<Object[]> pickListShipment();
+    List<Object[]> pickListShipment();
 
-	List<String> findLotname(String id );
+    List<String> findLotname(String id);
 
-	List<String> findbooking(String id);
+    List<String> findbooking(String id);
 
-	List<String> cname();
+    List<String> cname();
 
-	List<String> inspector();
-
-
+    List<String> inspector();
 }

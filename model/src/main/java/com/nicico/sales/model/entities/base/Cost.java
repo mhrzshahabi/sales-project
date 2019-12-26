@@ -147,5 +147,4 @@ public class Cost extends Auditable {
 	@Column(name = "PORT_COST")
 	private Double portCost;
 
-
 }

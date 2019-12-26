@@ -30,4 +30,5 @@ public class ContractPenalty extends Auditable {
 
 	@Column(name = "OPERATION", length = 4)
 	private String operation;
+
 }

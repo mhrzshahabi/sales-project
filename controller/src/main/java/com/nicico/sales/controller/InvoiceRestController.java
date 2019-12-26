@@ -1,6 +1,5 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
@@ -35,7 +34,6 @@ public class InvoiceRestController {
     private final IInvoiceService invoiceService;
     private final IShipmentService shipmentService;
     private final IInvoiceMolybdenumService invoiceMolybdenumService;
-    private final ObjectMapper objectMapper;
     private final ReportUtil reportUtil;
 
     @Loggable
@@ -44,7 +42,7 @@ public class InvoiceRestController {
     public ResponseEntity<InvoiceDTO.Info> sendForm2accounting(@PathVariable Long id, @RequestBody String data) {
         return new ResponseEntity<InvoiceDTO.Info>(invoiceService.sendForm2accounting(id, data), HttpStatus.OK);
     }
-    // ------------------------------s
+
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -97,16 +95,14 @@ public class InvoiceRestController {
         invoiceService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
     }
-	@Loggable
-	@GetMapping(value = "/spec-list")
+
+    @Loggable
+    @GetMapping(value = "/spec-list")
 //	@PreAuthorize("hasAuthority('r_instruction')")
-	public ResponseEntity<TotalResponse<InvoiceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(invoiceService.search(nicicoCriteria), HttpStatus.OK);
-	}
-
-   // ------------------------------
-
+    public ResponseEntity<TotalResponse<InvoiceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(invoiceService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
     @Loggable
     @GetMapping(value = "/print/{type}/{rowId}")

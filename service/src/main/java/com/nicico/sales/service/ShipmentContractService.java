@@ -90,7 +90,7 @@ public class ShipmentContractService implements IShipmentContractService {
 		return SearchUtil.search(shipmentContractDAO, criteria, shipmentContract -> modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ShipmentContractDTO.Info save(ShipmentContract shipmentContract) {
 		final ShipmentContract saved = shipmentContractDAO.saveAndFlush(shipmentContract);

@@ -41,4 +41,5 @@ public class Currency extends Auditable {
 
 	@Column(name = "c_CODE",length = 100)
 	private String code;
+
 }

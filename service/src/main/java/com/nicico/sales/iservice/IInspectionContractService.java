@@ -3,7 +3,6 @@ package com.nicico.sales.iservice;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.InspectionContractDTO;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
 import java.util.List;
@@ -23,12 +22,7 @@ public interface IInspectionContractService {
 	void delete(InspectionContractDTO.Delete request);
 
 	SearchDTO.SearchRs<InspectionContractDTO.Info> search(SearchDTO.SearchRq request);
-	//	@Transactional(readOnly = true)
-	//	@Override
-	//	public SearchDTO.SearchRs<InspectionContractDTO.Info> search(SearchDTO.SearchRq request) {
-	//		return SearchUtil.search(inspectionContractDAO, request, inspectionContract -> modelMapper.map(inspectionContract, InspectionContractDTO.Info.class));
-	//	}
-	@Transactional(readOnly = true)
+
 	TotalResponse<InspectionContractDTO.Info> search(MultiValueMap<String, String> criteria);
 
 	String getMaterial(Long id);

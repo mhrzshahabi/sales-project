@@ -8,17 +8,17 @@ import java.util.List;
 
 public interface IWarehouseLotService {
 
-	WarehouseLotDTO.Info get(Long id);
+    WarehouseLotDTO.Info get(Long id);
 
-	List<WarehouseLotDTO.Info> list();
+    List<WarehouseLotDTO.Info> list();
 
-	WarehouseLotDTO.Info create(WarehouseLotDTO.Create request);
+    WarehouseLotDTO.Info create(WarehouseLotDTO.Create request);
 
-	WarehouseLotDTO.Info update(Long id, WarehouseLotDTO.Update request);
+    WarehouseLotDTO.Info update(Long id, WarehouseLotDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(WarehouseLotDTO.Delete request);
+    void delete(WarehouseLotDTO.Delete request);
 
-	TotalResponse<WarehouseLotDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<WarehouseLotDTO.Info> search(NICICOCriteria criteria);
 }

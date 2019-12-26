@@ -95,4 +95,5 @@ public class WarehouseCad extends Auditable {
 
     @Column(name = "DESTINATION_WEIGHT")
     private Double destinationWeight;
+
 }

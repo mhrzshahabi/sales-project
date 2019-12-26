@@ -83,7 +83,7 @@ public class ShipmentService implements IShipmentService {
 		return SearchUtil.search(shipmentDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentDTO.Info.class));
 	}
 
-	// ------------------------------
+
 
 	private ShipmentDTO.Info save(Shipment shipment) {
 		final Shipment saved = shipmentDAO.saveAndFlush(shipment);
