@@ -64,7 +64,7 @@
                 {name: "port", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
-        fetchDataURL: "${contextPath}/api/port/spec-list2"
+        fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
     var RestDataSource_SwitchPort = isc.MyRestDataSource.create({
