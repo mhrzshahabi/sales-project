@@ -339,7 +339,7 @@
     });
      var Window_Molybdenum = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
-        width: 1600,
+        width: 1610,
         height: 800,
 
         autoCenter: true,
@@ -348,7 +348,6 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
-
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
@@ -391,10 +390,8 @@
         title: "<spring:message code='issuedInvoices.title'/> ",
         width: 1600,
         height: 800,
-
         autoCenter: true,
         isModal: true,
-        // showModalMask: true,
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
@@ -923,8 +920,7 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
-                },
-
+                }
             ]
     });
 
@@ -1025,19 +1021,6 @@
                  window.open("invoice/print/html/" + rowId);
         }});
 
-    /*End JZ*/
-
-
-
-
-
-
-
-
-
-
-
-
     var ToolStripButton_Invoice_Send2Accounting = isc.ToolStripButton.create({
                 title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
                 click: function () {
@@ -1068,7 +1051,7 @@
                                     data: JSON.stringify(data2acc),
                                     callback: function (resp) {
                                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                                            isc.say("<spring:message code='global.form.request.successful'/>");
                                             ListGrid_Invoice_refresh();
                                         } else
                                             isc.say(RpcResponse_o.data);
@@ -1084,7 +1067,6 @@
                                 this.hide();
                             }
                         });
-
                 }
     });
 
@@ -1124,11 +1106,9 @@
 
 
     var IButton_Invoice_Save = isc.IButtonSave.create({
-        top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
             DynamicForm_Invoice.validate();
             if (DynamicForm_Invoice.hasErrors())
                 return;
@@ -1147,7 +1127,7 @@
                 data: JSON.stringify(data),
                 callback: function (resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Invoice_refresh();
                         Window_Invoice.close();
                     } else

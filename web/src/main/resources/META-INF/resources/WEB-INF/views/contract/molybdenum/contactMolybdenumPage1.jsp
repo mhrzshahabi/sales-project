@@ -33,7 +33,7 @@
     ValuesManager("valuesManagerArticle8");
     ValuesManager("valuesManagerArticle9");
     ValuesManager("valuesManagerArticle10");
-    ValuesManager("valuesManagerfullArticle");
+    ValuesManager("valuesManagerfullArticleMo");
 
  var RestDataSource_Parameters = isc.MyRestDataSource.create({
         fields:
@@ -324,7 +324,7 @@
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
                                     contactHeader.clearValues();
-                                    valuesManagerfullArticle.clearValues();
+                                    valuesManagerfullArticleMo.clearValues();
                                     contactHeaderAgent.clearValues();
                                     valuesManagerArticle1.clearValues();
                                     valuesManagerArticle2.clearValues();
@@ -359,27 +359,30 @@
                             var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
                             var criterialotList={_constructor:"AdvancedCriteria",operator:"or",criteria:[{fieldName:"contractId",operator:"equals",value:record.id},{fieldName: "used", operator: "equals",value: 0 }]};
                                     criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
+                                    var articleMo=record.contractNo+"?Mo";
                                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                                 actionURL: "${contextPath}/api/contract/readWord",
                                                 httpMethod: "PUT",
-                                                data: JSON.stringify(record.contractNo),
+                                                data: JSON.stringify(articleMo),
                                                 callback: function (resp) {
-                                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                                                        var text = resp.httpResponseText;
-                                                        var text2 = text.replaceAll('","', '","').replaceAll('&','":"')
-                                                        textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
+                                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                                        //alert(resp.httpResponseText);
+                                                        var textMo = resp.httpResponseText;
+                                                        var text2Mo = textMo.replaceAll('","', '","').replaceAll('&?','":"')
+                                                        var textMainMo= JSON.parse(text2Mo.replaceAt(0,'{"').replaceAt(text2Mo.length-1,'}'));
+                                                        console.log(textMainMo);
                                                         setTimeout(function(){
-                                                                contactTabs.selectTab(0);
-                                                                dynamicFormMoox_fullArticle01.getValue("fullArticle01");
-                                                                dynamicForm_fullArticle02MoOx.getValue("fullArticle02");
-                                                                valuesManagerfullArticle.getValue("fullArticle03");
-                                                                valuesManagerfullArticle.getValue("fullArticle04");
-                                                                valuesManagerfullArticle.getValue("fullArticle05");
-                                                                valuesManagerfullArticle.getValue("fullArticle06");
-                                                                valuesManagerfullArticle.getValue("fullArticle07");
-                                                                valuesManagerfullArticle.getValue("fullArticle08");
-                                                                valuesManagerfullArticle.getValue("fullArticle09");
-                                                                valuesManagerfullArticle.getValue("fullArticle10");
+                                                               // contactTabs.selectTab(0);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle01",textMainMo.Article01);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle02",textMainMo.Article02);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle03",textMainMo.Article03);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle04",textMainMo.Article04);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle05",textMainMo.Article05);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle06",textMainMo.Article06);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle07",textMainMo.Article07);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle08",textMainMo.Article08);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle09",textMainMo.Article09);
+                                                                valuesManagerfullArticleMo.setValue("fullArticle10",textMainMo.Article10);
                                                         },200)
                                                     }else{
                                                         alert(RpcResponse_o.data);
@@ -640,7 +643,7 @@
                                             ],
                                             buttonClick: function (button, index) {
                                                 this.hide();
-                                                if (index === 0) {
+                                                if (index == 0) {
                                                     var idContractRemove = ListGrid_contractMo.getSelectedRecord().id;
                                                     var criteriaRemove={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:idContractRemove}]};
                                                     RestDataSource_contractDetail_list.fetchData(criteriaRemove,function (dsResponse, data, dsRequest) {
@@ -649,7 +652,7 @@
                                                                     actionURL: "${contextPath}/api/contract/" + idContractRemove,
                                                                     httpMethod: "DELETE",
                                                                     callback: function (resp) {
-                                                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                                                             isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                                                             ListGrid_contractMo.invalidateCache();
                                                                         } else {
@@ -663,12 +666,12 @@
                                                                     actionURL: "${contextPath}/api/contractDetail/" + contractDetailIDRemove,
                                                                     httpMethod: "DELETE",
                                                                     callback: function (resp) {
-                                                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                                                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                                                             actionURL: "${contextPath}/api/contract/" + idContractRemove,
                                                                             httpMethod: "DELETE",
                                                                             callback: function (resp) {
-                                                                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                                                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                                                                     isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                                                                                     ListGrid_contractMo.invalidateCache();
                                                                                 } else {
@@ -1315,7 +1318,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
     })
 
     var dynamicFormMoox_fullArticle01 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerfullArticle",
+        valuesManager: "valuesManagerfullArticleMo",
         height: "50",
         width: "100%",
         wrapItemTitles: false,
@@ -1385,10 +1388,10 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 width: "80",
                 name: "molybdenumTolorance",
                 title: "+/-",
-                defaultValue: "10",
+                defaultValue: "",
                 keyPressFilter: "[0-9]", //article2_13
                 changed: function (form, item, value) {
-                    article2_1.setValue("article2_13_1", value);
+                    article2_1.setValue("article2_13_1",value);
                     dynamicForm_article3_3.setValue("article3_number17_4",value);
                     dynamicForm_article3.setValue("article3_number17_9", value);
                 }
@@ -1413,7 +1416,10 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 name: "plant", //article2_15
                 width: "500",
                 startRow: false,
-                title: '<b><font size=2px>OPTION) PRODUCED IN</font><b>'
+                title: '<b><font size=2px>OPTION) PRODUCED IN</font><b>',
+                changed: function (form, item, value) {
+                        valuesManagerfullArticleMo.setValue("fullArticle02",article2Mo.getValue("amount")+" "+"("+article2Mo.getValue("amount_en")+")"+" "+article2Mo.getItem("unitId").getDisplayValue(article2Mo.getValue("unitId"))+" "+article2Mo.getValue("molybdenumTolorance")+" "+"(IN" + article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional")) + " " + "'S OPTION) IN PRODUCED IN"+" "+article2Mo.getValue("plant")+" "+"THE TOLERENCE OF +/-%"+article2Mo.getValue("molybdenumTolorance")+" "+"IN"+" "+article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional"))+" "+"OPTION WILL BE CONSIDRED FOR EACH SHIPMENT QUANTITY.");
+                }
             }
         ]
     });
@@ -1445,7 +1451,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
     })
 
 var dynamicForm_fullArticle02MoOx = isc.DynamicForm.create({
-        valuesManager: "valuesManagerfullArticle",
+        valuesManager: "valuesManagerfullArticleMo",
         height: "50",
         width: "100%",
         wrapItemTitles: false,
@@ -1591,7 +1597,7 @@ var vlayoutArticle3 = isc.VLayout.create({
     factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - </font><b>', "20", 1)
 
  var dynamicForm_fullArticle03 = isc.DynamicForm.create({
-            valuesManager: "valuesManagerfullArticle",
+            valuesManager: "valuesManagerfullArticleMo",
             height: "20",
             width: "100%",
             wrapItemTitles: false,
@@ -1863,8 +1869,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     dynamicForm_article3.setValue("article3_number17_8", value);
                     //dynamicForm_article5_number29_1.setValue("article5_number29_2", value);
                     dynamicForm_fullArticle03.clearValues();
-                    valuesManagerfullArticle.setValue("fullArticle03","\n"+valuesManagerfullArticle.getValue("fullArticle03")+value+"MT"+"+/-"+valuesManagerArticle2.getValue("molybdenumTolorance")+"%"+" "+"AS A WHOLE AFTER CONTRACT SETTLEMENT WITH BELOW ANALYSIS AND SIZE DETERMINATION:")//TO DO 13
-                    valuesManagerfullArticle.setValue("fullArticle03",valuesManagerfullArticle.getValue("fullArticle03")+"\n"+valuesManagerArticle3.getValue("contactInspectionId")+" "
+                    valuesManagerfullArticleMo.setValue("fullArticle03","\n"+valuesManagerfullArticleMo.getValue("fullArticle03")+value+"MT"+"+/-"+valuesManagerArticle2.getValue("molybdenumTolorance")+"%"+" "+"AS A WHOLE AFTER CONTRACT SETTLEMENT WITH BELOW ANALYSIS AND SIZE DETERMINATION:")//TO DO 13
+                    valuesManagerfullArticleMo.setValue("fullArticle03",valuesManagerfullArticleMo.getValue("fullArticle03")+"\n"+valuesManagerArticle3.getValue("contactInspectionId")+" "
 +"ANALYSIS RESULTS FOR THE REMAINING QUANTITY ("+value+"MT +/-"+article2Mo.getValue("molybdenumTolorance")+"-IN "+article2_1.getItem("responsibleTelerons").getDisplayValue(article2_1.getValue("responsibleTelerons"))+" OPTION) WHICH WILL BE PERFORMED AT "+" "+valuesManagerArticle3.getValue("contactInspectionId")+", IS FINAL AND BINDING FOR SETTLEMENT PURPOSES.");
                 }
             },{
@@ -1968,7 +1974,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 startRow: false,
                 title: '',changed: function (form, item, value) {
                 dynamicForm_fullArticle04.clearValues();
-                valuesManagerfullArticle.setValue("fullArticle04","IN STEEL DRUMS OF "+value+" LITERS, WITH LIDS SECURED BY RINGS ON PALLETS.");
+                valuesManagerfullArticleMo.setValue("fullArticle04","IN STEEL DRUMS OF "+value+" LITERS, WITH LIDS SECURED BY RINGS ON PALLETS.");
                 }
             }, {
                 name: "amount_number19_2",
@@ -1981,7 +1987,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
         ]
     })
     var dynamicForm_fullArticle04 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticle",
+                valuesManager: "valuesManagerfullArticleMo",
                 height: "20",
                 width: "100%",
                 wrapItemTitles: false,
@@ -2208,7 +2214,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                         httpMethod: "PUT",
                         data: JSON.stringify(ContractItemShipmentRecord),
                         callback: function (resp) {
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>.");
                                 ListGrid_ContractItemShipment.setData([]);
                                 ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
@@ -2225,7 +2231,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                     httpMethod: "DELETE",
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             ListGrid_ContractItemShipment.invalidateCache();
                             isc.say("<spring:message code='global.grid.record.remove.success'/>.");
                         } else {
@@ -2330,7 +2336,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         members: [dynamicForm_article5_Note2_number30, buttonNote]
     })
     var dynamicForm_fullArticle05 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticle",
+                valuesManager: "valuesManagerfullArticleMo",
                 height: "20",
                 width: "100%",
                 wrapItemTitles: false,
@@ -2697,7 +2703,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
     });
 
      var dynamicForm_fullArticle06 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticle",
+                valuesManager: "valuesManagerfullArticleMo",
                 height: "150",
                 width: "100%",
                 wrapItemTitles: false,
@@ -2711,7 +2717,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                         startRow: true,
                         showTitle: false,
                         colSpan: 10,
-                        defaultValue: "THE MATERIAL SHALL BE DELIVERED BY SELLER TO BUYER ON FOB STOWED BANDAR ABBAS, IRAN (INCOTERMS 2010).\n6.1. BUYER SHALL INTRODUCE TO SELLER THE FULL PARTICULARS OF THE CONTAINER LINE NOMINATED, GIVING FULL NAME, REGISTERED ADDRESS, TELEPHONE & FAX NUMBERS, AND PERSONS IN CHARGE OF THEIR REPRESENTATIVES IN TEHRAN AS WELL AS AT THE PORT OF BANDAR ABBAS FOR FURTHER COORDINATIONS. LOCAL AGENTS AT THE LOADPORT SHALL BE ACCESSIBLE DURING FULL PERIOD OF LOADING. IN ADDITION FOR EACH SHIPMENT.\n6.2. BUYER SHALL MAKE THE NECESSARY ARRANGEMENTS FOR THE CONTAINERS TO BE PROVIDED AND POSITIONED AT THE EXPORT AREA INSIDE THE CONTAINER YARD OF BANDAR ABBAS CUSTOM HOUSE WITHOUT ANY CHARGES FOR SELLER.\n6.3. HOWEVER, COST OF MOVING THE LOADED CONTAINERS FROM EXPORT AREA TO THE F.O.B. ARE FOR SELLER'S ACCOUNT.\n6.4. AFTER POSITIONING THE REQUIRED EMPTY CONTAINERS, BUYER WILL INFORM IMMEDIATELY THE TYPE (20/40FT) AND NUMBER OF CONTAINERS, RELEVANT SERIAL NUMBERS TO SELLER.\n6.5. PRIOR TO STUFFING THE CARGO, NOMINATED INSPECTION COMPANY'S REPRESENTATIVE IF APPOINTED, OTHERWISE SELLER'S STAFF WILL CHECK THE CONTAINERS TO APPROVE THEIR FITNESS FOR ACCEPTING THE CARGO.",
+                        defaultValue: "THE MATERIAL SHALL BE DELIVERED BY SELLER TO BUYER ON FOB STOWED BANDAR ABBAS, IRAN (INCOTERMS 2010).\n6.1. BUYER SHALL INTRODUCE TO SELLER THE FULL PARTICULARS OF THE CONTAINER LINE NOMINATED, GIVING FULL NAME, REGISTERED ADDRESS, TELEPHONE , FAX NUMBERS, AND PERSONS IN CHARGE OF THEIR REPRESENTATIVES IN TEHRAN AS WELL AS AT THE PORT OF BANDAR ABBAS FOR FURTHER COORDINATIONS. LOCAL AGENTS AT THE LOADPORT SHALL BE ACCESSIBLE DURING FULL PERIOD OF LOADING. IN ADDITION FOR EACH SHIPMENT.\n6.2. BUYER SHALL MAKE THE NECESSARY ARRANGEMENTS FOR THE CONTAINERS TO BE PROVIDED AND POSITIONED AT THE EXPORT AREA INSIDE THE CONTAINER YARD OF BANDAR ABBAS CUSTOM HOUSE WITHOUT ANY CHARGES FOR SELLER.\n6.3. HOWEVER, COST OF MOVING THE LOADED CONTAINERS FROM EXPORT AREA TO THE F.O.B. ARE FOR SELLER'S ACCOUNT.\n6.4. AFTER POSITIONING THE REQUIRED EMPTY CONTAINERS, BUYER WILL INFORM IMMEDIATELY THE TYPE (20/40FT) AND NUMBER OF CONTAINERS, RELEVANT SERIAL NUMBERS TO SELLER.\n6.5. PRIOR TO STUFFING THE CARGO, NOMINATED INSPECTION COMPANY'S REPRESENTATIVE IF APPOINTED, OTHERWISE SELLER'S STAFF WILL CHECK THE CONTAINERS TO APPROVE THEIR FITNESS FOR ACCEPTING THE CARGO.",
                         title: "fullArticle06",
                         width: "*"
                     }
@@ -2958,7 +2964,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             ]
     });
      var dynamicForm_fullArticle07 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticle",
+                valuesManager: "valuesManagerfullArticleMo",
                 height: "20",
                 width: "100%",
                 wrapItemTitles: false,
@@ -3057,7 +3063,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     })
     var dynamicForm_fullArticle08 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticle",
+                valuesManager: "valuesManagerfullArticleMo",
                 height: "20",
                 width: "100%",
                 wrapItemTitles: false,
@@ -3323,7 +3329,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     })
     var dynamicForm_fullArticle09 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticle",
+                valuesManager: "valuesManagerfullArticleMo",
                 height: "20",
                 width: "100%",
                 wrapItemTitles: false,
@@ -3336,7 +3342,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                         startRow: true,
                         showTitle: false,
                         colSpan: 10,
-                        defaultValue: "1.BUYER SHALL PAY BEFORE EACH SHIPMENT 105% (ONE HUNDRED FIVE PERCENT) OF PROFORMA / PROVISIONAL INVOICE VALUE AMOUNT IN EURO OR AED (SELLER'S OPTION), PROMPT NET CASH PAYABLE BY TELEGRAPHIC TRANSFER OR UNDER AN IRREVOCABLE LETTER OF CREDIT AT SIGHT (SELLER'S OPTION) TO A BANK WHICH IS NOMINATED BY SELLER. PROFORMA / PROVISIONAL INVOICE AMOUNT CALCULATED BASED ON PROVISIONAL PRICE WHICH IS AVERAGE OF TWO WEEKS PRICE (LOW & HIGH PRICES) PRIOR DATE OF PROFORMA / PROVISIONAL INVOICE AND FINAL ASSAY.\n2.	THE FINAL BALANCE, IF ANY, BETWEEN THE PROVISIONAL PAYMENT MADE BY BUYER AND THE FINAL VALUE OF THE MATERIAL SHALL BE PAID BY THE OWING PARTY BY TELEGRAPHIC TRANSFER AGAINST SELLER'S PRESENTATION OF FOLLOWING DOCUMENTS WITHIN (5) WORKING DAYS FROM THE DATE OF THE FINAL INVOICE. SELLER'S FINAL INVOICE ISSUED BASED ON FINAL PRICES LESS THE AMOUNT OF PROVISIONAL PAYMENT.",
+                        defaultValue: "1.BUYER SHALL PAY BEFORE EACH SHIPMENT 105% (ONE HUNDRED FIVE PERCENT) OF PROFORMA / PROVISIONAL INVOICE VALUE AMOUNT IN EURO OR AED (SELLER'S OPTION), PROMPT NET CASH PAYABLE BY TELEGRAPHIC TRANSFER OR UNDER AN IRREVOCABLE LETTER OF CREDIT AT SIGHT (SELLER'S OPTION) TO A BANK WHICH IS NOMINATED BY SELLER. PROFORMA / PROVISIONAL INVOICE AMOUNT CALCULATED BASED ON PROVISIONAL PRICE WHICH IS AVERAGE OF TWO WEEKS PRICE (LOW , HIGH PRICES) PRIOR DATE OF PROFORMA / PROVISIONAL INVOICE AND FINAL ASSAY.\n2.	THE FINAL BALANCE, IF ANY, BETWEEN THE PROVISIONAL PAYMENT MADE BY BUYER AND THE FINAL VALUE OF THE MATERIAL SHALL BE PAID BY THE OWING PARTY BY TELEGRAPHIC TRANSFER AGAINST SELLER'S PRESENTATION OF FOLLOWING DOCUMENTS WITHIN (5) WORKING DAYS FROM THE DATE OF THE FINAL INVOICE. SELLER'S FINAL INVOICE ISSUED BASED ON FINAL PRICES LESS THE AMOUNT OF PROVISIONAL PAYMENT.",
                         title: "fullArticle09",
                         width: "*"
                     }
@@ -3453,7 +3459,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
     });
 
     var dynamicForm_fullArticle10 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticle",
+                valuesManager: "valuesManagerfullArticleMo",
                 height: "20",
                 width: "100%",
                 wrapItemTitles: false,
@@ -3743,6 +3749,7 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContractDetail.article10_number59=valuesManagerArticle10.getValue("article10_number59");
                     dataSaveAndUpdateContractDetail.article10_number60=valuesManagerArticle10.getValue("article10_number60");
                     dataSaveAndUpdateContractDetail.article10_number61=valuesManagerArticle10.getValue("article10_number61");
+             console.log(dataSaveAndUpdateContract);
             if(methodUrl=="PUT"){
                         dataSaveAndUpdateContractDetail.contractNo=contactHeader.getValue("contractNo");
             }
@@ -3756,7 +3763,7 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                 httpMethod: "POST",
                 data: JSON.stringify(dataSaveAndUpdateContract),
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                  saveCotractDetails(dataSaveAndUpdateContractDetail, (JSON.parse(resp.data)).id);
                     } else
                         isc.say(RpcResponse_o.data);
@@ -3875,11 +3882,10 @@ function saveCotractDetails(data, contractID) {
             httpMethod: "POST",
             data: JSON.stringify(allData),
             callback: function (resp) {
-                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     saveValueAllArticlesMoOx(contractID);
                     saveValuelotListForADD(contractID);
                     saveListGrid_ContractItemShipment(contractID);
-                    //saveContractCurrency(contractID);
                     Window_ContactMo.close();
                     ListGrid_contractMo.invalidateCache();
                     isc.say("<spring:message code='global.form.request.successful'/>.");
@@ -3903,7 +3909,7 @@ function saveListGrid_ContractItemShipment(contractID) {
                 httpMethod: "POST",
                 data: JSON.stringify(dataEditMain),
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                     } else
                         isc.say(RpcResponse_o.data);
@@ -3919,7 +3925,7 @@ function saveListGrid_ContractItemShipment(contractID) {
                 httpMethod: "POST",
                 data: JSON.stringify(dataEdit),
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                     } else
                         isc.say(RpcResponse_o.data);
@@ -3930,21 +3936,6 @@ function saveListGrid_ContractItemShipment(contractID) {
 };
 
 
-function saveContractCurrency(contractID){
-    var currencyData =valuesManagerArticle10.getValues();
-    currencyData.contractId=contractID
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractCurrency/",
-                httpMethod: methodUrl,
-                data: JSON.stringify(currencyData),
-                callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-    }
 
 function saveValuelotListForADD(contractID) {
         lotList.selectAllRecords();
@@ -3961,7 +3952,7 @@ function saveValuelotListForADD(contractID) {
                 httpMethod: "PUT",
                 data: JSON.stringify(data_lotList),
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>.");
                     } else{
                         isc.say(RpcResponse_o.data);
@@ -3973,16 +3964,16 @@ function saveValuelotListForADD(contractID) {
 
     var dataALLArticleMO = {};
     function saveValueAllArticlesMoOx(contractID) {
-        dataALLArticleMO.Article01 = valuesManagerfullArticle.getValue("fullArticle01");
-        dataALLArticleMO.Article02 = valuesManagerfullArticle.getValue("fullArticle02");
-        dataALLArticleMO.Article03 = valuesManagerfullArticle.getValue("fullArticle03");
-        dataALLArticleMO.Article04 = valuesManagerfullArticle.getValue("fullArticle04");
-        dataALLArticleMO.Article05 = valuesManagerfullArticle.getValue("fullArticle05");
-        dataALLArticleMO.Article06 = valuesManagerfullArticle.getValue("fullArticle06");
-        dataALLArticleMO.Article07 = valuesManagerfullArticle.getValue("fullArticle07");
-        dataALLArticleMO.Article08 = valuesManagerfullArticle.getValue("fullArticle08");
-        dataALLArticleMO.Article09 = valuesManagerfullArticle.getValue("fullArticle09");
-        dataALLArticleMO.Article10 = valuesManagerfullArticle.getValue("fullArticle10");
+        dataALLArticleMO.Article01 = valuesManagerfullArticleMo.getValue("fullArticle01");
+        dataALLArticleMO.Article02 = valuesManagerfullArticleMo.getValue("fullArticle02");
+        dataALLArticleMO.Article03 = valuesManagerfullArticleMo.getValue("fullArticle03");
+        dataALLArticleMO.Article04 = valuesManagerfullArticleMo.getValue("fullArticle04");
+        dataALLArticleMO.Article05 = valuesManagerfullArticleMo.getValue("fullArticle05");
+        dataALLArticleMO.Article06 = valuesManagerfullArticleMo.getValue("fullArticle06");
+        dataALLArticleMO.Article07 = valuesManagerfullArticleMo.getValue("fullArticle07");
+        dataALLArticleMO.Article08 = valuesManagerfullArticleMo.getValue("fullArticle08");
+        dataALLArticleMO.Article09 = valuesManagerfullArticleMo.getValue("fullArticle09");
+        dataALLArticleMO.Article10 = valuesManagerfullArticleMo.getValue("fullArticle10");
         dataALLArticleMO.Article11 = "";
         dataALLArticleMO.Article12 = "";
         dataALLArticleMO.contractNo = "MO_OX"+contactHeader.getValue("contractNo");
@@ -3992,7 +3983,7 @@ function saveValuelotListForADD(contractID) {
             httpMethod: "POST",
             data: JSON.stringify(dataALLArticleMO),
             callback: function (resp) {
-                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>.");
                 } else
                     isc.say(RpcResponse_o.data);

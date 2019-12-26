@@ -239,7 +239,7 @@
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.data == 'success') {
                                     ListGrid_CurrencyUnit.invalidateCache();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
