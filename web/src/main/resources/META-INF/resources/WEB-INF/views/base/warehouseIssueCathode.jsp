@@ -431,7 +431,7 @@
                 ListGrid_WarehouseIssueCathode.setData(data);
 
             });
-        }
+        },
         sortField: 0,
         dataPageSize: 50,
         autoFetchData: false,
