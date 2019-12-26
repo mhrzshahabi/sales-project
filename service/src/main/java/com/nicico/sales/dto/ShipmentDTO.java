@@ -16,6 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentDTO {
+
 	private Long contactId;
 	private Long shipmentHeaderId;
 	@NotNull
@@ -65,7 +66,6 @@ public class ShipmentDTO {
 	private String postFreightCurrency;
 	private String bookingCat;
 
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -92,18 +92,12 @@ public class ShipmentDTO {
 		private Integer version;
 	}
 
-
-
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("ShipmentCreateRq")
 	public static class Create extends ShipmentDTO {
 	}
-
-
 
 	@Getter
 	@Setter
@@ -118,8 +112,6 @@ public class ShipmentDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -130,8 +122,6 @@ public class ShipmentDTO {
 		private List<Long> ids;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -140,8 +130,6 @@ public class ShipmentDTO {
 	public static class ShipmentSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

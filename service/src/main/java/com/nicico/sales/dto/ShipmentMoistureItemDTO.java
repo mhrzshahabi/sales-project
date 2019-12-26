@@ -16,6 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentMoistureItemDTO {
+
 	@NotNull
 	@ApiModelProperty(required = true)
 	private Long shipmentMoistureHeaderId;
@@ -24,8 +25,6 @@ public class ShipmentMoistureItemDTO {
 	private Double moisturePercent;
 	private Double dryWeight;
 	private Double totalH2oWeight;
-
-
 
 	@Getter
 	@Setter
@@ -41,16 +40,12 @@ public class ShipmentMoistureItemDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("ShipmentMoistureItemCreateRq")
 	public static class Create extends ShipmentMoistureItemDTO {
 	}
-
-
 
 	@Getter
 	@Setter
@@ -65,8 +60,6 @@ public class ShipmentMoistureItemDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -77,8 +70,6 @@ public class ShipmentMoistureItemDTO {
 		private List<Long> ids;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -87,8 +78,6 @@ public class ShipmentMoistureItemDTO {
 	public static class ShipmentMoistureItemSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

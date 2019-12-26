@@ -16,6 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentAssayItemDTO {
+
 	@NotNull
 	@ApiModelProperty(required = true)
 	private Long shipmentAssayHeaderId;
@@ -23,8 +24,6 @@ public class ShipmentAssayItemDTO {
 	private Double cu;
 	private Double ag;
 	private Double au;
-
-
 
 	@Getter
 	@Setter
@@ -40,16 +39,12 @@ public class ShipmentAssayItemDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("ShipmentAssayItemCreateRq")
 	public static class Create extends ShipmentAssayItemDTO {
 	}
-
-
 
 	@Getter
 	@Setter
@@ -64,8 +59,6 @@ public class ShipmentAssayItemDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -76,8 +69,6 @@ public class ShipmentAssayItemDTO {
 		private List<Long> ids;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -86,8 +77,6 @@ public class ShipmentAssayItemDTO {
 	public static class ShipmentAssayItemSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

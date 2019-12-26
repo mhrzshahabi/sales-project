@@ -20,7 +20,7 @@ public interface IShipmentAssayItemService {
 
 	void delete(ShipmentAssayItemDTO.Delete request);
 
-	public TotalResponse<ShipmentAssayItemDTO.Info> search(NICICOCriteria criteria);
+	TotalResponse<ShipmentAssayItemDTO.Info> search(NICICOCriteria criteria);
 
-	String createAddAssayPaste( String data) ;
+	String createAddAssayPaste(String data);
 }

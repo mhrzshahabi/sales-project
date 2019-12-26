@@ -16,6 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonDTO {
+
 	@NotNull
 	@ApiModelProperty(required = true)
 	private Long contactId;
@@ -35,7 +36,6 @@ public class PersonDTO {
 	private String weChat;
 	private String address;
 
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -51,16 +51,12 @@ public class PersonDTO {
 
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("PersonCreateRq")
 	public static class Create extends PersonDTO {
 	}
-
-
 
 	@Getter
 	@Setter
@@ -75,8 +71,6 @@ public class PersonDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -87,8 +81,6 @@ public class PersonDTO {
 		private List<Long> ids;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -97,8 +89,6 @@ public class PersonDTO {
 	public static class PersonSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

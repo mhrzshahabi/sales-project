@@ -17,19 +17,10 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentContractDTO {
+
 	private Contact tblContactByOwners;
 	@NotNull
 	@ApiModelProperty(required = true)
-//	private Long contactByOwnersId;
-//	private Contact tblContactByCharterer;
-//	private Long contactByChartererId;
-//	private Contact tblContactByChainOfOwners;
-//	private Long contactByChainOfOwnersId;
-//	private Country tblCountryFlag;
-//	private Long countryFlagId;
-//	private Long shipmentHeaderId;
-//	private Long shipmentPriceId;
-//	private String shipmentContractDate;
 	private String no;
 	private Double capacity;
 	private String laycanStart;
@@ -56,9 +47,6 @@ public class ShipmentContractDTO {
 	private String shipFlag;
 	private String createDate;
 
-
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -72,16 +60,12 @@ public class ShipmentContractDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("ShipmentContractCreateRq")
 	public static class Create extends ShipmentContractDTO {
 	}
-
-
 
 	@Getter
 	@Setter
@@ -96,8 +80,6 @@ public class ShipmentContractDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -108,8 +90,6 @@ public class ShipmentContractDTO {
 		private List<Long> ids;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -118,8 +98,6 @@ public class ShipmentContractDTO {
 	public static class ShipmentContractSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

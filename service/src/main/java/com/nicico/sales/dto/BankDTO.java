@@ -17,90 +17,78 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BankDTO {
 
-	@ApiModelProperty(required = true)
-	private String bankName;
-	@ApiModelProperty(required = true)
-	private Long countryId;
-	@ApiModelProperty(required = true)
-	private String bankCode;
-	@ApiModelProperty(required = true)
-	private String enBankName;
-	@ApiModelProperty(required = true)
-	private String address;
-	@ApiModelProperty(required = true)
-	private String coreBranch;
+    @ApiModelProperty(required = true)
+    private String bankName;
+    @ApiModelProperty(required = true)
+    private Long countryId;
+    @ApiModelProperty(required = true)
+    private String bankCode;
+    @ApiModelProperty(required = true)
+    private String enBankName;
+    @ApiModelProperty(required = true)
+    private String address;
+    @ApiModelProperty(required = true)
+    private String coreBranch;
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("BankInfo")
+    public static class Info extends BankDTO {
+        private Long id;
+        private CountryDTO country;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("BankCreateRq")
+    public static class Create extends BankDTO {
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("BankInfo")
-	public static class Info extends BankDTO {
-		private Long id;
-		private CountryDTO country;
-		private Date createdDate;
-		private String createdBy;
-		private Date lastModifiedDate;
-		private String lastModifiedBy;
-		private Integer version;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("BankUpdateRq")
+    public static class Update extends BankDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long id;
+    }
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("BankDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
+    }
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @ApiModel("BankSpecRs")
+    public static class BankSpecRs {
+        private SpecRs response;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("BankCreateRq")
-	public static class Create extends BankDTO {
-	}
-
-
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("BankUpdateRq")
-	public static class Update extends BankDTO {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Long id;
-	}
-
-
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("BankDeleteRq")
-	public static class Delete {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private List<Long> ids;
-	}
-
-
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("BankSpecRs")
-	public static class BankSpecRs {
-		private SpecRs response;
-	}
-
-	// ---------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public static class SpecRs {
-		private List<BankDTO.Info> data;
-		private Integer status;
-		private Integer startRow;
-		private Integer endRow;
-		private Integer totalRows;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class SpecRs {
+        private List<BankDTO.Info> data;
+        private Integer status;
+        private Integer startRow;
+        private Integer endRow;
+        private Integer totalRows;
+    }
 }

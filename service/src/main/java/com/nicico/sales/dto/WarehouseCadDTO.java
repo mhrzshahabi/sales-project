@@ -16,6 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseCadDTO {
+
     private String warehouseNo;
     private Long materialItemId;
     private String plant;
@@ -37,8 +38,6 @@ public class WarehouseCadDTO {
     private Double sourceWeight;
     private Double destinationWeight;
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -54,28 +53,26 @@ public class WarehouseCadDTO {
         private String lastModifiedBy;
         private Integer version;
     }
+
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("WarehouseCadInfoCombo")
-    public static class InfoCombo  {
+    public static class InfoCombo {
         private Long id;
         private String bijackNo;
         private List<WarehouseCadItemDTO.InfoCombo> warehouseCadItems;
         private WarehouseYardDTO warehouseYard;
     }
 
-   @Getter
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("WarehouseCadInfoCombo2")
-    public static class InfoCombo2  {
+    public static class InfoCombo2 {
         private Long id;
         private String bijackNo;
     }
-
-
-
 
     @Getter
     @Setter
@@ -84,8 +81,6 @@ public class WarehouseCadDTO {
     public static class Create extends WarehouseCadDTO {
         private List<WarehouseCadItemDTO.Create> warehouseCadItems;
     }
-
-
 
     @Getter
     @Setter
@@ -97,8 +92,6 @@ public class WarehouseCadDTO {
         private Long id;
     }
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -109,8 +102,6 @@ public class WarehouseCadDTO {
         private List<Long> ids;
     }
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -119,8 +110,6 @@ public class WarehouseCadDTO {
     public static class WarehouseCadSpecRs {
         private SpecRs response;
     }
-
-    // ---------------
 
     @Getter
     @Setter

@@ -9,19 +9,19 @@ import java.util.List;
 
 public interface IContractCurrencyService {
 
-	ContractCurrencyDTO.Info get(Long id);
+    ContractCurrencyDTO.Info get(Long id);
 
-	List<ContractCurrencyDTO.Info> list();
+    List<ContractCurrencyDTO.Info> list();
 
-	ContractCurrencyDTO.Info create(ContractCurrencyDTO.Create request);
+    ContractCurrencyDTO.Info create(ContractCurrencyDTO.Create request);
 
-	ContractCurrencyDTO.Info update(Long id, ContractCurrencyDTO.Update request);
+    ContractCurrencyDTO.Info update(Long id, ContractCurrencyDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ContractCurrencyDTO.Delete request);
+    void delete(ContractCurrencyDTO.Delete request);
 
-	SearchDTO.SearchRs<ContractCurrencyDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<ContractCurrencyDTO.Info> search(SearchDTO.SearchRq request);
 
-	TotalResponse<ContractCurrencyDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ContractCurrencyDTO.Info> search(NICICOCriteria criteria);
 }

@@ -24,5 +24,4 @@ public interface IInvoiceInternalCustomerService {
 	TotalResponse<InvoiceInternalCustomerDTO.Info> search(NICICOCriteria criteria);
 
 	SearchDTO.SearchRs<InvoiceInternalCustomerDTO.Info> search(SearchDTO.SearchRq request);
-
 }

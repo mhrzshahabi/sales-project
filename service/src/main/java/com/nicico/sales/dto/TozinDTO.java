@@ -17,6 +17,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TozinDTO {
+
 	private Long pId;
 	private String cardId;
 	private String carNo1;
@@ -57,7 +58,6 @@ public class TozinDTO {
 	@NotNull
 	@ApiModelProperty(required = true)
 	private String tozinName;
-
 	@NotNull
 	@ApiModelProperty(required = true)
 	private Long countryId;
@@ -72,8 +72,6 @@ public class TozinDTO {
 	@ApiModelProperty(required = true)
 	private Country country;
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -87,16 +85,12 @@ public class TozinDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("TozinCreateRq")
 	public static class Create extends TozinDTO {
 	}
-
-
 
 	@Getter
 	@Setter
@@ -111,8 +105,6 @@ public class TozinDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -123,8 +115,6 @@ public class TozinDTO {
 		private List<Long> ids;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -133,8 +123,6 @@ public class TozinDTO {
 	public static class TozinSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

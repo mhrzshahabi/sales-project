@@ -25,5 +25,5 @@ public interface IInvoiceInternalService {
 
 	SearchDTO.SearchRs<InvoiceInternalDTO.Info> search(SearchDTO.SearchRq request);
 
-	InvoiceInternalDTO.Info sendInternalForm2accounting(Long id,String data) ;
+	InvoiceInternalDTO.Info sendInternalForm2accounting(Long id, String data);
 }

@@ -9,21 +9,21 @@ import java.util.List;
 
 public interface IContractDetailService {
 
-	ContractDetailDTO.Info get(Long id);
+    ContractDetailDTO.Info get(Long id);
 
-	List<ContractDetailDTO.Info> list();
+    List<ContractDetailDTO.Info> list();
 
-	ContractDetailDTO FindByContractID(Long id);
+    ContractDetailDTO FindByContractID(Long id);
 
-	ContractDetailDTO.Info create(ContractDetailDTO.Create request);
+    ContractDetailDTO.Info create(ContractDetailDTO.Create request);
 
-	ContractDetailDTO.Info update(Long id, ContractDetailDTO.Update request);
+    ContractDetailDTO.Info update(Long id, ContractDetailDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ContractDetailDTO.Delete request);
+    void delete(ContractDetailDTO.Delete request);
 
-	TotalResponse<ContractDetailDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ContractDetailDTO.Info> search(NICICOCriteria criteria);
 
-	SearchDTO.SearchRs<ContractDetailDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<ContractDetailDTO.Info> search(SearchDTO.SearchRq request);
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentEmailDTO {
+
 	@NotNull
 	@ApiModelProperty(required = true)
 	private Long shipmentId;
@@ -42,16 +43,12 @@ public class ShipmentEmailDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("ShipmentEmailCreateRq")
 	public static class Create extends ShipmentEmailDTO {
 	}
-
-
 
 	@Getter
 	@Setter
@@ -66,8 +63,6 @@ public class ShipmentEmailDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -78,8 +73,6 @@ public class ShipmentEmailDTO {
 		private List<Long> ids;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -88,8 +81,6 @@ public class ShipmentEmailDTO {
 	public static class ShipmentEmailSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

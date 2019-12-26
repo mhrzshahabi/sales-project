@@ -25,8 +25,6 @@ public class WarehouseCadItemDTO {
     private Double issueId;
     private Double description;
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -40,6 +38,7 @@ public class WarehouseCadItemDTO {
         private String lastModifiedBy;
         private Integer version;
     }
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -47,6 +46,7 @@ public class WarehouseCadItemDTO {
     public static class InfoCombo {
         private Long id;
     }
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -58,7 +58,7 @@ public class WarehouseCadItemDTO {
         private WarehouseCadDTO.InfoCombo2 warehouseCad;
     }
 
-     @Getter
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("WarehouseCadItemInfo1")
@@ -72,8 +72,6 @@ public class WarehouseCadItemDTO {
         private Integer version;
     }
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -83,8 +81,6 @@ public class WarehouseCadItemDTO {
         @ApiModelProperty(required = true)
         private Long warehouseCadId;
     }
-
-
 
     @Getter
     @Setter
@@ -96,8 +92,6 @@ public class WarehouseCadItemDTO {
         private Long id;
     }
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -108,8 +102,6 @@ public class WarehouseCadItemDTO {
         private List<Long> ids;
     }
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -118,8 +110,6 @@ public class WarehouseCadItemDTO {
     public static class WarehouseCadItemSpecRs {
         private SpecRs response;
     }
-
-    // ---------------
 
     @Getter
     @Setter

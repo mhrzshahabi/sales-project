@@ -16,6 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RateDTO {
+
 	@NotNull
 	@ApiModelProperty(required = true)
 	private String code;
@@ -23,8 +24,6 @@ public class RateDTO {
 	private String nameEN;
 	private String symbol;
 	private Long decimalDigit;
-
-
 
 	@Getter
 	@Setter
@@ -39,16 +38,12 @@ public class RateDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	@ApiModel("RateCreateRq")
 	public static class Create extends RateDTO {
 	}
-
-
 
 	@Getter
 	@Setter
@@ -63,8 +58,6 @@ public class RateDTO {
 		private Integer version;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -75,8 +68,6 @@ public class RateDTO {
 		private List<Long> ids;
 	}
 
-
-
 	@Getter
 	@Setter
 	@Accessors(chain = true)
@@ -85,8 +76,6 @@ public class RateDTO {
 	public static class RateSpecRs {
 		private SpecRs response;
 	}
-
-	// ---------------
 
 	@Getter
 	@Setter

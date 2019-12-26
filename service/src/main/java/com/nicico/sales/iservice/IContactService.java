@@ -9,19 +9,19 @@ import java.util.List;
 
 public interface IContactService {
 
-	ContactDTO.Info get(Long id);
+    ContactDTO.Info get(Long id);
 
-	List<ContactDTO.Info> list();
+    List<ContactDTO.Info> list();
 
-	ContactDTO.Info create(ContactDTO.Create request);
+    ContactDTO.Info create(ContactDTO.Create request);
 
-	ContactDTO.Info update(Long id, ContactDTO.Update request);
+    ContactDTO.Info update(Long id, ContactDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ContactDTO.Delete request);
+    void delete(ContactDTO.Delete request);
 
-	TotalResponse<ContactDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ContactDTO.Info> search(NICICOCriteria criteria);
 
-	SearchDTO.SearchRs<ContactDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<ContactDTO.Info> search(SearchDTO.SearchRq request);
 }

@@ -20,7 +20,7 @@ public interface IShipmentMoistureItemService {
 
 	void delete(ShipmentMoistureItemDTO.Delete request);
 
-	public TotalResponse<ShipmentMoistureItemDTO.Info> search(NICICOCriteria criteria) ;
+	TotalResponse<ShipmentMoistureItemDTO.Info> search(NICICOCriteria criteria);
 
-	String createAddMoisturePaste( String data) ;
+	String createAddMoisturePaste(String data);
 }

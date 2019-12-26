@@ -22,5 +22,5 @@ public interface IInvoiceService {
 
 	TotalResponse<InvoiceDTO.Info> search(NICICOCriteria criteria);
 
-	InvoiceDTO.Info sendForm2accounting(Long id,String data);
+	InvoiceDTO.Info sendForm2accounting(Long id, String data);
 }

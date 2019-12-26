@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IncotermsDAO extends JpaRepository<Incoterms, Long>, JpaSpecificationExecutor<Incoterms> {
 
-    Incoterms findByCode(String s);
 }

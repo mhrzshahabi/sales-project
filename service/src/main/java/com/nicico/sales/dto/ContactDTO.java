@@ -16,6 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContactDTO {
+
     @NotNull
     @ApiModelProperty(required = true)
     private String code;
@@ -51,7 +52,6 @@ public class ContactDTO {
     private Long countryId;
     private Long bankId; // in first, value is null
 
-    //------------------------------------------------------
     @Getter
     @Setter
     @ApiModel("ContactInfoTuple")
@@ -60,7 +60,6 @@ public class ContactDTO {
         private String nameFA;
         private String nameEN;
     }
-//------------------------------------------------------
 
     @Getter
     @Setter
@@ -77,16 +76,12 @@ public class ContactDTO {
         private Integer version;
     }
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("ContactCreateRq")
     public static class Create extends ContactDTO {
     }
-
-
 
     @Getter
     @Setter
@@ -98,8 +93,6 @@ public class ContactDTO {
         private Long id;
     }
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -110,8 +103,6 @@ public class ContactDTO {
         private List<Long> ids;
     }
 
-
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -120,8 +111,6 @@ public class ContactDTO {
     public static class ContactSpecRs {
         private SpecRs response;
     }
-
-    // ---------------
 
     @Getter
     @Setter

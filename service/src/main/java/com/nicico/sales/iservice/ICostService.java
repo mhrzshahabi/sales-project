@@ -9,19 +9,19 @@ import java.util.List;
 
 public interface ICostService {
 
-	CostDTO.Info get(Long id);
+    CostDTO.Info get(Long id);
 
-	List<CostDTO.Info> list();
+    List<CostDTO.Info> list();
 
-	CostDTO.Info create(CostDTO.Create request);
+    CostDTO.Info create(CostDTO.Create request);
 
-	CostDTO.Info update(Long id, CostDTO.Update request);
+    CostDTO.Info update(Long id, CostDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(CostDTO.Delete request);
+    void delete(CostDTO.Delete request);
 
-	TotalResponse<CostDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<CostDTO.Info> search(NICICOCriteria criteria);
 
-	SearchDTO.SearchRs<CostDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<CostDTO.Info> search(SearchDTO.SearchRq request);
 }

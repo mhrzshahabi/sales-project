@@ -9,19 +9,19 @@ import java.util.List;
 
 public interface ICatodListService {
 
-	CatodListDTO.Info get(Long id);
+    CatodListDTO.Info get(Long id);
 
-	List<CatodListDTO.Info> list();
+    List<CatodListDTO.Info> list();
 
-	CatodListDTO.Info create(CatodListDTO.Create request);
+    CatodListDTO.Info create(CatodListDTO.Create request);
 
-	CatodListDTO.Info update(Long id, CatodListDTO.Update request);
+    CatodListDTO.Info update(Long id, CatodListDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(CatodListDTO.Delete request);
+    void delete(CatodListDTO.Delete request);
 
-	TotalResponse<CatodListDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<CatodListDTO.Info> search(NICICOCriteria criteria);
 
-	SearchDTO.SearchRs<CatodListDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<CatodListDTO.Info> search(SearchDTO.SearchRq request);
 }
