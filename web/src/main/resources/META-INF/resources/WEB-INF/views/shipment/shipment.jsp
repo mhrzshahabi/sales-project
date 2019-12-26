@@ -1803,13 +1803,7 @@
         dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
-
+        filterOnKeypress: true
     });
     var HLayout_ShipmentEmail_Grid = isc.HLayout.create({
         width: "100%",
