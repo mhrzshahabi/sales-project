@@ -64,7 +64,7 @@
                 {name: "port", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
-        fetchDataURL: "${contextPath}/api/port/spec-list2"
+        fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
     var RestDataSource_SwitchPort = isc.MyRestDataSource.create({
@@ -1240,16 +1240,6 @@
                 width: "10%",
                 showHover: true
             },
-// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
-            <%--{--%>
-            <%--name: "description",--%>
-            <%--title: "<spring:message code='shipment.description'/>",--%>
-            <%--type: 'text',--%>
-            <%--required: true,--%>
-            <%--width: "10%",--%>
-            <%--align: "center",--%>
-            <%--showHover: true--%>
-            <%--},--%>
             {
                 name: "contractShipment.sendDate",
                 title: "<spring:message code='global.sendDate'/>",
@@ -1813,13 +1803,7 @@
         dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
-
+        filterOnKeypress: true
     });
     var HLayout_ShipmentEmail_Grid = isc.HLayout.create({
         width: "100%",

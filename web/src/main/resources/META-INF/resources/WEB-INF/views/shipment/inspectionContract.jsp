@@ -747,7 +747,7 @@ function ListGrid_InspectionContract_remove() {
 	var record = ListGrid_InspectionContract.getSelectedRecord();
 	if (record == null || record.id == null) {
 		isc.Dialog.create({
-			message: "<spring:message code='global.grid.record.not.selected'/> !",
+			message: "<spring:message code='global.grid.record.not.selected'/>",
 			icon: "[SKIN]ask.png",
 			title: "<spring:message code='global.message'/>",
 			buttons: [isc.Button.create({
