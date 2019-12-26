@@ -8,6 +8,15 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
 
+var RestDataSource_Incoterms_InCat = isc.MyRestDataSource.create({
+        fields:
+        [
+        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+        {name: "code", title: "<spring:message code='goods.code'/> "},
+        ],
+        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+});
+
     var imanageNote = 0;
     var amountSet;
     var sendDateSet;
@@ -128,7 +137,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     align: "center"
                 },
                 {
-                    name: "tblPort.port", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
+                    name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
                     valueField: "id", width: 400, align: "center"
@@ -253,24 +262,46 @@ var article6_quality = isc.DynamicForm.create({
                 }
             }
             ,{
-                name: "incotermsId",
-                type: "text",
+                name: "incotermsId", //article6_number32
+                colSpan: 3,
+                titleColSpan: 1,
+                tabIndex: 6,
                 showTitle: true,
-                disabled: true,
-                defaultValue: "FOB", ///FOB
-                wrap: false,
+                showHover: true,
+                showHintInField: true,
+                hint: "FOB",
+                required: true,
+                type: 'long',
+                numCols: 4,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Incoterms_InCat,
+                displayField: "code",
+                valueField: "id",
+                pickListWidth: "450",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "code", width: 440, align: "center"}
+                ],pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
+                        {fieldName: "code", operator: "contains", value: "FOB"}
+                       ]
+                    },
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             } , {
                 name: "portByPortSourceId",
-                type: "text",
+                editorType: "SelectItem",
+                required: true,
+                optionDataSource: RestDataSource_Port,
+                displayField: "port",
+                valueField: "id",
                 showTitle: true,
-                disabled: true,
-                defaultValue: "<strong class='cssDynamicForm'>BANDAR ABBAS<strong>",  //BANDAR ABBAS
-                wrap: false,
+                startRow: false,
+                showHintInField: true,
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SOURCE PORT</strong>"
-            },{
+            }
+            ,{
                 name: "fullArticle6",
                 disabled: false,
                 type: "text",

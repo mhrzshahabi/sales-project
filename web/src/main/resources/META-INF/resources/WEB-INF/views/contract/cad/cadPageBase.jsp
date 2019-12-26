@@ -84,6 +84,7 @@ var contactCadTabs = isc.TabSet.create({
         click: function () {
             contactCadHeader.validate();
             dynamicFormCath.validate();
+            valuesManagerArticle6_quality.validate();
             //DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
             var drs = contactCadHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
@@ -111,8 +112,8 @@ var contactCadTabs = isc.TabSet.create({
             dataSaveAndUpdateContractCad.runStartDate = "";
             dataSaveAndUpdateContractCad.runTill = "";
             dataSaveAndUpdateContractCad.runEndtDate = "";
-            dataSaveAndUpdateContractCad.incotermsId = 1952;
-            dataSaveAndUpdateContractCad.portByPortSourceId = 2;
+            dataSaveAndUpdateContractCad.incotermsId = valuesManagerArticle6_quality.getValue("incotermsId");
+            dataSaveAndUpdateContractCad.portByPortSourceId = valuesManagerArticle6_quality.getValue("portByPortSourceId");
             dataSaveAndUpdateContractCad.incotermsText = valuesManagerArticle6_quality.getValue("incotermsText");
             dataSaveAndUpdateContractCad.officeSource = "TEHRAN";
             dataSaveAndUpdateContractCad.priceCalPeriod = "any";
@@ -364,7 +365,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
         ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
             var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
             dataEditMain.contractId=contractID;
-            dataEditMain.dischargeId = 11022;
+            //dataEditMain.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -380,7 +381,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
             dataEdit.contractId=contractID;
-            dataEdit.dischargeId = 11022;
+            //dataEdit.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",

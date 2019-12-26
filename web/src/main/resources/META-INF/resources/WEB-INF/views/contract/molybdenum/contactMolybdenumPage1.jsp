@@ -2167,7 +2167,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     align: "center"
                 },
                 {
-                    name: "tblPort.port", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
+                    name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
                     valueField: "id", width: 400, align: "center"
@@ -3899,11 +3899,10 @@ function saveListGrid_ContractItemShipment(contractID) {
         ListGrid_ContractItemShipment.selectAllRecords();
         var data_ContractItemShipment = {};
         var ListGrid_ShipmentItems = [];
-
         ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
             var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
             dataEditMain.contractId=contractID;
-            dataEditMain.dischargeId = 11022;
+            //dataEditMain.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -3919,7 +3918,6 @@ function saveListGrid_ContractItemShipment(contractID) {
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
             dataEdit.contractId=contractID;
-            dataEdit.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
