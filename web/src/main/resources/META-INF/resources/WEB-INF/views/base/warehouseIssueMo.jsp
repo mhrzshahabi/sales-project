@@ -451,17 +451,7 @@
         dataPageSize: 50,
         autoFetchData: false,
         showFilterEditor: true,
-        /*canSelectCells:true,*/
-        filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
-        startsWithTitle: "tt"
+        filterOnKeypress: true
     });
 
 
@@ -539,7 +529,7 @@
                             callback: function (resp) {
                                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                     ListGrid_WarehouseIssueMo_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
@@ -842,7 +832,7 @@
                     data: JSON.stringify(data),
                     callback: function (resp) {
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseIssueMo_refresh();
                             Window_WarehouseIssueMo.close();
                         } else
@@ -993,14 +983,8 @@
         sortField: 0,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+        filterOnKeypress: true
     });
-
 
     var HLayout_WarehouseIssueMo_Grid = isc.HLayout.create({
         width: "100%",

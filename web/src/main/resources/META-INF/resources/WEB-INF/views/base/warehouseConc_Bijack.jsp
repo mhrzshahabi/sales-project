@@ -138,7 +138,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 data: JSON.stringify(warehouseCadItem),
                 callback: function(resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        isc.say("<spring:message code='global.form.request.successful'/>");
                         //fetch data automatically
                         ListGrid_WarehouseCadItem.setData([]);
                         ListGrid_WarehouseCadItem.fetchData({
@@ -169,7 +169,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                             ListGrid_WarehouseCadItem.setData(data);
                         });
 
-                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                     } else {
                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                     }
@@ -429,7 +429,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
              data: JSON.stringify(data_WarehouseCad),
              callback: function(resp) {
                  if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                     isc.say("<spring:message code='global.form.request.successful'/>.");
+                     isc.say("<spring:message code='global.form.request.successful'/>");
                      Window_Bijack.close();
                  } else
                      isc.say(RpcResponse_o.data);

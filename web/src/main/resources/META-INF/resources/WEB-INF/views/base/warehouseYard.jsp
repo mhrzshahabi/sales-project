@@ -86,7 +86,7 @@
                                 callback: function (resp) {
                                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                         ListGrid_WarehouseYard_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -254,7 +254,7 @@
                     data: JSON.stringify(data),
                     callback: function (resp) {
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseYard_refresh();
                             Window_WarehouseYard.close();
                         } else

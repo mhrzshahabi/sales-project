@@ -1025,7 +1025,7 @@
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                         ListGrid_Shipment.invalidateCache();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -1424,7 +1424,7 @@
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
                         if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ShipmentEmail_refresh();
                             Window_ShipmentEmail.close();
                         } else
@@ -1803,13 +1803,7 @@
         dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        },
-        dataArrived: function (startRow, endRow) {
-        }
-
+        filterOnKeypress: true
     });
     var HLayout_ShipmentEmail_Grid = isc.HLayout.create({
         width: "100%",
@@ -1828,7 +1822,6 @@
             ]
     });
 
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     var SectionStack_shipment = isc.SectionStack.create({
         ID: "Shipment_Section_Stack",
         sections:
@@ -1881,7 +1874,7 @@
                                 ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                             }
                         },
-                        {title: "<spring:message code='global.email'/>", pane: VLayout_ShipmentEmail_Body,}
+                        {title: "<spring:message code='global.email'/>", pane: VLayout_ShipmentEmail_Body , showIf: "false"}
                     ]
             })
         ]

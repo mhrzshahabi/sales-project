@@ -828,7 +828,7 @@
                 data: JSON.stringify(data),
                 callback: function (RpcResponse_o) {
                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Tozin_refresh();
                         Window_Tozin.close();
                     } else

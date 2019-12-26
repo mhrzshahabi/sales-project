@@ -62,7 +62,7 @@
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                         ListGrid_LME_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -330,7 +330,7 @@
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
                         if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_LME_refresh();
                             Window_LME.close();
                         } else

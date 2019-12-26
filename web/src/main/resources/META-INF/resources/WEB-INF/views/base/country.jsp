@@ -73,7 +73,7 @@
                             callback: function (resp) {
                                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                     ListGrid_Country_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
@@ -152,7 +152,7 @@
                 },
                 {
                     name: "nameEn",
-                    title: "<spring:message code='bank.nameEn'/>",
+                    title: "<spring:message code='country.nameEn'/>",
                     width: 500,
                     colSpan: 1, required: true, keyPressFilter: "[a-z|A-Z|0-9.]",
                     titleColSpan: 1
@@ -239,7 +239,7 @@
                 data: JSON.stringify(data),
                 callback: function (resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Country_refresh();
                         Window_Country.close();
                     } else

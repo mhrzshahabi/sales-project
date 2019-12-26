@@ -147,15 +147,6 @@
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
-        startsWithTitle: "tt",
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
@@ -689,7 +680,7 @@ var IButton_ContactOther_Save = isc.IButtonSave.create({
                     data: JSON.stringify(dataSaveAndUpdateContractOther),
                     callback: function (RpcResponse_o) {
                         if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             windowOther.close();
                             ListGrid_ContractOther.fetchData(criteriaOther);
                             ListGrid_ContractOther.invalidateCache();

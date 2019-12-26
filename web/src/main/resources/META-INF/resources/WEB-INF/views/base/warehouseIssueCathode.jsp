@@ -436,16 +436,7 @@
         dataPageSize: 50,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
-        startsWithTitle: "tt"
+        filterOnKeypress: true
     });
 
     var HLayout_Grid_ShipmentByWarehouseIssueCathode = isc.HLayout.create({
@@ -516,7 +507,7 @@
                                 callback: function (resp) {
                                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                         ListGrid_WarehouseIssueCathode_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -991,7 +982,7 @@
                     data: JSON.stringify(data),
                     callback: function (resp) {
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseIssueCathode_refresh();
                             Window_WarehouseIssueCathode.close();
                         } else

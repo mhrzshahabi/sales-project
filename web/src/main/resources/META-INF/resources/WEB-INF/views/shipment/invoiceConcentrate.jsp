@@ -1195,7 +1195,7 @@
                 data: dataOut,
                 callback: function (resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Invoice_refresh();
                         Window_Invoice_Concentrate.close();
                     } else

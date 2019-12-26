@@ -77,7 +77,7 @@
                                 if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
 
                                     ListGrid_Parameters.invalidateCache();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
@@ -248,7 +248,7 @@
                 callback: function (RpcResponse_o) {
                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
 
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Parameters_refresh();
                         Window_Parameters.close();
                     } else

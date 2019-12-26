@@ -211,7 +211,7 @@
                 title: "<spring:message code='global.message'/>.",
                 buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                 buttonClick: function () {
-                    hide();
+                    this.hide();
                 }
             });
         } else {
@@ -239,7 +239,7 @@
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.data == 'success') {
                                     ListGrid_CurrencyUnit.invalidateCache();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
