@@ -615,13 +615,15 @@ var vlayoutBodyCad = isc.VLayout.create({
                 name: "optional", //article2_14
                 startRow: false,
                 title: '<b><font size=2px>(IN</font><b>',
-                defaultValue: 1,
+                defaultValue: 0,
                 valueMap: {
+                    "0": "",
                     "1": "SELLERS OPTION",
                     "2": "BUYER OPTION"
                 },
                 changed: function (form, item, value) {
                     article5_quality.setValue("article5optional",value);
+                    valuesManagerfullArticle.setValue("fullArticle02",article2Cad.getValue("amount")+" "+article2Cad.getValue("amount_en")+" "+article2Cad.getItem("unitId").getDisplayValue(article2Cad.getValue("unitId"))+" "+article2Cad.getValue("cathodesTolorance")+" "+article2Cad.getItem("optional").getDisplayValue(article2Cad.getValue("optional")));
                 }
             }
         ]

@@ -569,8 +569,7 @@ var vlayoutBodyConc = isc.VLayout.create({
                 showTitle: false,
                 keyPressFilter: "[0-9]", ///article2_number10
                 changed: function (form, item, value) {
-                    article2Conc.setValue("amount_en", numberToEnglish(value))
-                        dynamicForm_fullArticle02.setValue("fullArticle02",value);
+                        article2Conc.setValue("amount_en", numberToEnglish(value))
                     }
             },
             {
@@ -592,9 +591,7 @@ var vlayoutBodyConc = isc.VLayout.create({
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}
-                ],changed: function (form, item, value) {
-                    dynamicForm_fullArticle02.setValue("fullArticle02",dynamicForm_fullArticle02.getValue("fullArticle02")+" "+article2Conc.getItem("unitId").getDisplayValue(value));;
-                }
+                ]
             },
             {
                 type: "text",
@@ -603,25 +600,22 @@ var vlayoutBodyConc = isc.VLayout.create({
                 title: "+/-",
                 defaultValue: "",
                 keyPressFilter: "[0-9]", //article2_13
-                changed: function (form, item, value) {
-                        dynamicForm_fullArticle02.clearValue("optional");
-                        dynamicForm_fullArticle02.clearValue("date");
-                       dynamicForm_fullArticle02.setValue("fullArticle02",dynamicForm_fullArticle02.getValue("fullArticle02")+" "+"+/-"+value);
-
-                }
             },
             {
                 type: "text",
                 width: "100",
                 name: "optional", //article2_14
                 startRow: false,
+                defaultValue: 0,
                 title: '<b><font size=2px>(IN</font><b>',
                 valueMap: {
+                    "0": "",
                     "1": "SELLERS",
                     "2": "BUYER"
                 },
                 changed: function (form, item, value) {
                     dynamicForm_fullArticle02.setValue("fullArticle02",dynamicForm_fullArticle02.getValue("fullArticle02")+" "+"(IN"+" "+article2Conc.getItem("optional").getDisplayValue(value)+" "+"OPTION) DURING");
+                    dynamicForm_fullArticle02.setValue("fullArticle02",article2Conc.getValue("amount")+" "+article2Conc.getValue("amount_en")+" "+article2Conc.getItem("unitId").getDisplayValue(article2Conc.getValue("unitId"))+" "+"+/-"+article2Conc.getValue("cathodesTolorance")+"(IN"+article2Conc.getItem("optional").getDisplayValue(article2Conc.getValue("optional"))+" "+article2Conc.getValue("plant"));
                 }
             },
             {

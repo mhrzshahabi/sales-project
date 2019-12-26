@@ -1388,10 +1388,10 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 width: "80",
                 name: "molybdenumTolorance",
                 title: "+/-",
-                defaultValue: "10",
+                defaultValue: "",
                 keyPressFilter: "[0-9]", //article2_13
                 changed: function (form, item, value) {
-                    article2_1.setValue("article2_13_1", value);
+                    article2_1.setValue("article2_13_1",value);
                     dynamicForm_article3_3.setValue("article3_number17_4",value);
                     dynamicForm_article3.setValue("article3_number17_9", value);
                 }
@@ -1416,7 +1416,10 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 name: "plant", //article2_15
                 width: "500",
                 startRow: false,
-                title: '<b><font size=2px>OPTION) PRODUCED IN</font><b>'
+                title: '<b><font size=2px>OPTION) PRODUCED IN</font><b>',
+                changed: function (form, item, value) {
+                        valuesManagerfullArticleMo.setValue("fullArticle02",article2Mo.getValue("amount")+" "+"("+article2Mo.getValue("amount_en")+")"+" "+article2Mo.getItem("unitId").getDisplayValue(article2Mo.getValue("unitId"))+" "+article2Mo.getValue("molybdenumTolorance")+" "+"(IN" + article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional")) + " " + "'S OPTION) IN PRODUCED IN"+" "+article2Mo.getValue("plant")+" "+"THE TOLERENCE OF +/-%"+article2Mo.getValue("molybdenumTolorance")+" "+"IN"+" "+article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional"))+" "+"OPTION WILL BE CONSIDRED FOR EACH SHIPMENT QUANTITY.");
+                }
             }
         ]
     });
