@@ -69,7 +69,7 @@
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
                 {
@@ -81,7 +81,7 @@
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
                 {
@@ -93,7 +93,7 @@
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
                 {
@@ -105,7 +105,7 @@
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
             ],
@@ -277,7 +277,7 @@
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
                 {
@@ -289,7 +289,7 @@
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
                 {
@@ -301,7 +301,7 @@
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
                 {
@@ -313,7 +313,7 @@
                         type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
-                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
             ],
@@ -341,7 +341,7 @@
         var record = ListGrid_ShipmentMoistureHeader.getSelectedRecord();
         if (record == null || record.id == null) {
             isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>.",
+                message: "<spring:message code='global.grid.record.not.selected'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.message'/>.",
                 buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
@@ -437,7 +437,7 @@
                                         type: "isInteger",
                                         validateOnExit: true,
                                         stopOnError: true,
-                                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                                        errorMessage: "<spring:message code='global.form.correctType'/>"
                                     }],
                                     align: "center"
                                 },
@@ -450,7 +450,7 @@
                                         type: "isFloat",
                                         validateOnExit: true,
                                         stopOnError: true,
-                                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                                        errorMessage: "<spring:message code='global.form.correctType'/>"
                                     }],
                                     align: "center"
                                 },
@@ -463,7 +463,7 @@
                                         type: "isFloat",
                                         validateOnExit: true,
                                         stopOnError: true,
-                                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                                        errorMessage: "<spring:message code='global.form.correctType'/>"
                                     }],
                                     align: "center"
                                 },
@@ -476,7 +476,7 @@
                                         type: "isFloat",
                                         validateOnExit: true,
                                         stopOnError: true,
-                                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                                        errorMessage: "<spring:message code='global.form.correctType'/>"
                                     }],
                                     align: "center"
                                 },
@@ -489,7 +489,7 @@
                                         type: "isFloat",
                                         validateOnExit: true,
                                         stopOnError: true,
-                                        errorMessage: "لطفا مقدار عددی وارد نمائید."
+                                        errorMessage: "<spring:message code='global.form.correctType'/>"
                                     }],
                                     align: "center"
                                 },
@@ -535,7 +535,7 @@
                                         data: JSON.stringify(data),
                                         callback: function (resp) {
                                             if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                                                isc.say("<spring:message code='global.form.request.successful'/>.");
+                                                isc.say("<spring:message code='global.form.request.successful'/>");
                                                 ListGrid_ShipmentMoistureItem_refresh();
                                                 PasteDialogShipmentMoistureItem_windows.close();
                                             } else
@@ -960,7 +960,7 @@
                     data: JSON.stringify(data),
                     callback: function (resp) {
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ShipmentMoistureHeader_refresh();
                             Window_ShipmentMoistureHeader.close();
                         } else
@@ -1038,7 +1038,7 @@
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                         ListGrid_ShipmentMoistureHeader_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -1355,7 +1355,7 @@
                     data: JSON.stringify(data),
                     callback: function (resp) {
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ShipmentMoistureItem_refresh();
                             Window_ShipmentMoistureItem.close();
                         } else
@@ -1436,7 +1436,7 @@
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                     ListGrid_ShipmentMoistureItem_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }

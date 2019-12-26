@@ -280,7 +280,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                         callback: function(RpcResponse_o) {
                             if (RpcResponse_o.data == 'success') {
                                 ListGrid_ProvisionalInvoice_refresh();
-                                isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                isc.say("<spring:message code='global.grid.record.remove.success'/>");
                             } else {
                                 isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                             }
@@ -732,7 +732,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
             //params: { data:data1},
             callback: function(RpcResponse_o) {
                 if (RpcResponse_o.data == 'success') {
-                    isc.say("<spring:message code='global.form.request.successful'/>.");
+                    isc.say("<spring:message code='global.form.request.successful'/>");
                     ListGrid_ProvisionalInvoice_refresh();
                     Window_ProvisionalInvoice.close();
                 } else
@@ -769,7 +769,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
             {
                 if(RpcResponse_o.data == 'success')
                 {
-                    isc.say("<spring:message code='global.form.request.successful'/>.");
+                    isc.say("<spring:message code='global.form.request.successful'/>");
                     ListGrid_ProvisionalInvoice_refresh();
                     Window_ProvisionalInvoice.close();
                 }

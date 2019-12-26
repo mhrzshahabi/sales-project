@@ -459,7 +459,7 @@
                                         data: JSON.stringify(data),
                                         callback: function (RpcResponse_o) {
                                             if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                                                isc.say("<spring:message code='global.form.request.successful'/>.");
+                                                isc.say("<spring:message code='global.form.request.successful'/>");
                                                 ListGrid_ShipmentAssayItem_refresh();
                                                 PasteDialogShipmentAssayItem_windows.close();
                                             } else
@@ -962,7 +962,7 @@
                             callback: function (RpcResponse_o) {
                                 if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                     ListGrid_ShipmentAssayHeader_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
@@ -1291,8 +1291,6 @@
 
     var Window_ShipmentAssayItem = isc.Window.create({
         title: "<spring:message code='shipment.AssayItem'/>",
-        width: "50%",
-        height: "30%",
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1359,7 +1357,7 @@
                         callback: function (RpcResponse_o) {
                             if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                 ListGrid_ShipmentAssayItem_refresh();
-                                isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                isc.say("<spring:message code='global.grid.record.remove.success'/>");
                             } else {
                                 isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                             }
