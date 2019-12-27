@@ -9,11 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +27,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/tozinSales")
 public class TozinSalesFormController {
-    private final OAuth2AuthorizedClientService authorizedClientService;
     private final ReportUtil reportUtil;
 
     @Value("${nicico.rest-api.url:''}")
@@ -58,7 +53,7 @@ public class TozinSalesFormController {
 
     @RequestMapping("/print/{name}/{type}/{date}")
     public ResponseEntity<?> print(HttpServletResponse response, Authentication authentication, @PathVariable String name,
-                                   @PathVariable String type, @PathVariable String date)throws SQLException, IOException, JRException {
+                                   @PathVariable String type, @PathVariable String date) throws SQLException, IOException, JRException {
         String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
         Map<String, Object> params = new HashMap<>();
         params.put("dateReport", day);
@@ -67,9 +62,9 @@ public class TozinSalesFormController {
             reportUtil.export("/reports/tozin_forosh_bargiri.jasper", params, response);
         } else if (name.equals("Kharid_Konstantere")) {
             reportUtil.export("/reports/tozin_kharid_konstantere.jasper", params, response);
-        }else if (name.equals("Kharid_Zaieat")) {
+        } else if (name.equals("Kharid_Zaieat")) {
             reportUtil.export("/reports/tozin_kharid_zayeat.jasper", params, response);
         }
-                return null;
+        return null;
     }
 }

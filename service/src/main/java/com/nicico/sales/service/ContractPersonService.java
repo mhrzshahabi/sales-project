@@ -21,70 +21,69 @@ import java.util.Optional;
 @Service
 public class ContractPersonService implements IContractPersonService {
 
-	private final ContractPersonDAO contractPersonDAO;
-	private final ModelMapper modelMapper;
+    private final ContractPersonDAO contractPersonDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public ContractPersonDTO.Info get(Long id) {
-		final Optional<ContractPerson> slById = contractPersonDAO.findById(id);
-		final ContractPerson contractPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractPersonNotFound));
+    @Transactional(readOnly = true)
+    public ContractPersonDTO.Info get(Long id) {
+        final Optional<ContractPerson> slById = contractPersonDAO.findById(id);
+        final ContractPerson contractPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractPersonNotFound));
 
-		return modelMapper.map(contractPerson, ContractPersonDTO.Info.class);
-	}
+        return modelMapper.map(contractPerson, ContractPersonDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<ContractPersonDTO.Info> list() {
-		final List<ContractPerson> slAll = contractPersonDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<ContractPersonDTO.Info> list() {
+        final List<ContractPerson> slAll = contractPersonDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<ContractPersonDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<ContractPersonDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public ContractPersonDTO.Info create(ContractPersonDTO.Create request) {
-		final ContractPerson contractPerson = modelMapper.map(request, ContractPerson.class);
+    @Transactional
+    @Override
+    public ContractPersonDTO.Info create(ContractPersonDTO.Create request) {
+        final ContractPerson contractPerson = modelMapper.map(request, ContractPerson.class);
 
-		return save(contractPerson);
-	}
+        return save(contractPerson);
+    }
 
-	@Transactional
-	@Override
-	public ContractPersonDTO.Info update(Long id, ContractPersonDTO.Update request) {
-		final Optional<ContractPerson> slById = contractPersonDAO.findById(id);
-		final ContractPerson contractPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractPersonNotFound));
+    @Transactional
+    @Override
+    public ContractPersonDTO.Info update(Long id, ContractPersonDTO.Update request) {
+        final Optional<ContractPerson> slById = contractPersonDAO.findById(id);
+        final ContractPerson contractPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractPersonNotFound));
 
-		ContractPerson updating = new ContractPerson();
-		modelMapper.map(contractPerson, updating);
-		modelMapper.map(request, updating);
+        ContractPerson updating = new ContractPerson();
+        modelMapper.map(contractPerson, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		contractPersonDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        contractPersonDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(ContractPersonDTO.Delete request) {
-		final List<ContractPerson> contractPersons = contractPersonDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(ContractPersonDTO.Delete request) {
+        final List<ContractPerson> contractPersons = contractPersonDAO.findAllById(request.getIds());
 
-		contractPersonDAO.deleteAll(contractPersons);
-	}
+        contractPersonDAO.deleteAll(contractPersons);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
     public TotalResponse<ContractPersonDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(contractPersonDAO, criteria, contractPerson -> modelMapper.map(contractPerson, ContractPersonDTO.Info.class));
-	}
+        return SearchUtil.search(contractPersonDAO, criteria, contractPerson -> modelMapper.map(contractPerson, ContractPersonDTO.Info.class));
+    }
 
-
-	private ContractPersonDTO.Info save(ContractPerson contractPerson) {
-		final ContractPerson saved = contractPersonDAO.saveAndFlush(contractPerson);
-		return modelMapper.map(saved, ContractPersonDTO.Info.class);
-	}
+    private ContractPersonDTO.Info save(ContractPerson contractPerson) {
+        final ContractPerson saved = contractPersonDAO.saveAndFlush(contractPerson);
+        return modelMapper.map(saved, ContractPersonDTO.Info.class);
+    }
 }

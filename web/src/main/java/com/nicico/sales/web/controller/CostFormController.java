@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/cost")
 public class CostFormController {
 
-	@RequestMapping("/showForm")
-	public String showCost() {
-		return "shipment/cost";
-	}
+    @RequestMapping("/showForm")
+    public String showCost() {
+        return "shipment/cost";
+    }
 }

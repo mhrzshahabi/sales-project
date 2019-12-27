@@ -46,7 +46,7 @@ public class ContractDetailService implements IContractDetailService {
 
     @Override
     public ContractDetailDTO FindByContractID(Long id) {
-        ContractDetail byContract_id=contractDetailDAO.findByContract_id(id);
+        ContractDetail byContract_id = contractDetailDAO.findByContract_id(id);
         return modelMapper.map(byContract_id, ContractDetailDTO.class);
     }
 

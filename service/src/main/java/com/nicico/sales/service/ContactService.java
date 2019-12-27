@@ -63,8 +63,8 @@ public class ContactService implements IContactService {
         final Contact contact = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactNotFound));
 
         Contact updating = new Contact();
-		modelMapper.map(contact, updating);
-		modelMapper.map(request, updating);
+        modelMapper.map(contact, updating);
+        modelMapper.map(request, updating);
 
         return save(updating);
     }

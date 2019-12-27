@@ -26,104 +26,104 @@ import java.util.Optional;
 @Service
 public class ShipmentAssayItemService implements IShipmentAssayItemService {
 
-	private final ShipmentAssayHeaderDAO shipmentAssayHeaderDAO;
-	private final ShipmentAssayItemDAO shipmentAssayItemDAO;
-	private final ModelMapper modelMapper;
-	private final Gson gson;
+    private final ShipmentAssayHeaderDAO shipmentAssayHeaderDAO;
+    private final ShipmentAssayItemDAO shipmentAssayItemDAO;
+    private final ModelMapper modelMapper;
+    private final Gson gson;
 
 
-	@Transactional(readOnly = true)
-	public ShipmentAssayItemDTO.Info get(Long id) {
-		final Optional<ShipmentAssayItem> slById = shipmentAssayItemDAO.findById(id);
-		final ShipmentAssayItem shipmentAssayItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentAssayItemNotFound));
+    @Transactional(readOnly = true)
+    public ShipmentAssayItemDTO.Info get(Long id) {
+        final Optional<ShipmentAssayItem> slById = shipmentAssayItemDAO.findById(id);
+        final ShipmentAssayItem shipmentAssayItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentAssayItemNotFound));
 
-		return modelMapper.map(shipmentAssayItem, ShipmentAssayItemDTO.Info.class);
-	}
+        return modelMapper.map(shipmentAssayItem, ShipmentAssayItemDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<ShipmentAssayItemDTO.Info> list() {
-		final List<ShipmentAssayItem> slAll = shipmentAssayItemDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<ShipmentAssayItemDTO.Info> list() {
+        final List<ShipmentAssayItem> slAll = shipmentAssayItemDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<ShipmentAssayItemDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<ShipmentAssayItemDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public ShipmentAssayItemDTO.Info create(ShipmentAssayItemDTO.Create request) {
-		final ShipmentAssayItem shipmentAssayItem = modelMapper.map(request, ShipmentAssayItem.class);
+    @Transactional
+    @Override
+    public ShipmentAssayItemDTO.Info create(ShipmentAssayItemDTO.Create request) {
+        final ShipmentAssayItem shipmentAssayItem = modelMapper.map(request, ShipmentAssayItem.class);
 
-		return save(shipmentAssayItem);
-	}
+        return save(shipmentAssayItem);
+    }
 
-	@Transactional
-	@Override
-	public ShipmentAssayItemDTO.Info update(Long id, ShipmentAssayItemDTO.Update request) {
-		final Optional<ShipmentAssayItem> slById = shipmentAssayItemDAO.findById(id);
-		final ShipmentAssayItem shipmentAssayItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentAssayItemNotFound));
+    @Transactional
+    @Override
+    public ShipmentAssayItemDTO.Info update(Long id, ShipmentAssayItemDTO.Update request) {
+        final Optional<ShipmentAssayItem> slById = shipmentAssayItemDAO.findById(id);
+        final ShipmentAssayItem shipmentAssayItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentAssayItemNotFound));
 
-		ShipmentAssayItem updating = new ShipmentAssayItem();
-		modelMapper.map(shipmentAssayItem, updating);
-		modelMapper.map(request, updating);
+        ShipmentAssayItem updating = new ShipmentAssayItem();
+        modelMapper.map(shipmentAssayItem, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		shipmentAssayItemDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        shipmentAssayItemDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(ShipmentAssayItemDTO.Delete request) {
-		final List<ShipmentAssayItem> shipmentAssayItems = shipmentAssayItemDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(ShipmentAssayItemDTO.Delete request) {
+        final List<ShipmentAssayItem> shipmentAssayItems = shipmentAssayItemDAO.findAllById(request.getIds());
 
-		shipmentAssayItemDAO.deleteAll(shipmentAssayItems);
-	}
+        shipmentAssayItemDAO.deleteAll(shipmentAssayItems);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public TotalResponse<ShipmentAssayItemDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(shipmentAssayItemDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentAssayItemDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public TotalResponse<ShipmentAssayItemDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(shipmentAssayItemDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentAssayItemDTO.Info.class));
+    }
 
 
+    private ShipmentAssayItemDTO.Info save(ShipmentAssayItem shipmentAssayItem) {
+        final ShipmentAssayItem saved = shipmentAssayItemDAO.saveAndFlush(shipmentAssayItem);
+        return modelMapper.map(saved, ShipmentAssayItemDTO.Info.class);
+    }
 
-	private ShipmentAssayItemDTO.Info save(ShipmentAssayItem shipmentAssayItem) {
-		final ShipmentAssayItem saved = shipmentAssayItemDAO.saveAndFlush(shipmentAssayItem);
-		return modelMapper.map(saved, ShipmentAssayItemDTO.Info.class);
-	}
-	@Transactional
-	@Override
-	public String createAddAssayPaste( String data) {
-		Map<String, Object> map = gson.fromJson(data, Map.class);
+    @Transactional
+    @Override
+    public String createAddAssayPaste(String data) {
+        Map<String, Object> map = gson.fromJson(data, Map.class);
 
-		ArrayList lotTransmitters = null;
-		Long ShipmentAssayHeaderId = new Long(map.get("ShipmentAssayHeaderId").toString().split("[.]")[0]);
-		ShipmentAssayHeader tblShipmentAssayHeader = shipmentAssayHeaderDAO.findById(ShipmentAssayHeaderId).orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
-		lotTransmitters = (ArrayList) map.get("selected");
-		for (int i = 0; i < lotTransmitters.size(); i++) {
-			Map itemObj = (Map) lotTransmitters.get(i);
-			if (itemObj.get("lotNo") != null) {
-				ShipmentAssayItem tblShipmentAssayItem = new ShipmentAssayItem();
-				tblShipmentAssayItem.setShipmentAssayHeaderId(tblShipmentAssayHeader.getId());
-				tblShipmentAssayItem.setLotNo(new Long(itemObj.get("lotNo").toString().split("[.]")[0]));
+        ArrayList lotTransmitters = null;
+        Long ShipmentAssayHeaderId = new Long(map.get("ShipmentAssayHeaderId").toString().split("[.]")[0]);
+        ShipmentAssayHeader tblShipmentAssayHeader = shipmentAssayHeaderDAO.findById(ShipmentAssayHeaderId).orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
+        lotTransmitters = (ArrayList) map.get("selected");
+        for (int i = 0; i < lotTransmitters.size(); i++) {
+            Map itemObj = (Map) lotTransmitters.get(i);
+            if (itemObj.get("lotNo") != null) {
+                ShipmentAssayItem tblShipmentAssayItem = new ShipmentAssayItem();
+                tblShipmentAssayItem.setShipmentAssayHeaderId(tblShipmentAssayHeader.getId());
+                tblShipmentAssayItem.setLotNo(new Long(itemObj.get("lotNo").toString().split("[.]")[0]));
 
-				if (itemObj.get("ag") != null) {
-					tblShipmentAssayItem.setAg(new Double(itemObj.get("ag").toString()));
-				}
-				if (itemObj.get("au") != null) {
-					tblShipmentAssayItem.setAu(new Double(itemObj.get("au").toString()));
-				}
-				if (itemObj.get("cu") != null) {
-					tblShipmentAssayItem.setCu(new Double(itemObj.get("cu").toString()));
-				}
-				save(tblShipmentAssayItem);
-			}
-		}
-	return "ok";
-	}
+                if (itemObj.get("ag") != null) {
+                    tblShipmentAssayItem.setAg(new Double(itemObj.get("ag").toString()));
+                }
+                if (itemObj.get("au") != null) {
+                    tblShipmentAssayItem.setAu(new Double(itemObj.get("au").toString()));
+                }
+                if (itemObj.get("cu") != null) {
+                    tblShipmentAssayItem.setCu(new Double(itemObj.get("cu").toString()));
+                }
+                save(tblShipmentAssayItem);
+            }
+        }
+        return "ok";
+    }
 }

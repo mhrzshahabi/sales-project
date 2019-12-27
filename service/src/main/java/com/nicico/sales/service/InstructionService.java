@@ -22,78 +22,76 @@ import java.util.Optional;
 @Service
 public class InstructionService implements IInstructionService {
 
-	private final InstructionDAO instructionDAO;
-	private final ModelMapper modelMapper;
+    private final InstructionDAO instructionDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public InstructionDTO.Info get(Long id) {
-		final Optional<Instruction> slById = instructionDAO.findById(id);
-		final Instruction instruction = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InstructionNotFound));
+    @Transactional(readOnly = true)
+    public InstructionDTO.Info get(Long id) {
+        final Optional<Instruction> slById = instructionDAO.findById(id);
+        final Instruction instruction = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InstructionNotFound));
 
-		return modelMapper.map(instruction, InstructionDTO.Info.class);
-	}
+        return modelMapper.map(instruction, InstructionDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<InstructionDTO.Info> list() {
-		final List<Instruction> slAll = instructionDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<InstructionDTO.Info> list() {
+        final List<Instruction> slAll = instructionDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<InstructionDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<InstructionDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public InstructionDTO.Info create(InstructionDTO.Create request) {
-		final Instruction instruction = modelMapper.map(request, Instruction.class);
+    @Transactional
+    @Override
+    public InstructionDTO.Info create(InstructionDTO.Create request) {
+        final Instruction instruction = modelMapper.map(request, Instruction.class);
 
-		return save(instruction);
-	}
+        return save(instruction);
+    }
 
-	@Transactional
-	@Override
-	public InstructionDTO.Info update(Long id, InstructionDTO.Update request) {
-		final Optional<Instruction> slById = instructionDAO.findById(id);
-		final Instruction instruction = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InstructionNotFound));
+    @Transactional
+    @Override
+    public InstructionDTO.Info update(Long id, InstructionDTO.Update request) {
+        final Optional<Instruction> slById = instructionDAO.findById(id);
+        final Instruction instruction = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InstructionNotFound));
 
-		Instruction updating = new Instruction();
-		modelMapper.map(instruction, updating);
-		modelMapper.map(request, updating);
+        Instruction updating = new Instruction();
+        modelMapper.map(instruction, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		instructionDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        instructionDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(InstructionDTO.Delete request) {
-		final List<Instruction> instructions = instructionDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(InstructionDTO.Delete request) {
+        final List<Instruction> instructions = instructionDAO.findAllById(request.getIds());
 
-		instructionDAO.deleteAll(instructions);
-	}
+        instructionDAO.deleteAll(instructions);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<InstructionDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(instructionDAO, request, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public SearchDTO.SearchRs<InstructionDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(instructionDAO, request, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_BANK')")
-	public TotalResponse<InstructionDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(instructionDAO, criteria, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
-	}
+    public TotalResponse<InstructionDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(instructionDAO, criteria, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
+    }
 
-
-
-	private InstructionDTO.Info save(Instruction instruction) {
-		final Instruction saved = instructionDAO.saveAndFlush(instruction);
-		return modelMapper.map(saved, InstructionDTO.Info.class);
-	}
+    private InstructionDTO.Info save(Instruction instruction) {
+        final Instruction saved = instructionDAO.saveAndFlush(instruction);
+        return modelMapper.map(saved, InstructionDTO.Info.class);
+    }
 }

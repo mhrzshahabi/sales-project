@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/contractCurrency")
 public class ContractCurrencyFormController {
 
-	@RequestMapping("/showForm")
-	public String showContractCurrency() {
-		return "base/contractCurrency";
-	}
+    @RequestMapping("/showForm")
+    public String showContractCurrency() {
+        return "base/contractCurrency";
+    }
 }

@@ -49,31 +49,31 @@ public class WarehouseCadFormController {
 
     @RequestMapping("/print/{id}")
     public void printDocx(HttpServletRequest request, HttpServletResponse response, @PathVariable String id) throws IOException {
-            InputStream stream;
-            XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFFont font = workbook.createFont();
-            font.setFontName("B Nazanin");
-            XWPFDocument doc;
+        InputStream stream;
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFFont font = workbook.createFont();
+        font.setFontName("B Nazanin");
+        XWPFDocument doc;
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            WarehouseCadDTO.Info warehouseCad = warehouseCadService.get(Long.valueOf(id));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        WarehouseCadDTO.Info warehouseCad = warehouseCadService.get(Long.valueOf(id));
 
-            stream = new ClassPathResource("reports/word/bijack.docx").getInputStream();
-            ServletOutputStream out = response.getOutputStream();
-            doc = new XWPFDocument(stream);
+        stream = new ClassPathResource("reports/word/bijack.docx").getInputStream();
+        ServletOutputStream out = response.getOutputStream();
+        doc = new XWPFDocument(stream);
 
-            replacePOI(doc, "containerNo", warehouseCad.getContainerNo());
-            replacePOI(doc, "sourceLoadDate", warehouseCad.getSourceLoadDate());
-            replacePOI(doc, "herasatPolompNo", warehouseCad.getHerasatPolompNo());
-            replacePOI(doc, "sourceSheetSum", warehouseCad.getSourceSheetSum().toString());
-            replacePOI(doc, "sourceBundleSum", warehouseCad.getSourceBundleSum().toString());
-            replacePOI(doc, "destinationSheetSum", warehouseCad.getDestinationSheetSum().toString());
-            replacePOI(doc, "destinationBundleSum", warehouseCad.getDestinationBundleSum().toString());
+        replacePOI(doc, "containerNo", warehouseCad.getContainerNo());
+        replacePOI(doc, "sourceLoadDate", warehouseCad.getSourceLoadDate());
+        replacePOI(doc, "herasatPolompNo", warehouseCad.getHerasatPolompNo());
+        replacePOI(doc, "sourceSheetSum", warehouseCad.getSourceSheetSum().toString());
+        replacePOI(doc, "sourceBundleSum", warehouseCad.getSourceBundleSum().toString());
+        replacePOI(doc, "destinationSheetSum", warehouseCad.getDestinationSheetSum().toString());
+        replacePOI(doc, "destinationBundleSum", warehouseCad.getDestinationBundleSum().toString());
 
-            response.setHeader("Content-Disposition", "attachment; filename=\"bijack.doc\"");
-            response.setContentType("application/vnd.ms-word");
-            doc.write(out);
-            baos.writeTo(out);
-            out.flush();
+        response.setHeader("Content-Disposition", "attachment; filename=\"bijack.doc\"");
+        response.setContentType("application/vnd.ms-word");
+        doc.write(out);
+        baos.writeTo(out);
+        out.flush();
     }
 }

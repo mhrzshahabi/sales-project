@@ -1,11 +1,9 @@
 package com.nicico.sales.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
-import com.nicico.copper.oauth.common.repository.OAUserDAO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InvoiceInternalCustomerDTO;
 import com.nicico.sales.iservice.IInvoiceInternalCustomerService;
@@ -15,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,92 +23,83 @@ import java.util.Optional;
 @Service
 public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerService {
 
-	private final ModelMapper modelMapper;
-	private final ObjectMapper objectMapper;
-	private final InvoiceInternalCustomerDAO invoiceInternalCustomerDAO;
-	private final OAUserDAO oaUserDAO;
+    private final ModelMapper modelMapper;
+    private final InvoiceInternalCustomerDAO invoiceInternalCustomerDAO;
 
-	private final OAuth2RestTemplate restTemplate;
+    @Value("${nicico.apps.accounting}")
+    private String accountingAppUrl;
 
-	@Value("${nicico.apps.accounting}")
-	private String accountingAppUrl;
+    @Transactional(readOnly = true)
+    public InvoiceInternalCustomerDTO.Info get(Long id) {
+        final InvoiceInternalCustomer invoiceInternalCustomer = invoiceInternalCustomerDAO.findById(id)
+                .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalCustomerNotFound));
 
+        return modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	public InvoiceInternalCustomerDTO.Info get(Long id) {
-		final InvoiceInternalCustomer invoiceInternalCustomer = invoiceInternalCustomerDAO.findById(id)
-				.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalCustomerNotFound));
+    @Transactional(readOnly = true)
+    @Override
+    public List<InvoiceInternalCustomerDTO.Info> list() {
+        final List<InvoiceInternalCustomer> slAll = invoiceInternalCustomerDAO.findAll();
 
-		return modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class);
-	}
+        return modelMapper.map(slAll, new TypeToken<List<InvoiceInternalCustomerDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<InvoiceInternalCustomerDTO.Info> list() {
-		final List<InvoiceInternalCustomer> slAll = invoiceInternalCustomerDAO.findAll();
+    @Transactional
+    @Override
+    public InvoiceInternalCustomerDTO.Info create(InvoiceInternalCustomerDTO.Create request) {
+        final InvoiceInternalCustomer invoiceInternalCustomer = modelMapper.map(request, InvoiceInternalCustomer.class);
 
-		return modelMapper.map(slAll, new TypeToken<List<InvoiceInternalCustomerDTO.Info>>() {
-		}.getType());
-	}
+        final Optional<InvoiceInternalCustomer> invoiceInternalCustomer1 = invoiceInternalCustomerDAO.findById(request.getId());
+        if (invoiceInternalCustomer != null)
+            throw new SalesException(SalesException.ErrorType.DuplicateRecord);
 
-	@Transactional
-	@Override
-	public InvoiceInternalCustomerDTO.Info create(InvoiceInternalCustomerDTO.Create request) {
-		final InvoiceInternalCustomer invoiceInternalCustomer = modelMapper.map(request, InvoiceInternalCustomer.class);
+        return save(invoiceInternalCustomer);
+    }
 
-		final Optional<InvoiceInternalCustomer> invoiceInternalCustomer1 = invoiceInternalCustomerDAO.findById(request.getId());
-		if (invoiceInternalCustomer != null)
-			throw new SalesException(SalesException.ErrorType.DuplicateRecord);
+    @Transactional
+    @Override
+    public InvoiceInternalCustomerDTO.Info update(Long id, InvoiceInternalCustomerDTO.Update request) {
+        final InvoiceInternalCustomer invoiceInternalCustomer = invoiceInternalCustomerDAO.findById(id)
+                .orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
 
-		return save(invoiceInternalCustomer);
-	}
+        InvoiceInternalCustomer updating = new InvoiceInternalCustomer();
+        modelMapper.map(invoiceInternalCustomer, updating);
+        modelMapper.map(request, updating);
 
-	@Transactional
-	@Override
-	public InvoiceInternalCustomerDTO.Info update(Long id, InvoiceInternalCustomerDTO.Update request) {
-		final InvoiceInternalCustomer invoiceInternalCustomer = invoiceInternalCustomerDAO.findById(id)
-				.orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
+        return save(updating);
+    }
 
-		InvoiceInternalCustomer updating = new InvoiceInternalCustomer();
-		modelMapper.map(invoiceInternalCustomer, updating);
-		modelMapper.map(request, updating);
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        invoiceInternalCustomerDAO.deleteById(id);
+    }
 
-		return save(updating);
-	}
+    @Transactional
+    @Override
+    public void delete(InvoiceInternalCustomerDTO.Delete request) {
+        final List<InvoiceInternalCustomer> indices = invoiceInternalCustomerDAO.findAllById(request.getIds());
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		invoiceInternalCustomerDAO.deleteById(id);
-	}
+        invoiceInternalCustomerDAO.deleteAll(indices);
+    }
 
-	@Transactional
-	@Override
-	public void delete(InvoiceInternalCustomerDTO.Delete request) {
-		final List<InvoiceInternalCustomer> indices = invoiceInternalCustomerDAO.findAllById(request.getIds());
-
-		invoiceInternalCustomerDAO.deleteAll(indices);
-	}
-
-	@Transactional(readOnly = true)
-	@Override
-	public TotalResponse<InvoiceInternalCustomerDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(invoiceInternalCustomerDAO, criteria, invoiceInternalCustomer -> modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public TotalResponse<InvoiceInternalCustomerDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(invoiceInternalCustomerDAO, criteria, invoiceInternalCustomer -> modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class));
+    }
 
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<InvoiceInternalCustomerDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(invoiceInternalCustomerDAO, request, invoiceInternalCustomer -> modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public SearchDTO.SearchRs<InvoiceInternalCustomerDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(invoiceInternalCustomerDAO, request, invoiceInternalCustomer -> modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class));
+    }
 
-
-
-
-	private InvoiceInternalCustomerDTO.Info save(InvoiceInternalCustomer invoiceInternalCustomer) {
-
-		final InvoiceInternalCustomer saved = invoiceInternalCustomerDAO.saveAndFlush(invoiceInternalCustomer);
-		return modelMapper.map(saved, InvoiceInternalCustomerDTO.Info.class);
-	}
+    private InvoiceInternalCustomerDTO.Info save(InvoiceInternalCustomer invoiceInternalCustomer) {
+        final InvoiceInternalCustomer saved = invoiceInternalCustomerDAO.saveAndFlush(invoiceInternalCustomer);
+        return modelMapper.map(saved, InvoiceInternalCustomerDTO.Info.class);
+    }
 }

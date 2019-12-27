@@ -82,19 +82,19 @@ public class InvoiceFormController {
         req.getSession().setAttribute("gridResponse", gridResponse);
         req.getSession().setAttribute("gridResponseItem", gridResponseItem);
 
-        if (contract.getContactBySellerId()!=null) {
+        if (contract.getContactBySellerId() != null) {
             req.getSession().setAttribute("sellerId", contract.getContactBySellerId());
             req.getSession().setAttribute("sellerName", contract.getContactBySeller().getNameEN());
         }
-        if (contract.getContactId()!=null) {
+        if (contract.getContactId() != null) {
             req.getSession().setAttribute("BuyerId", contract.getContactId());
             req.getSession().setAttribute("BuyerName", contract.getContact().getNameEN());
         }
-        if (contract.getContactBySellerAgentId()!=null) {
+        if (contract.getContactBySellerAgentId() != null) {
             req.getSession().setAttribute("sellerAgentId", contract.getContactBySellerAgentId());
             req.getSession().setAttribute("sellerAgentName", contract.getContactBySellerAgent().getNameEN());
         }
-        if (contract.getContactByBuyerAgentId()!=null) {
+        if (contract.getContactByBuyerAgentId() != null) {
             req.getSession().setAttribute("BuyerAgentId", contract.getContactByBuyerAgentId());
             req.getSession().setAttribute("BuyerAgentName", contract.getContactByBuyerAgent().getNameEN());
         }

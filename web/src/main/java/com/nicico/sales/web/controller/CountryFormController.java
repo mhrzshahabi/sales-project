@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/country")
 public class CountryFormController {
 
-	@RequestMapping("/showForm")
-	public String showCountry() {
-		return "base/country";
-	}
+    @RequestMapping("/showForm")
+    public String showCountry() {
+        return "base/country";
+    }
 }

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/contactAccount")
 public class ContactAccountFormController {
 
-	@RequestMapping("/showForm")
-	public String showContactAccount() {
-		return "base/contactAccount";
-	}
+    @RequestMapping("/showForm")
+    public String showContactAccount() {
+        return "base/contactAccount";
+    }
 }

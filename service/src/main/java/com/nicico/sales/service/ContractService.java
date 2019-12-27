@@ -134,13 +134,13 @@ public class ContractService implements IContractService {
             prefixPrintContractWrite = "PrintCathod_";
         }
         OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc");
-            OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + ".doc");
-            XWPFParagraph paragraph = doc.createParagraph();
-            XWPFRun run = paragraph.createRun();
-            //String base64Text = Base64.getEncoder().encodeToString(dataALLArticle.getBytes());
-            run.setText(dataALLArticle);
-            doc.write(os);
-            printdoc.write(printOs);
+        OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + ".doc");
+        XWPFParagraph paragraph = doc.createParagraph();
+        XWPFRun run = paragraph.createRun();
+        //String base64Text = Base64.getEncoder().encodeToString(dataALLArticle.getBytes());
+        run.setText(dataALLArticle);
+        doc.write(os);
+        printdoc.write(printOs);
     }
 
     @Override
@@ -152,11 +152,10 @@ public class ContractService implements IContractService {
             if (contractNo.contains("_Conc")) {
                 String contractConc = contractNo.replace("_Conc", "");
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc.substring(1, contractConc.length() - 1) + ".doc");
-            }else if(contractNo.contains("?Mo")){
+            } else if (contractNo.contains("?Mo")) {
                 String contractMo = contractNo.replace("?Mo", "");
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_MO_OX" + contractMo.substring(1, contractMo.length() - 1) + ".doc");
-            }
-            else {
+            } else {
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo.substring(1, contractNo.length() - 1) + ".doc");
             }
             allArticle = extractText(inputstream);
@@ -198,18 +197,17 @@ public class ContractService implements IContractService {
     @Override
     public String printContract(Long id) {
         Contract contract = contractDAO.findById(id).get();
-        String flag=""  ;
-        if(contract.getMaterial().getDescl().contains("Mo")){
-            flag="PrintCathod_MO_OX"+contract.getContractNo();
-        }else if(contract.getMaterial().getDescl().contains("Conc")){
-            flag="PrintConc_"+contract.getContractNo();
-        }else if(contract.getMaterial().getDescl().contains("Cath")){
-            flag="PrintCathod_"+contract.getContractNo();
+        String flag = "";
+        if (contract.getMaterial().getDescl().contains("Mo")) {
+            flag = "PrintCathod_MO_OX" + contract.getContractNo();
+        } else if (contract.getMaterial().getDescl().contains("Conc")) {
+            flag = "PrintConc_" + contract.getContractNo();
+        } else if (contract.getMaterial().getDescl().contains("Cath")) {
+            flag = "PrintCathod_" + contract.getContractNo();
         }
         return flag;
 
     }
-
 
 
     @Transactional
@@ -234,7 +232,6 @@ public class ContractService implements IContractService {
     public SearchDTO.SearchRs<ContractDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(contractDAO, request, contract -> modelMapper.map(contract, ContractDTO.Info.class));
     }
-
 
 
     private ContractDTO.Info save(Contract contract) {
@@ -339,9 +336,9 @@ public class ContractService implements IContractService {
         paragraphTwo.setAlignment(ParagraphAlignment.LEFT);
         setRun(paragraphTwo.createRun(), "Calibre LIght", 5, "000000", "THIS SALES CONTRACT IS SIGNED AND STAMPED BETWEEN THE FOLLOWING COMPANIES AND BOTH PARTIES ARE OBLIGATED AND BOUND TO FULFILL THE FOLLOWINGS:", false, false);
         //creating three row
-        XWPFParagraph paragraphBuyer =table.getRow(2).getCell(0).addParagraph();
+        XWPFParagraph paragraphBuyer = table.getRow(2).getCell(0).addParagraph();
         setRun(paragraphBuyer.createRun(), "Calibre LIght", 10, "000000", "BUYER:", true, true);
-        if(contractDAO.findById(contractId).getContactId() != null) {
+        if (contractDAO.findById(contractId).getContactId() != null) {
             setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getNameEN()), false, true);
             setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getPhone()), false, true);
             setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getMobile()), false, true);
@@ -349,18 +346,18 @@ public class ContractService implements IContractService {
         }
         //table.getRow(2).getCell(0).setText("BUYER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getNameEN());
         //table.getRow(2).getCell(1).setText("AGENT BUYER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getNameEN());
-        XWPFParagraph paragraphAgentBuyer =table.getRow(2).getCell(1).addParagraph();
+        XWPFParagraph paragraphAgentBuyer = table.getRow(2).getCell(1).addParagraph();
         setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 10, "000000", "AGENT BUYER:", true, true);
-        if(contractDAO.findById(contractId).getContactByBuyerAgentId() != null) {
+        if (contractDAO.findById(contractId).getContactByBuyerAgentId() != null) {
             setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getNameEN()), false, true);
             setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getPhone()), false, true);
             setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getMobile()), false, true);
             setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "ADDRESS:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getAddress()), false, true);
         }
         //creating four row
-        XWPFParagraph paragraphSeller =table.getRow(3).getCell(0).addParagraph();
+        XWPFParagraph paragraphSeller = table.getRow(3).getCell(0).addParagraph();
         setRun(paragraphSeller.createRun(), "Calibre LIght", 10, "000000", "SELLER:", true, true);
-        if(contractDAO.findById(contractId).getContactBySellerId() != null) {
+        if (contractDAO.findById(contractId).getContactBySellerId() != null) {
             setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getNameEN()), false, true);
             setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getPhone()), false, true);
             setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getMobile()), false, true);
@@ -368,9 +365,9 @@ public class ContractService implements IContractService {
         }
         //table.getRow(3).getCell(0).setText("SELLER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getNameEN());
         ////******
-        XWPFParagraph paragraphAgentSeller =table.getRow(3).getCell(1).addParagraph();
+        XWPFParagraph paragraphAgentSeller = table.getRow(3).getCell(1).addParagraph();
         setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 10, "000000", "AGENT SELLER:", true, true);
-        if(contractDAO.findById(contractId).getContactBySellerAgentId() != null) {
+        if (contractDAO.findById(contractId).getContactBySellerAgentId() != null) {
             setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getNameEN()), false, true);
             setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getPhone()), false, true);
             setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getMobile()), false, true);
@@ -388,7 +385,9 @@ public class ContractService implements IContractService {
     }
 
 
-    private String nvl(String in){ return in == null ? "" : in; }
+    private String nvl(String in) {
+        return in == null ? "" : in;
+    }
 
     private void setRun(XWPFRun run, String fontFamily, int fontSize, String colorRGB, String text, boolean bold, boolean addBreak) {
         run.setFontFamily(fontFamily);

@@ -22,78 +22,76 @@ import java.util.Optional;
 @Service
 public class RateService implements IRateService {
 
-	private final RateDAO rateDAO;
-	private final ModelMapper modelMapper;
+    private final RateDAO rateDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public RateDTO.Info get(Long id) {
-		final Optional<Rate> slById = rateDAO.findById(id);
-		final Rate rate = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.RateNotFound));
+    @Transactional(readOnly = true)
+    public RateDTO.Info get(Long id) {
+        final Optional<Rate> slById = rateDAO.findById(id);
+        final Rate rate = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.RateNotFound));
 
-		return modelMapper.map(rate, RateDTO.Info.class);
-	}
+        return modelMapper.map(rate, RateDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<RateDTO.Info> list() {
-		final List<Rate> slAll = rateDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<RateDTO.Info> list() {
+        final List<Rate> slAll = rateDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<RateDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<RateDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public RateDTO.Info create(RateDTO.Create request) {
-		final Rate rate = modelMapper.map(request, Rate.class);
+    @Transactional
+    @Override
+    public RateDTO.Info create(RateDTO.Create request) {
+        final Rate rate = modelMapper.map(request, Rate.class);
 
-		return save(rate);
-	}
+        return save(rate);
+    }
 
-	@Transactional
-	@Override
-	public RateDTO.Info update(Long id, RateDTO.Update request) {
-		final Optional<Rate> slById = rateDAO.findById(id);
-		final Rate rate = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.RateNotFound));
+    @Transactional
+    @Override
+    public RateDTO.Info update(Long id, RateDTO.Update request) {
+        final Optional<Rate> slById = rateDAO.findById(id);
+        final Rate rate = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.RateNotFound));
 
-		Rate updating = new Rate();
-		modelMapper.map(rate, updating);
-		modelMapper.map(request, updating);
+        Rate updating = new Rate();
+        modelMapper.map(rate, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		rateDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        rateDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(RateDTO.Delete request) {
-		final List<Rate> rates = rateDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(RateDTO.Delete request) {
+        final List<Rate> rates = rateDAO.findAllById(request.getIds());
 
-		rateDAO.deleteAll(rates);
-	}
+        rateDAO.deleteAll(rates);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<RateDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(rateDAO, request, rate -> modelMapper.map(rate, RateDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public SearchDTO.SearchRs<RateDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(rateDAO, request, rate -> modelMapper.map(rate, RateDTO.Info.class));
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_BANK')")
-	public TotalResponse<RateDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(rateDAO, criteria, rate -> modelMapper.map(rate, RateDTO.Info.class));
-	}
+    public TotalResponse<RateDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(rateDAO, criteria, rate -> modelMapper.map(rate, RateDTO.Info.class));
+    }
 
-
-
-	private RateDTO.Info save(Rate rate) {
-		final Rate saved = rateDAO.saveAndFlush(rate);
-		return modelMapper.map(saved, RateDTO.Info.class);
-	}
+    private RateDTO.Info save(Rate rate) {
+        final Rate saved = rateDAO.saveAndFlush(rate);
+        return modelMapper.map(saved, RateDTO.Info.class);
+    }
 }

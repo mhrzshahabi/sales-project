@@ -22,78 +22,76 @@ import java.util.Optional;
 @Service
 public class TozinSalesService implements ITozinSalesService {
 
-	private final TozinSalesDAO tozinSalesDAO;
-	private final ModelMapper modelMapper;
+    private final TozinSalesDAO tozinSalesDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public TozinSalesDTO.Info get(Long id) {
-		final Optional<TozinSales> slById = tozinSalesDAO.findById(id);
-		final TozinSales tozinSales = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinSalesNotFound));
+    @Transactional(readOnly = true)
+    public TozinSalesDTO.Info get(Long id) {
+        final Optional<TozinSales> slById = tozinSalesDAO.findById(id);
+        final TozinSales tozinSales = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinSalesNotFound));
 
-		return modelMapper.map(tozinSales, TozinSalesDTO.Info.class);
-	}
+        return modelMapper.map(tozinSales, TozinSalesDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<TozinSalesDTO.Info> list() {
-		final List<TozinSales> slAll = tozinSalesDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<TozinSalesDTO.Info> list() {
+        final List<TozinSales> slAll = tozinSalesDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<TozinSalesDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<TozinSalesDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public TozinSalesDTO.Info create(TozinSalesDTO.Create request) {
-		final TozinSales tozinSales = modelMapper.map(request, TozinSales.class);
+    @Transactional
+    @Override
+    public TozinSalesDTO.Info create(TozinSalesDTO.Create request) {
+        final TozinSales tozinSales = modelMapper.map(request, TozinSales.class);
 
-		return save(tozinSales);
-	}
+        return save(tozinSales);
+    }
 
-	@Transactional
-	@Override
-	public TozinSalesDTO.Info update(Long id, TozinSalesDTO.Update request) {
-		final Optional<TozinSales> slById = tozinSalesDAO.findById(id);
-		final TozinSales tozinSales = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinSalesNotFound));
+    @Transactional
+    @Override
+    public TozinSalesDTO.Info update(Long id, TozinSalesDTO.Update request) {
+        final Optional<TozinSales> slById = tozinSalesDAO.findById(id);
+        final TozinSales tozinSales = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinSalesNotFound));
 
-		TozinSales updating = new TozinSales();
-		modelMapper.map(tozinSales, updating);
-		modelMapper.map(request, updating);
+        TozinSales updating = new TozinSales();
+        modelMapper.map(tozinSales, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		tozinSalesDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        tozinSalesDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(TozinSalesDTO.Delete request) {
-		final List<TozinSales> tozinSaless = tozinSalesDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(TozinSalesDTO.Delete request) {
+        final List<TozinSales> tozinSaless = tozinSalesDAO.findAllById(request.getIds());
 
-		tozinSalesDAO.deleteAll(tozinSaless);
-	}
+        tozinSalesDAO.deleteAll(tozinSaless);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<TozinSalesDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(tozinSalesDAO, request, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public SearchDTO.SearchRs<TozinSalesDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(tozinSalesDAO, request, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_BANK')")
-	public TotalResponse<TozinSalesDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(tozinSalesDAO, criteria, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
-	}
+    public TotalResponse<TozinSalesDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(tozinSalesDAO, criteria, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
+    }
 
-
-
-	private TozinSalesDTO.Info save(TozinSales tozinSales) {
-		final TozinSales saved = tozinSalesDAO.saveAndFlush(tozinSales);
-		return modelMapper.map(saved, TozinSalesDTO.Info.class);
-	}
+    private TozinSalesDTO.Info save(TozinSales tozinSales) {
+        final TozinSales saved = tozinSalesDAO.saveAndFlush(tozinSales);
+        return modelMapper.map(saved, TozinSalesDTO.Info.class);
+    }
 }

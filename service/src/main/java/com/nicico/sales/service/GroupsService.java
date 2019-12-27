@@ -22,78 +22,76 @@ import java.util.Optional;
 @Service
 public class GroupsService implements IGroupsService {
 
-	private final GroupsDAO groupsDAO;
-	private final ModelMapper modelMapper;
+    private final GroupsDAO groupsDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public GroupsDTO.Info get(Long id) {
-		final Optional<Groups> slById = groupsDAO.findById(id);
-		final Groups groups = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsNotFound));
+    @Transactional(readOnly = true)
+    public GroupsDTO.Info get(Long id) {
+        final Optional<Groups> slById = groupsDAO.findById(id);
+        final Groups groups = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsNotFound));
 
-		return modelMapper.map(groups, GroupsDTO.Info.class);
-	}
+        return modelMapper.map(groups, GroupsDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<GroupsDTO.Info> list() {
-		final List<Groups> slAll = groupsDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<GroupsDTO.Info> list() {
+        final List<Groups> slAll = groupsDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<GroupsDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<GroupsDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public GroupsDTO.Info create(GroupsDTO.Create request) {
-		final Groups groups = modelMapper.map(request, Groups.class);
+    @Transactional
+    @Override
+    public GroupsDTO.Info create(GroupsDTO.Create request) {
+        final Groups groups = modelMapper.map(request, Groups.class);
 
-		return save(groups);
-	}
+        return save(groups);
+    }
 
-	@Transactional
-	@Override
-	public GroupsDTO.Info update(Long id, GroupsDTO.Update request) {
-		final Optional<Groups> slById = groupsDAO.findById(id);
-		final Groups groups = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsNotFound));
+    @Transactional
+    @Override
+    public GroupsDTO.Info update(Long id, GroupsDTO.Update request) {
+        final Optional<Groups> slById = groupsDAO.findById(id);
+        final Groups groups = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsNotFound));
 
-		Groups updating = new Groups();
-		modelMapper.map(groups, updating);
-		modelMapper.map(request, updating);
+        Groups updating = new Groups();
+        modelMapper.map(groups, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		groupsDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        groupsDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(GroupsDTO.Delete request) {
-		final List<Groups> groupss = groupsDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(GroupsDTO.Delete request) {
+        final List<Groups> groupss = groupsDAO.findAllById(request.getIds());
 
-		groupsDAO.deleteAll(groupss);
-	}
+        groupsDAO.deleteAll(groupss);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<GroupsDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(groupsDAO, request, groups -> modelMapper.map(groups, GroupsDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public SearchDTO.SearchRs<GroupsDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(groupsDAO, request, groups -> modelMapper.map(groups, GroupsDTO.Info.class));
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_BANK')")
-	public TotalResponse<GroupsDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(groupsDAO, criteria, groups -> modelMapper.map(groups, GroupsDTO.Info.class));
-	}
+    public TotalResponse<GroupsDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(groupsDAO, criteria, groups -> modelMapper.map(groups, GroupsDTO.Info.class));
+    }
 
-
-
-	private GroupsDTO.Info save(Groups groups) {
-		final Groups saved = groupsDAO.saveAndFlush(groups);
-		return modelMapper.map(saved, GroupsDTO.Info.class);
-	}
+    private GroupsDTO.Info save(Groups groups) {
+        final Groups saved = groupsDAO.saveAndFlush(groups);
+        return modelMapper.map(saved, GroupsDTO.Info.class);
+    }
 }

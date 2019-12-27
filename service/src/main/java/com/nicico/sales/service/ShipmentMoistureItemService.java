@@ -26,111 +26,111 @@ import java.util.Optional;
 @Service
 public class ShipmentMoistureItemService implements IShipmentMoistureItemService {
 
-	private final ShipmentMoistureItemDAO shipmentMoistureItemDAO;
-	private final ShipmentMoistureHeaderDAO shipmentMoistureHeaderDAO;
-	private final ModelMapper modelMapper;
-	private final Gson gson;
+    private final ShipmentMoistureItemDAO shipmentMoistureItemDAO;
+    private final ShipmentMoistureHeaderDAO shipmentMoistureHeaderDAO;
+    private final ModelMapper modelMapper;
+    private final Gson gson;
 
-	@Transactional(readOnly = true)
-	public ShipmentMoistureItemDTO.Info get(Long id) {
-		final Optional<ShipmentMoistureItem> slById = shipmentMoistureItemDAO.findById(id);
-		final ShipmentMoistureItem shipmentMoistureItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureItemNotFound));
+    @Transactional(readOnly = true)
+    public ShipmentMoistureItemDTO.Info get(Long id) {
+        final Optional<ShipmentMoistureItem> slById = shipmentMoistureItemDAO.findById(id);
+        final ShipmentMoistureItem shipmentMoistureItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureItemNotFound));
 
-		return modelMapper.map(shipmentMoistureItem, ShipmentMoistureItemDTO.Info.class);
-	}
+        return modelMapper.map(shipmentMoistureItem, ShipmentMoistureItemDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<ShipmentMoistureItemDTO.Info> list() {
-		final List<ShipmentMoistureItem> slAll = shipmentMoistureItemDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<ShipmentMoistureItemDTO.Info> list() {
+        final List<ShipmentMoistureItem> slAll = shipmentMoistureItemDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<ShipmentMoistureItemDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<ShipmentMoistureItemDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public ShipmentMoistureItemDTO.Info create(ShipmentMoistureItemDTO.Create request) {
-		final ShipmentMoistureItem shipmentMoistureItem = modelMapper.map(request, ShipmentMoistureItem.class);
+    @Transactional
+    @Override
+    public ShipmentMoistureItemDTO.Info create(ShipmentMoistureItemDTO.Create request) {
+        final ShipmentMoistureItem shipmentMoistureItem = modelMapper.map(request, ShipmentMoistureItem.class);
 
-		return save(shipmentMoistureItem);
-	}
+        return save(shipmentMoistureItem);
+    }
 
-	@Transactional
-	@Override
-	public ShipmentMoistureItemDTO.Info update(Long id, ShipmentMoistureItemDTO.Update request) {
-		final Optional<ShipmentMoistureItem> slById = shipmentMoistureItemDAO.findById(id);
-		final ShipmentMoistureItem shipmentMoistureItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureItemNotFound));
+    @Transactional
+    @Override
+    public ShipmentMoistureItemDTO.Info update(Long id, ShipmentMoistureItemDTO.Update request) {
+        final Optional<ShipmentMoistureItem> slById = shipmentMoistureItemDAO.findById(id);
+        final ShipmentMoistureItem shipmentMoistureItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureItemNotFound));
 
-		ShipmentMoistureItem updating = new ShipmentMoistureItem();
-		modelMapper.map(shipmentMoistureItem, updating);
-		modelMapper.map(request, updating);
+        ShipmentMoistureItem updating = new ShipmentMoistureItem();
+        modelMapper.map(shipmentMoistureItem, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		shipmentMoistureItemDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        shipmentMoistureItemDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(ShipmentMoistureItemDTO.Delete request) {
-		final List<ShipmentMoistureItem> shipmentMoistureItems = shipmentMoistureItemDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(ShipmentMoistureItemDTO.Delete request) {
+        final List<ShipmentMoistureItem> shipmentMoistureItems = shipmentMoistureItemDAO.findAllById(request.getIds());
 
-		shipmentMoistureItemDAO.deleteAll(shipmentMoistureItems);
-	}
+        shipmentMoistureItemDAO.deleteAll(shipmentMoistureItems);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public TotalResponse<ShipmentMoistureItemDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(shipmentMoistureItemDAO, criteria, shipmentMoistureItem -> modelMapper.map(shipmentMoistureItem, ShipmentMoistureItemDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public TotalResponse<ShipmentMoistureItemDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(shipmentMoistureItemDAO, criteria, shipmentMoistureItem -> modelMapper.map(shipmentMoistureItem, ShipmentMoistureItemDTO.Info.class));
+    }
 
 
+    private ShipmentMoistureItemDTO.Info save(ShipmentMoistureItem shipmentMoistureItem) {
+        final ShipmentMoistureItem saved = shipmentMoistureItemDAO.saveAndFlush(shipmentMoistureItem);
+        return modelMapper.map(saved, ShipmentMoistureItemDTO.Info.class);
+    }
 
-	private ShipmentMoistureItemDTO.Info save(ShipmentMoistureItem shipmentMoistureItem) {
-		final ShipmentMoistureItem saved = shipmentMoistureItemDAO.saveAndFlush(shipmentMoistureItem);
-		return modelMapper.map(saved, ShipmentMoistureItemDTO.Info.class);
-	}
+    @Transactional
+    @Override
+    public String createAddMoisturePaste(String data) {
 
-	@Transactional
-	@Override
-	public String createAddMoisturePaste( String data) {
+        Map<String, Object> map = gson.fromJson(data, Map.class);
 
-		Map<String, Object> map = gson.fromJson(data, Map.class);
+        ArrayList lotTransmitters = null;
+        Long ShipmentMoistureHeaderId = new Long(map.get("ShipmentMoistureHeaderId").toString().split("[.]")[0]);
+        ShipmentMoistureHeader tblShipmentMoistureHeader = shipmentMoistureHeaderDAO.findById(ShipmentMoistureHeaderId).orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
+        ;
 
-		ArrayList lotTransmitters = null;
-		Long ShipmentMoistureHeaderId = new Long(map.get("ShipmentMoistureHeaderId").toString().split("[.]")[0]);
-		ShipmentMoistureHeader tblShipmentMoistureHeader = shipmentMoistureHeaderDAO.findById(ShipmentMoistureHeaderId) .orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));;
+        lotTransmitters = (ArrayList) map.get("selected");
+        for (int i = 0; i < lotTransmitters.size(); i++) {
+            Map itemObj = (Map) lotTransmitters.get(i);
+            if (itemObj.get("lotNo") != null) {
+                ShipmentMoistureItem tblShipmentMoistureItem = new ShipmentMoistureItem();
+                tblShipmentMoistureItem.setShipmentMoistureHeader(tblShipmentMoistureHeader);
+                tblShipmentMoistureItem.setShipmentMoistureHeaderId(tblShipmentMoistureHeader.getId());
 
-		lotTransmitters = (ArrayList) map.get("selected");
-		for (int i = 0; i < lotTransmitters.size(); i++) {
-			Map itemObj = (Map) lotTransmitters.get(i);
-			if (itemObj.get("lotNo") != null) {
-				ShipmentMoistureItem tblShipmentMoistureItem = new ShipmentMoistureItem();
-				tblShipmentMoistureItem.setShipmentMoistureHeader(tblShipmentMoistureHeader);
-				tblShipmentMoistureItem.setShipmentMoistureHeaderId(tblShipmentMoistureHeader.getId());
+                tblShipmentMoistureItem.setLotNo(new Long(itemObj.get("lotNo").toString().split("[.]")[0]));
 
-				tblShipmentMoistureItem.setLotNo(new Long(itemObj.get("lotNo").toString().split("[.]")[0]));
-
-				if (itemObj.get("dryWeight") != null) {
-					tblShipmentMoistureItem.setDryWeight(new Double(itemObj.get("dryWeight").toString()));
-				}
-				if (itemObj.get("wetWeight") != null) {
-					tblShipmentMoistureItem.setWetWeight(new Double(itemObj.get("wetWeight").toString()));
-				}
-				if (itemObj.get("moisturePercent") != null) {
-					tblShipmentMoistureItem.setMoisturePercent(new Double(itemObj.get("moisturePercent").toString()));
-				}
-				if (itemObj.get("totalH2oWeight") != null) {
-					tblShipmentMoistureItem.setTotalH2oWeight(new Double(itemObj.get("totalH2oWeight").toString()));
-				}
-				save(tblShipmentMoistureItem);
-			}
-		}
-		return "ok";
-	}
+                if (itemObj.get("dryWeight") != null) {
+                    tblShipmentMoistureItem.setDryWeight(new Double(itemObj.get("dryWeight").toString()));
+                }
+                if (itemObj.get("wetWeight") != null) {
+                    tblShipmentMoistureItem.setWetWeight(new Double(itemObj.get("wetWeight").toString()));
+                }
+                if (itemObj.get("moisturePercent") != null) {
+                    tblShipmentMoistureItem.setMoisturePercent(new Double(itemObj.get("moisturePercent").toString()));
+                }
+                if (itemObj.get("totalH2oWeight") != null) {
+                    tblShipmentMoistureItem.setTotalH2oWeight(new Double(itemObj.get("totalH2oWeight").toString()));
+                }
+                save(tblShipmentMoistureItem);
+            }
+        }
+        return "ok";
+    }
 }
