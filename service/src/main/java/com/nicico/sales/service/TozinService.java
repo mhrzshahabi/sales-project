@@ -35,149 +35,141 @@ import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
 @Service
 public class TozinService implements ITozinService {
 
-	private final TozinDAO tozinDAO;
-	private final WarehouseCadDAO warehouseCadDAO;
-	private final MaterialItemDAO materialItemDAO;
-	private final ModelMapper modelMapper;
-	private final ObjectMapper objectMapper;
+    private final TozinDAO tozinDAO;
+    private final WarehouseCadDAO warehouseCadDAO;
+    private final MaterialItemDAO materialItemDAO;
+    private final ModelMapper modelMapper;
+    private final ObjectMapper objectMapper;
 
-	@Transactional(readOnly = true)
-	public TozinDTO.Info get(Long id) {
-		final Optional<Tozin> slById = tozinDAO.findById(id);
-		final Tozin tozin = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinNotFound));
+    @Transactional(readOnly = true)
+    public TozinDTO.Info get(Long id) {
+        final Optional<Tozin> slById = tozinDAO.findById(id);
+        final Tozin tozin = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinNotFound));
 
-		return modelMapper.map(tozin, TozinDTO.Info.class);
-	}
+        return modelMapper.map(tozin, TozinDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<TozinDTO.Info> list() {
-		final List<Tozin> slAll = tozinDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<TozinDTO.Info> list() {
+        final List<Tozin> slAll = tozinDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<TozinDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<TozinDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public TozinDTO.Info create(TozinDTO.Create request) {
-		final Tozin tozin = modelMapper.map(request, Tozin.class);
+    @Transactional
+    @Override
+    public TozinDTO.Info create(TozinDTO.Create request) {
+        final Tozin tozin = modelMapper.map(request, Tozin.class);
 
-		return save(tozin);
-	}
+        return save(tozin);
+    }
 
-	@Transactional
-	@Override
-	public TozinDTO.Info update(Long id, TozinDTO.Update request) {
-		final Optional<Tozin> slById = tozinDAO.findById(id);
-		final Tozin tozin = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinNotFound));
+    @Transactional
+    @Override
+    public TozinDTO.Info update(Long id, TozinDTO.Update request) {
+        final Optional<Tozin> slById = tozinDAO.findById(id);
+        final Tozin tozin = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinNotFound));
 
-		Tozin updating = new Tozin();
-		modelMapper.map(tozin, updating);
-		modelMapper.map(request, updating);
+        Tozin updating = new Tozin();
+        modelMapper.map(tozin, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		tozinDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        tozinDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(TozinDTO.Delete request) {
-		final List<Tozin> tozins = tozinDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(TozinDTO.Delete request) {
+        final List<Tozin> tozins = tozinDAO.findAllById(request.getIds());
 
-		tozinDAO.deleteAll(tozins);
-	}
+        tozinDAO.deleteAll(tozins);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<TozinDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(tozinDAO, request, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public SearchDTO.SearchRs<TozinDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(tozinDAO, request, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
-	public TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria) {
-		return SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
-	}
+    public TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria) {
+        return SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
+    }
 
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
-	public TotalResponse<TozinDTO.Info> searchTozinOnTheWay(NICICOCriteria criteria, String tozin) {
-		final Map<String, Object> fetchedData = new HashMap<>();
-		((List) criteria.getCriteria()).forEach(nicicoCriteria -> {
-			try {
-				Map<String, Object> criteriaMap = objectMapper.readValue(nicicoCriteria.toString(), HashMap.class);
-				if (criteriaMap.get("fieldName").equals("codeKala"))
-					fetchedData.put("codeKala", criteriaMap.get("value"));
-			} catch (IOException e) {
-				log.error("searchTozinOnTheWay error: {}", e.getMessage());
-			}
-		});
-		MaterialItem materialItem = materialItemDAO.findByGdsCode(fetchedData.get("codeKala").toString());
+    public TotalResponse<TozinDTO.Info> searchTozinOnTheWay(NICICOCriteria criteria, String tozin) {
+        final Map<String, Object> fetchedData = new HashMap<>();
+        ((List) criteria.getCriteria()).forEach(nicicoCriteria -> {
+            try {
+                Map<String, Object> criteriaMap = objectMapper.readValue(nicicoCriteria.toString(), HashMap.class);
+                if (criteriaMap.get("fieldName").equals("codeKala"))
+                    fetchedData.put("codeKala", criteriaMap.get("value"));
+            } catch (IOException e) {
+                log.error("searchTozinOnTheWay error: {}", e.getMessage());
+            }
+        });
+        MaterialItem materialItem = materialItemDAO.findByGdsCode(fetchedData.get("codeKala").toString());
 
-		Set<WarehouseCad> bijacks = warehouseCadDAO.getAllByMaterialItemId(materialItem.getId());
+        Set<WarehouseCad> bijacks = warehouseCadDAO.getAllByMaterialItemId(materialItem.getId());
 
-		final List<String> sourceTozinPlantIds = new ArrayList<>();
+        final List<String> sourceTozinPlantIds = new ArrayList<>();
 
-		if (tozin.equals("SourceTozin"))
-			sourceTozinPlantIds.addAll(bijacks.stream().map(WarehouseCad::getSourceTozinPlantId).collect(Collectors.toList()));
-		else //  "DestTozin"
-			sourceTozinPlantIds.addAll(bijacks.stream().map(WarehouseCad::getDestinationTozinPlantId).collect(Collectors.toList()));
+        if (tozin.equals("SourceTozin"))
+            sourceTozinPlantIds.addAll(bijacks.stream().map(WarehouseCad::getSourceTozinPlantId).collect(Collectors.toList()));
+        else //  "DestTozin"
+            sourceTozinPlantIds.addAll(bijacks.stream().map(WarehouseCad::getDestinationTozinPlantId).collect(Collectors.toList()));
 
-		final List<SearchDTO.CriteriaRq> requestCriteriaRqList = new ArrayList<>();
-		if (!CollectionUtils.isEmpty(sourceTozinPlantIds)) {
-			final SearchDTO.CriteriaRq systemTypeCriteriaRq = new SearchDTO.CriteriaRq()
-					.setOperator(EOperator.notEqual)
-					.setFieldName("tozinPlantId")
-					.setValue(sourceTozinPlantIds);
+        final List<SearchDTO.CriteriaRq> requestCriteriaRqList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(sourceTozinPlantIds)) {
+            final SearchDTO.CriteriaRq systemTypeCriteriaRq = new SearchDTO.CriteriaRq()
+                    .setOperator(EOperator.notEqual)
+                    .setFieldName("tozinPlantId")
+                    .setValue(sourceTozinPlantIds);
 
-			requestCriteriaRqList.add(systemTypeCriteriaRq);
-		}
+            requestCriteriaRqList.add(systemTypeCriteriaRq);
+        }
 
-		final SearchDTO.SearchRq request = createSearchRq(criteria);
+        final SearchDTO.SearchRq request = createSearchRq(criteria);
 
-		if (request.getCriteria() != null) {
-			requestCriteriaRqList.add(request.getCriteria());
-		}
+        if (request.getCriteria() != null) {
+            requestCriteriaRqList.add(request.getCriteria());
+        }
 
-		SearchDTO.CriteriaRq requestCriteriaRq = new SearchDTO.CriteriaRq()
-				.setOperator(EOperator.and)
-				.setCriteria(requestCriteriaRqList);
+        SearchDTO.CriteriaRq requestCriteriaRq = new SearchDTO.CriteriaRq()
+                .setOperator(EOperator.and)
+                .setCriteria(requestCriteriaRqList);
 
-		request.setCriteria(requestCriteriaRq);
+        request.setCriteria(requestCriteriaRq);
 
-		final SearchDTO.SearchRs<TozinDTO.Info> response = SearchUtil.search(tozinDAO, request, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
+        final SearchDTO.SearchRs<TozinDTO.Info> response = SearchUtil.search(tozinDAO, request, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
 
-		return mapSearchRs(criteria, response);
+        return mapSearchRs(criteria, response);
 
-	}
+    }
 
+    private TozinDTO.Info save(Tozin tozin) {
+        final Tozin saved = tozinDAO.saveAndFlush(tozin);
+        return modelMapper.map(saved, TozinDTO.Info.class);
+    }
 
+    public List<Object[]> findTransport2Plants(String date, String plantId) {
+        return tozinDAO.findTransport2Plants(date, plantId);
+    }
 
-	private TozinDTO.Info save(Tozin tozin) {
-		final Tozin saved = tozinDAO.saveAndFlush(tozin);
-		return modelMapper.map(saved, TozinDTO.Info.class);
-	}
-
-
-	public List<Object[]> findTransport2Plants(String date, String plantId) {
-		return tozinDAO.findTransport2Plants(date, plantId);
-	}
-
-	;
-
-
-	public String[] findPlants() {
-		return tozinDAO.findPlants();
-	}
-
-	;
+    public String[] findPlants() {
+        return tozinDAO.findPlants();
+    }
 }

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/warehouseLot")
 public class WarehouseLotFormController {
 
-	@RequestMapping("/showForm")
-	public String showWarehouseLot() {
-		return "base/warehouseLot";
-	}
+    @RequestMapping("/showForm")
+    public String showWarehouseLot() {
+        return "base/warehouseLot";
+    }
 }

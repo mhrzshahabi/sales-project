@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/contractPerson")
 public class ContractPersonFormController {
 
-	@RequestMapping("/showForm")
-	public String showContractPerson() {
-		return "contract/contractPerson";
-	}
+    @RequestMapping("/showForm")
+    public String showContractPerson() {
+        return "contract/contractPerson";
+    }
 }

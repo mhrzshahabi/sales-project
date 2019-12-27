@@ -63,7 +63,7 @@ public class ContactFormController {
     }
 
     @RequestMapping("/contractOther")
-    public String contactOther()  {
+    public String contactOther() {
         return "contract/other/contractOther";
     }
 

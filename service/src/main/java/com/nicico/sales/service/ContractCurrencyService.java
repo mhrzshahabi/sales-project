@@ -22,78 +22,76 @@ import java.util.Optional;
 @Service
 public class ContractCurrencyService implements IContractCurrencyService {
 
-	private final ContractCurrencyDAO contractCurrencyDAO;
-	private final ModelMapper modelMapper;
+    private final ContractCurrencyDAO contractCurrencyDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public ContractCurrencyDTO.Info get(Long id) {
-		final Optional<ContractCurrency> slById = contractCurrencyDAO.findById(id);
-		final ContractCurrency contractCurrency = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractCurrencyNotFound));
+    @Transactional(readOnly = true)
+    public ContractCurrencyDTO.Info get(Long id) {
+        final Optional<ContractCurrency> slById = contractCurrencyDAO.findById(id);
+        final ContractCurrency contractCurrency = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractCurrencyNotFound));
 
-		return modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class);
-	}
+        return modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<ContractCurrencyDTO.Info> list() {
-		final List<ContractCurrency> slAll = contractCurrencyDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<ContractCurrencyDTO.Info> list() {
+        final List<ContractCurrency> slAll = contractCurrencyDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<ContractCurrencyDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<ContractCurrencyDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public ContractCurrencyDTO.Info create(ContractCurrencyDTO.Create request) {
-		final ContractCurrency contractCurrency = modelMapper.map(request, ContractCurrency.class);
+    @Transactional
+    @Override
+    public ContractCurrencyDTO.Info create(ContractCurrencyDTO.Create request) {
+        final ContractCurrency contractCurrency = modelMapper.map(request, ContractCurrency.class);
 
-		return save(contractCurrency);
-	}
+        return save(contractCurrency);
+    }
 
-	@Transactional
-	@Override
-	public ContractCurrencyDTO.Info update(Long id, ContractCurrencyDTO.Update request) {
-		final Optional<ContractCurrency> slById = contractCurrencyDAO.findById(id);
-		final ContractCurrency contractCurrency = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractCurrencyNotFound));
+    @Transactional
+    @Override
+    public ContractCurrencyDTO.Info update(Long id, ContractCurrencyDTO.Update request) {
+        final Optional<ContractCurrency> slById = contractCurrencyDAO.findById(id);
+        final ContractCurrency contractCurrency = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractCurrencyNotFound));
 
-		ContractCurrency updating = new ContractCurrency();
-		modelMapper.map(contractCurrency, updating);
-		modelMapper.map(request, updating);
+        ContractCurrency updating = new ContractCurrency();
+        modelMapper.map(contractCurrency, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		contractCurrencyDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        contractCurrencyDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(ContractCurrencyDTO.Delete request) {
-		final List<ContractCurrency> contractCurrencys = contractCurrencyDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(ContractCurrencyDTO.Delete request) {
+        final List<ContractCurrency> contractCurrencys = contractCurrencyDAO.findAllById(request.getIds());
 
-		contractCurrencyDAO.deleteAll(contractCurrencys);
-	}
+        contractCurrencyDAO.deleteAll(contractCurrencys);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<ContractCurrencyDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(contractCurrencyDAO, request, contractCurrency -> modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public SearchDTO.SearchRs<ContractCurrencyDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(contractCurrencyDAO, request, contractCurrency -> modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class));
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_BANK')")
-	public TotalResponse<ContractCurrencyDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(contractCurrencyDAO, criteria, contractCurrency -> modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class));
-	}
+    public TotalResponse<ContractCurrencyDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(contractCurrencyDAO, criteria, contractCurrency -> modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class));
+    }
 
-
-
-	private ContractCurrencyDTO.Info save(ContractCurrency contractCurrency) {
-		final ContractCurrency saved = contractCurrencyDAO.saveAndFlush(contractCurrency);
-		return modelMapper.map(saved, ContractCurrencyDTO.Info.class);
-	}
+    private ContractCurrencyDTO.Info save(ContractCurrency contractCurrency) {
+        final ContractCurrency saved = contractCurrencyDAO.saveAndFlush(contractCurrency);
+        return modelMapper.map(saved, ContractCurrencyDTO.Info.class);
+    }
 }

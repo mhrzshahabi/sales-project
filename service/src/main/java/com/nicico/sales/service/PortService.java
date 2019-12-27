@@ -22,79 +22,76 @@ import java.util.Optional;
 @Service
 public class PortService implements IPortService {
 
-	private final PortDAO portDAO;
-	private final ModelMapper modelMapper;
+    private final PortDAO portDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public PortDTO.Info get(Long id) {
-		final Optional<Port> slById = portDAO.findById(id);
-		final Port port = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.PortNotFound));
+    @Transactional(readOnly = true)
+    public PortDTO.Info get(Long id) {
+        final Optional<Port> slById = portDAO.findById(id);
+        final Port port = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.PortNotFound));
 
-		return modelMapper.map(port, PortDTO.Info.class);
-	}
+        return modelMapper.map(port, PortDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<PortDTO.Info> list() {
-		final List<Port> slAll = portDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<PortDTO.Info> list() {
+        final List<Port> slAll = portDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<PortDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<PortDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public PortDTO.Info create(PortDTO.Create request) {
-		final Port port = modelMapper.map(request, Port.class);
+    @Transactional
+    @Override
+    public PortDTO.Info create(PortDTO.Create request) {
+        final Port port = modelMapper.map(request, Port.class);
 
-		return save(port);
-	}
+        return save(port);
+    }
 
-	@Transactional
-	@Override
-	public PortDTO.Info update(Long id, PortDTO.Update request) {
-		final Optional<Port> slById = portDAO.findById(id);
-		final Port port = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.PortNotFound));
+    @Transactional
+    @Override
+    public PortDTO.Info update(Long id, PortDTO.Update request) {
+        final Optional<Port> slById = portDAO.findById(id);
+        final Port port = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.PortNotFound));
 
-		Port updating = new Port();
-		modelMapper.map(port, updating);
-		modelMapper.map(request, updating);
+        Port updating = new Port();
+        modelMapper.map(port, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		portDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        portDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(PortDTO.Delete request) {
-		final List<Port> ports = portDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(PortDTO.Delete request) {
+        final List<Port> ports = portDAO.findAllById(request.getIds());
 
-		portDAO.deleteAll(ports);
-	}
+        portDAO.deleteAll(ports);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_BANK')")
-	public TotalResponse<PortDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(portDAO, criteria, port -> modelMapper.map(port, PortDTO.Info.class));
-	}
+    public TotalResponse<PortDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(portDAO, criteria, port -> modelMapper.map(port, PortDTO.Info.class));
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<PortDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(portDAO, request, port -> modelMapper.map(port, PortDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public SearchDTO.SearchRs<PortDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(portDAO, request, port -> modelMapper.map(port, PortDTO.Info.class));
+    }
 
-
-
-
-	private PortDTO.Info save(Port port) {
-		final Port saved = portDAO.saveAndFlush(port);
-		return modelMapper.map(saved, PortDTO.Info.class);
-	}
+    private PortDTO.Info save(Port port) {
+        final Port saved = portDAO.saveAndFlush(port);
+        return modelMapper.map(saved, PortDTO.Info.class);
+    }
 }

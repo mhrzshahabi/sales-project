@@ -27,117 +27,117 @@ import java.util.Optional;
 @Service
 public class WarehouseCadService implements IWarehouseCadService {
 
-	private final WarehouseCadDAO warehouseCadDAO;
-	private final MaterialItemDAO materialItemDAO;
-	private final IWarehouseCadItemService warehouseCadItemService;
-	private final ModelMapper modelMapper;
+    private final WarehouseCadDAO warehouseCadDAO;
+    private final MaterialItemDAO materialItemDAO;
+    private final IWarehouseCadItemService warehouseCadItemService;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
-	public WarehouseCadDTO.Info get(Long id) {
-		final Optional<WarehouseCad> slById = warehouseCadDAO.findById(id);
-		final WarehouseCad warehouseCad = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
+    public WarehouseCadDTO.Info get(Long id) {
+        final Optional<WarehouseCad> slById = warehouseCadDAO.findById(id);
+        final WarehouseCad warehouseCad = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
 
-		return modelMapper.map(warehouseCad, WarehouseCadDTO.Info.class);
-	}
+        return modelMapper.map(warehouseCad, WarehouseCadDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
-	public List<WarehouseCadDTO.Info> list() {
-		final List<WarehouseCad> slAll = warehouseCadDAO.findAll();
+    public List<WarehouseCadDTO.Info> list() {
+        final List<WarehouseCad> slAll = warehouseCadDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<WarehouseCadDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<WarehouseCadDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
+    @Transactional
+    @Override
 //    @PreAuthorize("hasAuthority('C_WAREHOUSECAD')")
-	public WarehouseCadDTO.Info create(WarehouseCadDTO.Create request) {
-		final WarehouseCad warehouseCad = modelMapper.map(request, WarehouseCad.class);
-		MaterialItem materialItem = materialItemDAO.findByGdsCode(String.valueOf(request.getMaterialItemId()));
-		warehouseCad.setMaterialItem(materialItem);
-		warehouseCad.setMaterialItemId(materialItem.getId());
-		WarehouseCadDTO.Info saved = save(warehouseCad);
-		warehouseCad.getWarehouseCadItems().forEach(warehouseCadItem -> {
-			warehouseCadItem.setWarehouseCadId(saved.getId());
-			warehouseCadItemService.save(warehouseCadItem, null);
-		});
-		return saved;
-	}
+    public WarehouseCadDTO.Info create(WarehouseCadDTO.Create request) {
+        final WarehouseCad warehouseCad = modelMapper.map(request, WarehouseCad.class);
+        MaterialItem materialItem = materialItemDAO.findByGdsCode(String.valueOf(request.getMaterialItemId()));
+        warehouseCad.setMaterialItem(materialItem);
+        warehouseCad.setMaterialItemId(materialItem.getId());
+        WarehouseCadDTO.Info saved = save(warehouseCad);
+        warehouseCad.getWarehouseCadItems().forEach(warehouseCadItem -> {
+            warehouseCadItem.setWarehouseCadId(saved.getId());
+            warehouseCadItemService.save(warehouseCadItem, null);
+        });
+        return saved;
+    }
 
-	@Transactional
-	@Override
+    @Transactional
+    @Override
 //    @PreAuthorize("hasAuthority('U_WAREHOUSECAD')")
-	public WarehouseCadDTO.Info update(Long id, WarehouseCadDTO.Update request) {
-		final Optional<WarehouseCad> slById = warehouseCadDAO.findById(id);
-		final WarehouseCad warehouseCad = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
+    public WarehouseCadDTO.Info update(Long id, WarehouseCadDTO.Update request) {
+        final Optional<WarehouseCad> slById = warehouseCadDAO.findById(id);
+        final WarehouseCad warehouseCad = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
 
-		WarehouseCad updating = new WarehouseCad();
-		modelMapper.map(warehouseCad, updating);
-		modelMapper.map(request, updating);
+        WarehouseCad updating = new WarehouseCad();
+        modelMapper.map(warehouseCad, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
+    @Transactional
+    @Override
 //    @PreAuthorize("hasAuthority('D_WAREHOUSECAD')")
-	public void delete(Long id) {
-		warehouseCadDAO.deleteById(id);
-	}
+    public void delete(Long id) {
+        warehouseCadDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
+    @Transactional
+    @Override
 //    @PreAuthorize("hasAuthority('D_WAREHOUSECAD')")
-	public void delete(WarehouseCadDTO.Delete request) {
-		final List<WarehouseCad> warehouseCads = warehouseCadDAO.findAllById(request.getIds());
+    public void delete(WarehouseCadDTO.Delete request) {
+        final List<WarehouseCad> warehouseCads = warehouseCadDAO.findAllById(request.getIds());
 
-		warehouseCadDAO.deleteAll(warehouseCads);
-	}
+        warehouseCadDAO.deleteAll(warehouseCads);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
-	public TotalResponse<WarehouseCadDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(warehouseCadDAO, criteria, warehouseCad -> modelMapper.map(warehouseCad, WarehouseCadDTO.Info.class));
-	}
+    public TotalResponse<WarehouseCadDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(warehouseCadDAO, criteria, warehouseCad -> modelMapper.map(warehouseCad, WarehouseCadDTO.Info.class));
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
-	public TotalResponse<WarehouseCadDTO.InfoCombo> search1(NICICOCriteria criteria) {
-		List<WarehouseCad> l = warehouseCadDAO.findOnHandsByHSCode("74031100");
-		GridResponse<WarehouseCadDTO.InfoCombo> gridResponse = new GridResponse();
-		List<WarehouseCadDTO.InfoCombo> data = new ArrayList<>();
-		for (WarehouseCad w : l) {
-			data.add(modelMapper.map(w, WarehouseCadDTO.InfoCombo.class) );
-		}
-		gridResponse.setStartRow(0);
-		gridResponse.setEndRow(data.size()-1);
-		gridResponse.setTotalRows(data.size());
-		gridResponse.setData(data );
-		return new TotalResponse<>(gridResponse);
-	}
+    public TotalResponse<WarehouseCadDTO.InfoCombo> search1(NICICOCriteria criteria) {
+        List<WarehouseCad> l = warehouseCadDAO.findOnHandsByHSCode("74031100");
+        GridResponse<WarehouseCadDTO.InfoCombo> gridResponse = new GridResponse();
+        List<WarehouseCadDTO.InfoCombo> data = new ArrayList<>();
+        for (WarehouseCad w : l) {
+            data.add(modelMapper.map(w, WarehouseCadDTO.InfoCombo.class));
+        }
+        gridResponse.setStartRow(0);
+        gridResponse.setEndRow(data.size() - 1);
+        gridResponse.setTotalRows(data.size());
+        gridResponse.setData(data);
+        return new TotalResponse<>(gridResponse);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
-	public SearchDTO.SearchRs<WarehouseCadDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(warehouseCadDAO, request, entity -> modelMapper.map(entity, WarehouseCadDTO.Info.class));
-	}
+    public SearchDTO.SearchRs<WarehouseCadDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(warehouseCadDAO, request, entity -> modelMapper.map(entity, WarehouseCadDTO.Info.class));
+    }
 
-	private WarehouseCadDTO.Info save(WarehouseCad warehouseCad) {
-		if (warehouseCad.getPlant().equals("مجتمع مس شهربابك -ميدوك ") || warehouseCad.getPlant().equals("مجتمع مس شهربابك - خاتون آباد "))
-			warehouseCad.setPlant("Miduk");
-		if (warehouseCad.getPlant().equals("بندرعباس") || warehouseCad.getPlant().equals("اسكله شهيد رجائي "))
-			warehouseCad.setPlant("BandarAbbas");
-		if (warehouseCad.getPlant().equals("ايستگاه قطار تبريز") || warehouseCad.getPlant().equals("مجتمع مس سونگون "))
-			warehouseCad.setPlant("sungun");
-		if (warehouseCad.getPlant().equals("مجتمع مس سرچشمه"))
-			warehouseCad.setPlant("Sarcheshmeh");
-		final WarehouseCad saved = warehouseCadDAO.saveAndFlush(warehouseCad);
-		return modelMapper.map(saved, WarehouseCadDTO.Info.class);
-	}
+    private WarehouseCadDTO.Info save(WarehouseCad warehouseCad) {
+        if (warehouseCad.getPlant().equals("مجتمع مس شهربابك -ميدوك ") || warehouseCad.getPlant().equals("مجتمع مس شهربابك - خاتون آباد "))
+            warehouseCad.setPlant("Miduk");
+        if (warehouseCad.getPlant().equals("بندرعباس") || warehouseCad.getPlant().equals("اسكله شهيد رجائي "))
+            warehouseCad.setPlant("BandarAbbas");
+        if (warehouseCad.getPlant().equals("ايستگاه قطار تبريز") || warehouseCad.getPlant().equals("مجتمع مس سونگون "))
+            warehouseCad.setPlant("sungun");
+        if (warehouseCad.getPlant().equals("مجتمع مس سرچشمه"))
+            warehouseCad.setPlant("Sarcheshmeh");
+        final WarehouseCad saved = warehouseCadDAO.saveAndFlush(warehouseCad);
+        return modelMapper.map(saved, WarehouseCadDTO.Info.class);
+    }
 }

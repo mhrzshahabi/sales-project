@@ -22,78 +22,76 @@ import java.util.Optional;
 @Service
 public class ShipmentContractService implements IShipmentContractService {
 
-	private final ShipmentContractDAO shipmentContractDAO;
-	private final ModelMapper modelMapper;
+    private final ShipmentContractDAO shipmentContractDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public ShipmentContractDTO.Info get(Long id) {
-		final Optional<ShipmentContract> slById = shipmentContractDAO.findById(id);
-		final ShipmentContract shipmentContract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentContractNotFound));
+    @Transactional(readOnly = true)
+    public ShipmentContractDTO.Info get(Long id) {
+        final Optional<ShipmentContract> slById = shipmentContractDAO.findById(id);
+        final ShipmentContract shipmentContract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentContractNotFound));
 
-		return modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class);
-	}
+        return modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<ShipmentContractDTO.Info> list() {
-		final List<ShipmentContract> slAll = shipmentContractDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    public List<ShipmentContractDTO.Info> list() {
+        final List<ShipmentContract> slAll = shipmentContractDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<ShipmentContractDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<ShipmentContractDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public ShipmentContractDTO.Info create(ShipmentContractDTO.Create request) {
-		final ShipmentContract shipmentContract = modelMapper.map(request, ShipmentContract.class);
+    @Transactional
+    @Override
+    public ShipmentContractDTO.Info create(ShipmentContractDTO.Create request) {
+        final ShipmentContract shipmentContract = modelMapper.map(request, ShipmentContract.class);
 
-		return save(shipmentContract);
-	}
+        return save(shipmentContract);
+    }
 
-	@Transactional
-	@Override
-	public ShipmentContractDTO.Info update(Long id, ShipmentContractDTO.Update request) {
-		final Optional<ShipmentContract> slById = shipmentContractDAO.findById(id);
-		final ShipmentContract shipmentContract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentContractNotFound));
+    @Transactional
+    @Override
+    public ShipmentContractDTO.Info update(Long id, ShipmentContractDTO.Update request) {
+        final Optional<ShipmentContract> slById = shipmentContractDAO.findById(id);
+        final ShipmentContract shipmentContract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentContractNotFound));
 
-		ShipmentContract updating = new ShipmentContract();
-		modelMapper.map(shipmentContract, updating);
-		modelMapper.map(request, updating);
+        ShipmentContract updating = new ShipmentContract();
+        modelMapper.map(shipmentContract, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		shipmentContractDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        shipmentContractDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(ShipmentContractDTO.Delete request) {
-		final List<ShipmentContract> shipmentContracts = shipmentContractDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    public void delete(ShipmentContractDTO.Delete request) {
+        final List<ShipmentContract> shipmentContracts = shipmentContractDAO.findAllById(request.getIds());
 
-		shipmentContractDAO.deleteAll(shipmentContracts);
-	}
+        shipmentContractDAO.deleteAll(shipmentContracts);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<ShipmentContractDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(shipmentContractDAO, request, shipmentContract -> modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public SearchDTO.SearchRs<ShipmentContractDTO.Info> search(SearchDTO.SearchRq request) {
+        return SearchUtil.search(shipmentContractDAO, request, shipmentContract -> modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class));
+    }
 
-	@Transactional(readOnly = true)
-	@Override
+    @Transactional(readOnly = true)
+    @Override
 //    @PreAuthorize("hasAuthority('R_BANK')")
-	public TotalResponse<ShipmentContractDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(shipmentContractDAO, criteria, shipmentContract -> modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class));
-	}
+    public TotalResponse<ShipmentContractDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(shipmentContractDAO, criteria, shipmentContract -> modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class));
+    }
 
-
-
-	private ShipmentContractDTO.Info save(ShipmentContract shipmentContract) {
-		final ShipmentContract saved = shipmentContractDAO.saveAndFlush(shipmentContract);
-		return modelMapper.map(saved, ShipmentContractDTO.Info.class);
-	}
+    private ShipmentContractDTO.Info save(ShipmentContract shipmentContract) {
+        final ShipmentContract saved = shipmentContractDAO.saveAndFlush(shipmentContract);
+        return modelMapper.map(saved, ShipmentContractDTO.Info.class);
+    }
 }

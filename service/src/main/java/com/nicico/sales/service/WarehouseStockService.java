@@ -102,7 +102,7 @@ public class WarehouseStockService implements IWarehouseStockService {
         return modelMapper.map(saved, WarehouseStockDTO.Info.class);
     }
 
-    public  List<Object[]>  warehouseStockConc() {
-        return warehouseStockDAO.  warehouseStockConc();
-    };
+    public List<Object[]> warehouseStockConc() {
+        return warehouseStockDAO.warehouseStockConc();
+    }
 }
