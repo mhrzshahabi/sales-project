@@ -934,7 +934,7 @@
                 }]
             }, {
                 name: "amountPms",
-                title: "<spring:message code='warehouseIssueMo.amountPms'/>", /*باگ داریم*/
+                title: "<spring:message code='warehouseIssueMo.amountPms'/>",
                 width: "10%",
                 required: true,
                 length: "15",
@@ -958,21 +958,21 @@
                 length: "15"
             }, {
                 name: "bundle",
-                title: "<spring:message code='warehouseIssueMo.bundle'/>", /*باگ داریم*/
+                title: "<spring:message code='warehouseIssueMo.bundle'/>",
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
                 length: "15"
             }, {
                 name: "sheet",
-                title: "<spring:message code='warehouseIssueMo.sheet'/>", /*باگ داریم*/
+                title: "<spring:message code='warehouseIssueMo.sheet'/>",
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
                 length: "15"
             }, {
                 name: "totalAmount",
-                title: "<spring:message code='warehouseIssueMo.totalAmount'/>", /*باگ داریم*/
+                title: "<spring:message code='warehouseIssueMo.totalAmount'/>",
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
