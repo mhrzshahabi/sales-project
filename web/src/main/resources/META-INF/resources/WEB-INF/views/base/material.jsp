@@ -449,7 +449,8 @@
                     type: 'text',
                     width: 400, required: true, keyPressFilter: "[a-z|A-Z|0-9 ]",
                     textAlign: "left",
-                    length:200
+                    length:200,
+
                 },
                 {
                     name: "descp",
@@ -457,6 +458,7 @@
                     type: 'text',
                     width: 400,
                     required: true,
+
                 keyPressFilter: "[a-z|A-Z|0-9 ]" ,  length:200
                 },
                 {
@@ -468,6 +470,7 @@
                     optionDataSource: RestDataSource_Unit_IN_MATERIAL,
                     displayField: "nameFA",
                     valueField: "id",
+                    required: true,
                     pickListWidth: "400",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
