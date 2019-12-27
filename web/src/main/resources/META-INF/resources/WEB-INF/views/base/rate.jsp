@@ -38,48 +38,80 @@
     });
 
     var ValuesManager_Rate = isc.ValuesManager.create({});
-    var DynamicForm_Rate = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,
 
-        fields: [
-            {name: "id", hidden: true,},
-            {type: "RowSpacerItem"},
-            {
-                name: "code", title: "<spring:message code='rate.code'/>", type: 'text', required: true, width: 400
-                , keyPressFilter: "[0-9]", length: "15"
-            },
-            {name: "nameFA", title: "<spring:message code='rate.nameFa'/>", required: true, readonly: true, width: 400},
-            {
-                name: "nameEN", title: "<spring:message code='rate.nameEN'/>", type: 'text', width: 400,
-                required: true, keyPressFilter: "[a-z|A-Z|0-9.]"
-            },
-            {name: "symbol", title: "<spring:message code='feature.symbol'/>", type: 'text', width: 400},
-            {
-                name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 400,
-                keyPressFilter: "[0-4]", length: "1",
-                hint: "<spring:message code='deghat.ashar.cu'/>",
-                showHintInField: true,
-                validators: [{
-                    type: "isInteger",
-                    validateOnExit: true,
-                    stopOnError: true,
-                    errorMessage: "<spring:message code='global.form.correctType'/>"
-                }]
-            },
-        ]
-    });
+
+    var DynamicForm_Rate = isc.DynamicForm.create(
+        {
+            width: "100%",
+            height: "100%",
+            setMethod: 'POST',
+            align: "center",
+            canSubmit: true,
+            showInlineErrors: true,
+            showErrorText: true,
+            showErrorStyle: true,
+            errorOrientation: "right",
+            titleWidth: "100",
+            titleAlign: "right",
+            requiredMessage: "<spring:message code='validator.field.is.required'/>",
+            numCols: 2,
+
+            fields: [
+                {
+                    name: "id",
+                    hidden: true,
+                },
+                {
+                    type: "RowSpacerItem"
+                },
+                {
+                    name: "code",
+                    title: "<spring:message code='rate.code'/>",
+                    type: 'text',
+                    required: true,
+                    width: 400,
+                    keyPressFilter: "[0-9]",
+                    length: "15"
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='rate.nameFa'/>",
+                    required: true,
+                    readonly: true,
+                    width: 400
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='rate.nameEN'/>",
+                    type: 'text',
+                    width: 400,
+                    required: true,
+                    keyPressFilter: "[a-z|A-Z|0-9.]"
+                },
+                {
+                    name: "symbol",
+                    title: "<spring:message code='feature.symbol'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "decimalDigit",
+                    title: "<spring:message code='rate.decimalDigit'/>",
+                    width: 400,
+                    keyPressFilter: "[0-4]",
+                    length: "1",
+                    hint: "<spring:message code='deghat.ashar.cu'/>",
+                    showHintInField: true,
+                    validators: [
+                        {
+                            type: "isInteger",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
+                }, ]
+        });
+
 
     var IButton_Rate_Save = isc.IButtonSave.create({
         top: 260,
@@ -111,6 +143,7 @@
             );
         }
     });
+
 
     var Window_Rate = isc.Window.create({
         title: "<spring:message code='rate.title'/> ",
@@ -155,57 +188,76 @@
 
     function ListGrid_Rate_refresh() {
         ListGrid_Rate.invalidateCache();
-    };
+    }
 
-    function ListGrid_Rate_remove() {
+    function ListGrid_Rate_remove()
+    {
 
         var record = ListGrid_Rate.getSelectedRecord();
 
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>.",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
-                    title: "<spring:message
-		code='global.no'/>"
-                })],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index === 0) {
-
-                        var rateId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${contextPath}/api/rate/" + rateId,
-                                httpMethod: "DELETE",
-                                callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                                        ListGrid_Rate.invalidateCache();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
+        if (record == null || record.id == null)
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>.",
+                    buttons: [isc.Button.create(
+                        {
+                            title: "<spring:message code='global.ok'/>"
+                        })],
+                    buttonClick: function()
+                    {
+                        this.hide();
                     }
-                }
-            });
+                });
         }
-    };
+        else
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.remove.ask'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                    buttons: [isc.IButtonSave.create(
+                        {
+                            title: "<spring:message code='global.yes'/>"
+                        }), isc.IButtonCancel.create(
+                        {
+                            title: "<spring:message code='global.no'/>"
+
+                        })],
+                    buttonClick: function(button, index)
+                    {
+                        this.hide();
+                        if (index === 0)
+                        {
+
+                            var rateId = record.id;
+                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                                {
+                                    actionURL: "${contextPath}/api/rate/" + rateId,
+                                    httpMethod: "DELETE",
+                                    callback: function(RpcResponse_o)
+                                    {
+                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+                                        {
+                                            ListGrid_Rate.invalidateCache();
+                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                        }
+                                        else
+                                        {
+                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                        }
+                                    }
+                                }));
+                        }
+                    }
+                });
+        }
+    }
 
     function ListGrid_Rate_edit() {
-
         var record = ListGrid_Rate.getSelectedRecord();
 
         if (record == null || record.id == null) {
@@ -222,7 +274,7 @@
             DynamicForm_Rate.editRecord(record);
             Window_Rate.show();
         }
-    };
+    }
 
 
     var ToolStripButton_Rate_Refresh = isc.ToolStripButtonRefresh.create({
@@ -285,39 +337,87 @@
         ]
     });
 
-    var RestDataSource_Rate = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='rate.code'/> "},
-            {name: "nameFA", title: "<spring:message code='rate.nameFa'/> "},
-            {name: "nameEN", title: "<spring:message code='rate.nameEN'/> "},
-            {name: "symbol", title: "<spring:message code='rate.symbol'/>"},
-            {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
-        ],
-        fetchDataURL: "${contextPath}/api/rate/spec-list"
-    });
+    var RestDataSource_Rate = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "code",
+                    title: "<spring:message code='rate.code'/> "
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='rate.nameFa'/> "
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='rate.nameEN'/> "
+                },
+                {
+                    name: "symbol",
+                    title: "<spring:message code='rate.symbol'/>"
+                },
+                {
+                    name: "decimalDigit",
+                    title: "<spring:message code='rate.decimalDigit'/>"
+                }],
+            fetchDataURL: "${contextPath}/api/rate/spec-list"
+        });
 
-    var ListGrid_Rate = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Rate,
-        contextMenu: Menu_ListGrid_Rate,
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='rate.code'/> ", align: "center"},
-            {name: "nameFA", title: "<spring:message code='rate.nameFa'/> ", align: "center"},
-            {name: "nameEN", title: "<spring:message code='rate.nameEN'/> ", align: "center"},
-            {name: "symbol", title: "<spring:message code='rate.symbol'/>", align: "center"},
-            {name:  "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", align: "center"}
+    var ListGrid_Rate = isc.ListGrid.create(
+        {
+            width: "100%",
+            height: "100%",
+            dataSource: RestDataSource_Rate,
+            contextMenu: Menu_ListGrid_Rate,
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "code",
+                    title: "<spring:message code='rate.code'/> ",
+                    align: "center"
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='rate.nameFa'/> ",
+                    align: "center"
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='rate.nameEN'/> ",
+                    align: "center"
+                },
+                {
+                    name: "symbol",
+                    title: "<spring:message code='rate.symbol'/>",
+                    align: "center"
+                },
+                {
+                    name: "decimalDigit",
+                    title: "<spring:message code='rate.decimalDigit'/>",
+                    align: "center"
+                }
 
-        ],
-        sortField: 0,
-        dataPageSize: 50,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        startsWithTitle: "tt"
-    });
+            ],
+            sortField: 0,
+            dataPageSize: 50,
+            autoFetchData: true,
+            showFilterEditor: true,
+            filterOnKeypress: true,
+            startsWithTitle: "tt"
+        });
 
 
     var HLayout_Grid_Rate = isc.HLayout.create({

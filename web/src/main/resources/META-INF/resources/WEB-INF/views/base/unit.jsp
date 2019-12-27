@@ -92,7 +92,7 @@
            width: 400,
            keyPressFilter: "[0-4]",
            length: "1",
-           hint: "<spring:message code='deghat.ashar'/>", //TODO
+           hint: "<spring:message code='deghat.ashar'/>",
            showHintInField: true,
        }, {
            type: "RowSpacerItem"
@@ -173,53 +173,73 @@
 
     function ListGrid_Unit_refresh() {
         ListGrid_Unit.invalidateCache();
-    };
+    }
 
-    function ListGrid_Unit_remove() {
+    function ListGrid_Unit_remove()
+    {
 
         var record = ListGrid_Unit.getSelectedRecord();
 
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>.",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
-                    title: "<spring:message
-		code='global.no'/>"
-                })],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index === 0) {
-                        var unitId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${contextPath}/api/unit/" + unitId,
-                                httpMethod: "DELETE",
-                                callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                                        ListGrid_Unit.invalidateCache();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
+        if (record == null || record.id == null)
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>.",
+                    buttons: [isc.Button.create(
+                        {
+                            title: "<spring:message code='global.ok'/>"
+                        })],
+                    buttonClick: function()
+                    {
+                        this.hide();
                     }
-                }
-            });
+                });
         }
-    };
+        else
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.remove.ask'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                    buttons: [isc.IButtonSave.create(
+                        {
+                            title: "<spring:message code='global.yes'/>"
+                        }), isc.IButtonCancel.create(
+                        {
+                            title: "<spring:message code='global.no'/>"
+
+                        })],
+                    buttonClick: function(button, index)
+                    {
+                        this.hide();
+                        if (index === 0)
+                        {
+                            var unitId = record.id;
+                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                                {
+                                    actionURL: "${contextPath}/api/unit/" + unitId,
+                                    httpMethod: "DELETE",
+                                    callback: function(RpcResponse_o)
+                                    {
+                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+                                        {
+                                            ListGrid_Unit.invalidateCache();
+                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                        }
+                                        else
+                                        {
+                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                        }
+                                    }
+                                }));
+                        }
+                    }
+                });
+        }
+    }
 
     function ListGrid_Unit_edit() {
 
@@ -239,7 +259,7 @@
             DynamicForm_Unit.editRecord(record);
             Window_Unit.show();
         }
-    };
+    }
 
 
     var ToolStripButton_Unit_Refresh = isc.ToolStripButtonRefresh.create({
@@ -303,31 +323,39 @@
         ]
     });
 
-    var RestDataSource_Unit = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        }, {
-            name: "code",
-            title: "<spring:message code='unit.code'/> "
-        }, {
-            name: "nameFA",
-            title: "<spring:message code='unit.nameFa'/> "
-        }, {
-            name: "nameEN",
-            title: "<spring:message code='unit.nameEN'/> "
-        }, {
-            name: "symbol",
-            title: "<spring:message code='unit.symbol'/>"
-        }, {
-            name: "decimalDigit",
-            title: "<spring:message code='rate.decimalDigit'/>"
-        }],
-        fetchDataURL: "${contextPath}/api/unit/spec-list"
-    });
+
+    var RestDataSource_Unit = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "code",
+                    title: "<spring:message code='unit.code'/> "
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='unit.nameFa'/> "
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='unit.nameEN'/> "
+                },
+                {
+                    name: "symbol",
+                    title: "<spring:message code='unit.symbol'/>"
+                },
+                {
+                    name: "decimalDigit",
+                    title: "<spring:message code='rate.decimalDigit'/>"
+                }],
+            fetchDataURL: "${contextPath}/api/unit/spec-list"
+        });
 
 
     var ListGrid_Unit = isc.ListGrid.create({

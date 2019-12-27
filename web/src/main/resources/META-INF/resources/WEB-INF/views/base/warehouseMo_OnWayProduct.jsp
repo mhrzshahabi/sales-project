@@ -362,7 +362,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
          var warehouseCadItems = [];
 
          ListGrid_WarehouseCadItem.selectAllRecords();
-         if (ListGrid_WarehouseCadItem.data.length == 0) {
+         if (ListGrid_WarehouseCadItem.data.length === 0) {
              isc.warn("no items");
              return;
          }

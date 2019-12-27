@@ -2,61 +2,85 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
- //      <script>
+ <script>
 
     <% DateUtil dateUtil = new DateUtil();%>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    isc.SimpleType.create({
-        name:"currencyFloat2",
-        inheritsFrom:"float",
+    isc.SimpleType.create(
+            {
+             name: "currencyFloat2",
+             inheritsFrom: "float",
 
-        normalDisplayFormatter:function(value) {
-            return isc.isA.Number(value) ? value.toCurrencyString() : value;
-        },
-        shortDisplayFormatter:function(value) {
-            return isc.isA.Number(value) ? value.toCurrencyString() : value;
-        },
-        editFormatter:function (value) {
-            return isc.isA.Number(value) ? value.toFixed(2) : value;
-        },
-        parseInput:function(value) {
-            var fVal = parseFloat(value);
-            if (!isNaN(fVal)) return fVal;
-            return value;
-        },
+             normalDisplayFormatter: function(value)
+             {
+              return isc.isA.Number(value) ? value.toCurrencyString() : value;
+             },
+             shortDisplayFormatter: function(value)
+             {
+              return isc.isA.Number(value) ? value.toCurrencyString() : value;
+             },
+             editFormatter: function(value)
+             {
+              return isc.isA.Number(value) ? value.toFixed(2) : value;
+             },
+             parseInput: function(value)
+             {
+              var fVal = parseFloat(value);
+              if (!isNaN(fVal)) return fVal;
+              return value;
+             },
 
-        validators:[
-            {type:"floatRange", min:0, errorMessage:"<spring:message code='notValid.all'/>"},
-            {type:"floatPrecision", precision:2, roundToPrecision:true}
-        ]
+             validators: [
+              {
+               type: "floatRange",
+               min: 0,
+               errorMessage: "<spring:message code='notValid.all'/>"
+              },
+              {
+               type: "floatPrecision",
+               precision: 2,
+               roundToPrecision: true
+              }]
 
-    });
-    isc.SimpleType.create({
-        name:"currencyFloat2Sign",
-        inheritsFrom:"float",
+            });
 
-        normalDisplayFormatter:function(value) {
-            return isc.isA.Number(value) ? value.toCurrencyString() : value;
-        },
-        shortDisplayFormatter:function(value) {
-            return isc.isA.Number(value) ? value.toCurrencyString() : value;
-        },
-        editFormatter:function (value) {
-            return isc.isA.Number(value) ? value.toFixed(2) : value;
-        },
-        parseInput:function(value) {
-            var fVal = parseFloat(value);
-            if (!isNaN(fVal)) return fVal;
-            return value;
-        },
 
-        validators:[
-            {type:"floatPrecision", precision:2, roundToPrecision:true}
-        ]
+    isc.SimpleType.create(
+            {
+             name: "currencyFloat2Sign",
+             inheritsFrom: "float",
 
-    });
+             normalDisplayFormatter: function(value)
+             {
+              return isc.isA.Number(value) ? value.toCurrencyString() : value;
+             },
+             shortDisplayFormatter: function(value)
+             {
+              return isc.isA.Number(value) ? value.toCurrencyString() : value;
+             },
+             editFormatter: function(value)
+             {
+              return isc.isA.Number(value) ? value.toFixed(2) : value;
+             },
+             parseInput: function(value)
+             {
+              var fVal = parseFloat(value);
+              if (!isNaN(fVal)) return fVal;
+              return value;
+             },
+
+             validators: [
+              {
+               type: "floatPrecision",
+               precision: 2,
+               roundToPrecision: true
+              }]
+
+            });
+
+
     isc.SimpleType.create({
     name:"currencyFloat3",
         inheritsFrom:"float",
@@ -82,65 +106,138 @@
         ]
 
     });
-    isc.SimpleType.create({
-        name:"currencyFloat5",
-        inheritsFrom:"float",
 
-        normalDisplayFormatter:function(value) {
-            return isc.isA.Number(value) ? value.toCurrencyString() : value;
-        },
-        shortDisplayFormatter:function(value) {
-            return isc.isA.Number(value) ? value.toCurrencyString() : value;
-        },
-        editFormatter:function (value) {
-            return isc.isA.Number(value) ? value.toFixed(5) : value;
-        },
-        parseInput:function(value) {
-            var fVal = parseFloat(value);
-            if (!isNaN(fVal)) return fVal;
-            return value;
-        },
+    isc.SimpleType.create(
+            {
+             name: "currencyFloat5",
+             inheritsFrom: "float",
 
-        validators:[
-            {type:"floatRange", min:0, errorMessage:"notValid"},
-            {type:"floatPrecision", precision:5, roundToPrecision:true}
-        ]
+             normalDisplayFormatter: function(value)
+             {
+              return isc.isA.Number(value) ? value.toCurrencyString() : value;
+             },
+             shortDisplayFormatter: function(value)
+             {
+              return isc.isA.Number(value) ? value.toCurrencyString() : value;
+             },
+             editFormatter: function(value)
+             {
+              return isc.isA.Number(value) ? value.toFixed(5) : value;
+             },
+             parseInput: function(value)
+             {
+              var fVal = parseFloat(value);
+              if (!isNaN(fVal)) return fVal;
+              return value;
+             },
 
-    });
+             validators: [
+              {
+               type: "floatRange",
+               min: 0,
+               errorMessage: "notValid"
+              },
+              {
+               type: "floatPrecision",
+               precision: 5,
+               roundToPrecision: true
+              }]
+
+            });
 
 
-    var RestDataSource_Shipment_InvoiceHeader = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", hidden: true, type: 'long'},
-            {name: "contactId", type: 'long', hidden: true},
-            {name: "contract.contact.nameFA"},
-            {name: "contractId", type: 'long', hidden: true},
-            {name: "contract.contractNo"},
-            {name: "contract.contractDate"},
-            {name: "materialId"},
-            {name: "material.descl"},
-            {name: "material.unit.nameEN"},
-            {name: "amount"},
-            {name: "shipmentType"},
-            {name: "loadingLetter"},
-            {name: "noContainer"},
-            {name: "portByLoading.port"},
-            {name: "portByDischarge.port"},
-            {name: "description"},
-            {name: "contractShipment.sendDate"},
-            {name: "createDate"},
-            {name: "month"},
-            {name: "contactByAgent.nameFA"},
-            {name: "vesselName"},
-            {name: "swb"},
-            {name: "switchPort.port"},
-            {name: "status"}
-        ],
-        fetchDataURL: "${contextPath}/api/shipment/spec-list"
-    });
+    var RestDataSource_Shipment_InvoiceHeader = isc.MyRestDataSource.create(
+            {
+             fields: [
+              {
+               name: "id",
+               title: "id",
+               primaryKey: true,
+               canEdit: false,
+               hidden: true
+              },
+              {
+               name: "contractShipmentId",
+               hidden: true,
+               type: 'long'
+              },
+              {
+               name: "contactId",
+               type: 'long',
+               hidden: true
+              },
+              {
+               name: "contract.contact.nameFA"
+              },
+              {
+               name: "contractId",
+               type: 'long',
+               hidden: true
+              },
+              {
+               name: "contract.contractNo"
+              },
+              {
+               name: "contract.contractDate"
+              },
+              {
+               name: "materialId"
+              },
+              {
+               name: "material.descl"
+              },
+              {
+               name: "material.unit.nameEN"
+              },
+              {
+               name: "amount"
+              },
+              {
+               name: "shipmentType"
+              },
+              {
+               name: "loadingLetter"
+              },
+              {
+               name: "noContainer"
+              },
+              {
+               name: "portByLoading.port"
+              },
+              {
+               name: "portByDischarge.port"
+              },
+              {
+               name: "description"
+              },
+              {
+               name: "contractShipment.sendDate"
+              },
+              {
+               name: "createDate"
+              },
+              {
+               name: "month"
+              },
+              {
+               name: "contactByAgent.nameFA"
+              },
+              {
+               name: "vesselName"
+              },
+              {
+               name: "swb"
+              },
+              {
+               name: "switchPort.port"
+              },
+              {
+               name: "status"
+              }],
+             fetchDataURL: "${contextPath}/api/shipment/spec-list"
+            });
 
-    //---------------------------------------
+
     var Menu_ListGrid_Shipment_InvoiceHeader = isc.Menu.create({
         width: 150,
         data: [
@@ -174,7 +271,7 @@
             ToolStripButton_Shipment_InvoiceHeader_Refresh,
         ]
     });
-    //-------------------
+
 
     var ListGrid_Shipment_InvoiceHeader = isc.ListGrid.create({
         width: "100%",
@@ -220,50 +317,18 @@
             {
                 name: "noContainer", title: "<spring:message		code='shipment.noContainer'/>", type: 'text', width: "10%", align: "center", showHover: true
             },
-            <%--{name: "laycan", title:"<spring:message code='shipmentContract.laycanStart'/>", type:'integer', width: "10%" , align: "center",showHover:true},--%>
             {
                 name: "portByLoading.port", title: "<spring:message		code='shipment.loading'/>", type: 'text', required: true, width: "10%", showHover: true
             },
             {
                 name: "portByDischarge.port", title: "<spring:message		code='shipment.discharge'/>", type: 'text', required: true, width: "10%", showHover: true
             },
-<%--// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},--%>
-            <%--{--%>
-                <%--name: "description", title: "<spring:message--%>
-		<%--code='shipment.description'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true--%>
-            <%--},--%>
-            <%--{--%>
-                <%--name: "contractShipment.sendDate", title: "<spring:message--%>
-		<%--code='global.sendDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true--%>
-            <%--},--%>
-            <%--{--%>
-                <%--name: "createDate", title: "<spring:message--%>
-		<%--code='global.createDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true--%>
-            <%--},--%>
+
             {
                 name: "month", title: "<spring:message
 		code='shipment.month'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
             },
-            <%--{--%>
-                <%--name: "contactByAgent.nameFA", title: "<spring:message--%>
-		<%--code='shipment.agent'/>", type: 'text', width: "20%", align: "center", showHover: true--%>
-            <%--},--%>
-            <%--{--%>
-                <%--name: "vesselName", title: "<spring:message--%>
-		<%--code='shipment.vesselName'/>", type: 'text', required: true, width: "10%", showHover: true--%>
-            <%--},--%>
-            <%--{--%>
-                <%--name: "swb",--%>
-                <%--title: "<spring:message code='shipment.SWB'/>",--%>
-                <%--type: 'text',--%>
-                <%--required: true,--%>
-                <%--width: "10%",--%>
-                <%--showHover: true--%>
-            <%--},--%>
-            <%--{--%>
-                <%--name: "switchPort.port", title: "<spring:message--%>
-		<%--code='port.switchPort'/>", type: 'text', required: true, width: "10%", showHover: true--%>
-            <%--},--%>
+
             {
                 name: "status", title: "<spring:message		code='shipment.staus'/>", type: 'text', width: "10%", align: "center", valueMap: {
                     "Load Ready": "<spring:message	code='shipment.loadReady'/>", "Resource": "<spring:message code='shipment.resource'/>"
@@ -290,6 +355,9 @@
         showFilterEditor: true,
         filterOnKeypress: true
     });
+
+
+
     var HLayout_Grid_Shipment_InvoiceHeader = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -602,7 +670,6 @@
                 }
             },
 
-/*JZ*/
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
@@ -680,7 +747,7 @@
                 {
                     name: "invoiceDateDumy",
                     title: "<spring:message code='invoice.invoiceDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
+                    defaultValue: "<%=DateUtil.todayDate()%>",
                     type: 'date',
                     format: 'DD-MM-YYYY HH:mm:ss',
                     required: true,
@@ -1070,7 +1137,7 @@
                 }
     });
 
-    /*Edit By Jalal */
+
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
         width: "100%",
      membersMargin: 5,
@@ -1327,7 +1394,7 @@ if (mm<1 || mm>12) {
   else
   {
   alert("Invalid date format!");
-  // document.form1.text1.focus();
+
   return false;
   }
   return true;

@@ -84,18 +84,7 @@
                     align: "center"
                 }
             ],
-        cellClick: function (record, rowNum, colNum) {
-            if (colNum == 0) {
-                if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "contract\\" + record.fileNewName);
-                else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "contact\\" + record.fileNewName);
-                else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "instruction\\" + record.fileNewName);
-                else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "shipment\\" + record.fileNewName);
-            }
-        }
+
     });
 
     function ListGrid_DccView_refresh() {

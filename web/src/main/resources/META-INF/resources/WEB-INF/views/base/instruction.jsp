@@ -13,286 +13,391 @@
 
 
 
-    function ListGrid_Instruction_edit() {
-        var record = ListGrid_Instruction.getSelectedRecord();
+     function ListGrid_Instruction_edit()
+    {
+    	var record = ListGrid_Instruction.getSelectedRecord();
 
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            DynamicForm_Instruction.editRecord(record);
-            DynamicForm_Instruction.setValue("disableDateDummy", new Date(record.disableDate));
-            DynamicForm_Instruction.setValue("runDateDummy", new Date(record.runDate));
-            Window_Instruction.show();
-        }
+    	if (record == null || record.id == null)
+    	{
+    		isc.Dialog.create(
+    		{
+    			message: "<spring:message code='global.grid.record.not.selected'/>",
+    			icon: "[SKIN]ask.png",
+    			title: "<spring:message code='global.message'/>",
+    			buttons: [isc.Button.create(
+    			{
+    				title: "<spring:message code='global.ok'/>"
+    			})],
+    			buttonClick: function()
+    			{
+    				this.hide();
+    			}
+    		});
+    	}
+    	else
+    	{
+    		DynamicForm_Instruction.editRecord(record);
+    		DynamicForm_Instruction.setValue("disableDateDummy", new Date(record.disableDate));
+    		DynamicForm_Instruction.setValue("runDateDummy", new Date(record.runDate));
+    		Window_Instruction.show();
+    	}
     }
 
 
 
 
-    function ListGrid_Instruction_remove() {
-        var record = ListGrid_Instruction.getSelectedRecord();
+    function ListGrid_Instruction_remove()
+    {
+    	var record = ListGrid_Instruction.getSelectedRecord();
 
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [
-                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
-                ],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index === 0) {
-                        var InstructionId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/instruction/" + InstructionId,
-                            httpMethod: "DELETE",
-                            callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                                    ListGrid_Instruction_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                }
-                            }
-                        }));
-                    }
-                }
-            });
-        }
+    	if (record == null || record.id == null)
+    	{
+    		isc.Dialog.create(
+    		{
+    			message: "<spring:message code='global.grid.record.not.selected'/>",
+    			icon: "[SKIN]ask.png",
+    			title: "<spring:message code='global.message'/>",
+    			buttons: [isc.Button.create(
+    			{
+    				title: "<spring:message code='global.ok'/>"
+    			})],
+    			buttonClick: function()
+    			{
+    				this.hide();
+    			}
+    		});
+    	}
+    	else
+    	{
+    		isc.Dialog.create(
+    		{
+    			message: "<spring:message code='global.grid.record.remove.ask'/>",
+    			icon: "[SKIN]ask.png",
+    			title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+    			buttons: [
+    				isc.IButtonSave.create(
+    				{
+    					title: "<spring:message code='global.yes'/>"
+    				}),
+    				isc.IButtonCancel.create(
+    				{
+    					title: "<spring:message code='global.no'/>"
+    				})
+    			],
+    			buttonClick: function(button, index)
+    			{
+    				this.hide();
+    				if (index === 0)
+    				{
+    					var InstructionId = record.id;
+    					isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+    					{
+    						actionURL: "${contextPath}/api/instruction/" + InstructionId,
+    						httpMethod: "DELETE",
+    						callback: function(RpcResponse_o)
+    						{
+    							if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+    							{
+    								ListGrid_Instruction_refresh();
+    								isc.say("<spring:message code='global.grid.record.remove.success'/>");
+    							}
+    							else
+    							{
+    								isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+    							}
+    						}
+    					}));
+    				}
+    			}
+    		});
+    	}
     }
 
-    var Menu_ListGrid_Instruction = isc.Menu.create({
-        width: 150,
-        data: [
-            {
-                title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
-                click: function () {
-                    ListGrid_Instruction_refresh();
-                }
-            },
-            {
-                title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-                click: function () {
-                    DynamicForm_Instruction.clearValues();
-                    Window_Instruction.show();
-                }
-            },
-            {
-                title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-                click: function () {
-                    ListGrid_Instruction_edit();
-                }
-            },
-            {
-                title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-                click: function () {
-                    ListGrid_Instruction_remove();
-                }
-            }
-        ]
+
+
+    var Menu_ListGrid_Instruction = isc.Menu.create(
+    {
+    	width: 150,
+    	data: [
+    	{
+    		title: "<spring:message code='global.form.refresh'/>",
+    		icon: "pieces/16/refresh.png",
+    		click: function()
+    		{
+    			ListGrid_Instruction_refresh();
+    		}
+    	},
+    	{
+    		title: "<spring:message code='global.form.new'/>",
+    		icon: "pieces/16/icon_add.png",
+    		click: function()
+    		{
+    			DynamicForm_Instruction.clearValues();
+    			Window_Instruction.show();
+    		}
+    	},
+    	{
+    		title: "<spring:message code='global.form.edit'/>",
+    		icon: "pieces/16/icon_edit.png",
+    		click: function()
+    		{
+    			ListGrid_Instruction_edit();
+    		}
+    	},
+    	{
+    		title: "<spring:message code='global.form.remove'/>",
+    		icon: "pieces/16/icon_delete.png",
+    		click: function()
+    		{
+    			ListGrid_Instruction_remove();
+    		}
+    	}]
     });
 
-    var DynamicForm_Instruction = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,
-        fields:
-            [
-                {name: "id", hidden: true},
-                {type: "RowSpacerItem"},
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {
-                    name: "titleInstruction",
-                    title: "<spring:message code='instruction.titleInstruction'/>",
-                    width: 400,
-                    align: "center",
-                    required: true, length: "4000"
-                },
-                {
-                    name: "disableDateDummy",
-                    title: "<spring:message code='instruction.disableDate'/>",
-                    width: 400,
-                    align: "center",
-                    type: "date"
-                },
-                {
-                    name: "runDateDummy",
-                    title: "<spring:message code='instruction.runDate'/>",
-                    width: 400,
-                    align: "center",
-                    type: "date"
-                },
-                {type: "RowSpacerItem"}
-            ]
+
+
+var DynamicForm_Instruction = isc.DynamicForm.create(
+{
+	width: "100%",
+	height: "100%",
+	setMethod: 'POST',
+	align: "center",
+	canSubmit: true,
+	showInlineErrors: true,
+	showErrorText: true,
+	showErrorStyle: true,
+	errorOrientation: "right",
+	titleWidth: "100",
+	titleAlign: "right",
+	requiredMessage: "<spring:message code='validator.field.is.required'/>",
+	numCols: 2,
+	fields: [
+	{
+		name: "id",
+		hidden: true
+	},
+	{
+		type: "RowSpacerItem"
+	},
+	{
+		name: "id",
+		title: "id",
+		primaryKey: true,
+		canEdit: false,
+		hidden: true
+	},
+	{
+		name: "titleInstruction",
+		title: "<spring:message code='instruction.titleInstruction'/>",
+		width: 400,
+		align: "center",
+		required: true,
+		length: "4000"
+	},
+	{
+		name: "disableDateDummy",
+		title: "<spring:message code='instruction.disableDate'/>",
+		width: 400,
+		align: "center",
+		type: "date"
+	},
+	{
+		name: "runDateDummy",
+		title: "<spring:message code='instruction.runDate'/>",
+		width: 400,
+		align: "center",
+		type: "date"
+	},
+	{
+		type: "RowSpacerItem"
+	}]
+});
+
+
+    var ToolStripButton_Instruction_Refresh = isc.ToolStripButtonRefresh.create(
+    {
+    	icon: "[SKIN]/actions/refresh.png",
+    	title: "<spring:message code='global.form.refresh'/>",
+    	click: function()
+    	{
+    		ListGrid_Instruction_refresh();
+    	}
     });
 
-    var ToolStripButton_Instruction_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-            ListGrid_Instruction_refresh();
-        }
+    var ToolStripButton_Instruction_Add = isc.ToolStripButtonAdd.create(
+    {
+    	icon: "[SKIN]/actions/add.png",
+    	title: "<spring:message code='global.form.new'/>",
+    	click: function()
+    	{
+    		DynamicForm_Instruction.clearValues();
+    		Window_Instruction.show();
+    	}
     });
 
-    var ToolStripButton_Instruction_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.form.new'/>",
-        click: function () {
-            DynamicForm_Instruction.clearValues();
-            Window_Instruction.show();
-        }
+
+    var ToolStripButton_Instruction_Edit = isc.ToolStripButtonEdit.create(
+    {
+    	icon: "[SKIN]/actions/edit.png",
+    	title: "<spring:message code='global.form.edit'/>",
+    	click: function()
+    	{
+    		DynamicForm_Instruction.clearValues();
+    		ListGrid_Instruction_edit();
+    	}
     });
 
-    var ToolStripButton_Instruction_Edit = isc.ToolStripButtonEdit.create({
-        icon: "[SKIN]/actions/edit.png",
-        title: "<spring:message code='global.form.edit'/>",
-        click: function () {
-            DynamicForm_Instruction.clearValues();
-            ListGrid_Instruction_edit();
-        }
-    });
-    var ToolStripButton_Instruction_Remove = isc.ToolStripButtonRemove.create({
+
+     var ToolStripButton_Instruction_Remove = isc.ToolStripButtonRemove.create(
+    {
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
-        click: function () {
+        click: function()
+        {
             ListGrid_Instruction_remove();
         }
     });
 
-    var ToolStrip_Actions_Instruction = isc.ToolStrip.create({
-        width: "100%",
-        members:
-            [
-                ToolStripButton_Instruction_Add,
-                ToolStripButton_Instruction_Edit,
-                ToolStripButton_Instruction_Remove,
-                isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Instruction_Refresh,
-                ]
-                })
+    var ToolStrip_Actions_Instruction = isc.ToolStrip.create(
+    {
+	width: "100%",
+	members: [
+		ToolStripButton_Instruction_Add,
+		ToolStripButton_Instruction_Edit,
+		ToolStripButton_Instruction_Remove,
+		isc.ToolStrip.create(
+		{
+			width: "100%",
+			align: "left",
+			border: '0px',
+			members: [
+				ToolStripButton_Instruction_Refresh,
+			]
+		})
 
-            ]
-    });
+	]
+});
 
-    var HLayout_Instruction_Actions = isc.HLayout.create({
-        width: "100%",
-        members:
-            [
-                ToolStrip_Actions_Instruction
-            ]
-    });
-
-    var RestDataSource_Instruction = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "titleInstruction", title: "<spring:message code='instruction.titleInstruction'/>", width: 400},
-                {name: "disableDate", title: "<spring:message code='instruction.disableDate'/>", width: 400},
-                {name: "runDate", title: "<spring:message code='instruction.runDate'/>", width: 400}
-            ],
-        fetchDataURL: "${contextPath}/api/instruction/spec-list"
-    });
-
-    var IButton_Instruction_Save = isc.IButtonSave.create({
-        top: 260,
-        layoutMargin: 5,
-        membersMargin: 5,
-        width: 120,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
-            DynamicForm_Instruction.validate();
-            if (DynamicForm_Instruction.hasErrors())
-                return;
-            var d = DynamicForm_Instruction.getValue("disableDateDummy");
-            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
-            DynamicForm_Instruction.setValue("disableDate", datestring);
-            var dRun = DynamicForm_Instruction.getValue("runDateDummy");
-            var datestringRun = (dRun.getFullYear() + "/" + ("0" + (dRun.getMonth() + 1)).slice(-2) + "/" + ("0" + dRun.getDate()).slice(-2))
-            DynamicForm_Instruction.setValue("runDate", datestringRun);
-
-            if (d < dRun) {
-                isc.warn("<spring:message code='instruction.date.validation'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
-                return;
-            }
-
-            var data = DynamicForm_Instruction.getValues();
-            var methodXXXX = "PUT";
-            if (data.id == null) methodXXXX = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/instruction/",
-                    httpMethod: methodXXXX,
-                    data: JSON.stringify(data),
-                    callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>");
-                            ListGrid_Instruction_refresh();
-                            Window_Instruction.close();
-                        } else
-                            isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
-        }
-    });
-
-    var InstructionCancelBtn = isc.IButtonCancel.create({
-        top: 260,
-        layoutMargin: 5,
-        membersMargin: 5,
-        width: 120,
-        title: "<spring:message code='global.cancel'/>",
-        icon: "pieces/16/icon_delete.png",
-        click: function () {
-            Window_Instruction.close();
-        }
-    });
-
-    var HLayout_Instruction_IButton = isc.HLayout.create({
-        layoutMargin: 5,
-        membersMargin: 5,
+    var HLayout_Instruction_Actions = isc.HLayout.create(
+      {
         width: "100%",
         members: [
-            IButton_Instruction_Save,
-            InstructionCancelBtn
+            ToolStrip_Actions_Instruction
         ]
+      });
+
+
+    var RestDataSource_Instruction = isc.MyRestDataSource.create(
+    {
+    	fields: [
+    	{
+    		name: "id",
+    		title: "id",
+    		primaryKey: true,
+    		canEdit: false,
+    		hidden: true
+    	},
+    	{
+    		name: "titleInstruction",
+    		title: "<spring:message code='instruction.titleInstruction'/>",
+    		width: 400
+    	},
+    	{
+    		name: "disableDate",
+    		title: "<spring:message code='instruction.disableDate'/>",
+    		width: 400
+    	},
+    	{
+    		name: "runDate",
+    		title: "<spring:message code='instruction.runDate'/>",
+    		width: 400
+    	}],
+    	fetchDataURL: "${contextPath}/api/instruction/spec-list"
     });
 
-    var Window_Instruction = isc.Window.create({
+
+
+    var IButton_Instruction_Save = isc.IButtonSave.create(
+    {
+    	top: 260,
+    	layoutMargin: 5,
+    	membersMargin: 5,
+    	width: 120,
+    	title: "<spring:message code='global.form.save'/>",
+    	icon: "pieces/16/save.png",
+    	click: function()
+    	{
+    		DynamicForm_Instruction.validate();
+    		if (DynamicForm_Instruction.hasErrors())
+    			return;
+    		var d = DynamicForm_Instruction.getValue("disableDateDummy");
+    		var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2));
+    		DynamicForm_Instruction.setValue("disableDate", datestring);
+    		var dRun = DynamicForm_Instruction.getValue("runDateDummy");
+    		var datestringRun = (dRun.getFullYear() + "/" + ("0" + (dRun.getMonth() + 1)).slice(-2) + "/" + ("0" + dRun.getDate()).slice(-2));
+    		DynamicForm_Instruction.setValue("runDate", datestringRun);
+
+    		if (d < dRun)
+    		{
+    			isc.warn("<spring:message code='instruction.date.validation'/>",
+    			{
+    				title: "<spring:message code='dialog_WarnTitle'/>"
+    			});
+    			return;
+    		}
+
+    		var data = DynamicForm_Instruction.getValues();
+    		var methodXXXX = "PUT";
+    		if (data.id == null) methodXXXX = "POST";
+    		isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+    		{
+    			actionURL: "${contextPath}/api/instruction/",
+    			httpMethod: methodXXXX,
+    			data: JSON.stringify(data),
+    			callback: function(RpcResponse_o)
+    			{
+    				if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+    				{
+    					isc.say("<spring:message code='global.form.request.successful'/>");
+    					ListGrid_Instruction_refresh();
+    					Window_Instruction.close();
+    				}
+    				else
+    					isc.say(RpcResponse_o.data);
+    			}
+    		}));
+    	}
+    });
+
+
+    var InstructionCancelBtn = isc.IButtonCancel.create(
+    {
+	top: 260,
+	layoutMargin: 5,
+	membersMargin: 5,
+	width: 120,
+	title: "<spring:message code='global.cancel'/>",
+	icon: "pieces/16/icon_delete.png",
+	click: function()
+	{
+		Window_Instruction.close();
+	}
+});
+
+
+    var HLayout_Instruction_IButton = isc.HLayout.create(
+    {
+    	layoutMargin: 5,
+    	membersMargin: 5,
+    	width: "100%",
+    	members: [
+    		IButton_Instruction_Save,
+    		InstructionCancelBtn
+    	]
+    });
+
+
+ var Window_Instruction = isc.Window.create({
         title: "<spring:message code='instruction.title'/> ",
         width: 580,
         // height: 500,
@@ -313,90 +418,120 @@
             ]
     });
 
-    var ListGrid_Instruction = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Instruction,
-        contextMenu: Menu_ListGrid_Instruction,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {
-                    name: "titleInstruction",
-                    title: "<spring:message code='instruction.titleInstruction'/>",
-                    width: "50%",
-                    align: "center"
-                },
-                {
-                    name: "disableDate",
-                    title: "<spring:message code='instruction.disableDate'/>",
-                    width: "20%",
-                    align: "center"
-                },
-                {name: "runDate", title: "<spring:message code='instruction.runDate'/>", width: "20%", align: "center"}
-            ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
 
-    });
-    var HLayout_Instruction_Grid = isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ListGrid_Instruction
-        ]
-    });
+    var ListGrid_Instruction = isc.ListGrid.create(
+{
+	width: "100%",
+	height: "100%",
+	dataSource: RestDataSource_Instruction,
+	contextMenu: Menu_ListGrid_Instruction,
+	fields: [
+	{
+		name: "id",
+		title: "id",
+		primaryKey: true,
+		canEdit: false,
+		hidden: true
+	},
+	{
+		name: "titleInstruction",
+		title: "<spring:message code='instruction.titleInstruction'/>",
+		width: "50%",
+		align: "center"
+	},
+	{
+		name: "disableDate",
+		title: "<spring:message code='instruction.disableDate'/>",
+		width: "20%",
+		align: "center"
+	},
+	{
+		name: "runDate",
+		title: "<spring:message code='instruction.runDate'/>",
+		width: "20%",
+		align: "center"
+	}],
+	sortField: 0,
+	autoFetchData: true,
+	showFilterEditor: true,
+	filterOnKeypress: true
 
-    var VLayout_Instruction_Body = isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            HLayout_Instruction_Actions, HLayout_Instruction_Grid
-        ]
-    });
+});
 
-    isc.ViewLoader.create({
-        ID: "InstructionAttachmentViewLoader",
-        autoDraw: false,
-        loadingMessage: ""
-    });
 
-    isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        border: "1px solid black",
-        layoutTopMargin: 5,
-        members: [
-            isc.TabSet.create({
-                tabBarPosition: "top",
-                width: "100%",
-                tabs:
-                    [
-                        {title: "<spring:message code='instruction.title'/>", pane: VLayout_Instruction_Body},
-                        {
-                            title: "<spring:message code='global.Attachment'/>", pane: InstructionAttachmentViewLoader
-                            , tabSelected: function (form, item, value) {
-                                var record = ListGrid_Instruction.getSelectedRecord();
-                                if (record == null || record.id == null) {
-                                    isc.Dialog.create({
-                                        message: "<spring:message code='global.grid.record.not.selected'/>",
-                                        icon: "[SKIN]ask.png",
-                                        title: "<spring:message code='global.message'/>",
-                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                        buttonClick: function () {
-                                            this.hide();
-                                        }
-                                    });
-                                    record.id= null;
-                                }
-                                var dccTableId = record.id;
-                                var dccTableName = "TBL_INSTRUCTION";
-                                InstructionAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
-                            }
-                        }
-                    ]
-            })
-        ]
-    });
+
+    var HLayout_Instruction_Grid = isc.HLayout.create(
+  {
+  	width: "100%",
+  	height: "100%",
+  	members: [
+  		ListGrid_Instruction
+  	]
+  });
+
+  var VLayout_Instruction_Body = isc.VLayout.create(
+  {
+  	width: "100%",
+  	height: "100%",
+  	members: [
+  		HLayout_Instruction_Actions, HLayout_Instruction_Grid
+  	]
+  });
+
+  isc.ViewLoader.create(
+  {
+  	ID: "InstructionAttachmentViewLoader",
+  	autoDraw: false,
+  	loadingMessage: ""
+  });
+
+
+
+    isc.HLayout.create(
+    {
+	width: "100%",
+	height: "100%",
+	border: "1px solid black",
+	layoutTopMargin: 5,
+	members: [
+		isc.TabSet.create(
+		{
+			tabBarPosition: "top",
+			width: "100%",
+			tabs: [
+			{
+				title: "<spring:message code='instruction.title'/>",
+				pane: VLayout_Instruction_Body
+			},
+			{
+				title: "<spring:message code='global.Attachment'/>",
+				pane: InstructionAttachmentViewLoader,
+				tabSelected: function(form, item, value)
+				{
+					var record = ListGrid_Instruction.getSelectedRecord();
+					if (record == null || record.id == null)
+					{
+						isc.Dialog.create(
+						{
+							message: "<spring:message code='global.grid.record.not.selected'/>",
+							icon: "[SKIN]ask.png",
+							title: "<spring:message code='global.message'/>",
+							buttons: [isc.Button.create(
+							{
+								title: "<spring:message code='global.ok'/>"
+							})],
+							buttonClick: function()
+							{
+								this.hide();
+							}
+						});
+						record.id = null;
+					}
+					var dccTableId = record.id;
+					var dccTableName = "TBL_INSTRUCTION";
+					InstructionAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+				}
+			}]
+		})
+	]
+});

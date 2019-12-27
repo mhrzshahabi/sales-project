@@ -6,23 +6,50 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_Parameters = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name:  "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
-                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
-                {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200},
-                {name: "contractId", title: "<spring:message code='parameters.paramValue'/>", width: 200},
-                {name: "categoryValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
-            ],
+    var RestDataSource_Parameters = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "paramName",
+                    title: "<spring:message code='parameters.paramName'/>",
+                    width: 200
+                },
+                {
+                    name: "paramType",
+                    title: "<spring:message code='parameters.paramType'/>",
+                    width: 200
+                },
+                {
+                    name: "paramValue",
+                    title: "<spring:message code='parameters.paramValue'/>",
+                    width: 200
+                },
+                {
+                    name: "contractId",
+                    title: "<spring:message code='parameters.paramValue'/>",
+                    width: 200
+                },
+                {
+                    name: "categoryValue",
+                    title: "<spring:message code='parameters.paramValue'/>",
+                    width: 200
+                }],
 
-        fetchDataURL: "${contextPath}/api/parameters/spec-list"
-    });
+            fetchDataURL: "${contextPath}/api/parameters/spec-list"
+        });
+
 
     function ListGrid_Parameters_refresh() {
         ListGrid_Parameters.invalidateCache();
     }
+
 
     function ListGrid_Parameters_edit() {
         var record = ListGrid_Parameters.getSelectedRecord();
@@ -48,46 +75,58 @@
         var record = ListGrid_Parameters.getSelectedRecord();
 
         if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.IButtonSave.create({
-                    title: "<spring:message
-		code='global.yes'/>"
-                }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index === 0) {
-                        var parametersId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
-                            actionURL: "${contextPath}/api/parameters/" + parametersId,
-                            httpMethod: "DELETE",
-                            callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-
-                                    ListGrid_Parameters.invalidateCache();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                }
-                            }
-                        }));
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create(
+                        {
+                            title: "<spring:message code='global.ok'/>"
+                        })],
+                    buttonClick: function () {
+                        this.hide();
                     }
-                }
-            });
+                });
+        } else {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.remove.ask'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                    buttons: [isc.IButtonSave.create(
+                        {
+                            title: "<spring:message code='global.yes'/>"
+
+                        }), isc.IButtonCancel.create(
+                        {
+                            title: "<spring:message code='global.no'/>"
+                        })],
+                    buttonClick: function (button, index) {
+                        this.hide();
+                        if (index === 0) {
+                            var parametersId = record.id;
+                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                                {
+                                    actionURL: "${contextPath}/api/parameters/" + parametersId,
+                                    httpMethod: "DELETE",
+                                    callback: function (RpcResponse_o) {
+                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+
+                                            ListGrid_Parameters.invalidateCache();
+                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                        } else {
+                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                        }
+                                    }
+                                }));
+                        }
+                    }
+                });
         }
     }
+
+
     var Menu_ListGrid_Parameters = isc.Menu.create({
         width: 150,
         data: [
@@ -153,11 +192,45 @@
                 },
                 {
                     name: "contractId", title: "<spring:message	code='parameters.paramValue'/>",
-                    width: 500, type: "select", required: true, valueMap:{"1": "Mo","2": "CO"}
+                    width: 500, type: "select", required: true, valueMap: {"1": "Mo", "2": "CO"}
                 },
                 {
-                    name: "categoryValue", title: "<spring:message	code='parameters.paramValue.d'/>",
-                    width: 500, type: "text", required: true,valueMap:{"1": "article1","2": "article2","3": "article3","4":"article4","5":"article5","6":"article6","7":"article7","8":"article8","9":"article9","10":"article10","11":"article11","12":"article12","13":"article13","14":"article14","15":"article15","16":"article16","17":"article17","18":"article18","19":"article19","20":"article20","21":"article21","22":"article22","23":"article23","24":"article24","25":"article25","26":"article26","27":"article27","-1":"Another","-2":"BANK REFERENCE"}
+                    name: "categoryValue",
+                    title: "<spring:message	code='parameters.paramValue.d'/>",
+                    width: 500,
+                    type: "text",
+                    required: true,
+                    valueMap: {
+                        "1": "article1",
+                        "2": "article2",
+                        "3": "article3",
+                        "4": "article4",
+                        "5": "article5",
+                        "6": "article6",
+                        "7": "article7",
+                        "8": "article8",
+                        "9": "article9",
+                        "10": "article10",
+                        "11": "article11",
+                        "12": "article12",
+                        "13": "article13",
+                        "14": "article14",
+                        "15": "article15",
+                        "16": "article16",
+                        "17": "article17",
+                        "18": "article18",
+                        "19": "article19",
+                        "20": "article20",
+                        "21": "article21",
+                        "22": "article22",
+                        "23": "article23",
+                        "24": "article24",
+                        "25": "article25",
+                        "26": "article26",
+                        "27": "article27",
+                        "-1": "Another",
+                        "-2": "BANK REFERENCE"
+                    }
                 },
                 {
                     name: "paramValue", title: "<spring:message	code='parameters.paramValue.c'/>",
@@ -209,12 +282,12 @@
                 ToolStripButton_Parameters_Edit,
                 ToolStripButton_Parameters_Remove,
                 isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Parameters_Refresh,
-                ]
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_Parameters_Refresh,
+                    ]
                 })
 
             ]
@@ -227,40 +300,49 @@
                 ToolStrip_Actions_Parameters
             ]
     });
-    var IButton_Parameters_Save = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
-            DynamicForm_Parameters.validate();
-            if (DynamicForm_Parameters.hasErrors())
-                return;
 
-            var data = DynamicForm_Parameters.getValues();
-            var method = "PUT";
-            if (data.id == null)
-                method = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
-                actionURL: "${contextPath}/api/parameters",
-                httpMethod: method,
-                data: JSON.stringify(data),
-                callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
 
-                        isc.say("<spring:message code='global.form.request.successful'/>");
-                        ListGrid_Parameters_refresh();
-                        Window_Parameters.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-        }
-    });
+
+    var IButton_Parameters_Save = isc.IButtonSave.create(
+        {
+            top: 260,
+            title: "<spring:message code='global.form.save'/>",
+            icon: "pieces/16/save.png",
+            click: function()
+            {
+                /*ValuesManager_GoodsUnit.validate();*/
+                DynamicForm_Parameters.validate();
+                if (DynamicForm_Parameters.hasErrors())
+                    return;
+
+                var data = DynamicForm_Parameters.getValues();
+                var method = "PUT";
+                if (data.id == null)
+                    method = "POST";
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                    {
+                        actionURL: "${contextPath}/api/parameters",
+                        httpMethod: method,
+                        data: JSON.stringify(data),
+                        callback: function(RpcResponse_o)
+                        {
+                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+                            {
+
+                                isc.say("<spring:message code='global.form.request.successful'/>");
+                                ListGrid_Parameters_refresh();
+                                Window_Parameters.close();
+                            }
+                            else
+                                isc.say(RpcResponse_o.data);
+                        }
+                    }))
+            }
+        });
+
 
     var ParametersCancelBtn = isc.IButtonCancel.create({
         top: 260,
-        icon: "pieces/16/icon_delete.png",
         layoutMargin: 5,
         membersMargin: 5,
         width: 120,
@@ -282,34 +364,42 @@
     });
 
 
-    var Window_Parameters = isc.Window.create({
-        title: "<spring:message code='parameters.title'/> ",
-        width: 580,
-        // height: 500,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
+    var Window_Parameters = isc.Window.create(
+        {
+            title: "<spring:message code='parameters.title'/> ",
+            width: 580,
+            autoSize: true,
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            closeClick: function()
+            {
+                this.Super("closeClick", arguments)
+            },
+            items: [
                 DynamicForm_Parameters,
                 HLayout_Parameters_IButton
             ]
-    });
-    var ListGrid_Parameters = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Parameters,
-        contextMenu: Menu_ListGrid_Parameters,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+        });
+
+
+    var ListGrid_Parameters = isc.ListGrid.create(
+        {
+            width: "100%",
+            height: "100%",
+            dataSource: RestDataSource_Parameters,
+            contextMenu: Menu_ListGrid_Parameters,
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
                 {
                     name: "paramName",
                     title: "<spring:message code='parameters.paramName'/>",
@@ -327,34 +417,44 @@
                     title: "<spring:message code='parameters.paramValue'/>",
                     width: "50%",
                     align: "center"
-                }
-            ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            ListGrid_ParametersFeature.fetchData({"tblParameters.id": record.id}, function (dsResponse, data, dsRequest) {
-                ListGrid_ParametersFeature.setData(data);
-            }, {operationId: "00"});
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+                }],
+            sortField: 0,
+            autoFetchData: true,
+            showFilterEditor: true,
+            filterOnKeypress: true,
+            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
+            {
+                var record = this.getSelectedRecord();
+                ListGrid_ParametersFeature.fetchData(
+                    {
+                        "tblParameters.id": record.id
+                    }, function(dsResponse, data, dsRequest)
+                    {
+                        ListGrid_ParametersFeature.setData(data);
+                    },
+                    {
+                        operationId: "00"
+                    });
+            },
+            dataArrived: function(startRow, endRow) {}
 
-    });
-    var HLayout_Parameters_Grid = isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ListGrid_Parameters
-        ]
-    });
-    var VLayout_Parameters_Body = isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            HLayout_Parameters_Actions, HLayout_Parameters_Grid
-        ]
-    });
+        });
+
+
+    var HLayout_Parameters_Grid = isc.HLayout.create(
+        {
+            width: "100%",
+            height: "100%",
+            members: [
+                ListGrid_Parameters
+            ]
+        });
+    var VLayout_Parameters_Body = isc.VLayout.create(
+        {
+            width: "100%",
+            height: "100%",
+            members: [
+                HLayout_Parameters_Actions, HLayout_Parameters_Grid
+            ]
+        });

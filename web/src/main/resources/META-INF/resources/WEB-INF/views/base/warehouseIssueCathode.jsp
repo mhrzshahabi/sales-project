@@ -788,7 +788,6 @@
                     valueField: "id",
                     colSpan: 1,
                     titleColSpan: 1,
-                    valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},

@@ -5,30 +5,75 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_Port = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "port", title: "<spring:message code='port.port'/>", width: 200},
-                {name: "beam", title: "<spring:message code='port.port'/>", width: 200},
-                {name: "loa", title: "<spring:message code='port.port'/>", width: 200},
-                {name: "arrival", title: "<spring:message code='port.port'/>", width: 200},
-                {name: "countrynameFa",  dataPath:"country.nameFa"  ,   title: "<spring:message code='country.nameFa'/>", width: 200}
-            ],
 
-        fetchDataURL: "${contextPath}/api/port/spec-list"
-    });
-    var RestDataSource_CountryPort = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "nameFa", title: "<spring:message code='country.nameFa'/>", width: 200},
-                {name: "nameEn", title: "<spring:message code='country.nameEn'/>", width: 200},
-                {name: "isActive", title: "<spring:message code='country.isActive'/>", width: 200}
-            ],
+    var RestDataSource_Port = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "port",
+                    title: "<spring:message code='port.port'/>",
+                    width: 200
+                },
+                {
+                    name: "beam",
+                    title: "<spring:message code='port.port'/>",
+                    width: 200
+                },
+                {
+                    name: "loa",
+                    title: "<spring:message code='port.port'/>",
+                    width: 200
+                },
+                {
+                    name: "arrival",
+                    title: "<spring:message code='port.port'/>",
+                    width: 200
+                },
+                {
+                    name: "countrynameFa",
+                    dataPath: "country.nameFa",
+                    title: "<spring:message code='country.nameFa'/>",
+                    width: 200
+                }],
 
-        fetchDataURL: "${contextPath}/api/country/spec-list"
-    });
+            fetchDataURL: "${contextPath}/api/port/spec-list"
+        });
+
+    var RestDataSource_CountryPort = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "nameFa",
+                    title: "<spring:message code='country.nameFa'/>",
+                    width: 200
+                },
+                {
+                    name: "nameEn",
+                    title: "<spring:message code='country.nameEn'/>",
+                    width: 200
+                },
+                {
+                    name: "isActive",
+                    title: "<spring:message code='country.isActive'/>",
+                    width: 200
+                }],
+
+            fetchDataURL: "${contextPath}/api/country/spec-list"
+        });
 
     function ListGrid_Port_refresh() {
         ListGrid_Port.invalidateCache();
@@ -53,50 +98,71 @@
         }
     }
 
-    function ListGrid_Port_remove() {
-
+    function ListGrid_Port_remove()
+    {
         var record = ListGrid_Port.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.IButtonSave.create({
-                    title: "<spring:message
-		code='global.yes'/>"
-                }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index === 0) {
-                        var PortId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
-                            actionURL: "${contextPath}/api/port/" + PortId,
-                            httpMethod: "DELETE",
-                            callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                                    ListGrid_Port_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                }
-                            }
-                        }));
+        if (record == null || record.id == null)
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create(
+                        {
+                            title: "<spring:message code='global.ok'/>"
+                        })],
+                    buttonClick: function()
+                    {
+                        this.hide();
                     }
-                }
-            });
+                });
+        }
+        else
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.remove.ask'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                    buttons: [isc.IButtonSave.create(
+                        {
+                            title: "<spring:message code='global.yes'/>"
+
+                        }), isc.IButtonCancel.create(
+                        {
+                            title: "<spring:message code='global.no'/>"
+                        })],
+                    buttonClick: function(button, index)
+                    {
+                        this.hide();
+                        if (index === 0)
+                        {
+                            var PortId = record.id;
+                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                                {
+                                    actionURL: "${contextPath}/api/port/" + PortId,
+                                    httpMethod: "DELETE",
+                                    callback: function(RpcResponse_o)
+                                    {
+                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+                                        {
+                                            ListGrid_Port_refresh();
+                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                        }
+                                        else
+                                        {
+                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                        }
+                                    }
+                                }));
+                        }
+                    }
+                });
         }
     }
+
+
     var Menu_ListGrid_Port = isc.Menu.create({
         width: 150,
         data: [
@@ -216,9 +282,9 @@
                     ,
                     pickListFields: [
                         {name: "id", width: 50, align: "center" ,  hidden:true},
-                        {name: "nameFa", width: 150, align: "center" , width:"10%"},
-                        {name: "nameEn", width: 150, align: "center" , width:"10%"},
-                        // {name: "isActive", width: 150, align: "center" , hidden:true}
+                        {name: "nameFa",  align: "center" , width:"10%"},
+                        {name: "nameEn",  align: "center" , width:"10%"},
+
 
                     ]
                 }
@@ -286,32 +352,39 @@
             ]
     });
 
-    var IButton_Port_Save = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
-            DynamicForm_Port.validate();
-            if (DynamicForm_Port.hasErrors())
-                return;
-            var data = DynamicForm_Port.getValues();
-            var methodXXXX = "PUT";
-            if (data.id == null) methodXXXX = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
-                actionURL: "${contextPath}/api/port/",
-                httpMethod: methodXXXX,
-                data: JSON.stringify(data),
-                callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>");
-                        ListGrid_Port_refresh();
-                        Window_Port.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }));
-        }
-    });
+    var IButton_Port_Save = isc.IButtonSave.create(
+        {
+            top: 260,
+            title: "<spring:message code='global.form.save'/>",
+            icon: "pieces/16/save.png",
+            click: function()
+            {
+                DynamicForm_Port.validate();
+                if (DynamicForm_Port.hasErrors())
+                    return;
+                var data = DynamicForm_Port.getValues();
+                var methodXXXX = "PUT";
+                if (data.id == null) methodXXXX = "POST";
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                    {
+                        actionURL: "${contextPath}/api/port/",
+                        httpMethod: methodXXXX,
+                        data: JSON.stringify(data),
+                        callback: function(RpcResponse_o)
+                        {
+                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+                            {
+                                isc.say("<spring:message code='global.form.request.successful'/>");
+                                ListGrid_Port_refresh();
+                                Window_Port.close();
+                            }
+                            else
+                                isc.say(RpcResponse_o.data);
+                        }
+                    }));
+            }
+        });
+
 
     var InstructionCancelBtn = isc.IButtonCancel.create({
         top: 260,
@@ -354,37 +427,65 @@
                 HLayout_Port_IButton
             ]
     });
-    var ListGrid_Port = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Port,
-        contextMenu: Menu_ListGrid_Port,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "port", title: "<spring:message code='port.port'/>", width: "50%", align: "center"},
-                {name: "loa", title: "<spring:message code='port.loa'/>", width: "50%", align: "center"},
-                {name: "beam", title: "<spring:message code='port.beam'/>", width: "50%", align: "center"},
-                {name: "arrival", title: "<spring:message code='port.arrival'/>", width: "50%", align: "center"},
+
+    var ListGrid_Port = isc.ListGrid.create(
+        {
+            width: "100%",
+            height: "100%",
+            dataSource: RestDataSource_Port,
+            contextMenu: Menu_ListGrid_Port,
+            fields: [
                 {
-                    name: "countrynameFa",    dataPath:"country.nameFa"  ,
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "port",
+                    title: "<spring:message code='port.port'/>",
+                    width: "50%",
+                    align: "center"
+                },
+                {
+                    name: "loa",
+                    title: "<spring:message code='port.loa'/>",
+                    width: "50%",
+                    align: "center"
+                },
+                {
+                    name: "beam",
+                    title: "<spring:message code='port.beam'/>",
+                    width: "50%",
+                    align: "center"
+                },
+                {
+                    name: "arrival",
+                    title: "<spring:message code='port.arrival'/>",
+                    width: "50%",
+                    align: "center"
+                },
+                {
+                    name: "countrynameFa",
+                    dataPath: "country.nameFa",
                     title: "<spring:message code='country.nameFa'/>",
                     width: "50%",
                     align: "center"
-                }
-            ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+                }],
+            sortField: 0,
+            autoFetchData: true,
+            showFilterEditor: true,
+            filterOnKeypress: true,
+            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
+            {
+                var record = this.getSelectedRecord();
+            },
+            dataArrived: function(startRow, endRow) {}
 
-    });
+        });
+
     var HLayout_Port_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",

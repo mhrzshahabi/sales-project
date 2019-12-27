@@ -107,37 +107,49 @@
         ]
     });
 
-    var DynamicForm_LME = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: 100,
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
-        fields:
-            [
-                {name: "id", hidden: true , },
-                {type: "RowSpacerItem"},
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+    var DynamicForm_LME = isc.DynamicForm.create(
+        {
+            width: "100%",
+            height: "100%",
+            setMethod: 'POST',
+            align: "center",
+            canSubmit: true,
+            showInlineErrors: true,
+            showErrorText: true,
+            showErrorStyle: true,
+            errorOrientation: "right",
+            titleWidth: 100,
+            titleAlign: "right",
+            requiredMessage: "<spring:message code='validator.field.is.required'/>",
+            numCols: 1,
+            fields: [
+                {
+                    name: "id",
+                    hidden: true,
+                },
+                {
+                    type: "RowSpacerItem"
+                },
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
                 {
                     name: "cuUsdMt",
                     title: "<spring:message code='LME.cuUsdMt'/>",
                     width: 480,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "goldUsdOunce",
@@ -145,12 +157,14 @@
                     width: 480,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true, required:true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            required: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "silverUsdOunce",
@@ -158,25 +172,29 @@
                     width: 480,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat", required:true,
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            required: true,
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "seleniumUsdLb",
                     title: "<spring:message code='LME.seleniumUsdLb'/>",
                     width: 480,
                     keyPressFilter: "[0-9.]",
-                    length: "15", required:true,
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    length: "15",
+                    required: true,
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "platinumUsdOunce",
@@ -184,12 +202,13 @@
                     width: 480,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "palladiumUsdOunce",
@@ -197,12 +216,13 @@
                     width: 480,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "molybdenumUsdLb",
@@ -210,17 +230,25 @@
                     width: 480,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
-                {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: 480, type: "date" , required: true,},
-                {type: "RowSpacerItem"}
-            ]
-    });
+                {
+                    name: "lmeDate",
+                    title: "<spring:message code='LME.LMEDate'/>",
+                    width: 480,
+                    type: "date",
+                    required: true,
+                },
+                {
+                    type: "RowSpacerItem"
+                }]
+        });
 
 
     var ToolStripButton_LME_Refresh = isc.ToolStripButtonRefresh.create({
@@ -257,14 +285,7 @@
         }
     });
 
-    <%--var ToolStripButton_LME_Print = isc.ToolStripButton.create({--%>
-    <%--icon: "[SKIN]/RichTextEditor/print.png",--%>
-    <%--title: "<spring:message code='global.form.print'/>",--%>
-    <%--click: function()--%>
-    <%--{--%>
-    <%--window.open( "/LME/print/pdf");--%>
-    <%--}--%>
-    <%--});--%>
+
 
     var ToolStrip_Actions_LME = isc.ToolStrip.create({
         width: "100%",
@@ -281,8 +302,6 @@
                     ToolStripButton_LME_Refresh,
                 ]
                 })
-
-                <%--ToolStripButton_LME_Print--%>
             ]
     });
 
@@ -293,21 +312,61 @@
                 ToolStrip_Actions_LME
             ]
     });
-    var RestDataSource_LME = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "cuUsdMt", title: "<spring:message code='LME.cuUsdMt'/>", width: 200},
-                {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: 200},
-                {name: "goldUsdOunce", title: "<spring:message code='LME.goldUsdOunce'/>", width: 200},
-                {name: "silverUsdOunce", title: "<spring:message code='LME.silverUsdOunce'/>", width: 200},
-                {name: "seleniumUsdLb", title: "<spring:message code='LME.seleniumUsdLb'/>", width: 200},
-                {name: "platinumUsdOunce", title: "<spring:message code='LME.platinumUsdOunce'/>", width: 200},
-                {name: "palladiumUsdOunce", title: "<spring:message code='LME.palladiumUsdOunce'/>", width: 200},
-                {name: "molybdenumUsdLb", title: "<spring:message code='LME.molybdenumUsdLb'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/LME/spec-list"
-    });
+
+    var RestDataSource_LME = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "cuUsdMt",
+                    title: "<spring:message code='LME.cuUsdMt'/>",
+                    width: 200
+                },
+                {
+                    name: "lmeDate",
+                    title: "<spring:message code='LME.LMEDate'/>",
+                    width: 200
+                },
+                {
+                    name: "goldUsdOunce",
+                    title: "<spring:message code='LME.goldUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "silverUsdOunce",
+                    title: "<spring:message code='LME.silverUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "seleniumUsdLb",
+                    title: "<spring:message code='LME.seleniumUsdLb'/>",
+                    width: 200
+                },
+                {
+                    name: "platinumUsdOunce",
+                    title: "<spring:message code='LME.platinumUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "palladiumUsdOunce",
+                    title: "<spring:message code='LME.palladiumUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "molybdenumUsdLb",
+                    title: "<spring:message code='LME.molybdenumUsdLb'/>",
+                    width: 200
+                }],
+            fetchDataURL: "${contextPath}/api/LME/spec-list"
+        });
+
+
     var IButton_LME_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -340,6 +399,7 @@
             );
         }
     });
+
     var Window_LME = isc.Window.create({
         title: "<spring:message code='LME.title'/> ",
         width: 580,
@@ -379,16 +439,33 @@
                 })
             ]
     });
-    var ListGrid_LME = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_LME,
-        contextMenu: Menu_ListGrid_LME,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: "10%", align: "center"},
-                {name: "cuUsdMt", title: "<spring:message code='LME.cuUsdMt'/>", width: "10%", align: "center"},
+
+    var ListGrid_LME = isc.ListGrid.create(
+        {
+            width: "100%",
+            height: "100%",
+            dataSource: RestDataSource_LME,
+            contextMenu: Menu_ListGrid_LME,
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "lmeDate",
+                    title: "<spring:message code='LME.LMEDate'/>",
+                    width: "10%",
+                    align: "center"
+                },
+                {
+                    name: "cuUsdMt",
+                    title: "<spring:message code='LME.cuUsdMt'/>",
+                    width: "10%",
+                    align: "center"
+                },
                 {
                     name: "goldUsdOunce",
                     title: "<spring:message code='LME.goldUsdOunce'/>",
@@ -424,23 +501,30 @@
                     title: "<spring:message code='LME.molybdenumUsdLb'/>",
                     width: "15%",
                     align: "center"
-                }
-            ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            ListGrid_LMEFeature.fetchData({"lME.id": record.id}, function (dsResponse, data, dsRequest) {
-                ListGrid_LMEFeature.setData(data);
-            }, {operationId: "00"});
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+                }],
+            sortField: 0,
+            autoFetchData: true,
+            showFilterEditor: true,
+            filterOnKeypress: true,
+            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
+            {
+                var record = this.getSelectedRecord();
+                ListGrid_LMEFeature.fetchData(
+                    {
+                        "lME.id": record.id
+                    }, function(dsResponse, data, dsRequest)
+                    {
+                        ListGrid_LMEFeature.setData(data);
+                    },
+                    {
+                        operationId: "00"
+                    });
+            },
+            dataArrived: function(startRow, endRow) {}
 
-    });
+        });
+
     var HLayout_LME_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",

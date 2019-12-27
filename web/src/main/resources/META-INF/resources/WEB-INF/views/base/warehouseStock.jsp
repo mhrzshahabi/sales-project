@@ -135,7 +135,7 @@
             var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             var toDay = datestringRs.replaceAll("/", "");
-            "<spring:url value="/warehouseStock/print-commitment" var="printUrl"/>"
+            "<spring:url value="/warehouseStock/print-commitment" var="printUrl"/>";
             window.open('${printUrl}' + '/' + toDay);
         }
     });
@@ -146,7 +146,7 @@
             var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             var toDay = datestringRs.replaceAll("/", "");
-            "<spring:url value="/warehouseStock/print-export" var="printUrl"/>"
+            "<spring:url value="/warehouseStock/print-export" var="printUrl"/>";
             window.open('${printUrl}' + '/' + toDay);
         }
     });

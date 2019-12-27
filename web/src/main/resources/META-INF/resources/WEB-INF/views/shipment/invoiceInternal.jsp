@@ -124,6 +124,49 @@
     }
 
 
+function ToolStripButton_InvoiceInternal_Pdf_F () {
+
+            var record = ListGrid_InvoiceInternal.getSelectedRecord();
+            if (record===null || record===" " ){
+                isc.say("<spring:message code='global.grid.record.not.selected'/>");
+            }else {
+                var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
+                window.open("invoiceInternal/print/pdf/"+rowId);
+    }
+}
+
+
+function ToolStripButton_InvoiceInternal_Html_F () {
+
+            var record = ListGrid_InvoiceInternal.getSelectedRecord();
+            if (record===null || record===" " ){
+                isc.say("<spring:message code='global.grid.record.not.selected'/>");
+            }else {
+                var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
+                window.open("invoiceInternal/print/html/"+rowId);
+    }
+}
+
+
+
+   var ToolStripButton_InvoiceInternal_html = isc.ToolStripButtonPrint.create({
+                title: "<spring:message code='global.form.print.html'/>",
+                icon: "icon/html.jpg",
+                click: function () {
+                ToolStripButton_InvoiceInternal_Html_F();
+        }});
+
+    var ToolStripButton_InvoiceInternal_Pdf = isc.ToolStripButtonPrint.create({
+                    title: "<spring:message code='global.form.print.pdf'/>",
+                    icon: "icon/pdf.png",
+                     click: function () {
+            ToolStripButton_InvoiceInternal_Pdf_F();
+
+       }
+    });
+
+
+
     var ToolStripButton_InvoiceInternal_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -132,33 +175,36 @@
         }
     });
 
-    var ToolStripButton_InvoiceInternal_Pdf = isc.ToolStripButtonPrint.create({
-                    title: "<spring:message code='global.form.print.pdf'/>",
-                    icon: "icon/pdf.png",
-                     click: function () {
-                    var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
-                    window.open("invoiceInternal/print/pdf/"+rowId);
-       }
-    });
 
-    /*var ToolStripButton_InvoiceInternal_excel = isc.ToolStripButton.create({
-                title: "<spring:message code='global.form.print.excel'/>",
-                icon: "icon/excel.png",
-                click: function () {
+
+
+function Menu_ListGrid_InvoiceInternal_Pdf_F () {
+
+            var record = ListGrid_InvoiceInternal.getSelectedRecord();
+            if (record===null || record===" " ){
+                isc.say("<spring:message code='global.grid.record.not.selected'/>");
+            }else {
                 var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
-                window.open("invoiceInternal/print/excel/"+rowId);
+                window.open("invoiceInternal/print/pdf/"+rowId);
+    }
 }
-    });*/
 
-    var ToolStripButton_InvoiceInternal_html = isc.ToolStripButtonPrint.create({
-                title: "<spring:message code='global.form.print.html'/>",
-                icon: "icon/html.jpg",
-                click: function () {
+
+
+function Menu_ListGrid_InvoiceInternal_Html_F () {
+
+            var record = ListGrid_InvoiceInternal.getSelectedRecord();
+            if (record===null || record===" " ){
+                isc.say("<spring:message code='global.grid.record.not.selected'/>");
+            }else {
                 var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
                 window.open("invoiceInternal/print/html/"+rowId);
-        }});
+    }
+}
 
-/*Edit By JZ*/
+
+
+
     var Menu_ListGrid_InvoiceInternal = isc.Menu.create({
         width: 150,
         data: [
@@ -174,35 +220,20 @@
                 title: "<spring:message code='global.form.print.pdf'/>",
                 icon: "icon/pdf.png",
                 click: function () {
-                    var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
-                    window.open("invoiceInternal/print/pdf/"+rowId);
+                        Menu_ListGrid_InvoiceInternal_Pdf_F ();
                 }
 
                 }
 
-                /*, {
-                title: "<spring:message code='global.form.print.excel'/>",
-                icon: "icon/excel.png",
-                click: function () {
-                    var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
-                    window.open("invoiceInternal/print/excel/"+rowId);
-                }
-            }*/
             , {
                 title: "<spring:message code='global.form.print.html'/>",
                 icon: "icon/html.jpg",
                 click: function () {
-                    var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
-                    window.open("invoiceInternal/print/html/"+rowId);
+                      Menu_ListGrid_InvoiceInternal_Html_F ();
                 }
             }
         ]
     });
-
-
-
-
-
 
 
 
@@ -244,28 +275,9 @@
                     var record = ListGrid_InvoiceInternal.getSelectedRecord();
 
                     if (record == null || record.id == null) {
-                        isc.Dialog.create({
-                            message: "<spring:message code='global.grid.record.not.selected'/>",
-                            icon: "[SKIN]ask.png",
-                            title: "<spring:message code='global.message'/>",
-                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                            buttonClick: function () {
-                                this.hide();
-                            }
-                        });
+                    isc.say("<spring:message code='global.grid.record.not.selected'/>");
                     } else  if (record.processId== null || typeof record.processId == 'undefined' ) {
-// invoice.invDate= Date
-// invoice.havalehId= Invoice
-// invoice.customerName= Buyer
-// invoice.shomarehSoratHesab= No
-// invoice.gdsName= Product
-// invoice.typeForosh= LC
-// invoice.ghematUnit= Unit Price
-// invoice.weightReal= Weight
-// invoice.mablaghKol= Price
-// invoice.totalKosorat= Tax+Cost
-// invoice.bankGroupDesc= LC Bank
-//
+
                             var data2acc={}; var iiid=record.id; var iiinvoice=record.havalehId;
                             data2acc["documentId"]= iiid.toString();
                             data2acc["internal"]=  "داخلی";
@@ -274,7 +286,6 @@
                             data2acc["company"]=  record.customerName+'-'+
                                                          record.shomarehSoratHesab;
                             data2acc["price"]=  (record.typeForosh==2 ?  "اعتباری " : " ")+record.mablaghKol;
- // alert(JSON.stringify(data2acc))
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                     actionURL: "${contextPath}/api/invoiceInternal/sendForm-2accounting/"+record.id,
                                     httpMethod: "PUT",

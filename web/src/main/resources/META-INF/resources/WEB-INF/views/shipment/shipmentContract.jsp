@@ -190,7 +190,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/shipmentContract", //TODO
+                actionURL: "${contextPath}/api/shipmentContract",
                 httpMethod: method,
                 data: JSON.stringify(data),
                 callback: function (resp) {
@@ -243,55 +243,72 @@
     }
 
 
-    function ListGrid_ShipmentContract_remove() {
+    function ListGrid_ShipmentContract_remove()
+    {
 
         var record = ListGrid_ShipmentContract.getSelectedRecord();
 
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({
-                    title: "<spring:message code='global.ok'/>"
-                })],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [
-                    isc.IButtonSave.create({
-                        title: "<spring:message code='global.yes'/>"
-                    }),
-                    isc.IButtonCancel.create({
-                        title: "<spring:message code='global.no'/>"
-                    })
-                ],
-
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index === 0) {
-                        var shipmentContractId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
-                            httpMethod: "DELETE",
-                            callback: function (resp) {
-                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                                    ListGrid_ShipmentContract_refresh();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                }
-                            }
-                        }));
+        if (record == null || record.id == null)
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create(
+                        {
+                            title: "<spring:message code='global.ok'/>"
+                        })],
+                    buttonClick: function()
+                    {
+                        this.hide();
                     }
-                }
-            });
+                });
+        }
+        else
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.remove.ask'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                    buttons: [
+                        isc.IButtonSave.create(
+                            {
+                                title: "<spring:message code='global.yes'/>"
+                            }),
+                        isc.IButtonCancel.create(
+                            {
+                                title: "<spring:message code='global.no'/>"
+                            })
+                    ],
+
+                    buttonClick: function(button, index)
+                    {
+                        this.hide();
+                        if (index === 0)
+                        {
+                            var shipmentContractId = record.id;
+                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                                {
+                                    actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
+                                    httpMethod: "DELETE",
+                                    callback: function(resp)
+                                    {
+                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)
+                                        {
+                                            ListGrid_ShipmentContract_refresh();
+                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                        }
+                                        else
+                                        {
+                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                        }
+                                    }
+                                }));
+                        }
+                    }
+                });
         }
     }
 
@@ -554,7 +571,7 @@
                 }],
                 blur: function () {
                     var value = DynamicForm_ShipmentContract.getItem('createDate').getValue();
-                    if (value != null && value.length != 10 && value != "") {
+                    if (value != null && value.length !== 10 && value !== "") {
                         DynamicForm_ShipmentContract.setValue('createDate', CorrectDate(value))
                     }
                 },
@@ -600,7 +617,7 @@
                 }],
                 blur: function () {
                     var value = DynamicForm_ShipmentContract.getItem('laycanStart').getValue();
-                    if (value != null && value.length != 10 && value != "") {
+                    if (value != null && value.length !== 10 && value !== "") {
                         DynamicForm_ShipmentContract.setValue('laycanStart', CorrectDate(value))
                     }
                 },
@@ -621,7 +638,7 @@
                 }],
                 blur: function () {
                     var value = DynamicForm_ShipmentContract.getItem('laycanEnd').getValue();
-                    if (value != null && value.length != 10 && value != "") {
+                    if (value != null && value.length !== 10 && value !== "") {
                         DynamicForm_ShipmentContract.setValue('laycanEnd', CorrectDate(value))
                     }
                 },
@@ -669,25 +686,26 @@
     });
 
 
-    var ToolStrip_Actions_ShipmentContract = isc.ToolStrip.create({
-        width: "100%",
-        membersMargin: 5,
-        members:
-            [
+    var ToolStrip_Actions_ShipmentContract = isc.ToolStrip.create(
+        {
+            width: "100%",
+            membersMargin: 5,
+            members: [
                 ToolStripButton_ShipmentContract_Add,
                 ToolStripButton_ShipmentContract_Edit,
                 ToolStripButton_ShipmentContract_Remove,
-                isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_ShipmentContract_Refresh,
-                ]
-                })
+                isc.ToolStrip.create(
+                    {
+                        width: "100%",
+                        align: "left",
+                        border: '0px',
+                        members: [
+                            ToolStripButton_ShipmentContract_Refresh,
+                        ]
+                    })
 
             ]
-    });
+        });
 
     var HLayout_ShipmentContract_Actions = isc.HLayout.create({
         width: "100%",

@@ -5,12 +5,28 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var MyRestDataSource_ShipmentAssayHeader = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "shipmentId", title: "id", canEdit: false},
-                {name: "shipment.contract.contractNo", title: "contractNo", canEdit: false, hidden: true},
+
+    var MyRestDataSource_ShipmentAssayHeader = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "shipmentId",
+                    title: "id",
+                    canEdit: false
+                },
+                {
+                    name: "shipment.contract.contractNo",
+                    title: "contractNo",
+                    canEdit: false,
+                    hidden: true
+                },
                 {
                     name: "inspectionByContactId",
                     title: "<spring:message code='shipment.AssayInspectionCompany'/>",
@@ -22,9 +38,21 @@
                     type: 'text',
                     canEdit: false
                 },
-                {name: "description", title: "<spring:message code='shipment.Assay.capacity'/>", type: 'text'},
-                {name: "location", title: "<spring:message code='shipment.Assay.location'/>", type: 'text'},
-                {name: "inspectionDate", title: "<spring:message code='shipment.Assay.inspectionDate'/>", type: 'text'},
+                {
+                    name: "description",
+                    title: "<spring:message code='shipment.Assay.capacity'/>",
+                    type: 'text'
+                },
+                {
+                    name: "location",
+                    title: "<spring:message code='shipment.Assay.location'/>",
+                    type: 'text'
+                },
+                {
+                    name: "inspectionDate",
+                    title: "<spring:message code='shipment.Assay.inspectionDate'/>",
+                    type: 'text'
+                },
                 {
                     name: "averageCuPercent",
                     title: "<spring:message code='shipment.Assay.averageCuPercent'/>",
@@ -40,233 +68,460 @@
                     title: "<spring:message code='shipment.Assay.averageAgPercent'/>",
                     type: 'text'
                 },
-                {name: "totalDryWeight", title: "<spring:message code='shipment.Assay.totalDryWeight'/>", type: 'text'},
-            ],
-        fetchDataURL: "${contextPath}/api/shipmentAssayHeader/spec-list"
-    });
-
-    var MyRestDataSource_ShipmentAssayItem = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "shipmentAssayHeaderId", title: "id", canEdit: false, hidden: true},
-                {name: "lotNo", title: "<spring:message code='shipment.Assay.lotNo'/>", type: 'text'},
                 {
-                    name: "cu", title: "<spring:message code='shipment.Assay.cu'/>", type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    name: "totalDryWeight",
+                    title: "<spring:message code='shipment.Assay.totalDryWeight'/>",
+                    type: 'text'
+                }, ],
+            fetchDataURL: "${contextPath}/api/shipmentAssayHeader/spec-list"
+        });
+
+
+    var MyRestDataSource_ShipmentAssayItem = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
                 },
                 {
-                    name: "ag", title: "<spring:message code='shipment.Assay.ag'/>", type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    name: "shipmentAssayHeaderId",
+                    title: "id",
+                    canEdit: false,
+                    hidden: true
                 },
                 {
-                    name: "au", title: "<spring:message code='shipment.Assay.au'/>", type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    name: "lotNo",
+                    title: "<spring:message code='shipment.Assay.lotNo'/>",
+                    type: 'text'
                 },
-            ],
-        fetchDataURL: "${contextPath}/api/shipmentAssayItem/spec-list"
-    });
+                {
+                    name: "cu",
+                    title: "<spring:message code='shipment.Assay.cu'/>",
+                    type: 'float',
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
+                },
+                {
+                    name: "ag",
+                    title: "<spring:message code='shipment.Assay.ag'/>",
+                    type: 'float',
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
+                },
+                {
+                    name: "au",
+                    title: "<spring:message code='shipment.Assay.au'/>",
+                    type: 'float',
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
+                }, ],
+            fetchDataURL: "${contextPath}/api/shipmentAssayItem/spec-list"
+        });
 
-    var MyRestDataSource_Contact_IN_SHIPMENT_ASSAY = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='contact.code'/>"},
-            {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-            {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-            {name: "tradeMark"},
-            {name: "ceoPassportNo"},
-            {name: "ceo"},
-            {name: "commercialRegistration"},
-            {name: "branchName"},
-            {name: "commertialRole"},
-            {name: "phone", title: "<spring:message code='contact.phone'/>"},
-            {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
-            {name: "fax", title: "<spring:message code='contact.fax'/>"},
-            {name: "address", title: "<spring:message code='contact.address'/>"},
-            {name: "webSite", title: "<spring:message code='contact.webSite'/>"},
-            {name: "email", title: "<spring:message code='contact.email'/>"},
-            {
-                name: "type",
-                title: "<spring:message code='contact.type'/>",
-                valueMap: {
-                    "true": "<spring:message code='contact.type.real'/>",
-                    "false": "<spring:message code='contact.type.legal'/>"
-                }
-            },
-            {name: "nationalcode", title: "<spring:message code='contact.nationalCode'/>"},
-            {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
-            {name: "bankAccount", title: "<spring:message code='contact.bankAccount'/>"},
-            {name: "bankShaba", title: "<spring:message code='contact.bankShaba'/>"},
-            {name: "bankSwift", title: "<spring:message code='contact.bankShaba'/>"},
-            {name: "bankName", title: "<spring:message code='contact.bankName'/>"},
-            {
-                name: "status",
-                title: "<spring:message code='contact.status'/>",
-                valueMap: {"true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"}
-            },
-            {name: "contactAccounts"}
-        ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list"
-    });
 
-    var MyRestDataSource_ShipmentByAssayHeader = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-            {name: "contactId", type: 'long', hidden: true},
-            {name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
-            {name: "contractId", type: 'long', hidden: true},
-            {
-                name: "contract.contractNo",
-                title: "<spring:message code='contract.contractNo'/>",
-                type: 'text',
-                width: 180
-            },
-            {
-                name: "contract.contractDate",
-                title: "<spring:message code='contract.contractDate'/>",
-                type: 'text',
-                width: 180
-            },
-            {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-            {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
-            {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
-            {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
-            {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {
-                name: "laycan",
-                title: "<spring:message code='shipmentContract.laycanStart'/>",
-                type: 'integer',
-                width: "10%",
-                align: "center"
-            },
-            {
-                name: "shipmentType",
-                title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text',
-                width: 400,
-                valueMap: {"bulk": "bulk", "container": "container"}
-            },
-            {
-                name: "loadingLetter",
-                title: "<spring:message code='shipment.loadingLetter'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", type: 'text', width: "10%"},
-            {
-                name: "portByLoading.port",
-                title: "<spring:message code='shipment.loading'/>",
-                type: 'text',
-                width: "10%"
-            },
-            {
-                name: "portByDischargeId",
-                title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
-                width: "10%"
-            },
-            {
-                name: "portByDischarge.port",
-                title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
-                width: "10%"
-            },
-            {name: "dischargeAddress", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "description", title: "<spring:message code='shipment.description'/>", type: 'text', width: "10%"},
-            {name: "swb", title: "<spring:message code='shipment.SWB'/>", type: 'text', width: "10%"},
-            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "10%"},
-            {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
-            {
-                name: "status", title: "<spring:message code='shipment.staus'/>", type: 'text', width: "10%",
-                valueMap: {
-                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
-                    "Resource": "<spring:message code='shipment.resource'/>"
-                }
-            },
-            {
-                name: "contractShipment.sendDate",
-                title: "<spring:message code='global.sendDate'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
-            {name: "contactByAgent.nameFA", align: "center", showHover: true},
-            {
-                name: "vesselName",
-                title: "<spring:message	code='shipment.vesselName'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            }
-        ],
-        fetchDataURL: "${contextPath}/api/shipment/spec-list"
-    });
+
+    var MyRestDataSource_Contact_IN_SHIPMENT_ASSAY = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "code",
+                    title: "<spring:message code='contact.code'/>"
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='contact.nameFa'/>"
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='contact.nameEn'/>"
+                },
+                {
+                    name: "tradeMark"
+                },
+                {
+                    name: "ceoPassportNo"
+                },
+                {
+                    name: "ceo"
+                },
+                {
+                    name: "commercialRegistration"
+                },
+                {
+                    name: "branchName"
+                },
+                {
+                    name: "commertialRole"
+                },
+                {
+                    name: "phone",
+                    title: "<spring:message code='contact.phone'/>"
+                },
+                {
+                    name: "mobile",
+                    title: "<spring:message code='contact.mobile'/>"
+                },
+                {
+                    name: "fax",
+                    title: "<spring:message code='contact.fax'/>"
+                },
+                {
+                    name: "address",
+                    title: "<spring:message code='contact.address'/>"
+                },
+                {
+                    name: "webSite",
+                    title: "<spring:message code='contact.webSite'/>"
+                },
+                {
+                    name: "email",
+                    title: "<spring:message code='contact.email'/>"
+                },
+                {
+                    name: "type",
+                    title: "<spring:message code='contact.type'/>",
+                    valueMap:
+                        {
+                            "true": "<spring:message code='contact.type.real'/>",
+                            "false": "<spring:message code='contact.type.legal'/>"
+                        }
+                },
+                {
+                    name: "nationalcode",
+                    title: "<spring:message code='contact.nationalCode'/>"
+                },
+                {
+                    name: "economicalCode",
+                    title: "<spring:message code='contact.economicalCode'/>"
+                },
+                {
+                    name: "bankAccount",
+                    title: "<spring:message code='contact.bankAccount'/>"
+                },
+                {
+                    name: "bankShaba",
+                    title: "<spring:message code='contact.bankShaba'/>"
+                },
+                {
+                    name: "bankSwift",
+                    title: "<spring:message code='contact.bankShaba'/>"
+                },
+                {
+                    name: "bankName",
+                    title: "<spring:message code='contact.bankName'/>"
+                },
+                {
+                    name: "status",
+                    title: "<spring:message code='contact.status'/>",
+                    valueMap:
+                        {
+                            "true": "<spring:message code='enabled'/>",
+                            "false": "<spring:message code='disabled'/>"
+                        }
+                },
+                {
+                    name: "contactAccounts"
+                }],
+            fetchDataURL: "${contextPath}/api/contact/spec-list"
+        });
+
+
+
+    var MyRestDataSource_ShipmentByAssayHeader = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "contractShipmentId",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "contactId",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "contract.contact.nameFA",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'text'
+                },
+                {
+                    name: "contractId",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "contract.contractNo",
+                    title: "<spring:message code='contract.contractNo'/>",
+                    type: 'text',
+                    width: 180
+                },
+                {
+                    name: "contract.contractDate",
+                    title: "<spring:message code='contract.contractDate'/>",
+                    type: 'text',
+                    width: 180
+                },
+                {
+                    name: "materialId",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "material.descl",
+                    title: "<spring:message code='material.descl'/>",
+                    type: 'text'
+                },
+                {
+                    name: "material.unit.nameEN",
+                    title: "<spring:message code='unit.nameEN'/>",
+                    type: 'text'
+                },
+                {
+                    name: "amount",
+                    title: "<spring:message code='global.amount'/>",
+                    type: 'float'
+                },
+                {
+                    name: "noContainer",
+                    title: "<spring:message code='shipment.noContainer'/>",
+                    type: 'integer'
+                },
+                {
+                    name: "noPalete",
+                    title: "<spring:message code='shipment.noContainer'/>",
+                    type: 'integer'
+                },
+                {
+                    name: "laycan",
+                    title: "<spring:message code='shipmentContract.laycanStart'/>",
+                    type: 'integer',
+                    width: "10%",
+                    align: "center"
+                },
+                {
+                    name: "shipmentType",
+                    title: "<spring:message code='shipment.shipmentType'/>",
+                    type: 'text',
+                    width: 400,
+                    valueMap:
+                        {
+                            "bulk": "bulk",
+                            "container": "container"
+                        }
+                },
+                {
+                    name: "loadingLetter",
+                    title: "<spring:message code='shipment.loadingLetter'/>",
+                    type: 'text',
+                    width: "10%",
+                    showHover: true
+                },
+                {
+                    name: "loading",
+                    title: "<spring:message code='global.address'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "portByLoadingId",
+                    title: "<spring:message code='shipment.loading'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "portByLoading.port",
+                    title: "<spring:message code='shipment.loading'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "portByDischargeId",
+                    title: "<spring:message code='shipment.discharge'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "portByDischarge.port",
+                    title: "<spring:message code='shipment.discharge'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "dischargeAddress",
+                    title: "<spring:message code='global.address'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "description",
+                    title: "<spring:message code='shipment.description'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "swb",
+                    title: "<spring:message code='shipment.SWB'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "switchPort.port",
+                    title: "<spring:message code='port.switchPort'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "month",
+                    title: "<spring:message code='shipment.month'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "status",
+                    title: "<spring:message code='shipment.staus'/>",
+                    type: 'text',
+                    width: "10%",
+                    valueMap:
+                        {
+                            "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                            "Resource": "<spring:message code='shipment.resource'/>"
+                        }
+                },
+                {
+                    name: "contractShipment.sendDate",
+                    title: "<spring:message code='global.sendDate'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%",
+                    align: "center",
+                    showHover: true
+                },
+                {
+                    name: "createDate",
+                    title: "<spring:message code='shipment.createDate'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "contactByAgent.nameFA",
+                    align: "center",
+                    showHover: true
+                },
+                {
+                    name: "vesselName",
+                    title: "<spring:message	code='shipment.vesselName'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%",
+                    showHover: true
+                }],
+            fetchDataURL: "${contextPath}/api/shipment/spec-list"
+        });
+
 
     var ShipmentAssayItemData = [];
     for (i = 0; i < 100; i++) {
         ShipmentAssayItemData.add({id: i});
     }
 
-    var ClientDataSource_ShipmentAssayItem = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "shipmentAssayHeaderId", title: "id", canEdit: false, hidden: true},
-                {name: "lotNo", title: "<spring:message code='shipment.Assay.lotNo'/>", type: 'text'},
+
+    var ClientDataSource_ShipmentAssayItem = isc.MyRestDataSource.create(
+        {
+            fields: [
                 {
-                    name: "cu", title: "<spring:message code='shipment.Assay.cu'/>", type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
                 },
                 {
-                    name: "ag", title: "<spring:message code='shipment.Assay.ag'/>", type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    name: "shipmentAssayHeaderId",
+                    title: "id",
+                    canEdit: false,
+                    hidden: true
                 },
                 {
-                    name: "au", title: "<spring:message code='shipment.Assay.au'/>", type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    name: "lotNo",
+                    title: "<spring:message code='shipment.Assay.lotNo'/>",
+                    type: 'text'
                 },
-            ],
-        testData: ShipmentAssayItemData,
-        clientOnly: true
-    });
+                {
+                    name: "cu",
+                    title: "<spring:message code='shipment.Assay.cu'/>",
+                    type: 'float',
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
+                },
+                {
+                    name: "ag",
+                    title: "<spring:message code='shipment.Assay.ag'/>",
+                    type: 'float',
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
+                },
+                {
+                    name: "au",
+                    title: "<spring:message code='shipment.Assay.au'/>",
+                    type: 'float',
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
+                }, ],
+            testData: ShipmentAssayItemData,
+            clientOnly: true
+        });
+
+
 
     function pasteText(text) {
         var fieldNames = [];

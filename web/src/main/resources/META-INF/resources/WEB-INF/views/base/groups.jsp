@@ -1,50 +1,129 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-// <script>
+//<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_Person_GroupEmail = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contactId"},
-            {name: "contactnameFA"   ,   dataPath:"contact.nameFA" },
-            {
-                name: "fullName",
-                title: "<spring:message code='person.fullName'/>",
-                type: 'text',
-                required: true,
-                width: 400
-            },
-            {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 400},
-            {
-                name: "title",
-                title: "<spring:message code='person.title'/>",
-                type: 'text',
-                width: 400,
-                valueMap: {
-                    "MR": "<spring:message code='global.MR'/>",
-                    "MIS": "<spring:message code='global.MIS'/>",
-                    "MS": "<spring:message code='global.MRS'/>",
-                }
-            },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400},
-            {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
-            {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400},
-            {name: "webAddress", title: "<spring:message code='person.webAddress'/>", type: 'text', width: 400},
-            {name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 400},
-            {name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 400},
-            {name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: 400},
-            {name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: 400},
-            {name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: 400},
-            {name: "whatsApp", title: "<spring:message code='person.whatsApp'/>", type: 'text', width: 400},
-            {name: "weChat", title: "<spring:message code='person.weChat'/>", type: 'text', width: 400},
-            {name: "address", title: "<spring:message code='person.address'/>", type: 'text', width: 400},
-        ],
+    var RestDataSource_Person_GroupEmail = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "contactId"
+                },
+                {
+                    name: "contactnameFA",
+                    dataPath: "contact.nameFA"
+                },
+                {
+                    name: "fullName",
+                    title: "<spring:message code='person.fullName'/>",
+                    type: 'text',
+                    required: true,
+                    width: 400
+                },
+                {
+                    name: "jobTitle",
+                    title: "<spring:message code='person.jobTitle'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "title",
+                    title: "<spring:message code='person.title'/>",
+                    type: 'text',
+                    width: 400,
+                    valueMap:
+                        {
+                            "MR": "<spring:message code='global.MR'/>",
+                            "MIS": "<spring:message code='global.MIS'/>",
+                            "MS": "<spring:message code='global.MRS'/>",
+                        }
+                },
+                {
+                    name: "email",
+                    title: "<spring:message code='person.email'/>",
+                    type: 'text',
+                    required: true,
+                    width: 400
+                },
+                {
+                    name: "email1",
+                    title: "<spring:message code='person.email1'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "email2",
+                    title: "<spring:message code='person.email2'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "webAddress",
+                    title: "<spring:message code='person.webAddress'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "phoneNo",
+                    title: "<spring:message code='person.phoneNo'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "faxNo",
+                    title: "<spring:message code='person.faxNo'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "mobileNo",
+                    title: "<spring:message code='person.mobileNo'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "mobileNo1",
+                    title: "<spring:message code='person.mobileNo1'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "mobileNo2",
+                    title: "<spring:message code='person.mobileNo2'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "whatsApp",
+                    title: "<spring:message code='person.whatsApp'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "weChat",
+                    title: "<spring:message code='person.weChat'/>",
+                    type: 'text',
+                    width: 400
+                },
+                {
+                    name: "address",
+                    title: "<spring:message code='person.address'/>",
+                    type: 'text',
+                    width: 400
+                },],
 
-        fetchDataURL: "${contextPath}/api/person/spec-list"
-    });
+            fetchDataURL: "${contextPath}/api/person/spec-list"
+        });
+
 
     var Menu_ListGrid_Groups = isc.Menu.create({
         width: 150,
@@ -322,43 +401,57 @@
         fetchDataURL: "${contextPath}/api/groups/spec-list"
     });
 
-    var ListGrid_Groups = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Groups,
-        contextMenu: Menu_ListGrid_Groups,
-        canDragRecordsOut: true,
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+    var ListGrid_Groups = isc.ListGrid.create(
+        {
+            width: "100%",
+            height: "100%",
+            dataSource: RestDataSource_Groups,
+            contextMenu: Menu_ListGrid_Groups,
+            canDragRecordsOut: true,
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "groupsName",
+                    title: "<spring:message code='groups.groupsName'/>",
+                    type: 'text',
+                    required: true,
+                    width: 400
+                }, ],
+            sortField: 0,
+            autoFetchData: true,
+            showFilterEditor: true,
+            filterOnKeypress: true,
+
+            recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
             {
-                name: "groupsName",
-                title: "<spring:message code='groups.groupsName'/>",
-                type: 'text',
-                required: true,
-                width: 400
+                var record = this.getSelectedRecord();
+                var criteria = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [
+                        {
+                            fieldName: "groupsId",
+                            operator: "equals",
+                            value: record.id
+                        }]
+                };
+                ListGrid_GroupsPerson.fetchData(criteria, function(dsResponse, data, dsRequest)
+                    {
+                        ListGrid_GroupsPerson.setData(data);
+                    },
+                    {
+                        operationId: "00"
+                    });
             },
-        ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-
-        recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "groupsId", operator: "equals", value: record.id}]
-            };
-            ListGrid_GroupsPerson.fetchData(criteria, function (dsResponse, data, dsRequest) {
-                ListGrid_GroupsPerson.setData(data);
-            }, {operationId: "00"});
-        },
-        dataArrived: function (startRow, endRow) {
-        }
-    });
-
+            dataArrived: function(startRow, endRow) {}
+        });
 
     var HLayout_Grid_Groups = isc.HLayout.create({
         width: "100%",
@@ -376,7 +469,7 @@
         ]
     });
 
-    //************************** person *********************************
+
     var Menu_ListGrid_Person_GroupEmail = isc.Menu.create({
         width: 150,
         data:
@@ -424,66 +517,121 @@
         ]
     });
 
-    var ListGrid_Person_GroupEmail = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Person_GroupEmail,
-        contextMenu: Menu_ListGrid_Person_GroupEmail,
-        canDragRecordsOut: true,
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+    var ListGrid_Person_GroupEmail = isc.ListGrid.create(
+        {
+            width: "100%",
+            height: "100%",
+            dataSource: RestDataSource_Person_GroupEmail,
+            contextMenu: Menu_ListGrid_Person_GroupEmail,
+            canDragRecordsOut: true,
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "contactnameFA",
+                    dataPath: "contact.nameFA",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'long',
+                    width: "10%",
+                    align: "center"
+                },
+                {
+                    name: "fullName",
+                    title: "<spring:message code='person.fullName'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%"
+                },
+                {
+                    name: "jobTitle",
+                    title: "<spring:message code='person.jobTitle'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "title",
+                    title: "<spring:message code='person.title'/>",
+                    type: 'text',
+                    width: "10%",
+                    valueMap:
+                        {
+                            "MR": "<spring:message code='global.MR'/>",
+                            "MIS": "<spring:message code='global.MIS'/>",
+                            "MS": "<spring:message code='global.MRS'/>",
+                        }
+                },
+                {
+                    name: "email",
+                    title: "<spring:message code='person.email'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%"
+                },
+                {
+                    name: "email1",
+                    title: "<spring:message code='person.email1'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "email2",
+                    title: "<spring:message code='person.email2'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "phoneNo",
+                    title: "<spring:message code='person.phoneNo'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "mobileNo",
+                    title: "<spring:message code='person.mobileNo'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "mobileNo1",
+                    title: "<spring:message code='person.mobileNo1'/>",
+                    type: 'text',
+                    width: "10%"
+                }],
+            sortField: 0,
+            autoFetchData: true,
+            showFilterEditor: true,
+            filterOnKeypress: true,
+            recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
             {
-                name: "contactnameFA", dataPath:"contact.nameFA"  ,
-                title: "<spring:message code='contact.name'/>",
-                type: 'long',
-                width: "10%",
-                align: "center"
+                var record = this.getSelectedRecord();
+                var criteria = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [
+                        {
+                            fieldName: "personId",
+                            operator: "equals",
+                            value: record.id
+                        }]
+                };
+                ListGrid_GroupsPerson.fetchData(criteria, function(dsResponse, data, dsRequest)
+                    {
+                        ListGrid_GroupsPerson.setData(data);
+                    },
+                    {
+                        operationId: "00"
+                    });
             },
-            {
-                name: "fullName",
-                title: "<spring:message code='person.fullName'/>",
-                type: 'text',
-                required: true,
-                width: "10%"
-            },
-            {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: "10%"},
-            {
-                name: "title",
-                title: "<spring:message code='person.title'/>",
-                type: 'text',
-                width: "10%",
-                valueMap: {
-                    "MR": "<spring:message code='global.MR'/>",
-                    "MIS": "<spring:message code='global.MIS'/>",
-                    "MS": "<spring:message code='global.MRS'/>",
-                }
-            },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: "10%"},
-            {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: "10%"},
-            {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: "10%"},
-            {name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: "10%"},
-            {name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: "10%"},
-            {name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: "10%"}
-        ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "personId", operator: "equals", value: record.id}]
-            };
-            ListGrid_GroupsPerson.fetchData(criteria, function (dsResponse, data, dsRequest) {
-                ListGrid_GroupsPerson.setData(data);
-            }, {operationId: "00"});
-        },
-        dataArrived: function (startRow, endRow) {
-        }
-    });
+            dataArrived: function(startRow, endRow) {}
+        });
+
+
     var HLayout_Grid_Person = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -499,7 +647,7 @@
             HLayout_Actions_Person, HLayout_Grid_Person
         ]
     });
-    //*************************************************************************end person ********
+
     var HLayout_2Vlayout_GroupsPerson = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -507,7 +655,7 @@
             VLayout_Body_Groups, VLayout_Body_Person
         ]
     });
-    //*******************************************************************************
+
     var Menu_ListGrid_GroupsPerson = isc.Menu.create({
         width: 150,
         data:
@@ -578,7 +726,7 @@
                     title: "<spring:message code='person.fullName'/>",
                     type: 'long',
                     width: 400,
-                    required : true ,
+                    required: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Person_GroupEmail,
                     displayField: "fullName",
@@ -590,7 +738,7 @@
                         name: "fullName",
                         width: 150,
                         align: "center"
-                    }, {name: "contactnameFA", width: 150, align: "center"   , dataPath:"contact.nameFA"   }, {
+                    }, {name: "contactnameFA", width: 150, align: "center", dataPath: "contact.nameFA"}, {
                         name: "email",
                         width: 150,
                         align: "center"
@@ -653,7 +801,7 @@
     });
 
 
-    ////////////////////////////////////////////////////
+
     var GroupPersonHeaderForm = isc.DynamicForm.create({
         align: "center",
         width: 800,
@@ -668,7 +816,7 @@
                 type: "staticText",
                 title: "<spring:message code='group.name'/>",
                 wrapTitle: false,
-                width:400
+                width: 400
             }
         ]
     });
@@ -689,7 +837,7 @@
         ]
     });
 
-    ///////////////////////////////////////////////////////////////////////
+
 
 
     var Window_GroupsPerson = isc.Window.create({
@@ -703,7 +851,7 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
-        overflow :'hidden',
+        overflow: 'hidden',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
@@ -812,7 +960,6 @@
                 DynamicForm_GroupsPerson.clearValues();
                 DynamicForm_GroupsPerson.setValue("groupsId", record.id);
                 DynamicForm_GroupsPerson.setValue("groupsName", record.groupsName);
-                //setGroupPersonHeaderFormData(record);
                 GroupPersonHeaderForm.setValue("id", record.id);
                 GroupPersonHeaderForm.setValue("groupsName", record.groupsName);
 
@@ -872,14 +1019,14 @@
                 hidden: true
             },
             {
-                name: "groupsgroupsName", dataPath:"groups.groupsName"  ,
+                name: "groupsgroupsName", dataPath: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
                 width: 400
             },
             {
-                name: "personid",  dataPath:"person.id" ,
+                name: "personid", dataPath: "person.id",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
@@ -887,15 +1034,21 @@
                 hidden: true
             },
             {
-                name: "personfullName", dataPath:"person.fullName" ,
+                name: "personfullName", dataPath: "person.fullName",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
                 width: 400
             },
-            {name: "personjobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 150    , dataPath:"person.jobTitle" },
             {
-                name: "persontitle",  dataPath:"person.title" ,
+                name: "personjobTitle",
+                title: "<spring:message code='person.jobTitle'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.jobTitle"
+            },
+            {
+                name: "persontitle", dataPath: "person.title",
                 title: "<spring:message code='person.title'/>",
                 type: 'text',
                 width: 150,
@@ -906,28 +1059,88 @@
                 }
             },
             {
-                name: "personemail",  dataPath:"person.email" ,
+                name: "personemail", dataPath: "person.email",
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: true,
                 width: 150
             },
-            {name: "personemail1", title: "<spring:message code='person.email1'/>", type: 'text', width: 150   ,   dataPath:"person.email1"    },
-            {name: "personemail2", title: "<spring:message code='person.email2'/>", type: 'text', width: 150 ,      dataPath:"person.email2"   },
             {
-                name: "personwebAddress",   dataPath:"person.webAddress",
+                name: "personemail1",
+                title: "<spring:message code='person.email1'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.email1"
+            },
+            {
+                name: "personemail2",
+                title: "<spring:message code='person.email2'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.email2"
+            },
+            {
+                name: "personwebAddress", dataPath: "person.webAddress",
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
                 width: 150
             },
-            {name: "personphoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 150 ,       dataPath:"person.phoneNo" },
-            {name: "personfaxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 150 ,           dataPath:"person.faxNo" },
-            {name: "personmobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: 150 ,     dataPath:"person.mobileNo" },
-            {name: "personmobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: 150 ,   dataPath:"person.mobileNo1" },
-            {name: "personmobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: 150 ,   dataPath:"person.mobileNo2" },
-            {name: "personwhatsApp", title: "<spring:message code='person.whatsApp'/>", type: 'text', width: 150 ,     dataPath:"person.whatsApp" },
-            {name: "personweChat", title: "<spring:message code='person.weChat'/>", type: 'text', width: 150 ,         dataPath:"person.weChat" },
-            {name: "personaddress", title: "<spring:message code='person.address'/>", type: 'text', width: 150,        dataPath:"person.address" },
+            {
+                name: "personphoneNo",
+                title: "<spring:message code='person.phoneNo'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.phoneNo"
+            },
+            {
+                name: "personfaxNo",
+                title: "<spring:message code='person.faxNo'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.faxNo"
+            },
+            {
+                name: "personmobileNo",
+                title: "<spring:message code='person.mobileNo'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.mobileNo"
+            },
+            {
+                name: "personmobileNo1",
+                title: "<spring:message code='person.mobileNo1'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.mobileNo1"
+            },
+            {
+                name: "personmobileNo2",
+                title: "<spring:message code='person.mobileNo2'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.mobileNo2"
+            },
+            {
+                name: "personwhatsApp",
+                title: "<spring:message code='person.whatsApp'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.whatsApp"
+            },
+            {
+                name: "personweChat",
+                title: "<spring:message code='person.weChat'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.weChat"
+            },
+            {
+                name: "personaddress",
+                title: "<spring:message code='person.address'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.address"
+            },
         ],
 
         fetchDataURL: "${contextPath}/api/groupsPerson/spec-list"
@@ -978,7 +1191,7 @@
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {
-                name: "groupsid",  dataPath:"groups.id"  ,
+                name: "groupsid", dataPath: "groups.id",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
@@ -986,14 +1199,14 @@
                 hidden: true
             },
             {
-                name: "groupsgroupsName", dataPath:"groups.groupsName"  ,
+                name: "groupsgroupsName", dataPath: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
                 width: "10%"
             },
             {
-                name: "personid", dataPath:"person.id"  ,
+                name: "personid", dataPath: "person.id",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
@@ -1001,15 +1214,21 @@
                 hidden: true
             },
             {
-                name: "personfullName", dataPath:"person.fullName"  ,
+                name: "personfullName", dataPath: "person.fullName",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
                 width: "10%"
             },
-            {name: "personjobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 150  ,  dataPath:"person.jobTitle"      },
             {
-                name: "persontitle", dataPath:"person.title"  ,
+                name: "personjobTitle",
+                title: "<spring:message code='person.jobTitle'/>",
+                type: 'text',
+                width: 150,
+                dataPath: "person.jobTitle"
+            },
+            {
+                name: "persontitle", dataPath: "person.title",
                 title: "<spring:message code='person.title'/>",
                 type: 'text',
                 width: "10%",
@@ -1020,23 +1239,53 @@
                 }
             },
             {
-                name: "personemail", dataPath:"person.email"  ,
+                name: "personemail", dataPath: "person.email",
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: true,
                 width: "10%"
             },
-            {name: "personemail1", title: "<spring:message code='person.email1'/>", type: 'text', width: "10%" , dataPath:"person.email1"  ,  },
-            {name: "personemail2", title: "<spring:message code='person.email2'/>", type: 'text', width: "10%" , dataPath:"person.email2"  ,},
             {
-                name: "personwebAddress",   dataPath:"person.webAddress"  ,
+                name: "personemail1",
+                title: "<spring:message code='person.email1'/>",
+                type: 'text',
+                width: "10%",
+                dataPath: "person.email1",
+            },
+            {
+                name: "personemail2",
+                title: "<spring:message code='person.email2'/>",
+                type: 'text',
+                width: "10%",
+                dataPath: "person.email2",
+            },
+            {
+                name: "personwebAddress", dataPath: "person.webAddress",
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
                 width: "10%"
             },
-            {name: "personmobileNo", title: "<spring:message code='person.mobileNo'/>", type: 'text', width: "10%"  , dataPath:"person.mobileNo"},
-            {name: "personmobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text', width: "10%" , dataPath:"person.mobileNo1"},
-            {name: "personmobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text', width: "10%" , dataPath:"person.mobileNo2"}
+            {
+                name: "personmobileNo",
+                title: "<spring:message code='person.mobileNo'/>",
+                type: 'text',
+                width: "10%",
+                dataPath: "person.mobileNo"
+            },
+            {
+                name: "personmobileNo1",
+                title: "<spring:message code='person.mobileNo1'/>",
+                type: 'text',
+                width: "10%",
+                dataPath: "person.mobileNo1"
+            },
+            {
+                name: "personmobileNo2",
+                title: "<spring:message code='person.mobileNo2'/>",
+                type: 'text',
+                width: "10%",
+                dataPath: "person.mobileNo2"
+            }
         ],
         sortField: 0,
         autoFetchData: true,

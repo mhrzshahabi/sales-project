@@ -88,13 +88,7 @@
             dccCreateWindow.show();
         }
     });
-    <%--var ToolStripButton_Dcc_Edit = isc.ToolStripButton.create({--%>
-        <%--icon: "[SKIN]/actions/edit.png",--%>
-        <%--title: "<spring:message code='global.form.edit'/>",--%>
-        <%--click: function () {--%>
-            <%--ListGrid_Dcc_edit();--%>
-        <%--}--%>
-    <%--});--%>
+
 
     var ToolStripButton_Dcc_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
@@ -191,61 +185,74 @@
                 ToolStrip_Actions_Dcc
             ]
     });
-    var dccMenu = isc.Menu.create({
-        width: 150,
-        data: [
-            {
-                title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
-                click: function () {
-                    ListGrid_Dcc_refresh();
+
+
+    var dccMenu = isc.Menu.create(
+        {
+            width: 150,
+            data: [
+                {
+                    title: "<spring:message code='global.form.refresh'/>",
+                    icon: "pieces/16/refresh.png",
+                    click: function()
+                    {
+                        ListGrid_Dcc_refresh();
+                    }
+                },
+                {
+                    title: "<spring:message code='global.form.new'/>",
+                    icon: "pieces/16/icon_add.png",
+                    click: function()
+                    {
+                        dccDynamicForm.clearValues();
+                        dccCreateWindow.show();
+                    }
+                },
+
+                {
+                    title: "<spring:message code='global.form.remove'/>",
+                    icon: "pieces/16/icon_delete.png",
+                    click: function()
+                    {
+                        ListGrid_Dcc_remove();
+                    }
+                },
+                {
+                    isSeparator: true
+                },
+                {
+                    title: "<spring:message code='global.form.dcc.download'/>",
+                    icon: "icon/pdf.png",
+                    click: function()
+                    {
+                        var record = ListGrid_Dcc.getSelectedRecord();
+                        if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
+                            window.open("dcc/downloadFile?table=" + "contract" + "&file=" + record.fileNewName);
+                        else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
+                            window.open("dcc/downloadFile?table=" + "contact" + "&file=" + record.fileNewName);
+                        else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
+                            window.open("dcc/downloadFile?table=" + "instruction" + "&file=" + record.fileNewName);
+                        else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
+                            window.open("dcc/downloadFile?table=" + "shipment" + "&file=" + record.fileNewName);
+                        else if (record.tblName1 != null && record.tblName1 == "TBL_INVOICE")
+                            window.open("dcc/downloadFile?table=" + "invoice" + "&file=" + record.fileNewName);
+                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_CAD")
+                            window.open("dcc/downloadFile?table=" + "warehouse_cad" + "&file=" + record.fileNewName);
+                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_CATHODE")
+                            window.open("dcc/downloadFile?table=" + "warehouse_issue_cathode" + "&file=" + record.fileNewName);
+                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_CONS")
+                            window.open("dcc/downloadFile?table=" + "warehouse_issue_cons" + "&file=" + record.fileNewName);
+                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_MO")
+                            window.open("dcc/downloadFile?table=" + "warehouse_issue_mo" + "&file=" + record.fileNewName);
+                    }
                 }
-            },
-            {
-                title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-                click: function () {
-                    dccDynamicForm.clearValues();
-                    dccCreateWindow.show();
-                }
-            },
-            // {
-                <%--title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",--%>
-                // click: function () {
-                //     ListGrid_Dcc_edit();
-                // }
-            // },
-            {
-                title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-                click: function () {
-                    ListGrid_Dcc_remove();
-                }
-            },
-            {isSeparator: true},
-            {
-                title: "<spring:message code='global.form.dcc.download'/>", icon: "icon/pdf.png",
-                click: function () {
-                    var record = ListGrid_Dcc.getSelectedRecord();
-                    if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
-                        window.open("dcc/downloadFile?table=" + "contract" + "&file=" + record.fileNewName);
-                    else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
-                        window.open("dcc/downloadFile?table=" + "contact" + "&file=" + record.fileNewName);
-                    else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
-                        window.open("dcc/downloadFile?table=" + "instruction" + "&file=" + record.fileNewName);
-                    else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
-                        window.open("dcc/downloadFile?table=" + "shipment" + "&file=" + record.fileNewName);
-                    else if (record.tblName1 != null && record.tblName1 == "TBL_INVOICE")
-                        window.open("dcc/downloadFile?table=" + "invoice" + "&file=" + record.fileNewName);
-                    else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_CAD")
-                        window.open("dcc/downloadFile?table=" + "warehouse_cad" + "&file=" + record.fileNewName);
-                    else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_CATHODE")
-                        window.open("dcc/downloadFile?table=" + "warehouse_issue_cathode" + "&file=" + record.fileNewName);
-                    else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_CONS")
-                        window.open("dcc/downloadFile?table=" + "warehouse_issue_cons" + "&file=" + record.fileNewName);
-                    else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_MO")
-                        window.open("dcc/downloadFile?table=" + "warehouse_issue_mo" + "&file=" + record.fileNewName);
-                }
-            }
-        ]
-    });
+            ]
+        });
+
+
+
+
+
     var RestDataSource_Dcc = isc.MyRestDataSource.create({
         fields: [
             {name: "id", hidden: true, primaryKey: true, canEdit: false,},
@@ -279,81 +286,109 @@
         fetchDataURL: "${contextPath}/api/dcc/spec-list"
     });
 
-    var dccSaveIButton = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
 
-            dccDynamicForm.validate();
-            if (dccDynamicForm.hasErrors()) {
-                return;
-            }
+    var dccSaveIButton = isc.IButtonSave.create(
+        {
+            top: 260,
+            title: "<spring:message code='global.form.save'/>",
+            icon: "pieces/16/save.png",
+            click: function()
+            {
 
-            var fileBrowserId = document.getElementById(window.fileDcc.uploadItem.getElement().id);
-            var file = fileBrowserId.files[0];
-            var folder;
-            dccDynamicForm.setValue("tblName1", dccTableName);
-            dccDynamicForm.setValue("tblId1", dccTableId);
+                dccDynamicForm.validate();
+                if (dccDynamicForm.hasErrors())
+                {
+                    return;
+                }
 
-            if (dccTableName != null && dccTableName === 'TBL_CONTACT') {
-                folder = "contact";
-                dccDynamicForm.setValue("folder", "contact");
-            } else if (dccTableName != null && dccTableName === 'TBL_CONTRACT') {
-                folder = "contract";
-                dccDynamicForm.setValue("folder", "contract");
-            } else if (dccTableName != null && dccTableName === 'TBL_INSTRUCTION') {
-                folder = "instruction";
-                dccDynamicForm.setValue("folder", "instruction");
-            } else if (dccTableName != null && dccTableName === 'TBL_SHIPMENT') {
-                folder = "shipment";
-                dccDynamicForm.setValue("folder", "shipment");
-            } else if (dccTableName != null && dccTableName === 'TBL_INVOICE') {
-                folder = "invoice";
-                dccDynamicForm.setValue("folder", "invoice");
-            } else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_CAD') {
-                folder = "warehouse_cad";
-                dccDynamicForm.setValue("folder", "warehouse_cad");
-            } else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CATHODE') {
-                folder = "warehouse_issue_cathode";
-                dccDynamicForm.setValue("folder", "warehouse_issue_cathode");
-            } else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CONS') {
-                folder = "warehouse_issue_cons";
-                dccDynamicForm.setValue("folder", "warehouse_issue_cons");
-            } else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_MO') {
-                folder = "warehouse_issue_mo";
-                dccDynamicForm.setValue("folder", "warehouse_issue_mo");
-            }
+                var fileBrowserId = document.getElementById(window.fileDcc.uploadItem.getElement().id);
+                var file = fileBrowserId.files[0];
+                var folder;
+                dccDynamicForm.setValue("tblName1", dccTableName);
+                dccDynamicForm.setValue("tblId1", dccTableId);
 
-            var formData = new FormData();
-            formData.append("file", file);
-            formData.append("folder", folder);
-            formData.append("data", JSON.stringify(dccDynamicForm.getValues()));
+                if (dccTableName != null && dccTableName === 'TBL_CONTACT')
+                {
+                    folder = "contact";
+                    dccDynamicForm.setValue("folder", "contact");
+                }
+                else if (dccTableName != null && dccTableName === 'TBL_CONTRACT')
+                {
+                    folder = "contract";
+                    dccDynamicForm.setValue("folder", "contract");
+                }
+                else if (dccTableName != null && dccTableName === 'TBL_INSTRUCTION')
+                {
+                    folder = "instruction";
+                    dccDynamicForm.setValue("folder", "instruction");
+                }
+                else if (dccTableName != null && dccTableName === 'TBL_SHIPMENT')
+                {
+                    folder = "shipment";
+                    dccDynamicForm.setValue("folder", "shipment");
+                }
+                else if (dccTableName != null && dccTableName === 'TBL_INVOICE')
+                {
+                    folder = "invoice";
+                    dccDynamicForm.setValue("folder", "invoice");
+                }
+                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_CAD')
+                {
+                    folder = "warehouse_cad";
+                    dccDynamicForm.setValue("folder", "warehouse_cad");
+                }
+                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CATHODE')
+                {
+                    folder = "warehouse_issue_cathode";
+                    dccDynamicForm.setValue("folder", "warehouse_issue_cathode");
+                }
+                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CONS')
+                {
+                    folder = "warehouse_issue_cons";
+                    dccDynamicForm.setValue("folder", "warehouse_issue_cons");
+                }
+                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_MO')
+                {
+                    folder = "warehouse_issue_mo";
+                    dccDynamicForm.setValue("folder", "warehouse_issue_mo");
+                }
 
-            var request = new XMLHttpRequest();
+                var formData = new FormData();
+                formData.append("file", file);
+                formData.append("folder", folder);
+                formData.append("data", JSON.stringify(dccDynamicForm.getValues()));
 
-            request.open("POST", "${contextPath}/api/dcc/");
-            request.setRequestHeader("Authorization", "Bearer " + "<%= (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN) %>");
-            request.setRequestHeader("contentType", "application/json; charset=utf-8");
-            request.send(formData);
-            request.timeout = 1000;
-            request.ontimeout = function () {
-                isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
-            }
-            request.onreadystatechange = function () {
-                if (request.readyState === XMLHttpRequest.DONE) {
-                    if (request.status === 500)
-                        isc.warn("<spring:message code='dcc.upload.error.message'/>");
-                    if (request.status === 200 || request.status == 201) {
-                        isc.say("<spring:message code='dcc.upload.success.message'/>");
-                        ListGrid_Dcc_refresh();
-                        dccCreateWindow.close();
-                    } else if (request.responseText !== "" && JSON.parse(request.responseText).exceptionClass.includes("MaxUploadSizeExceededException"))
-                        isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
+                var request = new XMLHttpRequest();
+
+                request.open("POST", "${contextPath}/api/dcc/");
+                request.setRequestHeader("Authorization", "Bearer " + "<%= (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN) %>");
+                request.setRequestHeader("contentType", "application/json; charset=utf-8");
+                request.send(formData);
+                request.timeout = 1000;
+                request.ontimeout = function()
+                {
+                    isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
+                }
+                request.onreadystatechange = function()
+                {
+                    if (request.readyState === XMLHttpRequest.DONE)
+                    {
+                        if (request.status === 500)
+                            isc.warn("<spring:message code='dcc.upload.error.message'/>");
+                        if (request.status === 200 || request.status == 201)
+                        {
+                            isc.say("<spring:message code='dcc.upload.success.message'/>");
+                            ListGrid_Dcc_refresh();
+                            dccCreateWindow.close();
+                        }
+                        else if (request.responseText !== "" && JSON.parse(request.responseText).exceptionClass.includes("MaxUploadSizeExceededException"))
+                            isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
+                    }
                 }
             }
-        }
-    });
+        });
+
+
     var dccCreateWindow = isc.Window.create({
         title: "<spring:message code='dcc.Attachment'/> ",
         width: 580,
@@ -393,6 +428,8 @@
                 })
             ]
     });
+
+
     var ListGrid_Dcc = isc.ListGrid.create({
         width: "100%",
         height: "100%",

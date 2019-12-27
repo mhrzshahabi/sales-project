@@ -354,7 +354,7 @@
                 width: "10%",
                 showHover: true
             },
-            // {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},
+            <%--// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},--%>
             {
                 name: "description",
                 title: "<spring:message code='shipment.description'/>",
@@ -624,7 +624,6 @@
                     valueField: "id",
                     colSpan: 1,
                     titleColSpan: 1,
-                    valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
@@ -895,10 +894,10 @@
             name: "shipmentId",
             hidden: true
         },
-            /*message*/
+
             {
                 name: "bijak",
-                title: "<spring:message code='warehouseIssueMo.bijak'/>", /*M*/
+                title: "<spring:message code='warehouseIssueMo.bijak'/>", /*باگ داریم*/
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
@@ -935,7 +934,7 @@
                 }]
             }, {
                 name: "amountPms",
-                title: "<spring:message code='warehouseIssueMo.amountPms'/>", /*M*/
+                title: "<spring:message code='warehouseIssueMo.amountPms'/>", /*باگ داریم*/
                 width: "10%",
                 required: true,
                 length: "15",
@@ -959,21 +958,21 @@
                 length: "15"
             }, {
                 name: "bundle",
-                title: "<spring:message code='warehouseIssueMo.bundle'/>", /*M*/
+                title: "<spring:message code='warehouseIssueMo.bundle'/>", /*باگ داریم*/
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
                 length: "15"
             }, {
                 name: "sheet",
-                title: "<spring:message code='warehouseIssueMo.sheet'/>", /*M*/
+                title: "<spring:message code='warehouseIssueMo.sheet'/>", /*باگ داریم*/
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
                 length: "15"
             }, {
                 name: "totalAmount",
-                title: "<spring:message code='warehouseIssueMo.totalAmount'/>", /*M*/
+                title: "<spring:message code='warehouseIssueMo.totalAmount'/>", /*باگ داریم*/
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",

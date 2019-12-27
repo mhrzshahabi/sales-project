@@ -224,27 +224,53 @@
             ]
     });
 
-    var ListGrid_warehouseCAD = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_WarehouseCad,
-        contextMenu: Menu_ListGrid_warehouseCAD,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "bijackNo", width: "16.66%"},
-                {name: "warehouseNo", width: "16.66%"},
-                {name: "materialItemgdsName", width: "16.66%"},
-                {name: "movementType", width: "16.66%"},
-                {name: "plant", width: "16.66%"},
-                {name: "sourceLoadDate", width: "16.66%"},
-                {name: "destinationUnloadDate", width: "16.66%"}
-            ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
-    });
+    var ListGrid_warehouseCAD = isc.ListGrid.create(
+        {
+            width: "100%",
+            height: "100%",
+            dataSource: RestDataSource_WarehouseCad,
+            contextMenu: Menu_ListGrid_warehouseCAD,
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "bijackNo",
+                    width: "16.66%"
+                },
+                {
+                    name: "warehouseNo",
+                    width: "16.66%"
+                },
+                {
+                    name: "materialItemgdsName",
+                    width: "16.66%"
+                },
+                {
+                    name: "movementType",
+                    width: "16.66%"
+                },
+                {
+                    name: "plant",
+                    width: "16.66%"
+                },
+                {
+                    name: "sourceLoadDate",
+                    width: "16.66%"
+                },
+                {
+                    name: "destinationUnloadDate",
+                    width: "16.66%"
+                }],
+            sortField: 0,
+            autoFetchData: true,
+            showFilterEditor: true,
+            filterOnKeypress: true
+        });
 
     var HLayout_warehouseCAD_Grid = isc.HLayout.create({
         width: "100%",
@@ -262,51 +288,60 @@
         ]
     });
 
-    isc.ViewLoader.create({
-        ID: "bijackAttachmentViewLoader",
-        autoDraw: false,
-        loadingMessage: ""
-    });
+    isc.ViewLoader.create(
+        {
+            ID: "bijackAttachmentViewLoader",
+            autoDraw: false,
+            loadingMessage: ""
+        });
 
-    isc.TabSet.create({
-        ID: "bijackMainTabSet",
-        tabBarPosition: "top",
-        width: "100%",
-        height: "100%",
-        tabs: [
-            {
-                ID: "bijackTab",
-                title: "<spring:message code='bijack'/>",
-                icon: "",
-                iconSize: 16,
-                pane: VLayout_Body_WarehouseCad
-            },
-            {
-                title: "<spring:message code='bijackAttach.title'/>",
-                icon: "",
-                iconSize: 16,
-                pane: bijackAttachmentViewLoader,
-                tabSelected: function (form, item, value) {
-                    var record = ListGrid_warehouseCAD.getSelectedRecord();
-                    if (record == null || record.id == null) {
-                        isc.Dialog.create({
-                            message: "<spring:message code='global.grid.record.not.selected'/>",
-                            icon: "[SKIN]ask.png",
-                            title: "<spring:message code='global.message'/>",
-                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                            buttonClick: function () {
-                                this.hide();
-                            }
-                        });
-                        record.id = null;
+
+    isc.TabSet.create(
+        {
+            ID: "bijackMainTabSet",
+            tabBarPosition: "top",
+            width: "100%",
+            height: "100%",
+            tabs: [
+                {
+                    ID: "bijackTab",
+                    title: "<spring:message code='bijack'/>",
+                    icon: "",
+                    iconSize: 16,
+                    pane: VLayout_Body_WarehouseCad
+                },
+                {
+                    title: "<spring:message code='bijackAttach.title'/>",
+                    icon: "",
+                    iconSize: 16,
+                    pane: bijackAttachmentViewLoader,
+                    tabSelected: function(form, item, value)
+                    {
+                        var record = ListGrid_warehouseCAD.getSelectedRecord();
+                        if (record == null || record.id == null)
+                        {
+                            isc.Dialog.create(
+                                {
+                                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                                    icon: "[SKIN]ask.png",
+                                    title: "<spring:message code='global.message'/>",
+                                    buttons: [isc.Button.create(
+                                        {
+                                            title: "<spring:message code='global.ok'/>"
+                                        })],
+                                    buttonClick: function()
+                                    {
+                                        this.hide();
+                                    }
+                                });
+                            record.id = null;
+                        }
+                        var dccTableId = record.id;
+                        var dccTableName = "TBL_WAREHOUSE_CAD";
+                        bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                     }
-                    var dccTableId = record.id;
-                    var dccTableName = "TBL_WAREHOUSE_CAD";
-                    bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
-                }
-            }
-        ]
-    });
+                }]
+        });
 
     isc.VLayout.create({
         ID: "bijackMainVLayout",

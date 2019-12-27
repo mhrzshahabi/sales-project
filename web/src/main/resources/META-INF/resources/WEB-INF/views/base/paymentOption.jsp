@@ -28,50 +28,73 @@
         }
     }
 
-    function ListGrid_PaymentOption_remove() {
+    function ListGrid_PaymentOption_remove()
+    {
 
         var record = ListGrid_PaymentOption.getSelectedRecord();
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [
-                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
-                ],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index === 0) {
-                        var paymentOptionId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${contextPath}/api/paymentOption/" + paymentOptionId,
-                                httpMethod: "DELETE",
-                                callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                                        ListGrid_PaymentOption_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
-                                }
-                            })
-                        );
+        if (record == null || record.id == null)
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create(
+                        {
+                            title: "<spring:message code='global.ok'/>"
+                        })],
+                    buttonClick: function()
+                    {
+                        this.hide();
                     }
-                }
-            });
+                });
+        }
+        else
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.remove.ask'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                    buttons: [
+                        isc.IButtonSave.create(
+                            {
+                                title: "<spring:message code='global.yes'/>"
+                            }),
+                        isc.IButtonCancel.create(
+                            {
+                                title: "<spring:message code='global.no'/>"
+                            })
+                    ],
+                    buttonClick: function(button, index)
+                    {
+                        this.hide();
+                        if (index === 0)
+                        {
+                            var paymentOptionId = record.id;
+                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                                {
+                                    actionURL: "${contextPath}/api/paymentOption/" + paymentOptionId,
+                                    httpMethod: "DELETE",
+                                    callback: function(RpcResponse_o)
+                                    {
+                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+                                        {
+                                            ListGrid_PaymentOption_refresh();
+                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                        }
+                                        else
+                                        {
+                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                        }
+                                    }
+                                }));
+                        }
+                    }
+                });
         }
     }
+
 
     var Menu_ListGrid_PaymentOption = isc.Menu.create({
         width: 150,
@@ -103,6 +126,7 @@
             }
         ]
     });
+
 
     var DynamicForm_PaymentOption = isc.DynamicForm.create({
         width: 700,
@@ -205,36 +229,44 @@
         fetchDataURL: "${contextPath}/api/paymentOption/spec-list"
 
     });
-    var IButton_PaymentOption_Save = isc.IButtonSave.create({
-        top: 260,
-        layoutMargin: 5,
-        membersMargin: 5,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
-            DynamicForm_PaymentOption.validate();
-            if (DynamicForm_PaymentOption.hasErrors())
-                return;
-            var data = DynamicForm_PaymentOption.getValues();
-            var method = "PUT";
-            if (data.id == null)
-                method = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/paymentOption",
-                    httpMethod: method,
-                    data: JSON.stringify(data),
-                    callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>");
-                            ListGrid_PaymentOption_refresh();
-                            Window_PaymentOption.close();
-                        } else
-                            isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
-        }
-    });
+
+
+    var IButton_PaymentOption_Save = isc.IButtonSave.create(
+        {
+            top: 260,
+            layoutMargin: 5,
+            membersMargin: 5,
+            title: "<spring:message code='global.form.save'/>",
+            icon: "pieces/16/save.png",
+            click: function()
+            {
+                DynamicForm_PaymentOption.validate();
+                if (DynamicForm_PaymentOption.hasErrors())
+                    return;
+                var data = DynamicForm_PaymentOption.getValues();
+                var method = "PUT";
+                if (data.id == null)
+                    method = "POST";
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                    {
+                        actionURL: "${contextPath}/api/paymentOption",
+                        httpMethod: method,
+                        data: JSON.stringify(data),
+                        callback: function(RpcResponse_o)
+                        {
+                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+                            {
+                                isc.say("<spring:message code='global.form.request.successful'/>");
+                                ListGrid_PaymentOption_refresh();
+                                Window_PaymentOption.close();
+                            }
+                            else
+                                isc.say(RpcResponse_o.data);
+                        }
+                    }));
+            }
+        });
+
 
     var PaymentOptionCancelBtn = isc.IButtonCancel.create({
         top: 260,
@@ -256,27 +288,31 @@
         ]
     });
 
-    var Window_PaymentOption = isc.Window.create({
-        title: "<spring:message code='paymentOption.title'/> ",
-        width: 500,
-        height: 50,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        layoutMargin: 5,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
+
+    var Window_PaymentOption = isc.Window.create(
+        {
+            title: "<spring:message code='paymentOption.title'/> ",
+            width: 500,
+            height: 50,
+            autoSize: true,
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            layoutMargin: 5,
+            closeClick: function()
+            {
+                this.Super("closeClick", arguments)
+            },
+            items: [
                 DynamicForm_PaymentOption,
                 HLayout_PaymentOption_IButton
             ]
-    });
+        });
+
+
     var ListGrid_PaymentOption = isc.ListGrid.create({
         width: "100%",
         height: "100%",

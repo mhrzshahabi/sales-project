@@ -4,38 +4,98 @@
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    var RestDataSource_Shipment_CostHeader = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "contractShipmentId",
+                    hidden: true,
+                    type: 'long'
+                },
+                {
+                    name: "contactId",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "contract.contact.nameFA"
+                },
+                {
+                    name: "contractId",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "contract.contractNo"
+                },
+                {
+                    name: "contract.contractDate"
+                },
+                {
+                    name: "materialId"
+                },
+                {
+                    name: "material.descl"
+                },
+                {
+                    name: "material.unit.nameEN"
+                },
+                {
+                    name: "amount"
+                },
+                {
+                    name: "shipmentType"
+                },
+                {
+                    name: "loadingLetter"
+                },
+                {
+                    name: "noContainer"
+                },
+                {
+                    name: "portByLoading.port"
+                },
+                {
+                    name: "portByDischarge.port"
+                },
+                {
+                    name: "description"
+                },
+                {
+                    name: "contractShipment.sendDate"
+                },
+                {
+                    name: "createDate"
+                },
+                {
+                    name: "month"
+                },
+                {
+                    name: "contactByAgent.nameFA"
+                },
+                {
+                    name: "vesselName"
+                },
+                {
+                    name: "swb"
+                },
+                {
+                    name: "switchPort.port"
+                },
+                {
+                    name: "status"
+                },],
+            fetchDataURL: "${contextPath}/api/shipment/spec-list"
+        });
 
-    var RestDataSource_Shipment_CostHeader = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", hidden: true, type: 'long'},
-            {name: "contactId", type: 'long', hidden: true},
-            {name: "contract.contact.nameFA"},
-            {name: "contractId", type: 'long', hidden: true},
-            {name: "contract.contractNo"},
-            {name: "contract.contractDate"},
-            {name: "materialId"},
-            {name: "material.descl"},
-            {name: "material.unit.nameEN"},
-            {name: "amount"},
-            {name: "shipmentType"},
-            {name: "loadingLetter"},
-            {name: "noContainer"},
-            {name: "portByLoading.port"},
-            {name: "portByDischarge.port"},
-            {name: "description"},
-            {name: "contractShipment.sendDate"},
-            {name: "createDate"},
-            {name: "month"},
-            {name: "contactByAgent.nameFA"},
-            {name: "vesselName"},
-            {name: "swb"},
-            {name: "switchPort.port"},
-            {name: "status"},
-        ],
-        fetchDataURL: "${contextPath}/api/shipment/spec-list"
-    });
-    //---------------------------------------
+
     var Menu_ListGrid_Shipment_CostHeader = isc.Menu.create({
         width: 150,
         data: [
@@ -71,7 +131,7 @@
 
         ]
     });
-    //-------------------
+
     var ListGrid_Shipment_CostHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -82,17 +142,17 @@
             {name: "contractShipmentId", hidden: true, type: 'long'},
             {name: "contactId", type: 'long', hidden: true},
             {
-                name: "contract.contact.nameFA", title: "<spring:message
-		code='contact.name'/>", type: 'text', width: "20%", align: "center", showHover: true
+                name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>",
+                type: 'text', width: "20%", align: "center", showHover: true
             },
             {name: "contractId", type: 'long', hidden: true},
             {
-                name: "contract.contractNo", title: "<spring:message
-		code='contract.contractNo'/>", type: 'text', width: "10%", showHover: true
+                name: "contract.contractNo", title: "<spring:message code='contract.contractNo'/>",
+                type: 'text', width: "10%", showHover: true
             },
             {
-                name: "contract.contractDate", title: "<spring:message
-		code='contract.contractDate'/>", type: 'text', width: "10%", showHover: true
+                name: "contract.contractDate", title: "<spring:message code='contract.contractDate'/>",
+                type: 'text', width: "10%", showHover: true
             },
             {
                 name: "materialId",
@@ -102,60 +162,60 @@
                 showHover: true
             },
             {
-                name: "material.descl", title: "<spring:message
-		code='material.descl'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "material.descl", title: "<spring:message code='material.descl'/>",
+                type: 'text', width: "10%", align: "center", showHover: true
             },
             {
-                name: "material.unit.nameEN", title: "<spring:message
-		code='unit.nameEN'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>",
+                type: 'text', width: "10%", align: "center", showHover: true
             },
             {
-                name: "amount", title: "<spring:message
-		code='global.amount'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "amount", title: "<spring:message code='global.amount'/>",
+                type: 'text', width: "10%", align: "center", showHover: true
             },
             {
-                name: "shipmentType", title: "<spring:message
-		code='shipment.shipmentType'/>", type: 'text', width: "10%", showHover: true
+                name: "shipmentType", title: "<spring:message code='shipment.shipmentType'/>",
+                type: 'text', width: "10%", showHover: true
             },
             {
-                name: "loadingLetter", title: "<spring:message
-		code='shipment.loadingLetter'/>", type: 'text', width: "10%", showHover: true
+                name: "loadingLetter", title: "<spring:message code='shipment.loadingLetter'/>",
+                type: 'text', width: "10%", showHover: true
             },
             {
-                name: "noContainer", title: "<spring:message
-		code='shipment.noContainer'/>", type: 'text', width: "10%", align: "center", showHover: true
+                name: "noContainer", title: "<spring:message code='shipment.noContainer'/>",
+                type: 'text', width: "10%", align: "center", showHover: true
             },
             {
-                name: "portByLoading.port", title: "<spring:message
-		code='shipment.loading'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "portByLoading.port", title: "<spring:message code='shipment.loading'/>",
+                type: 'text', required: true, width: "10%", showHover: true
             },
             {
-                name: "portByDischarge.port", title: "<spring:message
-		code='shipment.discharge'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "portByDischarge.port", title: "<spring:message code='shipment.discharge'/>",
+                type: 'text', required: true, width: "10%", showHover: true
             },
             {
-                name: "description", title: "<spring:message
-		code='shipment.description'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
+                name: "description", title: "<spring:message code='shipment.description'/>",
+                type: 'text', required: true, width: "10%", align: "center", showHover: true
             },
             {
-                name: "contractShipment.sendDate", title: "<spring:message
-		code='global.sendDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
+                name: "contractShipment.sendDate", title: "<spring:message code='global.sendDate'/>",
+                type: 'text', required: true, width: "10%", align: "center", showHover: true
             },
             {
-                name: "createDate", title: "<spring:message
-		code='global.createDate'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
+                name: "createDate", title: "<spring:message code='global.createDate'/>",
+                type: 'text', required: true, width: "10%", align: "center", showHover: true
             },
             {
-                name: "month", title: "<spring:message
-		code='shipment.month'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
+                name: "month", title: "<spring:message code='shipment.month'/>",
+                type: 'text', required: true, width: "10%", align: "center", showHover: true
             },
             {
-                name: "contactByAgent.nameFA", title: "<spring:message
-		code='shipment.agent'/>", type: 'text', width: "20%", align: "center", showHover: true
+                name: "contactByAgent.nameFA", title: "<spring:message code='shipment.agent'/>",
+                type: 'text', width: "20%", align: "center", showHover: true
             },
             {
-                name: "vesselName", title: "<spring:message
-		code='shipment.vesselName'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "vesselName", title: "<spring:message code='shipment.vesselName'/>",
+                type: 'text', required: true, width: "10%", showHover: true
             },
             {
                 name: "swb",
@@ -166,14 +226,14 @@
                 showHover: true
             },
             {
-                name: "switchPort.port", title: "<spring:message
-		code='port.switchPort'/>", type: 'text', required: true, width: "10%", showHover: true
+                name: "switchPort.port", title: "<spring:message code='port.switchPort'/>"
+                , type: 'text', required: true, width: "10%", showHover: true
             },
             {
-                name: "status", title: "<spring:message
-		code='shipment.staus'/>", type: 'text', width: "10%", align: "center", valueMap: {
-                    "Load Ready": "<spring:message
-		code='shipment.loadReady'/>", "Resource": "<spring:message code='shipment.resource'/>"
+                name: "status", title: "<spring:message code='shipment.staus'/>",
+                type: 'text', width: "10%", align: "center", valueMap: {
+                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                    "Resource": "<spring:message code='shipment.resource'/>"
                 }, showHover: true
             },
 
@@ -1099,8 +1159,8 @@
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true,},
                 {
-                    name: "sourceInspector.nameFA", title: "<spring:message
-		code='cost.sourceInspectorId'/>", type: 'text', width: "10%", align: "center", showHover: true
+                    name: "sourceInspector.nameFA", title: "<spring:message code='cost.sourceInspectorId'/>",
+                    type: 'text', width: "10%", align: "center", showHover: true
                 },
                 {
                     name: "sourceInspectionCost",
@@ -1176,9 +1236,6 @@
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
-// ListGrid_CostFeature.fetchData({"tblCost.id":record.id},function (dsResponse, data, dsRequest) {
-// ListGrid_CostFeature.setData(data);
-// },{operationId:"00"});
         },
         dataArrived: function (startRow, endRow) {
         }

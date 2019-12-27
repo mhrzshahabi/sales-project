@@ -635,33 +635,39 @@ var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
 });
 
 
-var IButton_InspectionContract_Save = isc.IButtonSave.create({
-	top: 260,
-	title: "<spring:message code='global.form.save'/>",
-	icon: "pieces/16/save.png",
-	click: function() {
-		DynamicForm_InspectionContract.validate();
-		if (DynamicForm_InspectionContract.hasErrors())
-			return;
-		var data = DynamicForm_InspectionContract.getValues();
-		var method = "PUT";
-		if (data.id == null)
-			method = "POST";
-		isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-			actionURL: "${contextPath}/api/inspectionContract/",
-			httpMethod: method,
-			data: JSON.stringify(data),
-			callback: function(resp) {
-				if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-		           isc.say("<spring:message code='global.form.request.successful'/>");
-					Window_InspectionContract.hide();
-					ListGrid_InspectionContract_refresh();
-				} else
-					isc.say(RpcResponse_o.data);
+var IButton_InspectionContract_Save = isc.IButtonSave.create(
+		{
+			top: 260,
+			title: "<spring:message code='global.form.save'/>",
+			icon: "pieces/16/save.png",
+			click: function()
+			{
+				DynamicForm_InspectionContract.validate();
+				if (DynamicForm_InspectionContract.hasErrors())
+					return;
+				var data = DynamicForm_InspectionContract.getValues();
+				var method = "PUT";
+				if (data.id == null)
+					method = "POST";
+				isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+						{
+							actionURL: "${contextPath}/api/inspectionContract/",
+							httpMethod: method,
+							data: JSON.stringify(data),
+							callback: function(resp)
+							{
+								if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)
+								{
+									isc.say("<spring:message code='global.form.request.successful'/>");
+									Window_InspectionContract.hide();
+									ListGrid_InspectionContract_refresh();
+								}
+								else
+									isc.say(RpcResponse_o.data);
+							}
+						}));
 			}
-		}));
-	}
-});
+		});
 
 
 
@@ -704,93 +710,120 @@ var IButton_InspectionContract_Save = isc.IButtonSave.create({
     ]
     });
 
-
-    function ListGrid_InspectionContract_refresh() {
-    	ListGrid_InspectionContract.invalidateCache();
-    	var record = ListGrid_InspectionContract.getSelectedRecord();
-    	if (record == null || record.id == null)
-    		return;
-    	ListGrid_InspectionContract.fetchData({
-    		"shipment.id": record.id
-    	}, function(dsResponse, data, dsRequest) {
-    		ListGrid_InspectionContract.setData(data);
-    	}, {
-    		operationId: "00"
-    	});
-    }
-
-
-    function ListGrid_InspectionContract_edit() {
-  	var record = ListGrid_InspectionContract.getSelectedRecord();
-  	if (record == null || record.id == null) {
-        isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({
-                    title: "<spring:message code='global.ok'/>"
-                })],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-  	} else {
-  		DynamicForm_InspectionContract.editRecord(record);
-  		DynamicForm_InspectionContract.setValue("createDate" , new Date(record.createDate));
-  		Window_InspectionContract.show();
-  	}
-  }
+function ListGrid_InspectionContract_refresh()
+{
+	ListGrid_InspectionContract.invalidateCache();
+	var record = ListGrid_InspectionContract.getSelectedRecord();
+	if (record == null || record.id == null)
+		return;
+	ListGrid_InspectionContract.fetchData(
+			{
+				"shipment.id": record.id
+			}, function(dsResponse, data, dsRequest)
+			{
+				ListGrid_InspectionContract.setData(data);
+			},
+			{
+				operationId: "00"
+			});
+}
 
 
-function ListGrid_InspectionContract_remove() {
+function ListGrid_InspectionContract_edit()
+{
+	var record = ListGrid_InspectionContract.getSelectedRecord();
+	if (record == null || record.id == null)
+	{
+		isc.Dialog.create(
+				{
+					message: "<spring:message code='global.grid.record.not.selected'/>",
+					icon: "[SKIN]ask.png",
+					title: "<spring:message code='global.message'/>",
+					buttons: [isc.Button.create(
+							{
+								title: "<spring:message code='global.ok'/>"
+							})],
+					buttonClick: function()
+					{
+						this.hide();
+					}
+				});
+	}
+	else
+	{
+		DynamicForm_InspectionContract.editRecord(record);
+		DynamicForm_InspectionContract.setValue("createDate", new Date(record.createDate));
+		Window_InspectionContract.show();
+	}
+}
+
+
+function ListGrid_InspectionContract_remove()
+{
 
 	var record = ListGrid_InspectionContract.getSelectedRecord();
-	if (record == null || record.id == null) {
-		isc.Dialog.create({
-			message: "<spring:message code='global.grid.record.not.selected'/>",
-			icon: "[SKIN]ask.png",
-			title: "<spring:message code='global.message'/>",
-			buttons: [isc.Button.create({
-				title: "<spring:message code='global.ok'/>"
-			})],
-			buttonClick: function() {
-				this.hide();
-			}
-		});
+	if (record == null || record.id == null)
+	{
+		isc.Dialog.create(
+				{
+					message: "<spring:message code='global.grid.record.not.selected'/>",
+					icon: "[SKIN]ask.png",
+					title: "<spring:message code='global.message'/>",
+					buttons: [isc.Button.create(
+							{
+								title: "<spring:message code='global.ok'/>"
+							})],
+					buttonClick: function()
+					{
+						this.hide();
+					}
+				});
 
-	} else {
-		isc.Dialog.create({
-			message: "<spring:message code='global.grid.record.remove.ask'/>",
-			icon: "[SKIN]ask.png",
-			title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-			buttons: [isc.IButtonSave.create({
-				title: "<spring:message code='global.yes'/>"
-			}), isc.IButtonCancel.create({
-				title: "<spring:message code='global.no'/>"
-			})],
-			buttonClick: function(button, index) {
-				this.hide();
-
-				if (index === 0) {
-					var inspectionContractId = record.id;
-					isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-						actionURL: "${contextPath}/api/inspectionContract/" + inspectionContractId,
-						httpMethod: "DELETE",
-						serverOutputAsString: false,
-						callback: function(RpcResponse_o) {
-							if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-								ListGrid_InspectionContract.invalidateCache();
-								isc.say("<spring:message code='global.grid.record.remove.success'/>");
-							} else {
-								isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-							}
-						}
-					}));
-				}
-			}
-		});
 	}
-};
+	else
+	{
+		isc.Dialog.create(
+				{
+					message: "<spring:message code='global.grid.record.remove.ask'/>",
+					icon: "[SKIN]ask.png",
+					title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+					buttons: [isc.IButtonSave.create(
+							{
+								title: "<spring:message code='global.yes'/>"
+							}), isc.IButtonCancel.create(
+							{
+								title: "<spring:message code='global.no'/>"
+							})],
+					buttonClick: function(button, index)
+					{
+						this.hide();
+
+						if (index === 0)
+						{
+							var inspectionContractId = record.id;
+							isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+									{
+										actionURL: "${contextPath}/api/inspectionContract/" + inspectionContractId,
+										httpMethod: "DELETE",
+										serverOutputAsString: false,
+										callback: function(RpcResponse_o)
+										{
+											if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
+											{
+												ListGrid_InspectionContract.invalidateCache();
+												isc.say("<spring:message code='global.grid.record.remove.success'/>");
+											}
+											else
+											{
+												isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+											}
+										}
+									}));
+						}
+					}
+				});
+	}
+}
 
 function check_Insp_Print() {
 			var record = ListGrid_InspectionContract.getSelectedRecord();
@@ -804,44 +837,53 @@ function check_Insp_Print() {
 			}
 }
 
-var Menu_ListGrid_InspectionContract = isc.Menu.create({
-    width:150,
-    data:
-    [
-        {title:"<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
-            click: function()
-            {
-                DynamicForm_InspectionContract.clearValues();
-                Window_InspectionContract.show();
-            }
-        },
-        {title:"<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-            click: function() {
-        		DynamicForm_InspectionContract.clearValues();
-                Window_InspectionContract.show();
-            }
-        },
-        {title:"<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-            click: function(){
-				DynamicForm_InspectionContract.clearValues();
-                ListGrid_InspectionContract_edit();
-            }
-        },
-        {title:"<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-            click: function() {
-                ListGrid_InspectionContract_remove();
-            }
-        },
-            {
-            		title:"<spring:message code='global.form.print.inspection'/>",
-					click:function()
+var Menu_ListGrid_InspectionContract = isc.Menu.create(
+		{
+			width: 150,
+			data: [
+				{
+					title: "<spring:message code='global.form.refresh'/>",
+					icon: "pieces/16/refresh.png",
+					click: function()
+					{
+						DynamicForm_InspectionContract.clearValues();
+						Window_InspectionContract.show();
+					}
+				},
+				{
+					title: "<spring:message code='global.form.new'/>",
+					icon: "pieces/16/icon_add.png",
+					click: function()
+					{
+						DynamicForm_InspectionContract.clearValues();
+						Window_InspectionContract.show();
+					}
+				},
+				{
+					title: "<spring:message code='global.form.edit'/>",
+					icon: "pieces/16/icon_edit.png",
+					click: function()
+					{
+						DynamicForm_InspectionContract.clearValues();
+						ListGrid_InspectionContract_edit();
+					}
+				},
+				{
+					title: "<spring:message code='global.form.remove'/>",
+					icon: "pieces/16/icon_delete.png",
+					click: function()
+					{
+						ListGrid_InspectionContract_remove();
+					}
+				},
+				{
+					title: "<spring:message code='global.form.print.inspection'/>",
+					click: function()
 					{
 						check_Insp_Print();
 					}
-            }
-    ]
-});
-
+				}]
+		});
 
 
  var ListGrid_PersonByInspectionContract_EmailCC = isc.ListGrid.create({
@@ -939,7 +981,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
  							title: "<spring:message code='global.ok'/>",
  							click: function() {
  								var selectedPerson = ListGrid_PersonByInspectionContract_EmailCC.getSelection();
- 								if (selectedPerson.length == 0) {
+ 								if (selectedPerson.length === 0) {
  									Window_InspectionContractEmailCC.close();
  									return;
  								}
@@ -954,7 +996,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
  								for (i = 0; i < selectedPerson.length; i++) {
  									notIn = true;
  									if (notIn)
- 										persons = (persons == "" ? persons : persons + ",") + selectedPerson[i].email;
+ 										persons = (persons === "" ? persons : persons + ",") + selectedPerson[i].email;
  								}
  								DynamicForm_InspectionContract.setValue("emailCC", persons);
  								Window_InspectionContractEmailCC.close();
@@ -1129,7 +1171,6 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create({
     			});
     		} else {
     			DynamicForm_InspectionContract.clearValues();
-    			// DynamicForm_Instruction.setValue("disableDateDummy", new Date(record.disableDate)); //TODO
     			DynamicForm_InspectionContract.setValue("shipmentId", record.id);
     			DynamicForm_InspectionContract.setValue("emailType", "Inspection Contract");
     			DynamicForm_InspectionContract.setValue("emailSubject", "ORDER FOR REPRESENTATION ");

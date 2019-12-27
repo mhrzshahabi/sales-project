@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-//<script>
+<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
@@ -113,213 +113,401 @@
         fetchDataURL: "${contextPath}/api/shipmentMoistureItem/spec-list"
     });
 
-    var MyRestDataSource_Contact_IN_SHIPMENT_MOISTURE = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='contact.code'/>"},
-            {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-            {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-            {name: "tradeMark"},
-            {name: "ceoPassportNo"},
-            {name: "ceo"},
-            {name: "commercialRegistration"},
-            {name: "branchName"},
-            {name: "commertialRole"},
-            {name: "phone", title: "<spring:message code='contact.phone'/>"},
-            {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
-            {name: "fax", title: "<spring:message code='contact.fax'/>"},
-            {name: "address", title: "<spring:message code='contact.address'/>"},
-            {name: "webSite", title: "<spring:message code='contact.webSite'/>"},
-            {name: "email", title: "<spring:message code='contact.email'/>"},
-            {
-                name: "type",
-                title: "<spring:message code='contact.type'/>",
-                valueMap: {
-                    "true": "<spring:message code='contact.type.real'/>",
-                    "false": "<spring:message code='contact.type.legal'/>"
-                }
-            },
-            {name: "nationalcode", title: "<spring:message code='contact.nationalCode'/>"},
-            {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
-            {name: "bankAccount", title: "<spring:message code='contact.bankAccount'/>"},
-            {name: "bankShaba", title: "<spring:message code='contact.bankShaba'/>"},
-            {name: "bankSwift", title: "<spring:message code='contact.bankShaba'/>"},
-            {name: "bankName", title: "<spring:message code='contact.bankName'/>"},
-            {
-                name: "status",
-                title: "<spring:message code='contact.status'/>",
-                valueMap: {"true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"}
-            },
-            {name: "contactAccounts"}
-        ],
 
-        fetchDataURL: "${contextPath}/api/contact/spec-list"
-    });
 
-    var MyRestDataSource_ShipmentByMoistureHeader = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-            {name: "contactId", type: 'long', hidden: true},
-            {name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text'},
-            {name: "contractId", type: 'long', hidden: true},
-            {
-                name: "contract.contractNo",
-                title: "<spring:message code='contract.contractNo'/>",
-                type: 'text',
-                width: 180
-            },
-            {
-                name: "contract.contractDate",
-                title: "<spring:message code='contract.contractDate'/>",
-                type: 'text',
-                width: 180
-            },
-            {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-            {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
-            {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
-            {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
-            {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {
-                name: "laycan",
-                title: "<spring:message code='shipmentContract.laycanStart'/>",
-                type: 'integer',
-                width: "10%",
-                align: "center"
-            },
-            {
-                name: "shipmentType",
-                title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text',
-                width: 400,
-                valueMap: {"bulk": "bulk", "container": "container"}
-            },
-            {
-                name: "loadingLetter",
-                title: "<spring:message code='shipment.loadingLetter'/>",
-                type: 'text',
-                width: "10%",
-                showHover: true
-            },
-            {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", type: 'text', width: "10%"},
-            {
-                name: "portByLoading.port",
-                title: "<spring:message code='shipment.loading'/>",
-                type: 'text',
-                width: "10%"
-            },
-            {
-                name: "portByDischargeId",
-                title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
-                width: "10%"
-            },
-            {
-                name: "portByDischarge.port",
-                title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
-                width: "10%"
-            },
-            {name: "dischargeAddress", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "description", title: "<spring:message code='shipment.description'/>", type: 'text', width: "10%"},
-            {name: "swb", title: "<spring:message code='shipment.SWB'/>", type: 'text', width: "10%"},
-            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "10%"},
-            {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
-            {
-                name: "status", title: "<spring:message code='shipment.staus'/>", type: 'text', width: "10%",
-                valueMap: {
-                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
-                    "Resource": "<spring:message code='shipment.resource'/>"
-                }
-            },
-            {
-                name: "contractShipment.sendDate",
-                title: "<spring:message code='global.sendDate'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
-                showHover: true
-            },
-            {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
-            {name: "contactByAgent.nameFA", align: "center", showHover: true},
-            {
-                name: "vesselName",
-                title: "<spring:message	code='shipment.vesselName'/>",
-                type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true
-            }
-        ],
-        fetchDataURL: "${contextPath}/api/shipment/spec-list"
-    });
+    var MyRestDataSource_Contact_IN_SHIPMENT_MOISTURE = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "code",
+                    title: "<spring:message code='contact.code'/>"
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='contact.nameFa'/>"
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='contact.nameEn'/>"
+                },
+                {
+                    name: "tradeMark"
+                },
+                {
+                    name: "ceoPassportNo"
+                },
+                {
+                    name: "ceo"
+                },
+                {
+                    name: "commercialRegistration"
+                },
+                {
+                    name: "branchName"
+                },
+                {
+                    name: "commertialRole"
+                },
+                {
+                    name: "phone",
+                    title: "<spring:message code='contact.phone'/>"
+                },
+                {
+                    name: "mobile",
+                    title: "<spring:message code='contact.mobile'/>"
+                },
+                {
+                    name: "fax",
+                    title: "<spring:message code='contact.fax'/>"
+                },
+                {
+                    name: "address",
+                    title: "<spring:message code='contact.address'/>"
+                },
+                {
+                    name: "webSite",
+                    title: "<spring:message code='contact.webSite'/>"
+                },
+                {
+                    name: "email",
+                    title: "<spring:message code='contact.email'/>"
+                },
+                {
+                    name: "type",
+                    title: "<spring:message code='contact.type'/>",
+                    valueMap:
+                        {
+                            "true": "<spring:message code='contact.type.real'/>",
+                            "false": "<spring:message code='contact.type.legal'/>"
+                        }
+                },
+                {
+                    name: "nationalcode",
+                    title: "<spring:message code='contact.nationalCode'/>"
+                },
+                {
+                    name: "economicalCode",
+                    title: "<spring:message code='contact.economicalCode'/>"
+                },
+                {
+                    name: "bankAccount",
+                    title: "<spring:message code='contact.bankAccount'/>"
+                },
+                {
+                    name: "bankShaba",
+                    title: "<spring:message code='contact.bankShaba'/>"
+                },
+                {
+                    name: "bankSwift",
+                    title: "<spring:message code='contact.bankShaba'/>"
+                },
+                {
+                    name: "bankName",
+                    title: "<spring:message code='contact.bankName'/>"
+                },
+                {
+                    name: "status",
+                    title: "<spring:message code='contact.status'/>",
+                    valueMap:
+                        {
+                            "true": "<spring:message code='enabled'/>",
+                            "false": "<spring:message code='disabled'/>"
+                        }
+                },
+                {
+                    name: "contactAccounts"
+                }],
+
+            fetchDataURL: "${contextPath}/api/contact/spec-list"
+        });
+
+
+
+    var MyRestDataSource_ShipmentByMoistureHeader = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "contractShipmentId",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "contactId",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "contract.contact.nameFA",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'text'
+                },
+                {
+                    name: "contractId",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "contract.contractNo",
+                    title: "<spring:message code='contract.contractNo'/>",
+                    type: 'text',
+                    width: 180
+                },
+                {
+                    name: "contract.contractDate",
+                    title: "<spring:message code='contract.contractDate'/>",
+                    type: 'text',
+                    width: 180
+                },
+                {
+                    name: "materialId",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'long',
+                    hidden: true
+                },
+                {
+                    name: "material.descl",
+                    title: "<spring:message code='material.descl'/>",
+                    type: 'text'
+                },
+                {
+                    name: "material.unit.nameEN",
+                    title: "<spring:message code='unit.nameEN'/>",
+                    type: 'text'
+                },
+                {
+                    name: "amount",
+                    title: "<spring:message code='global.amount'/>",
+                    type: 'float'
+                },
+                {
+                    name: "noContainer",
+                    title: "<spring:message code='shipment.noContainer'/>",
+                    type: 'integer'
+                },
+                {
+                    name: "noPalete",
+                    title: "<spring:message code='shipment.noContainer'/>",
+                    type: 'integer'
+                },
+                {
+                    name: "laycan",
+                    title: "<spring:message code='shipmentContract.laycanStart'/>",
+                    type: 'integer',
+                    width: "10%",
+                    align: "center"
+                },
+                {
+                    name: "shipmentType",
+                    title: "<spring:message code='shipment.shipmentType'/>",
+                    type: 'text',
+                    width: 400,
+                    valueMap:
+                        {
+                            "bulk": "bulk",
+                            "container": "container"
+                        }
+                },
+                {
+                    name: "loadingLetter",
+                    title: "<spring:message code='shipment.loadingLetter'/>",
+                    type: 'text',
+                    width: "10%",
+                    showHover: true
+                },
+                {
+                    name: "loading",
+                    title: "<spring:message code='global.address'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "portByLoadingId",
+                    title: "<spring:message code='shipment.loading'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "portByLoading.port",
+                    title: "<spring:message code='shipment.loading'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "portByDischargeId",
+                    title: "<spring:message code='shipment.discharge'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "portByDischarge.port",
+                    title: "<spring:message code='shipment.discharge'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "dischargeAddress",
+                    title: "<spring:message code='global.address'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "description",
+                    title: "<spring:message code='shipment.description'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "swb",
+                    title: "<spring:message code='shipment.SWB'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "switchPort.port",
+                    title: "<spring:message code='port.switchPort'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "month",
+                    title: "<spring:message code='shipment.month'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "status",
+                    title: "<spring:message code='shipment.staus'/>",
+                    type: 'text',
+                    width: "10%",
+                    valueMap:
+                        {
+                            "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                            "Resource": "<spring:message code='shipment.resource'/>"
+                        }
+                },
+                {
+                    name: "contractShipment.sendDate",
+                    title: "<spring:message code='global.sendDate'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%",
+                    align: "center",
+                    showHover: true
+                },
+                {
+                    name: "createDate",
+                    title: "<spring:message code='shipment.createDate'/>",
+                    type: 'text',
+                    width: "10%"
+                },
+                {
+                    name: "contactByAgent.nameFA",
+                    align: "center",
+                    showHover: true
+                },
+                {
+                    name: "vesselName",
+                    title: "<spring:message	code='shipment.vesselName'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%",
+                    showHover: true
+                }],
+            fetchDataURL: "${contextPath}/api/shipment/spec-list"
+        });
+
 
     var ShipmentMoistureItemData = [];
     for (i = 0; i < 100; i++) {
         ShipmentMoistureItemData.add({id: i});
     }
 
-    var ClientDataSource_ShipmentMoistureItem = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "shipmentMoistureHeaderId", title: "id", canEdit: false, hidden: true},
-                {name: "lotNo", title: "<spring:message code='shipment.Moisture.lotNo'/>", type: 'text'},
+    var ClientDataSource_ShipmentMoistureItem = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "shipmentMoistureHeaderId",
+                    title: "id",
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "lotNo",
+                    title: "<spring:message code='shipment.Moisture.lotNo'/>",
+                    type: 'text'
+                },
                 {
                     name: "wetWeight",
-                    title: "<spring:message code='shipment.Moisture.wetWeight'/>"
-                    ,
+                    title: "<spring:message code='shipment.Moisture.wetWeight'/>",
                     type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "moisturePercent",
-                    title: "<spring:message code='shipment.Moisture.moisturePercent'/>"
-                    ,
+                    title: "<spring:message code='shipment.Moisture.moisturePercent'/>",
                     type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "dryWeight",
-                    title: "<spring:message code='shipment.Moisture.dryWeight'/>"
-                    ,
+                    title: "<spring:message code='shipment.Moisture.dryWeight'/>",
                     type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "totalH2oWeight",
-                    title: "<spring:message code='shipment.Moisture.totalH2oWeight'/>"
-                    ,
+                    title: "<spring:message code='shipment.Moisture.totalH2oWeight'/>",
                     type: 'float',
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-            ],
-        testData: ShipmentMoistureItemData,
-        clientOnly: true
-    });
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
+                }, ],
+            testData: ShipmentMoistureItemData,
+            clientOnly: true
+        });
 
     function pasteText(text) {
         var fieldNames = [];
@@ -337,218 +525,239 @@
         ListGrid_ShipmentMoistureItemPaste.applyRecordData(records);
     }
 
-    function createPasteDialog() {
+
+    function createPasteDialog()
+    {
         var record = ListGrid_ShipmentMoistureHeader.getSelectedRecord();
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>.",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
+        if (record == null || record.id == null)
+        {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>.",
+                    buttons: [isc.Button.create(
+                        {
+                            title: "<spring:message code='global.ok'/>."
+                        })],
+                    buttonClick: function()
+                    {
+                        this.hide();
+                    }
+                });
             return;
         }
         var ShipmentMoistureHeaderId = record.id;
-        var PasteDialogShipmentMoistureItem_windows = isc.Window.create({
-            title: "Import From Excle",
-            autoSize: false,
-            width: "100%",
-            height: "70%",
-            isModal: true,
-            showModalMask: true,
-            showMaximizeButton: true,
-            canDragResize: true,
-            autoCenter: true,
-            closeClick: function () {
-                this.Super("closeClick", arguments);
-            },
-            items: [
-                isc.HLayout.create({
-                    membersMargin: 3,
-                    width: "100%",
-                    height: "100%",
-                    alignLayout: "center",
-                    members: [
 
-                        isc.DynamicForm.create({
-                            ID: "resultsForm",
-                            numCols: 6,
+        var PasteDialogShipmentMoistureItem_windows = isc.Window.create(
+            {
+                title: "Import From Excle",
+                autoSize: false,
+                width: "100%",
+                height: "70%",
+                isModal: true,
+                showModalMask: true,
+                showMaximizeButton: true,
+                canDragResize: true,
+                autoCenter: true,
+                closeClick: function()
+                {
+                    this.Super("closeClick", arguments);
+                },
+                items: [
+                    isc.HLayout.create(
+                        {
+                            membersMargin: 3,
                             width: "100%",
-                            height: "90%",
-                            autoFocus: true,
-                            fields: [
-                                {
-                                    type: "text",
-                                    name: "guidance",
-                                    colSpan: 6,
-                                    showTitle: false,
-                                    editorType: "StaticTextItem",
-                                    value: "Press Ctrl-V or right click to paste values, then click \"Apply\"."
-                                },
-                                {
-                                    type: "text",
-                                    name: "textArea",
-                                    canEdit: true,
-                                    colSpan: 6,
-                                    showTitle: false,
-                                    height: "*",
-                                    width: "*",
-                                    editorType: "TextAreaItem"
-                                },
+                            height: "100%",
+                            alignLayout: "center",
+                            members: [
+
+                                isc.DynamicForm.create(
+                                    {
+                                        ID: "resultsForm",
+                                        numCols: 6,
+                                        width: "100%",
+                                        height: "90%",
+                                        autoFocus: true,
+                                        fields: [
+                                            {
+                                                type: "text",
+                                                name: "guidance",
+                                                colSpan: 6,
+                                                showTitle: false,
+                                                editorType: "StaticTextItem",
+                                                value: "Press Ctrl-V or right click to paste values, then click \"Apply\"."
+                                            },
+                                            {
+                                                type: "text",
+                                                name: "textArea",
+                                                canEdit: true,
+                                                colSpan: 6,
+                                                showTitle: false,
+                                                height: "*",
+                                                width: "*",
+                                                editorType: "TextAreaItem"
+                                            }, ]
+
+
+                                    }) /* dynamic Form */ , ListGrid_ShipmentMoistureItemPaste = isc.ListGrid.create(
+                                    {
+                                        dataSource: ClientDataSource_ShipmentMoistureItem,
+                                        sortDirection: "descending",
+                                        width: "100%",
+                                        height: "90%",
+                                        canEdit: true,
+                                        autoFetchData: true,
+                                        canDragSelect: true,
+                                        canSelectCells: true,
+                                        autoSaveData: true,
+                                        fields: [
+                                            {
+                                                name: "id",
+                                                title: "id",
+                                                primaryKey: true,
+                                                canEdit: false,
+                                                hidden: true,
+                                                align: "center"
+                                            },
+                                            {
+                                                name: "shipmentMoistureHeaderId",
+                                                title: "id",
+                                                canEdit: false,
+                                                hidden: true,
+                                                align: "center"
+                                            },
+                                            {
+                                                name: "lotNo",
+                                                title: "<spring:message code='shipment.Moisture.lotNo'/>",
+                                                type: 'integer',
+                                                validators: [
+                                                    {
+                                                        type: "isInteger",
+                                                        validateOnExit: true,
+                                                        stopOnError: true,
+                                                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                                                    }],
+                                                align: "center"
+                                            },
+                                            {
+                                                name: "wetWeight",
+                                                title: "<spring:message code='shipment.Moisture.wetWeight'/>",
+                                                type: 'float',
+                                                validators: [
+                                                    {
+                                                        type: "isFloat",
+                                                        validateOnExit: true,
+                                                        stopOnError: true,
+                                                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                                                    }],
+                                                align: "center"
+                                            },
+                                            {
+                                                name: "moisturePercent",
+                                                title: "<spring:message code='shipment.Moisture.moisturePercent'/>",
+                                                type: 'float',
+                                                validators: [
+                                                    {
+                                                        type: "isFloat",
+                                                        validateOnExit: true,
+                                                        stopOnError: true,
+                                                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                                                    }],
+                                                align: "center"
+                                            },
+                                            {
+                                                name: "dryWeight",
+                                                title: "<spring:message code='shipment.Moisture.dryWeight'/>",
+                                                type: 'float',
+                                                validators: [
+                                                    {
+                                                        type: "isFloat",
+                                                        validateOnExit: true,
+                                                        stopOnError: true,
+                                                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                                                    }],
+                                                align: "center"
+                                            },
+                                            {
+                                                name: "totalH2oWeight",
+                                                title: "<spring:message code='shipment.Moisture.totalH2oWeight'/>",
+                                                type: 'float',
+                                                validators: [
+                                                    {
+                                                        type: "isFloat",
+                                                        validateOnExit: true,
+                                                        stopOnError: true,
+                                                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                                                    }],
+                                                align: "center"
+                                            }, ]
+                                    })
+
                             ]
-
-
-                        }) /* dynamic Form */
-                        , ListGrid_ShipmentMoistureItemPaste = isc.ListGrid.create({
-                            dataSource: ClientDataSource_ShipmentMoistureItem,
-                            sortDirection: "descending",
+                        }),
+                    isc.HLayout.create(
+                        {
+                            membersMargin: 3,
                             width: "100%",
-                            height: "90%",
-                            canEdit: true,
-                            autoFetchData: true,
-                            canDragSelect: true,
-                            canSelectCells: true,
-                            autoSaveData: true,
-                            fields: [
-                                {
-                                    name: "id",
-                                    title: "id",
-                                    primaryKey: true,
-                                    canEdit: false,
-                                    hidden: true,
-                                    align: "center"
-                                },
-                                {
-                                    name: "shipmentMoistureHeaderId",
-                                    title: "id",
-                                    canEdit: false,
-                                    hidden: true,
-                                    align: "center"
-                                },
-                                {
-                                    name: "lotNo",
-                                    title: "<spring:message code='shipment.Moisture.lotNo'/>"
-                                    ,
-                                    type: 'integer',
-                                    validators: [{
-                                        type: "isInteger",
-                                        validateOnExit: true,
-                                        stopOnError: true,
-                                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                                    }],
-                                    align: "center"
-                                },
-                                {
-                                    name: "wetWeight",
-                                    title: "<spring:message code='shipment.Moisture.wetWeight'/>"
-                                    ,
-                                    type: 'float',
-                                    validators: [{
-                                        type: "isFloat",
-                                        validateOnExit: true,
-                                        stopOnError: true,
-                                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                                    }],
-                                    align: "center"
-                                },
-                                {
-                                    name: "moisturePercent",
-                                    title: "<spring:message code='shipment.Moisture.moisturePercent'/>"
-                                    ,
-                                    type: 'float',
-                                    validators: [{
-                                        type: "isFloat",
-                                        validateOnExit: true,
-                                        stopOnError: true,
-                                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                                    }],
-                                    align: "center"
-                                },
-                                {
-                                    name: "dryWeight",
-                                    title: "<spring:message code='shipment.Moisture.dryWeight'/>"
-                                    ,
-                                    type: 'float',
-                                    validators: [{
-                                        type: "isFloat",
-                                        validateOnExit: true,
-                                        stopOnError: true,
-                                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                                    }],
-                                    align: "center"
-                                },
-                                {
-                                    name: "totalH2oWeight",
-                                    title: "<spring:message code='shipment.Moisture.totalH2oWeight'/>"
-                                    ,
-                                    type: 'float',
-                                    validators: [{
-                                        type: "isFloat",
-                                        validateOnExit: true,
-                                        stopOnError: true,
-                                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                                    }],
-                                    align: "center"
-                                },
+                            alignLayout: "center",
+                            members: [
+                                isc.Button.create(
+                                    {
+                                        title: "Apply",
+                                        width: 300,
+                                        click: function(form)
+                                        {
+                                            pasteText(resultsForm.getValue("textArea"));
+                                            ListGrid_ShipmentMoistureItemPaste.saveAllEdits();
+                                        }
+                                    }),
+
+                                isc.IButtonSave.create(
+                                    {
+                                        title: "<spring:message code='global.form.save'/>",
+                                        prompt: "<spring:message code='shipment.Moisture.saveButton'/>",
+                                        icon: "pieces/16/save.png",
+                                        width: 300,
+                                        click: function()
+                                        {
+                                            resultsForm.validate();
+                                            if (resultsForm.hasErrors())
+                                                return;
+                                            var selected = ListGrid_ShipmentMoistureItemPaste.getSelection();
+
+                                            resultsForm.setValue("selected", selected)
+
+                                            resultsForm.setValue("ShipmentMoistureHeaderId", ShipmentMoistureHeaderId);
+                                            var data = resultsForm.getValues();
+                                            var methodXXXX = "PUT";
+                                            if (data.id == null) methodXXXX = "POST";
+                                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                                                {
+                                                    actionURL: "${contextPath}/api/shipmentMoistureItem/addMoisturePaste",
+                                                    httpMethod: methodXXXX,
+                                                    data: JSON.stringify(data),
+                                                    callback: function(resp)
+                                                    {
+                                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)
+                                                        {
+                                                            isc.say("<spring:message code='global.form.request.successful'/>");
+                                                            ListGrid_ShipmentMoistureItem_refresh();
+                                                            PasteDialogShipmentMoistureItem_windows.close();
+                                                        }
+                                                        else
+                                                            isc.say(RpcResponse_o.data);
+                                                    }
+                                                }));
+                                        }
+                                    }),
                             ]
                         })
-
-                    ]
-                }),
-                isc.HLayout.create({
-                    membersMargin: 3,
-                    width: "100%",
-                    alignLayout: "center",
-                    members:
-                        [
-                            isc.Button.create({
-                                title: "Apply", width: 300,
-                                click: function (form) {
-                                    pasteText(resultsForm.getValue("textArea"));
-                                    ListGrid_ShipmentMoistureItemPaste.saveAllEdits();
-                                }
-                            }),
-
-                            isc.IButtonSave.create({
-                                title: "<spring:message code='global.form.save'/>",
-                                prompt: "<spring:message code='shipment.Moisture.saveButton'/>",
-                                icon: "pieces/16/save.png",
-                                width: 300,
-                                click: function () {
-                                    resultsForm.validate();
-                                    if (resultsForm.hasErrors())
-                                        return;
-                                    var selected = ListGrid_ShipmentMoistureItemPaste.getSelection();
-
-                                    resultsForm.setValue("selected", selected)
-
-                                    resultsForm.setValue("ShipmentMoistureHeaderId", ShipmentMoistureHeaderId);
-                                    var data = resultsForm.getValues();
-                                    var methodXXXX = "PUT";
-                                    if (data.id == null) methodXXXX = "POST";
-                                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                        actionURL: "${contextPath}/api/shipmentMoistureItem/addMoisturePaste",
-                                        httpMethod: methodXXXX,
-                                        data: JSON.stringify(data),
-                                        callback: function (resp) {
-                                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                                                isc.say("<spring:message code='global.form.request.successful'/>");
-                                                ListGrid_ShipmentMoistureItem_refresh();
-                                                PasteDialogShipmentMoistureItem_windows.close();
-                                            } else
-                                                isc.say(RpcResponse_o.data);
-                                        }
-                                    }));
-                                }
-                            }),
-                        ]
-                })
-            ]
-        });
+                ]
+            });
     }
+
 
     var ToolStripButton_ShipmentMoistureItem_Paste = isc.ToolStripButton.create({
         icon: "[SKIN]/RichTextEditor/paste.png",
@@ -824,8 +1033,6 @@
                     name: "inspectionByContactId",
                     title: "<spring:message code='shipment.MoistureInspectionCompany'/>",
                     type: 'long',
-                    wrapTitle: false
-                    ,
                     editorType: "SelectItem",
                     colSpan: 1,
                     titleColSpan: 1,
