@@ -238,8 +238,8 @@
             {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 400},
             {
                 name: "title", title: "<spring:message code='person.title'/>", type: 'text', width: 400, valueMap: {
-                    "MR": "<spring:message
-        code='global.MR'/>", "MIS": "<spring:message code='global.MIS'/>", "MRS": "<spring:message code='global.MRS'/>",
+                    "MR": "<spring:message code='global.MR'/>",
+                    "MIS": "<spring:message code='global.MIS'/>", "MRS": "<spring:message code='global.MRS'/>",
                 }
             },
             {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400},
@@ -248,6 +248,19 @@
         ],
         fetchDataURL: "${contextPath}/api/person/spec-list"
     });
+
+
+
+    function check_Shipment_Print() {
+			 record = ListGrid_Shipment.getSelectedRecord();
+			if(record===null)
+			{
+				isc.say("<spring:message code='global.grid.record.not.selected'/>");
+			}else{
+				"<spring:url value="/shipment/print/" var="printUrl"/>";
+                    window.open('${printUrl}' + record.id);
+			}
+}
 
     var Menu_ListGrid_Shipment = isc.Menu.create({
         width: 150,
@@ -282,11 +295,9 @@
                 }
             }, {isSeparator: true},
             {
-                /*Change logo */
-                title: "<spring:message code='global.form.print.word'/>", icon: "icon/word.png", click: function () {
-                    var record = ListGrid_Shipment.getSelectedRecord();
-                    "<spring:url value="/shipment/print/" var="printUrl"/>"
-                    window.open('${printUrl}' + record.id);
+                title: "<spring:message code='global.form.print.word'/>",
+            click: function () {
+            check_Shipment_Print();
                 }
             }
 

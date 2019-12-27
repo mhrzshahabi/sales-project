@@ -375,7 +375,6 @@ function Menu_ListGrid_InvoiceInternal_Html_F () {
     var Window_InvoiceInternal = isc.Window.create({
         title: "<spring:message code='bank.title'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
