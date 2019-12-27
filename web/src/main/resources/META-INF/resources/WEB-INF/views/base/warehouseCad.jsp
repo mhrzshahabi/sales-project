@@ -192,7 +192,7 @@
 
     var ToolStripButton_warehouseCAD_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
-        title: "<spring:message code='global.form.edit'/>",
+        title: "<spring:message code='global.form.show.bijack'/>",
         click: function () {
             ListGrid_warehouseCAD_edit();
         }

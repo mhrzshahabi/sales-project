@@ -109,8 +109,8 @@
      modalEditing: true,
      canEdit: true,
      autoFetchData: false,
-     canRemoveRecords: true,
-     autoSaveEdits: true,
+     canRemoveRecords: false, //temporary
+     autoSaveEdits: false, //temporary
      dataSource: RestDataSource_WarehouseCadITEM,
      showGridSummary: true,
      fields: [{
@@ -190,6 +190,7 @@
 
 
     var add_bundle_button = isc.IButton.create({
+        showIf: "false",
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
         click: function() {
@@ -392,6 +393,7 @@
 
 
     var IButton_warehouseCAD_Save = isc.IButtonSave.create({
+    showIf: "false",
      top: 260,
      title: "<spring:message code='global.form.save'/>",
      icon: "pieces/16/save.png",
@@ -406,7 +408,7 @@
 
          ListGrid_WarehouseCadItem.selectAllRecords();
          if (ListGrid_WarehouseCadItem.data.length === 0) {
-             isc.warn("no items");
+             isc.warn("<spring:message code='bijack.noitems'/>");
              return;
          }
 
@@ -473,7 +475,7 @@ DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_warehouseCAD.getSelect
                     isc.Label.create({
                         width: 5,
                     }),
-                    isc.IButtonCancel.create({
+                    /*isc.IButtonCancel.create({
                         ID: "warehouseCADEditExitIButton",
                         title: "<spring:message code='global.cancel'/>",
                         width: 100,
@@ -482,7 +484,7 @@ DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_warehouseCAD.getSelect
                         click: function() {
                             Window_Bijack.close();
                         }
-                    })
+                    })*/
                 ]
             })
         ]

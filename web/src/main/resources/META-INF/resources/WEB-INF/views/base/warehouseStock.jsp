@@ -42,8 +42,12 @@
             name: "lot",
             title: "<spring:message code='warehouseStock.lot'/>"
         }, {
-            name: "materialItemgdsName", dataPath: "materialItem.gdsName",
-            title: "<spring:message code='material.descp'/>"
+            name: "materialItem.gdsName",
+            title: "<spring:message code='material.descp'/>",
+            sortNormalizer: function(recordObject)
+			{
+				return recordObject.materialItem.gdsName;
+			}
         }],
         fetchDataURL: "${contextPath}/api/warehouseStock/spec-list"
     });
