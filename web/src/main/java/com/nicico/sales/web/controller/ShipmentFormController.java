@@ -98,7 +98,7 @@ public class ShipmentFormController {
         String shiptype = shipment.getShipmentType();
 
 
-        if (description.contains("Copper Cathode Leaching") || description.contains("Copper Cathode") || description.contains("cat")) {
+        if (description.contains("cat")) {
             if (shiptype.contains("bulk")) {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
@@ -175,7 +175,7 @@ public class ShipmentFormController {
             }
         }
 
-        if (description.contains("Copper Concentrate")) {
+        if (description.contains("Conc")) {
             if (shiptype.contains("bulk")) {
 
                 stream = new ClassPathResource("reports/word/Copper_Concentrate_bulk.docx").getInputStream();
@@ -218,7 +218,7 @@ public class ShipmentFormController {
 
         }
 
-        if (description.contains("Molybdenum Oxide")) {
+        if (description.contains("Mol")) {
             if (shiptype.contains("container")) {
 
 
