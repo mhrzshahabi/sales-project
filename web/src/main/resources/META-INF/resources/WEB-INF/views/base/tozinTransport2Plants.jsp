@@ -14,7 +14,7 @@
         "and <b>usability</b>.<br>" +
         "(Source: <a href='http://www.wikipedia.org' title='Wikipedia' target='_blank'>Wikipedia</a>)";
     out = "<%=request.getAttribute("out").toString() %>";
-    alert(out)
+    alert(out);
     isc.VLayout.create({
         width: "100%", height: "*",
         membersMargin: 5,

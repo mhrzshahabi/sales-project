@@ -771,8 +771,8 @@
                             title: "<spring:message code='global.yes'/>"
                         }), isc.IButtonCancel.create(
                         {
-                            title: "<spring:message
-    				code = 'global.no' / > "
+                            title: "<spring:message code = 'global.no'/> "
+
                         })],
                     buttonClick: function(button, index)
                     {
@@ -1580,8 +1580,8 @@
                             title: "<spring:message code='global.yes'/>"
                         }), isc.IButtonCancel.create(
                         {
-                            title: "<spring:message
-				code = 'global.no' / > "
+                            title: "<spring:message code = 'global.no' /> "
+
                         })],
                     buttonClick: function(button, index)
                     {
