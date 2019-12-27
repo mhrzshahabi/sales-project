@@ -363,7 +363,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
 
          ListGrid_WarehouseCadItem.selectAllRecords();
          if (ListGrid_WarehouseCadItem.data.length === 0) {
-             isc.warn("no items");
+             isc.warn("<spring:message code='bijack.noitems'/>");
              return;
          }
 

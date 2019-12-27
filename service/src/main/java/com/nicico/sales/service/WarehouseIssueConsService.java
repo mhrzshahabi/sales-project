@@ -112,8 +112,6 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
             List<WarehouseStock> warehouseStockConcList = warehouseStockDAO.warehouseStockConcList();
             for (WarehouseStock w : warehouseStockConcList)
                 if (!oldAmountSarcheshmeh.equals(0D) || !oldAmountMiduk.equals(0D) || !oldAmountSungon.equals(0D)) {
-//                       WarehouseStock warehouseStock = warehouseStockDAO.findById(warehouseStockConcList.get(0).getId())
-//                               .orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseStockNotFound));
                     if (w.getPlant().equals("Sarcheshmeh") && !oldAmountSarcheshmeh.equals(0D)) {
                         w.setAmount(w.getAmount() - oldAmountSarcheshmeh);
                         if (w.getAmount().compareTo(0D) < 0) {
@@ -130,7 +128,7 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
                         } else
                             oldAmountMiduk = 0D;
                         warehouseStockDAO.saveAndFlush(w);
-                    } else if (w.getPlant().equals("Sungon") && !oldAmountSungon.equals(0D)) {
+                    } else if (w.getPlant().equals("sungun") && !oldAmountSungon.equals(0D)) {
                         w.setAmount(w.getAmount() - oldAmountSungon);
                         if (w.getAmount().compareTo(0D) < 0) {
                             oldAmountSungon = -1 * w.getAmount();

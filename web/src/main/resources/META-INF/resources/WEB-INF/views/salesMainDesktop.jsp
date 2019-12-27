@@ -632,13 +632,13 @@
         title: "&nbsp; <spring:message code='main.financialTab'/>",
         menu: isc.Menu.create({
             data: [
-                /*{
+                {
                     title: "<spring:message code='issuedInvoices.title'/>",
                     click: function () {
                         createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
                     }
                 },
-                {isSeparator: true},*/
+                {isSeparator: true},
                 {
                     title: "<spring:message code='issuedInternalInvoices.title'/>",
                     click: function () {

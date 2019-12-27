@@ -268,7 +268,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         modalEditing: true,
         canEdit: true,
         autoFetchData: false,
-        canRemoveRecords: true,
+        canRemoveRecords: false, //pms is credited
         autoSaveEdits: true,
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT,
         showGridSummary: true,
@@ -555,7 +555,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
 
             ListGrid_WarehouseCadItem.selectAllRecords();
             if (ListGrid_WarehouseCadItem.data.length == 0 ) {
-               isc.warn("no items");
+               isc.warn("<spring:message code='bijack.noitems'/>");
                return;
             }
 

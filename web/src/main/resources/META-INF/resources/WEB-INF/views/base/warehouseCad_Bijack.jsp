@@ -245,8 +245,8 @@
         modalEditing: true,
         canEdit: true,
         autoFetchData: false,
-        canRemoveRecords: true,
-        autoSaveEdits: true,
+        canRemoveRecords: false, //temporary
+        autoSaveEdits: false, //temporary
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_BIJACK,
         showGridSummary: true,
         fields: [{
@@ -329,6 +329,7 @@
 
 
     var add_bundle_button = isc.IButton.create({
+        showIf: "false",
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
         click: "ListGrid_WarehouseCadItem.startEditingNew()"
@@ -557,6 +558,7 @@
 });
 
     var IButton_warehouseCAD_Save = isc.IButtonSave.create({
+        showIf: "false",
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -571,7 +573,7 @@
 
             ListGrid_WarehouseCadItem.selectAllRecords();
             if (ListGrid_WarehouseCadItem.data.length === 0) {
-                isc.warn("no items");
+                isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }
 
@@ -637,7 +639,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButtonCancel.create({
+                            /*isc.IButtonCancel.create({
                                 ID: "warehouseCADEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -646,7 +648,7 @@
                                 click: function () {
                                     Window_Bijack.close();
                                 }
-                            })
+                            })*/
                         ]
                 })
        ]
