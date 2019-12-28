@@ -5,7 +5,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-
     var RestDataSource_CatodList = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -22,7 +21,6 @@
         }],
         fetchDataURL: "${contextPath}/api/catodList/spec-list"
     });
-
 
 var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
     fields: [{
@@ -52,7 +50,6 @@ var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDat
     }],
     fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
 });
-
 
     var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
         fields: [{
@@ -564,8 +561,16 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
             });
 
             ListGrid_WarehouseCadItem.getAllEditRows().forEach(function(element) {
-                warehouseCadItems.add(ListGrid_WarehouseCadItem.getEditedRecord(element));
+                var element = ListGrid_WarehouseCadItem.getEditedRecord(element);
+                if (element.productLabel !== undefined && element.sheetNumber !== undefined && element.wazn !== undefined) {
+                    warehouseCadItems.add(element);
+                }
             });
+
+            if (warehouseCadItems.length == 0) {
+                isc.warn("<spring:message code='bijack.noitems'/>");
+                return;
+            }
 
             ListGrid_WarehouseCadItem.deselectAllRecords();
 
@@ -613,6 +618,9 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 delete item.gdsCode;
             });
             ListGrid_WarehouseCadItem.setData(data);
+            DynamicForm_warehouseCAD.setValue("destinationBundleSum",ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("productLabel")));
+            DynamicForm_warehouseCAD.setValue("destinationSheetSum",ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("sheetNumber")));
+            DynamicForm_warehouseCAD.setValue("destinationWeight",ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("wazn")));
         });
 
     DynamicForm_warehouseCAD.clearValues();

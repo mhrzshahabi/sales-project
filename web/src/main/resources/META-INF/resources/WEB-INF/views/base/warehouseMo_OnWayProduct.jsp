@@ -372,8 +372,16 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
          });
 
          ListGrid_WarehouseCadItem.getAllEditRows().forEach(function(element) {
-             warehouseCadItems.add(ListGrid_WarehouseCadItem.getEditedRecord(element));
-         });
+                var element = ListGrid_WarehouseCadItem.getEditedRecord(element);
+                if (element.lotName !== undefined && element.barrelNo !== undefined && element.weightKg !== undefined) {
+                    warehouseCadItems.add(element);
+                }
+            });
+
+         if (warehouseCadItems.length == 0) {
+                isc.warn("<spring:message code='bijack.noitems'/>");
+                return;
+         }
 
          ListGrid_WarehouseCadItem.deselectAllRecords();
 
