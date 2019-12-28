@@ -63,7 +63,7 @@
     });
 
 
-    var RestDataSource_tozin = isc.MyRestDataSource.create({
+    var RestDataSource_tozin_IN_WAREHOUSEMO_BIJACK = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -71,7 +71,142 @@
             canEdit: false,
             hidden: true
         }, {
-            name: "sourcePlantId"
+            name: "cardId",
+            title: "<spring:message code='Tozin.cardId'/>",
+            align: "center"
+        }, {
+            name: "carNo1",
+            title: "<spring:message code='Tozin.carNo1'/>",
+            align: "center"
+        }, {
+            name: "carNo3",
+            title: "<spring:message code='Tozin.carNo3'/>",
+            align: "center"
+        }, {
+            name: "plak",
+            title: "<spring:message code='Tozin.plak'/>",
+            align: "center"
+        }, {
+            name: "carName",
+            title: "<spring:message code='Tozin.carName'/>",
+            align: "center"
+        }, {
+            name: "containerId",
+            title: "<spring:message code='Tozin.containerId'/>",
+            align: "center"
+        }, {
+            name: "containerNo1",
+            title: "<spring:message code='Tozin.containerNo1'/>",
+            align: "center"
+        }, {
+            name: "containerNo3",
+            title: "<spring:message code='Tozin.containerNo3'/>",
+            align: "center"
+        }, {
+            name: "containerName",
+            title: "<spring:message code='Tozin.containerName'/>",
+            align: "center"
+        }, {
+            name: "vazn1",
+            title: "<spring:message code='Tozin.vazn1'/>",
+            align: "center"
+        }, {
+            name: "vazn2",
+            title: "<spring:message code='Tozin.vazn2'/>",
+            align: "center"
+        }, {
+            name: "condition",
+            title: "<spring:message code='Tozin.condition'/>",
+            align: "center"
+        }, {
+            name: "vazn",
+            title: "<spring:message code='Tozin.vazn'/>",
+            align: "center"
+        }, {
+            name: "tedad",
+            title: "<spring:message code='Tozin.tedad'/>",
+            align: "center"
+        }, {
+            name: "unitKala",
+            title: "<spring:message code='Tozin.unitKala'/>",
+            align: "center"
+        }, {
+            name: "packName",
+            title: "<spring:message code='Tozin.packName'/>",
+            align: "center"
+        }, {
+            name: "haveCode",
+            title: "<spring:message code='Tozin.haveCode'/>",
+            align: "center"
+        }, {
+            name: "date",
+            title: "<spring:message code='Tozin.date'/>",
+            align: "center"
+        }, {
+            name: "tozinId",
+            title: "<spring:message code='Tozin.tozinId'/>",
+            align: "center"
+        }, {
+            name: "tozinDate",
+            title: "<spring:message code='Tozin.tozinDate'/>",
+            align: "center"
+        }, {
+            name: "tozinTime",
+            title: "<spring:message code='Tozin.tozinTime'/>",
+            align: "center"
+        }, {
+            name: "codeKala",
+            title: "<spring:message code='Tozin.codeKala'/>",
+            align: "center"
+        }, {
+            name: "nameKala",
+            title: "<spring:message code='Tozin.nameKala'/>",
+            align: "center"
+        }, {
+            name: "sourceId",
+            title: "<spring:message code='Tozin.sourceId'/>",
+            align: "center"
+        }, {
+            name: "source",
+            title: "<spring:message code='Tozin.source'/>",
+            align: "center"
+        }, {
+            name: "targetId",
+            title: "<spring:message code='Tozin.targetId'/>",
+            align: "center"
+        }, {
+            name: "target",
+            title: "<spring:message code='Tozin.target'/>",
+            align: "center"
+        }, {
+            name: "havalehName",
+            title: "<spring:message code='Tozin.havalehName'/>",
+            align: "center"
+        }, {
+            name: "havalehFrom",
+            title: "<spring:message code='Tozin.havalehFrom'/>",
+            align: "center"
+        }, {
+            name: "havalehTo",
+            title: "<spring:message code='Tozin.havalehTo'/>",
+            align: "center"
+        }, {
+            name: "havalehDate",
+            title: "<spring:message code='Tozin.havalehDate'/>",
+            align: "center"
+        }, {
+            name: "isFinal",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        }, {
+            name: "targetPlantId",
+            title: "<spring:message code='Tozin.targetPlantId'/>"
+        }, {
+            name: "sourcePlantId",
+            title: "<spring:message code='Tozin.sourcePlantId'/>"
+        }, {
+            name: "tozinPlantId",
+            title: "<spring:message code='Tozin.tozinPlantId'/>"
         }],
         fetchDataURL: "${contextPath}/api/tozin/search-tozin"
     });
@@ -261,7 +396,7 @@
           type: 'string',
           width: "100%",
           editorType: "SelectItem",
-          optionDataSource: RestDataSource_tozin,
+          optionDataSource: RestDataSource_tozin_IN_WAREHOUSEMO_BIJACK,
           optionCriteria: RestDataSource_Tozin_Other_optionCriteria,
           displayField: "tozinPlantId",
           valueField: "tozinPlantId",
@@ -302,7 +437,7 @@
           type: 'string',
           width: "100%",
           editorType: "SelectItem",
-          optionDataSource: RestDataSource_tozin,
+          optionDataSource: RestDataSource_tozin_IN_WAREHOUSEMO_BIJACK,
           optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
           displayField: "tozinPlantId",
           valueField: "tozinPlantId",
