@@ -710,10 +710,22 @@ var salesContractCADButtonMain = isc.IconButton.create({
         showIf: "true",
         title: "<spring:message code='global.form.print'/>",
         click: function () {
-
-             "<spring:url value="/contract/print" var="printUrl"/>";
-             var recordIdPrint = ListGrid_Contract.getSelectedRecord();
-             window.open('${printUrl}'+"/"+recordIdPrint.id);
+             var printSelectID=ListGrid_Contract.getSelectedRecord();
+             if (printSelectID == null || printSelectID.id == null){
+                isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }});
+                }
+             else{
+                 "<spring:url value="/contract/print" var="printUrl"/>";
+                 var recordIdPrint = ListGrid_Contract.getSelectedRecord();
+                 window.open('${printUrl}'+"/"+recordIdPrint.id);
+            }
         }
     });
 
@@ -911,16 +923,16 @@ var salesContractCADButtonMain = isc.IconButton.create({
         dataArrived: function (startRow, endRow) {
         },
         getCellCSSText: function (record, rowNum, colNum) {
-                            if (record.materialId == 952) {
+                            if (record.material.descl.contains("Cathode")) {
                                   return "font-weight:bold;background-color:#d1f2eb;";
                                 }
-                            if (record.materialId == -32) {
+                            if (record.material.descl.contains("Molybdenum")) {
                                   return "font-weight:bold;background-color:#fcf3cf;";
                                 }
-                            if (record.materialId == 12952) {
+                            if (record.material.descl.contains("Matte")) {
                                   return "font-weight:bold;background-color:#f1948a;";
                                 }
-                            if (record.materialId == -42) {
+                            if (record.material.descl.contains("Concentrate")) {
                                 // color:#ad48f7;
                                   return "font-weight:bold;background-color:#d6eaf8;";
                                 }

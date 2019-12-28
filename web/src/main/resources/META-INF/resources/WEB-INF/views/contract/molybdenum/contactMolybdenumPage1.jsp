@@ -2399,7 +2399,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 showHover: true,
                 showHintInField: true,
                 hint: "FOB",
-                required: false,
+                required: true,
                 title: "<spring:message code='incoterms.name'/>",
                 type: 'long',
                 numCols: 4,
@@ -3532,6 +3532,7 @@ var IButton_Contact_Save = isc.IButtonSave.create({
             DynamicForm_ContactCustomer.validate();
             dynamicFormMaterial.validate();
             contactHeader.validate();
+            valuesManagerArticle6.validate();
             var drs = contactHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_ContactHeader.setValue("contractDate", contractTrueDate);
