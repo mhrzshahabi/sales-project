@@ -325,12 +325,12 @@
             },
 
             {
-                name: "month", title: "<spring:message
-		code='shipment.month'/>", type: 'text', required: true, width: "10%", align: "center", showHover: true
+                name: "month", title: "<spring:message code='shipment.month'/>",
+		        type: 'text', required: true, width: "10%", align: "center", showHover: true
             },
 
             {
-                name: "status", title: "<spring:message		code='shipment.staus'/>", type: 'text', width: "10%", align: "center", valueMap: {
+                name: "status", title: "<spring:message	code='shipment.staus'/>", type: 'text', width: "10%", align: "center", valueMap: {
                     "Load Ready": "<spring:message	code='shipment.loadReady'/>", "Resource": "<spring:message code='shipment.resource'/>"
                 }, showHover: true
             },
@@ -673,22 +673,19 @@
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
-                    var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                    window.open("invoice/print/pdf/" + rowId);
+                    ToolStripButton_Invoice_Pdf_F();
                 }
             },
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
-                    var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                    window.open("invoice/print/html/" + rowId);
+                     ToolStripButton_Invoice_Html_F();
                 }
             },
             {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
-                    var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                    window.open("invoice/print/xlsx/" + rowId);
+                     ToolStripButton_Invoice_Excel_F();
                 }
             }
         ]
@@ -1045,6 +1042,10 @@
         }
     });
 
+
+
+
+
     var ToolStripButton_Invoice_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1061,22 +1062,58 @@
     });
 
 
+    function ToolStripButton_Invoice_Pdf_F () {
+
+            var record = ListGrid_Invoice.getSelectedRecord();
+            if (record===null || record===" " ){
+                isc.say("<spring:message code='global.grid.record.not.selected'/>");
+            }else {
+                 var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                 window.open("invoice/print/pdf/" + rowId);
+                 }
+}
+
+
+    function ToolStripButton_Invoice_Html_F () {
+
+                 var record = ListGrid_Invoice.getSelectedRecord();
+            if (record===null || record===" " ){
+                isc.say("<spring:message code='global.grid.record.not.selected'/>");
+            }else {
+                 var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                 window.open("invoice/print/html/" + rowId);
+                 }
+    }
+
+
+
+
+    function ToolStripButton_Invoice_Excel_F () {
+
+                var record = ListGrid_Invoice.getSelectedRecord();
+            if (record===null || record===" " ){
+                isc.say("<spring:message code='global.grid.record.not.selected'/>");
+            }else {
+                 var rowId = ListGrid_Invoice.getSelectedRecord().id;
+                 window.open("invoice/print/xlsx/" + rowId);
+                 }
+    }
+
+
 
     var ToolStripButton_Invoice_Pdf = isc.ToolStripButtonPrint.create({
                     title: "<spring:message code='global.form.print.pdf'/>",
                     icon: "icon/pdf.png",
                      click: function () {
-                      var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                      window.open("invoice/print/pdf/" + rowId);
-       }
+                    ToolStripButton_Invoice_Pdf_F();
+                   }
     });
 
     var ToolStripButton_Invoice_excel = isc.ToolStripButtonPrint.create({
                 title: "<spring:message code='global.form.print.excel'/>",
                 icon: "icon/excel.png",
                  click: function () {
-                  var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                  window.open("invoice/print/xlsx/" + rowId);
+                ToolStripButton_Invoice_Excel_F ();
 }
     });
 
@@ -1084,8 +1121,7 @@
                 title: "<spring:message code='global.form.print.html'/>",
                 icon: "icon/html.jpg",
                 click: function () {
-                 var rowId = ListGrid_Invoice.getSelectedRecord().id;
-                 window.open("invoice/print/html/" + rowId);
+                ToolStripButton_Invoice_Html_F ();
         }});
 
     var ToolStripButton_Invoice_Send2Accounting = isc.ToolStripButton.create({
@@ -1162,6 +1198,8 @@
 
             ] //Add Print
     });
+
+
 
     var HLayout_Invoice_Actions = isc.HLayout.create({
         width: "100%",

@@ -537,6 +537,72 @@ var RestDataSource_Inspection = isc.MyRestDataSource.create({
 });
 
 
+ var ListGrid_PersonByInspectionContract_EmailCC = isc.ListGrid.create({
+ 	width: "800",
+ 	height: "400",
+ 	dataSource: RestDataSource_PersonByInspectionContract_EmailCC_In_InspectionContract,
+ 	fields: [{
+ 			name: "contact.nameFA",
+ 			title: "<spring:message code='contact.name'/>",
+ 			type: 'text',
+ 			required: true,
+ 			width: "10%"
+ 		},
+ 		{
+ 			name: "title",
+ 			title: "<spring:message code='person.title'/>",
+ 			type: 'text',
+ 			width: "10%",
+ 			valueMap: {
+ 				"MR": "<spring:message code='global.MR'/>",
+ 				"MIS": "<spring:message code='global.MIS'/>",
+ 				"MS": "<spring:message code='global.MRS'/>",
+ 			}
+ 		},
+ 		{
+ 			name: "email",
+ 			title: "<spring:message code='person.email'/>",
+ 			type: 'text',
+ 			required: true,
+ 			width: "10%",
+ 			regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"
+ 		},
+ 		{
+ 			name: "email1",
+ 			title: "<spring:message code='person.email1'/>",
+ 			type: 'text',
+ 			width: "10%"
+ 		},
+ 		{
+ 			name: "email2",
+ 			title: "<spring:message code='person.email2'/>",
+ 			type: 'text',
+ 			width: "10%"
+ 		}
+ 	],
+ 	sortField: 0,
+ 	dataPageSize: 50,
+ 	autoFetchData: true,
+ 	showFilterEditor: true,
+ 	filterOnKeypress: true,
+ 	sortFieldAscendingText: "مرتب سازی صعودی",
+ 	sortFieldDescendingText: "مرتب سازی نزولی",
+ 	configureSortText: "تنظیم مرتب سازی",
+ 	autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
+ 	autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
+ 	filterUsingText: "فیلتر کردن",
+ 	groupByText: "گروه بندی",
+ 	freezeFieldText: "ثابت نگه داشتن",
+ 	startsWithTitle: "tt",
+ 	selectionAppearance: "checkbox"
+ });
+
+
+
+
+
+
+
     var HLayout_Grid_InspectionByInspectionContract = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -635,6 +701,7 @@ var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
 });
 
 
+
 var IButton_InspectionContract_Save = isc.IButtonSave.create(
 		{
 			top: 260,
@@ -729,33 +796,43 @@ function ListGrid_InspectionContract_refresh()
 }
 
 
-function ListGrid_InspectionContract_edit()
-{
-	var record = ListGrid_InspectionContract.getSelectedRecord();
-	if (record == null || record.id == null)
-	{
-		isc.Dialog.create(
-				{
-					message: "<spring:message code='global.grid.record.not.selected'/>",
-					icon: "[SKIN]ask.png",
-					title: "<spring:message code='global.message'/>",
-					buttons: [isc.Button.create(
-							{
-								title: "<spring:message code='global.ok'/>"
-							})],
-					buttonClick: function()
-					{
-						this.hide();
-					}
-				});
-	}
-	else
-	{
-		DynamicForm_InspectionContract.editRecord(record);
-		DynamicForm_InspectionContract.setValue("createDate", new Date(record.createDate));
-		Window_InspectionContract.show();
-	}
-}
+
+
+
+
+
+
+
+<%--function ListGrid_InspectionContract_edit()--%>
+<%--{--%>
+
+<%--	var record = ListGrid_InspectionContract.getSelectedRecord();--%>
+<%--	if (record == null || record.id == null )--%>
+<%--	{--%>
+<%--		isc.Dialog.create(--%>
+<%--				{--%>
+<%--					message: "<spring:message code='global.grid.record.not.selected'/>",--%>
+<%--					icon: "[SKIN]ask.png",--%>
+<%--					title: "<spring:message code='global.message'/>",--%>
+<%--					buttons: [isc.Button.create(--%>
+<%--							{--%>
+<%--								title: "<spring:message code='global.ok'/>"--%>
+<%--							})],--%>
+<%--					buttonClick: function()--%>
+<%--					{--%>
+<%--						this.hide();--%>
+<%--					}--%>
+<%--				});--%>
+<%--	}--%>
+<%--	else--%>
+<%--	{--%>
+<%--console.log(record);--%>
+<%--		DynamicForm_InspectionContract.editRecord(record);--%>
+<%--		DynamicForm_InspectionContract.setValue("createDate", new Date(record.createDate));--%>
+<%--		Window_InspectionContract.show();--%>
+
+<%--	}--%>
+<%--}--%>
 
 
 function ListGrid_InspectionContract_remove()
@@ -846,6 +923,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create(
 					icon: "pieces/16/refresh.png",
 					click: function()
 					{
+						ListGrid_PersonByInspectionContract_EmailCC.invalidateCache();
 						DynamicForm_InspectionContract.clearValues();
 						Window_InspectionContract.show();
 					}
@@ -855,19 +933,20 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create(
 					icon: "pieces/16/icon_add.png",
 					click: function()
 					{
+						ListGrid_PersonByInspectionContract_EmailCC.invalidateCache();
 						DynamicForm_InspectionContract.clearValues();
 						Window_InspectionContract.show();
 					}
 				},
-				{
-					title: "<spring:message code='global.form.edit'/>",
-					icon: "pieces/16/icon_edit.png",
-					click: function()
-					{
-						DynamicForm_InspectionContract.clearValues();
-						ListGrid_InspectionContract_edit();
-					}
-				},
+				<%--{--%>
+				<%--	title: "<spring:message code='global.form.edit'/>",--%>
+				<%--	icon: "pieces/16/icon_edit.png",--%>
+				<%--	click: function()--%>
+				<%--	{--%>
+
+				<%--		ListGrid_InspectionContract_edit();--%>
+				<%--	}--%>
+				<%--},--%>
 				{
 					title: "<spring:message code='global.form.remove'/>",
 					icon: "pieces/16/icon_delete.png",
@@ -886,65 +965,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create(
 		});
 
 
- var ListGrid_PersonByInspectionContract_EmailCC = isc.ListGrid.create({
- 	width: "800",
- 	height: "400",
- 	dataSource: RestDataSource_PersonByInspectionContract_EmailCC_In_InspectionContract,
- 	fields: [{
- 			name: "contact.nameFA",
- 			title: "<spring:message code='contact.name'/>",
- 			type: 'text',
- 			required: true,
- 			width: "10%"
- 		},
- 		{
- 			name: "title",
- 			title: "<spring:message code='person.title'/>",
- 			type: 'text',
- 			width: "10%",
- 			valueMap: {
- 				"MR": "<spring:message code='global.MR'/>",
- 				"MIS": "<spring:message code='global.MIS'/>",
- 				"MS": "<spring:message code='global.MRS'/>",
- 			}
- 		},
- 		{
- 			name: "email",
- 			title: "<spring:message code='person.email'/>",
- 			type: 'text',
- 			required: true,
- 			width: "10%",
- 			regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"
- 		},
- 		{
- 			name: "email1",
- 			title: "<spring:message code='person.email1'/>",
- 			type: 'text',
- 			width: "10%"
- 		},
- 		{
- 			name: "email2",
- 			title: "<spring:message code='person.email2'/>",
- 			type: 'text',
- 			width: "10%"
- 		}
- 	],
- 	sortField: 0,
- 	dataPageSize: 50,
- 	autoFetchData: true,
- 	showFilterEditor: true,
- 	filterOnKeypress: true,
- 	sortFieldAscendingText: "مرتب سازی صعودی",
- 	sortFieldDescendingText: "مرتب سازی نزولی",
- 	configureSortText: "تنظیم مرتب سازی",
- 	autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
- 	autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
- 	filterUsingText: "فیلتر کردن",
- 	groupByText: "گروه بندی",
- 	freezeFieldText: "ثابت نگه داشتن",
- 	startsWithTitle: "tt",
- 	selectionAppearance: "checkbox"
- });
+
 
 
  var Window_InspectionContractEmailCC = isc.Window.create({
@@ -982,6 +1003,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create(
  							click: function() {
  								var selectedPerson = ListGrid_PersonByInspectionContract_EmailCC.getSelection();
  								if (selectedPerson.length === 0) {
+
  									Window_InspectionContractEmailCC.close();
  									return;
  								}
@@ -1105,6 +1127,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create(
  			icons: [{
  				src: "icon/loupe.png",
  				click: function(form, item) {
+
  					Window_InspectionContractEmailCC.show();
  				}
  			}]
@@ -1155,7 +1178,9 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create(
     var ToolStripButton_InspectionContract_Add = isc.ToolStripButtonAdd.create({
     	icon: "[SKIN]/actions/add.png",
     	title: "<spring:message code='global.form.new'/>",
+
     	click: function() {
+			ListGrid_PersonByInspectionContract_EmailCC.invalidateCache();
     		var record = ListGrid_Inspection.getSelectedRecord();
     		if (record == null || record.id == null) {
     			isc.Dialog.create({
@@ -1180,15 +1205,16 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create(
     });
 
 
-    var ToolStripButton_InspectionContract_Edit = isc.ToolStripButtonEdit.create({
-        icon: "[SKIN]/actions/edit.png",
-        title: "<spring:message code='global.form.edit'/>",
-        click: function()
-        {
-			DynamicForm_InspectionContract.clearValues();
-            ListGrid_InspectionContract_edit();
-        }
-    });
+    <%--var ToolStripButton_InspectionContract_Edit = isc.ToolStripButtonEdit.create({--%>
+    <%--    icon: "[SKIN]/actions/edit.png",--%>
+    <%--    title: "<spring:message code='global.form.edit'/>",--%>
+    <%--    click: function()--%>
+    <%--    {--%>
+
+	<%--		DynamicForm_InspectionContract.clearValues();--%>
+    <%--        ListGrid_InspectionContract_edit();--%>
+    <%--    }--%>
+    <%--});--%>
 
 
     var ToolStripButton_InspectionContract_Remove = isc.ToolStripButtonRemove.create({
@@ -1209,7 +1235,7 @@ var Menu_ListGrid_InspectionContract = isc.Menu.create(
         members:
         [
             ToolStripButton_InspectionContract_Add,
-            ToolStripButton_InspectionContract_Edit,
+            // ToolStripButton_InspectionContract_Edit,
             ToolStripButton_InspectionContract_Remove,
 			isc.ToolStrip.create({
 			width: "100%",
