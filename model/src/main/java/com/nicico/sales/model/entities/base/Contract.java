@@ -102,7 +102,7 @@ public class Contract extends Auditable {
 	@JoinColumn(name = "INCOTERMS_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contract2incoterm"))
 	private Incoterms incoterms;
 
-	@Column(name = "INCOTERMS_ID")
+	@Column(name = "INCOTERMS_ID", nullable = false)
 	private Long incotermsId;
 
 	@Column(name = "INSPECTION_COST_SRC", length = 4)
