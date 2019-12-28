@@ -618,9 +618,12 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 delete item.gdsCode;
             });
             ListGrid_WarehouseCadItem.setData(data);
-            DynamicForm_warehouseCAD.setValue("destinationBundleSum",ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("productLabel")));
-            DynamicForm_warehouseCAD.setValue("destinationSheetSum",ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("sheetNumber")));
-            DynamicForm_warehouseCAD.setValue("destinationWeight",ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("wazn")));
+            var productLabel= ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("productLabel"));
+            var sheetNumber = ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("sheetNumber"));
+            var wazn = ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("wazn"));
+            DynamicForm_warehouseCAD.setValue("destinationBundleSum",productLabel[0]);
+            DynamicForm_warehouseCAD.setValue("destinationSheetSum",sheetNumber[0]);
+            DynamicForm_warehouseCAD.setValue("destinationWeight",wazn[0]);
         });
 
     DynamicForm_warehouseCAD.clearValues();
