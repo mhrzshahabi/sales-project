@@ -323,8 +323,8 @@ var ListGrid_Cad = isc.ListGrid.create({
                                 valuesManagerArticle3_quality.setValue("plant", record.plant);
                                 valuesManagerArticle4_quality.setValue("article4_quality1",record.mo_amount);
                                 valuesManagerArticle4_quality.setValue("article4_quality2",record.copper);
-                                valuesManagerArticle6_quality.setValue("incotermsId","FOB");
-                                valuesManagerArticle6_quality.setValue("portByPortSourceId","BANDAR ABBAS");
+                                valuesManagerArticle6_quality.setValue("incotermsId",record.incotermsId);
+                                valuesManagerArticle6_quality.setValue("portByPortSourceId",record.portByPortSourceId);
                                 valuesManagerArticle6_quality.setValue("incotermsText",record.incotermsText);
 
                         },300)
