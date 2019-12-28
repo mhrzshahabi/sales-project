@@ -362,11 +362,11 @@ var ListGrid_Conc = isc.ListGrid.create({
                                 valuesManagerArticle3_conc.setValue("unitMo",record.prefixPayment);
                                 valuesManagerArticle9_conc.setValue("TC",record.treatCost);
                                 valuesManagerArticle9_conc.setValue("RC",record.refinaryCost);
-                                article5_ConcDeliveryTerms.setValue("incotermsId","FOB");
-                                article5_ConcDeliveryTerms.setValue("portByPortSourceId","BANDAR ABBAS");
+                                article5_ConcDeliveryTerms.setValue("incotermsId",record.incotermsId);
+                                article5_ConcDeliveryTerms.setValue("portByPortSourceId",record.portByPortSourceId);
                                 article5_ConcDeliveryTerms.setValue("incotermsText",record.incotermsText);
                                 ListGrid_ContractConcItemShipment.fetchData(criteriaContractConcItemShipment);
-                        },300)
+                        },350)
                         }
                         else{
                             alert(RpcResponse_o.data+"Error");
