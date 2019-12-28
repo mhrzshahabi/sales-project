@@ -98,7 +98,7 @@ public class ShipmentFormController {
         String shiptype = shipment.getShipmentType();
 
 
-        if (description.contains("cat")) {
+        if (description.contains("Cathods") || description.contains("Cop") || description.contains("Co") ) {
             if (shiptype.contains("bulk")) {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
@@ -159,7 +159,7 @@ public class ShipmentFormController {
 
                 String[] portw = shipment.getPortByDischarge().getPort().split(",");
                 replacePOI(doc, "comp", " به مقصد بندر " + port[0] + " در کشور " + port[1]);
-                replacePOI(doc, "containerType", shipment.getContainerType());
+                replacePOI(doc, "containerType", shipment.getContainerType()  == null ? "50" : shipment.getContainerType() );
                 replacePOI(doc, "blNumbers", shipment.getBlNumbers());
                 replacePOI(doc, "bookingno", "(Booking No." + shipment.getBookingCat() + ")");
 

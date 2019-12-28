@@ -181,6 +181,7 @@
                     width: "100%",colSpan:1,titleColSpan:2
                 },
                  {
+                    required:true,
                     name: "sellerId",
                     title: "Seller",
                     type: 'long',
@@ -199,6 +200,8 @@
                     ]
                 },
                  {
+                     required:true,
+                     autoFetchData:false,
                     name: "buyerId",
                     title: "Buyer",
                     type: 'long',
@@ -397,6 +400,7 @@
                     defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
                {
+
                     name: "rateBase",
                     title: "<spring:message code='invoice.rateBase'/>",
                     type: 'text',
@@ -445,7 +449,7 @@
                 {name: "down<%=i %>.invoiceId",defaultValue:<%=invoiceId %> ,hidden: true},
                 {name: "down<%=i %>.version", hidden: true},
                 {name: "down<%=i %>.upDown",defaultValue:"down", hidden: true},
-                {name: "down<%=i %>.description",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
+                {name: "down<%=i %>.description",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: true, width: "100%",colSpan:4},
                 {name: "down<%=i %>.originValue",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumdownCathodesAndSet();	} },

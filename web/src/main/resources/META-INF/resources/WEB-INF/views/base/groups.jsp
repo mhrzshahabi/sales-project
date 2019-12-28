@@ -19,8 +19,8 @@
                     name: "contactId"
                 },
                 {
-                    name: "contactnameFA",
-                    dataPath: "contact.nameFA"
+                    name: "contact.nameFA",
+
                 },
                 {
                     name: "fullName",
@@ -533,8 +533,7 @@
                     hidden: true
                 },
                 {
-                    name: "contactnameFA",
-                    dataPath: "contact.nameFA",
+                    name: "contact.nameFA",
                     title: "<spring:message code='contact.name'/>",
                     type: 'long',
                     width: "10%",
@@ -738,7 +737,7 @@
                         name: "fullName",
                         width: 150,
                         align: "center"
-                    }, {name: "contactnameFA", width: 150, align: "center", dataPath: "contact.nameFA"}, {
+                    }, {name: "contact.nameFA", width: 150, align: "center"}, {
                         name: "email",
                         width: 150,
                         align: "center"
@@ -1019,14 +1018,14 @@
                 hidden: true
             },
             {
-                name: "groupsgroupsName", dataPath: "groups.groupsName",
+                name: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
                 width: 400
             },
             {
-                name: "personid", dataPath: "person.id",
+                name: "person.id",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
@@ -1034,21 +1033,21 @@
                 hidden: true
             },
             {
-                name: "personfullName", dataPath: "person.fullName",
+                name: "person.fullName",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
                 width: 400
             },
             {
-                name: "personjobTitle",
+                name: "person.jobTitle",
                 title: "<spring:message code='person.jobTitle'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.jobTitle"
+
             },
             {
-                name: "persontitle", dataPath: "person.title",
+                name: "person.title",
                 title: "<spring:message code='person.title'/>",
                 type: 'text',
                 width: 150,
@@ -1059,87 +1058,85 @@
                 }
             },
             {
-                name: "personemail", dataPath: "person.email",
+                name: "person.email",
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: true,
                 width: 150
             },
             {
-                name: "personemail1",
+                name: "person.email1",
                 title: "<spring:message code='person.email1'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.email1"
+
             },
             {
-                name: "personemail2",
+                name: "person.email2",
                 title: "<spring:message code='person.email2'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.email2"
             },
             {
-                name: "personwebAddress", dataPath: "person.webAddress",
+                name: "person.webAddress",
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
                 width: 150
             },
             {
-                name: "personphoneNo",
+                name: "person.phoneNo",
                 title: "<spring:message code='person.phoneNo'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.phoneNo"
+
             },
             {
-                name: "personfaxNo",
+                name: "person.faxNo",
                 title: "<spring:message code='person.faxNo'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.faxNo"
+
             },
             {
-                name: "personmobileNo",
+                name: "person.mobileNo",
                 title: "<spring:message code='person.mobileNo'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.mobileNo"
+
             },
             {
-                name: "personmobileNo1",
+                name: "person.mobileNo1",
                 title: "<spring:message code='person.mobileNo1'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.mobileNo1"
+
             },
             {
-                name: "personmobileNo2",
+                name: "person.mobileNo2",
                 title: "<spring:message code='person.mobileNo2'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.mobileNo2"
+
             },
             {
-                name: "personwhatsApp",
+                name: "person.whatsApp",
                 title: "<spring:message code='person.whatsApp'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.whatsApp"
+
             },
             {
-                name: "personweChat",
+                name: "person.weChat",
                 title: "<spring:message code='person.weChat'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.weChat"
+
             },
             {
-                name: "personaddress",
+                name: "person.address",
                 title: "<spring:message code='person.address'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.address"
             },
         ],
 
@@ -1191,7 +1188,7 @@
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {
-                name: "groupsid", dataPath: "groups.id",
+                name: "groups.id",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
@@ -1199,14 +1196,14 @@
                 hidden: true
             },
             {
-                name: "groupsgroupsName", dataPath: "groups.groupsName",
+                name: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
                 width: "10%"
             },
             {
-                name: "personid", dataPath: "person.id",
+                name: "person.id",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
@@ -1214,21 +1211,21 @@
                 hidden: true
             },
             {
-                name: "personfullName", dataPath: "person.fullName",
+                name: "person.fullName",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
                 width: "10%"
             },
             {
-                name: "personjobTitle",
+                name: "person.jobTitle",
                 title: "<spring:message code='person.jobTitle'/>",
                 type: 'text',
                 width: 150,
-                dataPath: "person.jobTitle"
+
             },
             {
-                name: "persontitle", dataPath: "person.title",
+                name: "person.title",
                 title: "<spring:message code='person.title'/>",
                 type: 'text',
                 width: "10%",
@@ -1239,52 +1236,51 @@
                 }
             },
             {
-                name: "personemail", dataPath: "person.email",
+                name: "person.email",
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: true,
                 width: "10%"
             },
             {
-                name: "personemail1",
+                name: "person.email1",
                 title: "<spring:message code='person.email1'/>",
                 type: 'text',
                 width: "10%",
-                dataPath: "person.email1",
+
             },
             {
-                name: "personemail2",
+                name: "person.email2",
                 title: "<spring:message code='person.email2'/>",
                 type: 'text',
                 width: "10%",
-                dataPath: "person.email2",
+
             },
             {
-                name: "personwebAddress", dataPath: "person.webAddress",
+                name: "person.webAddress",
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
                 width: "10%"
             },
             {
-                name: "personmobileNo",
+                name: "person.mobileNo",
                 title: "<spring:message code='person.mobileNo'/>",
                 type: 'text',
                 width: "10%",
-                dataPath: "person.mobileNo"
+
             },
             {
-                name: "personmobileNo1",
+                name: "person.mobileNo1",
                 title: "<spring:message code='person.mobileNo1'/>",
                 type: 'text',
                 width: "10%",
-                dataPath: "person.mobileNo1"
+
             },
             {
-                name: "personmobileNo2",
+                name: "person.mobileNo2",
                 title: "<spring:message code='person.mobileNo2'/>",
                 type: 'text',
                 width: "10%",
-                dataPath: "person.mobileNo2"
             }
         ],
         sortField: 0,

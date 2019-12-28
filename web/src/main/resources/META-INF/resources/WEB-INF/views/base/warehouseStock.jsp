@@ -21,7 +21,7 @@
         }, {
             name: "warehouseYardId"
         }, {
-            name: "warehouseYardnameFA", dataPath: "warehouseYard.nameFA",
+            name: "warehouseYard.nameFA",
             title: "<spring:message code='warehouseCad.yard'/>",
             sortNormalizer: function (recordObject) {
                 return recordObject.warehouseYard.nameFA
@@ -188,7 +188,7 @@
                 hidden: true
             }, {name: "warehouseNo"},
             {name: "plant"}, {
-                name: "warehouseYardnameFA", dataPath: "warehouseYard.nameFA",
+                name: "warehouseYard.nameFA",
             }, {
                 name: "sheet"
             }, {
@@ -200,7 +200,7 @@
             }, {
                 name: "lot"
             }, {
-                name: "materialItemgdsName", dataPath: "materialItem.gdsName",
+                name: "materialItem.gdsName",
             }],
         sortField: 0,
         autoFetchData: true,

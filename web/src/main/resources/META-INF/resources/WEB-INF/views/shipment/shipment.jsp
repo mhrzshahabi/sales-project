@@ -104,15 +104,13 @@
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "contactId", type: 'long', hidden: true},
             {
-                name: "contractcontactnameFA",
-                dataPath: "contract.contact.nameFA",
+                name: "contract.contact.nameFA",
                 title: "<spring:message code='contact.name'/>",
                 type: 'text'
             },
             {name: "contractId", type: 'long', hidden: true},
             {
-                name: "contractcontractNo",
-                dataPath: "contract.contractNo",
+                name: "contract.contractNo",
                 title: "<spring:message code='contract.contractNo'/>",
                 type: 'text',
                 width: 180

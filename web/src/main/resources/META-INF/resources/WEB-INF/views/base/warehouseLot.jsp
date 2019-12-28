@@ -25,7 +25,7 @@
             name: "unitId",
             title: "<spring:message code='MaterialFeature.unit'/>"
         }, {
-            name: "unitnameEN", dataPath: "unit.nameEN",
+            name: "unit.nameEN",
             title: "<spring:message code='MaterialFeature.unit'/> "
         },],
         fetchDataURL: "${contextPath}/api/material/spec-list"
@@ -51,7 +51,7 @@
             title: "<spring:message code='dailyWarehouse.plant'/>",
             align: "center"
         }, {
-            name: "materialdescl", dataPath: "material.descl",
+            name: "material.descl",
             title: "<spring:message code='goods.nameLatin'/> "
         }, {
             name: "lotName",
@@ -456,7 +456,7 @@
             title: "<spring:message code='dailyWarehouse.plant'/>",
             align: "center"
         }, {
-            name: "materialdescl", dataPath: "material.descl",
+            name: "material.descl",
             title: "<spring:message code='goods.nameLatin'/> ",
             canEdit: false
         }, {
@@ -525,12 +525,12 @@
             title: "<spring:message code='warehouseLot.bookingNo'/>",
             align: "center"
         }, {
-            name: "warehouseCadItemissueId", dataPath: "warehouseCadItem.issueId",
+            name: "warehouseCadItem.issueId",
             type: "text",
             title: "<spring:message code='warehouseCadItem.issueId'/>",
             align: "center"
         }, {
-            name: "warehouseCadItemwarehouseCadbijackNo", dataPath: "warehouseCadItem.warehouseCad.bijackNo",
+            name: "warehouseCadItem.warehouseCad.bijackNo",
             type: "text",
             title: "<spring:message code='warehouseCad.bijackNo'/>",
             align: "center"

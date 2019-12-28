@@ -149,7 +149,7 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "bijackNo"},
-                {name: "yardnameFA", dataPath: "yard.nameFA"},
+                {name: "yard.nameFA"},
             ],
         fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
     });
@@ -174,7 +174,7 @@
             type: 'long',
             hidden: true
         }, {
-            name: "contractcontactnameFA", dataPath: "contract.contact.nameFA",
+            name: "contract.contact.nameFA",
             title: "<spring:message code='contact.name'/>",
             type: 'text'
         }, {
@@ -182,13 +182,12 @@
             type: 'long',
             hidden: true
         }, {
-            name: "contractcontractNo", dataPath: "contract.contractNo",
+            name: "contract.contractNo",
             title: "<spring:message code='contract.contractNo'/>",
             type: 'text',
             width: 180
         }, {
-            name: "contractcontractDate",
-            dataPath: "contract.contractDate",
+            name: "contract.contractDate",
             title: "<spring:message code='contract.contractDate'/>",
             type: 'text',
             width: 180
@@ -198,11 +197,11 @@
             type: 'long',
             hidden: true
         }, {
-            name: "materialdescl", dataPath: "material.descl",
+            name: "material.descl",
             title: "<spring:message code='material.descl'/>",
             type: 'text'
         }, {
-            name: "materialunitnameEN", dataPath: "material.unit.nameEN",
+            name: "material.unit.nameEN",
             title: "<spring:message code='unit.nameEN'/>",
             type: 'text'
         }, {
@@ -249,7 +248,7 @@
             type: 'text',
             width: "10%"
         }, {
-            name: "portByLoadingport", dataPath: "portByLoading.port",
+            name: "portByLoading.port",
             title: "<spring:message code='shipment.loading'/>",
             type: 'text',
             width: "10%"
@@ -259,7 +258,7 @@
             type: 'text',
             width: "10%"
         }, {
-            name: "portByDischargeport", dataPath: "portByDischarge.port",
+            name: "portByDischarge.port",
             title: "<spring:message code='shipment.discharge'/>",
             type: 'text',
             width: "10%"
@@ -279,7 +278,7 @@
             type: 'text',
             width: "10%"
         }, {
-            name: "switchPortport", dataPath: "switchPort.port",
+            name: "switchPort.port",
             title: "<spring:message code='port.switchPort'/>",
             type: 'text',
             width: "10%"
@@ -298,7 +297,7 @@
                 "Resource": "<spring:message code='shipment.resource'/>"
             }
         }, {
-            name: "contractShipmentsendDate", dataPath: "contractShipment.sendDate",
+            name: "contractShipment.sendDate",
             title: "<spring:message code='global.sendDate'/>",
             type: 'text',
             required: true,
@@ -311,9 +310,9 @@
             type: 'text',
             width: "10%"
         }, {
-            name: "contactByAgentnameFA",
+            name: "contactByAgent.nameFA",
             align: "center",
-            showHover: true, dataPath: "contactByAgent.nameFA",
+            showHover: true,
         }, {
             name: "vesselName",
             title: "<spring:message	code='shipment.vesselName'/>",
@@ -345,7 +344,7 @@
             type: 'long',
             hidden: true
         }, {
-            name: "contractcontactnameFA", dataPath: "contract.contact.nameFA",
+            name: "contract.contact.nameFA",
             title: "<spring:message code='contact.name'/>",
             type: 'text',
             width: "20%",
@@ -356,13 +355,13 @@
             type: 'long',
             hidden: true
         }, {
-            name: "contractcontractNo", dataPath: "contract.contractNo",
+            name: "contract.contractNo",
             title: "<spring:message code='contract.contractNo'/>",
             type: 'text',
             width: "10%",
             showHover: true
         }, {
-            name: "contractcontractDate", dataPath: "contract.contractDate",
+            name: "contract.contractDate",
             title: "<spring:message code='contract.contractDate'/>",
             type: 'text',
             width: "10%",
@@ -374,14 +373,14 @@
             hidden: true,
             showHover: true
         }, {
-            name: "materialdescl", dataPath: "material.descl",
+            name: "material.descl",
             title: "<spring:message code='material.descl'/>",
             type: 'text',
             width: "10%",
             align: "center",
             showHover: true
         }, {
-            name: "materialunitnameEN", dataPath: "material.unit.nameEN",
+            name: "material.unit.nameEN",
             title: "<spring:message code='unit.nameEN'/>",
             type: 'text',
             width: "10%",
@@ -421,14 +420,14 @@
             align: "center",
             showHover: true
         }, {
-            name: "portByLoadingport", dataPath: "portByLoading.port",
+            name: "portByLoading.port",
             title: "<spring:message	code='shipment.loading'/>",
             type: 'text',
             required: true,
             width: "10%",
             showHover: true
         }, {
-            name: "portByDischargeport", dataPath: "portByDischarge.port",
+            name: "portByDischarge.port",
             title: "<spring:message code='shipment.discharge'/>",
             type: 'text',
             required: true,
@@ -445,7 +444,7 @@
                 align: "center",
                 showHover: true
             }, {
-                name: "contractShipmentsendDate", dataPath: "contractShipment.sendDate",
+                name: "contractShipment.sendDate",
                 title: "<spring:message code='global.sendDate'/>",
                 type: 'text',
                 required: true,
@@ -469,7 +468,7 @@
                 align: "center",
                 showHover: true
             }, {
-                name: "contactByAgentnameFA", dataPath: "contactByAgent.nameFA",
+                name: "contactByAgent.nameFA",
                 title: "<spring:message code='shipment.agent'/>",
                 type: 'text',
                 width: "20%",
@@ -490,7 +489,7 @@
                 width: "10%",
                 showHover: true
             }, {
-                name: "switchPortport", dataPath: "switchPort.port",
+                name: "switchPort.port",
                 title: "<spring:message code='port.switchPort'/>",
                 type: 'text',
                 required: true,

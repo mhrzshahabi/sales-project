@@ -37,8 +37,7 @@
                     width: 200
                 },
                 {
-                    name: "countrynameFa",
-                    dataPath: "country.nameFa",
+                    name: "country.nameFa",
                     title: "<spring:message code='country.nameFa'/>",
                     width: 200
                 }],
@@ -467,8 +466,7 @@
                     align: "center"
                 },
                 {
-                    name: "countrynameFa",
-                    dataPath: "country.nameFa",
+                    name: "country.nameFa",
                     title: "<spring:message code='country.nameFa'/>",
                     width: "50%",
                     align: "center"

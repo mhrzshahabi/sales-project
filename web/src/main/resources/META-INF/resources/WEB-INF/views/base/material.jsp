@@ -32,14 +32,12 @@
                     title: "<spring:message code='MaterialFeature.unit'/>"
                 }, //Edit By JZ
                 {
-                    name: "unitnameFA",
-                    dataPath: "unit.nameFA",
+                    name: "unit.nameFA",
                     title: "<spring:message code='MaterialFeature.unit.FA'/>",
                     align: "center"
                 },
                 {
-                    name: "unitnameEN",
-                    dataPath: "unit.nameEN",
+                    name: "unit.nameEN",
                     title: "<spring:message code='MaterialFeature.unit'/> "
                 },
             ],
@@ -191,16 +189,14 @@
                     width: 100
                 },
                 {
-                    name: "featurenameFA",
+                    name: "feature.nameFA",
                     type: 'text',
                     width: 100,
-                    dataPath: "feature.nameFA",
                 },
                 {
-                    name: "featurenameEN",
+                    name: "feature.nameEN",
                     type: 'text',
                     width: 100,
-                    dataPath: "feature.nameEN",
                 },
                 {
                     name: "minValue",
@@ -223,16 +219,14 @@
                     width: 100
                 },
                 {
-                    name: "ratenameFA",
+                    name: "rate.nameFA",
                     type: 'text',
                     width: 100,
-                    dataPath: "rate.nameFA",
                 },
                 {
-                    name: "ratenameEN",
+                    name: "rate.nameEN",
                     type: 'text',
                     width: 100,
-                    dataPath: "rate.nameEN",
                 },
                 {
                     name: "rateId",
@@ -622,8 +616,8 @@
                 {name: "code", title: "<spring:message code='material.code'/>", align: "center"},
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
-                {name: "unitnameFA", dataPath:"unit.nameFA"  , title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
-                {name: "unitnameEN", dataPath:"unit.nameEN"  , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
+                {name: "unit.nameFA",   title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
+                {name: "unit.nameEN" , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
             ],
         getExpansionComponent : function (record) {
             var criteria1 = {
@@ -1281,16 +1275,14 @@
                     align: "center"
                 },
                 {
-                    name: "featurenameFA",
-                    dataPath: "feature.nameFA",
+                    name: "feature.nameFA",
                     title: "<spring:message code='feature.nameFa'/>",
                     type: 'text',
                     width: "10%",
                     align: "center"
                 },
                 {
-                    name: "featurenameEN",
-                    dataPath: "feature.nameEN",
+                    name: "feature.nameEN",
                     title: "<spring:message code='feature.nameEN'/>",
                     type: 'text',
                     width: "10%",
@@ -1325,16 +1317,14 @@
                     align: "center"
                 },
                 {
-                    name: "ratenameFA",
-                    dataPath: "rate.nameFA",
+                    name: "rate.nameFA",
                     title: "<spring:message code='rate.nameFa'/>",
                     type: 'text',
                     width: "10%",
                     align: "center"
                 },
                 {
-                    name: "ratenameEN",
-                    dataPath: "rate.nameEN",
+                    name: "rate.nameEN",
                     title: "<spring:message code='rate.nameEN'/>",
                     type: 'text',
                     width: "10%",

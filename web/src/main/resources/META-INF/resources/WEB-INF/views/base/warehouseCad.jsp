@@ -17,7 +17,7 @@
             title: "<spring:message code='warehouseCad.bijackNo'/>",
             type: 'text'
         }, {
-            name: "materialItemgdsName", dataPath: "materialItem.gdsName",
+            name: "materialItem.gdsName",
             title: "<spring:message code='contractItem.material'/>",
             type: 'text'
         }, {
