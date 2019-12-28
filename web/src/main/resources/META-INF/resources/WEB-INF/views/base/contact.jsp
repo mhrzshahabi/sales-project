@@ -586,6 +586,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
         fields: [
             {type: "RowSpacerItem"},
             {
+            	required:true,
                 name: "phone",
                 title: "<spring:message code='contact.phone'/>",
                 type: 'text',
@@ -602,6 +603,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
                 length:"20"
             },
             {
+            	required:true,
                 name: "fax",
                 title: "<spring:message code='contact.fax'/>",
                 width: 500,
