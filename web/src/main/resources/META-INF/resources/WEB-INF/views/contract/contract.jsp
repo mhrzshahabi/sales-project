@@ -923,16 +923,16 @@ var salesContractCADButtonMain = isc.IconButton.create({
         dataArrived: function (startRow, endRow) {
         },
         getCellCSSText: function (record, rowNum, colNum) {
-                            if (record.material.descl.contains("Cathode")) {
+                            if (record.material.descl.contains("Cat")) {
                                   return "font-weight:bold;background-color:#d1f2eb;";
                                 }
-                            if (record.material.descl.contains("Molybdenum")) {
+                            if (record.material.descl.contains("Mol")) {
                                   return "font-weight:bold;background-color:#fcf3cf;";
                                 }
-                            if (record.material.descl.contains("Matte")) {
+                            if (record.material.descl.contains("Mat")) {
                                   return "font-weight:bold;background-color:#f1948a;";
                                 }
-                            if (record.material.descl.contains("Concentrate")) {
+                            if (record.material.descl.contains("Conc")) {
                                 // color:#ad48f7;
                                   return "font-weight:bold;background-color:#d6eaf8;";
                                 }

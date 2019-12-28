@@ -227,6 +227,7 @@
                     ]
                 },
                  {
+                    autoFetchData:false,
                     name: "buyerId",
                     title: "Buyer",
                     type: 'long',
