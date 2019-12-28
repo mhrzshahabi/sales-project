@@ -278,19 +278,20 @@
         height: "100%",
         dataSource: RestDataSource_Shipment_InvoiceHeader,
         contextMenu: Menu_ListGrid_Shipment_InvoiceHeader,
+
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
             {name: "contactId", type: 'long', hidden: true},
             {
-                name: "contract.contact.nameFA", title: "<spring:message		code='contact.name'/>", type: 'text', width: "20%", align: "center", showHover: true
+                name: "contract.contact.nameFA", title: "<spring:message code='contact.name'/>", type: 'text', width: "20%", align: "center", showHover: true
             },
             {name: "contractId", type: 'long', hidden: true},
             {
-                name: "contract.contractNo", title: "<spring:message		code='contract.contractNo'/>", type: 'text', width: "10%", showHover: true
+                name: "contract.contractNo", title: "<spring:message code='contract.contractNo'/>", type: 'text', width: "10%", showHover: true
             },
             {
-                name: "contract.contractDate", title: "<spring:message		code='contract.contractDate'/>", type: 'text', width: "10%", showHover: true
+                name: "contract.contractDate", title: "<spring:message	code='contract.contractDate'/>", type: 'text', width: "10%", showHover: true
             },
             {
                 name: "materialId",
