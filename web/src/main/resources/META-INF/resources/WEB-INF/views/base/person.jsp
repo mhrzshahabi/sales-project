@@ -28,14 +28,12 @@
                     title: "<spring:message code='contact.nameEn'/>"
                 },
                 {
-                    name: "tblCountryid",
-                    dataPath: "tblCountry.id",
+                    name: "tblCountry.id",
                     title: "<spring:message code='country.nameFa'/>",
                     type: 'long'
                 },
                 {
-                    name: "tblCountrynameFa",
-                    dataPath: "tblCountry.nameFa",
+                    name: "tblCountry.nameFa",
                     title: "<spring:message code='country.nameFa'/>"
                 },
                 {
@@ -555,9 +553,8 @@
                     name: "contactId"
                 },
                 {
-                    name: "contactnameFA",
+                    name: "contact.nameFA",
                     type: 'text',
-                    dataPath: "contact.nameFA"
                 },
                 {
                     name: "fullName",
@@ -678,8 +675,7 @@
                     hidden: true
                 },
                 {
-                    name: "contactnameFA",
-                    dataPath: "contact.nameFA",
+                    name: "contact.nameFA",
                     title: "<spring:message code='contact.name'/>",
                     type: 'text',
                     width: 120,

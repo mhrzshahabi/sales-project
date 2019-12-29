@@ -22,11 +22,11 @@
                 {name: "totalNetWet",       title: "<spring:message code='provisionalInvoice.totalNetWet'/>", width: 200},
                 {name: "totalNetDry",       title: "<spring:message code='provisionalInvoice.totalNetDry'/>", width: 200},
                 {name: "totalMoisture",     title: "<spring:message code='provisionalInvoice.totalMoisture'/>", width: 200},
-                {name: "tblShipmentid",     title: "",   width: 200 ,   dataPath:"tblShipment.id"   },
-                {name: "tblContactid",      title: "",   width: 200,    dataPath:"tblContact.id"    },
-                {name: "tblBolHeaderid",    title: "",   width: 200,    dataPath:"tblBolHeader.id"  },
-                {name: "tblMaterialid",     title: "",   width: 200,    dataPath:"tblMaterial.id"   },
-                {name: "tblContractid",     title: "",   width: 200,    dataPath:"tblContract.id"   },
+                {name: "tblShipment.id",     title: "",   width: 200 ,      },
+                {name: "tblContact.id",      title: "",   width: 200,        },
+                {name: "tblBolHeader.id",    title: "",   width: 200,      },
+                {name: "tblMaterial.id",     title: "",   width: 200,       },
+                {name: "tblContract.id",     title: "",   width: 200,      },
             ],
         fetchDataURL: "rest/provisionalInvoiceRestController/list"
     });
@@ -39,40 +39,40 @@
             hidden: true
         },
         {
-            name: "tblShipmentid", dataPath:"tblShipment.id"  ,
+            name: "tblShipment.id",
             title: "id",
             canEdit: false
         },
         {
-            name: "tblShipmenttblContractcontractNo", dataPath:"tblShipment.tblContract.contractNo"  ,
+            name: "tblShipment.tblContract.contractNo",
             title: "contractNo",
             canEdit: false,
             hidden: true
         },
         {
-            name: "tblShipmentContractid",  dataPath:"tblShipmentContract.id"  ,
+            name: "tblShipmentContract.id",
             title: "<spring:message code='shipment.Bol.shipmentContract'/>",
             type: 'text'
         },
         {
-            name: "tblPortByDischargeid",   dataPath:"tblPortByDischarge.id" ,
+            name: "tblPortByDischarge.id",
             title: "<spring:message code='port.port'/>",
             type: 'text',
             canEdit: false
         },
         {
-            name: "tblPortByDischargeport",  dataPath:"tblPortByDischarge.port" ,
+            name: "tblPortByDischarge.port",
             title: "<spring:message  code = 'shipment.Bol.tblPortByDischarge' > ", type: 'text', canEdit: false
 
         },
         {
-            name: "tblSwitchPortid",   dataPath:"tblSwitchPort.id" ,
+            name: "tblSwitchPort.id",
             title: "<spring:message code='port.port'/>",
             type: 'text',
             canEdit: false
         },
         {
-            name: "tblSwitchPortport",  dataPath:"tblSwitchPort.port" ,
+            name: "tblSwitchPort.port",
             title: "<spring:message code='shipment.Bol.tblSwitchPort'/>",
             type: 'text',
             canEdit: false
@@ -142,35 +142,35 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
             title: "<spring:message code='contract.contractDate'/>"
         },
         {
-            name: "tblContactid",  dataPath:"tblContact.id"  ,
+            name: "tblContact.id",
             title: "<spring:message code='contact.name'/> "
         },
         {
-            name: "tblContactnameFA", dataPath:"tblContact.nameFA"  ,
+            name: "tblContact.nameFA",
             title: "<spring:message code='contact.name'/> "
         },
         {
-            name: "tblContactBySellerAgentid", dataPath:"tblContactBySellerAgent.id"  ,
+            name: "tblContactBySellerAgent.id",
             title: "<spring:message code='contact.name'/> "
         },
         {
-            name: "tblContactBySellerAgentnameFA", dataPath:"tblContactBySellerAgent.nameFA"  ,
+            name: "tblContactBySellerAgent.nameFA",
             title: "<spring:message code='contact.name'/> "
         },
         {
-            name: "tblContactByBuyerAgentid", dataPath:"tblContactByBuyerAgent.id"  ,
+            name: "tblContactByBuyerAgent.id",
             title: "<spring:message code='contact.name'/> "
         },
         {
-            name: "tblContactByBuyerAgentnameFA", dataPath:"tblContactByBuyerAgent.nameFA"  ,
+            name: "tblContactByBuyerAgent.nameFA",
             title: "<spring:message code='contact.name'/> "
         },
         {
-            name: "tblIncotermsid", dataPath:"tblIncoterms.id"  ,
+            name: "tblIncoterms.id",
             title: "<spring:message code='incoterms.name'/>"
         },
         {
-            name: "tblIncotermscode",dataPath:"tblIncoterms.code"  ,
+            name: "tblIncoterms.code",
             title: "<spring:message code='incoterms.name'/>"
         },
         {
@@ -206,10 +206,10 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
             name: "descl" ,
         },
         {
-            name: "tblUnitid" , dataPath:"tblUnit.id"  ,
+            name: "tblUnit.id" ,
         },
         {
-            name: "tblUnitnameEN" , dataPath:"tblUnit.nameEN"  ,
+            name: "tblUnit.nameEN" ,
         },
     ],
     fetchDataURL: "rest/material/materialList"
@@ -364,7 +364,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
             [
                 {name: "id", hidden: true},
                 {
-                    name: "tblContractid",   dataPath:"tblContract.id"  ,
+                    name: "tblContract.id",
                     title: "<spring:message code='contract.title'/>",
                     type: 'long',
                     width: "100%",
@@ -396,7 +396,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                                 align: "center"
                             },
                             {
-                                name: "tblContactnameFA", dataPath:"tblContact.nameFA"  ,
+                                name: "tblContact.nameFA",
                                 title: "<spring:message code='contact.name'/>",
                                 width: 200,
                                 align: "center"
@@ -404,7 +404,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                         ]
                 },
                 {
-                    name: "tblMaterialid", dataPath:"tblMaterial.id",
+                    name: "tblMaterial.id",
     title: "<spring:message code='goods.nameFa'/>",
 
                     type: 'long',
@@ -446,7 +446,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                     }
                 },
                 {
-                    name: "tblShipmentid", dataPath:"tblShipment.id"  ,
+                    name: "tblShipment.id",
                     title: "<spring:message code='Shipment.title'/>",
 
                     type: 'long',
@@ -468,7 +468,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                     pickListFields:
                         [
                             {
-                                name: "tblContactnameFA",  dataPath:"tblContact.nameFA"  ,
+                                name: "tblContact.nameFA",
                                 title: "<spring:message code='contact.name'/>",
                                 width: 200,
                                 align: "center"
@@ -500,7 +500,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                     }
                 },
                 {
-                    name: "tblBolHeaderid", dataPath:"tblBolHeader.id"  ,
+                    name: "tblBolHeader.id",
                     title: "<spring:message code='bol.title'/>",
 
                     type: 'long',

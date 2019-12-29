@@ -48,8 +48,7 @@
  		title: "<spring:message code='contactAccount.nameFA'/>"
  	},
  	{
- 		name: "bankbankName",
- 		dataPath: "bank.bankName",
+ 		name: "bank.bankName",
  		title: "<spring:message code='contactAccount.nameFA'/>"
  	},
  	{
@@ -129,8 +128,7 @@
 		width: 200
 	},
 	{
-		name: "countrynameFa",
-		dataPath: "country.nameFa",
+		name: "country.nameFa",
 		title: "<spring:message code='country.nameFa'/>",
 		width: 200
 	}],
@@ -246,8 +244,7 @@
 		type: 'long'
 	},
 	{
-		name: "countrynameFa",
-		dataPath: "country.nameFa",
+		name: "country.nameFa",
 		title: "<spring:message code='country.nameFa'/>"
 	},
 	{
@@ -586,6 +583,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
         fields: [
             {type: "RowSpacerItem"},
             {
+            	required:true,
                 name: "phone",
                 title: "<spring:message code='contact.phone'/>",
                 type: 'text',
@@ -602,6 +600,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
                 length:"20"
             },
             {
+            	required:true,
                 name: "fax",
                 title: "<spring:message code='contact.fax'/>",
                 width: 500,
@@ -933,8 +932,7 @@ function ListGrid_Contact_edit()
 		width: 50
 	},
 	{
-		name: "bankbankName",
-		dataPath: "bank.bankName",
+		name: "bank.bankName",
 		title: "<spring:message code='contactAccount.nameFA'/>",
 		align: "center",
 		width: 300
@@ -1758,8 +1756,7 @@ var ListGrid_Contact = isc.ListGrid.create(
 			width: 200
 		},
 		{
-			name: "countrynameFa",
-			dataPath: "country.nameFa",
+			name: "country.nameFa",
 			title: "<spring:message code='country.nameFa'/>",
 			width: 200,
 			sortNormalizer: function(recordObject)
