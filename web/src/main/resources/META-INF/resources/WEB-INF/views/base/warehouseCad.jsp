@@ -247,7 +247,7 @@
                     width: "16.66%"
                 },
                 {
-                    name: "materialItemgdsName",
+                    name: "materialItem.gdsName",
                     width: "16.66%"
                 },
                 {
