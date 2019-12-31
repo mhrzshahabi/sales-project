@@ -157,12 +157,21 @@
 
     var ToolStrip_Actions_WarehouseStock = isc.ToolStrip.create({
         width: "100%",
+        membersMargin: 5,
         members:
             [
-                ToolStripButton_WarehouseStock_Refresh,
                 ToolStripButton_WarehouseStock_Print,
                 DynamicForm_WarehouseStock_Tozin,
-                ToolStripButton_WarehouseStock_export_Print
+                ToolStripButton_WarehouseStock_export_Print,
+                isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_WarehouseStock_Refresh,
+                ]
+                })
+
             ]
     });
 

@@ -554,15 +554,16 @@
         titleAlign: "right",
         margin: 10,
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 6, backgroundImage: "backgrounds/leaves.jpg",
+        numCols: 6,
+        //backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true,},
-                {
+       /*         {
                     type: "Header",
                     defaultValue: "بازرسی - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-                },
+                },*/
                 {
                     name: "sourceInspectorId",
                     title: "<spring:message code='cost.sourceInspectorId'/>",
@@ -673,10 +674,10 @@
                     defaultValue: "USD",
                     valueMap: dollar
                 },
-                {
+           /*     {
                     type: "Header",
                     defaultValue: "محتوی - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-                },
+                },*/
                 {
                     name: "sourceCopper",
                     title: "<spring:message		code='cost.sourceCopper'/>",
@@ -781,10 +782,10 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-                {
+  /*              {
                     type: "Header",
                     defaultValue: "بیمه - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-                },
+                },*/
                 {
                     name: "insuranceId",
                     title: "<spring:message		code='cost.insuranceId'/>",
@@ -831,10 +832,10 @@
                     width: "100%",
                     valueMap: {"A": "A", "B": "B", "C": "C"}
                 },
-                {
+      /*          {
                     type: "Header",
                     defaultValue: "سایر - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-                },
+                },*/
                 {
                     name: "otherCost",
                     title: "<spring:message code='cost.otherCost'/>",
@@ -1113,7 +1114,7 @@
     var Window_Cost = isc.Window.create({
         title: "<spring:message code='cost.title'/> ",
         width: 870,
-        height: 400,
+        height: 300,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1128,7 +1129,7 @@
             [
                 DynamicForm_Cost,
                 isc.HLayout.create({
-                    width: "100%", align: "center", height: "20",
+                    width: "100%", align: "center", margin:30, height: "60",
                     members:
                         [
                             IButton_Cost_Save,

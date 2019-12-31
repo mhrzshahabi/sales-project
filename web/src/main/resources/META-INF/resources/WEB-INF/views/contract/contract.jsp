@@ -300,7 +300,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         wrapTitle: false,
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
-        backgroundImage: "backgrounds/leaves.jpg",
+       // backgroundImage: "backgrounds/leaves.jpg",
         titleWidth: "120",
         titleAlign: "right",
         fields:
