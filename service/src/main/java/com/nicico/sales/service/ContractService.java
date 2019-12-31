@@ -294,8 +294,8 @@ public class ContractService implements IContractService {
         headerParagraph = header.getParagraphArray(0);
         if (headerParagraph == null) headerParagraph = header.createParagraph();
         headerParagraph.setAlignment(ParagraphAlignment.CENTER);
-        InputStream in = this.getClass().getResourceAsStream("/reports/report-logo/ArmNicico.JPG");
-        run.addPicture(in, Document.PICTURE_TYPE_JPEG, "ArmNicico.JPG", Units.toEMU(400), Units.toEMU(75));
+        InputStream in = this.getClass().getResourceAsStream("/reports/report-logo/ArmNicico.jpg");
+        run.addPicture(in, Document.PICTURE_TYPE_JPEG, "ArmNicico.jpg", Units.toEMU(400), Units.toEMU(75));
         in.close();
 
         XWPFTable tableNo = printdoc.createTable(1, 2);
