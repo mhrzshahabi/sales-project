@@ -172,7 +172,8 @@
         titleWidth: "100", margin: '0px', wrapTitle: true,
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 12, backgroundImage: "backgrounds/leaves.jpg",
+        numCols: 12,
+        //backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true},

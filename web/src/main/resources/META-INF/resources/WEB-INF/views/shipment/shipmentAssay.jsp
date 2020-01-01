@@ -1151,7 +1151,13 @@
         },
         items: [
             DynamicForm_ShipmentAssayHeader,
+            isc.HLayout.create({
+            width: "100%", align: "center", margin:30, height: "60",
+            members:
+            [
             IButton_Shipment_Save_AssayHeader
+            ]
+            })
         ]
     });
 
@@ -1558,8 +1564,14 @@
             this.Super("closeClick", arguments)
         },
         items: [
-            DynamicForm_ShipmentAssayItem,
+        DynamicForm_ShipmentAssayItem,
+        isc.HLayout.create({
+            width: "100%", align: "center", margin:30, height: "60",
+            members:
+            [
             IButton_Shipment_Save_AssayItem
+            ]
+            }),
         ]
     });
 

@@ -268,7 +268,14 @@
     var ToolStrip_Actions_Shipment_InvoiceHeader = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_Shipment_InvoiceHeader_Refresh,
+            isc.ToolStrip.create({
+            width: "100%",
+            align: "left",
+            border: '0px',
+            members: [
+                ToolStripButton_Shipment_InvoiceHeader_Refresh,
+            ]
+            })
         ]
     });
 
@@ -705,7 +712,8 @@
         titleWidth: "100", margin: '10px', wrapTitle: false,
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 4, backgroundImage: "backgrounds/leaves.jpg",
+        numCols: 4,
+        //backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true},

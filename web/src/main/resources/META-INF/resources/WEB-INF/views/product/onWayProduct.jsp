@@ -495,7 +495,7 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        backgroundImage: "backgrounds/leaves.jpg",
+        //backgroundImage: "backgrounds/leaves.jpg",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [

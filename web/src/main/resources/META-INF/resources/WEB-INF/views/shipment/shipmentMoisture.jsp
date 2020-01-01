@@ -1196,7 +1196,13 @@
         },
         items: [
             DynamicForm_ShipmentMoistureHeader,
-            IButton_Shipment_Save_MoistureHeader
+            isc.HLayout.create({
+            width: "100%", align: "center", margin:30, height: "60",
+            members:
+                [
+                IButton_Shipment_Save_MoistureHeader
+                ]
+            })
         ]
     });
 
@@ -1576,7 +1582,7 @@
     var Window_ShipmentMoistureItem = isc.Window.create({
         title: "<spring:message code='shipment.MoistureItem'/>",
         width: "50%",
-        hight: "30%",
+        //height: "30%",
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1590,7 +1596,13 @@
         },
         items: [
             DynamicForm_ShipmentMoistureItem,
-            IButton_Shipment_Save_MoistureItem
+            isc.HLayout.create({
+            width: "100%", align: "center", margin:30, height: "60",
+            members:
+            [
+                IButton_Shipment_Save_MoistureItem
+            ]
+            })
         ]
     });
 
