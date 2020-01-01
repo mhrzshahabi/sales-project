@@ -597,7 +597,7 @@
         contextMenu: Menu_ListGrid_Material,
         styleName:'expandList',
         autoFetchData: true,
-        autoFitData: "vertical",
+       // autoFitData: "vertical",
         //height: 150,
         alternateRecordStyles: true,
         canExpandRecords: true,
