@@ -409,7 +409,7 @@ var ListGrid_Conc = isc.ListGrid.create({
                                 icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
-                                    ListGrid_Conc.fetchData(criteriaConc);
+                                    ListGrid_Conc.invalidateCache(criteriaConc);
                                 }
                             });
 

@@ -50,32 +50,14 @@
     var RestDataSource_LoadingPort = isc.MyRestDataSource.create({
         fields:
             [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "port", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "id", title: "id", primaryKey: true, type: 'long', canEdit: false, hidden: true},
+                {name: "port", type: 'long', title: "<spring:message code='port.port'/>", width: 200},
                 {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
             ],
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
-    var RestDataSource_DischargePort = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "port", title: "<spring:message code='port.port'/>", width: 200},
-                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/port/spec-list"
-    });
 
-    var RestDataSource_SwitchPort = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "port", title: "<spring:message code='port.port'/>", width: 200},
-                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/port/spec-list"
-    });
 
     var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
         fields:
@@ -157,23 +139,20 @@
                 showHover: true
             },
             {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-            {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", type: 'text', width: "10%"},
+            {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>",width: "10%"},
             {
                 name: "portByLoading.port",
                 title: "<spring:message code='shipment.loading'/>",
-                type: 'text',
                 width: "10%"
             },
             {
                 name: "portByDischargeId",
                 title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
                 width: "10%"
             },
             {
                 name: "portByDischarge.port",
                 title: "<spring:message code='shipment.discharge'/>",
-                type: 'text',
                 width: "10%"
             },
             {name: "dischargeAddress", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
@@ -602,10 +581,9 @@
             {
                 name: "switchPortId", colSpan: 2,
                 title: "<spring:message code='port.switchPort'/>",
-                type: 'long',
                 width: 300,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_SwitchPort,
+                optionDataSource: RestDataSource_LoadingPort,
                 autoFetchData: true,
                 displayField: "port",
                 valueField: "id",
@@ -626,7 +604,6 @@
             {
                 name: "portByLoadingId", colSpan: 2,
                 title: "<spring:message code='shipment.loading'/>",
-                type: 'long',
                 width: 300,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_LoadingPort,
@@ -641,10 +618,9 @@
             {
                 name: "portByDischargeId", colSpan: 2,
                 title: "<spring:message	code='shipment.discharge'/>",
-                type: 'long',
                 width: 300,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_DischargePort,
+                optionDataSource: RestDataSource_LoadingPort,
                 autoFetchData: false,
                 displayField: "port",
                 valueField: "id",
@@ -1049,6 +1025,7 @@
         } else {
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment1.editRecord(record);
+            console.log(record)
             DynamicForm_Shipment2.editRecord(record);
             DynamicForm_Shipment.setValue("createDateDumy", new Date(record.createDate));
             DynamicForm_Shipment1.setValue("swBlDateDumy", new Date(record.swBlDate));

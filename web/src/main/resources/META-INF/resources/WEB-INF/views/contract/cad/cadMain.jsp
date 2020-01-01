@@ -461,7 +461,7 @@ function deleteFromContractShipment(id){
                                 icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
-                                    ListGrid_Cad.fetchData(criteriaCad);
+                                    ListGrid_Cad.invalidateCache(criteriaCad);
                                 }
                             });
 

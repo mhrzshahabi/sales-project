@@ -696,7 +696,7 @@
                                 icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
-                                       ListGrid_contractMo.fetchData(criteriaMo);
+                                       ListGrid_contractMo.invalidateCache(criteriaMo);
                                 }
                             });
                     var ToolStrip_Actions_ContactMO = isc.ToolStrip.create({
