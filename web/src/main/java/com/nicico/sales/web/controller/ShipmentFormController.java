@@ -218,7 +218,7 @@ public class ShipmentFormController {
 
         }
 
-        if (description.contains("Mol")) {
+        if (description.toLowerCase().contains("Mol")) {
             if (shiptype.contains("container")) {
 
 

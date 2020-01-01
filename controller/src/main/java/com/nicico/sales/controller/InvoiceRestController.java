@@ -112,11 +112,11 @@ public class InvoiceRestController {
         params.put(ConstantVARs.REPORT_TYPE, type);
         Long shipmentId = invoiceService.get(Long.valueOf(rowId)).getShipmentId();
         String description = shipmentService.get(shipmentId).getMaterial().getDescl();
-        if (description.contains("Molybdenum")) {
+        if (description.toLowerCase().contains("Mol")) {
             reportUtil.export("/reports/Mo_Ox.jasper", params, response);
-        } else if (description.contains("Cathode")) {
+        } else if (description.toLowerCase().contains("Cat")) {
             reportUtil.export("/reports/CAD.jasper", params, response);
-        } else if (description.contains("Concentrate")) {
+        } else if (description.toLowerCase().contains("Conc")) {
             reportUtil.export("/reports/Conc.jasper", params, response);
         }
     }
