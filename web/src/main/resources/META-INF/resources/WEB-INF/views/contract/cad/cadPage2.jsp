@@ -282,10 +282,7 @@ var article6_quality = isc.DynamicForm.create({
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "code", width: 440, align: "center"}
-                ],pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "code", operator: "contains", value: "FOB"}
-                       ]
-                    },
+                ],
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             } , {
