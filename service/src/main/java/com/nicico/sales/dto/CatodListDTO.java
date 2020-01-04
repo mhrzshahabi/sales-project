@@ -32,38 +32,6 @@ public class CatodListDTO {
     @ApiModel("CatodListInfo")
     public static class Info extends CatodListDTO {
         private Long id;
-        private Date createdDate;
-        private String createdBy;
-        private Date lastModifiedDate;
-        private String lastModifiedBy;
-        private Integer version;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("CatodListCreateRq")
-    public static class Create extends CatodListDTO {
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("CatodListUpdateRq")
-    public static class Update extends CatodListDTO {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Long id;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("CatodListDeleteRq")
-    public static class Delete {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private List<Long> ids;
     }
 
     @Getter
