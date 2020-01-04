@@ -44,45 +44,6 @@ public class CatodListService implements ICatodListService {
         }.getType());
     }
 
-    @Transactional
-    @Override
-//    @PreAuthorize("hasAuthority('C_CATODLIST')")
-    public CatodListDTO.Info create(CatodListDTO.Create request) {
-        final CatodList catodList = modelMapper.map(request, CatodList.class);
-
-        return save(catodList);
-    }
-
-    @Transactional
-    @Override
-//    @PreAuthorize("hasAuthority('U_CATODLIST')")
-    public CatodListDTO.Info update(Long id, CatodListDTO.Update request) {
-        final Optional<CatodList> slById = catodListDAO.findById(id);
-        final CatodList catodList = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CatodListNotFound));
-
-        CatodList updating = new CatodList();
-        modelMapper.map(catodList, updating);
-        modelMapper.map(request, updating);
-
-        return save(updating);
-    }
-
-    @Transactional
-    @Override
-//    @PreAuthorize("hasAuthority('D_CATODLIST')")
-    public void delete(Long id) {
-        catodListDAO.deleteById(id);
-    }
-
-    @Transactional
-    @Override
-//    @PreAuthorize("hasAuthority('D_CATODLIST')")
-    public void delete(CatodListDTO.Delete request) {
-        final List<CatodList> catodLists = catodListDAO.findAllById(request.getIds());
-
-        catodListDAO.deleteAll(catodLists);
-    }
-
     @Transactional(readOnly = true)
     @Override
 //    @PreAuthorize("hasAuthority('R_CATODLIST')")
@@ -96,9 +57,5 @@ public class CatodListService implements ICatodListService {
     public SearchDTO.SearchRs<CatodListDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(catodListDAO, request, entity -> modelMapper.map(entity, CatodListDTO.Info.class));
     }
-
-    private CatodListDTO.Info save(CatodList catodList) {
-        final CatodList saved = catodListDAO.saveAndFlush(catodList);
-        return modelMapper.map(saved, CatodListDTO.Info.class);
-    }
+    
 }

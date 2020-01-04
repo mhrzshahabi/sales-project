@@ -15,11 +15,9 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Subselect("select * from tbl_catod_list")
-public class CatodList extends Auditable {
+public class CatodList {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CATOD_LIST")
-	@SequenceGenerator(name = "SEQ_CATOD_LIST", sequenceName = "SEQ_CATOD_LIST", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
