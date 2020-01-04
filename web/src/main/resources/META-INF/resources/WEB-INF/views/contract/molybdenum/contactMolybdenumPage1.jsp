@@ -3884,9 +3884,9 @@ function saveCotractDetails(data, contractID) {
             data: JSON.stringify(allData),
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    saveValueAllArticlesMoOx(contractID);
                     saveValuelotListForADD(contractID);
                     saveListGrid_ContractItemShipment(contractID);
+                    setTimeout(function(){saveValueAllArticlesMoOx(contractID);},400)
                     Window_ContactMo.close();
                     ListGrid_contractMo.invalidateCache();
                     isc.say("<spring:message code='global.form.request.successful'/>.");
