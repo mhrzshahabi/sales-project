@@ -78,11 +78,11 @@ nicico:
 spring:
   profiles: Production
   datasource:
-    url: jdbc:oracle:thin:@//172.16.180.20:1521/pdb1.icico.net.ir
-    username: sales
-    password: sales
+    url: jdbc:oracle:thin:@//srv-oraprd1.nicico.com:1521/pdb_prd01
+    username: n_sales
+    password: ENC(TasFAclypDuePmZeiaK91hp3Id8J3Oo5)
   redis:
-    host: apps.icico.net.ir
+    host: apps.nicico.com
     password: nicico
   security:
     oauth2:
@@ -90,16 +90,21 @@ spring:
         registration:
           oserver:
             client-id: ${spring.application.name}
-            client-secret: password
+            client-secret: ENC(Ua2npLNRL4zF9AA1rFOCnr5mMyNnckjgM6m/fP6IHao=)
             authorization-grant-type: authorization_code
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://apps.icico.net.ir/oauth/authorize
-            token-uri: http://apps.icico.net.ir/oauth/token
-            user-info-uri: http://apps.icico.net.ir/user/info
+            authorization-uri: http://apps.nicico.com/oauth/authorize
+            token-uri: http://apps.nicico.com/oauth/token
+            user-info-uri: http://apps.nicico.com/user/info
             user-name-attribute: username
+nicico:
+  apps:
+    accounting: http://apps.nicico.com/accounting
+  security:
+    sys-password: ENC(MRPf6gcEgm043xXnCbElG2M+NDeLcbAS3wihOjLNuDA=)
 
 ---
 
