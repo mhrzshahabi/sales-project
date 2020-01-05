@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="MBizhani" id="1576995177627-1">
+    <changeSet author="Admin" id="1">
         <createTable tableName="TBL_TOZIN_MATERIAL">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_TOZIN_MATERIALPK"/>
@@ -122,7 +122,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="MBizhani" id="1576995177627-2">
+    <changeSet author="Admin" id="2">
         <createView viewName="VIEW_TOZIN">
             <![CDATA[
                 select  m.id material_id,card_id,

@@ -9,8 +9,9 @@ import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractDTO;
 import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.model.entities.base.Contract;
-import com.nicico.sales.repository.ContactDAO;
-import com.nicico.sales.repository.ContractDAO;
+import com.nicico.sales.model.entities.base.ContractShipment;
+import com.nicico.sales.model.entities.base.WarehouseLot;
+import com.nicico.sales.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
@@ -38,6 +39,11 @@ public class ContractService implements IContractService {
     private final ContactDAO contactDAO;
     private final ModelMapper modelMapper;
     private final Environment environment;
+    private final WarehouseLotDAO warehouseLotDAO;
+    private final ContractShipmentDAO contractShipmentDAO;
+    private final PortDAO portDAO;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Transactional(readOnly = true)
 //    @PreAuthorize("hasAuthority('R_CONTRACT')")
@@ -67,6 +73,10 @@ public class ContractService implements IContractService {
         Map<String, Object> map = mapper.readValue(request, Map.class);
         String contractNo = map.get("contractNo") + "";
         Integer contractId = (Integer) map.get("contractId");
+
+        List<WarehouseLot> listsFromHouseLot = warehouseLotDAO.findByContractId(Long.valueOf(contractId));
+        List<ContractShipment> shipmentListContracts=contractShipmentDAO.findByContractId(Long.valueOf(contractId));
+
         printOnePage(printdoc, contractId);
         contractDAO.findById(contractId).getMaterial();
         map.remove("contractNo");
@@ -117,7 +127,83 @@ public class ContractService implements IContractService {
             }
             runPrint.setUnderline(UnderlinePatterns.SINGLE);
             runPrint.addBreak();
-            runPrintValue.setText(value);
+            if(key=="Article03" && listsFromHouseLot.size()>0){
+                XWPFTable tableLot = printdoc.createTable(listsFromHouseLot.size()+1,9);
+                CTTblWidth widthLot = tableLot.getCTTbl().addNewTblPr().addNewTblW();
+                widthLot.setW(BigInteger.valueOf(10000));
+                setTableAlign(tableLot, ParagraphAlignment.CENTER);
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(0),"Product Name");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(1),"Lot Name");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(2),"MO %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(3),"CU %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(4),"SI %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(5),"PB %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(6),"S %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(7),"C %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(8),"P %");
+
+                tableLot.getRow(0).getCell(0).setColor("D9D9D9");
+                tableLot.getRow(0).getCell(1).setColor("D9D9D9");
+                tableLot.getRow(0).getCell(2).setColor("D9D9D9");
+                tableLot.getRow(0).getCell(3).setColor("D9D9D9");
+                tableLot.getRow(0).getCell(4).setColor("D9D9D9");
+                tableLot.getRow(0).getCell(5).setColor("D9D9D9");
+                tableLot.getRow(0).getCell(6).setColor("D9D9D9");
+                tableLot.getRow(0).getCell(7).setColor("D9D9D9");
+                tableLot.getRow(0).getCell(8).setColor("D9D9D9");
+
+                for (int i=0;i<listsFromHouseLot.size();i++){
+                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(0),nvl(listsFromHouseLot.get(i).getPlant()));
+                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(1),nvl(listsFromHouseLot.get(i).getLotName()));
+                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(2),nvl(listsFromHouseLot.get(i).getMo()+""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(3),nvl(listsFromHouseLot.get(i).getMo()+""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(4),nvl(listsFromHouseLot.get(i).getMo()+""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(5),nvl(listsFromHouseLot.get(i).getMo()+""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(6),nvl(listsFromHouseLot.get(i).getMo()+""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(7),nvl(listsFromHouseLot.get(i).getMo()+""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(8),nvl(listsFromHouseLot.get(i).getMo()+""));
+                }
+            }else if(key=="Article05" && shipmentListContracts.size()>0){
+                runPrintValue.addBreak();
+                runPrintValue.addBreak();
+                runPrintValue.setText(value);
+                runPrintValue.addBreak();
+               XWPFTable tableShipment = printdoc.createTable(shipmentListContracts.size()+1,8);
+                CTTblWidth widthLot = tableShipment.getCTTbl().addNewTblPr().addNewTblW();
+                widthLot.setW(BigInteger.valueOf(10000));
+                runPrintValue.addBreak();
+                setTableAlign(tableShipment, ParagraphAlignment.CENTER);
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(0),"PLAN");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(1),"ROW");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(2),"PORT");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(3),"ADDRESS");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(4),"AMOUNT");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(5),"SEND DATE");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(6),"DURATION");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(7),"TOLORANCE");
+
+                tableShipment.getRow(0).getCell(0).setColor("D9D9D9");
+                tableShipment.getRow(0).getCell(1).setColor("D9D9D9");
+                tableShipment.getRow(0).getCell(2).setColor("D9D9D9");
+                tableShipment.getRow(0).getCell(3).setColor("D9D9D9");
+                tableShipment.getRow(0).getCell(4).setColor("D9D9D9");
+                tableShipment.getRow(0).getCell(5).setColor("D9D9D9");
+                tableShipment.getRow(0).getCell(6).setColor("D9D9D9");
+                tableShipment.getRow(0).getCell(7).setColor("D9D9D9");
+                for (int i=0;i<shipmentListContracts.size();i++){
+                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(0),nvl(shipmentListContracts.get(i).getPlan()));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(1),nvl(shipmentListContracts.get(i).getShipmentRow()+""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(2),nvl(portDAO.findById(Long.valueOf(shipmentListContracts.get(i).getDischargeId())).get().getPort()));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(3),nvl(shipmentListContracts.get(i).getAddress()+""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(4),nvl(shipmentListContracts.get(i).getAmount()+""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(5),nvl(sdf.format(sdf.parse(shipmentListContracts.get(i).getSendDate()))+""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(6),nvl(shipmentListContracts.get(i).getDuration()+""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(7),nvl(shipmentListContracts.get(i).getTolorance()+""));
+                }
+            }else{
+                runPrintValue.addBreak();
+                runPrintValue.setText(value);
+            }
             runPrintValue.addBreak();
         }
         XWPFDocument doc = new XWPFDocument();
@@ -303,7 +389,7 @@ public class ContractService implements IContractService {
         tableNo.getCTTbl().getTblPr().getTblBorders().unsetRight();
         tableNo.getCTTbl().getTblPr().getTblBorders().unsetInsideV();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
         Date c = sdf.parse(contractDAO.findById(contractId).getContractDate());
         String date = sdf.format(c);
 
@@ -386,7 +472,7 @@ public class ContractService implements IContractService {
 
 
     private String nvl(String in) {
-        return in == null ? "" : in;
+        return in == null || in.equals("null") ? "" : in;
     }
 
     private void setRun(XWPFRun run, String fontFamily, int fontSize, String colorRGB, String text, boolean bold, boolean addBreak) {
@@ -440,4 +526,22 @@ public class ContractService implements IContractService {
         }
     }
 
+    public void setTableAlign(XWPFTable table,ParagraphAlignment align) {
+        CTTblPr tblPr = table.getCTTbl().getTblPr();
+        CTJc jc = (tblPr.isSetJc() ? tblPr.getJc() : tblPr.addNewJc());
+        STJc.Enum en = STJc.Enum.forInt(align.getValue());
+        jc.setVal(en);
+    }
+
+    private static void setHeaderRowforSingleCell(XWPFTableCell cell, String text) {
+        XWPFParagraph tempParagraph = cell.getParagraphs().get(0);
+        tempParagraph.setIndentationLeft(100);
+        tempParagraph.setIndentationRight(100);
+        tempParagraph.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun tempRun = tempParagraph.createRun();
+        tempRun.setFontSize(10);
+        tempRun.setColor("000000");
+        tempRun.setText(text);
+        cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+    }
 }

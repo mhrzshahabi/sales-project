@@ -13,14 +13,6 @@ public interface ICatodListService {
 
     List<CatodListDTO.Info> list();
 
-    CatodListDTO.Info create(CatodListDTO.Create request);
-
-    CatodListDTO.Info update(Long id, CatodListDTO.Update request);
-
-    void delete(Long id);
-
-    void delete(CatodListDTO.Delete request);
-
     TotalResponse<CatodListDTO.Info> search(NICICOCriteria criteria);
 
     SearchDTO.SearchRs<CatodListDTO.Info> search(SearchDTO.SearchRq request);

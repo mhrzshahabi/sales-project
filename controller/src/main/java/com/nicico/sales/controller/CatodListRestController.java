@@ -39,32 +39,6 @@ public class CatodListRestController {
     }
 
     @Loggable
-    @PostMapping
-    public ResponseEntity<CatodListDTO.Info> create(@Validated @RequestBody CatodListDTO.Create request) {
-        return new ResponseEntity<>(catodListService.create(request), HttpStatus.CREATED);
-    }
-
-    @Loggable
-    @PutMapping
-    public ResponseEntity<CatodListDTO.Info> update(@RequestBody CatodListDTO.Update request) {
-        return new ResponseEntity<>(catodListService.update(request.getId(), request), HttpStatus.OK);
-    }
-
-    @Loggable
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
-        catodListService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @Loggable
-    @DeleteMapping(value = "/list")
-    public ResponseEntity delete(@Validated @RequestBody CatodListDTO.Delete request) {
-        catodListService.delete(request);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<CatodListDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
