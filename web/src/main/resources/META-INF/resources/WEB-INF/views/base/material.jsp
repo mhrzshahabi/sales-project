@@ -613,7 +613,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='material.code'/>", align: "center"},
+                {name: "code", title: "<spring:message code='material.code'/>", align: "center" , showIf:"false",} ,
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
                 {name: "unit.nameFA",   title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
@@ -910,7 +910,8 @@
                         {
                             name: "code",
                             align: "center",
-                            width: "10%"
+                            width: "10%",
+                            showIf:"true",
                         }]
                 },
                 {
@@ -1020,7 +1021,7 @@
                         {
                             name: "code",
                             width: "10%",
-                            align: "center"
+                            align: "center" , showIf:"false",
                         }]
                 },
 
@@ -1841,7 +1842,7 @@
                 {
                     name: "gdsCode",
                     width: "48%",
-                    title: "<spring:message code='MaterialItem.gdsCode'/> "
+                    title: "<spring:message code='MaterialItem.gdsCode'/> " , showIf:"false",
                 },
                 {
                     name: "gdsName",

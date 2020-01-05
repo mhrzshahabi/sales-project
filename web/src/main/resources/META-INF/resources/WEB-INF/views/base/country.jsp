@@ -18,7 +18,7 @@
 	{
 		name: "code",
 		title: "<spring:message code='country.code'/>",
-		width: 200
+		width: 200 ,
 	},
 	{
 		name: "nameFa",
@@ -190,7 +190,7 @@
 		length: "15",
 		titleColSpan: 1,
 		hint: "<spring:message code='Material.digit'/>",
-		showHintInField: true,
+		showHintInField: true, showIf:"false",
 	},
 	{
 		name: "nameFa",
@@ -373,7 +373,7 @@
 		name: "code",
 		title: "<spring:message code='country.code'/>",
 		width: "10%",
-		align: "center"
+		align: "center" , showIf:"false",
 	},
 	{
 		name: "nameFa",

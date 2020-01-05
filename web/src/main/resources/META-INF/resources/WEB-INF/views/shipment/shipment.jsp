@@ -511,8 +511,6 @@
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 5,
-// backgroundImage: "backgrounds/leaves.jpg",
-
         fields: [
             {name: "id", hidden: true,},
             {type: "Header", defaultValue: ""},
@@ -650,6 +648,7 @@
             {name: "id", hidden: true},
             {type: "Header", defaultValue: ""},
             {
+                required:true,
                 colSpan: 4,
                 name: "contactByAgentId",
                 title: "<spring:message		code='shipment.agent'/>",
@@ -674,10 +673,10 @@
 
 
             {
+                required: true,
                 name: "vesselName", colSpan: 4,
                 title: "<spring:message code='shipment.vesselName'/>",
                 type: 'text',
-                required: true,
                 width: 400
             },
 
@@ -1806,7 +1805,7 @@
         ID: "Shipment_Section_Stack",
         sections:
             [
-                {title: "<spring:message code='Shipment.title'/>", items: VLayout_Body_Shipment, expanded: true}
+                {title: "<spring:message code='Shipment.title'/>", items: VLayout_Body_Shipment,   expanded: true}
             ],
         visibilityMode: "multiple",
         animateSections: true,
@@ -1833,16 +1832,24 @@
                         tabBarPosition: "top",
                         width: "100%",
                         tabs: [
-                            {
-                                title: "<spring:message code='cargoAssignment.title'/>",
-                                pane: SectionStack_shipment
-                            },
-                            {
-                                title: "<spring:message code='global.Attachment'/>",
-                                pane: ShipmentAttachmentViewLoader,
+
+
+                                {
+                                title: "<spring:message code='global.email'/>",
+                                pane: VLayout_ShipmentEmail_Body,
+
+                                },
+
+                                {
+                                title: "<spring:message code='global.Attachment'/>", pane: ShipmentAttachmentViewLoader,
+
+
+
+
                                 tabSelected: function(form, item, value)
                                 {
                                     var record = ListGrid_Shipment.getSelectedRecord();
+
                                     if (record == null || record.id == null)
                                     {
                                         isc.Dialog.create(
@@ -1863,14 +1870,23 @@
                                     }
                                     var dccTableId = record.id;
                                     var dccTableName = "TBL_SHIPMENT";
-                                    ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                                    ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId) //TODO
                                 }
                             },
-                            {
-                                title: "<spring:message code='global.email'/>",
-                                pane: VLayout_ShipmentEmail_Body,
-                                showIf: "false"
-                            }]
+
+
+                        {
+
+                        title: "<spring:message code='cargoAssignment.title'/>",pane: SectionStack_shipment ,
+
+                        },
+
+
+
+                            ]
                     })
             ]
         });
+
+
+

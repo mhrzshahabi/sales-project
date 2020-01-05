@@ -54,10 +54,10 @@
         numCols: 2,
 
         fields: [
-            {name: "id", hidden: true,},
+            {name: "id", hidden: true, showIf:"false",},
             {type: "RowSpacerItem"},
             {
-                name: "code", title: "<spring:message code='feature.code'/>", type: 'text', required: true, width: 500,
+                name: "code", title: "<spring:message code='feature.code'/>", type: 'text', required: true, width: 500, showIf:"false",
                 keyPressFilter: "[0-9]", length: "100",
             },
             {
@@ -353,7 +353,7 @@
                 {
                     name: "code",
                     title: "<spring:message code='feature.code'/> ",
-                    align: "center"
+                    align: "center" , showIf:"false",
                 },
                 {
                     name: "nameFA",

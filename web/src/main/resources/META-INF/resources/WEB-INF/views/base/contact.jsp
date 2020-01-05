@@ -359,23 +359,6 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			type: "RowSpacerItem"
  		},
  		{
- 			name: "code",
- 			title: "<spring:message code='contact.code'/>",
- 			type: 'long',
- 			required: true,
- 			width: 200,
- 			wrapTitle: false,
- 			colSpan: 3,
- 			titleColSpan: 1,
- 			validators: [
- 			{
- 				type: "isInteger",
- 				validateOnExit: true,
- 				stopOnError: true,
- 				errorMessage: "<spring:message code='global.form.correctType'/>"
- 			}]
- 		},
- 		{
  			name: "nameFA",
  			title: "<spring:message code='contact.nameFa'/>",
  			required: true,
@@ -532,7 +515,6 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			name: "nationalCode",
  			title: "<spring:message code='contact.nationalCode'/>",
  			width: "90%",
- 			required: true,
  			keyPressFilter: "[0-9.]",
  			wrapTitle: false
  		},
@@ -1093,7 +1075,7 @@ function setContactAccountListGridHeaderFormData(record)
  	},
  	{
  		name: "code",
- 		title: "<spring:message code='contactAccount.code'/>",
+ 		title: "<spring:message code='global.grid.print.inspection'/>",
  		type: 'integer',
  		width: 300,
  		colSpan: "2",
@@ -1684,13 +1666,13 @@ var ListGrid_Contact = isc.ListGrid.create(
 			name: "id",
 			primaryKey: true,
 			canEdit: false,
-			hidden: true
+			hidden: true , showIf:"false",
 		},
 		{
 			name: "code",
 			title: "<spring:message code='contact.code'/>",
 			align: "center",
-			width: 100
+			width: 100 ,  showIf:"false",
 
 		},
 		{
