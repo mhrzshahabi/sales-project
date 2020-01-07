@@ -79,14 +79,23 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
     icon: "pieces/16/save.png",
     iconOrientation: "right",
     click: function(){
+           // alert(contactHeaderConc.getValues().createDateDumy.toNormalDate("toUSShortDate"));
+           // alert(formatDate(contactHeaderConc.getValues().createDateDumy))
             contactHeaderConc.validate();
             dynamicFormConc.validate();
             valuesManagerArticle5_DeliveryTermsConc.validate();
+            if (contactHeaderConc.hasErrors()|| dynamicFormConc.hasErrors()){
+                return;
+            }
+            if (valuesManagerArticle5_DeliveryTermsConc.hasErrors()){
+                contactConcTabs.selectTab(1);
+                return;
+            }
             var drs = contactHeaderConc.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            contactHeaderConc.setValue("contractDate", contractTrueDate);
+            contactHeaderConc.setValue("contractDate", contactHeaderConc.getValues().createDateDumy.toNormalDate("toUSShortDate"));
             var dataSaveAndUpdateContractConc = {};
-            dataSaveAndUpdateContractConc.contractDate = contactHeaderConc.getValue("createDateDumy");
+            dataSaveAndUpdateContractConc.contractDate = contactHeaderConc.getValue("contractDate");
             dataSaveAndUpdateContractConc.contractNo = contactHeaderConc.getValue("contractNo");
             dataSaveAndUpdateContractConc.contactId = contactHeaderConc.getValue("contactId");
             dataSaveAndUpdateContractConc.contactByBuyerAgentId = contactHeaderConc.getValue("contactByBuyerAgentId");
@@ -457,5 +466,6 @@ function clearAdd(){
         contactHeaderConcAgent.clearValues();
         valuesManagerConcArticle1.clearValues();
         valuesManagerArticle2Conc.clearValues();
+        valuesManagerArticle3_conc.clearValues();
         valuesManagerfullArticle.clearValues();
 }

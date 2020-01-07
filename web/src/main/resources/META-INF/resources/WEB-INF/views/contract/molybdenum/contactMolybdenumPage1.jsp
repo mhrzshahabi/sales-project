@@ -1355,7 +1355,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 defaultValue: "",
                 title: "",
                 showTitle: false,
-                keyPressFilter: "[0-9]", ///article2_number10
+                keyPressFilter: "[0-9.]", ///article2_number10
                 changed: function (form, item, value) {
                     article2Mo.setValue("amount_en", numberToEnglish(value))
                     }
@@ -1389,7 +1389,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 name: "molybdenumTolorance",
                 title: "+/-",
                 defaultValue: "",
-                keyPressFilter: "[0-9]", //article2_13
+                keyPressFilter: "[0-9.]", //article2_13
                 changed: function (form, item, value) {
                     article2_1.setValue("article2_13_1",value);
                     dynamicForm_article3_3.setValue("article3_number17_4",value);
@@ -1433,7 +1433,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 type: "text",
                 name: "article2_13_1",
                 width: "50",
-                startRow: false, keyPressFilter: "[0-9]",
+                startRow: false, keyPressFilter: "[0-9.]",
                 title: '<b><font size=2px>THE TOLERENCE OF +/-%</font><b>'
             },
             {
@@ -1680,14 +1680,14 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 showTitle: true,
                 width: "50",
                 startRow: false,
-                keyPressFilter: "[0-9]",
+                keyPressFilter: "[0-9.]",
                 title: '('
             }, {
                 type: "text",
                 name: "article3_number17_9",
                 showTitle: true,
                 width: "50",
-                startRow: false, keyPressFilter: "[0-9]",
+                startRow: false, keyPressFilter: "[0-9.]",
                 title: '+/-'
             }, {
                 type: "text",
@@ -1740,7 +1740,11 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "paramName", width: "20%", align: "center"},
                     {name: "paramType", width: "20%", align: "center"},
                     {name: "paramValue", width: "60%", align: "center"}
-                ],
+                ], pickListCriteria: {
+                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
+                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName: "categoryValue", operator: "equals", value: 3}]
+                },
                 width: "*",
                 title: "quantity_number17_2"
             }
@@ -1754,12 +1758,12 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
         wrapItemTitles: false,
         items: [
             {name: "title",disabled:"false",defaultValue:"Prefix",width:"80",title: "TITLE",startRow:true},       //title
-            {name: "titleValue",disabled:"false",defaultValue:"Value",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "titleTolerance",disabled:"false",keyPressFilter: "[0-9]",defaultValue:"Tolerance",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "titleValue",disabled:"false",defaultValue:"Value",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "titleTolerance",disabled:"false",keyPressFilter: "[0-9.]",defaultValue:"Tolerance",title: "",width:"100",showTitle: false,startRow:false},
             {name: "titleUnit",disabled:"false",defaultValue:"Unit",title: "",width:"100",showTitle: false,startRow:false},
             {name: "PrefixMolybdenum",width:"80",title: "MO",defaultValue: "64(+-)4",startRow:true},       //molybdenum
-            {name: "molybdenum",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "toleranceMO",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "molybdenum",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "toleranceMO",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitMO",title:"",width:"100",showTitle:false,startRow:false,editorType: "SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1770,8 +1774,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixCopper",width:"80",defaultValue: "<=1.7",title: "CU",startRow:true},           //copper
-            {name: "copper",keyPressFilter: "[0-9]",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceCU",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "copper",keyPressFilter: "[0-9.]",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "toleranceCU",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitCU",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1783,8 +1787,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixC",width:"80",defaultValue: "<=0.04", title: "C",startRow:true},            //C
-            {name: "typical_c",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceC",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_c",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "toleranceC",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitC",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1796,8 +1800,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixS",width:"80",defaultValue: "<=0.12",title: "S",startRow:true},                 //S
-            {name: "typical_s",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceS",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_s",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "toleranceS",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitS",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1809,8 +1813,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixPb",width:"80",defaultValue: "<=0.12", title: "Pb",startRow:true},               //Pb
-            {name: "typical_pb",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "tolerancePb",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_pb",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "tolerancePb",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitPb",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1822,8 +1826,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixP",width:"80",defaultValue: "<=0.04", title: "P",startRow:true},               //P
-            {name: "typical_p",title: "",width:"100", keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceP",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_p",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "toleranceP",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitP",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1835,8 +1839,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
             {name: "PrefixSi",width:"80", defaultValue: "<=1.1",title: "Si",startRow:true},               //Si
-            {name: "typical_Si",title: "",width:"100",keyPressFilter: "[0-9]",showTitle: false,startRow:false},
-            {name: "toleranceSi",keyPressFilter: "[0-9]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "typical_Si",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "toleranceSi",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitSi",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1862,7 +1866,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 length: 100,
                 width: "100",
                 defaultValue: "210",
-                showHintInField: true, keyPressFilter: "[0-9]",
+                showHintInField: true, keyPressFilter: "[0-9.]",
                 startRow: false,
                 title: '- ',
                 changed: function (form, item, value) {
@@ -1892,7 +1896,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 defaultValue: "10",
                 showHintInField: true,
                 startRow: false,
-                title: '+/-', keyPressFilter: "[0-9]",
+                title: '+/-', keyPressFilter: "[0-9.]",
                 changed: function (form, item, value) {
                     dynamicForm_article3.setValue("article3_number17_9", value);
                     dynamicForm_article5_number29_1.setValue("article5_number29_3", value);
@@ -1969,7 +1973,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 showTitle: false,
                 width: "70",
                 defaultValue: "220",
-                keyPressFilter: "[0-9]",
+                keyPressFilter: "[0-9.]",
                 showHintInField: true,
                 startRow: false,
                 title: '',changed: function (form, item, value) {
@@ -3290,7 +3294,11 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     {name: "paramName", width: "20%", align: "center"},
                     {name: "paramType", width: "20%", align: "center"},
                     {name: "paramValue", width: "60%", align: "center"}
-                ],
+                ], pickListCriteria: {
+                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
+                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName: "categoryValue", operator: "equals", value: 9}]
+                },
                 colSpan: 2,
                 title: "article9_number55",
                 width: "*"
@@ -3321,7 +3329,11 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     {name: "paramName", width: "20%", align: "center"},
                     {name: "paramType", width: "20%", align: "center"},
                     {name: "paramValue", width: "60%", align: "center"}
-                ],
+                ], pickListCriteria: {
+                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
+                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName: "categoryValue", operator: "equals", value: 9}]
+                },
                 colSpan: 2,
                 title: "article9_ImportantNote",
                 width: "*"
@@ -3532,12 +3544,22 @@ var IButton_Contact_Save = isc.IButtonSave.create({
             DynamicForm_ContactCustomer.validate();
             dynamicFormMaterial.validate();
             contactHeader.validate();
-            valuesManagerArticle6.validate();
+            dynamicForm_article6_number32_33_34_35.validate();
+
+            if (DynamicForm_ContactHeader.hasErrors()|| DynamicForm_ContactCustomer.hasErrors()||dynamicFormMaterial.hasErrors()||contactHeader.hasErrors()){
+            alert("valid1")
+            return;
+            }
+            if (dynamicForm_article6_number32_33_34_35.hasErrors()){
+            contactTabs.selectTab(1);
+            alert("valid2")
+            return;
+            }
             var drs = contactHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_ContactHeader.setValue("contractDate", contractTrueDate);
+            DynamicForm_ContactHeader.setValue("contractDate", contactHeader.getValues().createDateDumy.toNormalDate("toUSShortDate"));
             var dataSaveAndUpdateContract={};
-                    dataSaveAndUpdateContract.contractDate= contactHeader.getValue("createDateDumy");
+                    dataSaveAndUpdateContract.contractDate= contactHeader.getValue("contractDate");
                     dataSaveAndUpdateContract.contractNo=contactHeader.getValue("contractNo");
                     dataSaveAndUpdateContract.contactId=contactHeader.getValue("contactId")
                     dataSaveAndUpdateContract.contactByBuyerAgentId=contactHeader.getValue("contactByBuyerAgentId")

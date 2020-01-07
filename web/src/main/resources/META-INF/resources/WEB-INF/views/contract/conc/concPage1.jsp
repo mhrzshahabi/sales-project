@@ -42,9 +42,7 @@
             {
                 name: "createDateDumy",
                 title: "<spring:message code='contact.date'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
                 type: "date",
-                format: 'DD-MM-YYYY',
                 required: true,
                 width: "90%",
                 wrapTitle: false
@@ -473,7 +471,7 @@ isc.DynamicForm.create({
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName: "contractId", operator: "equals", value: 2},
                         {fieldName: "categoryValue", operator: "equals", value: 1}]
                 },
                 width: "1500",
@@ -567,7 +565,7 @@ var vlayoutBodyConc = isc.VLayout.create({
                 defaultValue: "",
                 title: "",
                 showTitle: false,
-                keyPressFilter: "[0-9]", ///article2_number10
+                keyPressFilter: "[0-9.]", ///article2_number10
                 changed: function (form, item, value) {
                         article2Conc.setValue("amount_en", numberToEnglish(value))
                     }
@@ -599,7 +597,7 @@ var vlayoutBodyConc = isc.VLayout.create({
                 name: "cathodesTolorance",
                 title: "+/-",
                 defaultValue: "",
-                keyPressFilter: "[0-9]", //article2_13
+                keyPressFilter: "[0-9.]", //article2_13
             },
             {
                 type: "text",
@@ -619,7 +617,7 @@ var vlayoutBodyConc = isc.VLayout.create({
                 }
             },
             {
-                type: "date",
+                type: "datetime",
                 format: 'DD-MM-YYYY',
                 name: "plant", //article2_15
                 width: "500",

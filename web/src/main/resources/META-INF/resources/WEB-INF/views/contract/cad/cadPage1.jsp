@@ -478,7 +478,7 @@ var DynamicForm_ContactParameter_ValueNumber8Cad=isc.DynamicForm.create({
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName: "contractId", operator: "equals", value: 3},
                         {fieldName: "categoryValue", operator: "equals", value: 1}]
                 },
                 width: "1500",
@@ -572,7 +572,7 @@ var vlayoutBodyCad = isc.VLayout.create({
                 defaultValue: "",
                 title: "",
                 showTitle: false,
-                keyPressFilter: "[0-9]", ///article2_number10
+                keyPressFilter: "[0-9.]", ///article2_number10
                 changed: function (form, item, value) {
                     article2Cad.setValue("amount_en", numberToEnglish(value))
                     }
@@ -605,7 +605,7 @@ var vlayoutBodyCad = isc.VLayout.create({
                 name: "cathodesTolorance",
                 title: "+/-",
                 defaultValue: "2",
-                keyPressFilter: "[0-9]", //article2_13
+                keyPressFilter: "[0-9.]", //article2_13
                 changed: function (form, item, value) {
                 }
             },

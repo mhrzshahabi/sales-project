@@ -85,12 +85,18 @@ var contactCadTabs = isc.TabSet.create({
             contactCadHeader.validate();
             dynamicFormCath.validate();
             valuesManagerArticle6_quality.validate();
-            //DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
+            if (contactCadHeader.hasErrors()|| dynamicFormCath.hasErrors()){
+                return;
+            }
+            if (valuesManagerArticle6_quality.hasErrors()){
+                contactCadTabs.selectTab(1);
+                return;
+            }
             var drs = contactCadHeader.getValues().createDateDumy;
             var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            contactCadHeader.setValue("contractDate", contractTrueDate);
+            contactCadHeader.setValue("contractDate",contactCadHeader.getValues().createDateDumy.toNormalDate("toUSShortDate"));
             var dataSaveAndUpdateContractCad = {};
-            dataSaveAndUpdateContractCad.contractDate = contactCadHeader.getValue("createDateDumy");
+            dataSaveAndUpdateContractCad.contractDate = contactCadHeader.getValue("contractDate");
             dataSaveAndUpdateContractCad.contractNo = contactCadHeader.getValue("contractNo");
             dataSaveAndUpdateContractCad.contactId = contactCadHeader.getValue("contactId");
             dataSaveAndUpdateContractCad.contactByBuyerAgentId = contactCadHeader.getValue("contactByBuyerAgentId");

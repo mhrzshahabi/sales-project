@@ -192,7 +192,7 @@
                 },
                 {
                     name: "contractId", title: "<spring:message	code='parameters.paramValue'/>",
-                    width: 500, type: "select", required: true, valueMap: {"1": "Mo", "2": "CO"}
+                    width: 500, type: "select", required: true, valueMap: {"1": "MOLYBDENUM OXIDE", "2": "CONCENTRATE","3":"CATHOD"}
                 },
                 {
                     name: "categoryValue",
