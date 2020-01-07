@@ -59,7 +59,7 @@
             fields: [
                 {
                     name: "id",
-                    hidden: true,
+                    hidden: true, showIf:"false",
                 },
                 {
                     type: "RowSpacerItem"
@@ -71,7 +71,7 @@
                     required: true,
                     width: 400,
                     keyPressFilter: "[0-9]",
-                    length: "15"
+                    length: "15" , showIf:"false",
                 },
                 {
                     name: "nameFA",
@@ -387,7 +387,7 @@
                 {
                     name: "code",
                     title: "<spring:message code='rate.code'/> ",
-                    align: "center"
+                    align: "center" , showIf:"false",
                 },
                 {
                     name: "nameFA",

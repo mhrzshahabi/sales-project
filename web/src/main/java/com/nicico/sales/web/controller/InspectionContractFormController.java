@@ -72,6 +72,7 @@ public class InspectionContractFormController {
     }
 
     /*return Page inspectionContract.jsp*/
+
     @RequestMapping("/showForm")
     public String showInspectionContract() {
         return "shipment/inspectionContract";

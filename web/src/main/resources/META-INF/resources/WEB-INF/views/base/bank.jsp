@@ -256,7 +256,7 @@
 		required: true,
 		titleColSpan: 1,
 		keyPressFilter: "[0-9]",
-		length: "15"
+		length: "15" , showIf:"false",
 	},
 	{
 		name: "bankName",
@@ -501,7 +501,7 @@
     		name: "bankCode",
     		title: "<spring:message code='bank.bankCode'/>",
     		width: "10%",
-    		align: "center"
+    		align: "center" , showIf:"false",
     	},
     	{
     		name: "bankName",

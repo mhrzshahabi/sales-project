@@ -98,7 +98,7 @@ public class ShipmentFormController {
         String shiptype = shipment.getShipmentType();
 
 
-        if (description.contains("Cathods") || description.contains("Cop") || description.contains("Co") ) {
+        if (description.toLowerCase().contains("cathods") || description.toLowerCase().contains("cop") || description.toLowerCase().contains("co") ) {
             if (shiptype.contains("bulk")) {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
@@ -175,7 +175,7 @@ public class ShipmentFormController {
             }
         }
 
-        if (description.contains("Conc")) {
+        if (description.toLowerCase().contains("conc")) {
             if (shiptype.contains("bulk")) {
 
                 stream = new ClassPathResource("reports/word/Copper_Concentrate_bulk.docx").getInputStream();
@@ -197,7 +197,6 @@ public class ShipmentFormController {
                 replacePOI(doc, "port", " به مقصد " + port[1]);
 
 
-                String[] portw = shipment.getPortByDischarge().getPort().split(",");
                 replacePOI(doc, "comp", " به مقصد بندر " + port[0] + "در کشور " + port[1]);
 
 
@@ -218,7 +217,7 @@ public class ShipmentFormController {
 
         }
 
-        if (description.contains("Mol")) {
+        if (description.toLowerCase().contains("mol")) {
             if (shiptype.contains("container")) {
 
 

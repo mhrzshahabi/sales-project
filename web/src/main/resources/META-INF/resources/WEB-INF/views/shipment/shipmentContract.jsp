@@ -180,12 +180,10 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            DynamicForm_ShipmentContract.validate();
+                    DynamicForm_ShipmentContract.validate();
             if (DynamicForm_ShipmentContract.hasErrors())
                 return;
             var data = DynamicForm_ShipmentContract.getValues();
-            console.table(data);
-
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
@@ -194,6 +192,7 @@
                 httpMethod: method,
                 data: JSON.stringify(data),
                 callback: function (resp) {
+
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_ShipmentContract_refresh();
@@ -202,9 +201,10 @@
                         isc.say(RpcResponse_o.data);
                 }
             }));
-        }
-    });
 
+        }
+
+    });
 
     var IButton_ShipmentContract_Cancel = isc.IButtonCancel.create({
         top: 260,
@@ -352,7 +352,6 @@
 
     var dash = "\n";
 
-
     var DynamicForm_ShipmentContract = isc.DynamicForm.create({
         styleName: 'Shipment_style',
         width: "900px",
@@ -380,6 +379,31 @@
             canEdit: false,
             hidden: true
             },
+
+            {
+                colSpan: 2,
+                name: "createDate",
+                ID: "createDate",
+                title: "<spring:message code='shipmentContract.shipmentContractDate'/>", //تاریخ ایجاد
+                align: "right",
+                width: "200",
+                icons: [{
+                    src: "pieces/pcal.png",
+                    click: function () {
+                        displayDatePicker('createDate', this, 'ymd', '/');
+                    }
+                }],
+
+                blur: function () {
+                   var value = DynamicForm_ShipmentContract.getItem('laycanStart').getValue();
+                    if (value != null && value.length !== 10 && value !== "") {
+                        DynamicForm_ShipmentContract.setValue('laycanStart', CorrectDate(value))
+                    }
+            },
+            },
+
+
+
             {
                 name: "no",
                 title: "<spring:message code='shipmentContract.no'/>", //شماره
@@ -473,7 +497,7 @@
                 title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
                 align: "right",
                 width: "200",
-                length: "30",
+                length: "30", required:true
             },
             {
                 colSpan: 2,
@@ -495,7 +519,7 @@
             {
                 colSpan: 2,
                 name: "officialNo",
-                title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمس
+                title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمی
                 align: "right",
                 width: "200",
                 required: true,
@@ -555,28 +579,7 @@
                 width: "200",
                 length: "30",
             },
-            {
 
-                colSpan: 2,
-                name: "createDate",
-                ID: "createDate",
-                title: "<spring:message code='shipmentContract.shipmentContractDate'/>", //تاریخ ایجاد
-                align: "right",
-                width: "200",
-                icons: [{
-                    src: "pieces/pcal.png",
-                    click: function () {
-                        displayDatePicker('createDate', this, 'ymd', '/');
-                    }
-                }],
-                blur: function () {
-                    var value = DynamicForm_ShipmentContract.getItem('createDate').getValue();
-                    if (value != null && value.length !== 10 && value !== "") {
-                        DynamicForm_ShipmentContract.setValue('createDate', CorrectDate(value))
-                    }
-                },
-
-            },
             {
                 align: "right",
                 colSpan: 2,
@@ -597,57 +600,21 @@
                 type: 'text',
                 width: "180",
                 valueMap: {
-                    "draft survey": "<spring:message code='shipmentContract.draftSurvey'/>" //بازرسي درافت كشتي
+                    " draft survey ": "<spring:message code='shipmentContract.draftSurvey'/>" //بازرسي درافت كشتي
                     ,
-                    "weighbridge": "<spring:message code='shipmentContract.weighbridge'/>" //باسكول
+                    " weighbridge ": "<spring:message code='shipmentContract.weighbridge'/>" //باسكول
                 }
             },
-            {
-                colSpan: 2,
-                name: "laycanStart",
-                ID: "laycanStart",
-                title: "<spring:message code='shipmentContract.laycanStart'/>", //شروع لغو تاریخ
-                align: "right",
-                width: "200",
-                icons: [{
-                    src: "pieces/pcal.png",
-                    click: function () {
-                        displayDatePicker('laycanStart', this, 'ymd', '/');
-                    }
-                }],
-                blur: function () {
-                    var value = DynamicForm_ShipmentContract.getItem('laycanStart').getValue();
-                    if (value != null && value.length !== 10 && value !== "") {
-                        DynamicForm_ShipmentContract.setValue('laycanStart', CorrectDate(value))
-                    }
-                },
 
-            },
-            {
-                colSpan: 2,
-                name: "laycanEnd",
-                ID: "laycanEnd",
-                title: "<spring:message code='shipmentContract.laycanEnd'/>", //پایان لغو تاریخ
-                align: "right",
-                width: "200",
-                icons: [{
-                    src: "pieces/pcal.png",
-                    click: function () {
-                        displayDatePicker('laycanEnd', this, 'ymd', '/');
-                    }
-                }],
-                blur: function () {
-                    var value = DynamicForm_ShipmentContract.getItem('laycanEnd').getValue();
-                    if (value != null && value.length !== 10 && value !== "") {
-                        DynamicForm_ShipmentContract.setValue('laycanEnd', CorrectDate(value))
-                    }
-                },
 
-            },
+
             {
                 type: "Header",
                 defaultValue: dash
             },
+
+
+
         ]
     });
 
@@ -773,17 +740,13 @@
                 },
 
                 {
-                    name: "weighingMethodes",
-                    title: "<spring:message code='shipmentContract.weighingMethodes'/>",
-                    align: "center",
-                    width: "10%",
+
+                name: "vesselName",
+                title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
+                align: "center",
+                width: "10%",
+
                 },
-                {
-                    name: "officialNo",
-                    title: "<spring:message code='shipmentContract.officialNo'/>", //شماره رسمس
-                    align: "center",
-                    width: "200",
-                }
             ],
         sortField: "id",
         autoFetchData: true,

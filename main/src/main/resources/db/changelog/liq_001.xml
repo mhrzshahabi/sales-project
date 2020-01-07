@@ -2258,4 +2258,7 @@
     <changeSet author="RMazloom" id="1577339842392-181">
         <addForeignKeyConstraint baseColumnNames="MOISTURE_HEADER_ID" baseTableName="TBL_SHIPMENT_MOISTURE_ITEM" constraintName="shipmntmoist_i2shipmntmoist_H" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT_MOISTURE_HEADER" validate="true"/>
     </changeSet>
+    <changeSet author="RMazloom" id="1577339842392-182">
+        <dropForeignKeyConstraint baseTableName="TBL_CONTRACT" constraintName="contract2contactInspection"/>
+    </changeSet>
 </databaseChangeLog>

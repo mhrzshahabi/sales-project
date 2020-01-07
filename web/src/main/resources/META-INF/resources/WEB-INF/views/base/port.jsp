@@ -265,7 +265,7 @@
                 },
                 {
                     name: "countryId",
-                    title: "<spring:message code='country.nameFa'/>",
+                    title: "<spring:message code='country'/>",
                     type: 'long',
                     width: 450,
                     editorType: "SelectItem",
@@ -467,7 +467,7 @@
                 },
                 {
                     name: "country.nameFa",
-                    title: "<spring:message code='country.nameFa'/>",
+                    title: "<spring:message code='country'/>",
                     width: "50%",
                     align: "center"
                 }],

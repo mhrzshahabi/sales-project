@@ -210,7 +210,7 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     required: true,
-                    keyPressFilter: "[0-9]", length: "15"
+                    keyPressFilter: "[0-9]", length: "15" , showIf:"false",
                 },
                 {
                     name: "nameFa",
@@ -400,7 +400,7 @@
   		name: "code",
   		title: "<spring:message code='currency.code'/>",
   		width: "10%",
-  		align: "center"
+  		align: "center" , showIf:"false",
   	},
   	{
   		name: "symbol",
