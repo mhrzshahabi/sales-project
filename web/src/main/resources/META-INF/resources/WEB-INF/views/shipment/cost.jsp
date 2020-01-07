@@ -132,11 +132,76 @@
         ]
     });
 
+    var recordNotFound = isc.Label.create({
+        height: 30,
+        padding: 10,
+        align: "center",
+        valign: "center",
+        wrap: false,
+        contents: "رکوردی یافت نشد"
+    });
+
+    recordNotFound.hide();
+
+    function setCriteria_ListGrid(recordId) {
+        console.log(recordId)
+        var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "shipmentId", operator: "equals", value: recordId}]
+        };
+
+        ListGrid_Cost.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            console.log(data)
+            if (data.length === 0) {
+                recordNotFound.show();
+                ListGrid_Cost.hide()
+            } else {
+                recordNotFound.hide();
+                ListGrid_Cost.setData(data);
+                ListGrid_Cost.show();
+            }
+        }, {operationId: "00"});
+    }
+
+    function getExpandedComponent(record) {
+        setCriteria_ListGrid(record.id)
+        var hLayout = isc.HLayout.create({
+            align: "center", padding: 5,
+            membersMargin: 20,
+            members: [
+                ToolStripButton_Cost_Add
+            ]
+        });
+
+        var layout = isc.VLayout.create({
+            padding: 5,
+            membersMargin: 10,
+            members: [ListGrid_Cost, recordNotFound, hLayout]
+        });
+
+        return layout;
+    }
+
+
     var ListGrid_Shipment_CostHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         contextMenu: Menu_ListGrid_Shipment_CostHeader,
         dataSource: RestDataSource_Shipment_CostHeader,
+        styleName: 'expandList',
+        autoFetchData: true,
+        alternateRecordStyles: true,
+        canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
@@ -238,24 +303,26 @@
             },
 
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-            };
-            ListGrid_Cost.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_Cost.setData(data);
-            });
-        },
+// recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+// updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+//     var record = this.getSelectedRecord();
+//     var criteria1 = {
+//         _constructor: "AdvancedCriteria",
+//         operator: "and",
+//         criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
+//     };
+//     ListGrid_Cost.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+//         ListGrid_Cost.setData(data);
+//     });
+// },
         dataArrived: function (startRow, endRow) {
         },
         sortField: 0,
-        autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+        getExpansionComponent: function (record) {
+            return getExpandedComponent(record)
+        }
     });
     var HLayout_Grid_Shipment_CostHeader = isc.HLayout.create({
         width: "100%",
@@ -432,7 +499,7 @@
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [isc.IButtonSave.create({
                     title: "<spring:message
-		code='global.yes'/>"
+        code='global.yes'/>"
                 }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -555,14 +622,14 @@
         margin: 10,
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 6,
-        //backgroundImage: "backgrounds/leaves.jpg",
+//backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true,},
-       /*         {
-                    type: "Header",
-                    defaultValue: "بازرسی - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+                /*         {
+                type: "Header",
+                defaultValue: "بازرسی - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },*/
                 {
                     name: "sourceInspectorId",
@@ -573,6 +640,7 @@
                     optionDataSource: RestDataSource_ContactBySourceInspector,
                     optionCriteria: RestDataSource_Contact_optionCriteria_inspector,
                     displayField: "nameFA",
+                    autoFetchData: false,
                     valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
@@ -674,9 +742,9 @@
                     defaultValue: "USD",
                     valueMap: dollar
                 },
-           /*     {
-                    type: "Header",
-                    defaultValue: "محتوی - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+                /*     {
+                type: "Header",
+                defaultValue: "محتوی - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },*/
                 {
                     name: "sourceCopper",
@@ -782,9 +850,9 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-  /*              {
-                    type: "Header",
-                    defaultValue: "بیمه - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+                /*              {
+                type: "Header",
+                defaultValue: "بیمه - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },*/
                 {
                     name: "insuranceId",
@@ -795,6 +863,7 @@
                     optionDataSource: RestDataSource_ContactByInsurance,
                     optionCriteria: RestDataSource_Contact_optionCriteria_insurancer,
                     displayField: "nameFA",
+                    autoFetchData: false,
                     valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
@@ -832,9 +901,9 @@
                     width: "100%",
                     valueMap: {"A": "A", "B": "B", "C": "C"}
                 },
-      /*          {
-                    type: "Header",
-                    defaultValue: "سایر - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+                /*          {
+                type: "Header",
+                defaultValue: "سایر - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },*/
                 {
                     name: "otherCost",
@@ -985,7 +1054,7 @@
         }
     });
 
-    var ToolStripButton_Cost_Add = isc.ToolStripButtonAdd.create({
+    var ToolStripButton_Cost_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -1102,8 +1171,10 @@
                     callback: function (resp) {
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
-                            ListGrid_Cost_refresh();
                             Window_Cost.close();
+                            ListGrid_Cost.invalidateCache();
+                            setCriteria_ListGrid(data.shipmentId)
+
                         } else
                             isc.say(RpcResponse_o.data);
                     }
@@ -1129,7 +1200,7 @@
             [
                 DynamicForm_Cost,
                 isc.HLayout.create({
-                    width: "100%", align: "center", margin:30, height: "60",
+                    width: "100%", align: "center", margin: 30, height: "60",
                     members:
                         [
                             IButton_Cost_Save,
@@ -1152,9 +1223,11 @@
     });
     var ListGrid_Cost = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 200,
         dataSource: RestDataSource_Cost,
         contextMenu: Menu_ListGrid_Cost,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
         fields:
             [
                 {name: "id", hidden: true,},
@@ -1228,17 +1301,69 @@
                     width: "10%",
                     align: "center",
                     showHover: true
+                },
+                {
+                name: "editIcon",
+                width: 40,
+                showTitle: false,
+                align: "center",
+                },
+                {
+                name: "removeIcon",
+                width: 40,
+                showTitle: false,
+                align: "center",
                 }
             ],
         sortField: 0,
         autoFetchData: false,
-        showFilterEditor: true,
+        //showFilterEditor: true,
         filterOnKeypress: true,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
         },
         dataArrived: function (startRow, endRow) {
+        },
+        createRecordComponent: function (record, colNum) {
+            var fieldName = this.getFieldName(colNum);
+            if (fieldName == "editIcon") {
+                var editImg = isc.ImgButton.create(
+                    {
+                        showDown: false,
+                        showRollOver: false,
+                        layoutAlign: "center",
+                        src: "pieces/16/icon_edit.png",
+                        prompt: "ویرایش",
+                        height: 16,
+                        width: 16,
+                        grid: this,
+                        click: function () {
+                            ListGrid_Cost.selectSingleRecord(record);
+                            ListGrid_Cost_edit();
+                        }
+                    });
+                return editImg;
+            } else if (fieldName == "removeIcon") {
+                var removeImg = isc.ImgButton.create(
+                    {
+                        showDown: false,
+                        showRollOver: false,
+                        layoutAlign: "center",
+                        src: "pieces/16/icon_delete.png",
+                        prompt: "حذف",
+                        height: 16,
+                        width: 16,
+                        grid: this,
+                        click: function () {
+                            ListGrid_Cost.selectSingleRecord(record);
+                            ListGrid_Cost_remove();
+                        }
+                    });
+                return removeImg;
+            } else {
+                return null;
+            }
         }
 
     });
@@ -1265,9 +1390,11 @@
                 {
                     title: "<spring:message code='Shipment.title'/>",
                     items: VLayout_Body_Shipment_CostHeader,
-                    expanded: true
+                    expanded: true,
+                    showHeader: false
+
                 }
-                , {title: "<spring:message code='cost.title'/>", items: VLayout_Cost_Body, expanded: true}
+                , {title: "<spring:message code='cost.title'/>", items: VLayout_Cost_Body, expanded: true, hidden: true}
             ],
         visibilityMode: "multiple",
         animateSections: true,

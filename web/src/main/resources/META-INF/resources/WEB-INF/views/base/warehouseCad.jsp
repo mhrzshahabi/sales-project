@@ -224,12 +224,44 @@
             ]
     });
 
+    var bijackAttachmentViewLoader = isc.ViewLoader.create(
+    {
+    autoDraw: false,
+    loadingMessage: ""
+    });
+
+    var hLayoutViewLoader = isc.HLayout.create({
+    width:"100%",
+    height: 180,
+    align: "center",padding: 5,
+    membersMargin: 20,
+    members: [
+     bijackAttachmentViewLoader
+     ]
+    });
+    hLayoutViewLoader.hide();
+
     var ListGrid_warehouseCAD = isc.ListGrid.create(
         {
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_WarehouseCad,
             contextMenu: Menu_ListGrid_warehouseCAD,
+            styleName:'expandList',
+            autoFetchData: true,
+            // autoFitData: "vertical",
+            //height: 150,
+            alternateRecordStyles: true,
+            canExpandRecords: true,
+            canExpandMultipleRecords: false,
+            wrapCells: false,
+            showRollOver: false,
+            showRecordComponents: true,
+            showRecordComponentsByCell: true,
+            autoFitExpandField: true,
+            virtualScrolling: true,
+            loadOnExpand: true,
+            loaded: false,
             fields: [
                 {
                     name: "id",
@@ -267,9 +299,36 @@
                     width: "16.66%"
                 }],
             sortField: 0,
-            autoFetchData: true,
             showFilterEditor: true,
-            filterOnKeypress: true
+            filterOnKeypress: true,
+            getExpansionComponent : function (record) {
+            if (record == null || record.id == null)
+            {
+            isc.Dialog.create( {
+            message: "<spring:message code='global.grid.record.not.selected'/>",
+            icon: "[SKIN]ask.png",
+            title: "<spring:message code='global.message'/>",
+            buttons: [isc.Button.create({
+            title: "<spring:message code='global.ok'/>"
+            })],
+            buttonClick: function()
+            {
+            this.hide();
+            }
+            });
+            record.id = null;
+            }
+            var dccTableId = record.id;
+            var dccTableName = "TBL_WAREHOUSE_CAD";
+            bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+            hLayoutViewLoader.show();
+            var layout = isc.VLayout.create({
+            padding: 5,
+            membersMargin: 10,
+            members: [ hLayoutViewLoader ]
+            });
+            return layout;
+            }
         });
 
     var HLayout_warehouseCAD_Grid = isc.HLayout.create({
@@ -280,7 +339,7 @@
         ]
     });
 
-    VLayout_Body_WarehouseCad = isc.VLayout.create({
+    var VLayout_Body_WarehouseCad = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
@@ -288,15 +347,9 @@
         ]
     });
 
-    isc.ViewLoader.create(
-        {
-            ID: "bijackAttachmentViewLoader",
-            autoDraw: false,
-            loadingMessage: ""
-        });
 
 
-    isc.TabSet.create(
+/*    isc.TabSet.create(
         {
             ID: "bijackMainTabSet",
             tabBarPosition: "top",
@@ -340,13 +393,28 @@
                         var dccTableName = "TBL_WAREHOUSE_CAD";
                         bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                     }
-                }]
-        });
-
-    isc.VLayout.create({
-        ID: "bijackMainVLayout",
-        width: "100%",
+                },
+                ]
+        });*/
+    isc.HLayout.create(
+    {
+    width: "100%",
+    height: "100%",
+    border: "1px solid black",
+    layoutTopMargin: 5,
+    members: [
+     isc.SectionStack.create({
+            sections: [{
+            title: "<spring:message code='bijack'/>",
+            items: VLayout_Body_WarehouseCad,
+            showHeader: false,
+            expanded: true
+            }],
+        visibilityMode: "multiple",
+        animateSections: true,
         height: "100%",
-        backgroundColor: "",
-        members: [bijackMainTabSet]
-    });
+        width: "100%",
+        overflow: "hidden"
+    })
+    ]
+});

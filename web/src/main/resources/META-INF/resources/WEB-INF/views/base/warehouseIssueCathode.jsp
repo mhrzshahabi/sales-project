@@ -236,10 +236,74 @@
         fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list-issue-cad"
     });
 
+
+    var recordNotFound = isc.Label.create({
+        height: 30,
+        padding: 10,
+        align: "center",
+        valign: "center",
+        wrap: false,
+        contents: "رکوردی یافت نشد"
+    });
+
+    recordNotFound.hide();
+
+    function setCriteria_ListGrid_InsperctionContract(recordId) {
+
+        var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "shipmentId", operator: "equals", value: recordId}]
+        };
+
+        ListGrid_WarehouseIssueCathode.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            if (data.length === 0) {
+                recordNotFound.show();
+                ListGrid_WarehouseIssueCathode.hide()
+            } else {
+                recordNotFound.hide();
+                ListGrid_WarehouseIssueCathode.setData(data);
+                ListGrid_WarehouseIssueCathode.show();
+            }
+        }, {operationId: "00"});
+    }
+
+    function getExpandedComponent(record) {
+        setCriteria_ListGrid_InsperctionContract(record.id)
+        var hLayout = isc.HLayout.create({
+            align: "center", padding: 5,
+            membersMargin: 20,
+            members: [
+                ToolStripButton_WarehouseIssueCathode_Add
+            ]
+        });
+
+        var layout = isc.VLayout.create({
+            padding: 5,
+            membersMargin: 10,
+            members: [ListGrid_WarehouseIssueCathode, recordNotFound, hLayout]
+        });
+
+        return layout;
+    }
+
     var ListGrid_ShipmentByWarehouseIssueCathode = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueCathode,
+        styleName: 'expandList',
+        autoFetchData: true,
+        alternateRecordStyles: true,
+        canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
@@ -417,24 +481,27 @@
                 showHover: true
             }
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-            };
-            ListGrid_WarehouseIssueCathode.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_WarehouseIssueCathode.setData(data);
+        // recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+        /*        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+                    var record = this.getSelectedRecord();
+                    var criteria1 = {
+                        _constructor: "AdvancedCriteria",
+                        operator: "and",
+                        criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
+                    };
+                    ListGrid_WarehouseIssueCathode.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                        ListGrid_WarehouseIssueCathode.setData(data);
 
-            });
-        },
+                    });
+                },*/
         sortField: 0,
         dataPageSize: 50,
-        autoFetchData: false,
+        //autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+        getExpansionComponent: function (record) {
+            return getExpandedComponent(record)
+        }
     });
 
     var HLayout_Grid_ShipmentByWarehouseIssueCathode = isc.HLayout.create({
@@ -553,7 +620,7 @@
     function warehouseIssueCathode_bijak() {
         var ClientData_WarehouseCadITEMByWarehouseIssueCathode = [];
         var ids = DynamicForm_WarehouseIssueCathode.getValue("bijakIds");
-        if (typeof(ids) != 'undefined' && ids.length > 0) {
+        if (typeof (ids) != 'undefined' && ids.length > 0) {
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/warehouseCadItem/spec-list-ids/" + ids,
                     httpMethod: "GET",
@@ -892,7 +959,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseIssueCathode_Add = isc.ToolStripButtonAdd.create({
+    var ToolStripButton_WarehouseIssueCathode_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -981,6 +1048,7 @@
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseIssueCathode_refresh();
+                            setCriteria_ListGrid_InsperctionContract(data.shipmentId)
                             Window_WarehouseIssueCathode.close();
                         } else
                             isc.say(RpcResponse_o.data);
@@ -1027,9 +1095,26 @@
                 })
             ]
     });
+
+    var warehouseIssueCathodeAttachmentViewLoader = isc.ViewLoader.create({
+        autoDraw: false,
+        loadingMessage: "لطفا منتظر بمانید"
+    });
+
+    // var vLayoutViewLoader = isc.VLayout.create({
+    // width:"100%",
+    // height: "100%",
+    // align: "center",
+    // padding: 5,
+    // membersMargin: 20,
+    // members: [
+    //     warehouseIssueCathodeAttachmentViewLoader
+    //  ]
+    // });
+
     var ListGrid_WarehouseIssueCathode = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 200,
         dataSource: RestDataSource_WarehouseIssueCathode,
         contextMenu: Menu_ListGrid_WarehouseIssueCathode,
         fields:
@@ -1128,12 +1213,100 @@
                     keyPressFilter: "[0-9]",
                     length: "15"
                 },
+                {
+                    name: "editIcon",
+                    width: 40,
+                    align: "center",
+                    showTitle: false
+                },
+                {
+                    name: "removeIcon",
+                    width: 40,
+                    align: "center",
+                    showTitle: false
+                },
             ],
         sortField: 0,
         autoFetchData: false,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        // showFilterEditor: true,
+        filterOnKeypress: true,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        createRecordComponent: function (record, colNum) {
+            var fieldName = this.getFieldName(colNum);
+            if (fieldName == "editIcon") {
+                var editImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/16/icon_edit.png",
+                    prompt: "ویرایش",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                    click: function () {
+                        ListGrid_WarehouseIssueCathode.selectSingleRecord(record);
+                        ListGrid_WarehouseIssueCathode_edit();
+                    }
+                });
+                return editImg;
+            } else if (fieldName == "removeIcon") {
+                var removeImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/16/icon_delete.png",
+                    prompt: "حذف",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                    click: function () {
+                        ListGrid_WarehouseIssueCathode.selectSingleRecord(record);
+                        ListGrid_WarehouseIssueCathode_remove();
+                    }
+                });
+                return removeImg;
+            } else {
+                return null;
+            }
+        },
+        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+            loadWindowFeatureList(record)
+        }
     });
+
+
+
+    function loadWindowFeatureList(record) {
+        var dccTableId = record.id;
+        var dccTableName = "TBL_WAREHOUSE_ISSUE_CATHODE";
+       // warehouseIssueCathodeAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+       // WindowFeature.show()
+        var window_view_url = isc.Window.create({
+                title: "<spring:message code='warehouseIssueCathodeAttach.title'/>",
+                width: "80%",
+                height: "40%",
+                autoCenter: true,
+                isModal: true,
+                showModalMask: true,
+                align: "center",
+                autoDraw: false,
+                dismissOnEscape: true,
+              closeClick: function () {
+                 this.Super("closeClick", arguments)
+                 },
+            items:
+              [
+                isc.ViewLoader.create({
+                autoDraw:true,
+                viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
+                loadingMessage:"<spring:message code='global.loadingMessage'/>"
+                })
+              ]
+        });
+            window_view_url.show();
+    }
+
 
     var HLayout_WarehouseIssueCathode_Grid = isc.HLayout.create({
         width: "100%",
@@ -1152,11 +1325,6 @@
     });
 
     /******************* Start Attachment **********************/
-    isc.ViewLoader.create({
-        ID: "warehouseIssueCathodeAttachmentViewLoader",
-        autoDraw: false,
-        loadingMessage: ""
-    });
 
     isc.TabSet.create({
         ID: "warehouseIssueCathodeMainTabSet",
@@ -1205,12 +1373,14 @@
                 {
                     title: "<spring:message code='Shipment.title'/>",
                     items: VLayout_Body_ShipmentByWarehouseIssueCathode,
-                    expanded: true
+                    expanded: true,
+                    showHeader: false
                 }
                 , {
                 title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
                 items: warehouseIssueCathodeMainTabSet,
-                expanded: true
+                expanded: true,
+                hidden: true
             }
             ],
         visibilityMode: "multiple",
@@ -1219,6 +1389,8 @@
         width: "100%",
         overflow: "hidden"
     });
+
+
     var criteria1 = {
         _constructor: "AdvancedCriteria",
         operator: "and",

@@ -140,8 +140,10 @@
         showInlineErrors: true,
         showErrorText: true,
         showErrorStyle: true,
+        styleName: "invoice-form",
         errorOrientation: "right",
-        titleWidth: "100", margin: '0px', wrapTitle: true,
+        margin: 15,
+        titleWidth: "100",wrapTitle: true,
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 12,
@@ -170,7 +172,9 @@
                     name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>",
                     required: true,
                     width: "100%",
-                    wrapTitle: true,colSpan:2,titleColSpan:2
+                    wrapTitle: true,
+                   // colSpan:2,
+                  //  titleColSpan:2
                 },
                 {
                     name: "invoiceDateDumy",
@@ -179,7 +183,9 @@
                     type: 'date',
                     format: 'DD-MM-YYYY',
                     required: true,
-                    width: "100%",colSpan:1,titleColSpan:2
+                    width: "100%",
+                    //colSpan:1,
+                    //titleColSpan:2
                 },
                  {
                     required:true,
@@ -192,8 +198,10 @@
                     optionCriteria: RestDataSource_Contact_optionCriteria_seller,
                     displayField: "nameFA",
                     valueField: "id",
-                    pickListWidth: "500",
-                    pickListHeight: "500",colSpan:2,titleColSpan:2,
+                   // pickListWidth: "500",
+                   // pickListHeight: "500",
+                   // colSpan:2,
+                   // titleColSpan:2,
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                         {name: "nameFA", align: "center"},
@@ -212,19 +220,21 @@
                     optionCriteria: RestDataSource_Contact_optionCriteria_buyer,
                     displayField: "nameFA",
                     valueField: "id",
-                    pickListWidth: "500",
-                    pickListHeight: "500",colSpan:2,titleColSpan:2,
+                    //pickListWidth: "500",
+                   // pickListHeight: "500",
+                    //colSpan:2,
+                    //titleColSpan:2,
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [{name: "nameFA", align: "center"}, {
                         name: "nameEN",
                         align: "center"
                     }]
                 },
-               {
+         /*      {
                     type: "Header",
                     defaultValue: " - - - - - - - - - - - - - - Pricing - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-                },
-                 {
+                },*/
+                {
                     name: "priceBase",
                     title: "<spring:message code='invoice.priceBase'/>",titleOrientation:'top',
                     type: 'text',
@@ -396,10 +406,10 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-               {
+  /*             {
                     type: "Header",
                     defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-                },
+                },*/
                {
 
                     name: "rateBase",

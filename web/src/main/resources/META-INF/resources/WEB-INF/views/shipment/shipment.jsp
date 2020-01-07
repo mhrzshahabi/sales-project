@@ -1121,11 +1121,41 @@
         ]
     });
 
+    var ShipmentAttachmentViewLoader = isc.ViewLoader.create({
+    autoDraw: false,
+    loadingMessage: ""
+    });
+    var hLayoutViewLoader = isc.HLayout.create({
+        width:"100%",
+        height: 180,
+        align: "center",padding: 5,
+        membersMargin: 20,
+        members: [
+        ShipmentAttachmentViewLoader
+        ]
+    });
+    hLayoutViewLoader.hide();
+
     var ListGrid_Shipment = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
         contextMenu: Menu_ListGrid_Shipment,
+        styleName:'expandList',
+        autoFetchData: true,
+        // autoFitData: "vertical",
+        //height: 150,
+        alternateRecordStyles: true,
+        canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
@@ -1306,7 +1336,7 @@
                 showHover: true
             }
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             var criteria1 = {
@@ -1318,14 +1348,41 @@
                 ListGrid_ShipmentEmail.setData(data);
             });
             contractId = record.contractId;
-        },
+        },*/
         dataArrived: function (startRow, endRow) {
         },
         sortField: 0,
         dataPageSize: 50,
         filterOnKeypress: true,
-        autoFetchData: true,
-        showFilterEditor: true
+        showFilterEditor: true,
+        getExpansionComponent : function (record) {
+                if (record == null || record.id == null)
+                {
+                isc.Dialog.create( {
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({
+                title: "<spring:message code='global.ok'/>"
+                })],
+                buttonClick: function()
+                {
+                this.hide();
+                }
+                });
+                record.id = null;
+                }
+                    var dccTableId = record.id;
+                    var dccTableName = "TBL_SHIPMENT";
+                    ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                    hLayoutViewLoader.show();
+                var layout = isc.VLayout.create({
+                padding: 5,
+                membersMargin: 10,
+                members: [ hLayoutViewLoader ]
+                });
+                return layout;
+        }
     });
     var HLayout_Grid_Shipment = isc.HLayout.create({
         width: "100%",
@@ -1839,7 +1896,7 @@
             ]
     });
 
-    var SectionStack_shipment = isc.SectionStack.create({
+/*    var SectionStack_shipment = isc.SectionStack.create({
         ID: "Shipment_Section_Stack",
         sections:
             [
@@ -1850,13 +1907,9 @@
         height: "100%",
         width: "100%",
         overflow: "hidden"
-    });
+    });*/
 
-    isc.ViewLoader.create({
-        ID: "ShipmentAttachmentViewLoader",
-        autoDraw: false,
-        loadingMessage: ""
-    });
+
 
     isc.HLayout.create(
         {
@@ -1865,7 +1918,7 @@
             border: "1px solid black",
             layoutTopMargin: 5,
             members: [
-                isc.TabSet.create(
+/*                isc.TabSet.create(
                     {
                         tabBarPosition: "top",
                         width: "100%",
@@ -1908,6 +1961,31 @@
                                 pane: VLayout_ShipmentEmail_Body,
                                 showIf: "false"
                             }]
-                    })
+                    })*/
+
+
+
+
+
+                isc.SectionStack.create({
+                sections: [{
+                title: "<spring:message code='Shipment.title'/>",
+                items: VLayout_Body_Shipment,
+                showHeader: false,
+                expanded: true
+                },
+                {
+                title: "<spring:message code='global.email'/>",
+                items: VLayout_ShipmentEmail_Body,
+                expanded: true,
+                hidden: true
+                }
+                ],
+                visibilityMode: "multiple",
+                animateSections: true,
+                height: "100%",
+                width: "100%",
+                overflow: "hidden"
+                })
             ]
         });

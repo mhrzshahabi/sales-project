@@ -1734,6 +1734,22 @@
             ]
     });
 
+
+        function setCriteria_ListGrid(recordId) {
+        var criteria1 = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "materialId", operator: "equals", value: recordId}]
+        };
+
+        ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+        console.log(data)
+        ListGrid_MaterialItem.setData(data);
+        ListGrid_MaterialItem.show();
+        }, {operationId: "00"});
+        }
+
+
     var IButton_MaterialItem_Save = isc.IButtonSave.create(
         {
             top: 260,
@@ -1764,7 +1780,8 @@
                             if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
                             {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
-                                ListGrid_MaterialItem_refresh();
+                                ListGrid_MaterialItem.invalidateCache();
+                                setCriteria_ListGrid(data.materialId)
                                 Window_MaterialItem.close();
                             }
                             else
@@ -1859,7 +1876,8 @@
                     width: "4%",
                     align: "center",
                     showTitle: false
-                }, ],
+                }
+],
             sortField: 0,
             autoFetchData: false,
             recordDoubleClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue)

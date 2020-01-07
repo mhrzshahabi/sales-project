@@ -767,7 +767,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 
     function ListGrid_Contact_refresh() {
         ListGrid_Contact.invalidateCache();
-        commercialParty.setTitle("<spring:message code='commercialParty.title'/>");
+        //commercialParty.setTitle("<spring:message code='commercialParty.title'/>");
     }
 
 
@@ -1586,7 +1586,7 @@ function setContactAccountListGridHeaderFormData(record)
     var Window_AccountsContact = isc.Window.create({
         title: "<spring:message code='contact.accounts'/>",
         width: 820,
-        height: 740,
+        height: 730,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1665,18 +1665,48 @@ function setContactAccountListGridHeaderFormData(record)
         ]
     });
 
+	var contactAttachmentViewLoader = isc.ViewLoader.create({
+		autoDraw: false,
+		loadingMessage: ""
+	});
+
+	var hLayoutViewLoader = isc.HLayout.create({
+	width:"100%",
+	height: 180,
+	align: "center",padding: 5,
+	membersMargin: 20,
+	members: [
+		contactAttachmentViewLoader
+	]
+	});
+  hLayoutViewLoader.hide();
 
 var ListGrid_Contact = isc.ListGrid.create(
 {
 	width: "100%",
 	height: "100%",
 	dataSource: RestDataSource_Contact,
-	recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-	updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-	{
-		var record = this.getSelectedRecord();
-		commercialParty.setTitle(record.nameFA);
-	},
+	styleName:'expandList',
+	autoFetchData: true,
+	// autoFitData: "vertical",
+	//height: 150,
+	alternateRecordStyles: true,
+	canExpandRecords: true,
+	canExpandMultipleRecords: false,
+	wrapCells: false,
+	showRollOver: false,
+	showRecordComponents: true,
+	showRecordComponentsByCell: true,
+	autoFitExpandField: true,
+	virtualScrolling: true,
+	loadOnExpand: true,
+	loaded: false,
+	//recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+	// updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
+	// {
+	// 	var record = this.getSelectedRecord();
+	// 	commercialParty.setTitle(record.nameFA);
+	// },
 	dataArrived: function(startRow, endRow) {},
 	contextMenu: Menu_ListGrid_Contact,
 	fields: [
@@ -1828,40 +1858,55 @@ var ListGrid_Contact = isc.ListGrid.create(
 	],
 	sortField: 0,
 	dataPageSize: 50,
-	autoFetchData: true,
 	showFilterEditor: true,
 	filterOnKeypress: true,
-	startsWithTitle: "tt"
+	startsWithTitle: "tt",
+	getExpansionComponent : function (record) {
+			if (record == null || record.id == null)
+			{
+				isc.Dialog.create( {
+				message: "<spring:message code='global.grid.record.not.selected'/>",
+				icon: "[SKIN]ask.png",
+				title: "<spring:message code='global.message'/>",
+				buttons: [isc.Button.create({
+					title: "<spring:message code='global.ok'/>"
+				})],
+				buttonClick: function()
+				{
+					this.hide();
+				}
+				});
+				record.id = null;
+			}
+				var dccTableId = record.id;
+				var dccTableName = "TBL_CONTACT";
+				contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+				hLayoutViewLoader.show();
+				var layout = isc.VLayout.create({
+				padding: 5,
+				membersMargin: 10,
+				members: [ hLayoutViewLoader ]
+				});
+			return layout;
+		}
 });
 
 
-    var HLayout_Grid_Contact = isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ListGrid_Contact
-        ]
-    });
-
-    var VLayout_Body_Contact = isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            HLayout_Actions_Contact, HLayout_Grid_Contact
-        ]
-    });
-
-    isc.ViewLoader.create({
-        ID: "contactAttachmentViewLoader",
-        autoDraw: false,
-        loadingMessage: ""
-    });
 
 
-    isc.TabSet.create(
+  isc.VLayout.create({
+        ID:"VLayout_Parameters_Body",
+		width: "100%",
+		height: "100%",
+		members: [
+			HLayout_Actions_Contact, ListGrid_Contact
+		]
+		});
+
+    /*isc.TabSet.create(
       {
   	ID: "contactMainTabSet",
-  	tabBarPosition: "top",
+  	//tabBarPosition: "top",
   	width: "100%",
   	height: "100%",
   	tabs: [
@@ -1872,18 +1917,18 @@ var ListGrid_Contact = isc.ListGrid.create(
   		iconSize: 16,
   		pane: VLayout_Body_Contact
   	},
-  	{
+/!*  	{
   		title: "<spring:message code='contactAttach.title'/>",
   		icon: "",
   		iconSize: 16,
+		hidden: true,
   		pane: contactAttachmentViewLoader,
   		tabSelected: function(form, item, value)
   		{
   			var record = ListGrid_Contact.getSelectedRecord();
   			if (record == null || record.id == null)
   			{
-  				isc.Dialog.create(
-  				{
+  				isc.Dialog.create( {
   					message: "<spring:message code='global.grid.record.not.selected'/>",
   					icon: "[SKIN]ask.png",
   					title: "<spring:message code='global.message'/>",
@@ -1902,13 +1947,6 @@ var ListGrid_Contact = isc.ListGrid.create(
   			var dccTableName = "TBL_CONTACT";
   			contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
   		}
-  	}]
-  });
-  isc.VLayout.create(
-  {
-  	ID: "contactMainVLayout",
-  	width: "100%",
-  	height: "100%",
-  	backgroundColor: "",
-  	members: [contactMainTabSet]
-  });
+  	}*!/
+  	]
+  });*/
