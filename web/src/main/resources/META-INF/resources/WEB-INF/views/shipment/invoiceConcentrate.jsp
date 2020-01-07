@@ -249,7 +249,8 @@
                 },
                 {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Assay calculation in one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Assay calculation in one DMT- - - - - - - - - - - - - - - - - - - - - - - - -",
+                    align: "center"
                 },
                 {
                     name: "copperIns",
@@ -574,7 +575,8 @@
                 },
                 {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - DEDUCTION  per one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - DEDUCTION  per one DMT- - - - - - - - - - - - - - - - - - - - - - - - -",
+                    align: "center"
                 },
                 {
                     name: "treatCost",
@@ -759,7 +761,8 @@
                 },
                {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INVOICE - - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INVOICE - - - - - - - - - - - - - - - - - - - - - - - - -",
+align: "center"
                 },
                 {
                     name: "unitPrice",
@@ -892,7 +895,8 @@
                 },
                {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
+align: "center"
                 },
                {
                     name: "rateBase",
