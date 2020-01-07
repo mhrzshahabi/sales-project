@@ -910,17 +910,16 @@ var salesContractCADButtonMain = isc.IconButton.create({
         },
         getCellCSSText: function (record, rowNum, colNum) {
                             if (record.material.descl.contains("Cat")) {
-                                  return "font-weight:bold;background-color:#d1f2eb;";
+                                  return "font-weight:bold;background-color:#5ec4aa;";
                                 }
                             if (record.material.descl.contains("Mol")) {
-                                  return "font-weight:bold;background-color:#fcf3cf;";
+                                  return "font-weight:bold;background-color:#f0c85a;";
                                 }
                             if (record.material.descl.contains("Mat")) {
-                                  return "font-weight:bold;background-color:#f1948a;";
+                                  return "font-weight:bold;background-color:#c0110c;";
                                 }
                             if (record.material.descl.contains("Conc")) {
-                                // color:#ad48f7;
-                                  return "font-weight:bold;background-color:#d6eaf8;";
+                                  return "font-weight:bold;background-color:#6aa6de;";
                                 }
                 }
         , rollOverCanvasProperties:{
@@ -943,7 +942,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             width: 100,
             padding: 2,
             margin: 3,
-            backgroundColor: "#fcf3cf",
+            backgroundColor: "#f0c85a",
             align: "center",
             contents: "MOLYBDENUM"
         })
@@ -952,7 +951,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             width: 100,
             padding: 2,
             margin: 3,
-            backgroundColor: "#d1f2eb",
+            backgroundColor: "#5ec4aa",
             align: "center",
             contents: "CATHODS"
         })
@@ -961,7 +960,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             width: 100,
             padding: 2,
             margin: 3,
-            backgroundColor: "#f1948a",
+            backgroundColor: "#c0110c",
             align: "center",
             contents: "Matte"
         })
@@ -970,7 +969,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             width: 100,
             padding: 2,
             margin: 3,
-            backgroundColor: "#d6eaf8",
+            backgroundColor: "#6aa6de",
             align: "center",
             contents: "Concentrate"
         })
