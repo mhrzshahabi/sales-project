@@ -278,13 +278,74 @@
             })
         ]
     });
+var recordNotFound = isc.Label.create({
+height: 30,
+padding: 10,
+align: "center",
+valign: "center",
+wrap: false,
+contents: "رکوردی یافت نشد"
+});
 
+recordNotFound.hide();
+
+function setCriteria_ListGrid_InsperctionContract(recordId) {
+        var criteria1 = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "shipmentId", operator: "equals", value: recordId}]
+        };
+
+
+    ListGrid_Invoice.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+        if (data.length === 0) {
+        recordNotFound.show();
+        ListGrid_Invoice.hide()
+        } else {
+        recordNotFound.hide();
+        ListGrid_Invoice.setData(data);
+        ListGrid_Invoice.show();
+        }
+        }, {operationId: "00"});
+        }
+
+        function getExpandedComponent(record) {
+        setCriteria_ListGrid_InsperctionContract(record.id)
+        var hLayout = isc.HLayout.create({
+        align: "center", padding: 5,
+        membersMargin: 20,
+        members: [
+            HLayout_Invoice_Actions
+        ]
+        });
+
+        var layout = isc.VLayout.create({
+        padding: 5,
+        membersMargin: 10,
+        members: [ListGrid_Invoice, recordNotFound, hLayout]
+        });
+
+        return layout;
+        }
 
     var ListGrid_Shipment_InvoiceHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment_InvoiceHeader,
         contextMenu: Menu_ListGrid_Shipment_InvoiceHeader,
+        styleName: 'expandList',
+        autoFetchData: true,
+        alternateRecordStyles: true,
+        canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
 
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -344,7 +405,7 @@
             },
 
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+      /*  recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             var criteria1 = {
@@ -357,11 +418,13 @@
             });
         },
         dataArrived: function (startRow, endRow) {
-        },
+        },*/
         sortField: 0,
-        autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+        getExpansionComponent: function (record) {
+        return getExpandedComponent(record)
+        }
     });
 
 
@@ -457,15 +520,15 @@
             [ ViewLoader_Concentrate ]
     });
     var ViewLoader_Cathodes = isc.ViewLoader.create({
-        width: 1600,
-        height: 800,
+        width: "100%",
+        height: "100%",
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>",
     });
     var Window_Cathodes = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
-        width: 1600,
-        height: 800,
+        width: "100%",
+        height: "100%",
         autoCenter: true,
         isModal: true,
         align: "center",
@@ -1042,6 +1105,7 @@
         }
     });
 
+/*
     var ToolStripButton_Invoice_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1050,11 +1114,10 @@
             ListGrid_Invoice_edit();
         }
     });
+*/
 
 
-
-
-
+/*
     var ToolStripButton_Invoice_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1062,6 +1125,7 @@
             ListGrid_Invoice_remove();
         }
     });
+*/
 
     var ToolStripButton_Invoice_Attachment = isc.ToolStripButton.create({
                 title: "<spring:message code='global.Attachment'/>", icon: "pieces/512/attachment.png",
@@ -1186,11 +1250,12 @@
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
         width: "100%",
      membersMargin: 5,
+    backgroundColor:"#cdcdcd",
      members:
             [
                 ToolStripButton_Invoice_Add,
-                ToolStripButton_Invoice_Edit,
-                ToolStripButton_Invoice_Remove,
+        /*        ToolStripButton_Invoice_Edit,
+                ToolStripButton_Invoice_Remove,*/
                 ToolStripButton_Invoice_Attachment,
                 ToolStripButton_Invoice_Send2Accounting ,
                 ToolStripButton_Invoice_Pdf,
@@ -1200,6 +1265,7 @@
               width: "100%",
               align: "left",
               border: '0px',
+                backgroundColor:"#cdcdcd",
               members: [
                ToolStripButton_Invoice_Refresh,
               ]
@@ -1294,7 +1360,7 @@
     });
     var ListGrid_Invoice = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 200,
         dataSource: RestDataSource_Invoice,
         contextMenu: Menu_ListGrid_Invoice,
         fields:
@@ -1347,12 +1413,64 @@
                     title: "<spring:message code='invoice.Depreciation'/>",
                     type: 'float',
                     width: "10%"
-                }
+                },
+                {
+                name: "editIcon",
+                width: 40,
+                align: "center",
+                showTitle: false
+                },
+                {
+                name: "removeIcon",
+                width: 40,
+                align: "center",
+                showTitle: false
+                },
             ],
         sortField: 0,
         autoFetchData: false,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        //showFilterEditor: true,
+        filterOnKeypress: true,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        createRecordComponent: function (record, colNum) {
+        var fieldName = this.getFieldName(colNum);
+        if (fieldName == "editIcon") {
+        var editImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_edit.png",
+        prompt: "ویرایش",
+        height: 16,
+        width: 16,
+        grid: this,
+        click: function () {
+        ListGrid_Invoice.selectSingleRecord(record);
+        ListGrid_Invoice_edit();
+        }
+        });
+        return editImg;
+        } else if (fieldName == "removeIcon") {
+        var removeImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_delete.png",
+        prompt: "حذف",
+        height: 16,
+        width: 16,
+        grid: this,
+        click: function () {
+            ListGrid_Invoice.selectSingleRecord(record);
+            ListGrid_Invoice_remove();
+        }
+        });
+        return removeImg;
+        } else {
+        return null;
+        }
+        },
 
     });
     var HLayout_Invoice_Grid = isc.HLayout.create({
@@ -1378,9 +1496,10 @@
                 {
                     title: "<spring:message code='Shipment.title'/>",
                     items: VLayout_Body_Shipment_InvoiceHeader,
-                    expanded: true
+                    expanded: true,
+                    showHeader: false
                 }
-                , {title: "<spring:message code='issuedInvoices.title'/>", items: VLayout_Invoice_Body, expanded: true}
+                , {title: "<spring:message code='issuedInvoices.title'/>", items: VLayout_Invoice_Body, expanded: true, hidden: true}
             ],
         visibilityMode: "multiple",
         animateSections: true,

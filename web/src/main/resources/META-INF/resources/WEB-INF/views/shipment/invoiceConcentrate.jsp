@@ -210,7 +210,6 @@
                     width: "100%",colSpan:3,titleColSpan:1
                 },
                  {
-                     required:true,
                     name: "sellerId",
                     title: "Seller",
                     type: 'long',
@@ -250,7 +249,8 @@
                 },
                 {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Assay calculation in one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Assay calculation in one DMT- - - - - - - - - - - - - - - - - - - - - - - - -",
+                    align: "center"
                 },
                 {
                     name: "copperIns",
@@ -575,7 +575,8 @@
                 },
                 {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - DEDUCTION  per one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - DEDUCTION  per one DMT- - - - - - - - - - - - - - - - - - - - - - - - -",
+                    align: "center"
                 },
                 {
                     name: "treatCost",
@@ -760,7 +761,8 @@
                 },
                {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INVOICE - - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INVOICE - - - - - - - - - - - - - - - - - - - - - - - - -",
+align: "center"
                 },
                 {
                     name: "unitPrice",
@@ -866,20 +868,20 @@
                 {name: "up<%=i %>.version", hidden: true},
                 {name: "up<%=i %>.targetValueCurrency",defaultValue:"USD" , hidden: true},
                 {name: "up<%=i %>.upDown",defaultValue:"up", hidden: true},
-                {name: "up<%=i %>.description",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: true, width: "100%",colSpan:4},
-                {name: "up<%=i %>.originValue",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "up<%=i %>.description",title:"Description", <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %> ,type : 'text', required: false, width: "100%",colSpan:4},
+                {name: "up<%=i %>.originValue",title:"OriginValue",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumUpConcentrateAndSet();	} },
-                {name: "up<%=i %>.originValueCurrency",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: true, width: "100%",colSpan:1,valueMap: dollar },
-                {name: "up<%=i %>.conversionRate",title:"Rate 2 USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat5', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
+                {name: "up<%=i %>.originValueCurrency",title:"Currency",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: dollar },
+                {name: "up<%=i %>.conversionRate",title:"Rate 2 USD",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat5', required: false, width: "100%",keyPressFilter: "[0-9.]",colSpan:1,
                     validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
                     changed	: function(form, item, value){ sumUpConcentrateAndSet();	} },
-                {name: "up<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', useTextField:true, required: true, width: "100%",colSpan:1,mask:"####/##/##",
+                {name: "up<%=i %>.dateRate",title:"RateDate",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', useTextField:true, required: false, width: "100%",colSpan:1,mask:"####/##/##",
                        hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=DynamicForm_Invoice_Concentrate.getValue("up<%=i %>.dateRate");if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
-                {name: "up<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: true, width: "100%",colSpan:1 },
-                {name: "up<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: true, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} ,
+                {name: "up<%=i %>.rateReference",title:"Refere",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1 },
+                {name: "up<%=i %>.lessPlus",title:"+/-",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'text', required: false, width: "100%",colSpan:1,valueMap: {"PLUS":"PLUS","MINUS":"MINUS"} ,
                     changed	: function(form, item, value){ sumUpConcentrateAndSet();	} },
-                {name: "up<%=i %>.targetValue",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2Sign', required: true, width: "204",colSpan:2,canEdit:false },
+                {name: "up<%=i %>.targetValue",title:"Value",  <%= (i==0) ? "titleOrientation:'top'":"showTitle: false" %>,type: 'currencyFloat2Sign', required: false, width: "204",colSpan:2,canEdit:false },
    <% } %>
                 {
                     name: "invoiceValueD", title: "<spring:message code='invoice.invoiceValueD'/>",
@@ -893,7 +895,8 @@
                 },
                {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
+align: "center"
                 },
                {
                     name: "rateBase",

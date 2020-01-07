@@ -112,20 +112,6 @@ var salesContractCADButtonMain = isc.IconButton.create({
             Window_SelectTypeContactMain.close();
         }
     });
-    var salesContractOtherButtonMain = isc.IconButton.create({
-        title: "<spring:message code='salesContractOtherButton.title'/>",
-        width: "25%",
-        height: "100%",
-        align: "center",
-        margin:"35",
-        icon: "contract/salesContract.png",
-        largeIcon: "contract/salesContract.png",
-        orientation: "vertical",
-        click: function () {
-            createTab("<spring:message code='salesContractOtherButton.title'/>", "<spring:url value="/contact/contractOther"/>")
-            Window_SelectTypeContactMain.close();
-        }
-    });
    var Window_SelectTypeContactMain = isc.Window.create({
                             title: "<spring:message code='global.menu.contract.type.contract'/>",
                             width: "50%",
@@ -139,7 +125,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                             this.Super("closeClick", arguments)
                             },
                             items: [
-                              isc.HLayout.create({autoCenter: true, members: [salesContractMoButtonMain,salesContractCADButtonMain,salesContractConcButtonMain,salesContractOtherButtonMain]})
+                              isc.HLayout.create({autoCenter: true, members: [salesContractMoButtonMain,salesContractCADButtonMain,salesContractConcButtonMain]})
                             ]
                             });
 
@@ -775,18 +761,18 @@ var salesContractCADButtonMain = isc.IconButton.create({
             if (DynamicForm_Contract.hasErrors())
                 return;
 
-            var d1 = DynamicForm_Contract.getValue("contractDateDumy");
-            var datestring1 = (d1.getFullYear() + "/" + ("0" + (d1.getMonth() + 1)).slice(-2) + "/" + ("0" + d1.getDate()).slice(-2));
-            DynamicForm_Contract.setValue("contractDate", datestring1);
+            //var d1 = DynamicForm_Contract.getValue("contractDateDumy");
+            //var datestring1 = (d1.getFullYear() + "/" + ("0" + (d1.getMonth() + 1)).slice(-2) + "/" + ("0" + d1.getDate()).slice(-2));
+            DynamicForm_Contract.setValue("contractDate",DynamicForm_Contract.getValue("contractDate").toNormalDate("toUSShortDate"));
 
             var drs = DynamicForm_Contract.getValue("runStartDateDumy");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Contract.setValue("runStartDate", datestringRs);
+            DynamicForm_Contract.setValue("runStartDate",DynamicForm_Contract.getValue("runStartDate").toNormalDate("toUSShortDate"));
 
             var dre = DynamicForm_Contract.getValue("runEndDateDumy");
             if (!(dre == null || dre == 'undefiend')) {
                 var datestringRe = (dre.getFullYear() + "/" + ("0" + (dre.getMonth() + 1)).slice(-2) + "/" + ("0" + dre.getDate()).slice(-2));
-                DynamicForm_Contract.setValue("runEndtDate", datestringRe);
+                DynamicForm_Contract.setValue("runEndtDate", DynamicForm_Contract.setValue("runEndtDate").toNormalDate("toUSShortDate"));
             }
 
             if (dre < drs) {
@@ -878,7 +864,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 {
                     name: "contractDate",
                     title: "<spring:message code='contract.contractDate'/>",
-                    type: 'text',
+                    type: 'datetime',
                     width: "7%",
                     align: "center"
                 },
@@ -1052,7 +1038,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     title: "<spring:message code='global.sendDate'/>",
                     type: 'text',
                     width: 400,
-                    format: 'DD-MM-YYYY HH:mm:ss'
+                    format: 'DD-MM-YYYY'
                 },
                 {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400}
             ],
@@ -1258,7 +1244,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     type: 'date',
                     required: true,
                     width: 400,
-                    format: 'DD-MM-YYYY HH:mm:ss'
+                    format: 'DD-MM-YYYY'
                 },
                 {
                     name: "duration",
@@ -1358,6 +1344,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             DynamicForm_ContractShipment.validate();
             if (DynamicForm_ContractShipment.hasErrors())
                 return;
+
             var d = DynamicForm_ContractShipment.getValue("sendDateDummy");
             var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2));
             DynamicForm_ContractShipment.setValue("sendDate", datestring);
@@ -1470,10 +1457,10 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 {
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
-                    type: 'text',
+                    type: 'datetime',
                     width: 150,
                     align: "center",
-                    format: 'DD-MM-YYYY HH:mm:ss'
+                    format: 'DD-MM-YYYY'
                 },
                 {
                     name: "duration",

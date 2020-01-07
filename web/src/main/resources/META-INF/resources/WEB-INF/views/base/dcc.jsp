@@ -73,14 +73,14 @@
                 }
             ]
     });
-    var ToolStripButton_Dcc_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-            ListGrid_Dcc_refresh();
-        }
-    });
-    var ToolStripButton_Dcc_Add = isc.ToolStripButtonAdd.create({
+    <%--var ToolStripButton_Dcc_Refresh = isc.ToolStripButtonRefresh.create({--%>
+        <%--icon: "[SKIN]/actions/refresh.png",--%>
+        <%--title: "<spring:message code='global.form.refresh'/>",--%>
+        <%--click: function () {--%>
+            <%--ListGrid_Dcc_refresh();--%>
+        <%--}--%>
+    <%--});--%>
+    var ToolStripButton_Dcc_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -90,31 +90,31 @@
     });
 
 
-    var ToolStripButton_Dcc_Remove = isc.ToolStripButtonRemove.create({
-        icon: "[SKIN]/actions/remove.png",
-        title: "<spring:message code='global.form.remove'/>",
-        click: function () {
-            ListGrid_Dcc_remove();
-        }
-    });
-    var ToolStrip_Actions_Dcc = isc.ToolStrip.create({
-        width: "100%",
-        members:
-            [
-                ToolStripButton_Dcc_Add,
-                // ToolStripButton_Dcc_Edit,
-                ToolStripButton_Dcc_Remove,
-                isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Dcc_Refresh,
-                ]
-                })
-
-            ]
-    });
+    <%--var ToolStripButton_Dcc_Remove = isc.ToolStripButtonRemove.create({--%>
+        <%--icon: "[SKIN]/actions/remove.png",--%>
+        <%--title: "<spring:message code='global.form.remove'/>",--%>
+        <%--click: function () {--%>
+            <%--ListGrid_Dcc_remove();--%>
+        <%--}--%>
+    <%--});--%>
+// /*    var ToolStrip_Actions_Dcc = isc.ToolStrip.create({
+//         width: "100%",
+//         members:
+//             [
+//                 ToolStripButton_Dcc_Add,
+//                 // ToolStripButton_Dcc_Edit,
+//                 ToolStripButton_Dcc_Remove,
+//                 isc.ToolStrip.create({
+//                 width: "100%",
+//                 align: "left",
+//                 border: '0px',
+//                 members: [
+//                     ToolStripButton_Dcc_Refresh,
+//                 ]
+//                 })
+//
+//             ]
+//     });*/
 
     function ListGrid_Dcc_edit() {
         var record = ListGrid_Dcc.getSelectedRecord();
@@ -178,13 +178,13 @@
         }
     }
 
-    var dccActionsHLayout = isc.HLayout.create({
+/*    var dccActionsHLayout = isc.HLayout.create({
         width: "100%",
         members:
             [
                 ToolStrip_Actions_Dcc
             ]
-    });
+    });*/
 
 
     var dccMenu = isc.Menu.create(
@@ -440,6 +440,8 @@
         initialCriteria: criteria,
         showFilterEditor: false,
         filterOnKeypress: true,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
         fields:
             [
                 {name: "id", hidden: true},
@@ -468,8 +470,67 @@
                     type: 'text',
                     width: "50%",
                     align: "center"
+                },
+                {
+                    name: "editIcon",
+                    width: "4%",
+                    hidden: true,
+                    align: "center",
+                    showTitle: false
+                },
+                {
+                    name: "removeIcon",
+                    width: "4%",
+                    align: "center",
+                    showTitle: false
+                },
+            ],
+            createRecordComponent: function(record, colNum)
+            {
+            var fieldName = this.getFieldName(colNum);
+ /*           if (fieldName == "editIcon")
+            {
+            var editImg = isc.ImgButton.create({
+                showDown: false,
+                showRollOver: false,
+                layoutAlign: "center",
+                src: "pieces/16/icon_edit.png",
+                prompt: "ویرایش",
+                height: 16,
+                width: 16,
+                grid: this,
+                click: function()
+                {
+                ListGrid_Dcc.selectSingleRecord(record);
+                ListGrid_Dcc_edit()
                 }
-            ]
+            });
+            return editImg;
+            }
+            else*/ if (fieldName == "removeIcon")
+                {
+                var removeImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/16/icon_delete.png",
+                    prompt: "حذف",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                click: function()
+                    {
+                      ListGrid_Dcc.selectSingleRecord(record);
+                      ListGrid_Dcc_remove()
+                    }
+                });
+                return removeImg;
+                }
+            else
+                {
+                return null;
+                }
+            }
     });
 
     var DccGridHLayout = isc.HLayout.create({
@@ -479,11 +540,17 @@
             ListGrid_Dcc
         ]
     });
-
     isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            dccActionsHLayout, DccGridHLayout
+            DccGridHLayout,
+            isc.HLayout.create({
+            width: "100%", align: "center", margin:10, height: "30",
+            members:
+            [
+                 ToolStripButton_Dcc_Add
+            ]
+            })
         ]
     });

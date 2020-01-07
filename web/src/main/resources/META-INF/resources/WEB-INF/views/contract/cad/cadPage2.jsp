@@ -459,7 +459,7 @@ var article10_quality = isc.DynamicForm.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName: "contractId", operator: "equals", value: 3},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"
@@ -490,7 +490,7 @@ var article10_quality = isc.DynamicForm.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName: "contractId", operator: "equals", value: 3},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"

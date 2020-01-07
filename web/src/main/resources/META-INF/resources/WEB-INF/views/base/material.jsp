@@ -441,7 +441,7 @@
                     name: "descl",
                     title: "<spring:message code='material.descl'/>",
                     type: 'text',
-                    width: 400, required: true, keyPressFilter: "[a-z|A-Z|0-9 ]",
+                    width: 400, required: true,
                     textAlign: "left",
                     length:200,
 
@@ -452,8 +452,7 @@
                     type: 'text',
                     width: 400,
                     required: true,
-
-                keyPressFilter: "[a-z|A-Z|0-9 ]" ,  length:200
+                    length:200
                 },
                 {
                     name: "unitId",
@@ -613,7 +612,7 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='material.code'/>", align: "center"},
+                {name: "code", title: "<spring:message code='material.code'/>", align: "center" , showIf:"false",} ,
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
                 {name: "unit.nameFA",   title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
@@ -910,7 +909,8 @@
                         {
                             name: "code",
                             align: "center",
-                            width: "10%"
+                            width: "10%",
+                            showIf:"true",
                         }]
                 },
                 {
@@ -1020,7 +1020,7 @@
                         {
                             name: "code",
                             width: "10%",
-                            align: "center"
+                            align: "center" , showIf:"false",
                         }]
                 },
 
@@ -1734,6 +1734,22 @@
             ]
     });
 
+
+        function setCriteria_ListGrid(recordId) {
+        var criteria1 = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "materialId", operator: "equals", value: recordId}]
+        };
+
+        ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+        console.log(data)
+        ListGrid_MaterialItem.setData(data);
+        ListGrid_MaterialItem.show();
+        }, {operationId: "00"});
+        }
+
+
     var IButton_MaterialItem_Save = isc.IButtonSave.create(
         {
             top: 260,
@@ -1764,7 +1780,8 @@
                             if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
                             {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
-                                ListGrid_MaterialItem_refresh();
+                                ListGrid_MaterialItem.invalidateCache();
+                                setCriteria_ListGrid(data.materialId)
                                 Window_MaterialItem.close();
                             }
                             else
@@ -1841,7 +1858,7 @@
                 {
                     name: "gdsCode",
                     width: "48%",
-                    title: "<spring:message code='MaterialItem.gdsCode'/> "
+                    title: "<spring:message code='MaterialItem.gdsCode'/> " , showIf:"false",
                 },
                 {
                     name: "gdsName",
@@ -1859,7 +1876,8 @@
                     width: "4%",
                     align: "center",
                     showTitle: false
-                }, ],
+                }
+],
             sortField: 0,
             autoFetchData: false,
             recordDoubleClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue)

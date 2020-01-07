@@ -737,10 +737,73 @@
         }
     });
 
+        var recordNotFound = isc.Label.create({
+        height: 30,
+        padding: 10,
+        align: "center",
+        valign: "center",
+        wrap: false,
+        contents: "رکوردی یافت نشد"
+        });
+
+        recordNotFound.hide();
+
+        function setCriteria_ListGrid_InsperctionContract(recordId) {
+
+        var criteria1 = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "shipmentId", operator: "equals", value: recordId}]
+        };
+
+        ListGrid_ShipmentAssayHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+        if (data.length === 0) {
+        recordNotFound.show();
+        ListGrid_ShipmentAssayHeader.hide()
+        } else {
+        recordNotFound.hide();
+        ListGrid_ShipmentAssayHeader.setData(data);
+        ListGrid_ShipmentAssayHeader.show();
+        }
+        }, {operationId: "00"});
+        }
+
+        function getExpandedComponent(record) {
+        setCriteria_ListGrid_InsperctionContract(record.id)
+        var hLayout = isc.HLayout.create({
+            align: "center", padding: 5,
+            membersMargin: 20,
+            members: [
+            ToolStripButton_ShipmentAssayHeader_Add
+            ]
+        });
+
+        var layout = isc.VLayout.create({
+            padding: 5,
+            membersMargin: 10,
+            members: [ListGrid_ShipmentAssayHeader, recordNotFound, hLayout]
+        });
+
+        return layout;
+        }
+
     var ListGrid_ShipmentByAssayHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByAssayHeader,
+        styleName: 'expandList',
+        autoFetchData: true,
+        alternateRecordStyles: true,
+        canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
@@ -918,7 +981,7 @@
                 showHover: true
             }
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             var criteria1 = {
@@ -948,10 +1011,12 @@
             });
         },
         dataArrived: function (startRow, endRow) {
+        },*/
+        getExpansionComponent: function (record) {
+        return getExpandedComponent(record)
         },
         sortField: 0,
         dataPageSize: 50,
-        autoFetchData: false,
         showFilterEditor: true,
         filterOnKeypress: true,
         startsWithTitle: "tt"
@@ -1262,7 +1327,7 @@
             ListGrid_ShipmentAssayHeader_refresh();
         }
     });
-    var ToolStripButton_ShipmentAssayHeader_Add = isc.ToolStripButtonAdd.create({
+    var ToolStripButton_ShipmentAssayHeader_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -1326,7 +1391,7 @@
 
     var ListGrid_ShipmentAssayHeader = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 200,
         dataSource: MyRestDataSource_ShipmentAssayHeader,
         autoFetchData: false,
         fields: [
@@ -1411,8 +1476,20 @@
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             },
+            {
+            name: "editIcon",
+            width: 40,
+            align: "center",
+            showTitle: false
+            },
+            {
+            name: "removeIcon",
+            width: 40,
+            align: "center",
+            showTitle: false
+            }
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+       /* recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             var criteria1 = {
@@ -1425,13 +1502,91 @@
             });
         },
         dataArrived: function (startRow, endRow) {
-        },
+        },*/
         sortField: 0,
         dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt"
+        startsWithTitle: "tt",
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        createRecordComponent: function (record, colNum) {
+        var fieldName = this.getFieldName(colNum);
+        if (fieldName == "editIcon") {
+        var editImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_edit.png",
+        prompt: "ویرایش",
+        height: 16,
+        width: 16,
+        grid: this,
+        click: function () {
+        ListGrid_ShipmentAssayHeader.selectSingleRecord(record);
+        ListGrid_ShipmentAssayHeader_edit();
+        }
+        });
+        return editImg;
+        } else if (fieldName == "removeIcon") {
+        var removeImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_delete.png",
+        prompt: "حذف",
+        height: 16,
+        width: 16,
+        grid: this,
+        click: function () {
+        ListGrid_ShipmentAssayHeader.selectSingleRecord(record);
+        ListGrid_ShipmentAssayHeader_remove();
+        }
+        });
+        return removeImg;
+        } else {
+        return null;
+        }
+        },
+        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+        loadWindowFeatureList(record)
+        }
     });
+
+
+
+        function loadWindowFeatureList(record) {
+        var criteria1 = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "shipmentAssayHeader", operator: "equals", value: record.id}]
+        };
+        ListGrid_ShipmentAssayItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+        ListGrid_ShipmentAssayItem.setData(data);
+        });
+
+        var window_view_url = isc.Window.create({
+        title: "<spring:message code='shipment.AssayItem'/>",
+        width: "80%",
+        height: "40%",
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+        this.Super("closeClick", arguments)
+        },
+        items:
+        [
+        HLayout_Actions_ShipmentAssayItem, HLayout_Grid_ShipmentAssayItem
+        ]
+        });
+
+        window_view_url.show();
+        }
+
     var HLayout_Grid_ShipmentAssayHeader = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -1727,7 +1882,7 @@
 
     var ListGrid_ShipmentAssayItem = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 200,
         dataSource: MyRestDataSource_ShipmentAssayItem,
         autoFetchData: false,
         fields: [
@@ -1773,7 +1928,7 @@
         ],
         sortField: 0,
         dataPageSize: 50,
-        showFilterEditor: true,
+       // showFilterEditor: true,
         filterOnKeypress: true,
         startsWithTitle: "tt"
     });
@@ -1801,17 +1956,20 @@
                 {
                     title: "<spring:message code='Shipment.title'/>",
                     items: VLayout_Body_ShipmentByAssayHeader,
-                    expanded: true
+                    expanded: true,
+                    showHeader: false
                 }
                 , {
                 title: "<spring:message code='shipment.AssayHeader'/>",
                 items: VLayout_Body_ShipmentAssayHeader,
-                expanded: true
+                expanded: true,
+                hidden: true
             }
                 , {
                 title: "<spring:message code='shipment.AssayItem'/>",
                 items: VLayout_Body_ShipmentAssayItem,
-                expanded: true
+                expanded: true,
+                hidden: true
             }
             ],
         visibilityMode: "multiple",

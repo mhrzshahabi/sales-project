@@ -767,10 +767,74 @@
         }
     });
 
+
+        var recordNotFound = isc.Label.create({
+            height: 30,
+            padding: 10,
+            align: "center",
+            valign: "center",
+            wrap: false,
+            contents: "رکوردی یافت نشد"
+        });
+
+        recordNotFound.hide();
+
+        function setCriteria_ListGrid_InsperctionContract(recordId) {
+
+            var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "shipmentId", operator: "equals", value: recordId}]
+            };
+
+        ListGrid_ShipmentMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+        if (data.length === 0) {
+        recordNotFound.show();
+        ListGrid_ShipmentMoistureHeader.hide()
+        } else {
+        recordNotFound.hide();
+        ListGrid_ShipmentMoistureHeader.setData(data);
+        ListGrid_ShipmentMoistureHeader.show();
+        }
+        }, {operationId: "00"});
+        }
+
+        function getExpandedComponent(record) {
+        setCriteria_ListGrid_InsperctionContract(record.id)
+        var hLayout = isc.HLayout.create({
+        align: "center", padding: 5,
+        membersMargin: 20,
+        members: [
+        ToolStripButton_ShipmentMoistureHeader_Add
+        ]
+        });
+
+        var layout = isc.VLayout.create({
+        padding: 5,
+        membersMargin: 10,
+        members: [ListGrid_ShipmentMoistureHeader, recordNotFound, hLayout]
+        });
+
+        return layout;
+        }
+
     var ListGrid_ShipmentByMoistureHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByMoistureHeader,
+        styleName: 'expandList',
+        autoFetchData: true,
+        alternateRecordStyles: true,
+        canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
@@ -948,7 +1012,7 @@
                 showHover: true
             }
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             var criteria1 = {
@@ -977,12 +1041,14 @@
                     ListGrid_ShipmentMoistureItem.setData(data);
                 });
             });
+        },*/
+        getExpansionComponent: function (record) {
+        return getExpandedComponent(record)
         },
         dataArrived: function (startRow, endRow) {
         },
         sortField: 0,
         dataPageSize: 50,
-        autoFetchData: false,
         showFilterEditor: true,
         filterOnKeypress: true
     });
@@ -1293,7 +1359,7 @@
         }
     });
 
-    var ToolStripButton_ShipmentMoistureHeader_Add = isc.ToolStripButtonAdd.create({
+    var ToolStripButton_ShipmentMoistureHeader_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -1361,7 +1427,7 @@
 
     var ListGrid_ShipmentMoistureHeader = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 200,
         dataSource: MyRestDataSource_ShipmentMoistureHeader,
         autoFetchData: false,
         fields: [
@@ -1423,8 +1489,20 @@
                 align: "center",
                 wrapTitle: false
             },
+            {
+            name: "editIcon",
+            width: 40,
+            align: "center",
+            showTitle: false
+            },
+            {
+            name: "removeIcon",
+            width: 40,
+            align: "center",
+            showTitle: false
+            }
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             var criteria1 = {
@@ -1435,14 +1513,90 @@
             ListGrid_ShipmentMoistureItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                 ListGrid_ShipmentMoistureItem.setData(data);
             });
-        },
+        },*/
         dataArrived: function (startRow, endRow) {
         },
         sortField: 0,
         dataPageSize: 50,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        createRecordComponent: function (record, colNum) {
+        var fieldName = this.getFieldName(colNum);
+        if (fieldName == "editIcon") {
+        var editImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_edit.png",
+        prompt: "ویرایش",
+        height: 16,
+        width: 16,
+        grid: this,
+        click: function () {
+        ListGrid_ShipmentMoistureHeader.selectSingleRecord(record);
+        ListGrid_ShipmentMoistureHeader_edit();
+        }
+        });
+        return editImg;
+        } else if (fieldName == "removeIcon") {
+        var removeImg = isc.ImgButton.create({
+        showDown: false,
+        showRollOver: false,
+        layoutAlign: "center",
+        src: "pieces/16/icon_delete.png",
+        prompt: "حذف",
+        height: 16,
+        width: 16,
+        grid: this,
+        click: function () {
+        ListGrid_ShipmentMoistureHeader.selectSingleRecord(record);
+        ListGrid_ShipmentMoistureHeader_remove();
+        }
+        });
+        return removeImg;
+        } else {
+        return null;
+        }
+        },
+        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+         loadWindowFeatureList(record)
+        }
     });
+
+
+        function loadWindowFeatureList(record) {
+            var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "shipmentMoistureHeader", operator: "equals", value: record.id}]
+            };
+            ListGrid_ShipmentMoistureItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            ListGrid_ShipmentMoistureItem.setData(data);
+            });
+
+            var window_view_url = isc.Window.create({
+            title: "<spring:message code='Shipment.titleMoistureItem'/>",
+            width: "80%",
+            height: "40%",
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            closeClick: function () {
+            this.Super("closeClick", arguments)
+            },
+            items:
+            [
+            HLayout_Actions_ShipmentMoistureItem, HLayout_Grid_ShipmentMoistureItem
+            ]
+            });
+
+            window_view_url.show();
+        }
 
     var HLayout_Grid_ShipmentMoistureHeader = isc.HLayout.create({
         width: "100%",
@@ -1851,17 +2005,20 @@
                 {
                     title: "<spring:message code='Shipment.title'/>",
                     items: VLayout_Body_ShipmentByMoistureHeader,
-                    expanded: true
+                    expanded: true,
+                    showHeader: false
                 }
                 , {
                 title: "<spring:message code='Shipment.titleMoistureHeader'/>",
                 items: VLayout_Body_ShipmentMoistureHeader,
-                expanded: true
+                expanded: true,
+                hidden: true
             }
                 , {
                 title: "<spring:message code='Shipment.titleMoistureItem'/>",
                 items: VLayout_Body_ShipmentMoistureItem,
-                expanded: true
+                expanded: true,
+                hidden: true
             }
             ],
         visibilityMode: "multiple",

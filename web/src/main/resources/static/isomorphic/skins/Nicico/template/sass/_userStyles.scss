@@ -962,3 +962,84 @@ $window_header_bgColor: #fe9d2a !default;
 .expandList-ButtonAdd td{
   width: 150px;
 }
+
+.selectItemLiteControl,
+.selectItemLiteControlRTL,
+.selectItemLiteControlOver,
+.selectItemLiteControlOverRTL,
+.selectItemLiteControlFocused,
+.selectItemLiteControlFocusedRTL,
+.selectItemLiteControlFocusedOver,
+.selectItemLiteControlFocusedOverRTL,
+.selectItemLiteControlDisabled,
+.selectItemLiteControlDisabledRTL,
+.selectItemLiteControlError,
+.selectItemLiteControlErrorRTL,
+.selectItemLiteControlErrorOver,
+.selectItemLiteControlErrorOverRTL,
+.selectItemLiteControlErrorFocused,
+.selectItemLiteControlErrorFocusedRTL,
+.selectItemLiteControlErrorFocusedOver,
+.selectItemLiteControlErrorFocusedOverRTL,
+.selectItemLiteControlPending,
+.selectItemLiteControlPendingRTL,
+.selectItemLiteControlPendingOver,
+.selectItemLiteControlPendingOverRTL,
+.selectItemLiteControlPendingFocused,
+.selectItemLiteControlPendingFocusedRTL,
+.selectItemLiteControlPendingFocusedOver,
+.selectItemLiteControlPendingFocusedOverRTL,
+.selectItemLiteControlPendingDisabled,
+.selectItemLiteControlPendingDisabledRTL,
+.selectItemLiteControlPendingError,
+.selectItemLiteControlPendingErrorRTL,
+.selectItemLiteControlHint,
+.selectItemLiteControlHintRTL,
+.selectItemLiteControlDisabledHint,
+.selectItemLiteControlDisabledHintRTL{
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  background-color: #fff;
+}
+.textAreaItemLite,
+.textAreaItemLiteRTL,
+.textAreaItemLiteOver,
+.textAreaItemLiteOverRTL,
+.textAreaItemLiteFocused,
+.textAreaItemLiteFocusedRTL,
+.textAreaItemLiteFocusedOver,
+.textAreaItemLiteFocusedOverRTL,
+.textAreaItemLiteDisabled,
+.textAreaItemLiteDisabledRTL,
+.textAreaItemLiteError,
+.textAreaItemLiteErrorRTL,
+.textAreaItemLitePending,
+.textAreaItemLitePendingRTL,
+.textAreaItemLitePendingOver,
+.textAreaItemLitePendingOverRTL,
+.textAreaItemLitePendingFocused,
+.textAreaItemLitePendingFocusedRTL,
+.textAreaItemLitePendingFocusedOver,
+.textAreaItemLitePendingFocusedOverRTL,
+.textAreaItemLitePendingDisabled,
+.textAreaItemLitePendingDisabledRTL,
+.textAreaItemLitePendingError,
+.textAreaItemLitePendingErrorRTL,
+.textAreaItemLiteHint,
+.textAreaItemLiteHintRTL,
+.textAreaItemLiteDisabledHint,
+.textAreaItemLiteDisabledHintRTL {
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  background-color: #fff;
+}
+
+.invoice-form .formTitleRTL{
+  padding-left: 7px;
+}
+.invoice-form table tbody tr {
+  padding: 5px;
+}
+.invoice-form table tbody tr td {
+  padding-bottom: 3px;
+}

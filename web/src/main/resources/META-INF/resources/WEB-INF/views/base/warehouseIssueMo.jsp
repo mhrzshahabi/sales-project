@@ -243,10 +243,78 @@
     });
 
 
+    var recordNotFound = isc.Label.create({
+    height: 30,
+    padding: 10,
+    align: "center",
+    valign: "center",
+    wrap: false,
+    contents: "رکوردی یافت نشد"
+    });
+
+    recordNotFound.hide();
+
+    function setCriteria_ListGrid(recordId) {
+
+    var criteria1 = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{
+    fieldName: "shipmentId",
+    operator: "equals",
+    value: recordId
+    }]
+    };
+
+    ListGrid_WarehouseIssueMo.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+    if (data.length === 0) {
+    recordNotFound.show();
+    ListGrid_WarehouseIssueMo.hide()
+    } else {
+    recordNotFound.hide();
+    ListGrid_WarehouseIssueMo.setData(data);
+    ListGrid_WarehouseIssueMo.show();
+    }
+    }, {operationId: "00"});
+    }
+
+    function getExpandedComponent(record) {
+    setCriteria_ListGrid(record.id)
+    var hLayout = isc.HLayout.create({
+    align: "center", padding: 5,
+    membersMargin: 20,
+    members: [
+    ToolStripButton_WarehouseIssueMo_Add
+    ]
+    });
+
+    var layout = isc.VLayout.create({
+    padding: 5,
+    membersMargin: 10,
+    members: [ListGrid_WarehouseIssueMo, recordNotFound, hLayout]
+    });
+
+    return layout;
+    }
+
+
     var ListGrid_ShipmentByWarehouseIssueMo = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueMo,
+        styleName: 'expandList',
+        autoFetchData: true,
+        alternateRecordStyles: true,
+        canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
         fields: [{
             name: "id",
             title: "id",
@@ -428,7 +496,7 @@
                 showHover: true
             }
         ],
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+        /*recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             var criteria1 = {
@@ -444,14 +512,17 @@
                 ListGrid_WarehouseIssueMo.setData(data);
 
             });
-        },
+        },*/
         dataArrived: function (startRow, endRow) {
         },
         sortField: 0,
         dataPageSize: 50,
         autoFetchData: false,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+        getExpansionComponent: function (record) {
+        return getExpandedComponent(record)
+        }
     });
 
 
@@ -742,7 +813,7 @@
         }
     });
 
-    var ToolStripButton_WarehouseIssueMo_Add = isc.ToolStripButtonAdd.create({
+    var ToolStripButton_WarehouseIssueMo_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -831,6 +902,7 @@
                         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseIssueMo_refresh();
+                            setCriteria_ListGrid(data.shipmentId)
                             Window_WarehouseIssueMo.close();
                         } else
                             isc.say(RpcResponse_o.data);
@@ -882,7 +954,7 @@
 
     var ListGrid_WarehouseIssueMo = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 200,
         dataSource: RestDataSource_WarehouseIssueMo,
         contextMenu: Menu_ListGrid_WarehouseIssueMo,
         fields: [{
@@ -976,13 +1048,97 @@
                 keyPressFilter: "[0-9]",
                 length: "15"
             },
+            {
+            name: "editIcon",
+            width: 40,
+            align: "center",
+            showTitle: false
+            },
+            {
+            name: "removeIcon",
+            width: 40,
+            align: "center",
+            showTitle: false
+            }
         ],
         sortField: 0,
         autoFetchData: false,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        //showFilterEditor: true,
+        filterOnKeypress: true,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        createRecordComponent: function (record, colNum) {
+            var fieldName = this.getFieldName(colNum);
+            if (fieldName == "editIcon") {
+            var editImg = isc.ImgButton.create({
+            showDown: false,
+            showRollOver: false,
+            layoutAlign: "center",
+            src: "pieces/16/icon_edit.png",
+            prompt: "ویرایش",
+            height: 16,
+            width: 16,
+            grid: this,
+            click: function () {
+            ListGrid_WarehouseIssueMo.selectSingleRecord(record);
+            ListGrid_WarehouseIssueMo_edit();
+            }
+            });
+            return editImg;
+            } else if (fieldName == "removeIcon") {
+            var removeImg = isc.ImgButton.create({
+            showDown: false,
+            showRollOver: false,
+            layoutAlign: "center",
+            src: "pieces/16/icon_delete.png",
+            prompt: "حذف",
+            height: 16,
+            width: 16,
+            grid: this,
+            click: function () {
+            ListGrid_WarehouseIssueMo.selectSingleRecord(record);
+            ListGrid_WarehouseIssueMo_remove();
+            }
+            });
+            return removeImg;
+            } else {
+            return null;
+            }
+        },
+        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+        loadWindowFeatureList(record)
+        }
     });
 
+
+    function loadWindowFeatureList(record) {
+    var dccTableId = record.id;
+    var dccTableName = "TBL_WAREHOUSE_ISSUE_MO";
+
+    var window_view_url = isc.Window.create({
+    title: "<spring:message code='warehouseIssueMoAttach.title'/>",
+    width: "80%",
+    height: "40%",
+    autoCenter: true,
+    isModal: true,
+    showModalMask: true,
+    align: "center",
+    autoDraw: false,
+    dismissOnEscape: true,
+    closeClick: function () {
+    this.Super("closeClick", arguments)
+    },
+    items:
+    [
+    isc.ViewLoader.create({
+    autoDraw:true,
+    viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
+    loadingMessage:"<spring:message code='global.loadingMessage'/>"
+    })
+    ]
+    });
+    window_view_url.show();
+    }
     var HLayout_WarehouseIssueMo_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -1050,11 +1206,13 @@
         sections: [{
             title: "<spring:message code='Shipment.title'/>",
             items: VLayout_Body_ShipmentByWarehouseIssueMo,
+            showHeader: false,
             expanded: true
         }, {
             title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
             items: warehouseIssueMoMainTabSet,
-            expanded: true
+            expanded: true,
+            hidden: true
         }],
         visibilityMode: "multiple",
         animateSections: true,

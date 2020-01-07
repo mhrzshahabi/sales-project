@@ -23,7 +23,6 @@
     <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
 
-    <script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>
 
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
@@ -38,6 +37,8 @@
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
 
     <script SRC=isomorphic/skins/Nicico/load_skin.js></script>
+    <script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>
+
 
 </head>
 
