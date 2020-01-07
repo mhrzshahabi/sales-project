@@ -72,7 +72,7 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
             },
             {
                 name: "CU",
-                keyPressFilter: "[0-9]",
+                keyPressFilter: "[0-9.]",
                 showTitle: false,
                 startRow: false,
                 width: "100",
@@ -104,7 +104,7 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
             },
             {
                 name: "MO",
-                keyPressFilter: "[0-9]",
+                keyPressFilter: "[0-9.]",
                 showTitle: false,
                 startRow: false,
                 width: "100",
@@ -446,7 +446,7 @@ var dynamicForm_article9Conc = isc.DynamicForm.create({
                 title:"What is the value of TC",
                 startRow: true,
                 width: "100",
-                keyPressFilter: "[0-9]"
+                keyPressFilter: "[0-9.]"
             },
             {
                 name: "RC",
@@ -454,7 +454,7 @@ var dynamicForm_article9Conc = isc.DynamicForm.create({
                 title:"What is the value of RC",
                 startRow: true,
                 width: "100",
-                keyPressFilter: "[0-9]"
+                keyPressFilter: "[0-9.]"
             },
         ]
 })
@@ -567,7 +567,7 @@ var article12_qualityConc = isc.DynamicForm.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName: "contractId", operator: "equals", value: 2},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"
@@ -598,7 +598,7 @@ var article12_qualityConc = isc.DynamicForm.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1},
+                        {fieldName: "contractId", operator: "equals", value: 2},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"

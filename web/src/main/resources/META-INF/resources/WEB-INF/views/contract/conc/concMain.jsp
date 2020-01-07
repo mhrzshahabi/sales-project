@@ -285,6 +285,7 @@ var ListGrid_Conc = isc.ListGrid.create({
                     title: "<spring:message code='contract.contractDate'/>",
                     showTitle:"true",
                     align: "center",
+                    type: "datetime",
                     canEdit: false
                 },
                 {name: "contact.nameFA",showTitle:"true",title:"<spring:message code='contact.name'/>", align: "center"}

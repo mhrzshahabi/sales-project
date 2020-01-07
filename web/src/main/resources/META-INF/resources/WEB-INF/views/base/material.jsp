@@ -441,7 +441,7 @@
                     name: "descl",
                     title: "<spring:message code='material.descl'/>",
                     type: 'text',
-                    width: 400, required: true, keyPressFilter: "[a-z|A-Z|0-9 ]",
+                    width: 400, required: true,
                     textAlign: "left",
                     length:200,
 
@@ -452,8 +452,7 @@
                     type: 'text',
                     width: 400,
                     required: true,
-
-                keyPressFilter: "[a-z|A-Z|0-9 ]" ,  length:200
+                    length:200
                 },
                 {
                     name: "unitId",
