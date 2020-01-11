@@ -366,7 +366,6 @@
                                                 data: JSON.stringify(articleMo),
                                                 callback: function (resp) {
                                                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                                        //alert(resp.httpResponseText);
                                                         var textMo = resp.httpResponseText;
                                                         var text2Mo = textMo.replaceAll('","', '","').replaceAll('&?','":"')
                                                         var textMainMo= JSON.parse(text2Mo.replaceAt(0,'{"').replaceAt(text2Mo.length-1,'}'));
@@ -385,14 +384,13 @@
                                                                 valuesManagerfullArticleMo.setValue("fullArticle10",textMainMo.Article10);
                                                         },200)
                                                     }else{
-                                                        alert(RpcResponse_o.data);
                                                         isc.say(RpcResponse_o.data);
                                                 }
                                                 }
                                             }))
                                     RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
                                     dynamicFormMaterial.setValue("materialId",record.materialId)
-                                    contactHeader.setValue("createDateDumy", record.contractDate)
+                                    contactHeader.setValue("createDate", record.contractDate)
                                     contactHeader.setValue("contractNo", record.contractNo)
                                     contactHeader.setValue("contactId", record.contactId)
                                     contactHeader.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId)
@@ -857,7 +855,7 @@ Window_ContactMo = isc.Window.create({
             {name: "id", hidden: true},
             {name: "contractDate", hidden: true,},
             {
-                name: "createDateDumy",
+                name: "createDate",
                 title: "<spring:message code='contact.date'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: "date",
@@ -1928,7 +1926,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 }
             },
               {
-                name: "DateDumy",           // to do new
+                name: "Date",
                 title: "<spring:message code='contact.date'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: "date",
@@ -3547,17 +3545,13 @@ var IButton_Contact_Save = isc.IButtonSave.create({
             dynamicForm_article6_number32_33_34_35.validate();
 
             if (DynamicForm_ContactHeader.hasErrors()|| DynamicForm_ContactCustomer.hasErrors()||dynamicFormMaterial.hasErrors()||contactHeader.hasErrors()){
-            alert("valid1")
             return;
             }
             if (dynamicForm_article6_number32_33_34_35.hasErrors()){
             contactTabs.selectTab(1);
-            alert("valid2")
             return;
             }
-            var drs = contactHeader.getValues().createDateDumy;
-            var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_ContactHeader.setValue("contractDate", contactHeader.getValues().createDateDumy.toNormalDate("toUSShortDate"));
+            DynamicForm_ContactHeader.setValue("contractDate", contactHeader.getValues().createDate.toNormalDate("toUSShortDate"));
             var dataSaveAndUpdateContract={};
                     dataSaveAndUpdateContract.contractDate= contactHeader.getValue("contractDate");
                     dataSaveAndUpdateContract.contractNo=contactHeader.getValue("contractNo");

@@ -201,7 +201,7 @@
                     wrapTitle: true,colSpan:2,titleColSpan:2
                 },
                 {
-                    name: "invoiceDateDumy",
+                    name: "invoiceDate",
                     title: "<spring:message code='invoice.invoiceDate'/>",
                     defaultValue: "<%=dateUtil.todayDate()%>",
                     type: 'date',
@@ -1013,7 +1013,7 @@ align: "center"
  <% } %>
 
     if (!(record == null || record.id == null))
-       DynamicForm_Invoice_Concentrate.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+       DynamicForm_Invoice_Concentrate.setValue("invoiceDate", new Date(record.invoiceDate));
    DynamicForm_Invoice_Concentrate.setValue("refinaryCostCUCal",2204.62);
    var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
    DynamicForm_Invoice_Concentrate.setValue("shipmentId", record.id);
@@ -1079,7 +1079,7 @@ align: "center"
             DynamicForm_Invoice_Concentrate.validate();
             if (DynamicForm_Invoice_Concentrate.hasErrors())
                 return;
-            var drs = DynamicForm_Invoice_Concentrate.getValue("invoiceDateDumy");
+            var drs = DynamicForm_Invoice_Concentrate.getValue("invoiceDate");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Invoice_Concentrate.setValue("invoiceDate", datestringRs);
             DynamicForm_Invoice_Concentrate.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);

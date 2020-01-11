@@ -205,7 +205,7 @@
                     wrapTitle: false,colSpan:2,titleColSpan:2
                 },
                 {
-                    name: "invoiceDateDumy",
+                    name: "invoiceDate",
                     title: "<spring:message code='invoice.invoiceDate'/>",
                     defaultValue: "<%=dateUtil.todayDate()%>",
                     type: 'date',// useTextField:true,
@@ -470,7 +470,7 @@
  <% } %>
 
     if (!(record == null || record.id == null))
-       DynamicForm_Invoice_Molybdenum.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+       DynamicForm_Invoice_Molybdenum.setValue("invoiceDate", new Date(record.invoiceDate));
 
    var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
    DynamicForm_Invoice_Molybdenum.setValue("shipmentId", record.id);
@@ -571,7 +571,7 @@
             DynamicForm_Invoice_Molybdenum.validate();
             if (DynamicForm_Invoice_Molybdenum.hasErrors())
                 return;
-            var drs = DynamicForm_Invoice_Molybdenum.getValue("invoiceDateDumy");
+            var drs = DynamicForm_Invoice_Molybdenum.getValue("invoiceDate");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Invoice_Molybdenum.setValue("invoiceDate", datestringRs);
             DynamicForm_Invoice_Molybdenum.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);

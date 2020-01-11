@@ -1683,12 +1683,6 @@ var ListGrid_Contact = isc.ListGrid.create(
 	virtualScrolling: true,
 	loadOnExpand: true,
 	loaded: false,
-	//recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-	// updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-	// {
-	// 	var record = this.getSelectedRecord();
-	// 	commercialParty.setTitle(record.nameFA);
-	// },
 	dataArrived: function(startRow, endRow) {},
 	contextMenu: Menu_ListGrid_Contact,
 	fields: [

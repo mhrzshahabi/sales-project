@@ -356,10 +356,6 @@
         icon: "[SKIN]/actions/search.png",
         title: "<spring:message code='global.form.filter'/>",
         click: function () {
-//alert('Test');
-//ListGrid_CurrencyUnit.showFilterEditor(true);
-//ListGrid_CurrencyUnit.filterOnKeypress(true);
-//ListGrid_CurrencyUnit.redraw();
         }
     });
 

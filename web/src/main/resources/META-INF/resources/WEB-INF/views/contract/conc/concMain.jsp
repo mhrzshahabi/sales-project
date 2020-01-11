@@ -329,8 +329,6 @@ var ListGrid_Conc = isc.ListGrid.create({
                         var text2 = text.replaceAll('","', '","').replaceAll('&?','":"')
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
                         setTimeout(function(){
-                              //  recordContractNoConc=contactHeaderConc.getValue("contractNo");
-                              //  alert(recordContractNoConc);
                                 contactConcTabs.selectTab(0);
                                 valuesManagerfullArticle.setValue("fullArticle01",textMain.Article01);
                                 valuesManagerfullArticle.setValue("fullArticle02",textMain.Article02);
@@ -344,7 +342,7 @@ var ListGrid_Conc = isc.ListGrid.create({
                                 valuesManagerfullArticle.setValue("fullArticle10",textMain.Article10);
                                 valuesManagerfullArticle.setValue("fullArticle11",textMain.Article11);
                                 valuesManagerfullArticle.setValue("fullArticle12",textMain.Article12);
-                                contactHeaderConc.setValue("createDateDumy", record.contractDate)
+                                contactHeaderConc.setValue("createDate", record.contractDate)
                                 contactHeaderConc.setValue("contractNo", record.contractNo)
                                 contactHeaderConc.setValue("contactId", record.contactId)
                                 dynamicFormConc.setValue("materialId",record.materialId)
@@ -370,7 +368,6 @@ var ListGrid_Conc = isc.ListGrid.create({
                         },350)
                         }
                         else{
-                            alert(RpcResponse_o.data+"Error");
                             isc.say(RpcResponse_o.data);
                         }
                         }

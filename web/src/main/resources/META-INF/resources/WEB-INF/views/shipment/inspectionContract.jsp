@@ -1101,12 +1101,6 @@
         filterUsingText: "فیلتر کردن",
         groupByText: "گروه بندی",
         freezeFieldText: "ثابت نگه داشتن",
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-        },
-        dataArrived: function (startRow, endRow) {
-        },
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "removeIcon") {
@@ -1356,36 +1350,6 @@
                 showHover: true
             }
         ],
-// recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue) {
-// 	ListGrid_InspectionContract.fetchData({
-// 		"operator": "and",
-// 		"criteria": [{
-// 			"fieldName": "shipmentId",
-// 			"operator": "equals",
-// 			"value": record.id
-// 		}]
-// 	});
-// 	this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue);
-// },
-
-// updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-// 	var record = this.getSelectedRecord();
-// 	var criteria1 = {
-// 		_constructor: "AdvancedCriteria",
-// 		operator: "and",
-// 		criteria: [{
-// 			fieldName: "shipmentId",
-// 			operator: "equals",
-// 			value: record.id
-// 		}]
-// 	};
-// 	ListGrid_.fetchData(criteria1, function(dsResponse, data, dsRequest) {
-// 		ListGrid_InspectionContract.setData(data);
-// 	});
-// 	contractId = record.contractId;
-// },
-        dataArrived: function (startRow, endRow) {
-        },
         sortField: 0,
         dataPageSize: 50,
         showFilterEditor: true,

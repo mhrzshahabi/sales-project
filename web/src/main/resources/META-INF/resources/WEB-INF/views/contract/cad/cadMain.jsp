@@ -308,7 +308,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                                 article10_quality.setValue("fullArticle10",textMain.Article10);
                                 article11_quality.setValue("fullArticle11",textMain.Article11);
                                 article12_quality.setValue("fullArticle12",textMain.Article12);
-                                contactCadHeader.setValue("createDateDumy", record.contractDate)
+                                contactCadHeader.setValue("createDate", record.contractDate)
                                 contactCadHeader.setValue("contractNo", record.contractNo)
                                 contactCadHeader.setValue("contactId", record.contactId)
                                 dynamicFormCath.setValue("materialId",record.materialId)
@@ -329,7 +329,6 @@ var ListGrid_Cad = isc.ListGrid.create({
 
                         },300)
                     }else{
-                        alert(RpcResponse_o.data);
                         isc.say(RpcResponse_o.data);
                 }
                 }

@@ -385,7 +385,6 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueCons,
         styleName: 'expandList',
-        autoFetchData: true,
         alternateRecordStyles: true,
         canExpandRecords: true,
         canExpandMultipleRecords: false,
@@ -502,7 +501,6 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             width: "10%",
             showHover: true
         },
-            <%--// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},--%>
             {
                 name: "description",
                 title: "<spring:message code='shipment.description'/>",
@@ -576,28 +574,8 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
                 showHover: true
             }
         ],
-/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{
-                    fieldName: "shipmentId",
-                    operator: "equals",
-                    value: record.id
-                }]
-            };
-            ListGrid_WarehouseIssueCons.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_WarehouseIssueCons.setData(data);
-
-            });
-        },*/
-        dataArrived: function (startRow, endRow) {
-        },
         sortField: 0,
         dataPageSize: 50,
-        autoFetchData: false,
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {

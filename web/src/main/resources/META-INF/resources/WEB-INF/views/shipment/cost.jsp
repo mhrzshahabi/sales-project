@@ -303,20 +303,6 @@
             },
 
         ],
-// recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-// updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-//     var record = this.getSelectedRecord();
-//     var criteria1 = {
-//         _constructor: "AdvancedCriteria",
-//         operator: "and",
-//         criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-//     };
-//     ListGrid_Cost.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-//         ListGrid_Cost.setData(data);
-//     });
-// },
-        dataArrived: function (startRow, endRow) {
-        },
         sortField: 0,
         showFilterEditor: true,
         filterOnKeypress: true,
@@ -1317,14 +1303,7 @@
             ],
         sortField: 0,
         autoFetchData: false,
-        //showFilterEditor: true,
         filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-        },
-        dataArrived: function (startRow, endRow) {
-        },
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "editIcon") {

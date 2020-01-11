@@ -311,7 +311,7 @@
 
             {
                 name: "contractShipmentId", ID: "abal", colSpan: 4,
-                title: "<spring:message	code='contact.name'/>",
+                title: "<spring:message	code='shipmentContract.list'/>",
                 type: 'long',
                 width: 400,
                 editorType: "SelectItem",
@@ -340,7 +340,7 @@
                     var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
                     Shipment_contact_name.setContents(record.fullname);
                     var d = new Date(record.sendDate);
-                    DynamicForm_Shipment.setValue("createDateDumy", d);
+                    DynamicForm_Shipment.setValue("createDate", d);
                     DynamicForm_Shipment.setValue("amount", record.amount);
                     DynamicForm_Shipment1.setValue("dischargeAddress", record.address);
 
@@ -382,7 +382,7 @@
                 }
             },
             {
-                name: "createDateDumy", colSpan: 1,
+                name: "createDate", colSpan: 1,
                 title: "<spring:message		code='shipment.createDate'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: 'date',
@@ -433,7 +433,6 @@
                 colSpan: 2,
                 title: "<spring:message	code='shipment.noContainer'/>",
                 type: 'integer',
-                required: true,
                 width: "100%",
                 keyPressFilter: "[0-9.]",
                 validators: [{
@@ -516,7 +515,7 @@
             {type: "Header", defaultValue: ""},
             {name: "blDate", hidden: true},
             {
-                name: "blDateDumy", colSpan: 2,
+                name: "blDate", colSpan: 2,
                 title: "<spring:message		code='shipment.blDate'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: 'date',
@@ -556,12 +555,12 @@
                 changed: function (form, item, value) {
                     switch (value) {
                         case "Yes":
-                            form.getItem("swBlDateDumy").show();
+                            form.getItem("swBlDate").show();
                             form.getItem("switchPortId").show();
                             form.getItem("switchBl").show();
                             break;
                         case "No":
-                            form.getItem("swBlDateDumy").hide();
+                            form.getItem("swBlDate").hide();
                             form.getItem("switchPortId").hide();
                             form.getItem("switchBl").hide();
                             break;
@@ -570,7 +569,7 @@
             },
             {name: "swBlDate", hidden: true},
             {
-                name: "swBlDateDumy", colSpan: 2,
+                name: "swBlDate", colSpan: 2,
                 title: "<spring:message		code='shipment.swBlDate'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: 'date',
@@ -837,13 +836,13 @@
                 shipmentTabs.selectTab(2);
                 return;
             }
-            var drs = DynamicForm_Shipment.getValue("createDateDumy");
+            var drs = DynamicForm_Shipment.getValue("createDate");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Shipment.setValue("createDate", datestringRs);
-            drs = DynamicForm_Shipment1.getValue("swBlDateDumy");
+            drs = DynamicForm_Shipment1.getValue("swBlDate");
             datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Shipment1.setValue("swBlDate", datestringRs);
-            drs = DynamicForm_Shipment1.getValue("blDateDumy");
+            drs = DynamicForm_Shipment1.getValue("blDate");
             datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Shipment1.setValue("blDate", datestringRs);
 
@@ -1012,9 +1011,9 @@
             DynamicForm_Shipment1.editRecord(record);
             //console.log(record)
             DynamicForm_Shipment2.editRecord(record);
-            DynamicForm_Shipment.setValue("createDateDumy", new Date(record.createDate));
-            DynamicForm_Shipment1.setValue("swBlDateDumy", new Date(record.swBlDate));
-            DynamicForm_Shipment1.setValue("blDateDumy", new Date(record.blDate));
+            DynamicForm_Shipment.setValue("createDate", new Date(record.createDate));
+            DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
+            DynamicForm_Shipment1.setValue("blDate", new Date(record.blDate));
             if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA === 'undefiend'))
                 Shipment_contact_name.setContents(record.contract.contact.nameFA);
             abal.hide();
@@ -1105,8 +1104,6 @@
         contextMenu: Menu_ListGrid_Shipment,
         styleName:'expandList',
         autoFetchData: true,
-        // autoFitData: "vertical",
-        //height: 150,
         alternateRecordStyles: true,
         canExpandRecords: true,
         canExpandMultipleRecords: false,
@@ -1298,21 +1295,6 @@
                 showHover: true
             }
         ],
-/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-            };
-            ListGrid_ShipmentEmail.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ShipmentEmail.setData(data);
-            });
-            contractId = record.contractId;
-        },
-        dataArrived: function (startRow, endRow) {
-        },*/
         sortField: 0,
         dataPageSize: 50,
         filterOnKeypress: true,

@@ -4,8 +4,6 @@
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    <% DateUtil dateUtil = new DateUtil();%>
-
 
 function factoryLableHedear(id, contents, width, height, padding) {
         isc.Label.create({
@@ -79,8 +77,6 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
     icon: "pieces/16/save.png",
     iconOrientation: "right",
     click: function(){
-           // alert(contactHeaderConc.getValues().createDateDumy.toNormalDate("toUSShortDate"));
-           // alert(formatDate(contactHeaderConc.getValues().createDateDumy))
             contactHeaderConc.validate();
             dynamicFormConc.validate();
             valuesManagerArticle5_DeliveryTermsConc.validate();
@@ -91,9 +87,7 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
                 contactConcTabs.selectTab(1);
                 return;
             }
-            var drs = contactHeaderConc.getValues().createDateDumy;
-            var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            contactHeaderConc.setValue("contractDate", contactHeaderConc.getValues().createDateDumy.toNormalDate("toUSShortDate"));
+            contactHeaderConc.setValue("contractDate", contactHeaderConc.getValues().createDate.toNormalDate("toUSShortDate"));
             var dataSaveAndUpdateContractConc = {};
             dataSaveAndUpdateContractConc.contractDate = contactHeaderConc.getValue("contractDate");
             dataSaveAndUpdateContractConc.contractNo = contactHeaderConc.getValue("contractNo");
@@ -135,7 +129,7 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
             dataSaveAndUpdateContractConc.treatCost = valuesManagerArticle9_conc.getValue("TC");
             dataSaveAndUpdateContractConc.refinaryCost = valuesManagerArticle9_conc.getValue("RC");
 
-var dataSaveAndUpdateContractConcDetail = {};
+        var dataSaveAndUpdateContractConcDetail = {};
 
         dataSaveAndUpdateContractConcDetail.name_ContactAgentSeller = contactHeaderConcAgent.getValue("name_ContactAgentSeller")
         dataSaveAndUpdateContractConcDetail.phone_ContactAgentSeller = contactHeaderConcAgent.getValue("phone_ContactAgentSeller")
@@ -331,7 +325,7 @@ var dataSaveAndUpdateContractConcDetail = {};
             }
             })
         }
-})
+});
 
 var contactFormButtonSaveLayout = isc.HStack.create({
         width: "100%",
