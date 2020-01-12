@@ -6,7 +6,6 @@
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    <% DateUtil dateUtil = new DateUtil();%>
 
 var RestDataSource_Incoterms_InCat = isc.MyRestDataSource.create({
         fields:

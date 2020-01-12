@@ -4,8 +4,6 @@
 
  //<script>
 
-    <% DateUtil dateUtil = new DateUtil();%>
-
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.SimpleType.create(
@@ -405,20 +403,6 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
             },
 
         ],
-      /*  recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-            };
-            ListGrid_Invoice.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_Invoice.setData(data);
-            });
-        },
-        dataArrived: function (startRow, endRow) {
-        },*/
         sortField: 0,
         showFilterEditor: true,
         filterOnKeypress: true,
@@ -635,7 +619,7 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
                 DynamicForm_Invoice.getItem("molybdJenumUnitPrice").hide();
                 DynamicForm_Invoice.getItem("molybdenum").hide();
             }
-            DynamicForm_Invoice.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+            DynamicForm_Invoice.setValue("invoiceDate", new Date(record.invoiceDate));
             DynamicForm_Invoice.editRecord(record);
             Window_Invoice.show();
         }
@@ -814,7 +798,7 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
                     wrapTitle: false
                 },
                 {
-                    name: "invoiceDateDumy",
+                    name: "invoiceDate",
                     title: "<spring:message code='invoice.invoiceDate'/>",
                     defaultValue: "<%=DateUtil.todayDate()%>",
                     type: 'date',
@@ -1292,7 +1276,7 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
             DynamicForm_Invoice.validate();
             if (DynamicForm_Invoice.hasErrors())
                 return;
-            var drs = DynamicForm_Invoice.getValue("invoiceDateDumy");
+            var drs = DynamicForm_Invoice.getValue("invoiceDate");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Invoice.setValue("invoiceDate", datestringRs);
             DynamicForm_Invoice.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);

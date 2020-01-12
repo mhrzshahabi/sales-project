@@ -33,7 +33,7 @@ function ListGrid_CurrencyRate_edit()
 	else
 	{
 		DynamicForm_CurrencyRate.editRecord(record);
-		DynamicForm_CurrencyRate.setValue("curDateDummy", new Date(record.curDate));
+		DynamicForm_CurrencyRate.setValue("curDate", new Date(record.curDate));
 		Window_CurrencyRate.show();
 	}
 }
@@ -159,7 +159,7 @@ function ListGrid_CurrencyRate_edit()
                 {name: "id", hidden: true,},
                 {type: "RowSpacerItem"},
                 {
-                    name: "curDateDummy",
+                    name: "curDate",
                     title: "<spring:message code='currencyRate.curDate'/>",
                     type: "date",
                     width: "400",
@@ -332,10 +332,8 @@ function ListGrid_CurrencyRate_edit()
 		DynamicForm_CurrencyRate.validate();
 		if (DynamicForm_CurrencyRate.hasErrors())
 			return;
-		var d = DynamicForm_CurrencyRate.getValue("curDateDummy");
-		var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
-		DynamicForm_CurrencyRate.setValue("curDate", datestring)
 
+		DynamicForm_CurrencyRate.setValue("curDate", DynamicForm_CurrencyRate.getValue("curDate").toNormalDate("toUSShortDate"));
 		var data = DynamicForm_CurrencyRate.getValues();
 		var methodXXXX = "PUT";
 		if (data.id == null) methodXXXX = "POST";

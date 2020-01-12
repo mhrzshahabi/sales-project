@@ -4,7 +4,6 @@
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    <% DateUtil dateUtil = new DateUtil();%>
 
 var sendDateSetConc;
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>',"30", 5);

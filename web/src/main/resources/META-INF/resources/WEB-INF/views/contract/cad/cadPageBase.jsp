@@ -4,7 +4,6 @@
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    <% DateUtil dateUtil = new DateUtil();%>
 
     function factoryLableHedear(id, contents, width, height, padding) {
         isc.Label.create({
@@ -92,9 +91,7 @@ var contactCadTabs = isc.TabSet.create({
                 contactCadTabs.selectTab(1);
                 return;
             }
-            var drs = contactCadHeader.getValues().createDateDumy;
-            var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            contactCadHeader.setValue("contractDate",contactCadHeader.getValues().createDateDumy.toNormalDate("toUSShortDate"));
+            contactCadHeader.setValue("contractDate",contactCadHeader.getValues().createDate.toNormalDate("toUSShortDate"));
             var dataSaveAndUpdateContractCad = {};
             dataSaveAndUpdateContractCad.contractDate = contactCadHeader.getValue("contractDate");
             dataSaveAndUpdateContractCad.contractNo = contactCadHeader.getValue("contractNo");

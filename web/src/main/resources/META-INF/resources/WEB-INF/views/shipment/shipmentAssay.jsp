@@ -981,37 +981,6 @@
                 showHover: true
             }
         ],
-/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-            };
-            ListGrid_ShipmentAssayHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ShipmentAssayHeader.setData(data);
-                var recordH = ListGrid_ShipmentAssayHeader.getRecord(0);
-                if (ListGrid_ShipmentAssayHeader.getRecord(0) != null)
-                    criteria1 = {
-                        _constructor: "AdvancedCriteria",
-                        operator: "and",
-                        criteria: [{fieldName: "shipmentAssayHeader", operator: "equals", value: recordH.id}]
-                    };
-                else
-                    criteria1 = {
-                        _constructor: "AdvancedCriteria",
-                        operator: "and",
-                        criteria: [{fieldName: "shipmentAssayHeader", operator: "equals", value: -999999999}]
-                    };
-
-                ListGrid_ShipmentAssayItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                    ListGrid_ShipmentAssayItem.setData(data);
-                });
-            });
-        },
-        dataArrived: function (startRow, endRow) {
-        },*/
         getExpansionComponent: function (record) {
         return getExpandedComponent(record)
         },
@@ -1096,7 +1065,7 @@
                     hidden: true
                 },
                 {
-                    name: "inspectionDateDummy",
+                    name: "inspectionDate",
                     title: "<spring:message code='shipment.Assay.inspectionDate'/>",
                     type: 'date',
                     format: 'DD-MM-YYYY',
@@ -1166,9 +1135,7 @@
         icon: "pieces/16/save.png",
         click: function () {
 
-            var d = DynamicForm_ShipmentAssayHeader.getValue("inspectionDateDummy");
-            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2));
-            DynamicForm_ShipmentAssayHeader.setValue("inspectionDate", datestring);
+            DynamicForm_ShipmentAssayHeader.setValue("inspectionDate", DynamicForm_ShipmentAssayHeader.getValue("inspectionDate").toNormalDate("toUSShortDate"));
 
             DynamicForm_ShipmentAssayHeader.validate();
             if (DynamicForm_ShipmentAssayHeader.hasErrors()) {
@@ -1315,7 +1282,7 @@
             });
         } else {
             DynamicForm_ShipmentAssayHeader.editRecord(record);
-            DynamicForm_ShipmentAssayHeader.setValue("inspectionDateDummy", new Date(record.inspectionDate));
+            DynamicForm_ShipmentAssayHeader.setValue("inspectionDate", new Date(record.inspectionDate));
             Window_ShipmentAssayHeader.show();
         }
     }

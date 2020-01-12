@@ -38,7 +38,7 @@
             {name: "id", hidden: true},
             {name: "contractDate", hidden: true,},
             {
-                name: "createDateDumy",
+                name: "createDate",
                 title: "<spring:message code='contact.date'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: "date",

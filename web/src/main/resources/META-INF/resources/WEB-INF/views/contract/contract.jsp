@@ -151,9 +151,9 @@ var salesContractCADButtonMain = isc.IconButton.create({
             });
         } else {
             DynamicForm_Contract.editRecord(record);
-            DynamicForm_Contract.setValue("contractDateDumy", (typeof record.contractDate == 'undefined' ?   new Date()  : new Date(record.contractDate)));
-            DynamicForm_Contract.setValue("runEndDateDumy", (record.runEndtDate == null ? null : new Date(record.runEndtDate)));
-            DynamicForm_Contract.setValue("runStartDateDumy", (typeof record.runStartDate == 'undefined' ?   new Date()  : new Date(record.runStartDate)));
+            DynamicForm_Contract.setValue("contractDate", (typeof record.contractDate == 'undefined' ?   new Date()  : new Date(record.contractDate)));
+            DynamicForm_Contract.setValue("runEndDate", (record.runEndtDate == null ? null : new Date(record.runEndtDate)));
+            DynamicForm_Contract.setValue("runStartDate", (typeof record.runStartDate == 'undefined' ?   new Date()  : new Date(record.runStartDate)));
             if (record.material.descl === 'Copper Concentrate') {
                 DynamicForm_Contract.getItem("copper").show();
                 DynamicForm_Contract.getItem("copperTolorance").show();
@@ -305,7 +305,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     width: "100%"
                 },
                 {
-                    name: "contractDateDumy",
+                    name: "contractDate",
                     colSpan: 1,
                     titleColSpan: 1,
                     tabIndex: 2,
@@ -650,13 +650,13 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     defaultValue: "------------------  زمان----------------------------------------------------------------"
                 },
                 {
-                    name: "runStartDateDumy",
+                    name: "runStartDate",
                     title: "<spring:message code='contract.runStartDate'/>",
                     type: 'date',
                     width: "100%"
                 },
                 {
-                    name: "runEndDateDumy",
+                    name: "runEndDate",
                     title: "<spring:message code='contract.runEndDate'/>",
                     type: 'date',
                     width: "100%"
@@ -761,17 +761,11 @@ var salesContractCADButtonMain = isc.IconButton.create({
             if (DynamicForm_Contract.hasErrors())
                 return;
 
-            //var d1 = DynamicForm_Contract.getValue("contractDateDumy");
-            //var datestring1 = (d1.getFullYear() + "/" + ("0" + (d1.getMonth() + 1)).slice(-2) + "/" + ("0" + d1.getDate()).slice(-2));
             DynamicForm_Contract.setValue("contractDate",DynamicForm_Contract.getValue("contractDate").toNormalDate("toUSShortDate"));
-
-            var drs = DynamicForm_Contract.getValue("runStartDateDumy");
-            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Contract.setValue("runStartDate",DynamicForm_Contract.getValue("runStartDate").toNormalDate("toUSShortDate"));
 
-            var dre = DynamicForm_Contract.getValue("runEndDateDumy");
+            var dre = DynamicForm_Contract.getValue("runEndDate");
             if (!(dre == null || dre == 'undefiend')) {
-                var datestringRe = (dre.getFullYear() + "/" + ("0" + (dre.getMonth() + 1)).slice(-2) + "/" + ("0" + dre.getDate()).slice(-2));
                 DynamicForm_Contract.setValue("runEndtDate", DynamicForm_Contract.setValue("runEndtDate").toNormalDate("toUSShortDate"));
             }
 
@@ -905,8 +899,6 @@ var salesContractCADButtonMain = isc.IconButton.create({
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             companyName.setTitle(record.contractNo + ' ' + record.contact.nameFA);
-        },
-        dataArrived: function (startRow, endRow) {
         },
         getCellCSSText: function (record, rowNum, colNum) {
                             if (record.material.descl.contains("Cat")) {
@@ -1080,7 +1072,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             var contractRecord = ListGrid_Contract.getSelectedRecord();
             DynamicForm_ContractShipment.setValue("contractId", contractRecord.id);
             DynamicForm_ContractShipment.setValue("contractDate", contractRecord.contractDate);
-            DynamicForm_ContractShipment.setValue("sendDateDummy", new Date(shipmentRecord.sendDate));
+            DynamicForm_ContractShipment.setValue("sendDate", new Date(shipmentRecord.sendDate));
             Window_ContractShipment.animateShow();
         }
     }
@@ -1238,7 +1230,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     }]
                 },
                 {
-                    name: "sendDateDummy",
+                    name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
                     type: 'date',
                     required: true,
@@ -1344,16 +1336,14 @@ var salesContractCADButtonMain = isc.IconButton.create({
             if (DynamicForm_ContractShipment.hasErrors())
                 return;
 
-            var d = DynamicForm_ContractShipment.getValue("sendDateDummy");
-            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2));
-            DynamicForm_ContractShipment.setValue("sendDate", datestring);
+            DynamicForm_ContractShipment.setValue("sendDate", DynamicForm_ContractShipment.getValue("sendDate").toNormalDate("toUSShortDate"));
 
             var contractDate = DynamicForm_ContractShipment.getValue("contractDate").split("/");
-            if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
+            /*if (d < new Date(contractDate[0], contractDate[1] - 1, contractDate[2])) {
                 isc.warn("<spring:message code='shipment.date.validation'/>", {title:"<spring:message code='dialog_WarnTitle'/>"});
                 return;
             }
-
+            */
             var data = DynamicForm_ContractShipment.getValues();
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";

@@ -220,7 +220,7 @@ public class ContractService implements IContractService {
             prefixPrintContractWrite = "PrintCathod_";
         }
 
-        File directory=new File(UPLOAD_FILE_DIR + "\\contract");
+        File directory=new File(UPLOAD_FILE_DIR + File.separator + "contract");
         if(!directory.exists()){
             directory.mkdir();
         }

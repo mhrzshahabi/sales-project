@@ -209,7 +209,6 @@ var DynamicForm_ContactParameter_ValueNumber8;
 
 
 function itemsEditDefinitions(key,value) {
-        //alert(value);
        DynamicForm_ContactParameter_ValueNumber8.addFields([
                 {
                     name: key,

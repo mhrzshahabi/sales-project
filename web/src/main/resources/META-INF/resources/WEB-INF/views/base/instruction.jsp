@@ -37,8 +37,8 @@
     	else
     	{
     		DynamicForm_Instruction.editRecord(record);
-    		DynamicForm_Instruction.setValue("disableDateDummy", new Date(record.disableDate));
-    		DynamicForm_Instruction.setValue("runDateDummy", new Date(record.runDate));
+    		DynamicForm_Instruction.setValue("disableDate", new Date(record.disableDate));
+    		DynamicForm_Instruction.setValue("runDate", new Date(record.runDate));
     		Window_Instruction.show();
     	}
     }
@@ -195,14 +195,14 @@ var DynamicForm_Instruction = isc.DynamicForm.create(
 		length: "4000"
 	},
 	{
-		name: "disableDateDummy",
+		name: "disableDate",
 		title: "<spring:message code='instruction.disableDate'/>",
 		width: 400,
 		align: "center",
 		type: "date"
 	},
 	{
-		name: "runDateDummy",
+		name: "runDate",
 		title: "<spring:message code='instruction.runDate'/>",
 		width: 400,
 		align: "center",
@@ -330,21 +330,17 @@ var DynamicForm_Instruction = isc.DynamicForm.create(
     		DynamicForm_Instruction.validate();
     		if (DynamicForm_Instruction.hasErrors())
     			return;
-    		var d = DynamicForm_Instruction.getValue("disableDateDummy");
-    		var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2));
-    		DynamicForm_Instruction.setValue("disableDate", datestring);
-    		var dRun = DynamicForm_Instruction.getValue("runDateDummy");
-    		var datestringRun = (dRun.getFullYear() + "/" + ("0" + (dRun.getMonth() + 1)).slice(-2) + "/" + ("0" + dRun.getDate()).slice(-2));
-    		DynamicForm_Instruction.setValue("runDate", datestringRun);
+    		DynamicForm_Instruction.setValue("disableDate", DynamicForm_Instruction.getValue("disableDate").toNormalDate("toUSShortDate"));
+    		DynamicForm_Instruction.setValue("runDate", DynamicForm_Instruction.getValue("runDate").toNormalDate("toUSShortDate"));
 
-    		if (d < dRun)
+    		/*if (d < dRun)
     		{
     			isc.warn("<spring:message code='instruction.date.validation'/>",
     			{
     				title: "<spring:message code='dialog_WarnTitle'/>"
     			});
     			return;
-    		}
+    		}*/
 
     		var data = DynamicForm_Instruction.getValues();
     		var methodXXXX = "PUT";

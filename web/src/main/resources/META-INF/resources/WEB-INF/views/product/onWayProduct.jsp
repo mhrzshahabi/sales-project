@@ -1021,9 +1021,6 @@
             Tozin_labels_NavigationAz.setContents(this.getFocusRow() + 1);
         },
         dataArrived: function (startRow, endRow) {
-            // alert(startRow)
-            // alert(endRow)
-            // alert(ListGrid_Tozin.getData().getLength())
             Tozin_labels_NavigationTa.setContents(ListGrid_Tozin.getData().getLength());
             if (ListGrid_Tozin.getRecord(0) != null) {
                 Tozin_labels_NavigationAz.setContents(startRow + 1);
