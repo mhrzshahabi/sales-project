@@ -17,9 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContactDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
-    private String code;
+
     private String nameFA;
     private String nameEN;
     private String phone;

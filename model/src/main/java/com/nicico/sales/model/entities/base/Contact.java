@@ -23,8 +23,8 @@ public class Contact extends Auditable {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "c_CODE", nullable = false,length = 100)
-    private String code;
+//    @Column(name = "c_CODE", nullable = false,length = 100)
+//    private String code;
 
     //c_FULLNAME_FA
     @Column(name = "C_FULLNAME_FA", nullable = false, length = 1000)

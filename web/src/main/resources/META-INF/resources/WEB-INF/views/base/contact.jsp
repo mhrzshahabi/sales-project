@@ -296,6 +296,9 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 
 
     var ValuesManager_Contact = isc.ValuesManager.create({});
+
+    var m = "****************************";
+
     var DynamicForm_Contact_GeneralInfo = isc.DynamicForm.create(
  {
  	valuesManager: ValuesManager_Contact,
@@ -368,6 +371,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			hint: "Persian/فارسی"
  		},
  		{
+ 			required:true,
  			name: "nameEN",
  			title: "<spring:message code='contact.nameEn'/>",
  			type: 'text',
@@ -415,6 +419,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			keyPressFilter: "[0-9.]",
  			wrapTitle: false
  		},
+
  		{
  			name: "branchName",
  			title: "<spring:message code='contact.branchName'/>",
@@ -422,9 +427,17 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			width: 200,
  			colSpan: 3,
  			titleColSpan: 1,
- 			wrapTitle: false
+ 			wrapTitle: false ,
  		},
+		{
+				autoCenter: true,
+				align:"center" ,
+				type: "Header",
+				defaultValue: "--- <spring:message code='contact.role'/> --- ",
+
+		},
  		{
+
  			name: "seller",
  			title: "<spring:message code='contact.commercialRole.seller'/>",
  			type: 'checkbox',
@@ -502,7 +515,6 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			width: 200,
  			wrapTitle: false,
  			type: "boolean",
- 			defaultValue: false,
  			colSpan: 3,
  			titleColSpan: 1,
  			valueMap:
@@ -533,6 +545,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			width: 200,
  			wrapTitle: false,
  			type: "boolean",
+			defaultValue:"true",
  			colSpan: 3,
  			titleColSpan: 1,
  			valueMap:
@@ -546,6 +559,10 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  		}
  	]
  });
+
+
+
+
 
     var DynamicForm_Contact_Connection = isc.DynamicForm.create({
         valuesManager: ValuesManager_Contact,
@@ -591,6 +608,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
                 length:"20"
             },
             {
+            	required:true,
                 name: "countryId",
                 title: "<spring:message code='country.nameFa'/>",
                 type: 'long',
@@ -656,17 +674,48 @@ var Menu_ListGrid_Contact = isc.Menu.create(
         ]
     });
 
+
+
+<%--var  buyer--%>
+<%--if(d ==0 || d==null || d==false )--%>
+<%--{--%>
+<%--isc.say("<spring:message code='global.form.request.checkbox'/>");--%>
+<%--}--%>
+
     function saveContact()
     {
+		var Val_seller 			= DynamicForm_Contact_GeneralInfo.getValue("seller");
+		var Val_buyer           = DynamicForm_Contact_GeneralInfo.getValue("buyer");
+		var	Val_agentSeller		= DynamicForm_Contact_GeneralInfo.getValue("agentSeller");
+		var	Val_agentBuyer      = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer");
+		var	Val_transporter     = DynamicForm_Contact_GeneralInfo.getValue("transporter");
+		var Val_shipper         = DynamicForm_Contact_GeneralInfo.getValue("shipper");
+		var Val_inspector       = DynamicForm_Contact_GeneralInfo.getValue("inspector");
+		var Val_insurancer      = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
+
+
+		// if(){}
+
+
+
+
+
 	ValuesManager_Contact.validate();
+
+
+
+
+
 
 	if (DynamicForm_Contact_GeneralInfo.hasErrors())
 		contactTabs.selectTab(0);
+
 	else if (DynamicForm_Contact_Connection.hasErrors())
 		contactTabs.selectTab(1);
 	else
 	{
 		var contactData = Object.assign(ValuesManager_Contact.getValues());
+
 		var httpMethod = "PUT"; //update
 		if (contactData.id == null)
 			httpMethod = "POST"; //create
@@ -687,7 +736,8 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 					isc.say(RpcResponse_o.data);
 			}
 		}));
-	}
+}
+
 }
 
     function clearContactForms() {
@@ -700,7 +750,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            saveContact()
+		saveContact();
         }
     });
 
