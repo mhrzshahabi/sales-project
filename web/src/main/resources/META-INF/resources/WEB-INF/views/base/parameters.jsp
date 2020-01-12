@@ -158,6 +158,7 @@
         ]
     });
 
+
     var DynamicForm_Parameters = isc.DynamicForm.create({
         width: 650,
         height: "100%",
@@ -179,13 +180,6 @@
                 {
                     name: "paramName",
                     title: "<spring:message code='parameters.paramName'/>",
-                    width: 500,
-                    required: true,
-                    type: "text"
-                },
-                {
-                    name: "paramType",
-                    title: "<spring:message code='parameters.paramType'/>",
                     width: 500,
                     required: true,
                     type: "text"
@@ -406,15 +400,10 @@
                     width: "25%",
                     align: "center"
                 },
-                {
-                    name: "paramType",
-                    title: "<spring:message code='parameters.paramType'/>",
-                    width: "25%",
-                    align: "center"
-                },
+
                 {
                     name: "paramValue",
-                    title: "<spring:message code='parameters.paramValue'/>",
+                    title: "<spring:message code='parameters.paramValue.c'/>",
                     width: "50%",
                     align: "center"
                 }],

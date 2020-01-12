@@ -192,16 +192,16 @@
                 displayField: "nameFA"
                 ,
                 valueField: "id",
-                pickListWidth: 450,
+                pickListWidth: 500,
                 pickListHeight: 400,
                 pickListProperties: {showFilterEditor: true}
 
                 ,
-                pickListFields: [{name: "id", width: 50, align: "center" , hidden:true}, {
+                pickListFields: [{name: "id", width: "10%", align: "center" , hidden:true}, {
                     name: "nameFA",
-                    width: 150,
+                    width: "10%",
                     align: "center"
-                }, {name: "nameEN", width: 150, align: "center"}, {name: "code", width: 150, align: "center"}]
+                }, {name: "nameEN", width: "10%", align: "center"}, {name: "code", width: "10%", align: "center"}]
             },
             {
                 name: "fullName",
@@ -220,7 +220,7 @@
             },
             {
                 name: "title",
-                title: "<spring:message code='person.title'/>",
+                title: "<spring:message code='person.title.gender'/>",
                 type: 'text', wrapTitle: false,
                 width: 500,
                 valueMap: {
@@ -676,7 +676,7 @@
                 },
                 {
                     name: "contact.nameFA",
-                    title: "<spring:message code='contact.name'/>",
+                    title: "<spring:message code='commercialParty.title'/>",
                     type: 'text',
                     width: 120,
                     align: "center",

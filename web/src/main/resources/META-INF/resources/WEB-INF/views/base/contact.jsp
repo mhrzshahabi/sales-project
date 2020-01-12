@@ -676,36 +676,33 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 
 
 
-<%--var  buyer--%>
-<%--if(d ==0 || d==null || d==false )--%>
-<%--{--%>
-<%--isc.say("<spring:message code='global.form.request.checkbox'/>");--%>
-<%--}--%>
-
-    function saveContact()
-    {
-		var Val_seller 			= DynamicForm_Contact_GeneralInfo.getValue("seller");
-		var Val_buyer           = DynamicForm_Contact_GeneralInfo.getValue("buyer");
-		var	Val_agentSeller		= DynamicForm_Contact_GeneralInfo.getValue("agentSeller");
-		var	Val_agentBuyer      = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer");
-		var	Val_transporter     = DynamicForm_Contact_GeneralInfo.getValue("transporter");
-		var Val_shipper         = DynamicForm_Contact_GeneralInfo.getValue("shipper");
-		var Val_inspector       = DynamicForm_Contact_GeneralInfo.getValue("inspector");
-		var Val_insurancer      = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
 
 
-		// if(){}
+    function saveContact(){
 
+		let Val_seller 			= DynamicForm_Contact_GeneralInfo.getValue("seller").checked;
+		let Val_buyer           = DynamicForm_Contact_GeneralInfo.getValue("buyer").checked;
+		let	Val_agentSeller		= DynamicForm_Contact_GeneralInfo.getValue("agentSeller").checked;
+		let	Val_agentBuyer      = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer").checked;
+		let	Val_transporter     = DynamicForm_Contact_GeneralInfo.getValue("transporter").checked;
+		let Val_shipper         = DynamicForm_Contact_GeneralInfo.getValue("shipper").checked;
+		let Val_inspector       = DynamicForm_Contact_GeneralInfo.getValue("inspector").checked;
+		let Val_insurancer      = DynamicForm_Contact_GeneralInfo.getValue("insurancer").checked;
+		let Val_all = [Val_seller , Val_buyer   , Val_agentSeller , Val_agentBuyer , Val_transporter , Val_shipper , Val_inspector , Val_insurancer ].values();
 
-
-
-
+		for(var i = 0 ; i < Val_all.length; i++)
+		{
+			if(Val_all[i].checked)
+			{
+				var result = Val_all.push(Val_all[i])
+			}
+		}
+		if(result.length < 0 )
+		{
+		  //TODO Say Messages
+		}else
+			{
 	ValuesManager_Contact.validate();
-
-
-
-
-
 
 	if (DynamicForm_Contact_GeneralInfo.hasErrors())
 		contactTabs.selectTab(0);
@@ -736,8 +733,8 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 					isc.say(RpcResponse_o.data);
 			}
 		}));
-}
-
+		}
+	}
 }
 
     function clearContactForms() {
@@ -1976,3 +1973,9 @@ var ListGrid_Contact = isc.ListGrid.create(
   	}*!/
   	]
   });*/
+
+<%--var  buyer--%>
+<%--if(d ==0 || d==null || d==false )--%>
+<%--{--%>
+<%--isc.say("<spring:message code='global.form.request.checkbox'/>");--%>
+<%--}--%>
