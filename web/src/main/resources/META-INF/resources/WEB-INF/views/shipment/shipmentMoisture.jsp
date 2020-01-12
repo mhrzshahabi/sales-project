@@ -1045,8 +1045,6 @@
         getExpansionComponent: function (record) {
         return getExpandedComponent(record)
         },
-        dataArrived: function (startRow, endRow) {
-        },
         sortField: 0,
         dataPageSize: 50,
         showFilterEditor: true,
@@ -1135,7 +1133,7 @@
                     hidden: true
                 },
                 {
-                    name: "inspectionDateDummy",
+                    name: "inspectionDate",
                     title: "<spring:message code='shipment.Moisture.inspectionDate'/>",
                     type: 'date',
                     wrapTitle: false,
@@ -1210,9 +1208,7 @@
         icon: "pieces/16/save.png",
         click: function () {
 
-            var d = DynamicForm_ShipmentMoistureHeader.getValue("inspectionDateDummy");
-            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
-            DynamicForm_ShipmentMoistureHeader.setValue("inspectionDate", datestring)
+            DynamicForm_ShipmentMoistureHeader.setValue("inspectionDate", DynamicForm_ShipmentMoistureHeader.getValue("inspectionDate").toNormalDate("toUSShortDate"));
 
             DynamicForm_ShipmentMoistureHeader.validate();
             if (DynamicForm_ShipmentMoistureHeader.hasErrors()) {
@@ -1346,7 +1342,7 @@
             });
         } else if (record.shipmentId != null) {
             DynamicForm_ShipmentMoistureHeader.editRecord(record);
-            DynamicForm_ShipmentMoistureHeader.setValue("inspectionDateDummy", new Date(record.inspectionDate));
+            DynamicForm_ShipmentMoistureHeader.setValue("inspectionDate", new Date(record.inspectionDate));
             Window_ShipmentMoistureHeader.show();
         }
     }
@@ -1502,20 +1498,6 @@
             showTitle: false
             }
         ],
-/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentMoistureHeader", operator: "equals", value: record.id}]
-            };
-            ListGrid_ShipmentMoistureItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ShipmentMoistureItem.setData(data);
-            });
-        },*/
-        dataArrived: function (startRow, endRow) {
-        },
         sortField: 0,
         dataPageSize: 50,
         showFilterEditor: true,
@@ -1836,7 +1818,7 @@
             });
         } else {
             DynamicForm_ShipmentMoistureItem.editRecord(record);
-            DynamicForm_ShipmentMoistureItem.setValue("inspectionDateDummy", new Date(record.inspectionDate));
+            DynamicForm_ShipmentMoistureItem.setValue("inspectionDate", new Date(record.inspectionDate));
             Window_ShipmentMoistureItem.show();
         }
     }

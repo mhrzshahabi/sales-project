@@ -4,9 +4,6 @@
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    <% DateUtil dateUtil = new DateUtil();%>
-
-    var itemsDefinitionsCount = 0;
 
     factoryLableHedear("LablePageConc", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
     factoryLable("lableNameContactConc", '<b><font size=4px>COPPER CONCENTRATE CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
@@ -40,7 +37,7 @@
             {name: "id", hidden: true},
             {name: "contractDate", hidden: true,},
             {
-                name: "createDateDumy",
+                name: "createDate",
                 title: "<spring:message code='contact.date'/>",
                 type: "date",
                 required: true,

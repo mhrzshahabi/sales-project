@@ -496,25 +496,6 @@
                 showHover: true
             }
         ],
-        /*recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{
-                    fieldName: "shipmentId",
-                    operator: "equals",
-                    value: record.id
-                }]
-            };
-            ListGrid_WarehouseIssueMo.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_WarehouseIssueMo.setData(data);
-
-            });
-        },*/
-        dataArrived: function (startRow, endRow) {
-        },
         sortField: 0,
         dataPageSize: 50,
         autoFetchData: false,

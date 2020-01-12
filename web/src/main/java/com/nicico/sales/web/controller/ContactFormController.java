@@ -62,9 +62,4 @@ public class ContactFormController {
         return "contract/conc/concPage2";
     }
 
-    @RequestMapping("/contractOther")
-    public String contactOther() {
-        return "contract/other/contractOther";
-    }
-
 }
