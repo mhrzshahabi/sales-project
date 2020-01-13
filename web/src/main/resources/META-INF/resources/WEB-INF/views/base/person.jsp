@@ -182,7 +182,7 @@
             {type: "RowSpacerItem"},
             {
                 name: "contactId",
-                title: "<spring:message code='contact.name'/>",
+                title: "<spring:message code='commercialParty.title'/>",
                 width: 500, wrapTitle: false, required: true,
                 editorType: "SelectItem",
                 type: 'text',
@@ -201,7 +201,7 @@
                     name: "nameFA",
                     width: "10%",
                     align: "center"
-                }, {name: "nameEN", width: "10%", align: "center"}, {name: "code", width: "10%", align: "center"}]
+                }, {name: "nameEN", width: "10%", align: "center"},]
             },
             {
                 name: "fullName",
