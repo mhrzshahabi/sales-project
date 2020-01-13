@@ -512,10 +512,34 @@
         ]
     });
 
+    var ToolStripButton_ListGrid_ShipmentByWarehouseIssueCathode_Refresh = isc.ToolStripButtonRefresh.create({
+    icon: "[SKIN]/actions/refresh.png",
+    title: "<spring:message code='global.form.refresh'/>",
+    click: function () {
+    ListGrid_ShipmentByWarehouseIssueCathode.invalidateCache();
+    ListGrid_WarehouseIssueCathode.setData([]);
+    }
+    });
+    var ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueCathode = isc.ToolStrip.create({
+    width: "100%",
+    membersMargin: 5,
+    members: [
+    isc.ToolStrip.create({
+    width: "100%",
+    align: "left",
+    border: '0px',
+    members: [
+    ToolStripButton_ListGrid_ShipmentByWarehouseIssueCathode_Refresh
+    ]
+    })
+    ]
+    });
+
     var VLayout_Body_ShipmentByWarehouseIssueCathode = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
+            ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueCathode,
             HLayout_Grid_ShipmentByWarehouseIssueCathode
         ]
     });
@@ -1412,3 +1436,5 @@
 
         });
     }
+
+
