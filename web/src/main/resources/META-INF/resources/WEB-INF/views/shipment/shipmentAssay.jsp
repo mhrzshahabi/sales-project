@@ -997,11 +997,33 @@
             ListGrid_ShipmentByAssayHeader
         ]
     });
-
+        var ToolStripButton_ListGrid_ShipmentByAssayHeader_Refresh = isc.ToolStripButtonRefresh.create({
+        icon: "[SKIN]/actions/refresh.png",
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+        ListGrid_ShipmentByAssayHeader.invalidateCache();
+        ListGrid_ShipmentAssayHeader.setData([]);
+        }
+        });
+        var ToolStrip_Actions_ListGrid_ShipmentByAssayHeader = isc.ToolStrip.create({
+        width: "100%",
+        membersMargin: 5,
+        members: [
+        isc.ToolStrip.create({
+        width: "100%",
+        align: "left",
+        border: '0px',
+        members: [
+        ToolStripButton_ListGrid_ShipmentByAssayHeader_Refresh
+        ]
+        })
+        ]
+        });
     var VLayout_Body_ShipmentByAssayHeader = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
+ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             HLayout_Grid_ShipmentByAssayHeader
         ]
     });

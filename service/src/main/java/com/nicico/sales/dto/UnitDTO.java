@@ -17,7 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UnitDTO {
 
-    private String code;
     private String nameFA;
     private String nameEN;
     private String symbol;

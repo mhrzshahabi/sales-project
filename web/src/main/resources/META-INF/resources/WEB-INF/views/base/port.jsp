@@ -240,13 +240,7 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    keyPressFilter: "[0-9.]", length: "100",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    length: "100"
                 },
                 {
                     name: "arrival",

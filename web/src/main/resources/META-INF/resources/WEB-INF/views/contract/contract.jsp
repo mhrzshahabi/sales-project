@@ -212,21 +212,22 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index === 0) {
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${contextPath}/api/contract/" + record.id,
-                                httpMethod: "DELETE",
-                                callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                                        ListGrid_Contract_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+                                                            actionURL: "${contextPath}/api/contract/" + record.id,
+                                                            httpMethod: "DELETE",
+                                                            callback: function (resp) {
+                                                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                                                    ListGrid_Contract_refresh();
+                                                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                                                } else {
+                                                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                                                }
+                                                            }
+                                                        }))
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
-                                }
-                            })
-                        );
                     }
-                }
             });
         }
     }
@@ -899,8 +900,8 @@ var salesContractCADButtonMain = isc.IconButton.create({
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             var record = this.getSelectedRecord();
             companyName.setTitle(record.contractNo + ' ' + record.contact.nameFA);
-        },
-        getCellCSSText: function (record, rowNum, colNum) {
+        }
+        /*getCellCSSText: function (record, rowNum, colNum) {
                             if (record.material.descl.contains("Cat")) {
                                   return "font-weight:bold;background-color:#5ec4aa;";
                                 }
@@ -913,7 +914,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                             if (record.material.descl.contains("Conc")) {
                                   return "font-weight:bold;background-color:#6aa6de;";
                                 }
-                }
+                }*/
         , rollOverCanvasProperties:{
                 vertical:false, capSize:7,
                 src:"other/cellOverRecticle.png"
@@ -968,9 +969,10 @@ var salesContractCADButtonMain = isc.IconButton.create({
     var VLayout_Contract_Body = isc.VLayout.create({
         width: "100%",
         height: "100%",
+
         members: [
             HLayout_Contract_Actions,
-            isc.HLayout.create({height: "30", align: "left", members: [labelMO,labelCa,labelCopperMatte,labelConcentrate]})
+            isc.HLayout.create({showIf:"false",height: "30", align: "left", members: [labelMO,labelCa,labelCopperMatte,labelConcentrate]})
             ,HLayout_Contract_Grid
         ]
     });
@@ -1078,7 +1080,6 @@ var salesContractCADButtonMain = isc.IconButton.create({
     }
 
     function ListGrid_ContractShipment_remove() {
-
         var record = ListGrid_ContractShipment.getSelectedRecord();
         if (record == null || record.id == null) {
             isc.Dialog.create({

@@ -6,6 +6,7 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
 var sendDateSetConc;
+var sendDateSetConcSave;
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>',"30", 5);
     factoryLableArticle("lableArticle3_1", '<b><font size=3px>Copper concentrates as per the following typical analysis:</font><b>',"30", 5)
     factoryLableArticle("lableArticle4", '<b><font size=4px>Article 4 -SHIPMENT</font><b>',"30", 5);
@@ -127,26 +128,16 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
             }
         ]
     })
-var dynamicForm_fullArticleConc03 = isc.DynamicForm.create({
+var dynamicForm_fullArticleConc03 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
-            height: "20",
-            width: "100%",
-            wrapItemTitles: false,
-            items: [
-                {
-                    name: "fullArticle03",
-                    disabled: false,
-                    type: "text",
-                    length: 5000,
-                    startRow: true,
-                    showTitle: false,
-                    colSpan: 10,
-                    defaultValue: "COPPER CONCENTRATES AS PER THE FOLLOWING TYPICAL ANALYSIS (HEREINAFTER CALLED “THE MATERIAL”) WITHOUT ANY FOREIGN MATERIAL AND AGGLOMERATION:",
-                    title: "fullArticle03",
-                    width: "*"
-                }
-            ]
-        })
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
 var buttonAddConcItem=isc.IButton.create({
     title: "Add Item Shipment",
     width: 150,
@@ -218,6 +209,7 @@ isc.ListGrid.create({
                     width: "200",
                     wrapTitle: false,changed: function (form, item, value) {
                         sendDateSetConc = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
+                        sendDateSetConcSave = value;
                     }
                 },
                 {
@@ -271,26 +263,16 @@ isc.ListGrid.create({
             );
         }
     });
-var dynamicForm_fullArticleConc04 = isc.DynamicForm.create({
+var dynamicForm_fullArticleConc04 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
-            height: "20",
-            width: "100%",
-            wrapItemTitles: false,
-            items: [
-                {
-                    name: "fullArticle04",
-                    disabled: false,
-                    type: "text",
-                    length: 5000,
-                    startRow: true,
-                    showTitle: false,
-                    colSpan: 10,
-                    defaultValue: "IN PARTIAL SHIPMENTS, WHERE SHIPPING SCHEDULE TO BE MUTUALLY AGREED BETWEEN BUYER AND SELLER BY LATEST 15TH, FEBRUARY. 2016.",
-                    title: "fullArticle04",
-                    width: "*"
-                }
-            ]
-        })
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
 
 var article5_ConcDeliveryTerms = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle5_DeliveryTermsConc",
@@ -349,90 +331,46 @@ var article5_ConcDeliveryTerms = isc.DynamicForm.create({
             }
         ]
     })
-var dynamicForm_fullArticleConc05 = isc.DynamicForm.create({
+var dynamicForm_fullArticleConc05 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
-            height: "20",
-            width: "100%",
-            wrapItemTitles: false,
-            items: [
-                {
-                    name: "fullArticle05",
-                    disabled: false,
-                    type: "text",
-                    length: 5000,
-                    startRow: true,
-                    showTitle: false,
-                    colSpan: 10,
-                    defaultValue: "5.1. FOB BANDAR ABBAS STOWED AND TRIMMED, IRAN WITH BUYER’S OPTION FOR CIF DISCHARGE PORT, AS NOMINATED BY BUYER OR DAP DISCHARGE PORT, AS NOMINATED BY BUYER, TO BE MUTUALLY AGREED.\n"+
-                    "\n"+
-                    "IN CASE OF DELIVERY BASIS DAP / CIF DISCHARGE PORT, AS NOMINATED BY BUYER, THE APPLICABLE TERMS SHALL BE MUTUALLY AGREED BETWEEN THE PARTIES.\n",
-                    title: "fullArticle05",
-                    width: "*"
-                }
-            ]
-        })
-var dynamicForm_fullArticleConc06 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerfullArticle",
-        height: "20",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle06",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "•\tTHE INSURANCE SHALL PROVIDE FULL RISKS COVER IN ACCORDANCE WITH INSTITUTE CARGO CLAUSES A, INSTITUTE CARGO CLAUSES WAR AND INSTITUTE CARGO CLAUSES STRIKES  FROM THE TIME THE MATERIAL HAS BEEN LOADED ON BOARD OF THE CARRYING VESSEL AT LOAD PORT UNTIL ARRIVAL AT FINAL DESTINATION, WITH AN INSURANCE COMPANY OF GOOD REPUTE AND WHICH ENTITLES THE BUYER TO CLAIM DIRECTLY FROM THE INSURERS. \n"+
-"•\tTHE COST OF INSURANCE SHALL BE PAID BY BUYER REGARDLESS OF ANY DELIVERY TERMS MENTIONED IN THIS CONTRACT.\n",
-                title: "fullArticle06",
-                width: "*"
-            }
-        ]
-    })
-var dynamicForm_fullArticleConc07 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerfullArticle",
-        height: "20",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle07",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "TITLE :\n"+
-"THE TITLE TO AND OWNERSHIP OF THE MATERIAL SHALL PASS FROM SELLER TO BUYER FOR EACH SHIPMENT OF MATERIAL ONCE PROVISIONAL PAYMENT HAS BEEN MADE BY BUYER TO SELLER.\n"+
-"\n"+
-"RISK :\n"+
-"RISK OF LOSS SHALL PASS TO BUYER IN ACCORDANCE WITH INCOTERMS 2010 .\n",
-                title: "fullArticle07",
-                width: "*"
-            }
-        ]
-    })
-var dynamicForm_fullArticleConc08 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerfullArticle",
-        height: "20",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle08",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "FULL FINAL COPPER CONTENT SUBJECT TO A DEDUCTION OF ONE UNIT SHALL BE PAID FOR AT THE GRADE ‘A’ OFFICIAL LME COPPER SETTLEMENT QUOTATIONS AS PUBLISHED IN THE LONDON METAL BULLETIN AVERAGED OVER THE QUOTATIONAL PERIOD.",
-                title: "fullArticle08",
-                width: "*"
-            }
-        ]
-    })
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
+var dynamicForm_fullArticleConc06 = isc.RichTextEditor.create({
+            valuesManager: "valuesManagerfullArticle",
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
+var dynamicForm_fullArticleConc07 = isc.RichTextEditor.create({
+            valuesManager: "valuesManagerfullArticle",
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
+var dynamicForm_fullArticleConc08 = isc.RichTextEditor.create({
+            valuesManager: "valuesManagerfullArticle",
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
 
 var dynamicForm_article9Conc = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle9_conc",
@@ -457,29 +395,16 @@ var dynamicForm_article9Conc = isc.DynamicForm.create({
             },
         ]
 })
-var dynamicForm_fullArticleConc09 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerfullArticle",
-        height: "20",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle09",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "TREATMENT CHARGE:\n"+
-"US. DOLLARS 97.00 (NINETY SEVEN POINT ZERO ZERO) PER DMT FOB. ST BANDAR ABBAS, IRAN \n"+
-"\n"+
-"REFINING CHARGE:\n"+
-"US.CENTS 9.70 (NINE POINT SEVEN ZERO) PER POUND OF PAYABLE COPPER FOB BANDAR ABBAS, IRAN\n",
-                title: "fullArticle09",
-                width: "*"
-            }
-        ]
-    })
+var dynamicForm_fullArticleConc09 = isc.RichTextEditor.create({
+            valuesManager: "valuesManagerfullArticle",
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
 
 var article10_qualityConc = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle10_quality",
@@ -496,41 +421,30 @@ var article10_qualityConc = isc.DynamicForm.create({
                 wrap: false,
                 title: "<strong class='cssDynamicForm'>AVERAGE OF WORKING DAYS OF QUOTATIONAL PERIOD<strong>",changed: function (form, item, value) {
                 }
-            },{
-                name: "fullArticle10",
-                disabled: false,
-                type: "text",
-                length: 5000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "QUOTATIONAL FOR ALL PAYABLE METALS SHALL BE AS FOLLOWS :\n"+
-"- QUOTATIONAL PERIOD FOR COPPER FOR THE YEAR OF 2016, SHALL BE FOURTH MONTH FOLLOWING THE MONTH OF ACTUAL SHIPMENT FROM THE PORT OF LOADING AS EVIDENCED BY BL DATE (MOAS+4).\n"+
-"- QUOTATIONAL PERIOD FOR GOLD AND SILVER FOR THE YEAR OF 2016 SHALL BE SECOND MONTH FOLLOWING THE MONTH OF ACTUAL SHIPMENT FROM THE PORT OF LOADING AS EVIDENCED BY BL DATE (MOAS+2).\n",
-                title: "fullArticle10",
-                width: "*"
             }
         ]
     })
 
-var dynamicForm_fullArticleConc11 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerfullArticle",
-        height: "20",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle11",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "NOTWITHSTANDING ANYTHING ELSE HEREIN, ALL PAYMENTS PURSUANT TO THIS CONTRACT, INCLUDING THIS ARTICLE 11, ARE SUBJECT TO CLAUSE 25 (GENERAL COMPLIANCE).",
-                title: "fullArticle11",
-                width: "*"
-            }
-        ]
-    })
+var dynamicForm_fullArticleConc10 = isc.RichTextEditor.create({
+            valuesManager: "valuesManagerfullArticle",
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
+var dynamicForm_fullArticleConc11 = isc.RichTextEditor.create({
+            valuesManager: "valuesManagerfullArticle",
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
 
 var article12_qualityConc = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle12_quality",
@@ -616,23 +530,20 @@ var article12_qualityConc = isc.DynamicForm.create({
                 defaultValue: "",
                 startRow: false,
                 title: "<strong class='cssDynamicForm'>RATE</strong>"
-            },{
-                name: "fullArticle12",
-                disabled: false,
-                type: "text",
-                length: 5000,
-                startRow: true,
-                showTitle: false,
-                colSpan: 10,
-                defaultValue: "NOTE: ALL THE RELATED INVOICES SHALL BE ISSUED BASED ON USD AND PAID IN NON USD CURRENCY (WHICH SHALL BE STATED IN THE INVOICE ACCORDINGLY) AS FOLLOWS: \n"+
-"-\tIN CASE OF EURO, THE VALUE OF EACH PAYMENT SHALL BE CONVERTED FROM USD INTO EURO THEREFORE THE APPLICABLE CONVERSION RATE WILL BE BASED ON ECB RATE AND UNKNOWN DATE OF WHICH WILL BE AGREED BY BUYER & SELLER’S FINANCIAL DEPARTMENT.\n"+
-"-\tIF THE VALUE OF EACH PAYMENT SHALL BE CONVERTED FROM USD INTO AED THEREFORE THE APPLICABLE CONVERSION RATE AT THE PREVAILING AVAILABLE RATE SHALL BE 3.67.\n"+
-"-\tPAYMENTS UNDER THIS CONTRACT WILL BE REMITTED TO OR FROM A BANK AND BANK ACCOUNT ACCEPTABLE TO BUYER AND TO BUYER’S BANK.\n",
-                title: "fullArticle10",
-                width: "*"
             }
         ]
     });
+
+var dynamicForm_fullArticleConc12 = isc.RichTextEditor.create({
+            valuesManager: "valuesManagerfullArticle",
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
 var VLayout_PageTwo_Contract=isc.VLayout.create({
         width: "100%",
         height: "100%",
@@ -661,10 +572,12 @@ var VLayout_PageTwo_Contract=isc.VLayout.create({
             dynamicForm_fullArticleConc09,
             lableArticle10,
             article10_qualityConc,
+            dynamicForm_fullArticleConc10,
             lableArticle11,
             dynamicForm_fullArticleConc11,
             lableArticle12,
-            article12_qualityConc
+            article12_qualityConc,
+            dynamicForm_fullArticleConc12
         ]
     });
 

@@ -5,4 +5,12 @@
     <changeSet author="RMazloom" id="1578893517121-182">
         <dropNotNullConstraint columnDataType="varchar(100 CHAR)" columnName="C_NATIONAL_CODE" tableName="TBL_CONTACT"/>
     </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-183">
+        <addColumn tableName="TBL_MATERIAL">
+            <column name="c_CODE" type="varchar2(20 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-184">
+        <addNotNullConstraint columnDataType="varchar(20 CHAR)" columnName="c_CODE" tableName="TBL_MATERIAL"/>
+    </changeSet>
 </databaseChangeLog>

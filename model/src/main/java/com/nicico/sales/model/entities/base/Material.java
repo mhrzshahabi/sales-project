@@ -32,6 +32,9 @@ public class Material extends Auditable {
 	@Column(name = "c_DESCP", nullable = false, length = 1000)
 	private String descp;
 
+	@Column(name = "c_CODE", nullable = false, length = 20)
+	private String code;
+
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "UNIT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "material2unit"))

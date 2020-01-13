@@ -1059,10 +1059,34 @@
         ]
     });
 
+        var ToolStripButton_ListGrid_ShipmentByMoistureHeader_Refresh = isc.ToolStripButtonRefresh.create({
+        icon: "[SKIN]/actions/refresh.png",
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+        ListGrid_ShipmentByMoistureHeader.invalidateCache();
+        ListGrid_ShipmentMoistureHeader.setData([]);
+        }
+        });
+        var ToolStrip_Actions_ListGrid_ShipmentByMoistureHeader = isc.ToolStrip.create({
+        width: "100%",
+        membersMargin: 5,
+        members: [
+        isc.ToolStrip.create({
+        width: "100%",
+        align: "left",
+        border: '0px',
+        members: [
+        ToolStripButton_ListGrid_ShipmentByMoistureHeader_Refresh
+             ]
+         })
+        ]
+        });
+
     var VLayout_Body_ShipmentByMoistureHeader = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
+            ToolStrip_Actions_ListGrid_ShipmentByMoistureHeader,
             HLayout_Grid_ShipmentByMoistureHeader
         ]
     });

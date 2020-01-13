@@ -476,7 +476,7 @@ isc.DynamicForm.create({
                 title: "NAME",
                 changed: function (form, item, value) {
                     DynamicForm_ContactParameter_ValueNumber8Conc.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue);
-                    dynamicForm_fullArticle01.setValue("fullArticle01",dynamicForm_fullArticle01.getValue("fullArticle01")+"\n"+"-"+DynamicForm_ContactParameter_ValueNumber8Conc.getValue("definitionsOne"))
+                    dynamicForm_fullArticle01.setValue(dynamicForm_fullArticle01.getValue()+"\n"+"-"+DynamicForm_ContactParameter_ValueNumber8Conc.getValue("definitionsOne"))
                     DynamicForm_ContactParameter_ValueNumber8Conc.clearValue("definitionsOne");
                     }
             }
@@ -490,30 +490,24 @@ var VLayout_ContactParameter_ValueNumber8Conc = isc.VLayout.create({
         members: [DynamicForm_ContactParameter_ValueNumber8Conc]
     })
 
-var dynamicForm_fullArticle01 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerfullArticle",
-        height: "50",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle01",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "",
-                title: "fullArticle01",
-                width: "*",changed: function (form, item, value) {
+
+
+
+var dynamicForm_fullArticle01 =  isc.RichTextEditor.create({
+            valuesManager: "valuesManagerfullArticle",
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:"",changed: function (form, item, value) {
                     if(value==undefined)
-                      dynamicForm_fullArticle01.setValue("fullArticle01","")
+                      dynamicForm_fullArticle01.setValue("")
                     else
-                      dynamicForm_fullArticle01.setValue("fullArticle01",value)
+                      dynamicForm_fullArticle01.setValue(dynamicForm_fullArticle01.getValue())
                     }
-            }
-        ]
-    })
+            })
+
 
 var vlayoutBodyConc = isc.VLayout.create({
         width: "100%",
@@ -609,8 +603,8 @@ var vlayoutBodyConc = isc.VLayout.create({
                     "2": "BUYER"
                 },
                 changed: function (form, item, value) {
-                    dynamicForm_fullArticle02.setValue("fullArticle02",dynamicForm_fullArticle02.getValue("fullArticle02")+" "+"(IN"+" "+article2Conc.getItem("optional").getDisplayValue(value)+" "+"OPTION) DURING");
-                    dynamicForm_fullArticle02.setValue("fullArticle02",article2Conc.getValue("amount")+" "+article2Conc.getValue("amount_en")+" "+article2Conc.getItem("unitId").getDisplayValue(article2Conc.getValue("unitId"))+" "+"+/-"+article2Conc.getValue("cathodesTolorance")+"(IN"+article2Conc.getItem("optional").getDisplayValue(article2Conc.getValue("optional"))+" "+article2Conc.getValue("plant"));
+                    dynamicForm_fullArticle02.setValue(dynamicForm_fullArticle02.getValue()+" "+"(IN"+" "+article2Conc.getItem("optional").getDisplayValue(value)+" "+"OPTION) DURING");
+                    dynamicForm_fullArticle02.setValue(article2Conc.getValue("amount")+" "+article2Conc.getValue("amount_en")+" "+article2Conc.getItem("unitId").getDisplayValue(article2Conc.getValue("unitId"))+" "+"+/-"+article2Conc.getValue("cathodesTolorance")+"(IN"+article2Conc.getItem("optional").getDisplayValue(article2Conc.getValue("optional"))+" "+article2Conc.getValue("plant"));
                 }
             },
             {
@@ -623,25 +617,17 @@ var vlayoutBodyConc = isc.VLayout.create({
             }
         ]
     });
-var dynamicForm_fullArticle02 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerfullArticle",
-        height: "50",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle02",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "1,000 MT +/- 2% (SELLER’S OPTION).",
-                title: "fullArticle02",
-                width: "*"
-            }
-        ]
-    })
+var dynamicForm_fullArticle02 = isc.RichTextEditor.create({
+            valuesManager: "valuesManagerfullArticle",
+            autoDraw:true,
+            height:155,
+            overflow:"scroll",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
+
+
 isc.VLayout.create({
         ID: "VLayout_PageOne_ContractConc",
         width: "100%",
