@@ -680,7 +680,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 
     function saveContact(){
 
-		let Val_seller 			= DynamicForm_Contact_GeneralInfo.getValue("seller").checked;
+		/*let Val_seller 			= DynamicForm_Contact_GeneralInfo.getValue("seller").checked;
 		let Val_buyer           = DynamicForm_Contact_GeneralInfo.getValue("buyer").checked;
 		let	Val_agentSeller		= DynamicForm_Contact_GeneralInfo.getValue("agentSeller").checked;
 		let	Val_agentBuyer      = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer").checked;
@@ -689,7 +689,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 		let Val_inspector       = DynamicForm_Contact_GeneralInfo.getValue("inspector").checked;
 		let Val_insurancer      = DynamicForm_Contact_GeneralInfo.getValue("insurancer").checked;
 		let Val_all = [Val_seller , Val_buyer   , Val_agentSeller , Val_agentBuyer , Val_transporter , Val_shipper , Val_inspector , Val_insurancer ].values();
-
+		console.log(Val_all);
 		for(var i = 0 ; i < Val_all.length; i++)
 		{
 			if(Val_all[i].checked)
@@ -699,9 +699,9 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 		}
 		if(result.length < 0 )
 		{
-		  //TODO Say Messages
+		  isc.warn("<spring:message code='contact.record.commercialRole'/>")
 		}else
-			{
+			{*/
 	ValuesManager_Contact.validate();
 
 	if (DynamicForm_Contact_GeneralInfo.hasErrors())
@@ -734,7 +734,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 			}
 		}));
 		}
-	}
+	// }
 }
 
     function clearContactForms() {

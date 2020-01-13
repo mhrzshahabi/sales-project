@@ -50,7 +50,7 @@ public class Contact extends Auditable {
     @Column(name = "C_TYPE")
     private Boolean type;
 
-    @Column(name = "C_NATIONAL_CODE", nullable = false,length = 100)
+    @Column(name = "C_NATIONAL_CODE", length = 100)
     private String nationalCode;
 
     @Column(name = "C_ECONOMICAL_CODE",length = 100)
