@@ -201,7 +201,7 @@
                     name: "nameFA",
                     width: "10%",
                     align: "center"
-                }, {name: "nameEN", width: "10%", align: "center"},]
+                }, {name: "nameEN", width: "10%", align: "center"}, ]
             },
             {
                 name: "fullName",
