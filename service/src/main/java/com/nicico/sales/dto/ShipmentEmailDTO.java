@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentEmailDTO {
 
-	@NotNull
-	@ApiModelProperty(required = true)
 	private Long shipmentId;
 	private String emailType;
 	private String status;
@@ -27,7 +25,6 @@ public class ShipmentEmailDTO {
 	private String emailCC;
 	private String emailBody;
 	private String emailRespond;
-
 
 	@Getter
 	@Setter
@@ -58,9 +55,6 @@ public class ShipmentEmailDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	@Getter

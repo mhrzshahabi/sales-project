@@ -55,11 +55,8 @@ public class TozinDTO {
 	private String sourcePlantId;
 	private String targetPlantId;
 
-	@NotNull
-	@ApiModelProperty(required = true)
 	private String tozinName;
-	@NotNull
-	@ApiModelProperty(required = true)
+
 	private Long countryId;
 	@ApiModelProperty(required = true)
 	private String tozinCode;
@@ -100,9 +97,6 @@ public class TozinDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	@Getter

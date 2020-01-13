@@ -22,9 +22,6 @@ public class Rate extends Auditable {
 	@Column(name = "ID")
 	private Long id;
 
-	@Column(name = "CODE", nullable = false, length = 100)
-	private String code;
-
 	@Column(name = "NAME_FA", nullable = false, length = 200)
 	private String nameFA;
 

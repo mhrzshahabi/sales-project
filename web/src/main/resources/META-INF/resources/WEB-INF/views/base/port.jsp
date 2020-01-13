@@ -479,9 +479,7 @@
             updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
             {
                 var record = this.getSelectedRecord();
-            },
-            dataArrived: function(startRow, endRow) {}
-
+            }
         });
 
     var HLayout_Port_Grid = isc.HLayout.create({

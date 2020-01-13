@@ -520,9 +520,7 @@
                     {
                         operationId: "00"
                     });
-            },
-            dataArrived: function(startRow, endRow) {}
-
+            }
         });
 
     var HLayout_LME_Grid = isc.HLayout.create({

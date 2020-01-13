@@ -1730,7 +1730,6 @@ var ListGrid_Contact = isc.ListGrid.create(
 	virtualScrolling: true,
 	loadOnExpand: true,
 	loaded: false,
-	dataArrived: function(startRow, endRow) {},
 	contextMenu: Menu_ListGrid_Contact,
 	fields: [
 		{

@@ -16,8 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentOptionDTO {
-	@NotNull
-	@ApiModelProperty(required = true)
+
 	private String namePay;
 
 	@Getter
@@ -48,9 +47,6 @@ public class PaymentOptionDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	@Getter

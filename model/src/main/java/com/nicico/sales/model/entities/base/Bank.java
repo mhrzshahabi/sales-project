@@ -22,9 +22,6 @@ public class Bank extends Auditable {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "c_BANK_CODE",length = 100)
-    private String bankCode;
-
     @Column(name = "c_NAME_FA",length = 1000)
     private String bankName;
 

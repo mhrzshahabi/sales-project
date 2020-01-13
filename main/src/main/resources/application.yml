@@ -25,11 +25,6 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-  activiti:
-    rest-api-enabled: true
-    history-level: full
-    database-schema-update: true
-    db-history-used: true
   redis:
     port: 6379
   servlet:

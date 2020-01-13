@@ -22,11 +22,6 @@
                     width: 200
                 },
                 {
-                    name: "paramType",
-                    title: "<spring:message code='parameters.paramType'/>",
-                    width: 200
-                },
-                {
                     name: "paramValue",
                     title: "<spring:message code='parameters.paramValue'/>",
                     width: 200
@@ -425,9 +420,7 @@
                     {
                         operationId: "00"
                     });
-            },
-            dataArrived: function(startRow, endRow) {}
-
+            }
         });
 
 

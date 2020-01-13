@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractShipmentDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private Long contractId;
     private String plan;
     private Long shipmentRow;

@@ -449,8 +449,7 @@
                     {
                         operationId: "00"
                     });
-            },
-            dataArrived: function(startRow, endRow) {}
+            }
         });
 
     var HLayout_Grid_Groups = isc.HLayout.create({
@@ -626,8 +625,7 @@
                     {
                         operationId: "00"
                     });
-            },
-            dataArrived: function(startRow, endRow) {}
+            }
         });
 
 

@@ -471,9 +471,7 @@ function ListGrid_CurrencyRate_edit()
 		{
 			operationId: "00"
 		});
-	},
-	dataArrived: function(startRow, endRow) {}
-
+	}
 });
 
 

@@ -17,11 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseLotDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private String warehouseNo;
-    @NotNull
-    @ApiModelProperty(required = true)
     private Long materialId;
     private String plant;
     private String lotName;

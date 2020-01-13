@@ -33,13 +33,7 @@ public class Currency extends Auditable {
 	@Column(name = "c_NAME_EN",length = 100)
 	private String nameEn;
 
-	@Column(name = "c_IS_ACTIVE",length = 20)
-	private String isActive;
-
 	@Column(name = "c_SYMBOL",length = 20)
 	private String symbol;
-
-	@Column(name = "c_CODE",length = 100)
-	private String code;
 
 }

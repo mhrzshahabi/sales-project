@@ -22,9 +22,6 @@ public class Unit extends Auditable {
 	@Column(name = "ID")
 	private Long id;
 
-	@Column(name = "c_CODE", nullable = false, length = 100)
-	private String code;
-
 	@Column(name = "c_NAME_FA", nullable = false, length = 200)
 	private String nameFA;
 

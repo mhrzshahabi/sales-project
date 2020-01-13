@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InvoiceDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private Long shipmentId;
     private String invoiceNo;
     private String invoiceDate;

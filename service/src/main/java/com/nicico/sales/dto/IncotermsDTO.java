@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IncotermsDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private String code;
     private Boolean works;
     private Boolean carrier;

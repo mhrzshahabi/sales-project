@@ -34,13 +34,4 @@ public class Country extends Auditable {
 	@Column(name = "c_NAME_EN", nullable = false, length = 200)
 	private String nameEn;
 
-	@Column(name = "c_ISACTIVE")
-	private String isActive;
-
-	@Column(name = "c_INV_ID")
-	private String invId;
-
-	@Column(name = "c_CODE", nullable = false, length = 200)
-	private String code;
-
 }
