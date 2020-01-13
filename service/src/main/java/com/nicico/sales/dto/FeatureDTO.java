@@ -18,7 +18,6 @@ import java.util.List;
 public class FeatureDTO {
 
     private String nameFA;
-    private String code;
     private String nameEN;
     private String symbol;
     private Long decimalDigit;

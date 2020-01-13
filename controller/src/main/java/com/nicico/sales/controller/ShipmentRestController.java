@@ -90,7 +90,7 @@ public class ShipmentRestController {
         endRow = (endRow == null ? 50 : endRow);
         if (startRow != null) {
             List<Object[]> list = shipmentService.pickListShipment();
-            String[] fl = "cisId,contractNo,fullname,amount,address,plan,sendDate,duration,contactID,materialID,contractID,dischargeID,dischargeAddress,code".split(",");
+            String[] fl = "cisId,contractNo,fullname,amount,address,plan,sendDate,duration,contactID,materialID,contractID,dischargeID,dischargeAddress".split(",");
             int totalRows = 0;
             for (Object[] rs : list) {
                 String line = "";

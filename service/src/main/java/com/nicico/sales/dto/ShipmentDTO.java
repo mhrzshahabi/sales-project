@@ -74,9 +74,7 @@ public class ShipmentDTO {
 		private PortDTO.PortInfoTuple portByLoading;
 		private PortDTO.PortInfoTuple portByDischarge;
 		private ContractShipmentDTO contractShipment;
-		//		private ContactDTO.ContactInfoTuple contact;
 		private PortDTO.PortInfoTuple switchPort;
-		//		private ShipmentHeaderDTO shipmentHeader;
 		private ContractDTO.ContractInfoTuple contract;
 		private MaterialDTO.MaterialTuple material;
         private String containerType;
