@@ -7,13 +7,21 @@ import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractDTO;
+import com.nicico.sales.dto.ShipmentContractDTO;
 import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.model.entities.base.Contract;
+import com.nicico.sales.model.entities.base.ContractDetail;
 import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.WarehouseLot;
 import com.nicico.sales.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.POIXMLDocumentPart;
+import org.apache.poi.POIXMLRelation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.openxml4j.opc.PackagePart;
+import org.apache.poi.openxml4j.opc.PackagePartName;
+import org.apache.poi.openxml4j.opc.PackagingURIHelper;
 import org.apache.poi.util.Units;
 import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
@@ -25,11 +33,15 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.io.*;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -42,8 +54,33 @@ public class ContractService implements IContractService {
     private final WarehouseLotDAO warehouseLotDAO;
     private final ContractShipmentDAO contractShipmentDAO;
     private final PortDAO portDAO;
+    private final ContractDetailDAO contractDetailDAO;
+    private final ShipmentContractService shipmentContractService;
+    private final ShipmentContractDAO shipmentContractDAO;
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private MyXWPFHtmlDocument myXWPFHtmlDocument;
+
+    private static void setHeaderRowforSingleCell(XWPFTableCell cell, String text) {
+        XWPFParagraph tempParagraph = cell.getParagraphs().get(0);
+        tempParagraph.setIndentationLeft(100);
+        tempParagraph.setIndentationRight(100);
+        tempParagraph.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun tempRun = tempParagraph.createRun();
+        tempRun.setFontSize(10);
+        tempRun.setColor("000000");
+        tempRun.setText(text);
+        cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+    }
+
+    private static MyXWPFHtmlDocument createHtmlDoc(XWPFDocument document, String id) throws Exception {
+        OPCPackage oPCPackage = document.getPackage();
+        PackagePartName partName = PackagingURIHelper.createPartName("/word/" + id + ".html");
+        PackagePart part = oPCPackage.createPart(partName, "text/html");
+        MyXWPFHtmlDocument myXWPFHtmlDocument = new MyXWPFHtmlDocument(part, id);
+        document.addRelation(myXWPFHtmlDocument.getId(), new XWPFHtmlRelation(), myXWPFHtmlDocument);
+        return myXWPFHtmlDocument;
+    }
 
     @Transactional(readOnly = true)
 //    @PreAuthorize("hasAuthority('R_CONTRACT')")
@@ -65,7 +102,7 @@ public class ContractService implements IContractService {
     }
 
     @Override
-    public void writeToWord(String request) throws IOException, InvalidFormatException, ParseException {
+    public void writeToWord(String request) throws Exception {
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         XWPFDocument printdoc = new XWPFDocument();
         String dataALLArticle = "";
@@ -73,10 +110,8 @@ public class ContractService implements IContractService {
         Map<String, Object> map = mapper.readValue(request, Map.class);
         String contractNo = map.get("contractNo") + "";
         Integer contractId = (Integer) map.get("contractId");
-
         List<WarehouseLot> listsFromHouseLot = warehouseLotDAO.findByContractId(Long.valueOf(contractId));
-        List<ContractShipment> shipmentListContracts=contractShipmentDAO.findByContractId(Long.valueOf(contractId));
-
+        List<ContractShipment> shipmentListContracts = contractShipmentDAO.findByContractId(Long.valueOf(contractId));
         printOnePage(printdoc, contractId);
         contractDAO.findById(contractId).getMaterial();
         map.remove("contractNo");
@@ -127,20 +162,20 @@ public class ContractService implements IContractService {
             }
             runPrint.setUnderline(UnderlinePatterns.SINGLE);
             runPrint.addBreak();
-            if(key=="Article03" && listsFromHouseLot.size()>0){
-                XWPFTable tableLot = printdoc.createTable(listsFromHouseLot.size()+1,9);
+            if (key.equals("Article03") && listsFromHouseLot.size() > 0) {
+                XWPFTable tableLot = printdoc.createTable(listsFromHouseLot.size() + 1, 9);
                 CTTblWidth widthLot = tableLot.getCTTbl().addNewTblPr().addNewTblW();
                 widthLot.setW(BigInteger.valueOf(10000));
                 setTableAlign(tableLot, ParagraphAlignment.CENTER);
-                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(0),"Product Name");
-                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(1),"Lot Name");
-                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(2),"MO %");
-                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(3),"CU %");
-                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(4),"SI %");
-                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(5),"PB %");
-                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(6),"S %");
-                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(7),"C %");
-                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(8),"P %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(0), "Product Name");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(1), "Lot Name");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(2), "MO %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(3), "CU %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(4), "SI %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(5), "PB %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(6), "S %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(7), "C %");
+                setHeaderRowforSingleCell(tableLot.getRow(0).getCell(8), "P %");
 
                 tableLot.getRow(0).getCell(0).setColor("D9D9D9");
                 tableLot.getRow(0).getCell(1).setColor("D9D9D9");
@@ -152,35 +187,40 @@ public class ContractService implements IContractService {
                 tableLot.getRow(0).getCell(7).setColor("D9D9D9");
                 tableLot.getRow(0).getCell(8).setColor("D9D9D9");
 
-                for (int i=0;i<listsFromHouseLot.size();i++){
-                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(0),nvl(listsFromHouseLot.get(i).getPlant()));
-                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(1),nvl(listsFromHouseLot.get(i).getLotName()));
-                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(2),nvl(listsFromHouseLot.get(i).getMo()+""));
-                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(3),nvl(listsFromHouseLot.get(i).getMo()+""));
-                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(4),nvl(listsFromHouseLot.get(i).getMo()+""));
-                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(5),nvl(listsFromHouseLot.get(i).getMo()+""));
-                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(6),nvl(listsFromHouseLot.get(i).getMo()+""));
-                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(7),nvl(listsFromHouseLot.get(i).getMo()+""));
-                    setHeaderRowforSingleCell(tableLot.getRow(i+1).getCell(8),nvl(listsFromHouseLot.get(i).getMo()+""));
+                for (int i = 0; i < listsFromHouseLot.size(); i++) {
+                    setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(0), nvl(listsFromHouseLot.get(i).getPlant()));
+                    setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(1), nvl(listsFromHouseLot.get(i).getLotName()));
+                    setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(2), nvl(listsFromHouseLot.get(i).getMo() + ""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(3), nvl(listsFromHouseLot.get(i).getMo() + ""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(4), nvl(listsFromHouseLot.get(i).getMo() + ""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(5), nvl(listsFromHouseLot.get(i).getMo() + ""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(6), nvl(listsFromHouseLot.get(i).getMo() + ""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(7), nvl(listsFromHouseLot.get(i).getMo() + ""));
+                    setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(8), nvl(listsFromHouseLot.get(i).getMo() + ""));
                 }
-            }else if(key=="Article05" && shipmentListContracts.size()>0){
+            } else if (key.equals("Article05") && shipmentListContracts.size() > 0) {
                 runPrintValue.addBreak();
                 runPrintValue.addBreak();
-                runPrintValue.setText(value);
+                //runPrintValue.setText(value);
+                myXWPFHtmlDocument = createHtmlDoc(printdoc, key);
+                myXWPFHtmlDocument.setHtml(myXWPFHtmlDocument.getHtml().replace("<body></body>",
+                        "<body>" + value + "</body>"));
+                printdoc.getDocument().getBody().addNewAltChunk().setId(myXWPFHtmlDocument.getId());
+
                 runPrintValue.addBreak();
-               XWPFTable tableShipment = printdoc.createTable(shipmentListContracts.size()+1,8);
+                XWPFTable tableShipment = printdoc.createTable(shipmentListContracts.size() + 1, 8);
                 CTTblWidth widthLot = tableShipment.getCTTbl().addNewTblPr().addNewTblW();
                 widthLot.setW(BigInteger.valueOf(10000));
                 runPrintValue.addBreak();
                 setTableAlign(tableShipment, ParagraphAlignment.CENTER);
-                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(0),"PLAN");
-                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(1),"ROW");
-                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(2),"PORT");
-                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(3),"ADDRESS");
-                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(4),"AMOUNT");
-                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(5),"SEND DATE");
-                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(6),"DURATION");
-                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(7),"TOLORANCE");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(0), "PLAN");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(1), "ROW");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(2), "PORT");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(3), "ADDRESS");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(4), "AMOUNT");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(5), "SEND DATE");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(6), "DURATION");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(7), "TOLORANCE");
 
                 tableShipment.getRow(0).getCell(0).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(1).setColor("D9D9D9");
@@ -190,19 +230,21 @@ public class ContractService implements IContractService {
                 tableShipment.getRow(0).getCell(5).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(6).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(7).setColor("D9D9D9");
-                for (int i=0;i<shipmentListContracts.size();i++){
-                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(0),nvl(shipmentListContracts.get(i).getPlan()));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(1),nvl(shipmentListContracts.get(i).getShipmentRow()+""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(2),nvl(portDAO.findById(Long.valueOf(shipmentListContracts.get(i).getDischargeId())).get().getPort()));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(3),nvl(shipmentListContracts.get(i).getAddress()+""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(4),nvl(shipmentListContracts.get(i).getAmount()+""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(5),nvl(sdf.format(sdf.parse(shipmentListContracts.get(i).getSendDate()))+""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(6),nvl(shipmentListContracts.get(i).getDuration()+""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i+1).getCell(7),nvl(shipmentListContracts.get(i).getTolorance()+""));
+                for (int i = 0; i < shipmentListContracts.size(); i++) {
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(0), nvl(shipmentListContracts.get(i).getPlan()));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(1), nvl(shipmentListContracts.get(i).getShipmentRow() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(2), nvl(portDAO.findById(Long.valueOf(shipmentListContracts.get(i).getDischargeId())).get().getPort()));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(3), nvl(shipmentListContracts.get(i).getAddress() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(4), nvl(shipmentListContracts.get(i).getAmount() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(5), nvl(sdf.format(sdf.parse(shipmentListContracts.get(i).getSendDate())) + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(6), nvl(shipmentListContracts.get(i).getDuration() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(7), nvl(shipmentListContracts.get(i).getTolorance() + ""));
                 }
-            }else{
-                runPrintValue.addBreak();
-                runPrintValue.setText(value);
+            } else {
+                myXWPFHtmlDocument = createHtmlDoc(printdoc, key);
+                myXWPFHtmlDocument.setHtml(myXWPFHtmlDocument.getHtml().replace("<body></body>",
+                        "<body>" + value + "</body>"));
+                printdoc.getDocument().getBody().addNewAltChunk().setId(myXWPFHtmlDocument.getId());
             }
             runPrintValue.addBreak();
         }
@@ -220,8 +262,8 @@ public class ContractService implements IContractService {
             prefixPrintContractWrite = "PrintCathod_";
         }
 
-        File directory=new File(UPLOAD_FILE_DIR + File.separator + "contract");
-        if(!directory.exists()){
+        File directory = new File(UPLOAD_FILE_DIR + File.separator + "contract");
+        if (!directory.exists()) {
             directory.mkdir();
         }
         OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc");
@@ -281,7 +323,15 @@ public class ContractService implements IContractService {
     @Override
 //    @PreAuthorize("hasAuthority('D_CONTRACT')")
     public void delete(Long id) {
-        contractDAO.deleteById(id);
+        ContractDetail contractDetails = contractDetailDAO.findByContract_id(id);
+        if(contractDetails!=null){contractDetailDAO.deleteById(contractDetails.getID());}
+        List<ContractShipment> contractShipments = contractShipmentDAO.findByContractId(id);
+        if(contractShipments.size()>0){
+                    for (ContractShipment contractShipment : contractShipments) {
+                    contractShipmentDAO.deleteById(contractShipment.getId());
+                        }
+        }
+       contractDAO.deleteById(id);
     }
 
     @Transactional
@@ -299,7 +349,6 @@ public class ContractService implements IContractService {
         return flag;
 
     }
-
 
     @Transactional
     @Override
@@ -323,7 +372,6 @@ public class ContractService implements IContractService {
     public SearchDTO.SearchRs<ContractDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(contractDAO, request, contract -> modelMapper.map(contract, ContractDTO.Info.class));
     }
-
 
     private ContractDTO.Info save(Contract contract) {
         final Contract saved = contractDAO.saveAndFlush(contract);
@@ -362,7 +410,6 @@ public class ContractService implements IContractService {
         }
         return allArticles;
     }
-
 
     private void printOnePage(XWPFDocument printdoc, int contractId) throws IOException, InvalidFormatException, ParseException {
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
@@ -438,10 +485,10 @@ public class ContractService implements IContractService {
         //table.getRow(2).getCell(0).setText("BUYER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getNameEN());
         //table.getRow(2).getCell(1).setText("AGENT BUYER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getNameEN());
         XWPFParagraph paragraphAgentBuyer = table.getRow(2).getCell(1).addParagraph();
-        if(nvl(contractDAO.findById(contractId).getContactByBuyerAgentId()+"").equals(""))
-        setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 10, "000000", "null", true, true);
+        if (nvl(contractDAO.findById(contractId).getContactByBuyerAgentId() + "").equals(""))
+            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 10, "000000", "null", true, true);
         else
-        setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 10, "000000", "AGENT BUYER:", true, true);
+            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 10, "000000", "AGENT BUYER:", true, true);
         if (contractDAO.findById(contractId).getContactByBuyerAgentId() != null) {
             setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getNameEN()), false, true);
             setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getPhone()), false, true);
@@ -460,10 +507,10 @@ public class ContractService implements IContractService {
         //table.getRow(3).getCell(0).setText("SELLER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getNameEN());
         ////******
         XWPFParagraph paragraphAgentSeller = table.getRow(3).getCell(1).addParagraph();
-        if(nvl(contractDAO.findById(contractId).getContactBySellerAgentId()+"").equals(""))
-        setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 10, "000000", "", true, true);
+        if (nvl(contractDAO.findById(contractId).getContactBySellerAgentId() + "").equals(""))
+            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 10, "000000", "", true, true);
         else
-        setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 10, "000000", "AGENT SELLER:", true, true);
+            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 10, "000000", "AGENT SELLER:", true, true);
         if (contractDAO.findById(contractId).getContactBySellerAgentId() != null) {
             setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getNameEN()), false, true);
             setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getPhone()), false, true);
@@ -480,7 +527,6 @@ public class ContractService implements IContractService {
         CTTblWidth widthContact = table.getCTTbl().addNewTblPr().addNewTblW();
         widthContact.setW(BigInteger.valueOf(10000));
     }
-
 
     private String nvl(String in) {
         return in == null || in.equals("null") ? "" : in;
@@ -537,22 +583,54 @@ public class ContractService implements IContractService {
         }
     }
 
-    public void setTableAlign(XWPFTable table,ParagraphAlignment align) {
+    public void setTableAlign(XWPFTable table, ParagraphAlignment align) {
         CTTblPr tblPr = table.getCTTbl().getTblPr();
         CTJc jc = (tblPr.isSetJc() ? tblPr.getJc() : tblPr.addNewJc());
         STJc.Enum en = STJc.Enum.forInt(align.getValue());
         jc.setVal(en);
     }
+}
 
-    private static void setHeaderRowforSingleCell(XWPFTableCell cell, String text) {
-        XWPFParagraph tempParagraph = cell.getParagraphs().get(0);
-        tempParagraph.setIndentationLeft(100);
-        tempParagraph.setIndentationRight(100);
-        tempParagraph.setAlignment(ParagraphAlignment.CENTER);
-        XWPFRun tempRun = tempParagraph.createRun();
-        tempRun.setFontSize(10);
-        tempRun.setColor("000000");
-        tempRun.setText(text);
-        cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+
+class MyXWPFHtmlDocument extends POIXMLDocumentPart {
+    private String html;
+    private String id;
+
+    public MyXWPFHtmlDocument(PackagePart part, String id) throws Exception {
+        super(part);
+        this.html = "<!DOCTYPE html><html><head><style></style><title>HTML import</title></head><body></body>";
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    String getHtml() {
+        return html;
+    }
+
+    void setHtml(String html) {
+        this.html = html;
+    }
+
+    @Override
+    protected void commit() throws IOException {
+        PackagePart part = getPackagePart();
+        OutputStream out = part.getOutputStream();
+        Writer writer = new OutputStreamWriter(out, "UTF-8");
+        writer.write(html);
+        writer.close();
+        out.close();
+    }
+}
+
+//the XWPFRelation for /word/htmlDoc#.html
+final class XWPFHtmlRelation extends POIXMLRelation {
+    public XWPFHtmlRelation() {
+        super(
+                "text/html",
+                "http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk",
+                "/word/htmlDoc#.html");
     }
 }

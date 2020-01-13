@@ -5,7 +5,7 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
 var criteriaContractConcItemShipment;
-
+var flagEdit=0;
 
 var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
 fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
@@ -105,7 +105,7 @@ var RestDataSource_Parameters = isc.MyRestDataSource.create({
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
-                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
+              //  {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
                 {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200},
                 {name: "contractId", title: "<spring:message code='parameters.paramValue'/>", width: 200},
                 {name: "categoryValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
@@ -252,7 +252,7 @@ var Window_ContactConc = isc.Window.create({
         },
         items: [
             isc.ViewLoader.create({
-                autoDraw: false,
+                autoDraw: true,
                 viewURL: "<spring:url value="/contact/concPageBase" />",
                 loadingMessage: "Loading Page.."
             })
@@ -325,47 +325,23 @@ var ListGrid_Conc = isc.ListGrid.create({
                 data: JSON.stringify(record.contractNo+"_Conc"),
                 callback: function (resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        contactConcTabs.selectTab(0);
                         var text = resp.httpResponseText;
                         var text2 = text.replaceAll('","', '","').replaceAll('&?','":"')
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
-                        setTimeout(function(){
-                                contactConcTabs.selectTab(0);
-                                valuesManagerfullArticle.setValue("fullArticle01",textMain.Article01);
-                                valuesManagerfullArticle.setValue("fullArticle02",textMain.Article02);
-                                valuesManagerfullArticle.setValue("fullArticle03",textMain.Article03);
-                                valuesManagerfullArticle.setValue("fullArticle04",textMain.Article04);
-                                valuesManagerfullArticle.setValue("fullArticle05",textMain.Article05);
-                                valuesManagerfullArticle.setValue("fullArticle06",textMain.Article06);
-                                valuesManagerfullArticle.setValue("fullArticle07",textMain.Article07);
-                                valuesManagerfullArticle.setValue("fullArticle08",textMain.Article08);
-                                valuesManagerfullArticle.setValue("fullArticle09",textMain.Article09);
-                                valuesManagerfullArticle.setValue("fullArticle10",textMain.Article10);
-                                valuesManagerfullArticle.setValue("fullArticle11",textMain.Article11);
-                                valuesManagerfullArticle.setValue("fullArticle12",textMain.Article12);
-                                contactHeaderConc.setValue("createDate", record.contractDate)
-                                contactHeaderConc.setValue("contractNo", record.contractNo)
-                                contactHeaderConc.setValue("contactId", record.contactId)
-                                dynamicFormConc.setValue("materialId",record.materialId)
-                                contactHeaderConc.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId) //***** to do
-                                contactHeaderConc.setValue("contactBySellerId", record.contactBySellerId)
-                                contactHeaderConc.setValue("contactBySellerAgentId", record.contactBySellerAgentId)
-                                valuesManagerArticle2Conc.setValue("amount", record.amount);
-                                valuesManagerArticle2Conc.setValue("amount_en", record.amount_en);
-                                valuesManagerArticle2Conc.setValue("unitId", record.unitId);
-                                valuesManagerArticle2Conc.setValue("molybdenumTolorance", record.molybdenumTolorance);
-                                valuesManagerArticle2Conc.setValue("optional", record.optional);
-                                valuesManagerArticle2Conc.setValue("plant", record.plant);
-                                valuesManagerArticle3_conc.setValue("CU",record.copper);
-                                valuesManagerArticle3_conc.setValue("MO",record.molybdenum);
-                                valuesManagerArticle3_conc.setValue("unitCu",record.timeIssuance);
-                                valuesManagerArticle3_conc.setValue("unitMo",record.prefixPayment);
-                                valuesManagerArticle9_conc.setValue("TC",record.treatCost);
-                                valuesManagerArticle9_conc.setValue("RC",record.refinaryCost);
-                                article5_ConcDeliveryTerms.setValue("incotermsId",record.incotermsId);
-                                article5_ConcDeliveryTerms.setValue("portByPortSourceId",record.portByPortSourceId);
-                                article5_ConcDeliveryTerms.setValue("incotermsText",record.incotermsText);
-                                ListGrid_ContractConcItemShipment.fetchData(criteriaContractConcItemShipment);
-                        },350)
+                                dynamicForm_fullArticle01.setValue(textMain.Article01)
+                                dynamicForm_fullArticle02.setValue(textMain.Article02)
+                                dynamicForm_fullArticleConc03.setValue(textMain.Article03)
+                                dynamicForm_fullArticleConc04.setValue(textMain.Article04)
+                                dynamicForm_fullArticleConc05.setValue(textMain.Article05)
+                                dynamicForm_fullArticleConc06.setValue(textMain.Article06)
+                                dynamicForm_fullArticleConc07.setValue(textMain.Article07)
+                                dynamicForm_fullArticleConc08.setValue(textMain.Article08)
+                                dynamicForm_fullArticleConc09.setValue(textMain.Article09)
+                                dynamicForm_fullArticleConc10.setValue(textMain.Article10)
+                                dynamicForm_fullArticleConc11.setValue(textMain.Article11)
+                                dynamicForm_fullArticleConc12.setValue(textMain.Article12)
+                                ListGrid_ContractConcItemShipment.fetchData(criteriaContractConcItemShipment)
                         }
                         else{
                             isc.say(RpcResponse_o.data);
@@ -374,6 +350,28 @@ var ListGrid_Conc = isc.ListGrid.create({
                     }))
                 var criteriaConc1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
                     setTimeout(function(){RestDataSource_contractDetail_list.fetchData(criteriaConc1,function (dsResponse, data, dsRequest) {
+                        contactHeaderConc.setValue("createDate", record.contractDate)
+                        contactHeaderConc.setValue("contractNo", record.contractNo)
+                        contactHeaderConc.setValue("contactId", record.contactId)
+                        dynamicFormConc.setValue("materialId",record.materialId)
+                        contactHeaderConc.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId) //***** to do
+                        contactHeaderConc.setValue("contactBySellerId", record.contactBySellerId)
+                        contactHeaderConc.setValue("contactBySellerAgentId", record.contactBySellerAgentId)
+                        valuesManagerArticle2Conc.setValue("amount", record.amount);
+                        valuesManagerArticle2Conc.setValue("amount_en", record.amount_en);
+                        valuesManagerArticle2Conc.setValue("unitId", record.unitId);
+                        valuesManagerArticle2Conc.setValue("cathodesTolorance", record.molybdenumTolorance);
+                        valuesManagerArticle2Conc.setValue("optional", record.optional);
+                        valuesManagerArticle2Conc.setValue("plant", record.plant);
+                        valuesManagerArticle3_conc.setValue("CU",record.copper);
+                        valuesManagerArticle3_conc.setValue("MO",record.molybdenum);
+                        valuesManagerArticle3_conc.setValue("unitCu",record.timeIssuance);
+                        valuesManagerArticle3_conc.setValue("unitMo",record.prefixPayment);
+                        valuesManagerArticle9_conc.setValue("TC",record.treatCost);
+                        valuesManagerArticle9_conc.setValue("RC",record.refinaryCost);
+                        article5_ConcDeliveryTerms.setValue("incotermsId",record.incotermsId);
+                        article5_ConcDeliveryTerms.setValue("portByPortSourceId",record.portByPortSourceId);
+                        article5_ConcDeliveryTerms.setValue("incotermsText",record.incotermsText);
                         contactHeaderConcAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactHeaderConcAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
                         contactHeaderConcAgent.setValue("mobile_ContactAgentSeller", data[0].mobile_ContactAgentSeller)
@@ -397,7 +395,7 @@ var ListGrid_Conc = isc.ListGrid.create({
                         valuesManagerArticle12_quality.setValue("article12_number60",data[0].article10_number60)
                         valuesManagerArticle12_quality.setValue("article12_number61",data[0].article10_number61)
                         valuesManagerArticle10_quality.setValue("article10_quality1",data[0].article9_ImportantNote)
-                    })},300)
+                    })},200)
                 }
     }
     });

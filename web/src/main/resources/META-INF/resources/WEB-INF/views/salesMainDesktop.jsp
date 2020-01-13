@@ -35,6 +35,7 @@
     <script src=isomorphic/system/modules/ISC_Charts.js></script>
     <script src=isomorphic/system/modules/ISC_Analytics.js></script>
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
+    <script SRC=isomorphic/system/modules/ISC_RichTextEditor.js></script>
 
     <script SRC=isomorphic/skins/Nicico/load_skin.js></script>
     <script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>

@@ -5,6 +5,7 @@
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
+
 function factoryLableHedear(id, contents, width, height, padding) {
         isc.Label.create({
             ID: id,
@@ -66,7 +67,10 @@ var contactConcTabs = isc.TabSet.create({
                                     ID: "ViewLoaderpage2",
                                     autoDraw:true,
                                     viewURL:"<spring:url value="/contact/concPage2" />",
-                                    loadingMessage:"Loading Page2.."
+                                    loadingMessage:"Loading Page2..",
+                                    viewLoaded: function() {
+                                            flagEdit=1;
+                                            }
                                     })
             }
         ]
@@ -304,7 +308,7 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
         dataSaveAndUpdateContractConcDetail.article10_number60 =valuesManagerArticle12_quality.getValue("article12_number60");
         dataSaveAndUpdateContractConcDetail.article10_number61 =valuesManagerArticle12_quality.getValue("article12_number61");
         recordContractNoConc=contactHeaderConc.getValue("contractNo");
-        var criteriaContractNoConc={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:-42},{fieldName:"contractNo",operator:"equals",value:recordContractNoConc}]};
+        var criteriaContractNoConc={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:dynamicFormConc.getValue("materialId")},{fieldName:"contractNo",operator:"equals",value:recordContractNoConc}]};
         RestDataSource_Contract.fetchData(criteriaContractNoConc,function(dsResponse, data, dsRequest) {
         if(data[0]!=undefined){
                 isc.warn("<spring:message code='main.contractsDuplicate'/>");
@@ -381,7 +385,9 @@ function saveListGrid_ContractConcItemShipment(contractID) {
         ListGrid_ContractConcItemShipment.getSelectedRecords().forEach(function(element) {
             var dataEditMain=ListGrid_ContractConcItemShipment.getSelectedRecord(element)
             dataEditMain.contractId=contractID;
-            //dataEditMain.dischargeId = 11022;
+            dataEditMain.sendDate=sendDateSetConcSave.toNormalDate("toUSShortDate");
+            alert(JSON.stringify(dataEditMain));
+            alert(JSON.stringify(dataEditMain));
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -415,18 +421,18 @@ ListGrid_ContractConcItemShipment.deselectAllRecords();
 
 var dataALLArticleConc = {};
     function saveValueAllArticlesConc(contractID) {
-        dataALLArticleConc.Article01 = nvlConc(valuesManagerfullArticle.getValue("fullArticle01"));
-        dataALLArticleConc.Article02 = nvlConc(valuesManagerfullArticle.getValue("fullArticle02"));
-        dataALLArticleConc.Article03 = nvlConc(valuesManagerfullArticle.getValue("fullArticle03"));
-        dataALLArticleConc.Article04 = nvlConc(valuesManagerfullArticle.getValue("fullArticle04"));
-        dataALLArticleConc.Article05 = nvlConc(valuesManagerfullArticle.getValue("fullArticle05"));
-        dataALLArticleConc.Article06 = nvlConc(valuesManagerfullArticle.getValue("fullArticle06"));
-        dataALLArticleConc.Article07 = nvlConc(valuesManagerfullArticle.getValue("fullArticle07"));
-        dataALLArticleConc.Article08 = nvlConc(valuesManagerfullArticle.getValue("fullArticle08"));
-        dataALLArticleConc.Article09 = nvlConc(valuesManagerfullArticle.getValue("fullArticle09"));
-        dataALLArticleConc.Article10 = nvlConc(valuesManagerArticle10_quality.getValue("fullArticle10"));
-        dataALLArticleConc.Article11 = nvlConc(valuesManagerfullArticle.getValue("fullArticle11"));
-        dataALLArticleConc.Article12 = nvlConc(valuesManagerArticle12_quality.getValue("fullArticle12"));
+        dataALLArticleConc.Article01 = nvlConc(dynamicForm_fullArticle01.getValue());
+        dataALLArticleConc.Article02 = nvlConc(dynamicForm_fullArticle02.getValue());
+        dataALLArticleConc.Article03 = nvlConc(dynamicForm_fullArticleConc03.getValue());
+        dataALLArticleConc.Article04 = nvlConc(dynamicForm_fullArticleConc04.getValue());
+        dataALLArticleConc.Article05 = nvlConc(dynamicForm_fullArticleConc05.getValue());
+        dataALLArticleConc.Article06 = nvlConc(dynamicForm_fullArticleConc06.getValue());
+        dataALLArticleConc.Article07 = nvlConc(dynamicForm_fullArticleConc07.getValue());
+        dataALLArticleConc.Article08 = nvlConc(dynamicForm_fullArticleConc08.getValue());
+        dataALLArticleConc.Article09 = nvlConc(dynamicForm_fullArticleConc09.getValue());
+        dataALLArticleConc.Article10 = nvlConc(dynamicForm_fullArticleConc10.getValue());
+        dataALLArticleConc.Article11 = nvlConc(dynamicForm_fullArticleConc11.getValue());
+        dataALLArticleConc.Article12 = nvlConc(dynamicForm_fullArticleConc12.getValue());
         dataALLArticleConc.contractNo =contactHeaderConc.getValue("contractNo")+"_Conc";
         dataALLArticleConc.contractId = contractID;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
