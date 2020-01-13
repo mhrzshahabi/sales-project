@@ -315,13 +315,14 @@
         }
     });
     ToolStripButton_InspectionContract_Add.hide();
-    var ToolStripButton_InspectionContract_Remove = isc.ToolStripButtonRemove.create({
-    icon: "[SKIN]/actions/remove.png",
-    title: "<spring:message code='global.form.remove'/>",
-    click: function () {
-    ListGrid_InspectionContract_remove();
-    }
-    });
+
+    <%--var ToolStripButton_InspectionContract_Remove = isc.ToolStripButtonRemove.create({--%>
+    <%--icon: "[SKIN]/actions/remove.png",--%>
+    <%--title: "<spring:message code='global.form.remove'/>",--%>
+    <%--click: function () {--%>
+    <%--ListGrid_InspectionContract_remove();--%>
+    <%--}--%>
+    <%--});--%>
 
     var recordNotFound = isc.Label.create({
         height: 30,
@@ -1398,11 +1399,34 @@
     HLayout_InspectionContract_Actions, HLayout_InspectionContract_Grid
     ]
     });*/
+        var ToolStripButton_ListGrid_Inspection_Refresh = isc.ToolStripButtonRefresh.create({
+        icon: "[SKIN]/actions/refresh.png",
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+ListGrid_Inspection.invalidateCache();
+ListGrid_InspectionContract.setData([]);
+        }
+        });
+        var ToolStrip_Actions_ListGrid_Inspection = isc.ToolStrip.create({
+        width: "100%",
+        membersMargin: 5,
+        members: [
+        isc.ToolStrip.create({
+        width: "100%",
+        align: "left",
+        border: '0px',
+        members: [
+                ToolStripButton_ListGrid_Inspection_Refresh
+        ]
+        })
+        ]
+        });
 
     isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
+ToolStrip_Actions_ListGrid_Inspection,
             HLayout_Inspection_Grid
         ]
     });
