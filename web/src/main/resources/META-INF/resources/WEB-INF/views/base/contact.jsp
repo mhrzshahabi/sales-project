@@ -680,14 +680,14 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 
     function saveContact(){
 
-		/*let Val_seller 			= DynamicForm_Contact_GeneralInfo.getValue("seller").checked;
-		let Val_buyer           = DynamicForm_Contact_GeneralInfo.getValue("buyer").checked;
-		let	Val_agentSeller		= DynamicForm_Contact_GeneralInfo.getValue("agentSeller").checked;
-		let	Val_agentBuyer      = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer").checked;
-		let	Val_transporter     = DynamicForm_Contact_GeneralInfo.getValue("transporter").checked;
-		let Val_shipper         = DynamicForm_Contact_GeneralInfo.getValue("shipper").checked;
-		let Val_inspector       = DynamicForm_Contact_GeneralInfo.getValue("inspector").checked;
-		let Val_insurancer      = DynamicForm_Contact_GeneralInfo.getValue("insurancer").checked;
+		/*let Val_seller 			= DynamicForm_Contact_GeneralInfo.getValue("seller");
+		let Val_buyer           = DynamicForm_Contact_GeneralInfo.getValue("buyer");
+		let	Val_agentSeller		= DynamicForm_Contact_GeneralInfo.getValue("agentSeller");
+		let	Val_agentBuyer      = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer");
+		let	Val_transporter     = DynamicForm_Contact_GeneralInfo.getValue("transporter");
+		let Val_shipper         = DynamicForm_Contact_GeneralInfo.getValue("shipper");
+		let Val_inspector       = DynamicForm_Contact_GeneralInfo.getValue("inspector");
+		let Val_insurancer      = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
 		let Val_all = [Val_seller , Val_buyer   , Val_agentSeller , Val_agentBuyer , Val_transporter , Val_shipper , Val_inspector , Val_insurancer ].values();
 		console.log(Val_all);
 		for(var i = 0 ; i < Val_all.length; i++)

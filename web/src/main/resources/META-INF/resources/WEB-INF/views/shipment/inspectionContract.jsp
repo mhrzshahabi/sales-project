@@ -314,14 +314,14 @@
             }
         }
     });
-    ToolStripButton_InspectionContract_Add.hide()
-    <%--var ToolStripButton_InspectionContract_Remove = isc.ToolStripButtonRemove.create({--%>
-    <%--icon: "[SKIN]/actions/remove.png",--%>
-    <%--title: "<spring:message code='global.form.remove'/>",--%>
-    <%--click: function () {--%>
-    <%--ListGrid_InspectionContract_remove();--%>
-    <%--}--%>
-    <%--});--%>
+    ToolStripButton_InspectionContract_Add.hide();
+    var ToolStripButton_InspectionContract_Remove = isc.ToolStripButtonRemove.create({
+    icon: "[SKIN]/actions/remove.png",
+    title: "<spring:message code='global.form.remove'/>",
+    click: function () {
+    ListGrid_InspectionContract_remove();
+    }
+    });
 
     var recordNotFound = isc.Label.create({
         height: 30,
@@ -346,7 +346,7 @@
         };
 
         ListGrid_InspectionContract.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            console.log(data)
+
             if (data.length === 0) {
                 recordNotFound.show();
                 ListGrid_InspectionContract.hide()
