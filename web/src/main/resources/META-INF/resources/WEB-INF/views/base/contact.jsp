@@ -585,28 +585,24 @@ var Menu_ListGrid_Contact = isc.Menu.create(
             	required:true,
                 name: "phone",
                 title: "<spring:message code='contact.phone'/>",
-                type: 'text',
                 width: 500,
-                wrapTitle: false, keyPressFilter: "[0-9.+]",
-                length:"20"
+                wrapTitle: false,
             },
             {
                 name: "mobile",
                 title: "<spring:message code='contact.mobile'/>",
                 width: 500,
                 wrapTitle: false,
-                keyPressFilter: "[0-9.+]",
-                length:"20"
             },
+
             {
-            	required:true,
+
                 name: "fax",
                 title: "<spring:message code='contact.fax'/>",
                 width: 500,
                 wrapTitle: false,
-                keyPressFilter: "[0-9.+]",
-                length:"20"
             },
+
             {
             	required:true,
                 name: "countryId",
@@ -626,19 +622,21 @@ var Menu_ListGrid_Contact = isc.Menu.create(
                 ]
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
+
             {
                 name: "webSite",
                 title: "<spring:message code='contact.webSite'/>",
                 width: 500,
                 wrapTitle: false,
                 validators:[
-                {
+                	{
                 type:"regexp",
                 expression:"^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
                 validateOnChange:true,
-                }
+					}
                 ],
-                },
+             },
+
             {
                 name: "email",
                 title: "<spring:message code='contact.email'/>",
@@ -702,6 +700,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 		  isc.warn("<spring:message code='contact.record.commercialRole'/>")
 		}else
 			{*/
+
 	ValuesManager_Contact.validate();
 
 	if (DynamicForm_Contact_GeneralInfo.hasErrors())
@@ -710,7 +709,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 	else if (DynamicForm_Contact_Connection.hasErrors())
 		contactTabs.selectTab(1);
 	else
-	{
+
 		var contactData = Object.assign(ValuesManager_Contact.getValues());
 
 		var httpMethod = "PUT"; //update
@@ -733,8 +732,8 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 					isc.say(RpcResponse_o.data);
 			}
 		}));
-		}
-	// }
+
+
 }
 
     function clearContactForms() {
@@ -1426,8 +1425,7 @@ function setContactAccountListGridHeaderFormData(record)
 					ListGrid_ContactAccount.invalidateCache();
 					ListGrid_Contact.invalidateCache();
 					isc.say("<spring:message code='global.form.request.successful'/>");
-					//Window_AccountsContact.close();
-				}
+									}
 				else
 					isc.say(RpcResponse_o.data);
 			}
@@ -1717,8 +1715,6 @@ var ListGrid_Contact = isc.ListGrid.create(
 	dataSource: RestDataSource_Contact,
 	styleName:'expandList',
 	autoFetchData: true,
-	// autoFitData: "vertical",
-	//height: 150,
 	alternateRecordStyles: true,
 	canExpandRecords: true,
 	canExpandMultipleRecords: false,
@@ -1749,7 +1745,7 @@ var ListGrid_Contact = isc.ListGrid.create(
 			name: "nameFA",
 			title: "<spring:message code='contact.nameFa'/>",
 			align: "center",
-			width: 200
+			width: "10%"
 		},
 		{
 			name: "nameEN",
@@ -1761,7 +1757,7 @@ var ListGrid_Contact = isc.ListGrid.create(
 			name: "tradeMark",
 			title: "<spring:message code='contact.tradeMark'/>",
 			type: 'text',
-			width: 200,
+			width: "10%",
 			wrapTitle: false,
 			align: "center"
 		},
@@ -1769,48 +1765,48 @@ var ListGrid_Contact = isc.ListGrid.create(
 			name: "commercialRegistration",
 			title: "<spring:message code='contact.commercialRegistration'/>",
 			type: 'text',
-			width: 200,
+			width: "10%",
 			wrapTitle: false,
-			align: "center"
+			align: "center" , showIf:"false",
 		},
 		{
 			name: "branchName",
 			title: "<spring:message code='contact.branchName'/>",
 			type: 'text',
-			width: 200,
+			width: "10%",
 			wrapTitle: false,
-			align: "center"
+			align: "center" , showIf:"false",
 		},
 		{
 			name: "commercialRole",
 			title: "<spring:message code='contact.commercialRole'/>",
 			type: 'text',
-			width: 200,
+			width: "10%",
 			wrapTitle: false,
-			align: "center"
+			align: "center" ,
 		},
 		{
 			name: "phone",
 			title: "<spring:message code='contact.phone'/>",
 			align: "center",
-			width: 200
+			width: "10%" ,
 		},
 		{
 			name: "mobile",
 			title: "<spring:message code='contact.mobile'/>",
 			align: "center",
-			width: 200
+			width: "10%" , showIf:"false",
 		},
 		{
 			name: "fax",
 			title: "<spring:message code='contact.fax'/>",
 			align: "center",
-			width: 200
+			width: "10%" , showIf:"false",
 		},
 		{
 			name: "country.nameFa",
 			title: "<spring:message code='country.nameFa'/>",
-			width: 200,
+			width: "10%", showIf:"false",
 			sortNormalizer: function(recordObject)
 			{
 				return recordObject.country.nameFa;
@@ -1820,61 +1816,61 @@ var ListGrid_Contact = isc.ListGrid.create(
 			name: "address",
 			title: "<spring:message code='contact.address'/>",
 			align: "center",
-			hidden: true
+			hidden: true , type:'text'
 		},
 		{
 			name: "webSite",
 			title: "<spring:message code='contact.webSite'/>",
 			align: "center",
-			hidden: true
+			hidden: true ,
 		},
 		{
 			name: "email",
 			title: "<spring:message code='contact.email'/>",
 			align: "center",
-			hidden: true
+			hidden: true ,
 		},
 		{
 			name: "type",
 			title: "<spring:message code='contact.type'/>",
 			align: "center",
-			width: 200
+			width: "10%"
 		},
 		{
 			name: "nationalCode",
 			title: "<spring:message code='contact.nationalCode'/>",
 			align: "center",
-			width: 200
+			width: "10%" , showIf:"false",
 		},
 		{
 			name: "economicalCode",
 			title: "<spring:message code='contact.economicalCode'/>",
 			align: "center",
-			width: 200
+			width: "10%" , showIf:"false",
 		},
 		{
 			name: "bankAccount",
 			title: "<spring:message code='contact.bankAccount'/>",
 			align: "center",
-			width: 200
+			width: "10%"
 		},
 		{
 			name: "bankShaba",
 			title: "<spring:message code='contact.bankShaba'/>",
 			align: "center",
-			width: 200
+			width: "10%"
 		},
 		{
 			name: "bankSwift",
 			title: "<spring:message code='contactAccount.bankSwift'/>",
 			align: "center",
-			width: 200
+			width: "10%"
 		},
 		{
 			name: "status",
 			title: "<spring:message code='contact.status'/>",
 			align: "center",
-			width: 200
+			width: "10%"
 		}
 
 	],
@@ -1925,56 +1921,3 @@ var ListGrid_Contact = isc.ListGrid.create(
 		]
 		});
 
-    /*isc.TabSet.create(
-      {
-  	ID: "contactMainTabSet",
-  	//tabBarPosition: "top",
-  	width: "100%",
-  	height: "100%",
-  	tabs: [
-  	{
-  		ID: "commercialParty",
-  		title: "<spring:message code='commercialParty.title'/>",
-  		icon: "",
-  		iconSize: 16,
-  		pane: VLayout_Body_Contact
-  	},
-/!*  	{
-  		title: "<spring:message code='contactAttach.title'/>",
-  		icon: "",
-  		iconSize: 16,
-		hidden: true,
-  		pane: contactAttachmentViewLoader,
-  		tabSelected: function(form, item, value)
-  		{
-  			var record = ListGrid_Contact.getSelectedRecord();
-  			if (record == null || record.id == null)
-  			{
-  				isc.Dialog.create( {
-  					message: "<spring:message code='global.grid.record.not.selected'/>",
-  					icon: "[SKIN]ask.png",
-  					title: "<spring:message code='global.message'/>",
-  					buttons: [isc.Button.create(
-  					{
-  						title: "<spring:message code='global.ok'/>"
-  					})],
-  					buttonClick: function()
-  					{
-  						this.hide();
-  					}
-  				});
-  				record.id = null;
-  			}
-  			var dccTableId = record.id;
-  			var dccTableName = "TBL_CONTACT";
-  			contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
-  		}
-  	}*!/
-  	]
-  });*/
-
-<%--var  buyer--%>
-<%--if(d ==0 || d==null || d==false )--%>
-<%--{--%>
-<%--isc.say("<spring:message code='global.form.request.checkbox'/>");--%>
-<%--}--%>
