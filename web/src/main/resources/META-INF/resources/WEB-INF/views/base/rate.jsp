@@ -109,7 +109,11 @@
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         }]
-                }, ]
+                },
+                {
+                type: "RowSpacerItem"
+                },
+]
         });
 
 
@@ -155,8 +159,8 @@
         showModalMask: true,
         align: "center",
         autoDraw: false,
+        margin: "30px",
         dismissOnEscape: true,
-        margin: '10px',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
