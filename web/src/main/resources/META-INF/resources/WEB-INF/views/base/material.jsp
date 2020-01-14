@@ -467,11 +467,10 @@
                     pickListWidth: "400",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
-                    pickListFields: [{name: "id", width: 50, align: "center" , hidden:true}, {
-                        name: "nameFA",
-                            width: 174,
-                        align: "center"
-                        }, {name: "nameEN", width: 174, align: "center"},
+                    pickListFields: [
+                        {name: "id", align: "center" , hidden:true},
+                        {name: "nameFA", width: 195, align: "center"},
+                        {name: "nameEN", width: 195, align: "center"},
                     ]
                 },
                 {type: "RowSpacerItem"}
@@ -1815,7 +1814,7 @@
     });
 
     var Window_MaterialItem = isc.Window.create({
-        title: "<spring:message code='ProductGroup'/> ",
+        title: "<spring:message code='ProductFeature'/> ",
         width: 580,
         autoSize: true,
         autoCenter: true,
