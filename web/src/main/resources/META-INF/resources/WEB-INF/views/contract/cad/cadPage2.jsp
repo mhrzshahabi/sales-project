@@ -121,8 +121,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 {name: "tblContractItem.id", type: "long", hidden: true},
                 {
                     name: "plan",
-                    title: "<spring:message
-                    code='shipment.plan'/>",
+                    title: "<spring:message code='shipment.plan'/>",
                     type: 'text',
                     width: 140,
                     valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},
@@ -241,7 +240,7 @@ var article5_quality = isc.DynamicForm.create({
                 width: "*"
             }
         ]
-    })
+    });
 var article6_quality = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle6_quality",
         height: "20",
@@ -309,7 +308,7 @@ var article6_quality = isc.DynamicForm.create({
                 width: "*"
             }
         ]
-    })
+    });
 
  var article7_quality = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle7_quality",
@@ -339,7 +338,7 @@ var article6_quality = isc.DynamicForm.create({
                 width: "*"
             }
         ]
-    })
+    });
 var article8_quality = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle8_quality",
         height: "20",
@@ -388,7 +387,7 @@ var article8_quality = isc.DynamicForm.create({
                 width: "*"
             }
         ]
-    })
+    });
 var article9_quality = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle9_quality",
         height: "20",
