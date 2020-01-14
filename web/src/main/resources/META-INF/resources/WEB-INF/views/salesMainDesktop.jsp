@@ -78,6 +78,12 @@
         }
     });
 
+    isc.SelectItem.addProperties ({
+            click:function(){
+                this.pickList.invalidateCache();
+            }
+    })
+
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
@@ -87,6 +93,10 @@
         willHandleError: false //centralized error handling
     };
 
+    function redirectLogin() {
+		location.href = "<spring:url value='/' />";
+	}
+
     isc.RPCManager.addClassProperties({
         defaultPrompt: "<spring:message code='global.server.contacting'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
         fetchDataPrompt: "<spring:message code='global.server.data.fetch'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
@@ -95,6 +105,19 @@
         promptStyle: "dialog",
         allowCrossDomainCalls: true,
         handleError: function (response, request) {
+                alert(response.error);
+             if(response.error=='invalid_token')
+		        isc.warn(response.data);
+                console.log("Global RPCManager Error Handler: ", request, response);
+                if (response.httpResponseCode === 401) { // Unauthorized
+                    redirectLogin();
+                } else if (response.httpResponseCode === 403) { // Forbidden
+                    nicico.error("Access Denied"); //TODO: I18N message key
+                }else if (response.httpResponseCode === 500){
+                    isc.say(JSON.parse(response.httpResponseText).exception);
+                }else if (response.httpResponseCode ===405){
+                    isc.say(JSON.parse(response.httpResponseText).exception);
+                }
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
                 case "Unauthorized":
@@ -147,6 +170,18 @@
             viewURL: url,
             loadingMessage: " <spring:message code='global.loadingMessage'/>"
         });
+
+    isc.ViewLoader.addMethods({
+		handleError: function (rq, rs) {
+			console.log("Global ViewLoader Error: ", rq, rs);
+			if (rs.httpResponseCode === 403) { // Forbidden
+				nicico.error("Access Denied");  //TODO: I18N message key
+			} else {
+				redirectLogin();
+			}
+			return false;
+		}
+	});
 
         var flagTabExist = false;
 
