@@ -9,7 +9,7 @@
 <html>
 <head>
 
-    <title><spring:message code='main.salesName'/></title>
+    <title><spring:message code='main.Tab.Name'/></title>
 
     <link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
@@ -207,7 +207,7 @@
 
     var label_Username = isc.Label.create({
 
-        width: "10%",
+        width: 100,
         dynamicContents: true,
         styleName: "header-label-username",
         contents: "<spring:message code='global.user'/>" + ":" + '${userFullName}',

@@ -336,7 +336,11 @@
 			colSpan: 1,
 			titleColSpan: 1
 		}]
-	}]
+	},
+	{
+		type: "RowSpacerItem"
+	},
+]
 });
 
 

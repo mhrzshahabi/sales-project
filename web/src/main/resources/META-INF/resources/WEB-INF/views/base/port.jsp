@@ -211,6 +211,9 @@
             [
                 {name: "id", hidden: true,},
                 {
+                    type: "RowSpacerItem"
+                },
+                {
                     name: "port",
                     title: "<spring:message code='port.port'/>",
                     width: 450, required: true, length: "4000",
@@ -280,7 +283,10 @@
 
 
                     ]
-                }
+                },
+                {
+                    type: "RowSpacerItem"
+                },
             ]
     });
 

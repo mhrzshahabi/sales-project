@@ -151,6 +151,9 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
+                    type: "RowSpacerItem",
+                },
+                {
                     name: "warehouseNo",
                     title: "<spring:message code='warehouseCad.warehouseNo'/>",
                     width: 500,
@@ -169,6 +172,9 @@
                     width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1
+                },
+                {
+                    type: "RowSpacerItem",
                 },
             ]
     });
