@@ -157,7 +157,7 @@
     });
 
     var DynamicForm_Groups = isc.DynamicForm.create({
-        width: 800,
+        width: "100%",
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -180,6 +180,9 @@
                 type: 'text',
                 required: true,
                 width: 400
+            },
+            {
+                type: "RowSpacerItem"
             },
         ]
     });
@@ -239,7 +242,7 @@
 
     var Window_Groups = isc.Window.create({
         title: "<spring:message code='groups.title'/>",
-        width: 800,
+        width: 600,
         // height: 500,
         autoSize: true,
         autoCenter: true,
@@ -735,14 +738,23 @@
                     optionDataSource: RestDataSource_Person_GroupEmail,
                     displayField: "fullName",
                     valueField: "id",
-                    pickListWidth: 500,
+                    pickListWidth: 505,
                     pickListHeight: 500,
                     pickListProperties: {showFilterEditor: true},
-                    pickListFields: [{name: "id", width: 50, align: "center"}, {
+                    pickListFields: [
+                        {
+                        name: "id",
+                        align: "center",
+                        hidden: true,
+                        }, {
                         name: "fullName",
                         width: 150,
                         align: "center"
-                    }, {name: "contact.nameFA", width: 150, align: "center"}, {
+                    }, {name: "contact.nameFA",
+                        title: "<spring:message code='commercialParty.title'/>",
+                        width: 200,
+                        align: "center"
+                        }, {
                         name: "email",
                         width: 150,
                         align: "center"
@@ -846,8 +858,8 @@
 
     var Window_GroupsPerson = isc.Window.create({
         title: "<spring:message code='groupsPerson.title'/>",
-        width: 700,
-        height: 300,
+        width: 810,
+        height: 250,
         autoSize: false,
         autoCenter: true,
         isModal: true,

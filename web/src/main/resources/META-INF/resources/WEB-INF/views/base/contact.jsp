@@ -366,7 +366,9 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			title: "<spring:message code='contact.nameFa'/>",
  			required: true,
  			readonly: true,
- 			width: "90%",
+ 			width: 300,
+			colSpan: 3,
+			titleColSpan: 1,
  			wrapTitle: false,
  			hint: "Persian/فارسی"
  		},
@@ -375,7 +377,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			name: "nameEN",
  			title: "<spring:message code='contact.nameEn'/>",
  			type: 'text',
- 			width: 200,
+ 			width: 300,
  			colSpan: 3,
  			titleColSpan: 1,
  			hint: "Latin",
@@ -385,7 +387,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			name: "tradeMark",
  			title: "<spring:message code='contact.tradeMark'/>",
  			type: 'text',
- 			width: 200,
+ 			width: 300,
  			colSpan: 3,
  			titleColSpan: 1,
  			wrapTitle: false
@@ -394,7 +396,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			name: "ceo",
  			title: "<spring:message code='contact.ceo'/>",
  			type: 'text',
- 			width: 200,
+ 			width: 300,
  			colSpan: 3,
  			titleColSpan: 1,
  			wrapTitle: false
@@ -403,7 +405,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			name: "ceoPassportNo",
  			title: "<spring:message code='contact.ceoPassportNo'/>",
  			type: 'text',
- 			width: 200,
+ 			width: 300,
  			colSpan: 3,
  			titleColSpan: 1,
  			keyPressFilter: "[0-9.]",
@@ -413,7 +415,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			name: "commercialRegistration",
  			title: "<spring:message code='contact.commercialRegistration'/>",
  			type: 'text',
- 			width: 200,
+ 			width: 300,
  			colSpan: 3,
  			titleColSpan: 1,
  			keyPressFilter: "[0-9.]",
@@ -424,7 +426,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			name: "branchName",
  			title: "<spring:message code='contact.branchName'/>",
  			type: 'text',
- 			width: 200,
+ 			width: 300,
  			colSpan: 3,
  			titleColSpan: 1,
  			wrapTitle: false ,
@@ -526,7 +528,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  		{
  			name: "nationalCode",
  			title: "<spring:message code='contact.nationalCode'/>",
- 			width: "90%",
+ 			width: 200,
  			keyPressFilter: "[0-9.]",
  			wrapTitle: false
  		},
@@ -658,7 +660,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 
     var contactTabs = isc.TabSet.create({
         height: 550,
-        width: 670,
+        width: 700,
         showTabScroller: true,
         tabs: [
             {
@@ -775,8 +777,8 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 
     var Window_Contact = isc.Window.create({
         title: "<spring:message code='contact.title'/>",
-        width: 670,
-        height: 560,
+        width: 700,
+        height: 580,
         autoSize: true,
         autoCenter: true,
         isModal: true,
