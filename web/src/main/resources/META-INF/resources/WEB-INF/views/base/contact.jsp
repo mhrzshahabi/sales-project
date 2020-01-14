@@ -1847,6 +1847,7 @@ var ListGrid_Contact = isc.ListGrid.create(
 			title: "<spring:message code='contact.economicalCode'/>",
 			align: "center",
 			width: "10%" , showIf:"false",
+
 		},
 		{
 			name: "bankAccount",
