@@ -208,7 +208,11 @@
 		required: true,
 		keyPressFilter: "[a-z|A-Z|0-9.]",
 		titleColSpan: 1
-	}, ]
+	},
+	{
+		type: "RowSpacerItem"
+	},
+]
 });
 
 

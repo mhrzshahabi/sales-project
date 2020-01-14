@@ -34,24 +34,31 @@
         showInlineErrors: true,
         showErrorText: true,
         showErrorStyle: true,
-        errorOrientation: "bottom",
-        titleWidth: "100",
+        errorOrientation: "right",
+        titleWidth: "50",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
+        numCols: 2,
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false},
+                {
+                    type: "RowSpacerItem",
+                },
                 {
                     name: "documentType",
                     title: "<spring:message code='dcc.documentType'/>",
                     type: 'text',
                     required: true,
                     width: 400,
+                    align: "right",
                     valueMap: {
                         "letter": "<spring:message code='dcc.letter'/>",
                         "contract": "<spring:message code='contract.title'/>"
                     }
+                },
+                {
+                    type: "RowSpacerItem",
                 },
                 {
                     name: "description",
@@ -62,6 +69,9 @@
                     height: "100"
                 },
                 {
+                    type: "RowSpacerItem",
+                },
+                {
                     ID: "fileDcc",
                     name: "fileDcc",
                     title: "<spring:message code='global.Attachment'/> ",
@@ -70,6 +80,9 @@
                     accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
                     multiple: "",
                     width: "90%",
+                },
+                {
+                    type: "RowSpacerItem",
                 }
             ]
     });
@@ -391,7 +404,7 @@
 
     var dccCreateWindow = isc.Window.create({
         title: "<spring:message code='dcc.Attachment'/> ",
-        width: 580,
+        width: 550,
         // height: 300,
         autoSize: true,
         autoCenter: true,

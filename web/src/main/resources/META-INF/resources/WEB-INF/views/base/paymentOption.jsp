@@ -129,7 +129,7 @@
 
 
     var DynamicForm_PaymentOption = isc.DynamicForm.create({
-        width: 700,
+        width: "100%",
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -138,7 +138,7 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100",
+        titleWidth: "50",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
@@ -292,8 +292,8 @@
     var Window_PaymentOption = isc.Window.create(
         {
             title: "<spring:message code='paymentOption.title'/> ",
-            width: 500,
-            height: 50,
+            width: 600,
+            // height: 200,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -301,7 +301,6 @@
             align: "center",
             autoDraw: false,
             dismissOnEscape: true,
-            layoutMargin: 5,
             closeClick: function()
             {
                 this.Super("closeClick", arguments)

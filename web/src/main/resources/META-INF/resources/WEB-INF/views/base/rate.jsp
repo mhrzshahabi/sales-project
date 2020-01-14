@@ -69,7 +69,7 @@
                     title: "<spring:message code='rate.code'/>",
                     type: 'text',
                     required: true,
-                    width: 400,
+                    width: 300,
                     keyPressFilter: "[0-9]",
                     length: "15" , showIf:"false",
                 },
@@ -78,13 +78,13 @@
                     title: "<spring:message code='rate.nameFa'/>",
                     required: true,
                     readonly: true,
-                    width: 400
+                    width: 300
                 },
                 {
                     name: "nameEN",
                     title: "<spring:message code='rate.nameEN'/>",
                     type: 'text',
-                    width: 400,
+                    width: 300,
                     required: true,
                     keyPressFilter: "[a-z|A-Z|0-9.]"
                 },
@@ -92,12 +92,12 @@
                     name: "symbol",
                     title: "<spring:message code='feature.symbol'/>",
                     type: 'text',
-                    width: 400
+                    width: 300
                 },
                 {
                     name: "decimalDigit",
                     title: "<spring:message code='rate.decimalDigit'/>",
-                    width: 400,
+                    width: 300,
                     keyPressFilter: "[0-4]",
                     length: "1",
                     hint: "<spring:message code='deghat.ashar.cu'/>",
@@ -152,7 +152,7 @@
     var Window_Rate = isc.Window.create({
         title: "<spring:message code='rate.title'/> ",
         width: 580,
-        height: 310,
+        height: 300,
         autoSize: true,
         autoCenter: true,
         isModal: true,
