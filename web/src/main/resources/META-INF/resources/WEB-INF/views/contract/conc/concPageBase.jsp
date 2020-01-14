@@ -385,9 +385,6 @@ function saveListGrid_ContractConcItemShipment(contractID) {
         ListGrid_ContractConcItemShipment.getSelectedRecords().forEach(function(element) {
             var dataEditMain=ListGrid_ContractConcItemShipment.getSelectedRecord(element)
             dataEditMain.contractId=contractID;
-            dataEditMain.sendDate=sendDateSetConcSave.toNormalDate("toUSShortDate");
-            alert(JSON.stringify(dataEditMain));
-            alert(JSON.stringify(dataEditMain));
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -403,6 +400,7 @@ function saveListGrid_ContractConcItemShipment(contractID) {
     ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
             var dataEdit=ListGrid_ContractConcItemShipment.getEditedRecord(element);
             dataEdit.contractId=contractID;
+            dataEdit.sendDate=sendDateSetConcSave.toNormalDate("toUSShortDate")
             //dataEdit.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
@@ -465,6 +463,18 @@ function clearAdd(){
         contactHeaderConc.clearValues();
         contactHeaderConcAgent.clearValues();
         valuesManagerConcArticle1.clearValues();
+        dynamicForm_fullArticle01.clearValues();
+        dynamicForm_fullArticle02.clearValues();
+        dynamicForm_fullArticleConc03.clearValues();
+        dynamicForm_fullArticleConc04.clearValues();
+        dynamicForm_fullArticleConc05.clearValues();
+        dynamicForm_fullArticleConc06.clearValues();
+        dynamicForm_fullArticleConc07.clearValues();
+        dynamicForm_fullArticleConc08.clearValues();
+        dynamicForm_fullArticleConc09.clearValues();
+        dynamicForm_fullArticleConc10.clearValues();
+        dynamicForm_fullArticleConc11.clearValues();
+        dynamicForm_fullArticleConc12.clearValues();
         valuesManagerArticle2Conc.clearValues();
         valuesManagerArticle3_conc.clearValues();
         valuesManagerfullArticle.clearValues();

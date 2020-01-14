@@ -154,7 +154,7 @@ isc.ListGrid.create({
         canEdit: true,
         canRemoveRecords: true,
         autoFetchData: false,
-        autoSaveEdits: false,
+        autoSaveEdits: true,
         dataSource: RestDataSource_ContractShipment,
         fields:
             [
@@ -239,8 +239,7 @@ isc.ListGrid.create({
                         callback: function (resp) {
                             if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
-                                    ListGrid_ContractConcItemShipment.setData([]);
-                                    ListGrid_ContractConcItemShipment.fetchData(criteriaContractItemShipment);
+                                    ListGrid_ContractConcItemShipment.invalidateCache();
                             } else
                                 isc.say(RpcResponse_o.data);
                         }

@@ -297,7 +297,7 @@ var ListGrid_Conc = isc.ListGrid.create({
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             Window_ContactConc.show();
-            setTimeout(function(){clearAdd()},250)
+            setTimeout(function(){clearAdd()},300)
         }
     });
 

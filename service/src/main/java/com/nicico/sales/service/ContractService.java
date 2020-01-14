@@ -111,11 +111,36 @@ public class ContractService implements IContractService {
         String contractNo = map.get("contractNo") + "";
         Integer contractId = (Integer) map.get("contractId");
         List<WarehouseLot> listsFromHouseLot = warehouseLotDAO.findByContractId(Long.valueOf(contractId));
-        List<ContractShipment> shipmentListContracts = contractShipmentDAO.findByContractId(Long.valueOf(contractId));
+        //List<ContractShipment> shipmentListContracts = contractShipmentDAO.findByContractId(Long.valueOf(contractId));
         printOnePage(printdoc, contractId);
         contractDAO.findById(contractId).getMaterial();
         map.remove("contractNo");
         map.remove("contractId");
+        String flag="";
+        String articl04,articl05,articl06,articl07,articl08,articl09,articl10,articl11,articl12="";
+         if(contractNo.contains("_Conc") || contractNo.contains("Cathod_")){
+                flag="Article04";
+                articl04= "–SHIPMENT:";
+                articl05= "–DELIVERY TERMS";
+                articl06= "– INSURANCE";
+                articl07= "- RISK OF LOSS";
+                articl08= "- PRICE TERMS";
+                articl09= "- DEDUCTIONS";
+                articl10="- QUOTATIONAL PERIOD";
+                articl11="- PEYMENT";
+                articl12="- CURRENCY CONVERSION:";
+            }else{
+                flag="Article05";
+                articl04= "–PACKING:";
+                articl05= "–SHIPMENT:";
+                articl06= "- DELIVERY TERMS:";
+                articl07= "– PRICE:";
+                articl08= "- QUOTATIONAL PERIOD:";
+                articl09= "– PAYMENT:";
+                articl10="- CURRENCY CONVERSION:";
+                articl11="- TITLE AND RISK OF LOSS:";
+                articl12="– WEIGHT:";
+            }
         for (String key : map.keySet()) {
             String value = map.get(key) + "";
             dataALLArticle = dataALLArticle + " " + key + "&?" + " " + value;
@@ -133,31 +158,31 @@ public class ContractService implements IContractService {
                     runPrint.setText(key + "–OUALITY:");
                     break;
                 case "Article04":
-                    runPrint.setText(key + "–PACKING:");
+                    runPrint.setText(key + articl04);
                     break;
                 case "Article05":
-                    runPrint.setText(key + "–SHIPMENT:");
+                    runPrint.setText(key + articl05);
                     break;
                 case "Article06":
-                    runPrint.setText(key + "- DELIVERY TERMS:");
+                    runPrint.setText(key + articl06);
                     break;
                 case "Article07":
-                    runPrint.setText(key + "– PRICE:");
+                    runPrint.setText(key + articl07);
                     break;
                 case "Article08":
-                    runPrint.setText(key + "- QUOTATIONAL PERIOD:");
+                    runPrint.setText(key + articl08);
                     break;
                 case "Article09":
-                    runPrint.setText(key + "– PAYMENT:");
+                    runPrint.setText(key + articl09);
                     break;
                 case "Article10":
-                    runPrint.setText(key + "- CURRENCY CONVERSION:");
+                    runPrint.setText(key + articl10);
                     break;
                 case "Article11":
-                    runPrint.setText(key + "- TITLE AND RISK OF LOSS:");
+                    runPrint.setText(key + articl11);
                     break;
                 case "Article12":
-                    runPrint.setText(key + "– WEIGHT:");
+                    runPrint.setText(key + articl12);
                     break;
             }
             runPrint.setUnderline(UnderlinePatterns.SINGLE);
@@ -198,20 +223,15 @@ public class ContractService implements IContractService {
                     setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(7), nvl(listsFromHouseLot.get(i).getMo() + ""));
                     setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(8), nvl(listsFromHouseLot.get(i).getMo() + ""));
                 }
-            } else if (key.equals("Article05") && shipmentListContracts.size() > 0) {
-                runPrintValue.addBreak();
-                runPrintValue.addBreak();
-                //runPrintValue.setText(value);
+            } else if (key.equals(flag) && contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size() > 0) {
                 myXWPFHtmlDocument = createHtmlDoc(printdoc, key);
                 myXWPFHtmlDocument.setHtml(myXWPFHtmlDocument.getHtml().replace("<body></body>",
                         "<body>" + value + "</body>"));
                 printdoc.getDocument().getBody().addNewAltChunk().setId(myXWPFHtmlDocument.getId());
-
                 runPrintValue.addBreak();
-                XWPFTable tableShipment = printdoc.createTable(shipmentListContracts.size() + 1, 8);
+                XWPFTable tableShipment = printdoc.createTable(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size() + 1, 8);
                 CTTblWidth widthLot = tableShipment.getCTTbl().addNewTblPr().addNewTblW();
                 widthLot.setW(BigInteger.valueOf(10000));
-                runPrintValue.addBreak();
                 setTableAlign(tableShipment, ParagraphAlignment.CENTER);
                 setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(0), "PLAN");
                 setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(1), "ROW");
@@ -230,15 +250,15 @@ public class ContractService implements IContractService {
                 tableShipment.getRow(0).getCell(5).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(6).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(7).setColor("D9D9D9");
-                for (int i = 0; i < shipmentListContracts.size(); i++) {
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(0), nvl(shipmentListContracts.get(i).getPlan()));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(1), nvl(shipmentListContracts.get(i).getShipmentRow() + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(2), nvl(portDAO.findById(Long.valueOf(shipmentListContracts.get(i).getDischargeId())).get().getPort()));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(3), nvl(shipmentListContracts.get(i).getAddress() + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(4), nvl(shipmentListContracts.get(i).getAmount() + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(5), nvl(sdf.format(sdf.parse(shipmentListContracts.get(i).getSendDate())) + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(6), nvl(shipmentListContracts.get(i).getDuration() + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(7), nvl(shipmentListContracts.get(i).getTolorance() + ""));
+                for (int i = 0; i < contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size(); i++) {
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(0), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getPlan()));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(1), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getShipmentRow() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(2), nvl(portDAO.findById(Long.valueOf(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getDischargeId())).get().getPort()));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(3), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getAddress() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(4), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getAmount() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(5), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getSendDate() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(6), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getDuration() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(7), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getTolorance() + ""));
                 }
             } else {
                 myXWPFHtmlDocument = createHtmlDoc(printdoc, key);
