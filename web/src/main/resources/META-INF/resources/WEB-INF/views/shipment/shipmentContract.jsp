@@ -237,7 +237,9 @@
                 }
             });
         } else {
+
             DynamicForm_ShipmentContract.editRecord(record);
+            DynamicForm_ShipmentContract.setValue("createDate" , new Date(record.createDate));
             Window_ShipmentContract.animateShow();
         }
     }
@@ -380,41 +382,25 @@
             hidden: true
             },
 
-            {
-                colSpan: 2,
-                name: "createDate",
-                ID: "createDate",
-                title: "<spring:message code='shipmentContract.shipmentContractDate'/>", //تاریخ ایجاد
-                align: "right",
-                width: "200",
-                icons: [{
-                    src: "pieces/pcal.png",
-                    click: function () {
-                        displayDatePicker('createDate', this, 'ymd', '/');
-                    }
-                }],
 
-                blur: function () {
-                   var value = DynamicForm_ShipmentContract.getItem('laycanStart').getValue();
-                    if (value != null && value.length !== 10 && value !== "") {
-                        DynamicForm_ShipmentContract.setValue('laycanStart', CorrectDate(value))
-                    }
-            },
-            },
+                 {
+                    colSpan: 2,
+                    name: "createDate",
+                    title: "<spring:message code='shipmentContract.shipmentContractDate'/>",
+                    width: 430,
+                    type: "date",
+                    required: true,
+                },
 
 
 
-            {
-                name: "no",
-                title: "<spring:message code='shipmentContract.no'/>", //شماره
-                align: "right",
-                colSpan: 2,
-                width: "200",
-                required: true,
-                length: "30",
-            },
 
-            {
+
+
+
+
+
+{
                 colSpan: 2,
                 name: "capacity",
                 title: "<spring:message code='shipmentContract.capacity'/>", //ظرفیت
@@ -606,7 +592,15 @@
                 }
             },
 
-
+              {
+                name: "no",
+                title: "<spring:message code='shipmentContract.no'/>", //شماره
+                align: "right",
+                colSpan: 2,
+                width: "200",
+                required: true,
+                length: "30",
+            },
 
             {
                 type: "Header",
