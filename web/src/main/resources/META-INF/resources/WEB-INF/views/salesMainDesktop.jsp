@@ -105,7 +105,6 @@
         promptStyle: "dialog",
         allowCrossDomainCalls: true,
         handleError: function (response, request) {
-                alert(response.error);
              if(response.error=='invalid_token')
 		        isc.warn(response.data);
                 console.log("Global RPCManager Error Handler: ", request, response);
