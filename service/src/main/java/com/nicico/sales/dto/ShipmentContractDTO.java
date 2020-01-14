@@ -19,8 +19,6 @@ import java.util.List;
 public class ShipmentContractDTO {
 
 	private Contact tblContactByOwners;
-	@NotNull
-	@ApiModelProperty(required = true)
 	private String no;
 	private Double capacity;
 	private String laycanStart;
@@ -75,9 +73,6 @@ public class ShipmentContractDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	@Getter

@@ -17,17 +17,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BankDTO {
 
-    @ApiModelProperty(required = true)
     private String bankName;
-    @ApiModelProperty(required = true)
     private Long countryId;
-    @ApiModelProperty(required = true)
-    private String bankCode;
-    @ApiModelProperty(required = true)
     private String enBankName;
-    @ApiModelProperty(required = true)
     private String address;
-    @ApiModelProperty(required = true)
     private String coreBranch;
 
     @Getter

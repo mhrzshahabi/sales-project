@@ -140,7 +140,7 @@
                 {
                     name: "cuUsdMt",
                     title: "<spring:message code='LME.cuUsdMt'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     validators: [
@@ -154,7 +154,7 @@
                 {
                     name: "goldUsdOunce",
                     title: "<spring:message code='LME.goldUsdOunce'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     validators: [
@@ -169,7 +169,7 @@
                 {
                     name: "silverUsdOunce",
                     title: "<spring:message code='LME.silverUsdOunce'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     validators: [
@@ -184,7 +184,7 @@
                 {
                     name: "seleniumUsdLb",
                     title: "<spring:message code='LME.seleniumUsdLb'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     required: true,
@@ -199,7 +199,7 @@
                 {
                     name: "platinumUsdOunce",
                     title: "<spring:message code='LME.platinumUsdOunce'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     validators: [
@@ -213,7 +213,7 @@
                 {
                     name: "palladiumUsdOunce",
                     title: "<spring:message code='LME.palladiumUsdOunce'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     validators: [
@@ -227,7 +227,7 @@
                 {
                     name: "molybdenumUsdLb",
                     title: "<spring:message code='LME.molybdenumUsdLb'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     validators: [
@@ -241,10 +241,11 @@
                 {
                     name: "lmeDate",
                     title: "<spring:message code='LME.LMEDate'/>",
-                    width: 480,
+                    width: 430,
                     type: "date",
                     required: true,
                 },
+
                 {
                     type: "RowSpacerItem"
                 }]
@@ -402,8 +403,7 @@
 
     var Window_LME = isc.Window.create({
         title: "<spring:message code='LME.title'/> ",
-        width: 580,
-        // height: 450,
+        width: 700,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -520,9 +520,7 @@
                     {
                         operationId: "00"
                     });
-            },
-            dataArrived: function(startRow, endRow) {}
-
+            }
         });
 
     var HLayout_LME_Grid = isc.HLayout.create({

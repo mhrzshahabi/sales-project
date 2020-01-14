@@ -19,8 +19,6 @@ public class ShipmentDTO {
 
 	private Long contactId;
 	private Long shipmentHeaderId;
-	@NotNull
-	@ApiModelProperty(required = true)
 	private Long contractId;
 	private Long contractShipmentId;
 	private Long materialId;
@@ -39,8 +37,6 @@ public class ShipmentDTO {
 	private String shipmentType;
 	private String laycan;
 	private String switchBl;
-	@NotNull
-	@ApiModelProperty(required = true)
 	private String swb;
 	private Long switchPortId;
 	private String noBundle;
@@ -78,9 +74,7 @@ public class ShipmentDTO {
 		private PortDTO.PortInfoTuple portByLoading;
 		private PortDTO.PortInfoTuple portByDischarge;
 		private ContractShipmentDTO contractShipment;
-		//		private ContactDTO.ContactInfoTuple contact;
 		private PortDTO.PortInfoTuple switchPort;
-		//		private ShipmentHeaderDTO shipmentHeader;
 		private ContractDTO.ContractInfoTuple contract;
 		private MaterialDTO.MaterialTuple material;
         private String containerType;
@@ -107,9 +101,6 @@ public class ShipmentDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	@Getter

@@ -367,9 +367,7 @@
                     {
                         operationId: "00"
                     });
-            },
-            dataArrived: function(startRow, endRow) {}
-
+            }
         });
 
     var HLayout_Glossary_Grid = isc.HLayout.create({

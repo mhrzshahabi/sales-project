@@ -16,7 +16,7 @@ public interface IContractService {
 
 	List<ContractDTO.Info> list();
 
-	void writeToWord(String request) throws IOException, InvalidFormatException, ParseException;
+	void writeToWord(String request) throws Exception;
 
 	List<String> readFromWord(String contractNo);
 

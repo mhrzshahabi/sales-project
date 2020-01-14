@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GroupsPersonDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private Long groupsId;
     private Long personId;
     private String desc;

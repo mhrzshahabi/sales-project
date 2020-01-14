@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContactAccountDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private Long contactId;
     private Long bankId;
     private String bankAccount;

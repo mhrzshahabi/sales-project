@@ -17,13 +17,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CountryDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private String nameFa;
     private String nameEn;
-    private String isActive;
-    private String invId;
-    private String code;
 
     @Getter
     @Setter

@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CurrencyRateDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private String curDate;
     private String irrUsd;
     private String eurUsd;

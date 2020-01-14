@@ -19,7 +19,7 @@
                     name: "contactId"
                 },
                 {
-                    name: "contact.nameFA",
+                    name: "contact.nameFA"
 
                 },
                 {
@@ -421,7 +421,7 @@
                     title: "<spring:message code='groups.groupsName'/>",
                     type: 'text',
                     required: true,
-                    width: 400
+                    width: "100%"
                 }, ],
             sortField: 0,
             autoFetchData: true,
@@ -449,8 +449,7 @@
                     {
                         operationId: "00"
                     });
-            },
-            dataArrived: function(startRow, endRow) {}
+            }
         });
 
     var HLayout_Grid_Groups = isc.HLayout.create({
@@ -534,10 +533,14 @@
                 },
                 {
                     name: "contact.nameFA",
-                    title: "<spring:message code='contact.name'/>",
+                    title: "<spring:message code='commercialParty.title'/>",
                     type: 'long',
                     width: "10%",
-                    align: "center"
+                    align: "center",
+                    sortNormalizer: function(recordObject)
+                    {
+                    return recordObject.contact.nameFA;
+                }
                 },
                 {
                     name: "fullName",
@@ -626,8 +629,7 @@
                     {
                         operationId: "00"
                     });
-            },
-            dataArrived: function(startRow, endRow) {}
+            }
         });
 
 
@@ -682,6 +684,9 @@
                         } else {
                             DynamicForm_GroupsPerson.clearValues();
                             DynamicForm_GroupsPerson.setValue("groupsId", record.id);
+                            DynamicForm_GroupsPerson.setValue("groupsName", record.groupsName);
+                            GroupPersonHeaderForm.setValue("id", record.id);
+                            GroupPersonHeaderForm.setValue("groupsName", record.groupsName);
                             Window_GroupsPerson.show();
                         }
                     }
@@ -701,7 +706,7 @@
             ]
     });
     var DynamicForm_GroupsPerson = isc.DynamicForm.create({
-        width: "100%",
+        width: 700,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -724,7 +729,7 @@
                     name: "personId",
                     title: "<spring:message code='person.fullName'/>",
                     type: 'long',
-                    width: 400,
+                    width: 500,
                     required: true,
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Person_GroupEmail,
@@ -841,7 +846,7 @@
 
     var Window_GroupsPerson = isc.Window.create({
         title: "<spring:message code='groupsPerson.title'/>",
-        width: 800,
+        width: 700,
         height: 300,
         autoSize: false,
         autoCenter: true,
@@ -943,7 +948,7 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-            var record = ListGrid.getSelectedRecord();
+            var record = ListGrid_Groups.getSelectedRecord();
 
             if (record == null || record.id == null) {
                 isc.Dialog.create({
@@ -961,7 +966,6 @@
                 DynamicForm_GroupsPerson.setValue("groupsName", record.groupsName);
                 GroupPersonHeaderForm.setValue("id", record.id);
                 GroupPersonHeaderForm.setValue("groupsName", record.groupsName);
-
                 Window_GroupsPerson.show();
             }
         }
@@ -1142,6 +1146,8 @@
 
         fetchDataURL: "${contextPath}/api/groupsPerson/spec-list"
     });
+
+
     var ListGrid_GroupsPerson = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -1186,7 +1192,13 @@
             );
         },
         fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+            {
+                name: "id",
+                title: "id",
+                primaryKey: true,
+                canEdit: false,
+                hidden: true
+            },
             {
                 name: "groups.id",
                 title: "<spring:message code='groups.groupsName'/>",
@@ -1200,7 +1212,11 @@
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
-                width: "10%"
+                width: "10%",
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             },
             {
                 name: "person.id",
@@ -1215,14 +1231,21 @@
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: "10%"
+                width: "10%",
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             },
             {
                 name: "person.jobTitle",
                 title: "<spring:message code='person.jobTitle'/>",
                 type: 'text',
                 width: 150,
-
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             },
             {
                 name: "person.title",
@@ -1233,6 +1256,10 @@
                     "MR": "<spring:message code='global.MR'/>",
                     "MIS": "<spring:message code='global.MIS'/>",
                     "MS": "<spring:message code='global.MRS'/>",
+                },
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
                 }
             },
             {
@@ -1240,53 +1267,77 @@
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: true,
-                width: "10%"
+                width: "10%",
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             },
             {
                 name: "person.email1",
                 title: "<spring:message code='person.email1'/>",
                 type: 'text',
                 width: "10%",
-
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             },
             {
                 name: "person.email2",
                 title: "<spring:message code='person.email2'/>",
                 type: 'text',
                 width: "10%",
-
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             },
             {
                 name: "person.webAddress",
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
-                width: "10%"
+                width: "10%",
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             },
             {
                 name: "person.mobileNo",
                 title: "<spring:message code='person.mobileNo'/>",
                 type: 'text',
                 width: "10%",
-
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             },
             {
                 name: "person.mobileNo1",
                 title: "<spring:message code='person.mobileNo1'/>",
                 type: 'text',
                 width: "10%",
-
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             },
             {
                 name: "person.mobileNo2",
                 title: "<spring:message code='person.mobileNo2'/>",
                 type: 'text',
                 width: "10%",
+                sortNormalizer: function(recordObject)
+                {
+                return recordObject.groups.groupsName;
+                }
             }
         ],
-        sortField: 0,
+        sortField: 2,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
     });
     var HLayout_Grid_GroupsPerson = isc.HLayout.create({
         width: "100%",

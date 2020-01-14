@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentMoistureHeaderDTO {
 
-	@NotNull
-	@ApiModelProperty(required = true)
 	private Long shipmentId;
 	private Long inspectionByContactId;
 	private String description;
@@ -59,9 +57,6 @@ public class ShipmentMoistureHeaderDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	@Getter

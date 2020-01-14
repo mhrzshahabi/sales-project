@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@EqualsAndHashCode(of = {"id"}, callSuper = false)
+@EqualsAndHashCode(of = {"ID"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTRACT_DETAIL")
 public class ContractDetail extends Auditable {

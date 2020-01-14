@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InvoiceInternalCustomerDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private Long id;
     private String customerId;
     private String customerName;

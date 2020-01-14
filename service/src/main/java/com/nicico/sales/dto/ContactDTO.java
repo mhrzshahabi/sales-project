@@ -17,9 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContactDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
-    private String code;
     private String nameFA;
     private String nameEN;
     private String phone;
@@ -50,7 +47,7 @@ public class ContactDTO {
     private String ceo;
     private String ceoPassportNo;
     private Long countryId;
-    private Long bankId; // in first, value is null
+    private Long bankId;
 
     @Getter
     @Setter

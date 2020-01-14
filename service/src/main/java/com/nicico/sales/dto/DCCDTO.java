@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DCCDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private String tblName1;
     private Long tblId1;
     private String tblName2;

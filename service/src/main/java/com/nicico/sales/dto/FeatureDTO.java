@@ -17,10 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FeatureDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private String nameFA;
-    private String code;
     private String nameEN;
     private String symbol;
     private Long decimalDigit;

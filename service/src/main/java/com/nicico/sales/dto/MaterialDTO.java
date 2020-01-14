@@ -17,14 +17,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MaterialDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private String descl;
-    @NotNull
-    @ApiModelProperty(required = true)
     private String descp;
-    @NotNull
-    @ApiModelProperty(required = true)
     private String code;
     private Long unitId;
 

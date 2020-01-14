@@ -171,8 +171,8 @@ function ListGrid_CurrencyRate_edit()
                     type: 'text',
                     width: "400",
                     keyPressFilter: "[0-9.]",
-                    length: "15",
-                    hint: " <spring:message code='Material.digit'/>",
+                    length: "8",
+                    hint: " <spring:message code='currencyRate.digit'/>",
                     showHintInField: true , required:true,
 
                 },
@@ -182,8 +182,8 @@ function ListGrid_CurrencyRate_edit()
                     type: 'text',
                     width: "400",
                     keyPressFilter: "[0-9.]",
-                    length: "15",
-                    hint: " <spring:message code='Material.digit'/>",
+                    length: "8",
+                    hint: " <spring:message code='currencyRate.digit'/>",
                     showHintInField: true
                 },
                 {
@@ -192,8 +192,8 @@ function ListGrid_CurrencyRate_edit()
                     type: 'text',
                     width: "400",
                     keyPressFilter: "[0-9.]",
-                    length: "15",
-                    hint: " <spring:message code='Material.digit'/>",
+                    length: "8",
+                    hint: " <spring:message code='currencyRate.digit'/>",
                     showHintInField: true
                 },
                 {
@@ -202,8 +202,8 @@ function ListGrid_CurrencyRate_edit()
                     type: 'text',
                     width: "400",
                     keyPressFilter: "[0-9.]",
-                    length: "15",
-                    hint: " <spring:message code='Material.digit'/>",
+                    length: "8",
+                    hint: " <spring:message code='currencyRate.digit'/>",
                     showHintInField: true
                 },
                 {type: "RowSpacerItem"}
@@ -471,9 +471,7 @@ function ListGrid_CurrencyRate_edit()
 		{
 			operationId: "00"
 		});
-	},
-	dataArrived: function(startRow, endRow) {}
-
+	}
 });
 
 

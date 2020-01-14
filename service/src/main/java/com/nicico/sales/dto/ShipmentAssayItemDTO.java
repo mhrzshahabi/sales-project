@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentAssayItemDTO {
 
-	@NotNull
-	@ApiModelProperty(required = true)
 	private Long shipmentAssayHeaderId;
 	private Long lotNo;
 	private Double cu;
@@ -54,9 +52,6 @@ public class ShipmentAssayItemDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	@Getter

@@ -17,9 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RateDTO {
 
-	@NotNull
-	@ApiModelProperty(required = true)
-	private String code;
 	private String nameFA;
 	private String nameEN;
 	private String symbol;
@@ -53,9 +50,6 @@ public class RateDTO {
 		@NotNull
 		@ApiModelProperty(required = true)
 		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
 	}
 
 	@Getter

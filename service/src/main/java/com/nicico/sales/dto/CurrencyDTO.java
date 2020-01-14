@@ -17,13 +17,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CurrencyDTO {
 
-    @NotNull
-    @ApiModelProperty(required = true)
     private String nameFa;
     private String nameEn;
     private String isActive;
     private String symbol;
-    private String code;
 
     @Getter
     @Setter
