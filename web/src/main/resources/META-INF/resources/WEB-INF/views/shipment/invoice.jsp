@@ -480,23 +480,16 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
             ]
     });
     var ViewLoader_Concentrate = isc.ViewLoader.create({
-        width: 1600,
-        height: 800,
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>",
     });
     var Window_Invoice_Concentrate = isc.Window.create({
         title: "<spring:message code='issuedInvoices.title'/> ",
-        width: 1600,
-        height: 800,
-        autoSize:true,
-        autoCenter: true,
+        width: "100%",
+        height: "100%",
         isModal: true,
-
-
-        align: "center",
         autoDraw: false,
-        dismissOnEscape: true,
+        overflow:"scroll",
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
