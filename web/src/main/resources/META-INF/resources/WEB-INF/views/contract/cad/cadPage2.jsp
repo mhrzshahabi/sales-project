@@ -104,9 +104,9 @@ var buttonAddItem=isc.IButton.create({
     icon: "[SKIN]/actions/add.png",
     iconOrientation: "right",
     click: "ListGrid_ContractItemShipment.startEditingNew()"
-})
+});
 
-ListGrid_ContractItemShipment = isc.ListGrid.create({
+    ListGrid_ContractItemShipment = isc.ListGrid.create({
         width: "80%",
         height: "200",
         modalEditing: true,
