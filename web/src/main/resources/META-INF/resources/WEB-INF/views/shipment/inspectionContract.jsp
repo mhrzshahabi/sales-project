@@ -1424,8 +1424,8 @@
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
-ListGrid_Inspection.invalidateCache();
-ListGrid_InspectionContract.setData([]);
+        ListGrid_Inspection.invalidateCache();
+        ListGrid_InspectionContract.setData([]);
         }
         });
         var ToolStrip_Actions_ListGrid_Inspection = isc.ToolStrip.create({

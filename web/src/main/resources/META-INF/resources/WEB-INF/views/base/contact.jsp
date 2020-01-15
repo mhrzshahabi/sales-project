@@ -183,6 +183,7 @@
 		title: "<spring:message code='contact.email'/>"
 	},
 	{
+
 		name: "type",
 		title: "<spring:message code='contact.type'/>",
 		valueMap:
@@ -512,6 +513,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			wrapTitle: false
  		},
  		{
+			defaultValue:true,
  			name: "type",
  			title: "<spring:message code='contact.type'/>",
  			width: 200,
@@ -547,7 +549,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
  			width: 200,
  			wrapTitle: false,
  			type: "boolean",
-			defaultValue:"true",
+			defaultValue:true,
  			colSpan: 3,
  			titleColSpan: 1,
  			valueMap:
@@ -1208,6 +1210,7 @@ function setContactAccountListGridHeaderFormData(record)
  		width: 300,
  		wrapTitle: false,
  		type: "boolean",
+		defaultValue:true,
  		valueMap:
  		{
  			"true": "<spring:message code='global.table.enabled'/>",
