@@ -263,6 +263,8 @@
 
     function ListGrid_Groups_refresh() {
         ListGrid_Groups.invalidateCache();
+        ListGrid_Person_GroupEmail_refresh();
+        ListGrid_GroupsPerson_refresh();
     }
 
     function ListGrid_Groups_remove() {
