@@ -1,6 +1,7 @@
 package com.nicico.sales.web.controller;
 
 import com.github.mfathi91.time.PersianDate;
+import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IShipmentService;
 import com.nicico.sales.model.entities.base.Port;
@@ -116,11 +117,11 @@ public class ShipmentFormController {
                 String[] loa = shipment.getPortByLoading().getPort().split(",");
                 replacePOI(doc, "loa", loa[0]);
 
-                String[] port = shipment.getPortByDischarge().getPort().split(",");
-                replacePOI(doc, "port", " به مقصد " + port[1]);
+                PortDTO.Info port = shipment.getPortByDischarge();
+                replacePOI(doc, "port", " به مقصد " + port.getPort());
 
 
-                replacePOI(doc, "comp", " به مقصد بندر " + port[0] + " در کشور " + port[1]);
+                replacePOI(doc, "comp", " به مقصد بندر " + port.getPort() + " در کشور " + port.getCountry().getNameFa());
                 replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()));
                 replacePOI(doc, "dateday", dateday);
 

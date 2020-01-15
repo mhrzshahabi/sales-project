@@ -853,8 +853,7 @@
                     valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true}
-                    ,
+                    pickListProperties: {showFilterEditor: true},
                     pickListFields: [{name: "nameFA", align: "center"}, {
                         name: "nameEN",
                         align: "center"

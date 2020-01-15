@@ -7,8 +7,13 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.report.ReportUtil;
+import com.nicico.sales.dto.InvoiceInternalCustomerDTO;
 import com.nicico.sales.dto.InvoiceInternalDTO;
 import com.nicico.sales.iservice.IInvoiceInternalService;
+import com.nicico.sales.model.entities.base.InvoiceInternalCustomer;
+import com.nicico.sales.repository.InvoiceInternalDAO;
+import com.nicico.sales.service.InvoiceInternalCustomerService;
+import com.nicico.sales.service.InvoiceInternalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
@@ -32,6 +37,7 @@ import java.util.Map;
 public class InvoiceInternalRestController {
 
     private final IInvoiceInternalService invoiceInternalService;
+    private final InvoiceInternalCustomerService invoiceInternalCustomerService;
     private final ReportUtil reportUtil;
 
     @Loggable
@@ -46,6 +52,22 @@ public class InvoiceInternalRestController {
     //@PreAuthorize("hasAuthority('r_job')")
     public ResponseEntity<List<InvoiceInternalDTO.Info>> list() {
         return new ResponseEntity<>(invoiceInternalService.list(), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/list-accounting")
+    //@PreAuthorize("hasAuthority('r_job')")
+    public ResponseEntity<List<InvoiceInternalDTO.Info>> listAccounting() {
+        List<InvoiceInternalDTO.Info> list = invoiceInternalService.list();
+        for(InvoiceInternalDTO.Info info : list){
+            InvoiceInternalCustomerDTO.Info seller = invoiceInternalCustomerService.getByCustomerId(info.getBuyerId());
+            InvoiceInternalCustomerDTO.Info buyer = invoiceInternalCustomerService.getByCustomerId(info.getCustomerId());
+            info.setBuyerTafsili("01/10");
+            info.setSellerTafsili("01/10101344606");
+            info.setSellerName(seller.getCustomerName());
+            info.setBuyerName(buyer.getCustomerName());
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Loggable
