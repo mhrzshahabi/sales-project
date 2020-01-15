@@ -961,49 +961,46 @@ function ListGrid_Contact_edit()
 		name: "code",
 		title: "<spring:message code='contactAccount.code'/>",
 		align: "center",
-		width: 50
+		width: "10%"
 	},
 	{
 		name: "bank.bankName",
 		title: "<spring:message code='contactAccount.nameFA'/>",
 		align: "center",
-		width: 300
+		width: "10%"
 	},
 	{
 		name: "bankAccount",
 		title: "<spring:message code='contactAccount.accountNumber'/>",
 		align: "center",
-		width: 300,
+		width: "10%",
 		type: "number"
 	},
 	{
 		name: "bankShaba",
 		title: "<spring:message code='contactAccount.shabaAccount'/>",
 		align: "center",
-		width: 300
+		width: "10%"
 	},
 	{
 		name: "bankSwift",
 		title: "<spring:message code='contactAccount.bankSwift'/>",
 		align: "center",
-		width: 250
+		width: "10%"
 	},
 	{
 		name: "accountOwner",
 		title: "<spring:message code='contactAccount.accountOwner'/>",
 		align: "center",
-		width: 150
+		width: "10%"
 	},
 	{
 		name: "status",
 		title: "<spring:message code='contactAccount.status'/>",
 		align: "center",
-		width: 80,
-		valueMap:
-		{
-			"true": "<spring:message code='enabled'/>",
-			"false": "<spring:message code='disabled'/>"
-		}
+		width: "10%",
+		filterEditorProperties:{ operator:"equals",type:"boolean",
+								 valueMap: {true: "<spring:message code='contact.type.real'/>", false: "<spring:message code='contact.type.legal'/>"}}
 	},
 	{
 		name: "isDefault",
@@ -1011,6 +1008,11 @@ function ListGrid_Contact_edit()
 		hidden: true,
 		defaultValue: false
 	}],
+	sortField: 2,
+	dataPageSize: 50,
+	autoFetchData: false,
+	showFilterEditor: true,
+	filterOnKeypress: true,
 	getCellCSSText: function(record, rowNum, colNum)
 	{
 		if (this.getFieldName(colNum) == "bankAccount")
@@ -1028,12 +1030,6 @@ function ListGrid_Contact_edit()
 			}
 		}
 	},
-	sortField: 2,
-	dataPageSize: 50,
-	autoFetchData: false,
-	showFilterEditor: true,
-	filterOnKeypress: true,
-	startsWithTitle: "tt"
 });
 
     var ContactAccountGridHeaderForm = isc.DynamicForm.create({
@@ -1125,7 +1121,7 @@ function setContactAccountListGridHeaderFormData(record)
  	},
  	{
  		name: "code",
- 		title: "<spring:message code='global.grid.print.inspection'/>",
+ 		title: "<spring:message code='contactAccount.code'/>",
  		type: 'integer',
  		width: 300,
  		colSpan: "2",
@@ -1142,6 +1138,7 @@ function setContactAccountListGridHeaderFormData(record)
  		name: "bankId",
  		title: "<spring:message code='contactAccount.nameFA'/>",
  		type: 'long',
+		width: 300,
  		editorType: "SelectItem",
  		optionDataSource: RestDataSource_Bank,
  		displayField: "bankName",
@@ -1155,19 +1152,21 @@ function setContactAccountListGridHeaderFormData(record)
  		pickListFields: [
  		{
  			name: "bankName",
- 			width: 300,
- 			align: "center"
+ 			width: 295,
+ 			align: "center",
  		},
  		{
  			name: "bankCode",
- 			width: 300,
- 			align: "center"
+ 			width: 295,
+ 			align: "center",
+			hidden: true,
  		}]
  	},
  	{
  		name: "bankAccount",
  		title: "<spring:message code='contactAccount.accountNumber'/>",
  		type: 'text',
+		width: 300,
  		colSpan: "2",
  		required: true,
  		validators: [
@@ -1223,9 +1222,6 @@ function setContactAccountListGridHeaderFormData(record)
  		title: "<spring:message code='contactAccount.isDefault'/>",
  		type: "boolean",
  		width: 300
- 	},
- 	{
- 		type: "RowSpacerItem"
  	}]
  });
 
@@ -1276,11 +1272,12 @@ function setContactAccountListGridHeaderFormData(record)
 		name: "bankId",
 		title: "<spring:message code='contactAccount.nameFA'/>",
 		type: 'long',
+		width: 300,
 		editorType: "SelectItem",
 		optionDataSource: RestDataSource_Bank,
 		displayField: "bankName",
 		valueField: "id",
-		pickListWidth: "300",
+		pickListWidth: 300,
 		pickListHeight: "500",
 		pickListProperties:
 		{
@@ -1289,13 +1286,14 @@ function setContactAccountListGridHeaderFormData(record)
 		pickListFields: [
 		{
 			name: "bankName",
-			width: "300",
+			width: 295,
 			align: "center"
 		},
 		{
 			name: "bankCode",
-			width: "300",
-			align: "center"
+			width: 295,
+			align: "center",
+			hidden: true,
 		}]
 	},
 	{
@@ -1354,9 +1352,6 @@ function setContactAccountListGridHeaderFormData(record)
 		width: 300,
 		title: "<spring:message code='contactAccount.isDefault'/>",
 		type: "boolean"
-	},
-	{
-		type: "RowSpacerItem"
 	}]
 });
 
@@ -1839,7 +1834,9 @@ var ListGrid_Contact = isc.ListGrid.create(
 			name: "type",
 			title: "<spring:message code='contact.type'/>",
 			align: "center",
-			width: "10%"
+			width: "10%",
+			filterEditorProperties:{ operator:"equals",type:"boolean",
+									 valueMap: {true: "<spring:message code='contact.type.real'/>", false: "<spring:message code='contact.type.legal'/>"}}
 		},
 		{
 			name: "nationalCode",
@@ -1876,15 +1873,15 @@ var ListGrid_Contact = isc.ListGrid.create(
 			name: "status",
 			title: "<spring:message code='contact.status'/>",
 			align: "center",
-			width: "10%"
+			width: "10%",
+			filterEditorProperties:{ operator:"equals",type:"boolean",
+								     valueMap: {true: "<spring:message code='global.table.enabled'/>", false: "<spring:message code='global.table.disabled'/>"}}
 		}
 
 	],
 	sortField: 0,
 	dataPageSize: 50,
 	showFilterEditor: true,
-	filterOnKeypress: true,
-	startsWithTitle: "tt",
 	getExpansionComponent : function (record) {
 			if (record == null || record.id == null)
 			{
