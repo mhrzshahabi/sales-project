@@ -397,10 +397,10 @@ function saveListGrid_ContractConcItemShipment(contractID) {
                 }
             }))
             });
-    ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
+        ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
             var dataEdit=ListGrid_ContractConcItemShipment.getEditedRecord(element);
             dataEdit.contractId=contractID;
-            dataEdit.sendDate=sendDateSetConcSave.toNormalDate("toUSShortDate")
+            dataEdit.sendDate=(ListGrid_ContractConcItemShipment.getEditedRecord(element).sendDate).toNormalDate("toUSShortDate")
             //dataEdit.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
