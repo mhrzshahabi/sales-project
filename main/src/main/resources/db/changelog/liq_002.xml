@@ -13,4 +13,7 @@
     <changeSet author="RMazloom" id="1578893517121-184">
         <addNotNullConstraint columnDataType="varchar(20 CHAR)" columnName="c_CODE" tableName="TBL_MATERIAL"/>
     </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-185">
+        <dropForeignKeyConstraint baseTableName="TBL_CONTRACT" constraintName="FKR6BUP0DWNJONERX39O52FFNJH"/>
+    </changeSet>
 </databaseChangeLog>
