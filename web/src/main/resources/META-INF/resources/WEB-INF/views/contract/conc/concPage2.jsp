@@ -232,6 +232,8 @@ isc.ListGrid.create({
                 if(ListGrid_ContractConcItemShipment.getSelectedRecord() === null){
                         return;
                 }else{
+                    var dateSend= (ListGrid_ContractConcItemShipment.getSelectedRecord().sendDate);
+                    ContractItemShipmentRecord.sendDate=moment(dateSend).format('L')
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         actionURL: "${contextPath}/api/contractShipment/",
                         httpMethod: "PUT",
