@@ -586,15 +586,6 @@
 
             },
             {
-                    name: "switchPortId",
-                    title: "<spring:message code='port.switchPort'/>",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_LoadingPort,
-                    displayField: "port",
-                    valueField: "id", width: 400, align: "center",
-                    startRow:true
-            },
-            {
                     name: "portByLoadingId",
                     title: "<spring:message code='shipment.loading'/>",
                     editorType: "SelectItem",
@@ -603,6 +594,15 @@
                     valueField: "id",
                     width: 400,
                     align: "center",
+                    startRow:true
+            },
+            {
+                    name: "switchPortId",
+                    title: "<spring:message code='port.switchPort'/>",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_LoadingPort,
+                    displayField: "port",
+                    valueField: "id", width: 400, align: "center",
                     startRow:true
             },
             {

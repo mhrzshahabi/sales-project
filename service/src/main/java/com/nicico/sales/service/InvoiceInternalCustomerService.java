@@ -98,6 +98,14 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
         return SearchUtil.search(invoiceInternalCustomerDAO, request, invoiceInternalCustomer -> modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class));
     }
 
+    @Transactional(readOnly = true)
+    public InvoiceInternalCustomerDTO.Info getByCustomerId(String id) {
+        final InvoiceInternalCustomer invoiceInternalCustomer = invoiceInternalCustomerDAO.findByCustomerId(id)
+                .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalCustomerNotFound));
+
+        return modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class);
+    }
+
     private InvoiceInternalCustomerDTO.Info save(InvoiceInternalCustomer invoiceInternalCustomer) {
         final InvoiceInternalCustomer saved = invoiceInternalCustomerDAO.saveAndFlush(invoiceInternalCustomer);
         return modelMapper.map(saved, InvoiceInternalCustomerDTO.Info.class);

@@ -35,7 +35,7 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "50",
+        titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
@@ -51,7 +51,6 @@
                     type: 'text',
                     required: true,
                     width: 400,
-                    align: "right",
                     valueMap: {
                         "letter": "<spring:message code='dcc.letter'/>",
                         "contract": "<spring:message code='contract.title'/>"

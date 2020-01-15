@@ -287,7 +287,7 @@ contents: "رکوردی یافت نشد"
 
 recordNotFound.hide();
 
-function setCriteria_ListGrid_InsperctionContract(recordId) {
+function setCriteria_ListGrid_Invoice(recordId) {
         var criteria1 = {
         _constructor: "AdvancedCriteria",
         operator: "and",
@@ -307,9 +307,9 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
         }, {operationId: "00"});
         }
 
-        function getExpandedComponent(record) {
-        setCriteria_ListGrid_InsperctionContract(record.id)
-        var hLayout = isc.HLayout.create({
+        function getExpandedComponent_Invoice(record) {
+        setCriteria_ListGrid_Invoice(record.id)
+        var hLayout_Invoice = isc.HLayout.create({
         align: "center", padding: 5,
         membersMargin: 20,
         members: [
@@ -317,13 +317,13 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
         ]
         });
 
-        var layout = isc.VLayout.create({
+        var layout_ListGrid_Invoice = isc.VLayout.create({
         padding: 5,
         membersMargin: 10,
-        members: [ListGrid_Invoice, recordNotFound, hLayout]
+        members: [ListGrid_Invoice, recordNotFound, hLayout_Invoice]
         });
 
-        return layout;
+        return layout_ListGrid_Invoice;
         }
 
     var ListGrid_Shipment_InvoiceHeader = isc.ListGrid.create({
@@ -407,7 +407,7 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {
-        return getExpandedComponent(record)
+        return getExpandedComponent_Invoice(record)
         }
     });
 
@@ -661,7 +661,7 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
                 }
             });
         }
-    };
+    }
     var Menu_ListGrid_Invoice = isc.Menu.create({
         width: 150,
         data: [
@@ -724,6 +724,7 @@ function setCriteria_ListGrid_InsperctionContract(recordId) {
                     ToolStripButton_Invoice_Pdf_F();
                 }
             },
+
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
