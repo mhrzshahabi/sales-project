@@ -72,6 +72,7 @@ public class InvoiceInternalDTO {
         private InvoiceInternalCustomerDTO.Info lcBank;
         private InvoiceInternalCustomerDTO.Info seller;
         private InvoiceInternalCustomerDTO.Info buyer;
+
     }
 
     @Getter

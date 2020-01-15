@@ -286,7 +286,7 @@
     <%--});--%>
 
 
-    var ToolStripButton_InspectionContract_Add = isc.ToolStripButtonAddLarge.create({
+    var ToolStripButton_InspectionContract_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
 
@@ -314,9 +314,23 @@
             }
         }
     });
-    ToolStripButton_InspectionContract_Add.hide();
 
-    <%--var ToolStripButton_InspectionContract_Remove = isc.ToolStripButtonRemove.create({--%>
+
+    var ToolStripButton_InspectionContract_PrintWord = isc.ToolStripButtonPrint.create({
+        icon: "pieces/512/word.png",
+        title: "<spring:message code='global.form.print.inspection'/>",
+        click:function()
+        {
+            check_Insp_Print();
+        }
+    });
+
+
+
+
+
+
+<%--var ToolStripButton_InspectionContract_Remove = isc.ToolStripButtonRemove.create({--%>
     <%--icon: "[SKIN]/actions/remove.png",--%>
     <%--title: "<spring:message code='global.form.remove'/>",--%>
     <%--click: function () {--%>
@@ -368,13 +382,13 @@
             align: "center", padding: 5,
             membersMargin: 20,
             members: [
-                ToolStripButton_InspectionContract_Add
+                ToolStripButton_InspectionContract_Add , ToolStripButton_InspectionContract_PrintWord
             ]
         });
 
         HLayout_InspectionContract_Grid.show();
         ToolStripButton_InspectionContract_Add.show();
-
+        ToolStripButton_InspectionContract_PrintWord.show();
         var layout = isc.VLayout.create({
             padding: 5,
             membersMargin: 10,
@@ -1433,11 +1447,12 @@ ListGrid_InspectionContract.setData([]);
         width: "100%",
         height: "100%",
         members: [
-ToolStrip_Actions_ListGrid_Inspection,
+            ToolStrip_Actions_ListGrid_Inspection,
             HLayout_Inspection_Grid
         ]
     });
-
+    ToolStripButton_InspectionContract_Add.hide();
+    ToolStripButton_InspectionContract_PrintWord.hide();
     <%--isc.SectionStack.create({--%>
     <%--sections: [{--%>
     <%--title: "<spring:message code='Shipment.title'/>",--%>
