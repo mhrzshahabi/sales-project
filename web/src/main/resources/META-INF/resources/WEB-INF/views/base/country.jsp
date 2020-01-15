@@ -302,8 +302,7 @@
 				if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)
 				{
 					isc.say("<spring:message code='global.form.request.successful'/>");
-					resp.setHeader('Cache-Control', 'no-cache');
-
+					//resp.setHeader('Cache-Control', 'no-cache');
 					ListGrid_Country_refresh();
 					Window_Country.close();
 				}

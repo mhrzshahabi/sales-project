@@ -661,7 +661,7 @@ function setCriteria_ListGrid_Invoice(recordId) {
                 }
             });
         }
-    };
+    }
     var Menu_ListGrid_Invoice = isc.Menu.create({
         width: 150,
         data: [
@@ -724,6 +724,7 @@ function setCriteria_ListGrid_Invoice(recordId) {
                     ToolStripButton_Invoice_Pdf_F();
                 }
             },
+
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
