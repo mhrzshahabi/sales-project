@@ -1496,7 +1496,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
         dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true,
-        startsWithTitle: "tt",
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {
