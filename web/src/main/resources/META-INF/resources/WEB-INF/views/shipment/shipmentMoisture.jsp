@@ -799,7 +799,7 @@
         }, {operationId: "00"});
         }
 
-        function getExpandedComponent(record) {
+        function getExpandedComponent_ShipmentByMoistureHeader(record) {
         setCriteria_ListGrid_InsperctionContract(record.id)
         var hLayout = isc.HLayout.create({
         align: "center", padding: 5,
@@ -1043,7 +1043,7 @@
             });
         },*/
         getExpansionComponent: function (record) {
-        return getExpandedComponent(record)
+        return getExpandedComponent_ShipmentByMoistureHeader(record)
         },
         sortField: 0,
         dataPageSize: 50,

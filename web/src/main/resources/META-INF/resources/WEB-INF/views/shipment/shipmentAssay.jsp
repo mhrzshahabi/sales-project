@@ -768,7 +768,7 @@
         }, {operationId: "00"});
         }
 
-        function getExpandedComponent(record) {
+        function getExpandedComponent_ShipmentByAssayHeader(record) {
         setCriteria_ListGrid_InsperctionContract(record.id)
         var hLayout = isc.HLayout.create({
             align: "center", padding: 5,
@@ -982,7 +982,7 @@
             }
         ],
         getExpansionComponent: function (record) {
-        return getExpandedComponent(record)
+        return getExpandedComponent_ShipmentByAssayHeader(record)
         },
         sortField: 0,
         dataPageSize: 50,

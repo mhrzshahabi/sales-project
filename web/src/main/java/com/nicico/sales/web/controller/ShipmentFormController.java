@@ -3,6 +3,7 @@ package com.nicico.sales.web.controller;
 import com.github.mfathi91.time.PersianDate;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IShipmentService;
+import com.nicico.sales.model.entities.base.Port;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -98,7 +99,7 @@ public class ShipmentFormController {
         String shiptype = shipment.getShipmentType();
 
 
-        if (description.toLowerCase().contains("cathods") || description.toLowerCase().contains("cop") || description.toLowerCase().contains("co") ) {
+        if (description.toLowerCase().contains("cathods") ) {
             if (shiptype.contains("bulk")) {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
@@ -193,21 +194,18 @@ public class ShipmentFormController {
                 replacePOI(doc, "company", shipment.getContact().getNameFA());
 
 
-                String[] port = shipment.getPortByDischarge().getPort().split(",");
-                replacePOI(doc, "port", " به مقصد " + port[1]);
+                String port = shipment.getPortByDischarge().getPort();
+                String country = shipment.getPortByDischarge().getCountry().getNameFa();
+                replacePOI(doc, "port", " به مقصد " + port);
 
-
-                replacePOI(doc, "comp", " به مقصد بندر " + port[0] + "در کشور " + port[1]);
-
+                replacePOI(doc, "comp", " به مقصد بندر " + port + "در کشور " + country);
 
                 replacePOI(doc, "dateday", dateday);
-
                 List<String> inspector = shipmentService.inspector();
                 for (int i = 0; i < inspector.size(); i++) {
 
                     replacePOI(doc, "inspector", inspector.get(i));
                 }
-
                 response.setHeader("Content-Disposition", "attachment; filename=\"Copper_Concentrate_bulk.doc\"");
                 response.setContentType("application/vnd.ms-word");
                 doc.write(out);

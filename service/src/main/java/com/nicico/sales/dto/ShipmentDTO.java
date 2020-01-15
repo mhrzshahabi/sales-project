@@ -72,7 +72,7 @@ public class ShipmentDTO {
 
 		private ContactDTO.ContactInfoTuple container;
 		private PortDTO.PortInfoTuple portByLoading;
-		private PortDTO.PortInfoTuple portByDischarge;
+		private PortDTO.Info portByDischarge;
 		private ContractShipmentDTO contractShipment;
 		private PortDTO.PortInfoTuple switchPort;
 		private ContractDTO.ContractInfoTuple contract;

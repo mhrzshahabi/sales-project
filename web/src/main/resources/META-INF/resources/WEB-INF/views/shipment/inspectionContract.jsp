@@ -359,9 +359,9 @@
         }, {operationId: "00"});
     }
 
-    function getExpandedComponent(record) {
+    function getExpandedComponent_Inspection(record) {
 
-        setCriteria_ListGrid_InsperctionContract(record.id)
+        setCriteria_ListGrid_InsperctionContract(record.id);
         contractId = record.contractId;
 
         var hLayout = isc.HLayout.create({
@@ -371,6 +371,7 @@
                 ToolStripButton_InspectionContract_Add
             ]
         });
+
         HLayout_InspectionContract_Grid.show();
         ToolStripButton_InspectionContract_Add.show();
 
@@ -858,7 +859,13 @@
                 hidden: true,
                 textAlign: "left"
             },
+            {
+            autoCenter: true,
+            align:"center" ,
+            type: "Header",
+            defaultValue: "<spring:message code='inspection.Contract.header'/>",
 
+            },
             {
                 name: "superviseWeighing",
                 title: "<spring:message code='inspectionContract.superviseWeighing'/>",
@@ -1356,7 +1363,7 @@
         showFilterEditor: true,
         filterOnKeypress: false,
         getExpansionComponent: function (record) {
-            return getExpandedComponent(record)
+            return getExpandedComponent_Inspection(record)
         }
     });
 

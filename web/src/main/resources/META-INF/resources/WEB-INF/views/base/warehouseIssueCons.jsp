@@ -357,7 +357,7 @@
     }, {operationId: "00"});
     }
 
-    function getExpandedComponent(record) {
+    function getExpandedComponent_ShipmentByWarehouseIssueCons(record) {
     setCriteria_ListGrid_InsperctionContract(record.id)
     var hLayout = isc.HLayout.create({
     align: "center", padding: 5,
@@ -579,7 +579,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {
-            return getExpandedComponent(record)
+            return getExpandedComponent_ShipmentByWarehouseIssueCons(record)
         }
     });
 

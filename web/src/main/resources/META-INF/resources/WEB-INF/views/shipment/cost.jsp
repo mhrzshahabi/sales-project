@@ -164,7 +164,7 @@
         }, {operationId: "00"});
     }
 
-    function getExpandedComponent(record) {
+    function getExpandedComponent_Shipment_CostHeader(record) {
         setCriteria_ListGrid(record.id)
         var hLayout = isc.HLayout.create({
             align: "center", padding: 5,
@@ -307,7 +307,7 @@
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {
-            return getExpandedComponent(record)
+            return getExpandedComponent_Shipment_CostHeader(record)
         }
     });
     var HLayout_Grid_Shipment_CostHeader = isc.HLayout.create({

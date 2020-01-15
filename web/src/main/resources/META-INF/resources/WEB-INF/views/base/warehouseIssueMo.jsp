@@ -278,7 +278,7 @@
     }, {operationId: "00"});
     }
 
-    function getExpandedComponent(record) {
+    function getExpandedComponent_ShipmentByWarehouseIssueMo(record) {
     setCriteria_ListGrid(record.id)
     var hLayout = isc.HLayout.create({
     align: "center", padding: 5,
@@ -502,7 +502,7 @@
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {
-        return getExpandedComponent(record)
+        return getExpandedComponent_ShipmentByWarehouseIssueMo(record)
         }
     });
 
