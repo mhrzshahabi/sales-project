@@ -417,6 +417,7 @@
                 name: "shipmentType", colSpan: 2, title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required: true
             },
+
             {
                 name: "bookingCat",
                 title: "<spring:message code='shipment.bookingCat'/>",
@@ -424,11 +425,14 @@
                 width: "100%",
                 colSpan: 2,
                 showHover: true,
-                hint: "<spring:message code='shipment.bookingCat.hint'/>",
+                hint: "<spring:message code='shipment.bookingMol.hint'/>",
                 showHintInField: true,
 
             },
+
             {
+                hint: "<spring:message code='shipment.bookingCat.hint'/>",
+                showHintInField: true,
                 name: "noContainer",
                 colSpan: 2,
                 title: "<spring:message	code='shipment.noContainer'/>",
@@ -443,6 +447,8 @@
                 }]
             },
             {
+                hint: "<spring:message code='shipment.bookingCat.hint'/>",
+                showHintInField: true,
                 name: "noBundle", colSpan: 2,
                 title: "<spring:message code='shipment.noBundle'/>",
                 type: 'integer',
