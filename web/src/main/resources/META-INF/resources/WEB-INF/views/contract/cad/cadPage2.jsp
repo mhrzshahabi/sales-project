@@ -189,6 +189,8 @@ var buttonAddItem=isc.IButton.create({
                 if(ListGrid_ContractItemShipment.getSelectedRecord() === null){
                         return;
                 }else{
+                     var dateSendCad= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
+                     ContractItemShipmentRecord.sendDate=moment(dateSendCad).format('L')
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         actionURL: "${contextPath}/api/contractShipment/",
                         httpMethod: "PUT",

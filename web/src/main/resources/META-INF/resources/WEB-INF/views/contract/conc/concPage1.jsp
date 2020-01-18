@@ -608,7 +608,7 @@ var vlayoutBodyConc = isc.VLayout.create({
                 }
             },
             {
-                type: "datetime",
+                type: "date",
                 format: 'DD-MM-YYYY',
                 name: "plant", //article2_15
                 width: "500",
