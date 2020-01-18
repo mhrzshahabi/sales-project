@@ -901,18 +901,19 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 showHover: true,
                 required: true,
                 autoFetchData: false,
-                title: "<spring:message code='contact.name'/>",
+                title: "<spring:message code='contact.commercialRole.buyer'/>",
+                width: "600",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactBUYER_optionCriteria,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "700",
+                pickListWidth: "600",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
                     {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center"}
+                    {name: "code", width: "10%", align: "center", hidden: true}
                 ],
                 changed: function (form, item, value) {
                     var address = "";
@@ -942,18 +943,19 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 showHover: true,
                 autoFetchData: false,
                 title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
+                width:"600",
                 required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactAgentBuyer_optionCriteria,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "700",
+                pickListWidth: "600",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
                     {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center"}
+                    {name: "code", width: "10%", align: "center", hidden: true}
                 ],
                 changed: function (form, item, value) {
                     var address = "";
@@ -1094,19 +1096,20 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 numCols: 2,
                 showHover: true,
                 autoFetchData: false,
-                title: "Seller",
+                title: "<spring:message code='contact.commercialRole.seller'/>",
+                width: "600",
                 required: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_Contact_optionCriteria,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "700",
+                pickListWidth: "600",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
                     {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center"}
+                    {name: "code", width: "10%", align: "center", hidden:true }
                 ],
                 changed: function (form, item, value) {
                     var address = "";
@@ -1136,19 +1139,20 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 numCols: 2,
                 showHover: true,
                 autoFetchData: false,
-                title: "Agent Seller",
+                title: "<spring:message code='contact.commercialRole.agentSeller'/>",
+                width: "600",
                 required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactAgentSeller_optionCriteria,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "700",
+                pickListWidth: "600",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
                     {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center"}
+                    {name: "code", width: "10%", align: "center", hidden: true}
                 ],
                 changed: function (form, item, value) {
                     var address = "";
@@ -1287,9 +1291,9 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 showTitle: false,
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
+                    {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
+                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
@@ -1366,17 +1370,17 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 name: "unitId", //article2_number12
                 title: "",
                 type: 'long',
-                width: "150",
+                width: "250",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "500",
+                pickListWidth: "250",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}
+                    {name: "nameEN", width: 245, align: "center"}
                 ],changed: function (form, item, value) {
                     dynamicForm_article3_3.setValue("article3_number17_13",article2Mo.getItem("unitId").getDisplayValue(value));
                 }
@@ -1515,17 +1519,17 @@ var vlayoutBodyMo = isc.VLayout.create({
             isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormMaterial",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
-                    width: "250",
+                    width: "400",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,
-                    displayField: "descl",
+                    //displayField: "descl",
                     valueField: "id",
-                    pickListWidth: "500",
+                    pickListWidth: "400",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "descl", width: 440, align: "center"}
+                    {name: "descl", title: "<spring:message code="material.descl"/>", width: "395", align: "center"}
                     ],
                     pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
                         {fieldName: "descl", operator: "contains", value: "Mol"}]
