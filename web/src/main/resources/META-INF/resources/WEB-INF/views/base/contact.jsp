@@ -617,12 +617,12 @@ var Menu_ListGrid_Contact = isc.Menu.create(
                 optionDataSource: RestDataSource_Country,
                 displayField: "nameFa",
                 valueField: "id",
-                pickListWidth: "500",
+                pickListWidth: 500,
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 500, align: "center" , hidden: true },
-                    {name: "nameFa", width: 500, align: "center"},
+                    {name: "id", width: 480, align: "center" , hidden: true },
+                    {name: "nameFa", width: 480, align: "center"},
                 ]
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
