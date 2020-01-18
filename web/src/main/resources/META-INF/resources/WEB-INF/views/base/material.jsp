@@ -608,14 +608,23 @@
         virtualScrolling: true,
         loadOnExpand: true,
         loaded: false,
+        sortField: 2,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "code", title: "<spring:message code='material.code'/>", align: "center" , showIf:"false",} ,
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
-                {name: "unit.nameFA",   title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
-                {name: "unit.nameEN" , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
+                {name: "unit.nameFA",   title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center",
+                        sortNormalizer: function(recordObject)
+                        {
+                        return recordObject.unit.nameFA;
+                        }},
+                {name: "unit.nameEN" , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center",
+                        sortNormalizer: function(recordObject)
+                        {
+                        return recordObject.unit.nameEN;
+                        }},
             ],
         getExpansionComponent : function (record) {
             var criteria1 = {
