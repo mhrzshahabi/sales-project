@@ -681,8 +681,8 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 
 
     function saveContact(){
-
-		/*let Val_seller 			= DynamicForm_Contact_GeneralInfo.getValue("seller");
+		ValuesManager_Contact.validate();
+		let Val_seller 	        = DynamicForm_Contact_GeneralInfo.getValue("seller");
 		let Val_buyer           = DynamicForm_Contact_GeneralInfo.getValue("buyer");
 		let	Val_agentSeller		= DynamicForm_Contact_GeneralInfo.getValue("agentSeller");
 		let	Val_agentBuyer      = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer");
@@ -691,36 +691,16 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 		let Val_inspector       = DynamicForm_Contact_GeneralInfo.getValue("inspector");
 		let Val_insurancer      = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
 		let Val_all = [Val_seller , Val_buyer   , Val_agentSeller , Val_agentBuyer , Val_transporter , Val_shipper , Val_inspector , Val_insurancer ].values();
-		console.log(Val_all);
-		for(var i = 0 ; i < Val_all.length; i++)
+		for(let chap of Val_all)
 		{
-			if(Val_all[i].checked)
+			if(chap===true)
 			{
-				var result = Val_all.push(Val_all[i])
-			}
-		}
-		if(result.length < 0 )
-		{
-		  isc.warn("<spring:message code='contact.record.commercialRole'/>")
-		}else
-			{*/
-
-	ValuesManager_Contact.validate();
-
-	if (DynamicForm_Contact_GeneralInfo.hasErrors())
-		contactTabs.selectTab(0);
-
-	else if (DynamicForm_Contact_Connection.hasErrors())
-		contactTabs.selectTab(1);
-	else
-
-		var contactData = Object.assign(ValuesManager_Contact.getValues());
-
-		var httpMethod = "PUT"; //update
-		if (contactData.id == null)
-			httpMethod = "POST"; //create
-		isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
-		{
+				ValuesManager_Contact.validate();
+				var contactData = Object.assign(ValuesManager_Contact.getValues());
+				var httpMethod = "PUT";
+				if (contactData.id == null)
+					httpMethod = "POST";
+			isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
 			actionURL: "${contextPath}/api/contact",
 			httpMethod: httpMethod,
 			data: JSON.stringify(contactData),
@@ -732,13 +712,21 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 					isc.say("<spring:message code='global.form.request.successful'/>");
 					Window_Contact.close();
 				}
-				else
-					isc.say(RpcResponse_o.data);
+				else isc.say(RpcResponse_o.data);
 			}
 		}));
-
-
+			}
+			else {
+				isc.warn("<spring:message code='contact.record.commercialRole'/>");
+				contactTabs.selectTab(0);
+				if (DynamicForm_Contact_GeneralInfo.hasErrors())
+				contactTabs.selectTab(0);
+				else if (DynamicForm_Contact_Connection.hasErrors())
+				contactTabs.selectTab(1);
+			}
+		}
 }
+
 
     function clearContactForms() {
         DynamicForm_Contact_GeneralInfo.clearValues();
