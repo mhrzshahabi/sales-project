@@ -30,7 +30,7 @@
                 {
                     name: "unitId",
                     title: "<spring:message code='MaterialFeature.unit'/>"
-                }, //Edit By JZ
+                },
                 {
                     name: "unit.nameFA",
                     title: "<spring:message code='MaterialFeature.unit.FA'/>",
@@ -261,6 +261,11 @@
         });
 
 
+
+
+
+
+
     var IButton_Material_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -421,6 +426,7 @@
                 {name: "id", hidden: true},
                 {type: "RowSpacerItem"},
                 {
+
                     name: "code",
                     title: "<spring:message code='material.code'/>",
                     required: true,
@@ -428,7 +434,7 @@
                     length: "20",
                     keyPressFilter: "[0-9]",
                     validators: [{
-                        type: "number", //Fix
+                        type: "number",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
@@ -444,6 +450,7 @@
                     width: 400, required: true,
                     textAlign: "left",
                     length:200,
+                    requiredTitlePrefix: "<span style='color:#ff0842;font-size:22px; padding-left: 2px;'>*</span>",
 
                 },
                 {
@@ -476,6 +483,8 @@
                 {type: "RowSpacerItem"}
             ]
     });
+
+
 
     var ToolStripButton_Material_Refresh = isc.ToolStripButtonRefresh.create({
         //icon: "[SKIN]/actions/refresh.png",
