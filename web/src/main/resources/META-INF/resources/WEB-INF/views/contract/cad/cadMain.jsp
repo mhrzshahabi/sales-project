@@ -292,7 +292,6 @@ var ListGrid_Cad = isc.ListGrid.create({
                         var text = resp.httpResponseText;
                         var text2 = text.replaceAll('","', '","').replaceAll('&?','":"')
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
-                        console.log(textMain);
                         setTimeout(function(){
                                 recordContractNo=contactCadHeader.getValue("contractNo");
                                 contactCadTabs.selectTab(0);

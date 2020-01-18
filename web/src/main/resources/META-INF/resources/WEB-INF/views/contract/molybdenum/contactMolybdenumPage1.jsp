@@ -2211,6 +2211,8 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 if(ListGrid_ContractItemShipment.getSelectedRecord() === null){
                         return;
                 }else{
+                     var dateSendMol= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
+                     ContractItemShipmentRecord.sendDate=moment(dateSendMol).format('L')
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         actionURL: "${contextPath}/api/contractShipment/",
                         httpMethod: "PUT",
@@ -2886,83 +2888,83 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         numCols: 10,
         wrapItemTitles: false,
         items: [
-            {name: "discountValueOne",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueOne
+            {name: "discountValueOne",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:7},       //discountValueOne
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueOne_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountPerfixOne",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueOne_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false,showIf:"false"},
+            {name: "discountPerfixOne",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false,showIf:"false"},
             {name: "discountUnitOne",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixOne_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueOne_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueTwo",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueTwo
+            {name: "discountValueOne_2",defaultValue:0.70,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueTwo",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:8},       //discountValueTwo
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueTwo_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueTwo_1",defaultValue:0.70,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixTwo",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitTwo",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixTwo_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueTwo_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueThree",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueThree
+            {name: "discountValueTwo_2",defaultValue:0.80,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueThree",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:9},       //discountValueThree
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueThree_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueThree_1",defaultValue:0.80,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixThree",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitThree",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixThree_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueThree_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueFour",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueFour
+            {name: "discountValueThree_2",defaultValue:0.90,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueFour",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:9.5},       //discountValueFour
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueFour_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueFour_1",defaultValue:0.90,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixFour",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitFour",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixFour_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueFour_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-             {name: "discountValueFive",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueFive
+            {name: "discountValueFour_2",defaultValue:1.00,title: "",width:"100",showTitle: false,startRow:false},
+             {name: "discountValueFive",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:10},       //discountValueFive
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueFive_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueFive_1",defaultValue:1.00,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixFive",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitFive",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixFive_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueFive_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-             {name: "discountValueSix",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueSix
+            {name: "discountValueFive_2",defaultValue:1.10,title: "",width:"100",showTitle: false,startRow:false},
+             {name: "discountValueSix",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:11},       //discountValueSix
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueSix_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueSix_1",defaultValue:1.10,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixSix",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitSix",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixSix_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueSix_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-               {name: "discountValueSeven",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueSeven
+            {name: "discountValueSix_2",defaultValue:1.20,title: "",width:"100",showTitle: false,startRow:false},
+               {name: "discountValueSeven",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:11.5},       //discountValueSeven
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueSeven_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueSeven_1",defaultValue:1.20,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixSeven",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitSeven",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixSeven_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueSeven_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueEight",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueEight
+            {name: "discountValueSeven_2",defaultValue:1.30,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueEight",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:12},       //discountValueEight
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueEight_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueEight_1",defaultValue:1.30,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixEight",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitEight",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixEight_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueEight_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueNine",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueNine
+            {name: "discountValueEight_2",defaultValue:1.40,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueNine",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:12.5},       //discountValueNine
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueNine_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueNine_1",defaultValue:1.40,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixNine",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitNine",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixNine_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueNine_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                 {name: "discountValueTen",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueTen
+            {name: "discountValueNine_2",defaultValue:1.50,title: "",width:"100",showTitle: false,startRow:false},
+                 {name: "discountValueTen",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:13},       //discountValueTen
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueTen_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueTen_1",defaultValue:1.50,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixTen",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitTen",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixTen_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueTen_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueEleven",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueEleven
+            {name: "discountValueTen_2",defaultValue:1.60,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueEleven",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:13.5},       //discountValueEleven
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueEleven_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueEleven_1",defaultValue:1.60,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixEleven",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitEleven",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixEleven_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueEleven_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false}
+            {name: "discountValueEleven_2",defaultValue:1.70,title: "",width:"100",showTitle: false,startRow:false}
             ]
     });
      var dynamicForm_fullArticle07 = isc.DynamicForm.create({

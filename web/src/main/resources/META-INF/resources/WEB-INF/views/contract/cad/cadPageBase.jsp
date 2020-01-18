@@ -78,7 +78,6 @@ var contactCadTabs = isc.TabSet.create({
     isc.IButtonSave.create({
         ID: "IButton_ContactCad_Save",
         title: "save",
-        //icon: "[SKIN]/actions/add.png",
         iconOrientation: "right",
         click: function () {
             contactCadHeader.validate();
@@ -364,11 +363,9 @@ function saveListGrid_ContractCadItemShipment(contractID) {
         ListGrid_ContractItemShipment.selectAllRecords();
         var data_ContractItemShipment = {};
         var ListGrid_ShipmentItems = [];
-
         ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
             var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
             dataEditMain.contractId=contractID;
-            //dataEditMain.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -384,7 +381,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
             dataEdit.contractId=contractID;
-            //dataEdit.dischargeId = 11022;
+            dataEdit.sendDate=(ListGrid_ContractItemShipment.getEditedRecord(element).sendDate).toNormalDate("toUSShortDate")
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
