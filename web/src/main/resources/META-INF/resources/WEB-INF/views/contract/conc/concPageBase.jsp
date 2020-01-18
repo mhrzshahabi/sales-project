@@ -340,7 +340,16 @@ var contactFormButtonSaveLayout = isc.HStack.create({
         membersMargin: 5,
         layoutMargin: 10,
         members: [
-            IButton_ContactConc_Save
+            IButton_ContactConc_Save,
+            isc.IButtonCancel.create({
+                title: "<spring:message code='global.cancel'/>",
+                width: 100,
+                icon: "pieces/16/icon_delete.png",
+                orientation: "vertical",
+                click: function () {
+                Window_ContactConc.close();
+                }
+                })
         ]
     });
 

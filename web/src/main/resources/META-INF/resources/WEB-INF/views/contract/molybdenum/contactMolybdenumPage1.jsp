@@ -3543,7 +3543,7 @@ var contactTabs = isc.TabSet.create({
 var IButton_Contact_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
-        //icon: "[SKIN]/actions/add.png",
+        icon: "pieces/16/save.png",
         click: function () {
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
@@ -3804,7 +3804,16 @@ var contactFormButtonSaveLayout = isc.HStack.create({
         layoutMargin: 10,
         showShadow: true,
         members: [
-            IButton_Contact_Save
+            IButton_Contact_Save,
+            isc.IButtonCancel.create({
+                title: "<spring:message code='global.cancel'/>",
+                width: 100,
+                icon: "pieces/16/icon_delete.png",
+                orientation: "vertical",
+                click: function () {
+                Window_ContactMo.close();
+                }
+                })
         ]
     });
 
