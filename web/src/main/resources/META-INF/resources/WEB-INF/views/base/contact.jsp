@@ -680,52 +680,48 @@ var Menu_ListGrid_Contact = isc.Menu.create(
 
 
 
-    function saveContact(){
-		ValuesManager_Contact.validate();
-		let Val_seller 	        = DynamicForm_Contact_GeneralInfo.getValue("seller");
-		let Val_buyer           = DynamicForm_Contact_GeneralInfo.getValue("buyer");
-		let	Val_agentSeller		= DynamicForm_Contact_GeneralInfo.getValue("agentSeller");
-		let	Val_agentBuyer      = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer");
-		let	Val_transporter     = DynamicForm_Contact_GeneralInfo.getValue("transporter");
-		let Val_shipper         = DynamicForm_Contact_GeneralInfo.getValue("shipper");
-		let Val_inspector       = DynamicForm_Contact_GeneralInfo.getValue("inspector");
-		let Val_insurancer      = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
-		let Val_all = [Val_seller , Val_buyer   , Val_agentSeller , Val_agentBuyer , Val_transporter , Val_shipper , Val_inspector , Val_insurancer ].values();
-		for(let chap of Val_all)
-		{
-			if(chap===true)
-			{
-				ValuesManager_Contact.validate();
-				var contactData = Object.assign(ValuesManager_Contact.getValues());
-				var httpMethod = "PUT";
-				if (contactData.id == null)
-					httpMethod = "POST";
-			isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
-			actionURL: "${contextPath}/api/contact",
-			httpMethod: httpMethod,
-			data: JSON.stringify(contactData),
-			callback: function(RpcResponse_o)
-			{
-				if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
-				{
-					ListGrid_Contact.invalidateCache();
-					isc.say("<spring:message code='global.form.request.successful'/>");
-					Window_Contact.close();
-				}
-				else isc.say(RpcResponse_o.data);
-			}
-		}));
-			}
-			else {
-				isc.warn("<spring:message code='contact.record.commercialRole'/>");
-				contactTabs.selectTab(0);
-				if (DynamicForm_Contact_GeneralInfo.hasErrors())
-				contactTabs.selectTab(0);
-				else if (DynamicForm_Contact_Connection.hasErrors())
-				contactTabs.selectTab(1);
-			}
-		}
-}
+        function saveContact() {
+    	let Val_seller = DynamicForm_Contact_GeneralInfo.getValue("seller");
+    	let Val_buyer = DynamicForm_Contact_GeneralInfo.getValue("buyer");
+    	let Val_agentSeller = DynamicForm_Contact_GeneralInfo.getValue("agentSeller");
+    	let Val_agentBuyer = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer");
+    	let Val_transporter = DynamicForm_Contact_GeneralInfo.getValue("transporter");
+    	let Val_shipper = DynamicForm_Contact_GeneralInfo.getValue("shipper");
+    	let Val_inspector = DynamicForm_Contact_GeneralInfo.getValue("inspector");
+    	let Val_insurancer = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
+    	let Val_all = [Val_seller, Val_buyer, Val_agentSeller, Val_agentBuyer, Val_transporter, Val_shipper, Val_inspector, Val_insurancer].values();
+    	if (ValuesManager_Contact !== null) {
+    		ValuesManager_Contact.validate();
+    		if (DynamicForm_Contact_GeneralInfo.hasErrors())
+    			contactTabs.selectTab(0);
+    		else if (DynamicForm_Contact_Connection.hasErrors())
+    			contactTabs.selectTab(1);
+    		else {
+    			for (let chap of Val_all) {
+    				if (chap === true) {
+    					var contactData = Object.assign(ValuesManager_Contact.getValues());
+    					var httpMethod = "PUT";
+    					if (contactData.id == null)
+    						httpMethod = "POST";
+    					isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+    						actionURL: "${contextPath}/api/contact",
+    						httpMethod: httpMethod,
+    						data: JSON.stringify(contactData),
+    						callback: function(RpcResponse_o) {
+    							if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+    								ListGrid_Contact.invalidateCache();
+    								isc.say("<spring:message code='global.form.request.successful'/>");
+    								Window_Contact.close();
+    							}
+    						}
+    					}));
+    				} else {
+    					isc.say("<spring:message code='global.form.request.checkbox'/>");
+    				}
+    			}
+    		}
+    	}
+    }
 
 
     function clearContactForms() {
@@ -988,7 +984,7 @@ function ListGrid_Contact_edit()
 		align: "center",
 		width: "10%",
 		filterEditorProperties:{ operator:"equals",type:"boolean",
-								 valueMap: {true: "<spring:message code='contact.type.real'/>", false: "<spring:message code='contact.type.legal'/>"}}
+		valueMap: {true: "<spring:message code='contact.type.real'/>", false: "<spring:message code='contact.type.legal'/>"}}
 	},
 	{
 		name: "isDefault",
