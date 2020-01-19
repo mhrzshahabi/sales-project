@@ -431,13 +431,6 @@
                 width: "10%"
             },
             {
-                name: "haveCode",
-                title: "<spring:message code='Tozin.haveCode'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
                 name: "packName",
                 title: "<spring:message code='Tozin.packName'/>",
                 align: "center",

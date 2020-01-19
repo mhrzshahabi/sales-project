@@ -689,6 +689,7 @@
                 title: "<spring:message code='shipment.freight'/>",
                 type: 'float',
                 required: true,
+                errorOrientation: "bottom",
                 width: "100%",
                 validators: [{
                     type: "isFloat",
@@ -710,6 +711,7 @@
                 title: "<spring:message		code='shipment.totalFreight'/>",
                 type: 'float',
                 required: true,
+                errorOrientation: "bottom",
                 width: "100%",
                 validators: [{
                     type: "isFloat",
@@ -723,6 +725,7 @@
                 title: "<spring:message code='shipment.preFreight'/>",
                 type: 'float',
                 required: true,
+                errorOrientation: "bottom",
                 width: "100%",
                 validators: [{
                     type: "isFloat",
@@ -743,6 +746,7 @@
                 title: "<spring:message code='shipment.postFreight'/>",
                 type: 'float',
                 required: true,
+                errorOrientation: "bottom",
                 width: "100%",
                 validators: [{
                     type: "isFloat",

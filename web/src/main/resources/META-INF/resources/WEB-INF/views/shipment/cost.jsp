@@ -324,40 +324,59 @@
         ]
     });
 
-    var RestDataSource_ContactBySourceInspector = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='contact.code'/>"},
-                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-                {name: "commertialRole"},
-            ],
+    var RestDataSource_Contact = isc.MyRestDataSource.create({
+        fields: [
+            {name: "id", primaryKey: true, canEdit: false, hidden: true},
+            {name: "code", title: "<spring:message code='contact.code'/>"},
+            {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
+            {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
+            {name: "phone", title: "<spring:message code='contact.phone'/>"},
+            {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
+            {name: "fax", title: "<spring:message code='contact.fax'/>"},
+            {name: "address", title: "<spring:message code='contact.address'/>"},
+            {name: "webSite", title: "<spring:message code='contact.webSite'/>"},
+            {name: "email", title: "<spring:message code='contact.email'/>"},
+            {
+                name: "type",
+                title: "<spring:message code='contact.type'/>",
+                valueMap: {
+                    "true": "<spring:message code='contact.type.real'/>",
+                    "false": "<spring:message code='contact.type.legal'/>"
+                }
+            },
+            {name: "nationalCode", title: "<spring:message code='contact.nationalCode'/>"},
+            {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
+            {name: "bankAccount", title: "<spring:message code='contact.bankAccount'/>"},
+            {name: "bankShaba", title: "<spring:message code='contact.bankShaba'/>"},
+            {name: "bankSwift", title: "<spring:message code='contact.bankShaba'/>"},
+            {name: "ceoPassportNo"},
+            {name: "ceo"},
+            {name: "commercialRole"},
+            {
+                name: "status",
+                title: "<spring:message code='contact.status'/>",
+                valueMap: {"true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"}
+            },
+            {name: "tradeMark"},
+            {name: "commercialRegistration"},
+            {name: "branchName"},
+            {name: "countryId", title: "<spring:message code='country.nameFa'/>", type: 'long'},
+            {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+            {name: "contactAccounts"}
+        ],
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
-    var RestDataSource_ContactByDestinationInspector = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='contact.code'/>"},
-                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-                {name: "commertialRole"},
-            ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list"
-    });
-    var RestDataSource_ContactByInsurance = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='contact.code'/>"},
-                {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-                {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-                {name: "commertialRole"},
-                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"}
-            ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list"
-    });
+
+     var RestDataSource_Contact_optionCriteria_inspector = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "inspector", operator: "equals", value: true}]
+    };
+    var RestDataSource_Contact_optionCriteria_insurancer = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "insurancer", operator: "equals", value: true}]
+    };
 
     var RestDataSource_Cost = isc.MyRestDataSource.create({
         fields:
@@ -429,6 +448,8 @@
                 }
             });
         } else {
+            DynamicForm_Cost.clearValues();
+            DynamicForm_Cost.setValue("sourceInspectorId",record.sourceInspectorId);
             DynamicForm_Cost.editRecord(record);
             if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
                 DynamicForm_Cost.getItem("sourceCopper").show();
@@ -580,16 +601,7 @@
             }
         ]
     });
-    var RestDataSource_Contact_optionCriteria_inspector = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "inspector", operator: "equals", value: true}]
-    };
-    var RestDataSource_Contact_optionCriteria_insurancer = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "insurancer", operator: "equals", value: true}]
-    };
+
 
     var DynamicForm_Cost = isc.DynamicForm.create({
         width: "100%",
@@ -621,7 +633,7 @@
                     type: 'long',
                     width: "100%",
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_ContactBySourceInspector,
+                    optionDataSource: RestDataSource_Contact,
                     optionCriteria: RestDataSource_Contact_optionCriteria_inspector,
                     displayField: "nameFA",
                     autoFetchData: false,
@@ -632,7 +644,9 @@
                     pickListFields: [
                         {name: "nameFA", align: "center"},
                         {name: "nameEN", align: "center"}
-                    ]
+                    ],change:function(){
+                    alert("as");
+                    }
                 },
                 {
                     name: "sourceInspectionCost",
@@ -660,7 +674,7 @@
                     type: 'long',
                     width: "100%",
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_ContactByDestinationInspector,
+                    optionDataSource: RestDataSource_Contact,
                     optionCriteria: RestDataSource_Contact_optionCriteria_inspector,
                     displayField: "nameFA",
                     valueField: "id",
@@ -844,7 +858,7 @@
                     type: 'long',
                     width: "100%",
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_ContactByInsurance,
+                    optionDataSource: RestDataSource_Contact,
                     optionCriteria: RestDataSource_Contact_optionCriteria_insurancer,
                     displayField: "nameFA",
                     autoFetchData: false,
@@ -1093,7 +1107,7 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
-            DynamicForm_Cost.clearValues();
+
             ListGrid_Cost_edit();
         }
     });
