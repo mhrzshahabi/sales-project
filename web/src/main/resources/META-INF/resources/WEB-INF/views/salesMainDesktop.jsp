@@ -61,6 +61,8 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
+    isc.DynamicForm.addProperties({requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",});
+
     isc.defineClass("MyRestDataSource", RestDataSource);
 
     isc.MyRestDataSource.addProperties({
@@ -83,7 +85,7 @@
             click:function(){
                 this.pickList.invalidateCache();
             }
-    })
+    });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -515,7 +517,25 @@
                 {
                     title: "<spring:message code='salesContract.title'/>",
                     click: function () {
-                        createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                        var url_string = window.location.href;
+                        var url = new URL(url_string);
+                        var lang = url.searchParams.get("lang");
+
+                        if(lang=="fa" || lang==null){
+                            isc.Dialog.create({
+                                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
+                                icon: "[SKIN]ask.png",
+                                title: "<spring:message code='global.message'/>",
+                                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                buttonClick: function () {
+                                    this.hide();
+                                }
+                            });
+                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                        }
+                        else{
+                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                        }
                     }
                 },
                 {isSeparator: true},
@@ -672,7 +692,25 @@
                 {
                     title: "<spring:message code='issuedInvoices.title'/>",
                     click: function () {
-                        createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
+                        var url_string = window.location.href;
+                        var url = new URL(url_string);
+                        var lang = url.searchParams.get("lang");
+
+                        if(lang=="fa" || lang==null){
+                            isc.Dialog.create({
+                                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
+                                icon: "[SKIN]ask.png",
+                                title: "<spring:message code='global.message'/>",
+                                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                buttonClick: function () {
+                                    this.hide();
+                                }
+                            });
+                            createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
+                        }
+                        else{
+                            createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
+                        }
                     }
                 },
                 {isSeparator: true},

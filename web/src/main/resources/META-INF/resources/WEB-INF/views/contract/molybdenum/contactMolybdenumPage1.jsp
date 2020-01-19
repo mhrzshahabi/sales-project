@@ -901,18 +901,19 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 showHover: true,
                 required: true,
                 autoFetchData: false,
-                title: "<spring:message code='contact.name'/>",
+                title: "<spring:message code='contact.commercialRole.buyer'/>",
+                width: "600",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactBUYER_optionCriteria,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "700",
+                pickListWidth: "600",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
                     {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center"}
+                    {name: "code", width: "10%", align: "center", hidden: true}
                 ],
                 changed: function (form, item, value) {
                     var address = "";
@@ -942,18 +943,19 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 showHover: true,
                 autoFetchData: false,
                 title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
+                width:"600",
                 required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactAgentBuyer_optionCriteria,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "700",
+                pickListWidth: "600",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
                     {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center"}
+                    {name: "code", width: "10%", align: "center", hidden: true}
                 ],
                 changed: function (form, item, value) {
                     var address = "";
@@ -1094,19 +1096,20 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 numCols: 2,
                 showHover: true,
                 autoFetchData: false,
-                title: "Seller",
+                title: "<spring:message code='contact.commercialRole.seller'/>",
+                width: "600",
                 required: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_Contact_optionCriteria,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "700",
+                pickListWidth: "600",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
                     {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center"}
+                    {name: "code", width: "10%", align: "center", hidden:true }
                 ],
                 changed: function (form, item, value) {
                     var address = "";
@@ -1136,19 +1139,20 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 numCols: 2,
                 showHover: true,
                 autoFetchData: false,
-                title: "Agent Seller",
+                title: "<spring:message code='contact.commercialRole.agentSeller'/>",
+                width: "600",
                 required: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_ContactAgentSeller_optionCriteria,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "700",
+                pickListWidth: "600",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "nameFA", width: "45%", align: "center"},
                     {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center"}
+                    {name: "code", width: "10%", align: "center", hidden: true}
                 ],
                 changed: function (form, item, value) {
                     var address = "";
@@ -1287,9 +1291,9 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 showTitle: false,
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
+                    {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
+                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
@@ -1366,17 +1370,17 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 name: "unitId", //article2_number12
                 title: "",
                 type: 'long',
-                width: "150",
+                width: "250",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "500",
+                pickListWidth: "250",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}
+                    {name: "nameEN", width: 245, align: "center"}
                 ],changed: function (form, item, value) {
                     dynamicForm_article3_3.setValue("article3_number17_13",article2Mo.getItem("unitId").getDisplayValue(value));
                 }
@@ -1515,17 +1519,17 @@ var vlayoutBodyMo = isc.VLayout.create({
             isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormMaterial",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
-                    width: "250",
+                    width: "400",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,
-                    displayField: "descl",
+                    //displayField: "descl",
                     valueField: "id",
-                    pickListWidth: "500",
+                    pickListWidth: "400",
                     pickListHeight: "500",
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "descl", width: 440, align: "center"}
+                    {name: "descl", title: "<spring:message code="material.descl"/>", width: "395", align: "center"}
                     ],
                     pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
                         {fieldName: "descl", operator: "contains", value: "Mol"}]
@@ -1625,7 +1629,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 showHover: true,
                 autoFetchData: false,
                 hint: "AHK",
-                width: "150",
+                width: "400",
                 showHintInField: true,
                 showTitle: false,
                 required: false,
@@ -1634,12 +1638,12 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 optionDataSource: RestDataSource_Contact,
                 displayField: "nameFA",
                 valueField: "id",
-                pickListWidth: "700",
+                pickListWidth: "400",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "nameFA", width: "45%", align: "center"},
-                    {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center"}
+                    {name: "nameFA", width: "50%", align: "center"},
+                    {name: "nameEN", width: "50%", align: "center"},
+                    {name: "code", align: "center", hidden: true}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
                     {fieldName: "inspector", operator: "equals", value: 1}]
@@ -1725,6 +1729,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
             {
                 name: "article3_number17_2",
                 type: "text",
+                width: "700",
                 length: 150,
                 showTitle: false,
                 colSpan: 2,
@@ -1733,6 +1738,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 optionDataSource: RestDataSource_Parameters,
                 displayField: "paramValue",
                 valueField: "paramValue",
+                pickListWidth: "700",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "paramName", width: "20%", align: "center"},
@@ -1743,7 +1749,6 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                         {fieldName: "contractId", operator: "equals", value: 1},
                         {fieldName: "categoryValue", operator: "equals", value: 3}]
                 },
-                width: "*",
                 title: "quantity_number17_2"
             }
         ]
@@ -1758,97 +1763,97 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
             {name: "title",disabled:"false",defaultValue:"Prefix",width:"80",title: "TITLE",startRow:true},       //title
             {name: "titleValue",disabled:"false",defaultValue:"Value",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
             {name: "titleTolerance",disabled:"false",keyPressFilter: "[0-9.]",defaultValue:"Tolerance",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "titleUnit",disabled:"false",defaultValue:"Unit",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "PrefixMolybdenum",width:"80",title: "MO",defaultValue: "64(+-)4",startRow:true},       //molybdenum
-            {name: "molybdenum",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "toleranceMO",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "typical_unitMO",title:"",width:"100",showTitle:false,startRow:false,editorType: "SelectItem",optionDataSource: RestDataSource_Unit,
+            {name: "titleUnit",disabled:"false",defaultValue:"Unit",title: "",width:"200",showTitle: false,startRow:false},
+            {name: "PrefixMolybdenum",width:"80",title: "MO",defaultValue: "",startRow:true,disabled:true},       //molybdenum
+            {name: "molybdenum",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false,defaultValue: 64},
+            {name: "toleranceMO",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false,defaultValue: 4},
+            {name: "typical_unitMO",title:"",width:"200",showTitle:false,startRow:false,editorType: "SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
-                pickListWidth: "500",
+                pickListWidth: "200",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixCopper",width:"80",defaultValue: "<=1.7",title: "CU",startRow:true},           //copper
-            {name: "copper",keyPressFilter: "[0-9.]",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+                    {name: "nameEN", width: 195, align: "center"}]},
+            {name: "PrefixCopper",width:"80",defaultValue: "<=",title: "CU",startRow:true},           //copper
+            {name: "copper",keyPressFilter: "[0-9.]",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 1.7},
             {name: "toleranceCU",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "typical_unitCU",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+            {name: "typical_unitCU",title:"",width:"200",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
                 autoFetchData: false,
-                pickListWidth: "500",
+                pickListWidth: "200",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixC",width:"80",defaultValue: "<=0.04", title: "C",startRow:true},            //C
-            {name: "typical_c",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+                    {name: "nameEN", width: 195, align: "center"}]},
+            {name: "PrefixC",width:"80",defaultValue: "<=", title: "C",startRow:true},            //C
+            {name: "typical_c",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 0.04},
             {name: "toleranceC",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "typical_unitC",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+            {name: "typical_unitC",title:"",width:"200",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
                 autoFetchData: false,
-                pickListWidth: "500",
+                pickListWidth: "200",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixS",width:"80",defaultValue: "<=0.12",title: "S",startRow:true},                 //S
-            {name: "typical_s",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+                    {name: "nameEN", width: 195, align: "center"}]},
+            {name: "PrefixS",width:"80",defaultValue: "<=",title: "S",startRow:true},                 //S
+            {name: "typical_s",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 0.12},
             {name: "toleranceS",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "typical_unitS",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+            {name: "typical_unitS",title:"",width:"200",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
                 autoFetchData: false,
-                pickListWidth: "500",
+                pickListWidth: "200",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixPb",width:"80",defaultValue: "<=0.12", title: "Pb",startRow:true},               //Pb
-            {name: "typical_pb",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+                    {name: "nameEN", width: 195, align: "center"}]},
+            {name: "PrefixPb",width:"80",defaultValue: "<=", title: "Pb",startRow:true},               //Pb
+            {name: "typical_pb",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 0.12},
             {name: "tolerancePb",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "typical_unitPb",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+            {name: "typical_unitPb",title:"",width:"200",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
                 autoFetchData: false,
-                pickListWidth: "500",
+                pickListWidth: "200",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixP",width:"80",defaultValue: "<=0.04", title: "P",startRow:true},               //P
-            {name: "typical_p",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+                    {name: "nameEN", width: 195, align: "center"}]},
+            {name: "PrefixP",width:"80",defaultValue: "<=", title: "P",startRow:true},               //P
+            {name: "typical_p",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 0.04},
             {name: "toleranceP",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "typical_unitP",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+            {name: "typical_unitP",title:"",width:"200",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
                 autoFetchData: false,
-                pickListWidth: "500",
+                pickListWidth: "200",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixSi",width:"80", defaultValue: "<=1.1",title: "Si",startRow:true},               //Si
-            {name: "typical_Si",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+                    {name: "nameEN", width: 195, align: "center"}]},
+            {name: "PrefixSi",width:"80", defaultValue: "<=",title: "Si",startRow:true},               //Si
+            {name: "typical_Si",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 1.1},
             {name: "toleranceSi",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "typical_unitSi",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
+            {name: "typical_unitSi",title:"",width:"200",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
                 autoFetchData: false,
-                pickListWidth: "500",
+                pickListWidth: "200",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}]}
+                    {name: "nameEN", width: 195, align: "center"}]}
         ]
     })
     var dynamicForm_article3_3 = isc.DynamicForm.create({
@@ -2165,20 +2170,20 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     name: "shipmentRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: 35,
+                    width: 40,
                     align: "center"
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
-                    valueField: "id", width: 400, align: "center"
+                    valueField: "id", width: "380", align: "center"
                 },
                 {
                     name: "address",
                     title: "<spring:message code='global.address'/>",
                     type: 'text',
-                    width: 392,
+                    width: "395",
                     align: "center"
                 },
                 {
@@ -2211,6 +2216,8 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 if(ListGrid_ContractItemShipment.getSelectedRecord() === null){
                         return;
                 }else{
+                     var dateSendMol= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
+                     ContractItemShipmentRecord.sendDate=moment(dateSendMol).format('L')
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         actionURL: "${contextPath}/api/contractShipment/",
                         httpMethod: "PUT",
@@ -2395,7 +2402,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 name: "incotermsId", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
-                width: "150",
+                width: "200",
                 tabIndex: 6,
                 showTitle: false,
                 showHover: true,
@@ -2409,11 +2416,11 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 optionDataSource: RestDataSource_Incoterms,
                 displayField: "code",
                 valueField: "id",
-                pickListWidth: "450",
-                pickListHeight: "500",
+                pickListWidth: "200",
+                pickListHeight: "200",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "code", width: 440, align: "center"}
+                    {name: "code", width: 195, align: "center"}
                 ],
                 changed: function (form, item, value) {
                     dynamicForm_article6_Containerized_3.setValue("article6_Containerized_number32", value);
@@ -2445,7 +2452,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 }
             }, {
                 name: "article6_number34",
-                width: "100",
+                width: "200",
                 showTitle: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_CountryPort,
@@ -2458,7 +2465,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 title: ''
             }, {
                 name: "incotermsText", //article6_number35
-                width: "250",
+                width: "200",
                 showTitle: false,
                 showHintInField: true,
                 defaultValue: "(INCOTERMS 2010).",
@@ -2510,7 +2517,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 displayField: "port",
                 valueField: "port",
                 align: "center",
-                width: "150",
+                width: "200",
                 height: "50",
                 showTitle: false,
                 showHintInField: true,
@@ -2565,7 +2572,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 displayField: "port",
                 valueField: "id",
                 align: "center",
-                width: "150",
+                width: "200",
                 height: "50",
                 showTitle: false,
                 showHintInField: true,
@@ -2597,7 +2604,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 name: "article6_Containerized_number32",
                 colSpan: 3,
                 titleColSpan: 1,
-                width: "150",
+                width: "200",
                 height: "50",
                 tabIndex: 6,
                 showTitle: false,
@@ -2612,11 +2619,11 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 optionDataSource: RestDataSource_Incoterms,
                 displayField: "code",
                 valueField: "id",
-                pickListWidth: "500",
+                pickListWidth: "200",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "code", width: 440, align: "center"}
+                    {name: "code", width: 195, align: "center"}
                 ]
             }
         ]
@@ -2886,83 +2893,83 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         numCols: 10,
         wrapItemTitles: false,
         items: [
-            {name: "discountValueOne",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueOne
+            {name: "discountValueOne",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:7},       //discountValueOne
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueOne_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountPerfixOne",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueOne_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false,showIf:"false"},
+            {name: "discountPerfixOne",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false,showIf:"false"},
             {name: "discountUnitOne",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixOne_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueOne_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueTwo",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueTwo
+            {name: "discountValueOne_2",defaultValue:0.70,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueTwo",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:8},       //discountValueTwo
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueTwo_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueTwo_1",defaultValue:0.70,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixTwo",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitTwo",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixTwo_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueTwo_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueThree",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueThree
+            {name: "discountValueTwo_2",defaultValue:0.80,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueThree",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:9},       //discountValueThree
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueThree_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueThree_1",defaultValue:0.80,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixThree",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitThree",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixThree_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueThree_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueFour",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueFour
+            {name: "discountValueThree_2",defaultValue:0.90,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueFour",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:9.5},       //discountValueFour
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueFour_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueFour_1",defaultValue:0.90,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixFour",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitFour",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixFour_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueFour_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-             {name: "discountValueFive",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueFive
+            {name: "discountValueFour_2",defaultValue:1.00,title: "",width:"100",showTitle: false,startRow:false},
+             {name: "discountValueFive",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:10},       //discountValueFive
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueFive_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueFive_1",defaultValue:1.00,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixFive",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitFive",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixFive_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueFive_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-             {name: "discountValueSix",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueSix
+            {name: "discountValueFive_2",defaultValue:1.10,title: "",width:"100",showTitle: false,startRow:false},
+             {name: "discountValueSix",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:11},       //discountValueSix
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueSix_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueSix_1",defaultValue:1.10,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixSix",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitSix",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixSix_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueSix_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-               {name: "discountValueSeven",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueSeven
+            {name: "discountValueSix_2",defaultValue:1.20,title: "",width:"100",showTitle: false,startRow:false},
+               {name: "discountValueSeven",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:11.5},       //discountValueSeven
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueSeven_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueSeven_1",defaultValue:1.20,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixSeven",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitSeven",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixSeven_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueSeven_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueEight",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueEight
+            {name: "discountValueSeven_2",defaultValue:1.30,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueEight",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:12},       //discountValueEight
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueEight_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueEight_1",defaultValue:1.30,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixEight",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitEight",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixEight_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueEight_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueNine",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueNine
+            {name: "discountValueEight_2",defaultValue:1.40,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueNine",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:12.5},       //discountValueNine
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueNine_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueNine_1",defaultValue:1.40,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixNine",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitNine",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixNine_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueNine_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                 {name: "discountValueTen",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueTen
+            {name: "discountValueNine_2",defaultValue:1.50,title: "",width:"100",showTitle: false,startRow:false},
+                 {name: "discountValueTen",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:13},       //discountValueTen
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueTen_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueTen_1",defaultValue:1.50,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixTen",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitTen",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixTen_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueTen_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
-                {name: "discountValueEleven",width:"80",showTitle: true,title: "*",startRow:true},       //discountValueEleven
+            {name: "discountValueTen_2",defaultValue:1.60,title: "",width:"100",showTitle: false,startRow:false},
+                {name: "discountValueEleven",width:"80",showTitle: true,title: "*",startRow:true,defaultValue:13.5},       //discountValueEleven
             {name: "discountFor",width:"200",disabled:"false",defaultValue:"DISCOUNT FOR",title: "",showTitle: false,startRow:false},
-            {name: "discountValueEleven_1",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "discountValueEleven_1",defaultValue:1.60,title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixEleven",defaultValue:"<",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountUnitEleven",defaultValue:"CU",title: "",width:"100",showTitle: false,startRow:false},
             {name: "discountPerfixEleven_1",defaultValue:"<=",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "discountValueEleven_2",defaultValue:"",title: "",width:"100",showTitle: false,startRow:false}
+            {name: "discountValueEleven_2",defaultValue:1.70,title: "",width:"100",showTitle: false,startRow:false}
             ]
     });
      var dynamicForm_fullArticle07 = isc.DynamicForm.create({
@@ -3398,7 +3405,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
              },
              {
                 name: "article10_number57",
-                width: "150",
+                width: "700",
                 showTitle: true,
                 defaultValue: "",
                 startRow: false,
@@ -3409,9 +3416,9 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 pickListProperties: {showFilterEditor: true},
                 pickListWidth: "700",
                 pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
+                    {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
+                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
                         {fieldName: "contractId", operator: "equals", value: 1},
@@ -3428,7 +3435,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
              },
              {
                 name: "article10_number59",
-                width: "150",
+                width: "700",
                 showTitle: true,
                 defaultValue: "",
                 startRow: false,
@@ -3440,9 +3447,9 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 pickListProperties: {showFilterEditor: true},
                 pickListWidth: "700",
                 pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
+                    {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
+                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
                         {fieldName: "contractId", operator: "equals", value: 1},
@@ -3536,7 +3543,7 @@ var contactTabs = isc.TabSet.create({
 var IButton_Contact_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
-        //icon: "[SKIN]/actions/add.png",
+        icon: "pieces/16/save.png",
         click: function () {
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
@@ -3797,7 +3804,16 @@ var contactFormButtonSaveLayout = isc.HStack.create({
         layoutMargin: 10,
         showShadow: true,
         members: [
-            IButton_Contact_Save
+            IButton_Contact_Save,
+            isc.IButtonCancel.create({
+                title: "<spring:message code='global.cancel'/>",
+                width: 100,
+                icon: "pieces/16/icon_delete.png",
+                orientation: "vertical",
+                click: function () {
+                Window_ContactMo.close();
+                }
+                })
         ]
     });
 

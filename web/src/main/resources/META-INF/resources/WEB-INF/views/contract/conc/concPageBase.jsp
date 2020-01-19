@@ -340,7 +340,16 @@ var contactFormButtonSaveLayout = isc.HStack.create({
         membersMargin: 5,
         layoutMargin: 10,
         members: [
-            IButton_ContactConc_Save
+            IButton_ContactConc_Save,
+            isc.IButtonCancel.create({
+                title: "<spring:message code='global.cancel'/>",
+                width: 100,
+                icon: "pieces/16/icon_delete.png",
+                orientation: "vertical",
+                click: function () {
+                Window_ContactConc.close();
+                }
+                })
         ]
     });
 
@@ -401,7 +410,6 @@ function saveListGrid_ContractConcItemShipment(contractID) {
             var dataEdit=ListGrid_ContractConcItemShipment.getEditedRecord(element);
             dataEdit.contractId=contractID;
             dataEdit.sendDate=(ListGrid_ContractConcItemShipment.getEditedRecord(element).sendDate).toNormalDate("toUSShortDate")
-            //dataEdit.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",

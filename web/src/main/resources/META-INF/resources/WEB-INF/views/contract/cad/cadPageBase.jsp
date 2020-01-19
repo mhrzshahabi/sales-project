@@ -78,7 +78,7 @@ var contactCadTabs = isc.TabSet.create({
     isc.IButtonSave.create({
         ID: "IButton_ContactCad_Save",
         title: "save",
-        //icon: "[SKIN]/actions/add.png",
+        icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
             contactCadHeader.validate();
@@ -336,7 +336,16 @@ var contactCadTabs = isc.TabSet.create({
         membersMargin: 5,
         layoutMargin: 10,
         members: [
-            IButton_ContactCad_Save
+            IButton_ContactCad_Save,
+            isc.IButtonCancel.create({
+                title: "<spring:message code='global.cancel'/>",
+                width: 100,
+                icon: "pieces/16/icon_delete.png",
+                orientation: "vertical",
+                click: function () {
+                Window_ContactCad.close();
+                }
+                })
         ]
     });
 
@@ -364,11 +373,9 @@ function saveListGrid_ContractCadItemShipment(contractID) {
         ListGrid_ContractItemShipment.selectAllRecords();
         var data_ContractItemShipment = {};
         var ListGrid_ShipmentItems = [];
-
         ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
             var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
             dataEditMain.contractId=contractID;
-            //dataEditMain.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -384,7 +391,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
             dataEdit.contractId=contractID;
-            //dataEdit.dischargeId = 11022;
+            dataEdit.sendDate=(ListGrid_ContractItemShipment.getEditedRecord(element).sendDate).toNormalDate("toUSShortDate")
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",

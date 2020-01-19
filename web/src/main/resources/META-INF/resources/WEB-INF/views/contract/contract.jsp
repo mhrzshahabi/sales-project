@@ -847,7 +847,11 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     title: "Type material",
                     hidden: false,
                     width: "5%",
-                    align: "center"
+                    align: "center",
+                    sortNormalizer: function(recordObject)
+                    {
+                    return recordObject.material.descl;
+                    }
                 },
                 {
                     name: "contractNo",
@@ -866,16 +870,23 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 {
                     name: "contact.nameFA",
                     title: "<spring:message code='contact.name'/>",
-                    type: 'long',
+                    type: 'text',
                     width: "12%",
-                    align: "center"
+                    align: "center",
+                    sortNormalizer: function(recordObject)
+                    {
+                    return recordObject.contact.nameFA;
+                    }
                 },
                 {
                     name: "incoterms.code",
                     title: "<spring:message code='incoterms.name'/>",
-                    type: 'long',
                     width: "10%",
-                    align: "center"
+                    align: "center",
+                    sortNormalizer: function(recordObject)
+                    {
+                    return recordObject.incoterms.code;
+                    }
                 },
                 {
                     name: "amount",

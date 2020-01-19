@@ -30,7 +30,7 @@
                 {
                     name: "unitId",
                     title: "<spring:message code='MaterialFeature.unit'/>"
-                }, //Edit By JZ
+                },
                 {
                     name: "unit.nameFA",
                     title: "<spring:message code='MaterialFeature.unit.FA'/>",
@@ -261,6 +261,11 @@
         });
 
 
+
+
+
+
+
     var IButton_Material_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -421,6 +426,7 @@
                 {name: "id", hidden: true},
                 {type: "RowSpacerItem"},
                 {
+
                     name: "code",
                     title: "<spring:message code='material.code'/>",
                     required: true,
@@ -428,7 +434,7 @@
                     length: "20",
                     keyPressFilter: "[0-9]",
                     validators: [{
-                        type: "number", //Fix
+                        type: "number",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
@@ -444,6 +450,7 @@
                     width: 400, required: true,
                     textAlign: "left",
                     length:200,
+                    requiredTitlePrefix: "<span style='color:#ff0842;font-size:22px; padding-left: 2px;'>*</span>",
 
                 },
                 {
@@ -476,6 +483,8 @@
                 {type: "RowSpacerItem"}
             ]
     });
+
+
 
     var ToolStripButton_Material_Refresh = isc.ToolStripButtonRefresh.create({
         //icon: "[SKIN]/actions/refresh.png",
@@ -608,14 +617,23 @@
         virtualScrolling: true,
         loadOnExpand: true,
         loaded: false,
+        sortField: 2,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "code", title: "<spring:message code='material.code'/>", align: "center" , showIf:"false",} ,
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
-                {name: "unit.nameFA",   title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center"},
-                {name: "unit.nameEN" , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center"},
+                {name: "unit.nameFA",   title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center",
+                        sortNormalizer: function(recordObject)
+                        {
+                        return recordObject.unit.nameFA;
+                        }},
+                {name: "unit.nameEN" , title: "<spring:message code='MaterialFeature.unit.ENG'/>", align: "center",
+                        sortNormalizer: function(recordObject)
+                        {
+                        return recordObject.unit.nameEN;
+                        }},
             ],
         getExpansionComponent : function (record) {
             var criteria1 = {
@@ -1657,7 +1675,7 @@
                  {name: "materialId", type: "long", hidden: true, wrapTitle: false},
                  {type: "RowSpacerItem"},
                  {name: "gdsCode", width: "300", title: "<spring:message code='MaterialItem.gdsCode'/> " , required:true   , keyPressFilter: "[0-9]" , length:"15"},
-                 {name: "gdsName", width: "300", title: "<spring:message code='MaterialItem.gdsName'/> " , required:true , keyPressFilter: "[a-z|A-Z|0-9]" , length:"200"},
+                 {name: "gdsName", width: "300", title: "<spring:message code='MaterialItem.gdsName'/> " , required:true , length:"200"},
             ]
     });
 
@@ -1742,7 +1760,6 @@
         };
 
         ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-        console.log(data)
         ListGrid_MaterialItem.setData(data);
         ListGrid_MaterialItem.show();
         }, {operationId: "00"});

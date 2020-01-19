@@ -182,15 +182,15 @@ public class ContractDetail extends Auditable {
     @Column(name = "STRING_CURRENCY", length = 4000)
     private String string_Currency;
     @Column(name = "TYPICAL_C")
-    private Integer typical_c;
+    private Long typical_c;
     @Column(name = "TYPICAL_S")
-    private Integer typical_s;
+    private Long typical_s;
     @Column(name = "TYPICAL_PB")
-    private Integer typical_pb;
+    private Long typical_pb;
     @Column(name = "TYPICAL_P")
-    private Integer typical_p;
+    private Long typical_p;
     @Column(name = "TYPICAL_SI")
-    private Integer typical_Si;
+    private Long typical_Si;
     @Column(name = "TYPICAL_SIZE_MIN", length = 4000)
     private String typical_size_min;
     @Column(name = "PREFIXMOLYBDENUM", length = 4000)
@@ -208,19 +208,19 @@ public class ContractDetail extends Auditable {
     @Column(name = "PREFIXSI", length = 4000)
     private String PrefixSi;
     @Column(name = "TOLERANCEMO")
-    private Integer toleranceMO;
+    private Double toleranceMO;
     @Column(name = "TOLERANCECU")
-    private Integer toleranceCU;
+    private Double toleranceCU;
     @Column(name = "TOLERANCEC")
-    private Integer toleranceC;
+    private Double toleranceC;
     @Column(name = "TOLERANCES")
-    private Integer toleranceS;
+    private Double toleranceS;
     @Column(name = "TOLERANCEPB")
-    private Integer tolerancePb;
+    private Double tolerancePb;
     @Column(name = "TOLERANCEP")
-    private Integer toleranceP;
+    private Double toleranceP;
     @Column(name = "TOLERANCESI")
-    private Integer toleranceSi;
+    private Double toleranceSi;
     @Column(name = "TYPICAL_UNITMO", length = 4000)
     private String typical_unitMO;
     @Column(name = "TYPICAL_UNITCU", length = 4000)
@@ -236,71 +236,71 @@ public class ContractDetail extends Auditable {
     @Column(name = "TYPICAL_UNITSI", length = 4000)
     private String typical_unitSi;
     @Column(name = "DISCOUNTVALUEONE")
-    private Integer discountValueOne;
+    private Double discountValueOne;
     @Column(name = "DISCOUNTVALUEONE_1")
-    private Integer discountValueOne_1;
+    private Double discountValueOne_1;
     @Column(name = "DISCOUNTVALUEONE_2")
-    private Integer discountValueOne_2;
+    private Double discountValueOne_2;
     @Column(name = "DISCOUNTVALUETWO")
-    private Integer discountValueTwo;
+    private Double discountValueTwo;
     @Column(name = "DISCOUNTVALUETWO_1")
-    private Integer discountValueTwo_1;
+    private Double discountValueTwo_1;
     @Column(name = "DISCOUNTVALUETWO_2")
-    private Integer discountValueTwo_2;
+    private Double discountValueTwo_2;
     @Column(name = "DISCOUNTVALUETHREE")
-    private Integer discountValueThree;
+    private Double discountValueThree;
     @Column(name = "DISCOUNTVALUETHREE_1")
-    private Integer discountValueThree_1;
+    private Double discountValueThree_1;
     @Column(name = "DISCOUNTVALUETHREE_2")
-    private Integer discountValueThree_2;
+    private Double discountValueThree_2;
     @Column(name = "DISCOUNTVALUEFOUR")
-    private Integer discountValueFour;
+    private Double discountValueFour;
     @Column(name = "DISCOUNTVALUEFOUR_1")
-    private Integer discountValueFour_1;
+    private Double discountValueFour_1;
     @Column(name = "DISCOUNTVALUEFOUR_2")
-    private Integer discountValueFour_2;
+    private Double discountValueFour_2;
     @Column(name = "DISCOUNTVALUEFIVE")
-    private Integer discountValueFive;
+    private Double discountValueFive;
     @Column(name = "DISCOUNTVALUEFIVE_1")
-    private Integer discountValueFive_1;
+    private Double discountValueFive_1;
     @Column(name = "DISCOUNTVALUEFIVE_2")
-    private Integer discountValueFive_2;
+    private Double discountValueFive_2;
     @Column(name = "DISCOUNTVALUESIX")
-    private Integer discountValueSix;
+    private Double discountValueSix;
     @Column(name = "DISCOUNTVALUESIX_1")
-    private Integer discountValueSix_1;
+    private Double discountValueSix_1;
     @Column(name = "DISCOUNTVALUESIX_2")
-    private Integer discountValueSix_2;
+    private Double discountValueSix_2;
     @Column(name = "DISCOUNTVALUESEVEN")
-    private Integer discountValueSeven;
+    private Double discountValueSeven;
     @Column(name = "DISCOUNTVALUESEVEN_1")
-    private Integer discountValueSeven_1;
+    private Double discountValueSeven_1;
     @Column(name = "DISCOUNTVALUESEVEN_2")
-    private Integer discountValueSeven_2;
+    private Double discountValueSeven_2;
     @Column(name = "DISCOUNTVALUEEIGHT")
-    private Integer discountValueEight;
+    private Double discountValueEight;
     @Column(name = "DISCOUNTVALUEEIGHT_1")
-    private Integer discountValueEight_1;
+    private Double discountValueEight_1;
     @Column(name = "DISCOUNTVALUEEIGHT_2")
-    private Integer discountValueEight_2;
+    private Double discountValueEight_2;
     @Column(name = "DISCOUNTVALUENINE")
-    private Integer discountValueNine;
+    private Double discountValueNine;
     @Column(name = "DISCOUNTVALUENINE_1")
-    private Integer discountValueNine_1;
+    private Double discountValueNine_1;
     @Column(name = "DISCOUNTVALUENINE_2")
-    private Integer discountValueNine_2;
+    private Double discountValueNine_2;
     @Column(name = "DISCOUNTVALUETEN")
-    private Integer discountValueTen;
+    private Double discountValueTen;
     @Column(name = "DISCOUNTVALUETEN_1")
-    private Integer discountValueTen_1;
+    private Double discountValueTen_1;
     @Column(name = "DISCOUNTVALUETEN_2")
-    private Integer discountValueTen_2;
+    private Double discountValueTen_2;
     @Column(name = "DISCOUNTVALUEELEVEN")
-    private Integer discountValueEleven;
+    private Double discountValueEleven;
     @Column(name = "DISCOUNTVALUEELEVEN_1")
-    private Integer discountValueEleven_1;
+    private Double discountValueEleven_1;
     @Column(name = "DISCOUNTVALUEELEVEN_2")
-    private Integer discountValueEleven_2;
+    private Double discountValueEleven_2;
     @Column(name = "DISCOUNTFOR", length = 4000)
     private String discountFor;
     @Column(name = "DISCOUNTPERFIXONE", length = 4000)

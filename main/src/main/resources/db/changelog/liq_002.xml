@@ -16,4 +16,133 @@
     <changeSet author="RMazloom" id="1578893517121-185">
         <dropForeignKeyConstraint baseTableName="TBL_CONTRACT" constraintName="FKR6BUP0DWNJONERX39O52FFNJH"/>
     </changeSet>
+    <changeSet author="Mohiti" id="1578893517121-186">
+        <modifyDataType
+                columnName="DISCOUNTVALUEONE"
+                newDataType="FLOAT"
+                tableName="TBL_CONTRACT_DETAIL"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-187">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="TOLERANCEMO"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-188">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="TOLERANCECU"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-189">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="TOLERANCEC"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-190">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="TOLERANCES"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-191">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="TOLERANCEPB"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-192">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="TOLERANCEP"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-193">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="TOLERANCESI"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-194">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEONE"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-195">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEONE_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-196">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEONE_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-197">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUETWO"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-198">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUETWO_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-199">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUETWO_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-200">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUETHREE"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-201">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUETHREE_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-202">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUETHREE_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-203">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEFOUR"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-204">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEFOUR_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-205">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEFOUR_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-206">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEFIVE"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-207">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEFIVE_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-208">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEFIVE_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-209">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUESIX"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-210">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUESIX_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-211">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUESIX_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-212">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUESEVEN"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-213">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUESEVEN_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-214">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUESEVEN_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-215">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEEIGHT"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-216">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEEIGHT_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-217">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEEIGHT_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-218">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUENINE"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-219">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUENINE_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-220">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUENINE_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-221">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUETEN"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-222">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUETEN_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-223">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUETEN_2"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-224">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEELEVEN"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-225">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEELEVEN_1"/>
+    </changeSet>
+    <changeSet author="azmohiti" id="1578893517121-226">
+        <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEELEVEN_2"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-227">
+        <modifyDataType tableName="TBL_INVOICE" newDataType="varchar2(24 CHAR)" columnName="INVOIC_DATE"/>
+    </changeSet>
 </databaseChangeLog>

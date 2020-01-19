@@ -150,7 +150,7 @@ function ListGrid_CurrencyRate_edit()
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100",
+        titleWidth: "105",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,

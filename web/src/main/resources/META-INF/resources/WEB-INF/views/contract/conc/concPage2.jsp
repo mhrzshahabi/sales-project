@@ -58,7 +58,7 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
                 showTitle: false,
                 disabled: true,
                 startRow: false,
-                width: "200",
+                width: "300",
                 defaultValue: "UNIT"
             },
             {
@@ -79,18 +79,18 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
             },
             {
                 name: "unitCu",
-                width: "200",
+                width: "300",
                 showTitle: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "500",
+                pickListWidth: "300",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}
+                    {name: "nameEN", width: "295", align: "center"}
                 ]
             },
             {
@@ -111,19 +111,19 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
             },
             {
                 name: "unitMo",
-                width: "200",
+                width: "300",
                 showTitle: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Unit,
                 autoFetchData: false,
                 displayField: "nameEN",
                 valueField: "id",
-                pickListWidth: "500",
+                pickListWidth: "300",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 440, align: "center"}
+                    {name: "nameEN", width: "295", align: "center"}
                 ]
             }
         ]
@@ -148,7 +148,7 @@ var buttonAddConcItem=isc.IButton.create({
 
 isc.ListGrid.create({
         ID:"ListGrid_ContractConcItemShipment",
-        width: "79%",
+        width: "80%",
         height: "200",
         modalEditing: true,
         canEdit: true,
@@ -173,7 +173,7 @@ isc.ListGrid.create({
                     name: "shipmentRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: 35,
+                    width: 42,
                     align: "center"
                 },
                 {
@@ -186,7 +186,7 @@ isc.ListGrid.create({
                     name: "address",
                     title: "<spring:message code='global.address'/>",
                     type: 'text',
-                    width: 392,
+                    width: 390,
                     align: "center"
                 },
                 {
@@ -309,11 +309,11 @@ var article5_ConcDeliveryTerms = isc.DynamicForm.create({
                 optionDataSource: RestDataSource_Incoterms_InConc,
                 displayField: "code",
                 valueField: "id",
-                pickListWidth: "450",
+                pickListWidth: "500",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "code", width: 440, align: "center"}
+                    {name: "code", width: "495", align: "center"}
                 ],
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
@@ -465,7 +465,7 @@ var article12_qualityConc = isc.DynamicForm.create({
              },
              {
                 name: "article12_number57",
-                width: "150",
+                width: "700",
                 showTitle: true,
                 defaultValue: "",
                 startRow: false,
@@ -476,9 +476,9 @@ var article12_qualityConc = isc.DynamicForm.create({
                 pickListProperties: {showFilterEditor: true},
                 pickListWidth: "700",
                 pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
+                    {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
+                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
                         {fieldName: "contractId", operator: "equals", value: 2},
@@ -495,7 +495,7 @@ var article12_qualityConc = isc.DynamicForm.create({
              },
              {
                 name: "article12_number59",
-                width: "150",
+                width: "700",
                 showTitle: true,
                 defaultValue: "",
                 startRow: false,
@@ -507,9 +507,9 @@ var article12_qualityConc = isc.DynamicForm.create({
                 pickListProperties: {showFilterEditor: true},
                 pickListWidth: "700",
                 pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
+                    {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
+                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
                         {fieldName: "contractId", operator: "equals", value: 2},
