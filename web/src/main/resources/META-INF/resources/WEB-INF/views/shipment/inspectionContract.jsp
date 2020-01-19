@@ -618,39 +618,6 @@
             });
     }
 
-
-    <%--function ListGrid_InspectionContract_edit()--%>
-    <%--{--%>
-
-    <%--	var record = ListGrid_InspectionContract.getSelectedRecord();--%>
-    <%--	if (record == null || record.id == null )--%>
-    <%--	{--%>
-    <%--		isc.Dialog.create(--%>
-    <%--				{--%>
-    <%--					message: "<spring:message code='global.grid.record.not.selected'/>",--%>
-    <%--					icon: "[SKIN]ask.png",--%>
-    <%--					title: "<spring:message code='global.message'/>",--%>
-    <%--					buttons: [isc.Button.create(--%>
-    <%--							{--%>
-    <%--								title: "<spring:message code='global.ok'/>"--%>
-    <%--							})],--%>
-    <%--					buttonClick: function()--%>
-    <%--					{--%>
-    <%--						this.hide();--%>
-    <%--					}--%>
-    <%--				});--%>
-    <%--	}--%>
-    <%--	else--%>
-    <%--	{--%>
-    <%--console.log(record);--%>
-    <%--		DynamicForm_InspectionContract.editRecord(record);--%>
-    <%--		DynamicForm_InspectionContract.setValue("createDate", new Date(record.createDate));--%>
-    <%--		Window_InspectionContract.show();--%>
-
-    <%--	}--%>
-    <%--}--%>
-
-
     function ListGrid_InspectionContract_remove() {
 
         var record = ListGrid_InspectionContract.getSelectedRecord();
@@ -686,7 +653,6 @@
                         this.hide();
 
                         if (index === 0) {
-                            console.log(record)
                             var inspectionContractId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
