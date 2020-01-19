@@ -1248,7 +1248,7 @@
                 width: "10%",
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.fullName;
                 }
             },
             {
@@ -1258,7 +1258,7 @@
                 width: 150,
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.jobTitle;
                 }
             },
             {
@@ -1273,7 +1273,7 @@
                 },
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.title;
                 }
             },
             {
@@ -1284,7 +1284,7 @@
                 width: "10%",
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.email;
                 }
             },
             {
@@ -1294,7 +1294,7 @@
                 width: "10%",
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.email1;
                 }
             },
             {
@@ -1304,7 +1304,7 @@
                 width: "10%",
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.email2;
                 }
             },
             {
@@ -1314,7 +1314,7 @@
                 width: "10%",
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.webAddress;
                 }
             },
             {
@@ -1324,7 +1324,7 @@
                 width: "10%",
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.mobileNo;
                 }
             },
             {
@@ -1334,7 +1334,7 @@
                 width: "10%",
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.mobileNo1;
                 }
             },
             {
@@ -1344,7 +1344,7 @@
                 width: "10%",
                 sortNormalizer: function(recordObject)
                 {
-                return recordObject.groups.groupsName;
+                return recordObject.person.mobileNo2;
                 }
             }
         ],
