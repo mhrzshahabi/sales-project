@@ -442,13 +442,6 @@
                     operator: "equals"
                 },
                 {
-                    name: "containerId",
-                    title: "<spring:message code='Tozin.containerId'/>",
-                    align: "center",
-                    showHover: true,
-                    width: "10%"
-                },
-                {
                     name: "vazn",
                     title: "<spring:message code='Tozin.vazn'/>",
                     align: "center",
@@ -479,13 +472,6 @@
                 {
                     name: "target",
                     title: "<spring:message code='Tozin.target'/>",
-                    align: "center",
-                    showHover: true,
-                    width: "10%"
-                },
-                {
-                    name: "haveCode",
-                    title: "<spring:message code='Tozin.haveCode'/>",
                     align: "center",
                     showHover: true,
                     width: "10%"
