@@ -142,4 +142,7 @@
     <changeSet author="azmohiti" id="1578893517121-226">
         <modifyDataType tableName="TBL_CONTRACT_DETAIL" newDataType="FLOAT" columnName="DISCOUNTVALUEELEVEN_2"/>
     </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-227">
+        <modifyDataType tableName="TBL_INVOICE" newDataType="varchar2(24 CHAR)" columnName="INVOIC_DATE"/>
+    </changeSet>
 </databaseChangeLog>
