@@ -37,7 +37,6 @@
                         for (x of data.data) {
                             stocks[x.plant] = x.amount;
                         }
-                        console.log(stocks);
                         t = DynamicForm_WarehouseIssueCons.getValue("amountSungon");
                         t = typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
                         DynamicForm_WarehouseIssueCons.setValue("StockSungon", t + parseFloat(stocks["sungun"]));

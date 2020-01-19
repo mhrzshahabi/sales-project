@@ -1015,7 +1015,6 @@
         } else {
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment1.editRecord(record);
-            //console.log(record)
             DynamicForm_Shipment2.editRecord(record);
             DynamicForm_Shipment.setValue("createDate", new Date(record.createDate));
             DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
