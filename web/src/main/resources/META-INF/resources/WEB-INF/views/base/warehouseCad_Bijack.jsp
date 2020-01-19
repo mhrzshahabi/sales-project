@@ -359,7 +359,8 @@
         name: "bijackNo",
         title: "<spring:message code='warehouseCad.bijackNo'/>",
         type: 'text',
-        required: true
+        required: true,
+        canEdit: false
     }, {
         name: "materialItemId",
         title: "<spring:message code='contractItem.material'/>",
@@ -383,6 +384,7 @@
     }, {
         name: "sourceTozinPlantId",
         required: true,
+        canEdit: false,
         colSpan: 3,
         titleColSpan: 1,
         showHover: true,
@@ -424,6 +426,7 @@
     }, {
         name: "destinationTozinPlantId",
         required: true,
+        canEdit: false,
         colSpan: 3,
         titleColSpan: 1,
         showHover: true,
@@ -458,6 +461,7 @@
         }
     }, {
         name: "warehouseYardId",
+        canEdit: false,
         colSpan: 1,
         titleColSpan: 1,
         showHover: true,
@@ -502,55 +506,64 @@
         title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
         width: 250,
         colSpan: 1,
-        titleColSpan: 1
+        titleColSpan: 1,
+        canEdit: false
     }, {
         name: "herasatPolompNo",
         title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
         width: 250,
         colSpan: 1,
-        titleColSpan: 1
+        titleColSpan: 1,
+        canEdit: false
     }, {
         name: "containerNo",
         title: "<spring:message code='warehouseCad.containerNo'/>",
         width: 250,
         colSpan: 1,
-        titleColSpan: 1
+        titleColSpan: 1,
+        canEdit: false
     }, {
         name: "sourceBundleSum",
         title: "<spring:message code='warehouseCad.sourceBundleSum'/>",
         width: 250,
         colSpan: 1,
-        titleColSpan: 1
+        titleColSpan: 1,
+        canEdit: false
     }, {
         name: "destinationBundleSum",
         title: "<spring:message code='warehouseCad.destinationBundleSum'/>",
         width: 250,
         colSpan: 1,
-        titleColSpan: 1
+        titleColSpan: 1,
+        canEdit: false
     }, {
         name: "sourceSheetSum",
         title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
         width: 250,
         colSpan: 1,
-        titleColSpan: 1
+        titleColSpan: 1,
+        canEdit: false
     }, {
         name: "destinationSheetSum",
         title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
         width: 250,
         colSpan: 1,
-        titleColSpan: 1
+        titleColSpan: 1,
+        canEdit: false
     }, {
         name: "sourceWeight",
         title: "<spring:message code='warehouseCad.sourceWeight'/>",
         width: 250,
         colSpan: 1,
-        titleColSpan: 1
+        titleColSpan: 1,
+        canEdit: false
     }, {
         name: "destinationWeight",
         title: "<spring:message code='warehouseCad.destinationWeight'/>",
         width: 250,
         colSpan: 1,
-        titleColSpan: 1
+        titleColSpan: 1,
+        canEdit: false
     }, {
         type: "Header",
         defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
