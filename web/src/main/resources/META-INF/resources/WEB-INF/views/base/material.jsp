@@ -1675,7 +1675,7 @@
                  {name: "materialId", type: "long", hidden: true, wrapTitle: false},
                  {type: "RowSpacerItem"},
                  {name: "gdsCode", width: "300", title: "<spring:message code='MaterialItem.gdsCode'/> " , required:true   , keyPressFilter: "[0-9]" , length:"15"},
-                 {name: "gdsName", width: "300", title: "<spring:message code='MaterialItem.gdsName'/> " , required:true , keyPressFilter: "[a-z|A-Z|0-9]" , length:"200"},
+                 {name: "gdsName", width: "300", title: "<spring:message code='MaterialItem.gdsName'/> " , required:true , length:"200"},
             ]
     });
 

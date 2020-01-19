@@ -78,6 +78,7 @@ var contactCadTabs = isc.TabSet.create({
     isc.IButtonSave.create({
         ID: "IButton_ContactCad_Save",
         title: "save",
+        icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
             contactCadHeader.validate();
@@ -335,7 +336,16 @@ var contactCadTabs = isc.TabSet.create({
         membersMargin: 5,
         layoutMargin: 10,
         members: [
-            IButton_ContactCad_Save
+            IButton_ContactCad_Save,
+            isc.IButtonCancel.create({
+                title: "<spring:message code='global.cancel'/>",
+                width: 100,
+                icon: "pieces/16/icon_delete.png",
+                orientation: "vertical",
+                click: function () {
+                Window_ContactCad.close();
+                }
+                })
         ]
     });
 
