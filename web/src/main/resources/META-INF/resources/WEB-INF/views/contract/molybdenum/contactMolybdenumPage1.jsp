@@ -1522,7 +1522,7 @@ var vlayoutBodyMo = isc.VLayout.create({
                     width: "400",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,
-                    //displayField: "descl",
+                    displayField: "descl",
                     valueField: "id",
                     pickListWidth: "400",
                     pickListHeight: "500",

@@ -840,7 +840,8 @@ align: "center"
                             type: "integerRange",
                             min: 10,
                             max: 120,
-                            errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
+                            errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>",
+                            colSpan: 2
                         }
                     ],
                     changed	: function(form, item, value){
@@ -907,7 +908,7 @@ align: "center"
                 },
                  {
                     name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",keyPressFilter: "[0-9.]",
-                    type: 'currencyFloat2', required: true, width: "100%",colSpan:1,titleColSpan:1,titleAlign:"right",
+                    type: 'currencyFloat2', required: true, width: "100%",colSpan:2, titleColSpan:1, titleAlign:"right",
                     validators: [
                         {
                             type: "isFloat",
