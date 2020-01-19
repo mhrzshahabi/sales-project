@@ -33,7 +33,7 @@ public class Invoice extends Auditable {
 	@Column(name = "INVOICE_NO", length = 100)
 	private String invoiceNo;
 
-	@Column(name = "INVOIC_DATE", length = 20)
+	@Column(name = "INVOIC_DATE", length = 24)
 	private String invoiceDate;
 
 	@Column(name = "INVOICE_TYPE", length = 20)

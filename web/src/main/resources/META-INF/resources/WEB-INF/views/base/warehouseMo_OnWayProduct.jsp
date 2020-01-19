@@ -332,6 +332,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
     }, {
         name: "sourceTozinPlantId",
         required: true,
+        canEdit: false,
         colSpan: 3,
         titleColSpan: 1,
         showHover: true,

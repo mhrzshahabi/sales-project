@@ -322,7 +322,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "100",
+        titleWidth: "110",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
@@ -360,6 +360,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
             }, {
                 name: "sourceTozinPlantId",
                 required: true,
+                canEdit: false,
                 colSpan: 3,
                 titleColSpan: 1,
                 showHover: true,
@@ -542,28 +543,27 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            DynamicForm_warehouseCAD.validate();
-            if (DynamicForm_warehouseCAD.hasErrors())
-                return;
+            // DynamicForm_warehouseCAD.validate();
+            // if (DynamicForm_warehouseCAD.hasErrors())
+            //     return;
 
             DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             var warehouseCadItems = [];
-
             ListGrid_WarehouseCadItem.selectAllRecords();
+
             if (ListGrid_WarehouseCadItem.data.length == 0 ) {
                isc.warn("<spring:message code='bijack.noitems'/>");
                return;
             }
 
             ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function(element) {
-                warehouseCadItems.add(element);
+                warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
             ListGrid_WarehouseCadItem.getAllEditRows().forEach(function(element) {
-                var element = ListGrid_WarehouseCadItem.getEditedRecord(element);
                 if (element.productLabel !== undefined && element.sheetNumber !== undefined && element.wazn !== undefined) {
-                    warehouseCadItems.add(element);
+                    warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
                 }
             });
 
@@ -574,7 +574,6 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
 
             ListGrid_WarehouseCadItem.deselectAllRecords();
 
-            //change to warehouseCadItems attributes
             warehouseCadItems.forEach(function(item) {
                 item.bundleSerial = item.productLabel;
                 delete item.productLabel;
@@ -585,6 +584,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
             });
 
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
+
             var method = "PUT";
             if (data_WarehouseCad.id == null)
                 method = "POST";

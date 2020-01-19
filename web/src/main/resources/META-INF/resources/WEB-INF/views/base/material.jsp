@@ -1760,7 +1760,6 @@
         };
 
         ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-        console.log(data)
         ListGrid_MaterialItem.setData(data);
         ListGrid_MaterialItem.show();
         }, {operationId: "00"});

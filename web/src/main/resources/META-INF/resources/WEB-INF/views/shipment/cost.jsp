@@ -144,7 +144,6 @@
     recordNotFound.hide();
 
     function setCriteria_ListGrid(recordId) {
-        console.log(recordId)
         var criteria1 = {
             _constructor: "AdvancedCriteria",
             operator: "and",
@@ -152,7 +151,6 @@
         };
 
         ListGrid_Cost.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            console.log(data)
             if (data.length === 0) {
                 recordNotFound.show();
                 ListGrid_Cost.hide()
