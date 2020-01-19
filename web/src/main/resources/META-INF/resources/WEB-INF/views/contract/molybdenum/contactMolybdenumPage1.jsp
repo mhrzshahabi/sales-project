@@ -1759,9 +1759,9 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
             {name: "titleValue",disabled:"false",defaultValue:"Value",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
             {name: "titleTolerance",disabled:"false",keyPressFilter: "[0-9.]",defaultValue:"Tolerance",title: "",width:"100",showTitle: false,startRow:false},
             {name: "titleUnit",disabled:"false",defaultValue:"Unit",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "PrefixMolybdenum",width:"80",title: "MO",defaultValue: "64(+-)4",startRow:true},       //molybdenum
-            {name: "molybdenum",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
-            {name: "toleranceMO",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
+            {name: "PrefixMolybdenum",width:"80",title: "MO",defaultValue: "",startRow:true,disabled:true},       //molybdenum
+            {name: "molybdenum",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false,defaultValue: 64},
+            {name: "toleranceMO",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false,defaultValue: 4},
             {name: "typical_unitMO",title:"",width:"100",showTitle:false,startRow:false,editorType: "SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "nameEN",
@@ -1771,8 +1771,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixCopper",width:"80",defaultValue: "<=1.7",title: "CU",startRow:true},           //copper
-            {name: "copper",keyPressFilter: "[0-9.]",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "PrefixCopper",width:"80",defaultValue: "<=",title: "CU",startRow:true},           //copper
+            {name: "copper",keyPressFilter: "[0-9.]",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 1.7},
             {name: "toleranceCU",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitCU",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
@@ -1784,8 +1784,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixC",width:"80",defaultValue: "<=0.04", title: "C",startRow:true},            //C
-            {name: "typical_c",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "PrefixC",width:"80",defaultValue: "<=", title: "C",startRow:true},            //C
+            {name: "typical_c",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 0.04},
             {name: "toleranceC",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitC",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
@@ -1797,8 +1797,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixS",width:"80",defaultValue: "<=0.12",title: "S",startRow:true},                 //S
-            {name: "typical_s",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "PrefixS",width:"80",defaultValue: "<=",title: "S",startRow:true},                 //S
+            {name: "typical_s",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 0.12},
             {name: "toleranceS",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitS",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
@@ -1810,8 +1810,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixPb",width:"80",defaultValue: "<=0.12", title: "Pb",startRow:true},               //Pb
-            {name: "typical_pb",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "PrefixPb",width:"80",defaultValue: "<=", title: "Pb",startRow:true},               //Pb
+            {name: "typical_pb",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 0.12},
             {name: "tolerancePb",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitPb",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
@@ -1823,8 +1823,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixP",width:"80",defaultValue: "<=0.04", title: "P",startRow:true},               //P
-            {name: "typical_p",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "PrefixP",width:"80",defaultValue: "<=", title: "P",startRow:true},               //P
+            {name: "typical_p",title: "",width:"100", keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 0.04},
             {name: "toleranceP",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitP",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
@@ -1836,8 +1836,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 440, align: "center"}]},
-            {name: "PrefixSi",width:"80", defaultValue: "<=1.1",title: "Si",startRow:true},               //Si
-            {name: "typical_Si",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false},
+            {name: "PrefixSi",width:"80", defaultValue: "<=",title: "Si",startRow:true},               //Si
+            {name: "typical_Si",title: "",width:"100",keyPressFilter: "[0-9.]",showTitle: false,startRow:false,defaultValue: 1.1},
             {name: "toleranceSi",keyPressFilter: "[0-9.]",title: "",width:"100",showTitle: false,startRow:false},
             {name: "typical_unitSi",title:"",width:"100",showTitle:false,startRow:false,editorType:"SelectItem",optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
@@ -3921,7 +3921,6 @@ function saveListGrid_ContractItemShipment(contractID) {
         ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
             var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
             dataEditMain.contractId=contractID;
-            //dataEditMain.dischargeId = 11022;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
@@ -3937,6 +3936,7 @@ function saveListGrid_ContractItemShipment(contractID) {
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
             dataEdit.contractId=contractID;
+            dataEdit.sendDate=(ListGrid_ContractItemShipment.getEditedRecord(element).sendDate).toNormalDate("toUSShortDate")
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",

@@ -208,19 +208,19 @@ public class ContractDetail extends Auditable {
     @Column(name = "PREFIXSI", length = 4000)
     private String PrefixSi;
     @Column(name = "TOLERANCEMO")
-    private Long toleranceMO;
+    private Double toleranceMO;
     @Column(name = "TOLERANCECU")
-    private Long toleranceCU;
+    private Double toleranceCU;
     @Column(name = "TOLERANCEC")
-    private Long toleranceC;
+    private Double toleranceC;
     @Column(name = "TOLERANCES")
-    private Long toleranceS;
+    private Double toleranceS;
     @Column(name = "TOLERANCEPB")
-    private Long tolerancePb;
+    private Double tolerancePb;
     @Column(name = "TOLERANCEP")
-    private Long toleranceP;
+    private Double toleranceP;
     @Column(name = "TOLERANCESI")
-    private Long toleranceSi;
+    private Double toleranceSi;
     @Column(name = "TYPICAL_UNITMO", length = 4000)
     private String typical_unitMO;
     @Column(name = "TYPICAL_UNITCU", length = 4000)
@@ -236,71 +236,71 @@ public class ContractDetail extends Auditable {
     @Column(name = "TYPICAL_UNITSI", length = 4000)
     private String typical_unitSi;
     @Column(name = "DISCOUNTVALUEONE")
-    private Long discountValueOne;
+    private Double discountValueOne;
     @Column(name = "DISCOUNTVALUEONE_1")
-    private Long discountValueOne_1;
+    private Double discountValueOne_1;
     @Column(name = "DISCOUNTVALUEONE_2")
-    private Long discountValueOne_2;
+    private Double discountValueOne_2;
     @Column(name = "DISCOUNTVALUETWO")
-    private Long discountValueTwo;
+    private Double discountValueTwo;
     @Column(name = "DISCOUNTVALUETWO_1")
-    private Long discountValueTwo_1;
+    private Double discountValueTwo_1;
     @Column(name = "DISCOUNTVALUETWO_2")
-    private Long discountValueTwo_2;
+    private Double discountValueTwo_2;
     @Column(name = "DISCOUNTVALUETHREE")
-    private Long discountValueThree;
+    private Double discountValueThree;
     @Column(name = "DISCOUNTVALUETHREE_1")
-    private Long discountValueThree_1;
+    private Double discountValueThree_1;
     @Column(name = "DISCOUNTVALUETHREE_2")
-    private Long discountValueThree_2;
+    private Double discountValueThree_2;
     @Column(name = "DISCOUNTVALUEFOUR")
-    private Long discountValueFour;
+    private Double discountValueFour;
     @Column(name = "DISCOUNTVALUEFOUR_1")
-    private Long discountValueFour_1;
+    private Double discountValueFour_1;
     @Column(name = "DISCOUNTVALUEFOUR_2")
-    private Long discountValueFour_2;
+    private Double discountValueFour_2;
     @Column(name = "DISCOUNTVALUEFIVE")
-    private Long discountValueFive;
+    private Double discountValueFive;
     @Column(name = "DISCOUNTVALUEFIVE_1")
-    private Long discountValueFive_1;
+    private Double discountValueFive_1;
     @Column(name = "DISCOUNTVALUEFIVE_2")
-    private Long discountValueFive_2;
+    private Double discountValueFive_2;
     @Column(name = "DISCOUNTVALUESIX")
-    private Long discountValueSix;
+    private Double discountValueSix;
     @Column(name = "DISCOUNTVALUESIX_1")
-    private Long discountValueSix_1;
+    private Double discountValueSix_1;
     @Column(name = "DISCOUNTVALUESIX_2")
-    private Long discountValueSix_2;
+    private Double discountValueSix_2;
     @Column(name = "DISCOUNTVALUESEVEN")
-    private Long discountValueSeven;
+    private Double discountValueSeven;
     @Column(name = "DISCOUNTVALUESEVEN_1")
-    private Long discountValueSeven_1;
+    private Double discountValueSeven_1;
     @Column(name = "DISCOUNTVALUESEVEN_2")
-    private Long discountValueSeven_2;
+    private Double discountValueSeven_2;
     @Column(name = "DISCOUNTVALUEEIGHT")
-    private Long discountValueEight;
+    private Double discountValueEight;
     @Column(name = "DISCOUNTVALUEEIGHT_1")
-    private Long discountValueEight_1;
+    private Double discountValueEight_1;
     @Column(name = "DISCOUNTVALUEEIGHT_2")
-    private Long discountValueEight_2;
+    private Double discountValueEight_2;
     @Column(name = "DISCOUNTVALUENINE")
-    private Long discountValueNine;
+    private Double discountValueNine;
     @Column(name = "DISCOUNTVALUENINE_1")
-    private Long discountValueNine_1;
+    private Double discountValueNine_1;
     @Column(name = "DISCOUNTVALUENINE_2")
-    private Long discountValueNine_2;
+    private Double discountValueNine_2;
     @Column(name = "DISCOUNTVALUETEN")
-    private Long discountValueTen;
+    private Double discountValueTen;
     @Column(name = "DISCOUNTVALUETEN_1")
-    private Long discountValueTen_1;
+    private Double discountValueTen_1;
     @Column(name = "DISCOUNTVALUETEN_2")
-    private Long discountValueTen_2;
+    private Double discountValueTen_2;
     @Column(name = "DISCOUNTVALUEELEVEN")
-    private Long discountValueEleven;
+    private Double discountValueEleven;
     @Column(name = "DISCOUNTVALUEELEVEN_1")
-    private Long discountValueEleven_1;
+    private Double discountValueEleven_1;
     @Column(name = "DISCOUNTVALUEELEVEN_2")
-    private Long discountValueEleven_2;
+    private Double discountValueEleven_2;
     @Column(name = "DISCOUNTFOR", length = 4000)
     private String discountFor;
     @Column(name = "DISCOUNTPERFIXONE", length = 4000)
