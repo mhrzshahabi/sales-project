@@ -318,6 +318,7 @@ function setCriteria_ListGrid_Invoice(recordId) {
         });
 
         var layout_ListGrid_Invoice = isc.VLayout.create({
+        styleName: "expand-layout",
         padding: 5,
         membersMargin: 10,
         members: [ListGrid_Invoice, recordNotFound, hLayout_Invoice]
@@ -1226,9 +1227,10 @@ function setCriteria_ListGrid_Invoice(recordId) {
 
 
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
-        width: "100%",
+     width: "100%",
      membersMargin: 5,
-    backgroundColor:"#cdcdcd",
+     backgroundColor: 'transparent',
+     border: 'transparent',
      members:
             [
                 ToolStripButton_Invoice_Add,
@@ -1239,15 +1241,14 @@ function setCriteria_ListGrid_Invoice(recordId) {
                 ToolStripButton_Invoice_Pdf,
                 ToolStripButton_Invoice_excel,
                 ToolStripButton_Invoice_html,
-             isc.ToolStrip.create({
-              width: "100%",
-              align: "left",
-              border: '0px',
-                backgroundColor:"#cdcdcd",
-              members: [
-               ToolStripButton_Invoice_Refresh,
-              ]
-             })
+             // isc.ToolStrip.create({
+             //  width: "100%",
+             //  align: "left",
+             //  border: 'transparent',
+             //  members: [
+             //   ToolStripButton_Invoice_Refresh,
+             //  ]
+             // })
 
             ] //Add Print
     });

@@ -367,6 +367,7 @@
     });
 
     var layout = isc.VLayout.create({
+    styleName: "expand-layout",
     padding: 5,
     membersMargin: 10,
     members: [ListGrid_WarehouseIssueCons, recordNotFound, hLayout]
