@@ -565,6 +565,7 @@
                 DynamicForm_Material,
                 isc.HLayout.create({
                     width: "100%",
+                    align: "center",
                     members:
                         [
                             IButton_Material_Save,
@@ -1824,8 +1825,10 @@ overflow: "scroll",
 
     var HLayout_MaterialItem_IButton = isc.HLayout.create({
         layoutMargin: 5,
-        membersMargin: 5,
+        membersMargin: 15,
         width: "100%",
+        height: "100%",
+        align: "center",
         members: [
             IButton_MaterialItem_Save,
             MaterialItemCancelBtn
