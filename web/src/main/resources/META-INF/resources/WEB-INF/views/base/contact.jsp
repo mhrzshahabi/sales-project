@@ -755,6 +755,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
         autoDraw: false,
         isModal: true,
         showModalMask: true,
+		align: "center",
         members: [
             IButton_Contact_Save,
             contactCancelBtn
