@@ -1039,13 +1039,13 @@ function setCriteria_ListGrid_Invoice(recordId) {
             ]
     });
 
-    var ToolStripButton_Invoice_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-            ListGrid_Invoice_refresh();
-        }
-    });
+    <%--var ToolStripButton_Invoice_Refresh = isc.ToolStripButtonRefresh.create({--%>
+        <%--icon: "[SKIN]/actions/refresh.png",--%>
+        <%--title: "<spring:message code='global.form.refresh'/>",--%>
+        <%--click: function () {--%>
+            <%--ListGrid_Invoice_refresh();--%>
+        <%--}--%>
+    <%--});--%>
 
     var ToolStripButton_Invoice_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
