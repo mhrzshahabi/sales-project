@@ -1340,6 +1340,7 @@ function setCriteria_ListGrid_Invoice(recordId) {
     var ListGrid_Invoice = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_Invoice,
         contextMenu: Menu_ListGrid_Invoice,
         fields:

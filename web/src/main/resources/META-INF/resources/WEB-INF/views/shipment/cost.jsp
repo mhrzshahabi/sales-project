@@ -1222,6 +1222,7 @@
     var ListGrid_Cost = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_Cost,
         contextMenu: Menu_ListGrid_Cost,
         showRecordComponents: true,

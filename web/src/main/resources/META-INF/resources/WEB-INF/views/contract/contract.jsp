@@ -692,7 +692,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });*/
 
-    var ToolStripButton_Contract_Print = isc.ToolStripButtonEdit.create({
+    var ToolStripButton_Contract_Print = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/print.png",
         showIf: "true",
         title: "<spring:message code='global.form.print'/>",
@@ -731,6 +731,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             [
                 ToolStripButton_Contract_Add,
                 ToolStripButton_Contract_Remove,
+                ToolStripButton_Contract_Print,
                 isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
@@ -739,7 +740,6 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     ToolStripButton_Contract_Refresh,
                 ]
                 }),
-                ToolStripButton_Contract_Print
 
             ]
     });
@@ -1488,6 +1488,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
     var ListGrid_ContractShipment = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_ContractShipment,
         contextMenu: Menu_ListGrid_ContractShipment,
         fields:

@@ -1012,6 +1012,7 @@
     var ListGrid_InspectionContract = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_InspectionContract,
         contextMenu: Menu_ListGrid_InspectionContract,
         showRecordComponents: true,

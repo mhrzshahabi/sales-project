@@ -1449,6 +1449,7 @@
     var ListGrid_ShipmentMoistureHeader = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: MyRestDataSource_ShipmentMoistureHeader,
         autoFetchData: false,
         fields: [

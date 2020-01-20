@@ -416,13 +416,6 @@
                 },
                 {isSeparator: true},
                 {
-                    title: "<spring:message code='LME.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='LME.title'/>", "<spring:url value="/LME/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
                     title: "<spring:message code='dcc.title'/>",
                     click: function () {
                         createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")
@@ -481,6 +474,12 @@
                             }
                         },
                         {isSeparator: true},
+                        {
+                            title: "<spring:message code='LME.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='LME.title'/>", "<spring:url value="/LME/showForm" />")
+                            }
+                        },
                     ]
                 },
             ]

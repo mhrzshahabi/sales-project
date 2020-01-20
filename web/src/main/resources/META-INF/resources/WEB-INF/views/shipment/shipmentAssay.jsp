@@ -1382,6 +1382,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     var ListGrid_ShipmentAssayHeader = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: MyRestDataSource_ShipmentAssayHeader,
         autoFetchData: false,
         fields: [

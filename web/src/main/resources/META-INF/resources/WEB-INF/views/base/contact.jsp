@@ -1684,7 +1684,7 @@ function setContactAccountListGridHeaderFormData(record)
 
 	var hLayoutViewLoader = isc.HLayout.create({
 	width:"100%",
-	height: 180,
+	height: 200,
 	align: "center",padding: 5,
 	membersMargin: 20,
 	members: [

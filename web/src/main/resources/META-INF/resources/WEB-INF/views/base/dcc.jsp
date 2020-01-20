@@ -420,6 +420,7 @@
                 dccDynamicForm,
                 isc.HLayout.create({
                     width: "100%",
+                    align: "center",
                     members:
                         [
                             dccSaveIButton,
@@ -445,6 +446,7 @@
     var ListGrid_Dcc = isc.ListGrid.create({
         width: "100%",
         height: "100%",
+        styleName: "listgrid-child",
         dataSource: RestDataSource_Dcc,
         contextMenu: dccMenu,
         sortField: 0,

@@ -1018,6 +1018,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
     var ListGrid_WarehouseIssueCons = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_WarehouseIssueCons,
         contextMenu: Menu_ListGrid_WarehouseIssueCons,
         fields: [{
