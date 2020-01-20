@@ -835,58 +835,70 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ]
     });
 
-    var recordNotFound = isc.Label.create({
-    height: 30,
-    padding: 10,
-    align: "center",
-    valign: "center",
-    wrap: false,
-    contents: "رکوردی یافت نشد"
+    // var recordNotFound = isc.Label.create({
+    // height: 30,
+    // padding: 10,
+    // align: "center",
+    // valign: "center",
+    // wrap: false,
+    // contents: "رکوردی یافت نشد"
+    // });
+    //
+    // recordNotFound.hide();
+
+    // function setCriteria_ListGrid_Contract(recordId) {
+    //
+    //     var criteria = {
+    //     _constructor: "AdvancedCriteria",
+    //     operator: "and",
+    //     criteria: [{fieldName: "contractId", operator: "equals", value: recordId}]
+    //     };
+    //     ListGrid_ContractShipment.fetchData(criteria, function (dsResponse, data, dsRequest) {
+    //     if (data.length === 0) {
+    //         recordNotFound.show();
+    //         ListGrid_ContractShipment.hide()
+    //     } else {
+    //         recordNotFound.hide();
+    //         ListGrid_ContractShipment.setData(data);
+    //         ListGrid_ContractShipment.show();
+    //     }
+    //     });
+    // }
+
+    // function getExpandedComponent_contract(record) {
+    //     setCriteria_ListGrid_Contract(record.id)
+    //     var hLayout_contract = isc.HLayout.create({
+    //     align: "center", padding: 5,
+    //     membersMargin: 20,
+    //     members: [
+    //         ToolStripButton_ContractShipment_Add
+    //     ]
+    //     });
+    //
+    //     var layout_ListGrid_contract = isc.VLayout.create({
+    //         styleName: "expand-layout",
+    //         padding: 5,
+    //         membersMargin: 10,
+    //         members: [ListGrid_ContractShipment, recordNotFound, hLayout_contract]
+    //     });
+    //
+    //    return layout_ListGrid_contract;
+    // }
+    var contractAttachmentViewLoader = isc.ViewLoader.create({
+    autoDraw: false,
+    loadingMessage: ""
     });
 
-    recordNotFound.hide();
-
-    function setCriteria_ListGrid_Contract(recordId) {
-
-        var criteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "contractId", operator: "equals", value: recordId}]
-        };
-        ListGrid_ContractShipment.fetchData(criteria, function (dsResponse, data, dsRequest) {
-        if (data.length === 0) {
-            recordNotFound.show();
-            ListGrid_ContractShipment.hide()
-        } else {
-            recordNotFound.hide();
-            ListGrid_ContractShipment.setData(data);
-            ListGrid_ContractShipment.show();
-        }
-        });
-    }
-
-    function getExpandedComponent_contract(record) {
-        setCriteria_ListGrid_Contract(record.id)
-        var hLayout_contract = isc.HLayout.create({
-        align: "center", padding: 5,
-        membersMargin: 20,
-        members: [
-            ToolStripButton_ContractShipment_Add
-        ]
-        });
-
-        var layout_ListGrid_contract = isc.VLayout.create({
-            styleName: "expand-layout",
-            padding: 5,
-            membersMargin: 10,
-            members: [ListGrid_ContractShipment, recordNotFound, hLayout_contract]
-        });
-
-       return layout_ListGrid_contract;
-    }
-
-
-
+    var hLayoutViewLoader = isc.HLayout.create({
+    width:"100%",
+    height: 200,
+    align: "center",padding: 5,
+    membersMargin: 20,
+    members: [
+        contractAttachmentViewLoader
+    ]
+    });
+    hLayoutViewLoader.hide();
 
 
     var ListGrid_Contract = isc.ListGrid.create({
@@ -995,7 +1007,20 @@ var salesContractCADButtonMain = isc.IconButton.create({
                                 }
                 }*/
           getExpansionComponent: function (record) {
-            return getExpandedComponent_contract(record)
+            //return getExpandedComponent_contract(record)
+                    var dccTableId = record.id;
+                    var dccTableName = "TBL_CONTRACT";
+                    contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+                    hLayoutViewLoader.show();
+                var layout = isc.VLayout.create({
+                    styleName: "expand-layout",
+                    padding: 5,
+                    membersMargin: 10,
+                    members: [
+                        hLayoutViewLoader
+                        ]
+                });
+                return layout;
             },
          rollOverCanvasProperties:{
                 vertical:false, capSize:7,
@@ -1058,11 +1083,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ,HLayout_Contract_Grid
         ]
     });
-    isc.ViewLoader.create({
-        ID: "contractAttachmentViewLoader",
-        autoDraw: false,
-        loadingMessage: ""
-    });
+
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     var RestDataSource_Port = isc.MyRestDataSource.create({
         fields:
@@ -1356,17 +1377,17 @@ var salesContractCADButtonMain = isc.IconButton.create({
         <%--}--%>
     <%--});--%>
 
-    var ToolStripButton_ContractShipment_Add = isc.ToolStripButtonAddLarge.create({
-        icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.form.new'/>",
-        click: function () {
-            var record = ListGrid_Contract.getSelectedRecord();
-            DynamicForm_ContractShipment.clearValues();
-            DynamicForm_ContractShipment.setValue("contractId", record.id);
-            DynamicForm_ContractShipment.setValue("contractDate", record.contractDate);
-            Window_ContractShipment.animateShow();
-        }
-    });
+    <%--var ToolStripButton_ContractShipment_Add = isc.ToolStripButtonAddLarge.create({--%>
+        <%--icon: "[SKIN]/actions/add.png",--%>
+        <%--title: "<spring:message code='global.form.new'/>",--%>
+        <%--click: function () {--%>
+            <%--var record = ListGrid_Contract.getSelectedRecord();--%>
+            <%--DynamicForm_ContractShipment.clearValues();--%>
+            <%--DynamicForm_ContractShipment.setValue("contractId", record.id);--%>
+            <%--DynamicForm_ContractShipment.setValue("contractDate", record.contractDate);--%>
+            <%--Window_ContractShipment.animateShow();--%>
+        <%--}--%>
+    <%--});--%>
 
     <%--var ToolStripButton_ContractShipment_Edit = isc.ToolStripButtonEdit.create({--%>
         <%--icon: "[SKIN]/actions/edit.png",--%>
@@ -1742,12 +1763,12 @@ var salesContractCADButtonMain = isc.IconButton.create({
             expanded: true,
             hidden: true
             },
-            {
-            title: "<spring:message code='global.Attachment'/>",
-            items: contractAttachmentViewLoader,
-            expanded: true,
-            hidden: true
-            }
+            <%--{--%>
+            <%--title: "<spring:message code='global.Attachment'/>",--%>
+            <%--items: contractAttachmentViewLoader,--%>
+            <%--expanded: true,--%>
+            <%--hidden: true--%>
+            <%--}--%>
             ],
             visibilityMode: "multiple",
             animateSections: true,
