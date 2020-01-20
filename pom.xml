@@ -22,8 +22,6 @@
 
     <modules>
         <module>model</module>
-
-
         <module>repository</module>
         <module>service</module>
         <module>controller</module>
