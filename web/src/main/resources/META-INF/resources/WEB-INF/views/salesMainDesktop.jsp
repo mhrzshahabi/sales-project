@@ -59,6 +59,7 @@
 
 <script type="application/javascript">
 
+
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.DynamicForm.addProperties({requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",});
@@ -348,20 +349,7 @@
                     }
                 },
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='unit.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='unit.title'/>", "<spring:url value="/unit/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='rate.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='rate.title'/>", "<spring:url value="/rate/showForm" />")
-                    }
-                },
-                {isSeparator: true},
+
                 {
                     title: "<spring:message code='feature.title'/>",
                     click: function () {
@@ -369,20 +357,7 @@
                     }
                 },
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='exchangeRate.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='currency.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='currency.title'/>", "<spring:url value="/currency/showForm" />")
-                    }
-                },
-                {isSeparator: true},
+
                 {
                     title: "<spring:message code='commercialIncoterms.title'/>",
                     click: function () {
@@ -397,13 +372,7 @@
                     }
                 },
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='bank.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='bank.title'/>", "<spring:url value="/bank/showForm" />")
-                    }
-                },
-                {isSeparator: true},
+
                 {
                     title: "<spring:message code='warehouseCad.yard'/>",
                     click: function () {
@@ -468,13 +437,52 @@
                 },
                 {isSeparator: true},
                 {
-                    title: "<spring:message code='paymentOption.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='paymentOption.title'/>", "<spring:url value="/paymentOption/showForm" />")
-                    }
+                    title: "<spring:message code='main.baseTab.financial'/>",
+                    submenu: [
+                        {
+                            title: "<spring:message code='unit.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='unit.title'/>", "<spring:url value="/unit/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='rate.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='rate.title'/>", "<spring:url value="/rate/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='exchangeRate.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='currency.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='currency.title'/>", "<spring:url value="/currency/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='bank.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='bank.title'/>", "<spring:url value="/bank/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='paymentOption.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='paymentOption.title'/>", "<spring:url value="/paymentOption/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
+                    ]
                 },
-                {isSeparator: true},
-
             ]
         }),
     });
