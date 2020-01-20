@@ -390,6 +390,7 @@
         ToolStripButton_InspectionContract_Add.show();
         ToolStripButton_InspectionContract_PrintWord.show();
         var layout = isc.VLayout.create({
+            styleName: "expand-layout",
             padding: 5,
             membersMargin: 10,
             members: [HLayout_InspectionContract_Grid, recordNotFound, hLayout]
@@ -1011,6 +1012,7 @@
     var ListGrid_InspectionContract = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_InspectionContract,
         contextMenu: Menu_ListGrid_InspectionContract,
         showRecordComponents: true,

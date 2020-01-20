@@ -289,6 +289,7 @@
     });
 
     var layout = isc.VLayout.create({
+    styleName: "expand-layout",
     padding: 5,
     membersMargin: 10,
     members: [ListGrid_WarehouseIssueMo, recordNotFound, hLayout]
@@ -959,6 +960,7 @@ ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo,
     var ListGrid_WarehouseIssueMo = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_WarehouseIssueMo,
         contextMenu: Menu_ListGrid_WarehouseIssueMo,
         fields: [{

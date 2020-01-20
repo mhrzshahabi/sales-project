@@ -924,7 +924,9 @@ $window_header_bgColor: #fe9d2a !default;
 .expandList .cellSelectedOverDarkAltCol,
 .expandList .cellPendingSelectedOverAltCol,
 .expandList .cellPendingSelectedOverDarkAltCol {
-  background-color: #CDCDCD;
+  background-color: #fe9d2a;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 
@@ -936,8 +938,9 @@ $window_header_bgColor: #fe9d2a !default;
 .expandList .cellPendingSelectedDarkAltCol,
 .expandList .cellPendingSelectedOverAltCol,
 .expandList .cellPendingSelectedOverDarkAltCol {
-  background-color: #CDCDCD;
-  color: #153560;
+  background-color: #fe9d2a;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .expandList  .cellSelected,
@@ -947,16 +950,18 @@ $window_header_bgColor: #fe9d2a !default;
 .expandList  .specialColSelected,
 .expandList  .recordSummaryCellSelected,
 .expandList  .recordSummaryCellSelectedDark {
-  background-color: #CDCDCD;
-  color: #153560;
+  background-color: #fe9d2a;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .expandList  .cellSelected,
 .expandList  .cellSelectedDark,
 .expandList  .cellSelectedOver,
 .expandList  .cellSelectedOverDark{
-  background-color: #CDCDCD;
-  color: #153560;
+  background-color: #fe9d2a;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .expandList-ButtonAdd td{
@@ -1042,4 +1047,76 @@ $window_header_bgColor: #fe9d2a !default;
 }
 .invoice-form table tbody tr td {
   padding-bottom: 3px;
+}
+
+
+.expand-layout {
+  width: 99% !important;
+  position: absolute !important;
+  right: 0 !important;
+  left: 0 !important;
+}
+
+.expand-layout .tabBarTop {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.expand-layout .tabSetContainer{
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+
+input[type="text"].selectItemLiteText,
+input[type="text"].selectItemLiteTextRTL,
+input[type="text"].selectItemLiteTextFocused,
+input[type="text"].selectItemLiteTextFocusedRTL,
+input[type="text"].selectItemLiteTextDisabled,
+input[type="text"].selectItemLiteTextDisabledRTL,
+input[type="text"].selectItemLiteTextError,
+input[type="text"].selectItemLiteTextErrorRTL,
+input[type="text"].selectItemLiteTextErrorFocused,
+input[type="text"].selectItemLiteTextErrorFocusedRTL,
+input[type="text"].selectItemLiteTextPending,
+input[type="text"].selectItemLiteTextPendingRTL,
+input[type="text"].selectItemLiteTextPendingFocused,
+input[type="text"].selectItemLiteTextPendingFocusedRTL,
+input[type="text"].selectItemLiteTextPendingDisabled,
+input[type="text"].selectItemLiteTextPendingDisabledRTL,
+input[type="text"].selectItemLiteTextPendingError,
+input[type="text"].selectItemLiteTextPendingErrorRTL,
+input[type="text"].selectItemLiteTextHint,
+input[type="text"].selectItemLiteTextHintRTL,
+input[type="text"].selectItemLiteTextDisabledHint,
+input[type="text"].selectItemLiteTextDisabledHintRTL {
+
+  padding: 13px 0px;
+}
+.listgrid-child{
+  border: solid 0px #e8e8e8;
+  -moz-box-shadow: 0 0 3px #ccc;
+  -webkit-box-shadow: 0 0 3px #0e0e0e;
+  box-shadow: 1px 0px 3px #000000;
+}
+
+ .cellSelectedAltCol,
+ .cellSelectedDarkAltCol,
+ .cellSelectedOverAltCol,
+ .cellSelectedOverDarkAltCol,
+ .cellPendingSelectedAltCol,
+ .cellPendingSelectedDarkAltCol,
+ .cellPendingSelectedOverAltCol,
+ .cellPendingSelectedOverDarkAltCol,
+ .cellSelected,
+ .cellSelectedDark,
+ .cellPendingSelected,
+ .cellPendingSelectedDark,
+ .specialColSelected,
+ .recordSummaryCellSelected,
+ .recordSummaryCellSelectedDark,
+ .cellSelectedOver,
+ .cellSelectedOverDark{
+   background-color: #fe9d2a;
+   color: #ffffff;
+   font-weight: bold;
 }

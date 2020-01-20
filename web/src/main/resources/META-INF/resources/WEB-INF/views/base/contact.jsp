@@ -755,6 +755,7 @@ var Menu_ListGrid_Contact = isc.Menu.create(
         autoDraw: false,
         isModal: true,
         showModalMask: true,
+		align: "center",
         members: [
             IButton_Contact_Save,
             contactCancelBtn
@@ -1683,7 +1684,7 @@ function setContactAccountListGridHeaderFormData(record)
 
 	var hLayoutViewLoader = isc.HLayout.create({
 	width:"100%",
-	height: 180,
+	height: 200,
 	align: "center",padding: 5,
 	membersMargin: 20,
 	members: [
@@ -1888,6 +1889,7 @@ var ListGrid_Contact = isc.ListGrid.create(
 				contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
 				hLayoutViewLoader.show();
 				var layout = isc.VLayout.create({
+				styleName: "expand-layout",
 				padding: 5,
 				membersMargin: 10,
 				members: [ hLayoutViewLoader ]

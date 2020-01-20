@@ -565,6 +565,7 @@
                 DynamicForm_Material,
                 isc.HLayout.create({
                     width: "100%",
+                    align: "center",
                     members:
                         [
                             IButton_Material_Save,
@@ -599,7 +600,7 @@
 
     var ListGrid_Material = isc.ListGrid.create({
         width: "100%",
-        height: 600,
+height: "100%",
         dataSource: RestDataSource_Material,
         contextMenu: Menu_ListGrid_Material,
         styleName:'expandList',
@@ -669,6 +670,7 @@
                 });
 
                 var layout = isc.VLayout.create({
+                    styleName: "expand-layout",
                     padding: 5,
                     membersMargin: 10,
                     members: [ ListGrid_MaterialItem, recordNotFound, hLayout ]
@@ -688,7 +690,8 @@
 
     var VLayout_Material_Body = isc.VLayout.create({
         width: "100%",
-        height: "100%",
+        height: "99%",
+overflow: "scroll",
         members: [
             HLayout_Material_Actions, HLayout_Material_Grid
         ]
@@ -1822,8 +1825,10 @@
 
     var HLayout_MaterialItem_IButton = isc.HLayout.create({
         layoutMargin: 5,
-        membersMargin: 5,
+        membersMargin: 15,
         width: "100%",
+        height: "100%",
+        align: "center",
         members: [
             IButton_MaterialItem_Save,
             MaterialItemCancelBtn
@@ -1853,6 +1858,7 @@
     var ListGrid_MaterialItem = isc.ListGrid.create(
         {
             width: "100%",
+            styleName: "listgrid-child",
             height: 180,
             dataSource: RestDataSource_MaterialItem_IN_MATERIAL,
             contextMenu: Menu_ListGrid_MaterialItem,
@@ -1980,6 +1986,7 @@ var HLayout_MaterialItem_Grid = isc.HLayout.create({
                 {
                     title: "<spring:message code='ProductGroup'/>",
                     items: VLayout_Material_Body,
+                    showHeader: false,
                     expanded: true
                 },
                 {
