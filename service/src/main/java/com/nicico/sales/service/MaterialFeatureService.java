@@ -12,6 +12,7 @@ import com.nicico.sales.repository.MaterialFeatureDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class MaterialFeatureService implements IMaterialFeatureService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_MATERIAL_FEATURE')")
     public MaterialFeatureDTO.Info get(Long id) {
         final Optional<MaterialFeature> slById = materialFeatureDAO.findById(id);
         final MaterialFeature materialFeature = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.MaterialFeatureNotFound));
@@ -35,6 +37,7 @@ public class MaterialFeatureService implements IMaterialFeatureService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_MATERIAL_FEATURE')")
     public List<MaterialFeatureDTO.Info> list() {
         final List<MaterialFeature> slAll = materialFeatureDAO.findAll();
 
@@ -44,6 +47,7 @@ public class MaterialFeatureService implements IMaterialFeatureService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_MATERIAL_FEATURE')")
     public MaterialFeatureDTO.Info create(MaterialFeatureDTO.Create request) {
         final MaterialFeature materialFeature = modelMapper.map(request, MaterialFeature.class);
 
@@ -52,6 +56,7 @@ public class MaterialFeatureService implements IMaterialFeatureService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_MATERIAL_FEATURE')")
     public MaterialFeatureDTO.Info update(Long id, MaterialFeatureDTO.Update request) {
         final Optional<MaterialFeature> slById = materialFeatureDAO.findById(id);
         final MaterialFeature materialFeature = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.MaterialFeatureNotFound));
@@ -65,12 +70,14 @@ public class MaterialFeatureService implements IMaterialFeatureService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_MATERIAL_FEATURE')")
     public void delete(Long id) {
         materialFeatureDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_MATERIAL_FEATURE')")
     public void delete(MaterialFeatureDTO.Delete request) {
         final List<MaterialFeature> materialFeatures = materialFeatureDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class MaterialFeatureService implements IMaterialFeatureService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_MATERIAL_FEATURE')")
     public SearchDTO.SearchRs<MaterialFeatureDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(materialFeatureDAO, request, materialFeature -> modelMapper.map(materialFeature, MaterialFeatureDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_MATERIAL_FEATURE')")
     public TotalResponse<MaterialFeatureDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(materialFeatureDAO, criteria, materialFeature -> modelMapper.map(materialFeature, MaterialFeatureDTO.Info.class));
     }

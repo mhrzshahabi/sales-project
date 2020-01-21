@@ -11,6 +11,7 @@ import com.nicico.sales.repository.WarehouseLotDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class WarehouseLotService implements IWarehouseLotService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_LOT')")
     public WarehouseLotDTO.Info get(Long id) {
         final Optional<WarehouseLot> slById = warehouseLotDAO.findById(id);
         final WarehouseLot warehouseLot = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseLotNotFound));
@@ -34,6 +36,7 @@ public class WarehouseLotService implements IWarehouseLotService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_LOT')")
     public List<WarehouseLotDTO.Info> list() {
         final List<WarehouseLot> slAll = warehouseLotDAO.findAll();
 
@@ -43,6 +46,7 @@ public class WarehouseLotService implements IWarehouseLotService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_WAREHOUSE_LOT')")
     public WarehouseLotDTO.Info create(WarehouseLotDTO.Create request) {
         final WarehouseLot warehouseLot = modelMapper.map(request, WarehouseLot.class);
 
@@ -51,6 +55,7 @@ public class WarehouseLotService implements IWarehouseLotService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_WAREHOUSE_LOT')")
     public WarehouseLotDTO.Info update(Long id, WarehouseLotDTO.Update request) {
         final Optional<WarehouseLot> slById = warehouseLotDAO.findById(id);
         final WarehouseLot warehouseLot = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseLotNotFound));
@@ -64,12 +69,14 @@ public class WarehouseLotService implements IWarehouseLotService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_LOT')")
     public void delete(Long id) {
         warehouseLotDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_LOT')")
     public void delete(WarehouseLotDTO.Delete request) {
         final List<WarehouseLot> warehouseLots = warehouseLotDAO.findAllById(request.getIds());
 
@@ -78,6 +85,7 @@ public class WarehouseLotService implements IWarehouseLotService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_LOT')")
     public TotalResponse<WarehouseLotDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(warehouseLotDAO, criteria, warehouseLot -> modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class));
     }

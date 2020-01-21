@@ -17,6 +17,7 @@ import com.nicico.sales.repository.WarehouseLotDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public class WarehouseIssueMoService implements IWarehouseIssueMoService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUEMO')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_MO')")
     public WarehouseIssueMoDTO.Info get(Long id) {
         final Optional<WarehouseIssueMo> slById = warehouseIssueMoDAO.findById(id);
         final WarehouseIssueMo warehouseIssueMo = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueMoNotFound));
@@ -44,7 +45,7 @@ public class WarehouseIssueMoService implements IWarehouseIssueMoService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUEMO')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_MO')")
     public List<WarehouseIssueMoDTO.Info> list() {
         final List<WarehouseIssueMo> slAll = warehouseIssueMoDAO.findAll();
 
@@ -54,7 +55,7 @@ public class WarehouseIssueMoService implements IWarehouseIssueMoService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_WAREHOUSEISSUEMO')")
+    @PreAuthorize("hasAuthority('C_WAREHOUSE_ISSUE_MO')")
     public WarehouseIssueMoDTO.Info create(WarehouseIssueMoDTO.Create request) {
         final WarehouseIssueMo warehouseIssueMo = modelMapper.map(request, WarehouseIssueMo.class);
 
@@ -63,7 +64,7 @@ public class WarehouseIssueMoService implements IWarehouseIssueMoService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_WAREHOUSEISSUEMO')")
+    @PreAuthorize("hasAuthority('U_WAREHOUSE_ISSUE_MO')")
     public WarehouseIssueMoDTO.Info update(Long id, WarehouseIssueMoDTO.Update request) {
         final Optional<WarehouseIssueMo> slById = warehouseIssueMoDAO.findById(id);
         final WarehouseIssueMo warehouseIssueMo = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueMoNotFound));
@@ -77,7 +78,7 @@ public class WarehouseIssueMoService implements IWarehouseIssueMoService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSEISSUEMO')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_ISSUE_MO')")
     public void delete(Long id) {
         final WarehouseIssueMo mo = warehouseIssueMoDAO.findById(id).orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueMoNotFound));
         if (mo.getWarehouseLot().getWarehouseCadItem() != null && mo.getWarehouseLot().getWarehouseCadItem().getIssueId() != null) { // kasr as anbar
@@ -90,7 +91,7 @@ public class WarehouseIssueMoService implements IWarehouseIssueMoService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSEISSUEMO')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_ISSUE_MO')")
     public void delete(WarehouseIssueMoDTO.Delete request) {
         final List<WarehouseIssueMo> warehouseIssueMos = warehouseIssueMoDAO.findAllById(request.getIds());
 
@@ -99,14 +100,14 @@ public class WarehouseIssueMoService implements IWarehouseIssueMoService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUEMO')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_MO')")
     public TotalResponse<WarehouseIssueMoDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(warehouseIssueMoDAO, criteria, warehouseIssueMo -> modelMapper.map(warehouseIssueMo, WarehouseIssueMoDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUEMO')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_MO')")
     public SearchDTO.SearchRs<WarehouseIssueMoDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(warehouseIssueMoDAO, request, entity -> modelMapper.map(entity, WarehouseIssueMoDTO.Info.class));
     }

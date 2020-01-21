@@ -12,6 +12,7 @@ import com.nicico.sales.repository.ParametersDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class ParametersService implements IParametersService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_PARAMETERS')")
     public ParametersDTO.Info get(Long id) {
         final Optional<Parameters> slById = parametersDAO.findById(id);
         final Parameters parameters = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ParametersNotFound));
@@ -35,6 +37,7 @@ public class ParametersService implements IParametersService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_PARAMETERS')")
     public List<ParametersDTO.Info> list() {
         final List<Parameters> slAll = parametersDAO.findAll();
 
@@ -44,6 +47,7 @@ public class ParametersService implements IParametersService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_PARAMETERS')")
     public ParametersDTO.Info create(ParametersDTO.Create request) {
         final Parameters parameters = modelMapper.map(request, Parameters.class);
 
@@ -52,6 +56,7 @@ public class ParametersService implements IParametersService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_PARAMETERS')")
     public ParametersDTO.Info update(Long id, ParametersDTO.Update request) {
         final Optional<Parameters> slById = parametersDAO.findById(id);
         final Parameters parameters = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ParametersNotFound));
@@ -65,12 +70,14 @@ public class ParametersService implements IParametersService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_PARAMETERS')")
     public void delete(Long id) {
         parametersDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_PARAMETERS')")
     public void delete(ParametersDTO.Delete request) {
         final List<Parameters> parameterss = parametersDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class ParametersService implements IParametersService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_PARAMETERS')")
     public SearchDTO.SearchRs<ParametersDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(parametersDAO, request, parameters -> modelMapper.map(parameters, ParametersDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_PARAMETERS')")
     public TotalResponse<ParametersDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(parametersDAO, criteria, parameters -> modelMapper.map(parameters, ParametersDTO.Info.class));
     }

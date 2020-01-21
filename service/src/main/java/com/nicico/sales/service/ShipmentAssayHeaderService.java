@@ -11,6 +11,7 @@ import com.nicico.sales.repository.ShipmentAssayHeaderDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class ShipmentAssayHeaderService implements IShipmentAssayHeaderService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_SHIPMENT_ASSAY_HEADER')")
     public ShipmentAssayHeaderDTO.Info get(Long id) {
         final Optional<ShipmentAssayHeader> slById = shipmentAssayHeaderDAO.findById(id);
         final ShipmentAssayHeader shipmentAssayHeader = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentAssayHeaderNotFound));
@@ -34,6 +36,7 @@ public class ShipmentAssayHeaderService implements IShipmentAssayHeaderService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_ASSAY_HEADER')")
     public List<ShipmentAssayHeaderDTO.Info> list() {
         final List<ShipmentAssayHeader> slAll = shipmentAssayHeaderDAO.findAll();
 
@@ -43,6 +46,7 @@ public class ShipmentAssayHeaderService implements IShipmentAssayHeaderService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_SHIPMENT_ASSAY_HEADER')")
     public ShipmentAssayHeaderDTO.Info create(ShipmentAssayHeaderDTO.Create request) {
         final ShipmentAssayHeader shipmentAssayHeader = modelMapper.map(request, ShipmentAssayHeader.class);
 
@@ -51,6 +55,7 @@ public class ShipmentAssayHeaderService implements IShipmentAssayHeaderService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_SHIPMENT_ASSAY_HEADER')")
     public ShipmentAssayHeaderDTO.Info update(Long id, ShipmentAssayHeaderDTO.Update request) {
         final Optional<ShipmentAssayHeader> slById = shipmentAssayHeaderDAO.findById(id);
         final ShipmentAssayHeader shipmentAssayHeader = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentAssayHeaderNotFound));
@@ -64,12 +69,14 @@ public class ShipmentAssayHeaderService implements IShipmentAssayHeaderService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_ASSAY_HEADER')")
     public void delete(Long id) {
         shipmentAssayHeaderDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_ASSAY_HEADER')")
     public void delete(ShipmentAssayHeaderDTO.Delete request) {
         final List<ShipmentAssayHeader> shipmentAssayHeaders = shipmentAssayHeaderDAO.findAllById(request.getIds());
 
@@ -78,6 +85,7 @@ public class ShipmentAssayHeaderService implements IShipmentAssayHeaderService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_ASSAY_HEADER')")
     public TotalResponse<ShipmentAssayHeaderDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(shipmentAssayHeaderDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentAssayHeaderDTO.Info.class));
     }
