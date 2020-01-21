@@ -300,8 +300,6 @@
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
-
-
         fields: [
             {name: "id", hidden: true,},
             {name: "contactId", hidden: true,},
@@ -312,12 +310,13 @@
                 name: "contractShipmentId", ID: "abal", colSpan: 4,
                 title: "<spring:message	code='shipmentContract.list'/>",
                 type: 'long',
-                width: 600,
+                width: "100%",
                 editorType: "SelectItem",
+                errorOrientation: "bottom",
                 optionDataSource: RestDataSource_pickShipmentItem,
                 displayField: "contractNo",
                 valueField: "cisId",
-                pickListWidth: 600,
+                pickListWidth: 680,
                 pickListHeight: "500",
                 required: true,
                 pickListProperties: {showFilterEditor: true},
@@ -328,7 +327,7 @@
                         width: "10%",
                         align: "center"
                     },
-                    {name: "amount", width: 150, align: "center"}, {
+                    {name: "amount", width: "10%", align: "center" ,  errorOrientation: "bottom", }, {
                         name: "sendDate",
                         width: "10%",
                         align: "center"
@@ -363,8 +362,8 @@
             },
             {name: "createDate", hidden: true,},
             {
-                name: "month", colSpan: 2,
-                title: "<spring:message code='shipment.month'/>", type: 'text', width: "400"
+                name: "month", colSpan: 4,
+                title: "<spring:message code='shipment.month'/>", type: 'text', width: "100%"
                 , valueMap: {
                     "January": "January",
                     "February": "February",
@@ -381,29 +380,29 @@
                 }
             },
             {
-                name: "createDate", colSpan: 1,
+                name: "createDate", colSpan: 4,
                 title: "<spring:message		code='shipment.createDate'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: 'date',
                 format: 'DD-MM-YYYY',
                 required: true,
-                width: "400"
+                width: "100%"
             },
             {
                 name: "loadingLetter",
-                colSpan: 3,
+                colSpan: 4,
                 title: "<spring:message code='shipment.loadingLetter'/>",
                 type: 'text',
                 required: true,
                 length: "100",
-                width: "400"
+                width: "100%"
             },
             {
-                name: "amount", colSpan: 3,
+                name: "amount", colSpan: 4,
                 title: "<spring:message code='global.amount'/>",
                 type: 'float',
                 required: true,
-                width: "400",
+                width: "100%",
                 keyPressFilter: "[0-9.]",
                 validators: [{
                     type: "isFloat",
@@ -413,16 +412,16 @@
                 }]
             },
             {
-                name: "shipmentType", colSpan: 3, title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text', width: "400", valueMap: {"bulk": "bulk", "container": "container"}, required: true
+                name: "shipmentType", colSpan: 4, title: "<spring:message code='shipment.shipmentType'/>",
+                type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required: true
             },
 
             {
                 name: "bookingCat",
                 title: "<spring:message code='shipment.bookingCat'/>",
                 type: 'text',
-                width: "400",
-                colSpan: 2,
+                width: "100%",
+                colSpan: 4,
                 showHover: true,
                 hint: "<spring:message code='shipment.bookingMol.hint'/>",
                 showHintInField: true,
@@ -433,10 +432,10 @@
                 hint: "<spring:message code='shipment.bookingCat.hint'/>",
                 showHintInField: true,
                 name: "noContainer",
-                colSpan: 2,
+                colSpan: 4,
                 title: "<spring:message	code='shipment.noContainer'/>",
                 type: 'integer',
-                width: "400",
+                width: "100%",
                 keyPressFilter: "[0-9.]",
                 validators: [{
                     type: "isInteger",
@@ -448,11 +447,11 @@
             {
                 hint: "<spring:message code='shipment.bookingCat.hint'/>",
                 showHintInField: true,
-                name: "noBundle", colSpan: 2,
+                name: "noBundle", colSpan: 4,
                 title: "<spring:message code='shipment.noBundle'/>",
                 type: 'integer',
                 required: false,
-                width: "400",
+                width: "100%",
                 validators: [{
                     type: "isInteger",
                     validateOnExit: true,
@@ -461,11 +460,11 @@
                 }]
             },
             {
-                name: "noPalete", colSpan: 2,
+                name: "noPalete", colSpan: 4,
                 title: "<spring:message code='shipment.noPalette'/>",
                 type: 'integer',
                 required: false,
-                width: "400",
+                width: "100%",
                 validators: [{
                     type: "isInteger",
                     validateOnExit: true,
@@ -474,11 +473,11 @@
                 }]
             },
             {
-                name: "noBarrel", colSpan: 2,
+                name: "noBarrel", colSpan: 4,
                 title: "<spring:message code='shipment.noBarrel'/>",
                 type: 'integer',
                 required: false,
-                width: "400",
+                width: "100%",
                 validators: [{
                     type: "isInteger",
                     validateOnExit: true,
@@ -488,10 +487,10 @@
             },
             {
                 name: "status",
-                colSpan: 2,
+                colSpan: 4,
                 title: "<spring:message	code='shipment.staus'/>",
                 type: 'text',
-                width: "400",
+                width: "100%",
                 valueMap: {
                     "Load Ready": "<spring:message code='shipment.loadReady'/>",
                     "Resource": "<spring:message code='shipment.resource'/>"
@@ -499,6 +498,7 @@
             }
         ]
     });
+
     // Bill of Lading
     var DynamicForm_Shipment1 = isc.DynamicForm.create({
         width: "100%",
@@ -632,6 +632,7 @@
         operator: "and",
         criteria: [{fieldName: "transporter", operator: "equals", value: true}]
     };
+
     var DynamicForm_Shipment2 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -654,7 +655,7 @@
                 required:true,
                 colSpan: 4,
                 name: "contactByAgentId",
-                title: "<spring:message		code='shipment.agent'/>",
+                title: "<spring:message	code='shipment.agent'/>",
                 type: 'long',
                 width: 400,
                 editorType: "SelectItem",
@@ -804,9 +805,13 @@
         ]
     });
 
+
     var shipmentTabs = isc.TabSet.create({
+        width: 900,
         height: "500",
-        width: "800",
+        textAlign: "center",
+        align: "center",
+        layoutAlign: "center",
         showTabScroller: false,
         tabs: [
             {
@@ -911,9 +916,38 @@
         }
     });
 
+
+
+       var hLayout_saveButton = isc.HLayout.create({
+        width: 900,
+        height: "100%",
+        layoutMargin: 10,
+        membersMargin: 5,
+        textAlign: "center",
+        align: "center",
+        members: [
+            IButton_Shipment_Save,
+            ShipmentCancelBtn
+        ]
+    });
+
+
+       var VLayout_saveButton = isc.VLayout.create({
+        width: 900,
+        height: "100%",
+        textAlign: "center",
+        align: "center",
+        members: [
+            hLayout_saveButton
+
+        ]
+    });
+
+
+
     var Window_Shipment = isc.Window.create({
         title: "<spring:message code='Shipment.title'/>",
-        width: 680,
+        width: 900,
         height: 600,
         autoSize: true,
         autoCenter: true,
@@ -930,27 +964,36 @@
             isc.Label.create({
                 ID: "Shipment_contact_name",
                 title: "<spring:message code='contact.name'/>. ",
-                contents: "<spring:message code='contact.name'/>. ",
                 align: "center",
                 width: "60%",
                 height: 22
             }),
             shipmentTabs,
-
-
             isc.HLayout.create({
                 width: "100%",
-                height: "20",
-                layoutMargin: 10,
-                membersMargin: 5,
+                height: "10",
+                autoCenter: true,
+                layoutMargin: 3,
+                membersMargin: 3,
                 align: "center",
                 members: [
-                    IButton_Shipment_Save,
-                    ShipmentCancelBtn
+                      isc.HStack.create({
+                        autoCenter: true,
+                        layoutAlign: "center",
+                        members: [
+                            VLayout_saveButton
+                        ]
+                    }),
                 ]
             })
         ]
     });
+
+
+
+
+
+
 
     function ListGrid_Shipment_refresh() {
         ListGrid_Shipment.invalidateCache();
@@ -1130,7 +1173,7 @@
                 name: "contract.contact.nameFA",
                 title: "<spring:message code='contact.name'/>",
                 type: 'text',
-                width: "20%",
+                width: "10%",
                 align: "center",
                 showHover: true
             },
@@ -1261,7 +1304,7 @@
                 name: "contactByAgent.nameFA",
                 title: "<spring:message code='shipment.agent'/>",
                 type: 'text',
-                width: "20%",
+                width: "10%",
                 align: "center",
                 showHover: true
             },

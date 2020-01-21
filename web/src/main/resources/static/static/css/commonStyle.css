@@ -493,3 +493,22 @@
     color: #ff0000;
     font-weight: bold;
 }
+
+.contract-menu{
+    background-color: #153560;
+    padding-left: 5px !important;
+    margin-left: 5px !important;
+    color: #ffffff;
+    border-radius: 5px;
+    border: solid 1px #153560;
+    font-size: 15px;
+}
+.contract-menuOver{
+    background-color: #153560;
+    padding-left: 5px !important;
+    margin-left: 5px !important;
+    color: #ffffff;
+    border-radius: 5px;
+    border: solid 1px #153560;
+    font-size: 15px;
+}
