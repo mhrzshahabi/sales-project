@@ -675,7 +675,13 @@ var salesContractCADButtonMain = isc.IconButton.create({
     });
 
     var ToolStripButton_Contract_Add = isc.ToolStripMenuButton.create({
+        showSelectedIcon: false,
+        showRollOverIcon: false,
+        showMenuOnRollOver: true,
+        disabledCursor: "not-allowed",
         title: "&nbsp; <spring:message code='global.menu.contract.management'/>",
+        showDownIcon: false,
+        baseStyle: "contract-menu",
         menu:isc.Menu.create({
             data: [{
                     title: "<spring:message code='salesContractMoButton.title'/>",
@@ -691,16 +697,16 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     }
                     },{isSeparator: true},
                      {
-                    title: "<spring:message code='salesContractConcButton.title'/>",
+                    title: "<spring:message code='salesContractCADButton.title'/>",
                     click: function () {
                         createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
                     }
                      }
 
         ]}),
-        click: function () {
-            Window_SelectTypeContactMain.animateShow();
-        }
+        // click: function () {
+        //     Window_SelectTypeContactMain.animateShow();
+        // }
     });
 
 
@@ -738,12 +744,14 @@ var salesContractCADButtonMain = isc.IconButton.create({
 
     var ToolStrip_Actions_Contract = isc.ToolStrip.create({
         width: "100%",
-        membersMargin: 5,
+        membersMargin: 15,
         members:
             [
-                ToolStripButton_Contract_Add,
-                ToolStripButton_Contract_Remove,
+ToolStripButton_Contract_Add,
+
+ToolStripButton_Contract_Remove,
                 ToolStripButton_Contract_Print,
+
                 isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
