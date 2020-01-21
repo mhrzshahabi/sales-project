@@ -10,10 +10,7 @@ import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.InvoiceInternalCustomerDTO;
 import com.nicico.sales.dto.InvoiceInternalDTO;
 import com.nicico.sales.iservice.IInvoiceInternalService;
-import com.nicico.sales.model.entities.base.InvoiceInternalCustomer;
-import com.nicico.sales.repository.InvoiceInternalDAO;
 import com.nicico.sales.service.InvoiceInternalCustomerService;
-import com.nicico.sales.service.InvoiceInternalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
@@ -62,10 +59,10 @@ public class InvoiceInternalRestController {
         for(InvoiceInternalDTO.Info info : list){
             InvoiceInternalCustomerDTO.Info seller = invoiceInternalCustomerService.getByCustomerId(info.getBuyerId());
             InvoiceInternalCustomerDTO.Info buyer = invoiceInternalCustomerService.getByCustomerId(info.getCustomerId());
-            info.setBuyerTafsili("01/10");
-            info.setSellerTafsili("01/10101344606");
             info.setSellerName(seller.getCustomerName());
             info.setBuyerName(buyer.getCustomerName());
+            info.setCodeTafsiliNosa(info.getCodeTafsiliNosa());
+            info.setCodeMarkazHazineMahsol(info.getCodeMarkazHazineMahsol());
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
