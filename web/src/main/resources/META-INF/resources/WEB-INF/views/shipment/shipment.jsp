@@ -1371,13 +1371,13 @@
                 var dccTableName = "TBL_SHIPMENT";
                 ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                 hLayoutViewLoader.show();
-                var layout = isc.VLayout.create({
+                var layoutShipment = isc.VLayout.create({
                 styleName: "expand-layout",
                 padding: 5,
                 membersMargin: 10,
                 members: [ hLayoutViewLoader ]
                 });
-                return layout;
+                return layoutShipment;
         }
     });
     var HLayout_Grid_Shipment = isc.HLayout.create({

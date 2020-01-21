@@ -132,7 +132,7 @@ var dynamicForm_fullArticleConc03 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:""
@@ -148,7 +148,7 @@ var buttonAddConcItem=isc.IButton.create({
 
 isc.ListGrid.create({
         ID:"ListGrid_ContractConcItemShipment",
-        width: "80%",
+        width: "100%",
         height: "200",
         modalEditing: true,
         canEdit: true,
@@ -165,7 +165,7 @@ isc.ListGrid.create({
                     title: "<spring:message
                     code='shipment.plan'/>",
                     type: 'text',
-                    width: 140,
+                    width: "10%",
                     valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},
                     align: "center"
                 },
@@ -173,27 +173,27 @@ isc.ListGrid.create({
                     name: "shipmentRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: 42,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
-                    valueField: "id", width: 400, align: "center"
+                    valueField: "id",width: "10%", align: "center"
                 },
                 {
                     name: "address",
                     title: "<spring:message code='global.address'/>",
                     type: 'text',
-                    width: 390,
+                   width: "10%",
                     align: "center"
                 },
                 {
                     name: "amount",
                     title: "<spring:message code='global.amount'/>",
                     type: 'float',
-                    width: 100,
+                    width: "10%",
                     align: "center",changed: function (form, item, value) {
                        if(ListGrid_ContractConcItemShipment.getEditRow()==0){
                            amountSet=value;
@@ -206,7 +206,7 @@ isc.ListGrid.create({
                     title: "<spring:message code='global.sendDate'/>",
                     type: "date",
                     required: false,
-                    width: "200",
+                    width: "10%",
                     wrapTitle: false,changed: function (form, item, value) {
                         sendDateSetConc = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
                         sendDateSetConcSave = value;
@@ -216,12 +216,12 @@ isc.ListGrid.create({
                     name: "duration",
                     title: "<spring:message code='global.duration'/>",
                     type : 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                 name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",
-                    type: 'text', width: 80, align: "center",changed: function (form, item, value) {
+                    type: 'text', width: "10%", align: "center",changed: function (form, item, value) {
                        if(ListGrid_ContractConcItemShipment.getEditRow()==0){
                            valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Conc.getItem("optional").getDisplayValue(valuesManagerArticle2Conc.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSetConc+" "+"TILL");
                         }
@@ -249,26 +249,40 @@ isc.ListGrid.create({
                 }
         },removeData: function (data) {
             var ContractShipmentId = data.id;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
-                    httpMethod: "DELETE",
-                    callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                            ListGrid_ContractConcItemShipment.invalidateCache();
-                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                        } else {
-                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                        }
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index === 0) {
+                                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                                actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
+                                                httpMethod: "DELETE",
+                                                callback: function (resp) {
+                                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                                        ListGrid_ContractConcItemShipment.invalidateCache();
+                                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                                    } else {
+                                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                                    }
+                                                }
+                                            })
+                                        )
+                                    }
                     }
-                })
-            );
+            })
         }
     });
 var dynamicForm_fullArticleConc04 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:""
@@ -336,7 +350,7 @@ var dynamicForm_fullArticleConc05 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:""
@@ -346,7 +360,7 @@ var dynamicForm_fullArticleConc06 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:""
@@ -356,7 +370,7 @@ var dynamicForm_fullArticleConc07 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:""
@@ -400,7 +414,7 @@ var dynamicForm_fullArticleConc09 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:""
@@ -430,7 +444,7 @@ var dynamicForm_fullArticleConc10 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:""
@@ -440,7 +454,7 @@ var dynamicForm_fullArticleConc11 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:""
@@ -539,7 +553,7 @@ var dynamicForm_fullArticleConc12 = isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:""

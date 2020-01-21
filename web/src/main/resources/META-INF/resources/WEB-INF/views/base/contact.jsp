@@ -1884,13 +1884,13 @@ var ListGrid_Contact = isc.ListGrid.create(
 				var dccTableName = "TBL_CONTACT";
 				contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
 				hLayoutViewLoader.show();
-				var layout = isc.VLayout.create({
+				var layoutContact = isc.VLayout.create({
 				styleName: "expand-layout",
 				padding: 5,
 				membersMargin: 10,
 				members: [ hLayoutViewLoader ]
 				});
-			return layout;
+			return layoutContact;
 		}
 });
 

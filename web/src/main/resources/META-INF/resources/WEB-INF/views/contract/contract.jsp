@@ -187,9 +187,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
     }
 
     function ListGrid_Contract_remove() {
-
         var record = ListGrid_Contract.getSelectedRecord();
-
         if (record == null || record.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -217,15 +215,13 @@ var salesContractCADButtonMain = isc.IconButton.create({
                                                             httpMethod: "DELETE",
                                                             callback: function (resp) {
                                                                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                                                                    ListGrid_Contract_refresh();
                                                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                                                    ListGrid_Contract_refresh();
                                                                 } else {
                                                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                                                 }
                                                             }
                                                         }))
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
                     }
             });
@@ -909,7 +905,7 @@ ToolStripButton_Contract_Remove,
     loadingMessage: ""
     });
 
-    var hLayoutViewLoader = isc.HLayout.create({
+    var hLayoutViewLoaderContract = isc.HLayout.create({
     width:"100%",
     height: 200,
     align: "center",padding: 5,
@@ -918,7 +914,7 @@ ToolStripButton_Contract_Remove,
         contractAttachmentViewLoader
     ]
     });
-    hLayoutViewLoader.hide();
+        hLayoutViewLoaderContract.hide();
 
 
     var ListGrid_Contract = isc.ListGrid.create({
@@ -1031,16 +1027,16 @@ ToolStripButton_Contract_Remove,
                     var dccTableId = record.id;
                     var dccTableName = "TBL_CONTRACT";
                     contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
-                    hLayoutViewLoader.show();
-                var layout = isc.VLayout.create({
+                    hLayoutViewLoaderContract.show();
+                var layoutContract = isc.VLayout.create({
                     styleName: "expand-layout",
                     padding: 5,
                     membersMargin: 10,
                     members: [
-                        hLayoutViewLoader
+                    hLayoutViewLoaderContract
                         ]
                 });
-                return layout;
+                return layoutContract;
             },
          rollOverCanvasProperties:{
                 vertical:false, capSize:7,

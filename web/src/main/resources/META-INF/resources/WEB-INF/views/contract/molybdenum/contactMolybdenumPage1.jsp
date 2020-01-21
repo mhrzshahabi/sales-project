@@ -2145,7 +2145,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
     })
     ///*//*** to do
 ListGrid_ContractItemShipment = isc.ListGrid.create({
-        width: "79%",
+        width: "100%",
         height: "200",
         modalEditing: true,
         canEdit: true,
@@ -2162,7 +2162,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     title: "<spring:message
                     code='shipment.plan'/>",
                     type: 'text',
-                    width: 140,
+                   width: "10%",
                     valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},
                     align: "center"
                 },
@@ -2170,27 +2170,27 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     name: "shipmentRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: 40,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
-                    valueField: "id", width: "380", align: "center"
+                    valueField: "id", width: "10%", align: "center"
                 },
                 {
                     name: "address",
                     title: "<spring:message code='global.address'/>",
                     type: 'text',
-                    width: "395",
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "amount",
                     title: "<spring:message code='global.amount'/>",
                     type: 'float',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
@@ -2198,18 +2198,18 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     title: "<spring:message code='global.sendDate'/>",
                     type: "date",
                     required: false,
-                    width: "200",
+                    width: "10%",
                     wrapTitle: false,
                 },
                 {
                     name: "duration",
                     title: "<spring:message code='global.duration'/>",
                     type : 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
-                    name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>", type: 'text', width: 80, align: "center"
+                    name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>", type: 'text', width: "10%", align: "center"
                 },
             ],saveEdits: function () {
                 var ContractItemShipmentRecord = ListGrid_ContractItemShipment.getEditedRecord(ListGrid_ContractItemShipment.getEditRow());
@@ -2236,21 +2236,33 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
 
         },removeData: function (data) {
             var ContractShipmentId = data.id;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
-                    httpMethod: "DELETE",
-                    callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                            ListGrid_ContractItemShipment.invalidateCache();
-                            isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                        } else {
-                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                        }
-                    }
-                })
-            );
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index === 0) {
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
+                            httpMethod: "DELETE",
+                            callback: function (resp) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    ListGrid_ContractItemShipment.invalidateCache();
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                }
+                            }
+                         })
+                        )
+                     }}
+                  })
         }
-
     });
     var vlayout_ContractItemShipment = isc.VLayout.create({align: "center", members: [ListGrid_ContractItemShipment]});
     var dynamicForm_article5_Note2_number30 = isc.DynamicForm.create({

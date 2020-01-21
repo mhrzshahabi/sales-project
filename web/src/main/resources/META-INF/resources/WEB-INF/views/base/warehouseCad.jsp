@@ -322,13 +322,13 @@
             var dccTableName = "TBL_WAREHOUSE_CAD";
             bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
             hLayoutViewLoader.show();
-            var layout = isc.VLayout.create({
+            var layoutWarehouseCad = isc.VLayout.create({
             styleName: "expand-layout",
             padding: 5,
             membersMargin: 10,
             members: [ hLayoutViewLoader ]
             });
-            return layout;
+            return layoutWarehouseCad;
             }
         });
 
