@@ -187,9 +187,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
     }
 
     function ListGrid_Contract_remove() {
-
         var record = ListGrid_Contract.getSelectedRecord();
-
         if (record == null || record.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -217,15 +215,13 @@ var salesContractCADButtonMain = isc.IconButton.create({
                                                             httpMethod: "DELETE",
                                                             callback: function (resp) {
                                                                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                                                                    ListGrid_Contract_refresh();
                                                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                                                    ListGrid_Contract_refresh();
                                                                 } else {
                                                                     isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                                                 }
                                                             }
                                                         }))
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
                     }
             });
