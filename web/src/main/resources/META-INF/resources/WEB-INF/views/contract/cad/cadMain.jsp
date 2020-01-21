@@ -448,13 +448,7 @@ function deleteFromContractShipment(id){
                             }))
 }
 
-    var ToolStripButton_ContactCad_Remove = isc.ToolStripButtonRemove.create({
-        icon: "[SKIN]/actions/remove.png",
-        title: "<spring:message code='global.form.remove'/>",
-        click: function () {
-            Contract_Cathod_remove();
-        }
-    });
+
     var ToolStripButton_ContactCad_Refresh = isc.ToolStripButtonRefresh.create({
                                 icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
@@ -468,7 +462,7 @@ function deleteFromContractShipment(id){
             members: [
                 ToolStripButton_ContactCad_Add,
                 ToolStripButton_ContactCad_Edit,
-                ToolStripButton_ContactCad_Remove,
+
                 isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
