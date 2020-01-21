@@ -342,6 +342,14 @@
                     }
                 },
                 {isSeparator: true},
+
+
+
+
+                {
+                    title: "<spring:message code='main.baseTab.Business'/>",
+                    submenu: [
+
                 {
                     title: "<spring:message code='commercialParty.title'/>",
                     click: function () {
@@ -350,12 +358,33 @@
                 },
                 {isSeparator: true},
 
+
+
+
+
+
                 {
-                    title: "<spring:message code='feature.title'/>",
+                    title: "<spring:message code='person.title'/>",
                     click: function () {
-                        createTab("<spring:message code='feature.title'/>", "<spring:url value="/feature/showForm" />")
+                        createTab("<spring:message code='person.title'/>", "<spring:url value="/person/showForm" />")
                     }
                 },
+                {isSeparator: true},
+
+
+                {
+                    title: "<spring:message code='groups.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='groups.title'/>", "<spring:url value="/groups/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+                ]
+
+
+                },
+
                 {isSeparator: true},
 
                 {
@@ -365,6 +394,20 @@
                     }
                 },
                 {isSeparator: true},
+
+
+
+                {
+                    title: "<spring:message code='feature.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='feature.title'/>", "<spring:url value="/feature/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
+
+
                 {
                     title: "<spring:message code='glossary.title'/>",
                     click: function () {
@@ -373,12 +416,7 @@
                 },
                 {isSeparator: true},
 
-                {
-                    title: "<spring:message code='warehouseCad.yard'/>",
-                    click: function () {
-                        createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
-                    }
-                },
+
                 {isSeparator: true},
                 {
                     title: "<spring:message code='country.title'/>",
@@ -386,14 +424,40 @@
                         createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
                     }
                 },
+
+
                 {isSeparator: true},
+
                 {
-                    title: "<spring:message code='port.port'/>",
-                    click: function () {
-                        createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
-                    }
+                    title: "<spring:message code='main.baseTab.test'/>",
+                    submenu: [
+
+
+                        {
+                            title: "<spring:message code='port.port'/>",
+                            click: function () {
+                                createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
+                            }
+                        },
+
+                        {isSeparator: true},
+
+                        {
+                            title: "<spring:message code='warehouseCad.yard'/>",
+                            click: function () {
+                                createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
+                            }
+                        },
+
+                    ]
                 },
                 {isSeparator: true},
+
+
+
+
+
+
                 {
                     title: "<spring:message code='parameters.title'/>",
                     click: function () {
@@ -401,20 +465,10 @@
                     }
                 },
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='person.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='person.title'/>", "<spring:url value="/person/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='groups.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='groups.title'/>", "<spring:url value="/groups/showForm" />")
-                    }
-                },
-                {isSeparator: true},
+
+
+
+
                 {
                     title: "<spring:message code='dcc.title'/>",
                     click: function () {
