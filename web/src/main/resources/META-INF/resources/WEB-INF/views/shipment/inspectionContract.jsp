@@ -344,7 +344,7 @@
         align: "center",
         valign: "center",
         wrap: false,
-        contents: "رکوردی یافت نشد"
+        contents: "<spring:message code='global.record.find'/>"
     });
 
     recordNotFound.hide();

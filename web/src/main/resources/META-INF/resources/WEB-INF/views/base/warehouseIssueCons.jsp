@@ -39,15 +39,18 @@
                         }
                         t = DynamicForm_WarehouseIssueCons.getValue("amountSungon");
                         t = typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
-                        DynamicForm_WarehouseIssueCons.setValue("StockSungon", t + parseFloat(stocks["sungun"]));
+                        stocks_sungun = stocks["sungun"] != undefined ? parseFloat(stocks["sungun"]) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockSungon", t + stocks_sungun);
 
                         t = DynamicForm_WarehouseIssueCons.getValue("amountMiduk");
                         t = typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
-                        DynamicForm_WarehouseIssueCons.setValue("StockMiduk", t + parseFloat(stocks["Miduk"]));
+                        stocks_Miduk = stocks["Miduk"] != undefined ? parseFloat(stocks["Miduk"]) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockMiduk", t + stocks_Miduk);
 
                         t = DynamicForm_WarehouseIssueCons.getValue("amountSarcheshmeh");
                         t = typeof(t) != 'undefined' ? parseFloat(t) : parseFloat(0);
-                        DynamicForm_WarehouseIssueCons.setValue("StockSarcheshmeh", t + parseFloat(stocks["Sarcheshmeh"]));
+                        stocks_Sarcheshmeh = stocks["Sarcheshmeh"] != undefined ? parseFloat(stocks["Sarcheshmeh"]) : parseFloat(0);
+                        DynamicForm_WarehouseIssueCons.setValue("StockSarcheshmeh", t + stocks_Sarcheshmeh);
 
                     } //if rpc
                 } // callback
@@ -331,7 +334,7 @@
     align: "center",
     valign: "center",
     wrap: false,
-    contents: "رکوردی یافت نشد"
+    contents: "<spring:message code='global.record.find'/>"
     });
 
     recordNotFound.hide();
