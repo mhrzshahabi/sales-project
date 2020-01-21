@@ -279,6 +279,7 @@
         });
 
         var layout = isc.VLayout.create({
+            styleName: "expand-layout",
             padding: 5,
             membersMargin: 10,
             members: [ListGrid_WarehouseIssueCathode, recordNotFound, hLayout]
@@ -1139,6 +1140,7 @@
     var ListGrid_WarehouseIssueCathode = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_WarehouseIssueCathode,
         contextMenu: Menu_ListGrid_WarehouseIssueCathode,
         fields:

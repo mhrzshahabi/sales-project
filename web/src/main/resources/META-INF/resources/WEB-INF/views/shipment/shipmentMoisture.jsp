@@ -810,6 +810,7 @@
         });
 
         var layout = isc.VLayout.create({
+        styleName: "expand-layout",
         padding: 5,
         membersMargin: 10,
         members: [ListGrid_ShipmentMoistureHeader, recordNotFound, hLayout]
@@ -1448,6 +1449,7 @@
     var ListGrid_ShipmentMoistureHeader = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: MyRestDataSource_ShipmentMoistureHeader,
         autoFetchData: false,
         fields: [

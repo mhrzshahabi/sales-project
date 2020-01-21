@@ -318,6 +318,7 @@ function setCriteria_ListGrid_Invoice(recordId) {
         });
 
         var layout_ListGrid_Invoice = isc.VLayout.create({
+        styleName: "expand-layout",
         padding: 5,
         membersMargin: 10,
         members: [ListGrid_Invoice, recordNotFound, hLayout_Invoice]
@@ -1038,13 +1039,13 @@ function setCriteria_ListGrid_Invoice(recordId) {
             ]
     });
 
-    var ToolStripButton_Invoice_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-            ListGrid_Invoice_refresh();
-        }
-    });
+    <%--var ToolStripButton_Invoice_Refresh = isc.ToolStripButtonRefresh.create({--%>
+        <%--icon: "[SKIN]/actions/refresh.png",--%>
+        <%--title: "<spring:message code='global.form.refresh'/>",--%>
+        <%--click: function () {--%>
+            <%--ListGrid_Invoice_refresh();--%>
+        <%--}--%>
+    <%--});--%>
 
     var ToolStripButton_Invoice_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
@@ -1226,9 +1227,10 @@ function setCriteria_ListGrid_Invoice(recordId) {
 
 
     var ToolStrip_Actions_Invoice = isc.ToolStrip.create({
-        width: "100%",
+     width: "100%",
      membersMargin: 5,
-    backgroundColor:"#cdcdcd",
+     backgroundColor: 'transparent',
+     border: 'transparent',
      members:
             [
                 ToolStripButton_Invoice_Add,
@@ -1239,15 +1241,14 @@ function setCriteria_ListGrid_Invoice(recordId) {
                 ToolStripButton_Invoice_Pdf,
                 ToolStripButton_Invoice_excel,
                 ToolStripButton_Invoice_html,
-             isc.ToolStrip.create({
-              width: "100%",
-              align: "left",
-              border: '0px',
-                backgroundColor:"#cdcdcd",
-              members: [
-               ToolStripButton_Invoice_Refresh,
-              ]
-             })
+             // isc.ToolStrip.create({
+             //  width: "100%",
+             //  align: "left",
+             //  border: 'transparent',
+             //  members: [
+             //   ToolStripButton_Invoice_Refresh,
+             //  ]
+             // })
 
             ] //Add Print
     });
@@ -1339,6 +1340,7 @@ function setCriteria_ListGrid_Invoice(recordId) {
     var ListGrid_Invoice = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_Invoice,
         contextMenu: Menu_ListGrid_Invoice,
         fields:

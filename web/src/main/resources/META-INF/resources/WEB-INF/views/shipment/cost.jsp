@@ -173,6 +173,7 @@
         });
 
         var layout = isc.VLayout.create({
+            styleName: "expand-layout",
             padding: 5,
             membersMargin: 10,
             members: [ListGrid_Cost, recordNotFound, hLayout]
@@ -1221,6 +1222,7 @@
     var ListGrid_Cost = isc.ListGrid.create({
         width: "100%",
         height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_Cost,
         contextMenu: Menu_ListGrid_Cost,
         showRecordComponents: true,

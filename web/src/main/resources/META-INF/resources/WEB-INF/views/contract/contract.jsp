@@ -704,7 +704,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
     });
 
 
-    var ToolStripButton_Contract_Print = isc.ToolStripButtonEdit.create({
+    var ToolStripButton_Contract_Print = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/print.png",
         showIf: "true",
         title: "<spring:message code='global.form.print'/>",
@@ -743,6 +743,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             [
                 ToolStripButton_Contract_Add,
                 ToolStripButton_Contract_Remove,
+                ToolStripButton_Contract_Print,
                 isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
@@ -751,7 +752,6 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     ToolStripButton_Contract_Refresh,
                 ]
                 }),
-                ToolStripButton_Contract_Print
 
             ]
     });
@@ -846,11 +846,91 @@ var salesContractCADButtonMain = isc.IconButton.create({
                 })
             ]
     });
+
+    // var recordNotFound = isc.Label.create({
+    // height: 30,
+    // padding: 10,
+    // align: "center",
+    // valign: "center",
+    // wrap: false,
+    // contents: "رکوردی یافت نشد"
+    // });
+    //
+    // recordNotFound.hide();
+
+    // function setCriteria_ListGrid_Contract(recordId) {
+    //
+    //     var criteria = {
+    //     _constructor: "AdvancedCriteria",
+    //     operator: "and",
+    //     criteria: [{fieldName: "contractId", operator: "equals", value: recordId}]
+    //     };
+    //     ListGrid_ContractShipment.fetchData(criteria, function (dsResponse, data, dsRequest) {
+    //     if (data.length === 0) {
+    //         recordNotFound.show();
+    //         ListGrid_ContractShipment.hide()
+    //     } else {
+    //         recordNotFound.hide();
+    //         ListGrid_ContractShipment.setData(data);
+    //         ListGrid_ContractShipment.show();
+    //     }
+    //     });
+    // }
+
+    // function getExpandedComponent_contract(record) {
+    //     setCriteria_ListGrid_Contract(record.id)
+    //     var hLayout_contract = isc.HLayout.create({
+    //     align: "center", padding: 5,
+    //     membersMargin: 20,
+    //     members: [
+    //         ToolStripButton_ContractShipment_Add
+    //     ]
+    //     });
+    //
+    //     var layout_ListGrid_contract = isc.VLayout.create({
+    //         styleName: "expand-layout",
+    //         padding: 5,
+    //         membersMargin: 10,
+    //         members: [ListGrid_ContractShipment, recordNotFound, hLayout_contract]
+    //     });
+    //
+    //    return layout_ListGrid_contract;
+    // }
+    var contractAttachmentViewLoader = isc.ViewLoader.create({
+    autoDraw: false,
+    loadingMessage: ""
+    });
+
+    var hLayoutViewLoader = isc.HLayout.create({
+    width:"100%",
+    height: 200,
+    align: "center",padding: 5,
+    membersMargin: 20,
+    members: [
+        contractAttachmentViewLoader
+    ]
+    });
+    hLayoutViewLoader.hide();
+
+
     var ListGrid_Contract = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Contract,
         contextMenu: Menu_ListGrid_Contract,
+        styleName:'expandList',
+        autoFetchData: true,
+        alternateRecordStyles: true,
+        canExpandRecords: true,
+        canExpandMultipleRecords: false,
+        wrapCells: false,
+        showRollOver: false,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        autoFitExpandField: true,
+        virtualScrolling: true,
+        loadOnExpand: true,
+        loaded: false,
         fields:
             [
                 {name: "id", hidden: true},
@@ -915,15 +995,15 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     width: "100"
                 }
             ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            companyName.setTitle(record.contractNo + ' ' + record.contact.nameFA);
-        }
+        // sortField: 0,
+        // autoFetchData: true,
+        // showFilterEditor: true,
+        // filterOnKeypress: true,
+        // recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+        // updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+        //     var record = this.getSelectedRecord();
+        //     companyName.setTitle(record.contractNo + ' ' + record.contact.nameFA);
+        // }
         /*getCellCSSText: function (record, rowNum, colNum) {
                             if (record.material.descl.contains("Cat")) {
                                   return "font-weight:bold;background-color:#5ec4aa;";
@@ -938,7 +1018,23 @@ var salesContractCADButtonMain = isc.IconButton.create({
                                   return "font-weight:bold;background-color:#6aa6de;";
                                 }
                 }*/
-        , rollOverCanvasProperties:{
+          getExpansionComponent: function (record) {
+            //return getExpandedComponent_contract(record)
+                    var dccTableId = record.id;
+                    var dccTableName = "TBL_CONTRACT";
+                    contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+                    hLayoutViewLoader.show();
+                var layout = isc.VLayout.create({
+                    styleName: "expand-layout",
+                    padding: 5,
+                    membersMargin: 10,
+                    members: [
+                        hLayoutViewLoader
+                        ]
+                });
+                return layout;
+            },
+         rollOverCanvasProperties:{
                 vertical:false, capSize:7,
                 src:"other/cellOverRecticle.png"
             }
@@ -999,11 +1095,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ,HLayout_Contract_Grid
         ]
     });
-    isc.ViewLoader.create({
-        ID: "contractAttachmentViewLoader",
-        autoDraw: false,
-        loadingMessage: ""
-    });
+
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     var RestDataSource_Port = isc.MyRestDataSource.create({
         fields:
@@ -1289,68 +1381,68 @@ var salesContractCADButtonMain = isc.IconButton.create({
             ]
     });
 
-    var ToolStripButton_ContractShipment_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-            ListGrid_ContractShipment_refresh();
-        }
-    });
+    <%--var ToolStripButton_ContractShipment_Refresh = isc.ToolStripButtonRefresh.create({--%>
+        <%--icon: "[SKIN]/actions/refresh.png",--%>
+        <%--title: "<spring:message code='global.form.refresh'/>",--%>
+        <%--click: function () {--%>
+            <%--ListGrid_ContractShipment_refresh();--%>
+        <%--}--%>
+    <%--});--%>
 
-    var ToolStripButton_ContractShipment_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.form.new'/>",
-        click: function () {
-            var record = ListGrid_Contract.getSelectedRecord();
-            DynamicForm_ContractShipment.clearValues();
-            DynamicForm_ContractShipment.setValue("contractId", record.id);
-            DynamicForm_ContractShipment.setValue("contractDate", record.contractDate);
-            Window_ContractShipment.animateShow();
-        }
-    });
+    <%--var ToolStripButton_ContractShipment_Add = isc.ToolStripButtonAddLarge.create({--%>
+        <%--icon: "[SKIN]/actions/add.png",--%>
+        <%--title: "<spring:message code='global.form.new'/>",--%>
+        <%--click: function () {--%>
+            <%--var record = ListGrid_Contract.getSelectedRecord();--%>
+            <%--DynamicForm_ContractShipment.clearValues();--%>
+            <%--DynamicForm_ContractShipment.setValue("contractId", record.id);--%>
+            <%--DynamicForm_ContractShipment.setValue("contractDate", record.contractDate);--%>
+            <%--Window_ContractShipment.animateShow();--%>
+        <%--}--%>
+    <%--});--%>
 
-    var ToolStripButton_ContractShipment_Edit = isc.ToolStripButtonEdit.create({
-        icon: "[SKIN]/actions/edit.png",
-        title: "<spring:message code='global.form.edit'/>",
-        click: function () {
-            ListGrid_ContractShipment_edit();
-        }
-    });
+    <%--var ToolStripButton_ContractShipment_Edit = isc.ToolStripButtonEdit.create({--%>
+        <%--icon: "[SKIN]/actions/edit.png",--%>
+        <%--title: "<spring:message code='global.form.edit'/>",--%>
+        <%--click: function () {--%>
+            <%--ListGrid_ContractShipment_edit();--%>
+        <%--}--%>
+    <%--});--%>
 
-    var ToolStripButton_ContractShipment_Remove = isc.ToolStripButtonRemove.create({
-        icon: "[SKIN]/actions/remove.png",
-        title: "<spring:message code='global.form.remove'/>",
-        click: function () {
-            ListGrid_ContractShipment_remove();
-        }
-    });
+    <%--var ToolStripButton_ContractShipment_Remove = isc.ToolStripButtonRemove.create({--%>
+        <%--icon: "[SKIN]/actions/remove.png",--%>
+        <%--title: "<spring:message code='global.form.remove'/>",--%>
+        <%--click: function () {--%>
+            <%--ListGrid_ContractShipment_remove();--%>
+        <%--}--%>
+    <%--});--%>
 
-    var ToolStrip_Actions_ContractShipment = isc.ToolStrip.create({
-        width: "100%",
-        members:
-            [
-                ToolStripButton_ContractShipment_Add,
-                ToolStripButton_ContractShipment_Edit,
-                ToolStripButton_ContractShipment_Remove,
-                isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_ContractShipment_Refresh,
-                ]
-                })
+    // var ToolStrip_Actions_ContractShipment = isc.ToolStrip.create({
+    //     width: "100%",
+    //     members:
+    //         [
+    //             ToolStripButton_ContractShipment_Add,
+    //             ToolStripButton_ContractShipment_Edit,
+    //             ToolStripButton_ContractShipment_Remove,
+    //             isc.ToolStrip.create({
+    //             width: "100%",
+    //             align: "left",
+    //             border: '0px',
+    //             members: [
+    //                 ToolStripButton_ContractShipment_Refresh,
+    //             ]
+    //             })
+    //
+    //         ]
+    // });
 
-            ]
-    });
-
-    var HLayout_ContractShipment_Actions = isc.HLayout.create({
-        width: "100%",
-        members:
-            [
-                ToolStrip_Actions_ContractShipment
-            ]
-    });
+    // var HLayout_ContractShipment_Actions = isc.HLayout.create({
+    //     width: "100%",
+    //     members:
+    //         [
+    //             ToolStrip_Actions_ContractShipment
+    //         ]
+    // });
     var IButton_ContractShipment_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -1428,7 +1520,8 @@ var salesContractCADButtonMain = isc.IconButton.create({
     });
     var ListGrid_ContractShipment = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: 200,
+        styleName: "listgrid-child",
         dataSource: RestDataSource_ContractShipment,
         contextMenu: Menu_ListGrid_ContractShipment,
         fields:
@@ -1439,7 +1532,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     name: "plan",
                     title: "<spring:message code='shipment.plan'/>",
                     type: 'text',
-                    width: 400,
+                    width: "10%",
                     valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},
                     align: "center"
                 },
@@ -1447,7 +1540,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     name: "shipmentRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {name: "discharge.port", title: "<spring:message code='port.port'/>", width: 400, align: "center"},
@@ -1456,7 +1549,7 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     title: "<spring:message code='global.address'/>",
                     type: 'text',
                     required: true,
-                    width: 200,
+                    width: "10%",
                     align: "center"
                 },
                 {
@@ -1464,14 +1557,14 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     title: "<spring:message code='global.amount'/>",
                     type: 'float',
                     required: true,
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
                     type: 'datetime',
-                    width: 150,
+                    width: "10%",
                     align: "center",
                     format: 'DD-MM-YYYY'
                 },
@@ -1479,22 +1572,106 @@ var salesContractCADButtonMain = isc.IconButton.create({
                     name: "duration",
                     title: "<spring:message code='global.duration'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "tolorance",
                     title: "<spring:message code='contractItemShipment.tolorance'/>",
                     type: 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
+                },
+                {
+                name: "editIcon",
+                width: 40,
+                align: "center",
+                showTitle: false
+                },
+                {
+                name: "removeIcon",
+                width: 40,
+                align: "center",
+                showTitle: false
                 },
             ],
         sortField: 0,
         autoFetchData: false,
         showFilterEditor: false,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+        showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        createRecordComponent: function (record, colNum) {
+        var fieldName = this.getFieldName(colNum);
+        if (fieldName == "editIcon") {
+        var editImg = isc.ImgButton.create({
+            showDown: false,
+            showRollOver: false,
+            layoutAlign: "center",
+            src: "pieces/16/icon_edit.png",
+            prompt: "ویرایش",
+            height: 16,
+            width: 16,
+            grid: this,
+            click: function () {
+            ListGrid_ContractShipment.selectSingleRecord(record);
+            ListGrid_ContractShipment_edit();
+            }
+            });
+            return editImg;
+        } else if (fieldName == "removeIcon") {
+        var removeImg = isc.ImgButton.create({
+            showDown: false,
+            showRollOver: false,
+            layoutAlign: "center",
+            src: "pieces/16/icon_delete.png",
+            prompt: "حذف",
+            height: 16,
+            width: 16,
+            grid: this,
+        click: function () {
+          ListGrid_ContractShipment.selectSingleRecord(record);
+          ListGrid_ContractShipment_remove();
+        }
+        });
+        return removeImg;
+        } else {
+        return null;
+        }
+        },
+    recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+    loadWindowFeatureList(record)
+    }
     });
+
+
+        function loadWindowFeatureList(record) {
+            var dccTableId = record.id;
+            var dccTableName = "TBL_CONTRACT";
+            var window_view_url = isc.Window.create({
+            title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader,
+            width: "80%",
+            height: "40%",
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            closeClick: function () {
+            this.Super("closeClick", arguments)
+            },
+            items:
+            [
+            isc.ViewLoader.create({
+            autoDraw:true,
+            viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
+            loadingMessage:"<spring:message code='global.loadingMessage'/>"
+            })
+            ]
+            });
+            window_view_url.show();
+        }
     var HLayout_ContractShipment_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -1509,74 +1686,105 @@ var salesContractCADButtonMain = isc.IconButton.create({
         height: "100%",
         members:
             [
-                HLayout_ContractShipment_Actions, HLayout_ContractShipment_Grid
+               // HLayout_ContractShipment_Actions,
+                HLayout_ContractShipment_Grid
             ]
     });
     /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-    isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        border: "1px solid black",
-        layoutTopMargin: 5,
-        members: [
-            isc.TabSet.create({
-                tabBarPosition: "top",
-                width: "100%",
-                tabs:
-                    [
-                        {
-                            ID: "companyName",
-                            title: "<spring:message code='main.contractsTab'/>",
-                            pane: VLayout_Contract_Body
-                        },
-                        {
-                            title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body,
-                            tabSelected: function (form, item, value) {
-                                var record = ListGrid_Contract.getSelectedRecord();
-                                if (record == null || record.id == null) {
-                                    isc.Dialog.create({
-                                        message: "<spring:message code='global.grid.record.not.selected'/>",
-                                        icon: "[SKIN]ask.png",
-                                        title: "<spring:message code='global.message'/>",
-                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                        buttonClick: function () {
-                                            this.hide();
-                                        }
-                                    });
-                                    record.id = null;
-                                }
-                                var criteria = {
-                                    _constructor: "AdvancedCriteria",
-                                    operator: "and",
-                                    criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
-                                };
-                                ListGrid_ContractShipment.fetchData(criteria, function (dsResponse, data, dsRequest) {
-                                    ListGrid_ContractShipment.setData(data);
-                                });
-                            }
-                        },
-                        {
-                            title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader,
-                            tabSelected: function (form, item, value) {
-                                var record = ListGrid_Contract.getSelectedRecord();
-                                if (record == null || record.id == null) {
-                                    isc.Dialog.create({
-                                        message: "<spring:message code='global.grid.record.not.selected'/>",
-                                        icon: "[SKIN]ask.png",
-                                        title: "<spring:message code='global.message'/>",
-                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                        buttonClick: function () {
-                                            this.hide();
-                                        }
-                                    });
-                                    record.id = null;
-                                }
-                                var dccTableId = record.id;
-                                var dccTableName = "TBL_CONTRACT";
-                                contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
-                            }
-                        }
-                    ]
-            })
-        ]
-    });
+    <%--isc.HLayout.create({--%>
+        <%--width: "100%",--%>
+        <%--height: "100%",--%>
+        <%--border: "1px solid black",--%>
+        <%--layoutTopMargin: 5,--%>
+        <%--members: [--%>
+            <%--isc.TabSet.create({--%>
+                <%--tabBarPosition: "top",--%>
+                <%--width: "100%",--%>
+                <%--tabs:--%>
+                    <%--[--%>
+                        <%--{--%>
+                            <%--ID: "companyName",--%>
+                            <%--title: "<spring:message code='main.contractsTab'/>",--%>
+                            <%--pane: VLayout_Contract_Body--%>
+                        <%--},--%>
+                        <%--{--%>
+                            <%--title: "<spring:message code='Shipment.title'/>", pane: VLayout_ContractShipment_Body,--%>
+                            <%--tabSelected: function (form, item, value) {--%>
+                                <%--var record = ListGrid_Contract.getSelectedRecord();--%>
+                                <%--if (record == null || record.id == null) {--%>
+                                    <%--isc.Dialog.create({--%>
+                                        <%--message: "<spring:message code='global.grid.record.not.selected'/>",--%>
+                                        <%--icon: "[SKIN]ask.png",--%>
+                                        <%--title: "<spring:message code='global.message'/>",--%>
+                                        <%--buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],--%>
+                                        <%--buttonClick: function () {--%>
+                                            <%--this.hide();--%>
+                                        <%--}--%>
+                                    <%--});--%>
+                                    <%--record.id = null;--%>
+                                <%--}--%>
+                                <%--var criteria = {--%>
+                                    <%--_constructor: "AdvancedCriteria",--%>
+                                    <%--operator: "and",--%>
+                                    <%--criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]--%>
+                                <%--};--%>
+                                <%--ListGrid_ContractShipment.fetchData(criteria, function (dsResponse, data, dsRequest) {--%>
+                                    <%--ListGrid_ContractShipment.setData(data);--%>
+                                <%--});--%>
+                            <%--}--%>
+                        <%--},--%>
+                        <%--{--%>
+                            <%--title: "<spring:message code='global.Attachment'/>", pane: contractAttachmentViewLoader,--%>
+                            <%--tabSelected: function (form, item, value) {--%>
+                                <%--var record = ListGrid_Contract.getSelectedRecord();--%>
+                                <%--if (record == null || record.id == null) {--%>
+                                    <%--isc.Dialog.create({--%>
+                                        <%--message: "<spring:message code='global.grid.record.not.selected'/>",--%>
+                                        <%--icon: "[SKIN]ask.png",--%>
+                                        <%--title: "<spring:message code='global.message'/>",--%>
+                                        <%--buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],--%>
+                                        <%--buttonClick: function () {--%>
+                                            <%--this.hide();--%>
+                                        <%--}--%>
+                                    <%--});--%>
+                                    <%--record.id = null;--%>
+                                <%--}--%>
+                                <%--var dccTableId = record.id;--%>
+                                <%--var dccTableName = "TBL_CONTRACT";--%>
+                                <%--contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)--%>
+                            <%--}--%>
+                        <%--}--%>
+                    <%--]--%>
+            <%--})--%>
+        <%--]--%>
+    <%--});--%>
+
+
+
+
+        isc.SectionStack.create({
+            sections: [{
+            title: "<spring:message code='main.contractsTab'/>",
+            items: VLayout_Contract_Body,
+            showHeader: false,
+            expanded: true
+            },
+            {
+            title: "<spring:message code='Shipment.title'/>",
+            items: VLayout_ContractShipment_Body,
+            expanded: true,
+            hidden: true
+            },
+            <%--{--%>
+            <%--title: "<spring:message code='global.Attachment'/>",--%>
+            <%--items: contractAttachmentViewLoader,--%>
+            <%--expanded: true,--%>
+            <%--hidden: true--%>
+            <%--}--%>
+            ],
+            visibilityMode: "multiple",
+            animateSections: true,
+            height: "100%",
+            width: "100%",
+            overflow: "hidden"
+        })
