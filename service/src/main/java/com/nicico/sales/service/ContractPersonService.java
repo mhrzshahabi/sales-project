@@ -11,6 +11,7 @@ import com.nicico.sales.repository.ContractPersonDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class ContractPersonService implements IContractPersonService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_CONTRACT_PERSON')")
     public ContractPersonDTO.Info get(Long id) {
         final Optional<ContractPerson> slById = contractPersonDAO.findById(id);
         final ContractPerson contractPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractPersonNotFound));
@@ -34,6 +36,7 @@ public class ContractPersonService implements IContractPersonService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_CONTRACT_PERSON')")
     public List<ContractPersonDTO.Info> list() {
         final List<ContractPerson> slAll = contractPersonDAO.findAll();
 
@@ -43,6 +46,7 @@ public class ContractPersonService implements IContractPersonService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_CONTRACT_PERSON')")
     public ContractPersonDTO.Info create(ContractPersonDTO.Create request) {
         final ContractPerson contractPerson = modelMapper.map(request, ContractPerson.class);
 
@@ -51,6 +55,7 @@ public class ContractPersonService implements IContractPersonService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_CONTRACT_PERSON')")
     public ContractPersonDTO.Info update(Long id, ContractPersonDTO.Update request) {
         final Optional<ContractPerson> slById = contractPersonDAO.findById(id);
         final ContractPerson contractPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractPersonNotFound));
@@ -64,12 +69,14 @@ public class ContractPersonService implements IContractPersonService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_CONTRACT_PERSON')")
     public void delete(Long id) {
         contractPersonDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_CONTRACT_PERSON')")
     public void delete(ContractPersonDTO.Delete request) {
         final List<ContractPerson> contractPersons = contractPersonDAO.findAllById(request.getIds());
 
@@ -78,6 +85,7 @@ public class ContractPersonService implements IContractPersonService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_CONTRACT_PERSON')")
     public TotalResponse<ContractPersonDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(contractPersonDAO, criteria, contractPerson -> modelMapper.map(contractPerson, ContractPersonDTO.Info.class));
     }

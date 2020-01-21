@@ -16,6 +16,7 @@ import com.nicico.sales.repository.WarehouseCadDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ public class WarehouseCadService implements IWarehouseCadService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD')")
     public WarehouseCadDTO.Info get(Long id) {
         final Optional<WarehouseCad> slById = warehouseCadDAO.findById(id);
         final WarehouseCad warehouseCad = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
@@ -43,7 +44,7 @@ public class WarehouseCadService implements IWarehouseCadService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD')")
     public List<WarehouseCadDTO.Info> list() {
         final List<WarehouseCad> slAll = warehouseCadDAO.findAll();
 
@@ -53,7 +54,7 @@ public class WarehouseCadService implements IWarehouseCadService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('C_WAREHOUSE_CAD')")
     public WarehouseCadDTO.Info create(WarehouseCadDTO.Create request) {
         final WarehouseCad warehouseCad = modelMapper.map(request, WarehouseCad.class);
         MaterialItem materialItem = materialItemDAO.findByGdsCode(String.valueOf(request.getMaterialItemId()));
@@ -69,7 +70,7 @@ public class WarehouseCadService implements IWarehouseCadService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('U_WAREHOUSE_CAD')")
     public WarehouseCadDTO.Info update(Long id, WarehouseCadDTO.Update request) {
         final Optional<WarehouseCad> slById = warehouseCadDAO.findById(id);
         final WarehouseCad warehouseCad = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadNotFound));
@@ -83,14 +84,14 @@ public class WarehouseCadService implements IWarehouseCadService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_CAD')")
     public void delete(Long id) {
         warehouseCadDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_CAD')")
     public void delete(WarehouseCadDTO.Delete request) {
         final List<WarehouseCad> warehouseCads = warehouseCadDAO.findAllById(request.getIds());
 
@@ -99,14 +100,14 @@ public class WarehouseCadService implements IWarehouseCadService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD')")
     public TotalResponse<WarehouseCadDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(warehouseCadDAO, criteria, warehouseCad -> modelMapper.map(warehouseCad, WarehouseCadDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD')")
     public TotalResponse<WarehouseCadDTO.InfoCombo> search1(NICICOCriteria criteria) {
         List<WarehouseCad> l = warehouseCadDAO.findOnHandsByHSCode("74031100");
         GridResponse<WarehouseCadDTO.InfoCombo> gridResponse = new GridResponse();
@@ -123,7 +124,7 @@ public class WarehouseCadService implements IWarehouseCadService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD')")
     public SearchDTO.SearchRs<WarehouseCadDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(warehouseCadDAO, request, entity -> modelMapper.map(entity, WarehouseCadDTO.Info.class));
     }

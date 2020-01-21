@@ -15,6 +15,7 @@ import com.nicico.sales.repository.ShipmentDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
@@ -32,6 +33,7 @@ public class InspectionContractService implements IInspectionContractService {
     private final IShipmentService shipmentService;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_INSPECTION_CONTRACT')")
     public InspectionContractDTO.Info get(Long id) {
         final Optional<InspectionContract> slById = inspectionContractDAO.findById(id);
         final InspectionContract inspectionContract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InspectionContractNotFound));
@@ -41,6 +43,7 @@ public class InspectionContractService implements IInspectionContractService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INSPECTION_CONTRACT')")
     public List<InspectionContractDTO.Info> list() {
         final List<InspectionContract> slAll = inspectionContractDAO.findAll();
 
@@ -50,6 +53,7 @@ public class InspectionContractService implements IInspectionContractService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_INSPECTION_CONTRACT')")
     public InspectionContractDTO.Info create(InspectionContractDTO.Create request) {
         final InspectionContract inspectionContract = modelMapper.map(request, InspectionContract.class);
 
@@ -58,6 +62,7 @@ public class InspectionContractService implements IInspectionContractService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_INSPECTION_CONTRACT')")
     public InspectionContractDTO.Info update(Long id, InspectionContractDTO.Update request) {
         final Optional<InspectionContract> slById = inspectionContractDAO.findById(id);
         final InspectionContract inspectionContract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InspectionContractNotFound));
@@ -70,12 +75,14 @@ public class InspectionContractService implements IInspectionContractService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INSPECTION_CONTRACT')")
     public void delete(Long id) {
         inspectionContractDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INSPECTION_CONTRACT')")
     public void delete(InspectionContractDTO.Delete request) {
         final List<InspectionContract> inspectionContracts = inspectionContractDAO.findAllById(request.getIds());
 
@@ -84,12 +91,14 @@ public class InspectionContractService implements IInspectionContractService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INSPECTION_CONTRACT')")
     public SearchDTO.SearchRs<InspectionContractDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(inspectionContractDAO, request, inspectionContract -> modelMapper.map(inspectionContract, InspectionContractDTO.Info.class));
     }
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_INSPECTION_CONTRACT')")
     public TotalResponse<InspectionContractDTO.Info> search(MultiValueMap<String, String> criteria) {
         final NICICOCriteria request = NICICOCriteria.of(criteria);
 
@@ -104,6 +113,7 @@ public class InspectionContractService implements IInspectionContractService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('O_INSPECTION_CONTRACT')")
     public String getMaterial(Long id) {
         InspectionContract ic = inspectionContractDAO.findById(id).orElseThrow(() -> new RuntimeException("*********Inspection not found********"));
         Shipment sh = shipmentDAO.findById(ic.getShipmentId()).orElseThrow(() -> new RuntimeException("*******Shipment not found*********"));
@@ -113,6 +123,7 @@ public class InspectionContractService implements IInspectionContractService {
 
 
     @Transactional
+    @PreAuthorize("hasAuthority('O_INSPECTION_CONTRACT')")
     public String ves(Long id) {
         InspectionContract ic = inspectionContractDAO.findById(id).orElseThrow(() -> new RuntimeException("********Inspection not found********"));
         Shipment sh = shipmentDAO.findById(ic.getShipmentId()).orElseThrow(() -> new RuntimeException("*********Shipment not found*********"));
@@ -122,6 +133,7 @@ public class InspectionContractService implements IInspectionContractService {
 
 
     @Transactional
+    @PreAuthorize("hasAuthority('O_INSPECTION_CONTRACT')")
     public String amount(Long id) {
         InspectionContract ic = inspectionContractDAO.findById(id).orElseThrow(() -> new RuntimeException("********Inspection not found*********"));
         Shipment sh = shipmentDAO.findById(ic.getShipmentId()).orElseThrow(() -> new RuntimeException("*********Shipment not found********"));
@@ -130,6 +142,7 @@ public class InspectionContractService implements IInspectionContractService {
     }
 
     @Transactional
+    @PreAuthorize("hasAuthority('O_INSPECTION_CONTRACT')")
     public String port(Long id) {
         InspectionContract ic = inspectionContractDAO.findById(id).orElseThrow(() -> new RuntimeException("*******Inspection not found*************"));
         Shipment sh = shipmentDAO.findById(ic.getShipmentId()).orElseThrow(() -> new RuntimeException("**********Shipment not found*********"));
@@ -138,6 +151,7 @@ public class InspectionContractService implements IInspectionContractService {
     }
 
     @Transactional
+    @PreAuthorize("hasAuthority('O_INSPECTION_CONTRACT')")
     public String loading(Long id) {
         InspectionContract ic = inspectionContractDAO.findById(id).orElseThrow(() -> new RuntimeException("*******Inspection not found*************"));
         Shipment sh = shipmentDAO.findById(ic.getShipmentId()).orElseThrow(() -> new RuntimeException("**********Shipment not found*********"));
@@ -147,6 +161,7 @@ public class InspectionContractService implements IInspectionContractService {
 
 
     @Transactional
+    @PreAuthorize("hasAuthority('O_INSPECTION_CONTRACT')")
     public String buyer(Long id) {
         InspectionContract ic = inspectionContractDAO.findById(id).orElseThrow(() -> new RuntimeException("*******Inspection not found*************"));
         Shipment sh = shipmentDAO.findById(ic.getShipmentId()).orElseThrow(() -> new RuntimeException("**********Shipment not found*********"));
@@ -155,6 +170,7 @@ public class InspectionContractService implements IInspectionContractService {
     }
 
     @Transactional
+    @PreAuthorize("hasAuthority('O_INSPECTION_CONTRACT')")
     public String contractNo(Long id) {
         InspectionContract ic = inspectionContractDAO.findById(id).orElseThrow(() -> new RuntimeException("*******Inspection not found*************"));
         Shipment sh = shipmentDAO.findById(ic.getShipmentId()).orElseThrow(() -> new RuntimeException("**********Shipment not found*********"));
@@ -164,6 +180,7 @@ public class InspectionContractService implements IInspectionContractService {
 
 
     @Transactional
+    @PreAuthorize("hasAuthority('O_INSPECTION_CONTRACT')")
     public List<String> email(Long id) {
         InspectionContract ic = inspectionContractDAO.findById(id).orElseThrow(() -> new RuntimeException("*******Inspection not found*************"));
         Shipment sh = shipmentDAO.findById(ic.getShipmentId()).orElseThrow(() -> new RuntimeException("**********Shipment not found*********"));
@@ -172,6 +189,7 @@ public class InspectionContractService implements IInspectionContractService {
     }
 
     @Transactional
+    @PreAuthorize("hasAuthority('O_INSPECTION_CONTRACT')")
     public List<String> emailSel() {
         return inspectionContractDAO.email(4152L);
     }

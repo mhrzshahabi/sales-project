@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
     private String accountingAppUrl;
 
     @Transactional(readOnly = true)
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_LC')")
     public InvoiceInternalLcDTO.Info get(Long id) {
         final InvoiceInternalLc invoiceInternalLc = invoiceInternalLcDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalLcNotFound));
@@ -39,6 +41,7 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_LC')")
     public List<InvoiceInternalLcDTO.Info> list() {
         final List<InvoiceInternalLc> slAll = invoiceInternalLcDAO.findAll();
 
@@ -48,6 +51,7 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('C_INVOICE_INTERNAL_LC')")
     public InvoiceInternalLcDTO.Info create(InvoiceInternalLcDTO.Create request) {
         final InvoiceInternalLc invoiceInternalLc = modelMapper.map(request, InvoiceInternalLc.class);
 
@@ -60,6 +64,7 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('U_INVOICE_INTERNAL_LC')")
     public InvoiceInternalLcDTO.Info update(Long id, InvoiceInternalLcDTO.Update request) {
         final InvoiceInternalLc invoiceInternalLc = invoiceInternalLcDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
@@ -73,12 +78,14 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('D_INVOICE_INTERNAL_LC')")
     public void delete(Long id) {
         invoiceInternalLcDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('D_INVOICE_INTERNAL_LC')")
     public void delete(InvoiceInternalLcDTO.Delete request) {
         final List<InvoiceInternalLc> indices = invoiceInternalLcDAO.findAllById(request.getIds());
 
@@ -87,6 +94,7 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_LC')")
     public TotalResponse<InvoiceInternalLcDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(invoiceInternalLcDAO, criteria, invoiceInternalLc -> modelMapper.map(invoiceInternalLc, InvoiceInternalLcDTO.Info.class));
     }
@@ -94,6 +102,7 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_LC')")
     public SearchDTO.SearchRs<InvoiceInternalLcDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(invoiceInternalLcDAO, request, invoiceInternalLc -> modelMapper.map(invoiceInternalLc, InvoiceInternalLcDTO.Info.class));
     }
