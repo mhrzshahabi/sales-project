@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <% final String accessToken = (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN); %>
@@ -116,7 +117,8 @@
                 if (response.httpResponseCode === 401) { // Unauthorized
                     redirectLogin();
                 } else if (response.httpResponseCode === 403) { // Forbidden
-                    nicico.error("Access Denied"); //TODO: I18N message key
+                    // nicico.error("Access Denied"); //TODO: I18N message key
+                    isc.say(JSON.parse(response.httpResponseText).exception);
                 }else if (response.httpResponseCode === 500){
                     isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 500");
                 }else if (response.httpResponseCode ===405){
@@ -135,6 +137,9 @@
                     break;
                 case "DataIntegrityViolation":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
+                    break;
+                case "Forbidden":
+                    isc.warn("<spring:message code='exception.ACCESS_DENIED'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
         }
@@ -854,6 +859,8 @@
         members: [headerLayout, MainDesktopMenuH, mainTabSet]
     });
 
+    <sec:authorize access="hasAuthority('R_CURRENCY')">
+    {
     var dollar = {};
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/currency/list",
@@ -869,6 +876,8 @@
             } // callback
         })
     );
+    }
+    </sec:authorize>
 
 </script>
 </body>
