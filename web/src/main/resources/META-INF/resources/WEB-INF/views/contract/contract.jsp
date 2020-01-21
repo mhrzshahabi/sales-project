@@ -909,7 +909,7 @@ ToolStripButton_Contract_Remove,
     loadingMessage: ""
     });
 
-    var hLayoutViewLoader = isc.HLayout.create({
+    var hLayoutViewLoaderContract = isc.HLayout.create({
     width:"100%",
     height: 200,
     align: "center",padding: 5,
@@ -918,7 +918,7 @@ ToolStripButton_Contract_Remove,
         contractAttachmentViewLoader
     ]
     });
-    hLayoutViewLoader.hide();
+        hLayoutViewLoaderContract.hide();
 
 
     var ListGrid_Contract = isc.ListGrid.create({
@@ -1031,16 +1031,16 @@ ToolStripButton_Contract_Remove,
                     var dccTableId = record.id;
                     var dccTableName = "TBL_CONTRACT";
                     contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
-                    hLayoutViewLoader.show();
-                var layout = isc.VLayout.create({
+                    hLayoutViewLoaderContract.show();
+                var layoutContract = isc.VLayout.create({
                     styleName: "expand-layout",
                     padding: 5,
                     membersMargin: 10,
                     members: [
-                        hLayoutViewLoader
+                    hLayoutViewLoaderContract
                         ]
                 });
-                return layout;
+                return layoutContract;
             },
          rollOverCanvasProperties:{
                 vertical:false, capSize:7,
