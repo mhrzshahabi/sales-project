@@ -674,23 +674,35 @@ var salesContractCADButtonMain = isc.IconButton.create({
         }
     });
 
-    var ToolStripButton_Contract_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.menu.contract.management'/>",
+    var ToolStripButton_Contract_Add = isc.ToolStripMenuButton.create({
+        title: "&nbsp; <spring:message code='global.menu.contract.management'/>",
+        menu:isc.Menu.create({
+            data: [{
+                    title: "<spring:message code='salesContractMoButton.title'/>",
+                    click: function () {
+                       createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+                    }
+                    },
+                     {isSeparator: true},
+                     {
+                    title: "<spring:message code='salesContractConcButton.title'/>",
+                    click: function () {
+                       createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+                    }
+                    },{isSeparator: true},
+                     {
+                    title: "<spring:message code='salesContractConcButton.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
+                    }
+                     }
+
+        ]}),
         click: function () {
             Window_SelectTypeContactMain.animateShow();
         }
     });
 
-    /*var ToolStripButton_Contract_Edit = isc.ToolStripButtonEdit.create({
-        icon: "[SKIN]/actions/edit.png",
-        showIf: "false",
-        title: "<spring:message code='global.form.edit'/>",
-        click: function () {
-            DynamicForm_Contract.clearValues();
-            ListGrid_Contract_edit();
-        }
-    });*/
 
     var ToolStripButton_Contract_Print = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/print.png",
