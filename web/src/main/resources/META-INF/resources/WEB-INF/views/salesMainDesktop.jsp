@@ -117,9 +117,9 @@
                 } else if (response.httpResponseCode === 403) { // Forbidden
                     nicico.error("Access Denied"); //TODO: I18N message key
                 }else if (response.httpResponseCode === 500){
-                    isc.say(JSON.parse(response.httpResponseText).exception);
+                    isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 500");
                 }else if (response.httpResponseCode ===405){
-                    isc.say(JSON.parse(response.httpResponseText).exception);
+                    isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 450");
                 }
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
