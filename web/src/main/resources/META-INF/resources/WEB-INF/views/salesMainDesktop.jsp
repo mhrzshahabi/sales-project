@@ -58,6 +58,7 @@
 </form>
 
 <script type="application/javascript">
+    var screenW = window.screen.availWidth;
 
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
