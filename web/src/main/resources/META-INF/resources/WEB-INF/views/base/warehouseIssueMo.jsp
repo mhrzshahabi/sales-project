@@ -249,7 +249,7 @@
     align: "center",
     valign: "center",
     wrap: false,
-    contents: "رکوردی یافت نشد"
+      contents: "<spring:message code='global.record.find'/>"
     });
 
     recordNotFound.hide();
@@ -288,14 +288,14 @@
     ]
     });
 
-    var layout = isc.VLayout.create({
+    var layoutWarehouseIssuMo = isc.VLayout.create({
     styleName: "expand-layout",
     padding: 5,
     membersMargin: 10,
     members: [ListGrid_WarehouseIssueMo, recordNotFound, hLayout]
     });
 
-    return layout;
+    return layoutWarehouseIssuMo;
     }
 
 
@@ -499,7 +499,6 @@
         ],
         sortField: 0,
         dataPageSize: 50,
-        autoFetchData: false,
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {

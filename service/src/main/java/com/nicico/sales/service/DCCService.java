@@ -12,6 +12,7 @@ import com.nicico.sales.repository.DCCDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class DCCService implements IDCCService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_DCC')")
     public DCCDTO.Info get(Long id) {
         final Optional<DCC> slById = dCCDAO.findById(id);
         final DCC dCC = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.DCCNotFound));
@@ -35,6 +37,7 @@ public class DCCService implements IDCCService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_DCC')")
     public List<DCCDTO.Info> list() {
         final List<DCC> slAll = dCCDAO.findAll();
 
@@ -44,6 +47,7 @@ public class DCCService implements IDCCService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_DCC')")
     public DCCDTO.Info create(DCCDTO.Create request) {
         final DCC dCC = modelMapper.map(request, DCC.class);
 
@@ -52,6 +56,7 @@ public class DCCService implements IDCCService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_DCC')")
     public DCCDTO.Info update(Long id, DCCDTO.Update request) {
         final Optional<DCC> slById = dCCDAO.findById(id);
         final DCC dCC = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.DCCNotFound));
@@ -65,12 +70,14 @@ public class DCCService implements IDCCService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_DCC')")
     public void delete(Long id) {
         dCCDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_DCC')")
     public void delete(DCCDTO.Delete request) {
         final List<DCC> dCCs = dCCDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class DCCService implements IDCCService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_DCC')")
     public SearchDTO.SearchRs<DCCDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(dCCDAO, request, dCC -> modelMapper.map(dCC, DCCDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_DCC')")
     public TotalResponse<DCCDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(dCCDAO, criteria, dcc -> modelMapper.map(dcc, DCCDTO.Info.class));
     }

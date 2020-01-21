@@ -12,6 +12,7 @@ import com.nicico.sales.repository.LMEDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class LMEService implements ILMEService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_LME')")
     public LMEDTO.Info get(Long id) {
         final Optional<LME> slById = lMEDAO.findById(id);
         final LME lME = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.LMENotFound));
@@ -35,6 +37,7 @@ public class LMEService implements ILMEService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_LME')")
     public List<LMEDTO.Info> list() {
         final List<LME> slAll = lMEDAO.findAll();
 
@@ -44,6 +47,7 @@ public class LMEService implements ILMEService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_LME')")
     public LMEDTO.Info create(LMEDTO.Create request) {
         final LME lME = modelMapper.map(request, LME.class);
 
@@ -52,6 +56,7 @@ public class LMEService implements ILMEService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_LME')")
     public LMEDTO.Info update(Long id, LMEDTO.Update request) {
         final Optional<LME> slById = lMEDAO.findById(id);
         final LME lME = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.LMENotFound));
@@ -65,12 +70,14 @@ public class LMEService implements ILMEService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_LME')")
     public void delete(Long id) {
         lMEDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_LME')")
     public void delete(LMEDTO.Delete request) {
         final List<LME> lMEs = lMEDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class LMEService implements ILMEService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_LME')")
     public SearchDTO.SearchRs<LMEDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(lMEDAO, request, lME -> modelMapper.map(lME, LMEDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_LME')")
     public TotalResponse<LMEDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(lMEDAO, criteria, lme -> modelMapper.map(lme, LMEDTO.Info.class));
     }

@@ -11,6 +11,7 @@ import com.nicico.sales.repository.ShipmentDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class ShipmentService implements IShipmentService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_SHIPMENT')")
     public ShipmentDTO.Info get(Long id) {
         final Optional<Shipment> slById = shipmentDAO.findById(id);
         final Shipment shipment = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentNotFound));
@@ -34,6 +36,7 @@ public class ShipmentService implements IShipmentService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT')")
     public List<ShipmentDTO.Info> list() {
         final List<Shipment> slAll = shipmentDAO.findAll();
 
@@ -43,6 +46,7 @@ public class ShipmentService implements IShipmentService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_SHIPMENT')")
     public ShipmentDTO.Info create(ShipmentDTO.Create request) {
         final Shipment shipment = modelMapper.map(request, Shipment.class);
 
@@ -51,6 +55,7 @@ public class ShipmentService implements IShipmentService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_SHIPMENT')")
     public ShipmentDTO.Info update(Long id, ShipmentDTO.Update request) {
         final Optional<Shipment> slById = shipmentDAO.findById(id);
         final Shipment shipment = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentNotFound));
@@ -64,12 +69,14 @@ public class ShipmentService implements IShipmentService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT')")
     public void delete(Long id) {
         shipmentDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT')")
     public void delete(ShipmentDTO.Delete request) {
         final List<Shipment> shipments = shipmentDAO.findAllById(request.getIds());
 
@@ -79,6 +86,7 @@ public class ShipmentService implements IShipmentService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT')")
     public TotalResponse<ShipmentDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(shipmentDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentDTO.Info.class));
     }
@@ -88,27 +96,32 @@ public class ShipmentService implements IShipmentService {
         return modelMapper.map(saved, ShipmentDTO.Info.class);
     }
 
+    @PreAuthorize("hasAuthority('R_SHIPMENT')")
     public List<Object[]> pickListShipment() {
         return shipmentDAO.pickListShipment();
     }
 
     @Override
+    @PreAuthorize("hasAuthority('O_SHIPMENT')")
     public List<String> findLotname(String id) {
         return shipmentDAO.findLotname(id);
     }
 
 
     @Override
+    @PreAuthorize("hasAuthority('O_SHIPMENT')")
     public List<String> findbooking(String id) {
         return shipmentDAO.findbooking(id);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('O_SHIPMENT')")
     public List<String> cname() {
         return shipmentDAO.cname();
     }
 
     @Override
+    @PreAuthorize("hasAuthority('O_SHIPMENT')")
     public List<String> inspector() {
         return shipmentDAO.inspector();
     }

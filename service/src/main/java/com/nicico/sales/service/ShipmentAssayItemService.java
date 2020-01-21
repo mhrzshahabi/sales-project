@@ -14,6 +14,7 @@ import com.nicico.sales.repository.ShipmentAssayItemDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,7 @@ public class ShipmentAssayItemService implements IShipmentAssayItemService {
 
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_SHIPMENT_ASSAY_ITEM')")
     public ShipmentAssayItemDTO.Info get(Long id) {
         final Optional<ShipmentAssayItem> slById = shipmentAssayItemDAO.findById(id);
         final ShipmentAssayItem shipmentAssayItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentAssayItemNotFound));
@@ -42,6 +44,7 @@ public class ShipmentAssayItemService implements IShipmentAssayItemService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_ASSAY_ITEM')")
     public List<ShipmentAssayItemDTO.Info> list() {
         final List<ShipmentAssayItem> slAll = shipmentAssayItemDAO.findAll();
 
@@ -51,6 +54,7 @@ public class ShipmentAssayItemService implements IShipmentAssayItemService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_SHIPMENT_ASSAY_ITEM')")
     public ShipmentAssayItemDTO.Info create(ShipmentAssayItemDTO.Create request) {
         final ShipmentAssayItem shipmentAssayItem = modelMapper.map(request, ShipmentAssayItem.class);
 
@@ -59,6 +63,7 @@ public class ShipmentAssayItemService implements IShipmentAssayItemService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_SHIPMENT_ASSAY_ITEM')")
     public ShipmentAssayItemDTO.Info update(Long id, ShipmentAssayItemDTO.Update request) {
         final Optional<ShipmentAssayItem> slById = shipmentAssayItemDAO.findById(id);
         final ShipmentAssayItem shipmentAssayItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentAssayItemNotFound));
@@ -72,12 +77,14 @@ public class ShipmentAssayItemService implements IShipmentAssayItemService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_ASSAY_ITEM')")
     public void delete(Long id) {
         shipmentAssayItemDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_ASSAY_ITEM')")
     public void delete(ShipmentAssayItemDTO.Delete request) {
         final List<ShipmentAssayItem> shipmentAssayItems = shipmentAssayItemDAO.findAllById(request.getIds());
 
@@ -86,6 +93,7 @@ public class ShipmentAssayItemService implements IShipmentAssayItemService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_ASSAY_ITEM')")
     public TotalResponse<ShipmentAssayItemDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(shipmentAssayItemDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentAssayItemDTO.Info.class));
     }
@@ -98,6 +106,7 @@ public class ShipmentAssayItemService implements IShipmentAssayItemService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_SHIPMENT_ASSAY_ITEM')")
     public String createAddAssayPaste(String data) {
         Map<String, Object> map = gson.fromJson(data, Map.class);
 

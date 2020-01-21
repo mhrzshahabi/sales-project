@@ -12,6 +12,7 @@ import com.nicico.sales.repository.ContractDetailDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class ContractDetailService implements IContractDetailService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_CONTRACTDETAIL')")
+    @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")
     public ContractDetailDTO.Info get(Long id) {
         final Optional<ContractDetail> slById = contractDetailDAO.findById(id);
         final ContractDetail contractDetail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractDetailNotFound));
@@ -36,7 +37,7 @@ public class ContractDetailService implements IContractDetailService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTRACTDETAIL')")
+    @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")
     public List<ContractDetailDTO.Info> list() {
         final List<ContractDetail> slAll = contractDetailDAO.findAll();
 
@@ -45,6 +46,7 @@ public class ContractDetailService implements IContractDetailService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")
     public ContractDetailDTO FindByContractID(Long id) {
         ContractDetail byContract_id = contractDetailDAO.findByContract_id(id);
         return modelMapper.map(byContract_id, ContractDetailDTO.class);
@@ -52,7 +54,7 @@ public class ContractDetailService implements IContractDetailService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_CONTRACTDETAIL')")
+    @PreAuthorize("hasAuthority('C_CONTRACT_DETAIL')")
     public ContractDetailDTO.Info create(ContractDetailDTO.Create request) {
         final ContractDetail contractDetail = modelMapper.map(request, ContractDetail.class);
         return save(contractDetail);
@@ -60,7 +62,7 @@ public class ContractDetailService implements IContractDetailService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_CONTRACTDETAIL')")
+    @PreAuthorize("hasAuthority('U_CONTRACT_DETAIL')")
     public ContractDetailDTO.Info update(Long id, ContractDetailDTO.Update request) {
         final Optional<ContractDetail> slById = contractDetailDAO.findById(id);
         final ContractDetail contractDetail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractDetailNotFound));
@@ -74,14 +76,14 @@ public class ContractDetailService implements IContractDetailService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CONTRACTDETAIL')")
+    @PreAuthorize("hasAuthority('D_CONTRACT_DETAIL')")
     public void delete(Long id) {
         contractDetailDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CONTRACTDETAIL')")
+    @PreAuthorize("hasAuthority('D_CONTRACT_DETAIL')")
     public void delete(ContractDetailDTO.Delete request) {
         final List<ContractDetail> contractDetails = contractDetailDAO.findAllById(request.getIds());
 
@@ -90,14 +92,14 @@ public class ContractDetailService implements IContractDetailService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTRACTDETAIL')")
+    @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")
     public TotalResponse<ContractDetailDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(contractDetailDAO, criteria, contractDetail -> modelMapper.map(contractDetail, ContractDetailDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTRACTDETAIL')")
+    @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")
     public SearchDTO.SearchRs<ContractDetailDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(contractDetailDAO, request, entity -> modelMapper.map(entity, ContractDetailDTO.Info.class));
     }

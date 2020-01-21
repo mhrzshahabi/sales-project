@@ -30,6 +30,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 import org.springframework.core.env.Environment;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,7 +84,7 @@ public class ContractService implements IContractService {
     }
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_CONTRACT')")
+    @PreAuthorize("hasAuthority('R_CONTRACT')")
     public ContractDTO.Info get(Long id) {
         final Optional<Contract> slById = contractDAO.findById(id);
         final Contract contract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractNotFound));
@@ -93,7 +94,7 @@ public class ContractService implements IContractService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTRACT')")
+    @PreAuthorize("hasAuthority('R_CONTRACT')")
     public List<ContractDTO.Info> list() {
         final List<Contract> slAll = contractDAO.findAll();
 
@@ -102,6 +103,7 @@ public class ContractService implements IContractService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('O_CONTRACT')")
     public void writeToWord(String request) throws Exception {
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         XWPFDocument printdoc = new XWPFDocument();
@@ -320,7 +322,7 @@ public class ContractService implements IContractService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_CONTRACT')")
+    @PreAuthorize("hasAuthority('C_CONTRACT')")
     public ContractDTO.Info create(ContractDTO.Create request) {
         final Contract contract = modelMapper.map(request, Contract.class);
         return save(contract);
@@ -328,7 +330,7 @@ public class ContractService implements IContractService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_CONTRACT')")
+    @PreAuthorize("hasAuthority('U_CONTRACT')")
     public ContractDTO.Info update(Long id, ContractDTO.Update request) {
         final Optional<Contract> slById = contractDAO.findById(id);
         final Contract contract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractNotFound));
@@ -341,7 +343,7 @@ public class ContractService implements IContractService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CONTRACT')")
+    @PreAuthorize("hasAuthority('D_CONTRACT')")
     public void delete(Long id) {
         ContractDetail contractDetails = contractDetailDAO.findByContract_id(id);
         if(contractDetails!=null){contractDetailDAO.deleteById(contractDetails.getID());}
@@ -356,6 +358,7 @@ public class ContractService implements IContractService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('O_CONTRACT')")
     public String printContract(Long id) {
         Contract contract = contractDAO.findById(id).get();
         String flag = "";
@@ -372,7 +375,7 @@ public class ContractService implements IContractService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CONTRACT')")
+    @PreAuthorize("hasAuthority('D_CONTRACT')")
     public void delete(ContractDTO.Delete request) {
         final List<Contract> contracts = contractDAO.findAllById(request.getIds());
 
@@ -381,14 +384,14 @@ public class ContractService implements IContractService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_CONTRACT')")
     public TotalResponse<ContractDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(contractDAO, criteria, contract -> modelMapper.map(contract, ContractDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTRACT')")
+    @PreAuthorize("hasAuthority('R_CONTRACT')")
     public SearchDTO.SearchRs<ContractDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(contractDAO, request, contract -> modelMapper.map(contract, ContractDTO.Info.class));
     }

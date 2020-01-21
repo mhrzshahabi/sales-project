@@ -14,6 +14,7 @@ import com.nicico.sales.repository.WarehouseStockDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,7 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECONS')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CONS')")
     public WarehouseIssueConsDTO.Info get(Long id) {
         final Optional<WarehouseIssueCons> slById = warehouseIssueConsDAO.findById(id);
         final WarehouseIssueCons warehouseIssueCons = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueConsNotFound));
@@ -39,7 +40,7 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECONS')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CONS')")
     public List<WarehouseIssueConsDTO.Info> list() {
         final List<WarehouseIssueCons> slAll = warehouseIssueConsDAO.findAll();
 
@@ -49,7 +50,7 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_WAREHOUSEISSUECONS')")
+    @PreAuthorize("hasAuthority('C_WAREHOUSE_ISSUE_CONS')")
     public WarehouseIssueConsDTO.Info create(WarehouseIssueConsDTO.Create request) {
         final WarehouseIssueCons warehouseIssueCons = modelMapper.map(request, WarehouseIssueCons.class);
 
@@ -58,7 +59,7 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_WAREHOUSEISSUECONS')")
+    @PreAuthorize("hasAuthority('U_WAREHOUSE_ISSUE_CONS')")
     public WarehouseIssueConsDTO.Info update(Long id, WarehouseIssueConsDTO.Update request) {
         final Optional<WarehouseIssueCons> slById = warehouseIssueConsDAO.findById(id);
         final WarehouseIssueCons warehouseIssueCons = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueConsNotFound));
@@ -72,14 +73,14 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSEISSUECONS')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_ISSUE_CONS')")
     public void delete(Long id) {
         warehouseIssueConsDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSEISSUECONS')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_ISSUE_CONS')")
     public void delete(WarehouseIssueConsDTO.Delete request) {
         final List<WarehouseIssueCons> warehouseIssueConss = warehouseIssueConsDAO.findAllById(request.getIds());
 
@@ -88,14 +89,14 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECONS')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CONS')")
     public TotalResponse<WarehouseIssueConsDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(warehouseIssueConsDAO, criteria, warehouseIssueCons -> modelMapper.map(warehouseIssueCons, WarehouseIssueConsDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECONS')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CONS')")
     public SearchDTO.SearchRs<WarehouseIssueConsDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(warehouseIssueConsDAO, request, entity -> modelMapper.map(entity, WarehouseIssueConsDTO.Info.class));
     }

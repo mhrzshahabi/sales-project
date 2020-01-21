@@ -12,6 +12,7 @@ import com.nicico.sales.repository.ShipmentEmailDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ public class ShipmentEmailService implements IShipmentEmailService {
     private final MailUtil mailUtil;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_SHIPMENT_EMAIL')")
     public ShipmentEmailDTO.Info get(Long id) {
         final Optional<ShipmentEmail> slById = shipmentEmailDAO.findById(id);
         final ShipmentEmail shipmentEmail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentEmailNotFound));
@@ -37,6 +39,7 @@ public class ShipmentEmailService implements IShipmentEmailService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_EMAIL')")
     public List<ShipmentEmailDTO.Info> list() {
         final List<ShipmentEmail> slAll = shipmentEmailDAO.findAll();
 
@@ -46,6 +49,7 @@ public class ShipmentEmailService implements IShipmentEmailService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_SHIPMENT_EMAIL')")
     public ShipmentEmailDTO.Info create(ShipmentEmailDTO.Create request) throws MessagingException {
         final ShipmentEmail shipmentEmail = modelMapper.map(request, ShipmentEmail.class);
         mailUtil.sendGoogleEmailMessage(shipmentEmail.getEmailTo(), shipmentEmail.getEmailCC().split(","), null
@@ -64,6 +68,7 @@ public class ShipmentEmailService implements IShipmentEmailService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_SHIPMENT_EMAIL')")
     public ShipmentEmailDTO.Info update(Long id, ShipmentEmailDTO.Update request) {
         final Optional<ShipmentEmail> slById = shipmentEmailDAO.findById(id);
         final ShipmentEmail shipmentEmail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentEmailNotFound));
@@ -77,12 +82,14 @@ public class ShipmentEmailService implements IShipmentEmailService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_EMAIL')")
     public void delete(Long id) {
         shipmentEmailDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_EMAIL')")
     public void delete(ShipmentEmailDTO.Delete request) {
         final List<ShipmentEmail> shipmentEmails = shipmentEmailDAO.findAllById(request.getIds());
 
@@ -91,6 +98,7 @@ public class ShipmentEmailService implements IShipmentEmailService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_EMAIL')")
     public TotalResponse<ShipmentEmailDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(shipmentEmailDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentEmailDTO.Info.class));
     }

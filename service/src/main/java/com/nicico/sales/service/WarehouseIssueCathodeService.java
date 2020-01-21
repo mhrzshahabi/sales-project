@@ -14,6 +14,7 @@ import com.nicico.sales.repository.WarehouseIssueCathodeDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,7 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECATHODE')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CATHODE')")
     public WarehouseIssueCathodeDTO.Info get(Long id) {
         final Optional<WarehouseIssueCathode> slById = warehouseIssueCathodeDAO.findById(id);
         final WarehouseIssueCathode warehouseIssueCathode = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueCathodeNotFound));
@@ -40,7 +41,7 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECATHODE')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CATHODE')")
     public List<WarehouseIssueCathodeDTO.Info> list() {
         final List<WarehouseIssueCathode> slAll = warehouseIssueCathodeDAO.findAll();
 
@@ -50,7 +51,7 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_WAREHOUSEISSUECATHODE')")
+    @PreAuthorize("hasAuthority('C_WAREHOUSE_ISSUE_CATHODE')")
     public WarehouseIssueCathodeDTO.Info create(WarehouseIssueCathodeDTO.Create request) {
         final WarehouseIssueCathode warehouseIssueCathode = modelMapper.map(request, WarehouseIssueCathode.class);
 
@@ -59,7 +60,7 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_WAREHOUSEISSUECATHODE')")
+    @PreAuthorize("hasAuthority('U_WAREHOUSE_ISSUE_CATHODE')")
     public WarehouseIssueCathodeDTO.Info update(Long id, WarehouseIssueCathodeDTO.Update request) {
         final Optional<WarehouseIssueCathode> slById = warehouseIssueCathodeDAO.findById(id);
         final WarehouseIssueCathode warehouseIssueCathode = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueCathodeNotFound));
@@ -73,7 +74,7 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSEISSUECATHODE')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_ISSUE_CATHODE')")
     public void delete(Long id) {
         WarehouseIssueCathode warehouseIssueCathode = warehouseIssueCathodeDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseIssueCathodeNotFound));
@@ -89,7 +90,7 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSEISSUECATHODE')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_ISSUE_CATHODE')")
     public void delete(WarehouseIssueCathodeDTO.Delete request) {
         final List<WarehouseIssueCathode> warehouseIssueCathodes = warehouseIssueCathodeDAO.findAllById(request.getIds());
 
@@ -98,14 +99,14 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECATHODE')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CATHODE')")
     public TotalResponse<WarehouseIssueCathodeDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(warehouseIssueCathodeDAO, criteria, warehouseIssueCathode -> modelMapper.map(warehouseIssueCathode, WarehouseIssueCathodeDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECATHODE')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CATHODE')")
     public SearchDTO.SearchRs<WarehouseIssueCathodeDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(warehouseIssueCathodeDAO, request, entity -> modelMapper.map(entity, WarehouseIssueCathodeDTO.Info.class));
     }

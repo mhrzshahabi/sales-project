@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <% final String accessToken = (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN); %>
@@ -58,6 +59,7 @@
 </form>
 
 <script type="application/javascript">
+    var screenW = window.screen.availWidth;
 
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
@@ -115,11 +117,12 @@
                 if (response.httpResponseCode === 401) { // Unauthorized
                     redirectLogin();
                 } else if (response.httpResponseCode === 403) { // Forbidden
-                    nicico.error("Access Denied"); //TODO: I18N message key
+                    // nicico.error("Access Denied"); //TODO: I18N message key
+                    isc.say(JSON.parse(response.httpResponseText).exception);
                 }else if (response.httpResponseCode === 500){
-                    isc.say(JSON.parse(response.httpResponseText).exception);
+                    isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 500");
                 }else if (response.httpResponseCode ===405){
-                    isc.say(JSON.parse(response.httpResponseText).exception);
+                    isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 450");
                 }
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
@@ -134,6 +137,9 @@
                     break;
                 case "DataIntegrityViolation":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
+                    break;
+                case "Forbidden":
+                    isc.warn("<spring:message code='exception.ACCESS_DENIED'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
         }
@@ -334,6 +340,7 @@
     baseTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.baseTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='material.title'/>",
@@ -342,6 +349,14 @@
                     }
                 },
                 {isSeparator: true},
+
+
+
+
+                {
+                    title: "<spring:message code='main.baseTab.Business'/>",
+                    submenu: [
+
                 {
                     title: "<spring:message code='commercialParty.title'/>",
                     click: function () {
@@ -350,12 +365,33 @@
                 },
                 {isSeparator: true},
 
+
+
+
+
+
                 {
-                    title: "<spring:message code='feature.title'/>",
+                    title: "<spring:message code='person.title'/>",
                     click: function () {
-                        createTab("<spring:message code='feature.title'/>", "<spring:url value="/feature/showForm" />")
+                        createTab("<spring:message code='person.title'/>", "<spring:url value="/person/showForm" />")
                     }
                 },
+                {isSeparator: true},
+
+
+                {
+                    title: "<spring:message code='groups.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='groups.title'/>", "<spring:url value="/groups/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+                ]
+
+
+                },
+
                 {isSeparator: true},
 
                 {
@@ -365,6 +401,20 @@
                     }
                 },
                 {isSeparator: true},
+
+
+
+                {
+                    title: "<spring:message code='feature.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='feature.title'/>", "<spring:url value="/feature/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
+
+
                 {
                     title: "<spring:message code='glossary.title'/>",
                     click: function () {
@@ -373,12 +423,7 @@
                 },
                 {isSeparator: true},
 
-                {
-                    title: "<spring:message code='warehouseCad.yard'/>",
-                    click: function () {
-                        createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
-                    }
-                },
+
                 {isSeparator: true},
                 {
                     title: "<spring:message code='country.title'/>",
@@ -386,14 +431,40 @@
                         createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
                     }
                 },
+
+
                 {isSeparator: true},
+
                 {
-                    title: "<spring:message code='port.port'/>",
-                    click: function () {
-                        createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
-                    }
+                    title: "<spring:message code='main.baseTab.test'/>",
+                    submenu: [
+
+
+                        {
+                            title: "<spring:message code='port.port'/>",
+                            click: function () {
+                                createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
+                            }
+                        },
+
+                        {isSeparator: true},
+
+                        {
+                            title: "<spring:message code='warehouseCad.yard'/>",
+                            click: function () {
+                                createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
+                            }
+                        },
+
+                    ]
                 },
                 {isSeparator: true},
+
+
+
+
+
+
                 {
                     title: "<spring:message code='parameters.title'/>",
                     click: function () {
@@ -401,20 +472,10 @@
                     }
                 },
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='person.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='person.title'/>", "<spring:url value="/person/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='groups.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='groups.title'/>", "<spring:url value="/groups/showForm" />")
-                    }
-                },
-                {isSeparator: true},
+
+
+
+
                 {
                     title: "<spring:message code='dcc.title'/>",
                     click: function () {
@@ -490,6 +551,7 @@
     settingTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.settingTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='setting.appRoles'/>",
@@ -520,6 +582,7 @@
     contractsTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.contractsTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='salesContract.title'/>",
@@ -575,6 +638,7 @@
     productTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.productTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='tozin.title'/>",
@@ -648,6 +712,7 @@
     shipmentTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.shipmentTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='cargoAssignment.title'/>",
@@ -672,6 +737,7 @@
     inspectionTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.inspectionTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='inspectionMoistureResults.title'/>",
@@ -695,6 +761,7 @@
     financialTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.financialTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='issuedInvoices.title'/>",
@@ -799,6 +866,8 @@
         members: [headerLayout, MainDesktopMenuH, mainTabSet]
     });
 
+    <sec:authorize access="hasAuthority('R_CURRENCY')">
+    {
     var dollar = {};
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/currency/list",
@@ -814,6 +883,8 @@
             } // callback
         })
     );
+    }
+    </sec:authorize>
 
 </script>
 </body>

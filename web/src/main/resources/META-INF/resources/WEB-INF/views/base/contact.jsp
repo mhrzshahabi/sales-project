@@ -676,10 +676,6 @@ var Menu_ListGrid_Contact = isc.Menu.create(
         ]
     });
 
-
-
-
-
         function saveContact() {
     	let Val_seller = DynamicForm_Contact_GeneralInfo.getValue("seller");
     	let Val_buyer = DynamicForm_Contact_GeneralInfo.getValue("buyer");
@@ -1212,7 +1208,7 @@ function setContactAccountListGridHeaderFormData(record)
 
 
     var ContactAccount_EditDynamicForm = isc.DynamicForm.create(
-{
+	{
 	width: "100%",
 	numCols: 2,
 	setMethod: 'POST',
@@ -1821,7 +1817,7 @@ var ListGrid_Contact = isc.ListGrid.create(
 			align: "center",
 			width: "10%",
 			filterEditorProperties:{ operator:"equals",type:"boolean",
-									 valueMap: {true: "<spring:message code='contact.type.real'/>", false: "<spring:message code='contact.type.legal'/>"}}
+			valueMap: {true: "<spring:message code='contact.type.real'/>", false: "<spring:message code='contact.type.legal'/>"}}
 		},
 		{
 			name: "nationalCode",
@@ -1888,13 +1884,13 @@ var ListGrid_Contact = isc.ListGrid.create(
 				var dccTableName = "TBL_CONTACT";
 				contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
 				hLayoutViewLoader.show();
-				var layout = isc.VLayout.create({
+				var layoutContact = isc.VLayout.create({
 				styleName: "expand-layout",
 				padding: 5,
 				membersMargin: 10,
 				members: [ hLayoutViewLoader ]
 				});
-			return layout;
+			return layoutContact;
 		}
 });
 

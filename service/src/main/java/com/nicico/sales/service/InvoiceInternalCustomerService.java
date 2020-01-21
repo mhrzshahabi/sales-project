@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
     private String accountingAppUrl;
 
     @Transactional(readOnly = true)
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_CUSTOMER')")
     public InvoiceInternalCustomerDTO.Info get(Long id) {
         final InvoiceInternalCustomer invoiceInternalCustomer = invoiceInternalCustomerDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalCustomerNotFound));
@@ -39,6 +41,7 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_CUSTOMER')")
     public List<InvoiceInternalCustomerDTO.Info> list() {
         final List<InvoiceInternalCustomer> slAll = invoiceInternalCustomerDAO.findAll();
 
@@ -48,6 +51,7 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('C_INVOICE_INTERNAL_CUSTOMER')")
     public InvoiceInternalCustomerDTO.Info create(InvoiceInternalCustomerDTO.Create request) {
         final InvoiceInternalCustomer invoiceInternalCustomer = modelMapper.map(request, InvoiceInternalCustomer.class);
 
@@ -60,6 +64,7 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('U_INVOICE_INTERNAL_CUSTOMER')")
     public InvoiceInternalCustomerDTO.Info update(Long id, InvoiceInternalCustomerDTO.Update request) {
         final InvoiceInternalCustomer invoiceInternalCustomer = invoiceInternalCustomerDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
@@ -73,12 +78,14 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('D_INVOICE_INTERNAL_CUSTOMER')")
     public void delete(Long id) {
         invoiceInternalCustomerDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('D_INVOICE_INTERNAL_CUSTOMER')")
     public void delete(InvoiceInternalCustomerDTO.Delete request) {
         final List<InvoiceInternalCustomer> indices = invoiceInternalCustomerDAO.findAllById(request.getIds());
 
@@ -87,6 +94,7 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_CUSTOMER')")
     public TotalResponse<InvoiceInternalCustomerDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(invoiceInternalCustomerDAO, criteria, invoiceInternalCustomer -> modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class));
     }
@@ -94,6 +102,7 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_CUSTOMER')")
     public SearchDTO.SearchRs<InvoiceInternalCustomerDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(invoiceInternalCustomerDAO, request, invoiceInternalCustomer -> modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class));
     }
