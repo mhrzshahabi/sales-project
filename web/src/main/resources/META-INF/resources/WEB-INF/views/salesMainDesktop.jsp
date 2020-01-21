@@ -340,6 +340,7 @@
     baseTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.baseTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='material.title'/>",
@@ -550,6 +551,7 @@
     settingTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.settingTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='setting.appRoles'/>",
@@ -580,6 +582,7 @@
     contractsTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.contractsTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='salesContract.title'/>",
@@ -635,6 +638,7 @@
     productTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.productTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='tozin.title'/>",
@@ -708,6 +712,7 @@
     shipmentTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.shipmentTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='cargoAssignment.title'/>",
@@ -732,6 +737,7 @@
     inspectionTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.inspectionTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='inspectionMoistureResults.title'/>",
@@ -755,6 +761,7 @@
     financialTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.financialTab'/>",
         menu: isc.Menu.create({
+            placement: "none",
             data: [
                 {
                     title: "<spring:message code='issuedInvoices.title'/>",
