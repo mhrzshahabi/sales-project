@@ -1,8 +1,819 @@
 {
   "list":[
+
     {
-      "code": "B_ACCESS",
-      "title": "سطوح دسترسی"
+      "code": "R_BANK",
+      "title": "نمایش اطلاعات بانک"
+    },
+    {
+      "code": "C_BANK",
+      "title": "ایجاد بانک"
+    },
+    {
+      "code": "U_BANK",
+      "title": "به روز رسانی بانک"
+    },
+    {
+      "code": "D_BANK",
+      "title": "حذف بانک"
+    },
+    {
+      "code": "R_CATODLIST",
+      "title": "نمایش اطلاعات لیست کاتد"
+    },
+    {
+      "code": "C_CATODLIST",
+      "title": "ایجاد لیست کاتد"
+    },
+    {
+      "code": "U_CATODLIST",
+      "title": "به روز رسانی لیست کاتد"
+    },
+    {
+      "code": "D_CATODLIST",
+      "title": "حذف لیست کاتد"
+    },
+    {
+      "code": "R_CONTACT_ACCOUNT",
+      "title": "نمایش اطلاعات حساب"
+    },
+    {
+      "code": "C_CONTACT_ACCOUNT",
+      "title": "ایجاد حساب"
+    },
+    {
+      "code": "U_CONTACT_ACCOUNT",
+      "title": "به روز رسانی حساب"
+    },
+    {
+      "code": "D_CONTACT_ACCOUNT",
+      "title": "حذف حساب"
+    },
+    {
+      "code": "R_CONTACT",
+      "title": "نمایش اطلاعات طرف حساب تجاری"
+    },
+    {
+      "code": "C_CONTACT",
+      "title": "ایجاد طرف حساب تجاری"
+    },
+    {
+      "code": "U_CONTACT",
+      "title": "به روز رسانی طرف حساب تجاری"
+    },
+    {
+      "code": "D_CONTACT",
+      "title": "حذف طرف حساب تجاری"
+    },
+    {
+      "code": "R_CONTRACT_CURRENCY",
+      "title": "نمایش ارز قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_CURRENCY",
+      "title": "ایجاد ارز قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_CURRENCY",
+      "title": "به روز رسانی ارز قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_CURRENCY",
+      "title": "حذف ارز قرارداد"
+    },
+    {
+      "code": "R_CONTRACT_DETAIL",
+      "title": "نمایش جزئیات قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DETAIL",
+      "title": "ایجاد جزئیات قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DETAIL",
+      "title": "به روز رسانی جزئیات قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DETAIL",
+      "title": "حذف جزئیات قرارداد"
+    },
+    {
+      "code": "R_CONTRACT_PERSON",
+      "title": "نمایش افراد قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_PERSON",
+      "title": "ایجاد افراد قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_PERSON",
+      "title": "به روز رسانی افراد قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_PERSON",
+      "title": "حذف افراد قرارداد"
+    },
+    {
+      "code": "R_CONTRACT",
+      "title": "نمایش قرارداد"
+    },
+    {
+      "code": "C_CONTRACT",
+      "title": "ایجاد قرارداد"
+    },
+    {
+      "code": "U_CONTRACT",
+      "title": "به روز رسانی قرارداد"
+    },
+    {
+      "code": "D_CONTRACT",
+      "title": "حذف قرارداد"
+    },
+    {
+      "code": "O_CONTRACT",
+      "title": "خروجی قرارداد"
+    },
+    {
+      "code": "R_CONTRACT_SHIPMENT",
+      "title": "نمایش حمل قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_SHIPMENT",
+      "title": "ایجاد حمل قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_SHIPMENT",
+      "title": "به روز رسانی حمل قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_SHIPMENT",
+      "title": "حذف حمل قرارداد"
+    },
+    {
+      "code": "R_COST",
+      "title": "نمایش هزینه"
+    },
+    {
+      "code": "C_COST",
+      "title": "ایجاد هزینه"
+    },
+    {
+      "code": "U_COST",
+      "title": "به روز رسانی هزینه"
+    },
+    {
+      "code": "D_COST",
+      "title": "حذف هزینه"
+    },
+    {
+      "code": "R_COUNTRY",
+      "title": "نمایش کشور"
+    },
+    {
+      "code": "C_COUNTRY",
+      "title": "ایجاد کشور"
+    },
+    {
+      "code": "U_COUNTRY",
+      "title": "به روز رسانی کشور"
+    },
+    {
+      "code": "D_COUNTRY",
+      "title": "حذف کشور"
+    },
+    {
+      "code": "R_CURRENCY_RATE",
+      "title": "نمایش نرخ تبدیل ارز"
+    },
+    {
+      "code": "C_CURRENCY_RATE",
+      "title": "ایجاد نرخ تبدیل ارز"
+    },
+    {
+      "code": "U_CURRENCY_RATE",
+      "title": "به روز رسانی نرخ تبدیل ارز"
+    },
+    {
+      "code": "D_CURRENCY_RATE",
+      "title": "حذف نرخ تبدیل ارز"
+    },
+    {
+      "code": "R_CURRENCY",
+      "title": "نمایش نرخ تبدیل ارز"
+    },
+    {
+      "code": "C_CURRENCY",
+      "title": "ایجاد ارز"
+    },
+    {
+      "code": "U_CURRENCY",
+      "title": "به روز رسانی ارز"
+    },
+    {
+      "code": "D_CURRENCY",
+      "title": "حذف ارز"
+    },
+    {
+      "code": "R_DCC",
+      "title": "نمایش پیوست"
+    },
+    {
+      "code": "C_DCC",
+      "title": "ایجاد پیوست"
+    },
+    {
+      "code": "U_DCC",
+      "title": "به روز رسانی پیوست"
+    },
+    {
+      "code": "D_DCC",
+      "title": "حذف پیوست"
+    },
+    {
+      "code": "R_FEATURE",
+      "title": "نمایش محتوا"
+    },
+    {
+      "code": "C_FEATURE",
+      "title": "ایجاد محتوا"
+    },
+    {
+      "code": "U_FEATURE",
+      "title": "به روز رسانی محتوا"
+    },
+    {
+      "code": "D_FEATURE",
+      "title": "حذف محتوا"
+    },
+    {
+      "code": "R_GROUPS_PERSON",
+      "title": "نمایش گروه افراد"
+    },
+    {
+      "code": "C_GROUPS_PERSON",
+      "title": "ایجاد گروه افراد"
+    },
+    {
+      "code": "U_GROUPS_PERSON",
+      "title": "به روز رسانی گروه افراد"
+    },
+    {
+      "code": "D_GROUPS_PERSON",
+      "title": "حذف گروه افراد"
+    },
+    {
+      "code": "R_GROUPS",
+      "title": "نمایش گروه ها"
+    },
+    {
+      "code": "C_GROUPS",
+      "title": "ایجاد گروه ها"
+    },
+    {
+      "code": "U_GROUPS",
+      "title": "به روز رسانی گروه ها"
+    },
+    {
+      "code": "D_GROUPS",
+      "title": "حذف گروه ها"
+    },
+    {
+      "code": "R_INCOTERMS",
+      "title": "نمایش ترم های بازرگانی"
+    },
+    {
+      "code": "C_INCOTERMS",
+      "title": "ایجاد ترم های بازرگانی"
+    },
+    {
+      "code": "U_INCOTERMS",
+      "title": "به روز رسانی ترم های بازرگانی"
+    },
+    {
+      "code": "D_INCOTERMS",
+      "title": "حذف ترم های بازرگانی"
+    },
+    {
+      "code": "R_INSPECTION_CONTRACT",
+      "title": "نمایش قرارداد بازرسی"
+    },
+    {
+      "code": "C_INSPECTION_CONTRACT",
+      "title": "ایجاد قرارداد بازرسی"
+    },
+    {
+      "code": "U_INSPECTION_CONTRACT",
+      "title": "به روز رسانی قرارداد بازرسی"
+    },
+    {
+      "code": "D_INSPECTION_CONTRACT",
+      "title": "حذف قرارداد بازرسی"
+    },
+    {
+      "code": "O_INSPECTION_CONTRACT",
+      "title": "خروجی قرارداد بازرسی"
+    },
+    {
+      "code": "R_INSTRUCTION",
+      "title": "نمایش دستورالعمل"
+    },
+    {
+      "code": "C_INSTRUCTION",
+      "title": "ایجاد دستورالعمل"
+    },
+    {
+      "code": "U_INSTRUCTION",
+      "title": "به روز رسانی دستورالعمل"
+    },
+    {
+      "code": "D_INSTRUCTION",
+      "title": "حذف دستورالعمل"
+    },
+    {
+      "code": "R_INVOICE_ITEM",
+      "title": "نمایش آیتم های صورتحساب"
+    },
+    {
+      "code": "C_INVOICE_ITEM",
+      "title": "ایجاد آیتم های صورتحساب"
+    },
+    {
+      "code": "U_INVOICE_ITEM",
+      "title": "به روز رسانی آیتم های صورتحساب"
+    },
+    {
+      "code": "D_INVOICE_ITEM",
+      "title": "حذف آیتم های صورتحساب"
+    },
+    {
+      "code": "R_INVOICE_MOLYBDENUM",
+      "title": "نمایش صورتحساب مولیبدن"
+    },
+    {
+      "code": "C_INVOICE_MOLYBDENUM",
+      "title": "ایجاد صورتحساب مولیبدن"
+    },
+    {
+      "code": "U_INVOICE_MOLYBDENUM",
+      "title": "به روز رسانی صورتحساب مولیبدن"
+    },
+    {
+      "code": "D_INVOICE_MOLYBDENUM",
+      "title": "حذف صورتحساب مولیبدن"
+    },
+    {
+      "code": "R_INVOICE",
+      "title": "نمایش صورتحساب"
+    },
+    {
+      "code": "C_INVOICE",
+      "title": "ایجاد صورتحساب"
+    },
+    {
+      "code": "U_INVOICE",
+      "title": "به روز رسانی صورتحساب"
+    },
+    {
+      "code": "D_INVOICE",
+      "title": "حذف صورتحساب"
+    },
+    {
+      "code": "R_LME",
+      "title": "نمایش LME"
+    },
+    {
+      "code": "C_LME",
+      "title": "ایجاد LME"
+    },
+    {
+      "code": "U_LME",
+      "title": "به روز رسانی LME"
+    },
+    {
+      "code": "D_LME",
+      "title": "حذف LME"
+    },
+    {
+      "code": "R_MATERIAL_FEATURE",
+      "title": "نمایش محتوای محصول"
+    },
+    {
+      "code": "C_MATERIAL_FEATURE",
+      "title": "ایجاد محتوای محصول"
+    },
+    {
+      "code": "U_MATERIAL_FEATURE",
+      "title": "به روز رسانی محتوای محصول"
+    },
+    {
+      "code": "D_MATERIAL_FEATURE",
+      "title": "حذف محتوای محصول"
+    },
+    {
+      "code": "R_MATERIAL_ITEM",
+      "title": "نمایش آیتم های محصول"
+    },
+    {
+      "code": "C_MATERIAL_ITEM",
+      "title": "ایجاد آیتم های محصول"
+    },
+    {
+      "code": "U_MATERIAL_ITEM",
+      "title": "به روز رسانی آیتم های محصول"
+    },
+    {
+      "code": "D_MATERIAL_ITEM",
+      "title": "حذف آیتم های محصول"
+    },
+    {
+      "code": "R_MATERIAL",
+      "title": "نمایش محصول"
+    },
+    {
+      "code": "C_MATERIAL",
+      "title": "ایجاد محصول"
+    },
+    {
+      "code": "U_MATERIAL",
+      "title": "به روز رسانی محصول"
+    },
+    {
+      "code": "D_MATERIAL",
+      "title": "حذف محصول"
+    },
+    {
+      "code": "R_PARAMETERS",
+      "title": "نمایش پارامترها"
+    },
+    {
+      "code": "C_PARAMETERS",
+      "title": "ایجاد پارامترها"
+    },
+    {
+      "code": "U_PARAMETERS",
+      "title": "به روز رسانی پارامترها"
+    },
+    {
+      "code": "D_PARAMETERS",
+      "title": "حذف پارامترها"
+    },
+    {
+      "code": "R_PAYMENT_OPTION",
+      "title": "نمایش نوع پرداخت"
+    },
+    {
+      "code": "C_PAYMENT_OPTION",
+      "title": "ایجاد نوع پرداخت"
+    },
+    {
+      "code": "U_PAYMENT_OPTION",
+      "title": "به روز رسانی نوع پرداخت"
+    },
+    {
+      "code": "D_PAYMENT_OPTION",
+      "title": "حذف نوع پرداخت"
+    },
+    {
+      "code": "R_PERSON",
+      "title": "نمایش شخص"
+    },
+    {
+      "code": "C_PERSON",
+      "title": "ایجاد شخص"
+    },
+    {
+      "code": "U_PERSON",
+      "title": "به روز رسانی شخص"
+    },
+    {
+      "code": "D_PERSON",
+      "title": "حذف شخص"
+    },
+    {
+      "code": "R_PORT",
+      "title": "نمایش بندر"
+    },
+    {
+      "code": "C_PORT",
+      "title": "ایجاد بندر"
+    },
+    {
+      "code": "U_PORT",
+      "title": "به روز رسانی بندر"
+    },
+    {
+      "code": "D_PORT",
+      "title": "حذف بندر"
+    },
+    {
+      "code": "R_RATE",
+      "title": "نمایش نرخ"
+    },
+    {
+      "code": "C_RATE",
+      "title": "ایجاد نرخ"
+    },
+    {
+      "code": "U_RATE",
+      "title": "به روز رسانی نرخ"
+    },
+    {
+      "code": "D_RATE",
+      "title": "حذف نرخ"
+    },
+    {
+      "code": "R_SHIPMENT_ASSAY_HEADER",
+      "title": "نمایش هدر بازرسی حمل"
+    },
+    {
+      "code": "C_SHIPMENT_ASSAY_HEADER",
+      "title": "ایجاد هدر بازرسی حمل"
+    },
+    {
+      "code": "U_SHIPMENT_ASSAY_HEADER",
+      "title": "به روز رسانی هدر بازرسی حمل"
+    },
+    {
+      "code": "D_SHIPMENT_ASSAY_HEADER",
+      "title": "حذف هدر بازرسی حمل"
+    },
+    {
+      "code": "R_SHIPMENT_ASSAY_ITEM",
+      "title": "نمایش آیتم های بازرسی حمل"
+    },
+    {
+      "code": "C_SHIPMENT_ASSAY_ITEM",
+      "title": "ایجاد آیتم های بازرسی حمل"
+    },
+    {
+      "code": "U_SHIPMENT_ASSAY_ITEM",
+      "title": "به روز رسانی آیتم های بازرسی حمل"
+    },
+    {
+      "code": "D_SHIPMENT_ASSAY_ITEM",
+      "title": "حذف آیتم های بازرسی حمل"
+    },
+    {
+      "code": "R_SHIPMENT_CONTRACT",
+      "title": "نمایش قرارداد حمل"
+    },
+    {
+      "code": "C_SHIPMENT_CONTRACT",
+      "title": "ایجاد قرارداد حمل"
+    },
+    {
+      "code": "U_SHIPMENT_CONTRACT",
+      "title": "به روز رسانی قرارداد حمل"
+    },
+    {
+      "code": "D_SHIPMENT_CONTRACT",
+      "title": "حذف قرارداد حمل"
+    },
+    {
+      "code": "R_SHIPMENT_EMAIL",
+      "title": "نمایش ایمیل حمل"
+    },
+    {
+      "code": "C_SHIPMENT_EMAIL",
+      "title": "ایجاد ایمیل حمل"
+    },
+    {
+      "code": "U_SHIPMENT_EMAIL",
+      "title": "به روز رسانی ایمیل حمل"
+    },
+    {
+      "code": "D_SHIPMENT_EMAIL",
+      "title": "حذف ایمیل حمل"
+    },
+    {
+      "code": "R_SHIPMENT_MOISTURE_HEADER",
+      "title": "نمایش هدر رطوبت حمل"
+    },
+    {
+      "code": "C_SHIPMENT_MOISTURE_HEADER",
+      "title": "ایجاد هدر رطوبت حمل"
+    },
+    {
+      "code": "U_SHIPMENT_MOISTURE_HEADER",
+      "title": "به روز رسانی هدر رطوبت حمل"
+    },
+    {
+      "code": "D_SHIPMENT_MOISTURE_HEADER",
+      "title": "حذف هدر رطوبت حمل"
+    },
+    {
+      "code": "R_SHIPMENT_MOISTURE_ITEM",
+      "title": "نمایش آیتم های رطوبت حمل"
+    },
+    {
+      "code": "C_SHIPMENT_MOISTURE_ITEM",
+      "title": "ایجاد آیتم های رطوبت حمل"
+    },
+    {
+      "code": "U_SHIPMENT_MOISTURE_ITEM",
+      "title": "به روز رسانی آیتم های رطوبت حمل"
+    },
+    {
+      "code": "D_SHIPMENT_MOISTURE_ITEM",
+      "title": "حذف آیتم های رطوبت حمل"
+    },
+    {
+      "code": "R_SHIPMENT",
+      "title": "نمایش حمل"
+    },
+    {
+      "code": "C_SHIPMENT",
+      "title": "ایجاد حمل"
+    },
+    {
+      "code": "U_SHIPMENT",
+      "title": "به روز رسانی حمل"
+    },
+    {
+      "code": "D_SHIPMENT",
+      "title": "حذف حمل"
+    },
+    {
+      "code": "O_SHIPMENT",
+      "title": "خروجی حمل"
+    },
+    {
+      "code": "R_TOZIN_SALES",
+      "title": "نمایش توزین فروش"
+    },
+    {
+      "code": "C_TOZIN_SALES",
+      "title": "ایجاد توزین فروش"
+    },
+    {
+      "code": "U_TOZIN_SALES",
+      "title": "به روز رسانی توزین فروش"
+    },
+    {
+      "code": "D_TOZIN_SALES",
+      "title": "حذف توزین فروش"
+    },
+    {
+      "code": "R_TOZIN",
+      "title": "نمایش توزین"
+    },
+    {
+      "code": "C_TOZIN",
+      "title": "ایجاد توزین"
+    },
+    {
+      "code": "U_TOZIN",
+      "title": "به روز رسانی توزین"
+    },
+    {
+      "code": "D_TOZIN",
+      "title": "حذف توزین"
+    },
+    {
+      "code": "R_UNIT",
+      "title": "نمایش واحد"
+    },
+    {
+      "code": "C_UNIT",
+      "title": "ایجاد واحد"
+    },
+    {
+      "code": "U_UNIT",
+      "title": "به روز رسانی واحد"
+    },
+    {
+      "code": "D_UNIT",
+      "title": "حذف واحد"
+    },
+    {
+      "code": "R_WAREHOUSE_CAD_ITEM",
+      "title": "نمایش آیتم های انبار کاتد"
+    },
+    {
+      "code": "C_WAREHOUSE_CAD_ITEM",
+      "title": "ایجاد آیتم های انبار کاتد"
+    },
+    {
+      "code": "U_WAREHOUSE_CAD_ITEM",
+      "title": "به روز رسانی آیتم های انبار کاتد"
+    },
+    {
+      "code": "D_WAREHOUSE_CAD_ITEM",
+      "title": "حذف آیتم های انبار کاتد"
+    },
+    {
+      "code": "R_WAREHOUSE_CAD",
+      "title": "نمایش انبار کاتد"
+    },
+    {
+      "code": "C_WAREHOUSE_CAD",
+      "title": "ایجاد انبار کاتد"
+    },
+    {
+      "code": "U_WAREHOUSE_CAD",
+      "title": "به روز رسانی انبار کاتد"
+    },
+    {
+      "code": "D_WAREHOUSE_CAD",
+      "title": "حذف انبار کاتد"
+    },
+    {
+      "code": "R_WAREHOUSE_ISSUE_CATHODE",
+      "title": "نمایش حواله انبار کاتد"
+    },
+    {
+      "code": "C_WAREHOUSE_ISSUE_CATHODE",
+      "title": "ایجاد حواله انبار کاتد"
+    },
+    {
+      "code": "U_WAREHOUSE_ISSUE_CATHODE",
+      "title": "به روز رسانی حواله انبار کاتد"
+    },
+    {
+      "code": "D_WAREHOUSE_ISSUE_CATHODE",
+      "title": "حذف حواله انبار کاتد"
+    },
+    {
+      "code": "R_WAREHOUSE_ISSUE_CONS",
+      "title": "نمایش حواله انبار کنسانتره"
+    },
+    {
+      "code": "C_WAREHOUSE_ISSUE_CONS",
+      "title": "ایجاد حواله انبار کنسانتره"
+    },
+    {
+      "code": "U_WAREHOUSE_ISSUE_CONS",
+      "title": "به روز رسانی حواله انبار کنسانتره"
+    },
+    {
+      "code": "D_WAREHOUSE_ISSUE_CONS",
+      "title": "حذف حواله انبار کنسانتره"
+    },
+    {
+      "code": "R_WAREHOUSE_ISSUE_MO",
+      "title": "نمایش حواله انبار مولیبدن"
+    },
+    {
+      "code": "C_WAREHOUSE_ISSUE_MO",
+      "title": "ایجاد حواله انبار مولیبدن"
+    },
+    {
+      "code": "U_WAREHOUSE_ISSUE_MO",
+      "title": "به روز رسانی حواله انبار مولیبدن"
+    },
+    {
+      "code": "D_WAREHOUSE_ISSUE_MO",
+      "title": "حذف حواله انبار مولیبدن"
+    },
+    {
+      "code": "R_WAREHOUSE_LOT",
+      "title": "نمایش لات انبار"
+    },
+    {
+      "code": "C_WAREHOUSE_LOT",
+      "title": "ایجاد لات انبار"
+    },
+    {
+      "code": "U_WAREHOUSE_LOT",
+      "title": "به روز رسانی لات انبار"
+    },
+    {
+      "code": "D_WAREHOUSE_LOT",
+      "title": "حذف لات انبار"
+    },
+    {
+      "code": "R_WAREHOUSE_STOCK",
+      "title": "نمایش موجودی انبار"
+    },
+    {
+      "code": "C_WAREHOUSE_STOCK",
+      "title": "ایجاد موجودی انبار"
+    },
+    {
+      "code": "U_WAREHOUSE_STOCK",
+      "title": "به روز رسانی موجودی انبار"
+    },
+    {
+      "code": "D_WAREHOUSE_STOCK",
+      "title": "حذف موجودی انبار"
+    },
+    {
+      "code": "R_WAREHOUSE_YARD",
+      "title": "نمایش یارد انبار"
+    },
+    {
+      "code": "C_WAREHOUSE_YARD",
+      "title": "ایجاد یارد انبار"
+    },
+    {
+      "code": "U_WAREHOUSE_YARD",
+      "title": "به روز رسانی یارد انبار"
+    },
+    {
+      "code": "D_WAREHOUSE_YARD",
+      "title": "حذف یارد انبار"
     }
+
+
   ]
 }

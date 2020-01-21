@@ -12,6 +12,7 @@ import com.nicico.sales.repository.MaterialItemDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class MaterialItemService implements IMaterialItemService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_MATERIALITEM')")
+    @PreAuthorize("hasAuthority('R_MATERIAL_ITEM')")
     public MaterialItemDTO.Info get(Long id) {
         final Optional<MaterialItem> slById = materialItemDAO.findById(id);
         final MaterialItem materialItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.MaterialItemNotFound));
@@ -36,7 +37,7 @@ public class MaterialItemService implements IMaterialItemService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_MATERIALITEM')")
+    @PreAuthorize("hasAuthority('R_MATERIAL_ITEM')")
     public List<MaterialItemDTO.Info> list() {
         final List<MaterialItem> slAll = materialItemDAO.findAll();
 
@@ -46,7 +47,7 @@ public class MaterialItemService implements IMaterialItemService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_MATERIALITEM')")
+    @PreAuthorize("hasAuthority('C_MATERIAL_ITEM')")
     public MaterialItemDTO.Info create(MaterialItemDTO.Create request) {
         final MaterialItem materialItem = modelMapper.map(request, MaterialItem.class);
 
@@ -55,7 +56,7 @@ public class MaterialItemService implements IMaterialItemService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_MATERIALITEM')")
+    @PreAuthorize("hasAuthority('U_MATERIAL_ITEM')")
     public MaterialItemDTO.Info update(Long id, MaterialItemDTO.Update request) {
         final Optional<MaterialItem> slById = materialItemDAO.findById(id);
         final MaterialItem materialItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.MaterialItemNotFound));
@@ -69,14 +70,14 @@ public class MaterialItemService implements IMaterialItemService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_MATERIALITEM')")
+    @PreAuthorize("hasAuthority('D_MATERIAL_ITEM')")
     public void delete(Long id) {
         materialItemDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_MATERIALITEM')")
+    @PreAuthorize("hasAuthority('D_MATERIAL_ITEM')")
     public void delete(MaterialItemDTO.Delete request) {
         final List<MaterialItem> materialItems = materialItemDAO.findAllById(request.getIds());
 
@@ -85,14 +86,14 @@ public class MaterialItemService implements IMaterialItemService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_MATERIALITEM')")
+    @PreAuthorize("hasAuthority('R_MATERIAL_ITEM')")
     public TotalResponse<MaterialItemDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(materialItemDAO, criteria, materialItem -> modelMapper.map(materialItem, MaterialItemDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_MATERIALITEM')")
+    @PreAuthorize("hasAuthority('R_MATERIAL_ITEM')")
     public SearchDTO.SearchRs<MaterialItemDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(materialItemDAO, request, entity -> modelMapper.map(entity, MaterialItemDTO.Info.class));
     }

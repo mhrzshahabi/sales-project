@@ -12,6 +12,7 @@ import com.nicico.sales.repository.WarehouseYardDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class WarehouseYardService implements IWarehouseYardService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEYARD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_YARD')")
     public WarehouseYardDTO.Info get(Long id) {
         final Optional<WarehouseYard> slById = warehouseYardDAO.findById(id);
         final WarehouseYard warehouseYard = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseYardNotFound));
@@ -36,7 +37,7 @@ public class WarehouseYardService implements IWarehouseYardService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEYARD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_YARD')")
     public List<WarehouseYardDTO.Info> list() {
         final List<WarehouseYard> slAll = warehouseYardDAO.findAll();
 
@@ -46,7 +47,7 @@ public class WarehouseYardService implements IWarehouseYardService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_WAREHOUSEYARD')")
+    @PreAuthorize("hasAuthority('C_WAREHOUSE_YARD')")
     public WarehouseYardDTO.Info create(WarehouseYardDTO.Create request) {
         final WarehouseYard warehouseYard = modelMapper.map(request, WarehouseYard.class);
 
@@ -55,7 +56,7 @@ public class WarehouseYardService implements IWarehouseYardService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_WAREHOUSEYARD')")
+    @PreAuthorize("hasAuthority('U_WAREHOUSE_YARD')")
     public WarehouseYardDTO.Info update(Long id, WarehouseYardDTO.Update request) {
         final Optional<WarehouseYard> slById = warehouseYardDAO.findById(id);
         final WarehouseYard warehouseYard = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseYardNotFound));
@@ -69,14 +70,14 @@ public class WarehouseYardService implements IWarehouseYardService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSEYARD')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_YARD')")
     public void delete(Long id) {
         warehouseYardDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSEYARD')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_YARD')")
     public void delete(WarehouseYardDTO.Delete request) {
         final List<WarehouseYard> warehouseYards = warehouseYardDAO.findAllById(request.getIds());
 
@@ -85,14 +86,14 @@ public class WarehouseYardService implements IWarehouseYardService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEYARD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_YARD')")
     public TotalResponse<WarehouseYardDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(warehouseYardDAO, criteria, warehouseYard -> modelMapper.map(warehouseYard, WarehouseYardDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEYARD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_YARD')")
     public SearchDTO.SearchRs<WarehouseYardDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(warehouseYardDAO, request, entity -> modelMapper.map(entity, WarehouseYardDTO.Info.class));
     }

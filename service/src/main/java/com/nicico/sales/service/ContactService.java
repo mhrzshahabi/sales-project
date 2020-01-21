@@ -13,6 +13,7 @@ import com.nicico.sales.repository.ContactDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,7 @@ public class ContactService implements IContactService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTACT')")
+    @PreAuthorize("hasAuthority('R_CONTACT')")
     public ContactDTO.Info get(Long id) {
         final Optional<Contact> slById = contactDAO.findById(id);
         final Contact contact = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactNotFound));
@@ -38,7 +39,7 @@ public class ContactService implements IContactService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTACT')")
+    @PreAuthorize("hasAuthority('R_CONTACT')")
     public List<ContactDTO.Info> list() {
         final List<Contact> slAll = contactDAO.findAll();
 
@@ -48,7 +49,7 @@ public class ContactService implements IContactService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_CONTACT')")
+    @PreAuthorize("hasAuthority('C_CONTACT')")
     public ContactDTO.Info create(ContactDTO.Create request) {
         final Contact contact = modelMapper.map(request, Contact.class);
 
@@ -57,7 +58,7 @@ public class ContactService implements IContactService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_CONTACT')")
+    @PreAuthorize("hasAuthority('U_CONTACT')")
     public ContactDTO.Info update(Long id, ContactDTO.Update request) {
         final Optional<Contact> slById = contactDAO.findById(id);
         final Contact contact = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactNotFound));
@@ -95,14 +96,14 @@ public class ContactService implements IContactService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CONTACT')")
+    @PreAuthorize("hasAuthority('D_CONTACT')")
     public void delete(Long id) {
         contactDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CONTACT')")
+    @PreAuthorize("hasAuthority('D_CONTACT')")
     public void delete(ContactDTO.Delete request) {
         final List<Contact> contacts = contactDAO.findAllById(request.getIds());
 
@@ -111,14 +112,14 @@ public class ContactService implements IContactService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_CONTACT')")
     public TotalResponse<ContactDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(contactDAO, criteria, contact -> modelMapper.map(contact, ContactDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTACT')")
+    @PreAuthorize("hasAuthority('R_CONTACT')")
     public SearchDTO.SearchRs<ContactDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(contactDAO, request, contact -> modelMapper.map(contact, ContactDTO.Info.class));
     }

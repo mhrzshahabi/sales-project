@@ -12,6 +12,7 @@ import com.nicico.sales.repository.ContractShipmentDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class ContractShipmentService implements IContractShipmentService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_CONTRACT_SHIPMENT')")
     public ContractShipmentDTO.Info get(Long id) {
         final Optional<ContractShipment> slById = contractShipmentDAO.findById(id);
         final ContractShipment contractShipment = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractShipmentNotFound));
@@ -36,6 +38,7 @@ public class ContractShipmentService implements IContractShipmentService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_CONTRACT_SHIPMENT')")
     public List<ContractShipmentDTO.Info> list() {
         final List<ContractShipment> slAll = contractShipmentDAO.findAll();
 
@@ -45,6 +48,7 @@ public class ContractShipmentService implements IContractShipmentService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_CONTRACT_SHIPMENT')")
     public ContractShipmentDTO.Info create(ContractShipmentDTO.Create request) {
         final ContractShipment contractShipment = modelMapper.map(request, ContractShipment.class);
 
@@ -53,6 +57,7 @@ public class ContractShipmentService implements IContractShipmentService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_CONTRACT_SHIPMENT')")
     public ContractShipmentDTO.Info update(Long id, ContractShipmentDTO.Update request) {
         final Optional<ContractShipment> slById = contractShipmentDAO.findById(id);
         final ContractShipment contractShipment = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractShipmentNotFound));
@@ -66,12 +71,14 @@ public class ContractShipmentService implements IContractShipmentService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_CONTRACT_SHIPMENT')")
     public void delete(Long id) {
         contractShipmentDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_CONTRACT_SHIPMENT')")
     public void delete(ContractShipmentDTO.Delete request) {
         final List<ContractShipment> contractShipments = contractShipmentDAO.findAllById(request.getIds());
 
@@ -80,13 +87,14 @@ public class ContractShipmentService implements IContractShipmentService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_CONTRACT_SHIPMENT')")
     public SearchDTO.SearchRs<ContractShipmentDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(contractShipmentDAO, request, contractShipment -> modelMapper.map(contractShipment, ContractShipmentDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_CONTRACT_SHIPMENT')")
     public TotalResponse<ContractShipmentDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(contractShipmentDAO, criteria, contractShipment -> modelMapper.map(contractShipment, ContractShipmentDTO.Info.class));
     }

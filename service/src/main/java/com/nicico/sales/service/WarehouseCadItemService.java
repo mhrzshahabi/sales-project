@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
@@ -46,7 +47,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
     private final ObjectMapper objectMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECADITEM')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD_ITEM')")
     public WarehouseCadItemDTO.Info get(Long id) {
         final Optional<WarehouseCadItem> slById = warehouseCadItemDAO.findById(id);
         final WarehouseCadItem warehouseCadItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadItemNotFound));
@@ -56,7 +57,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECADITEM')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD_ITEM')")
     public List<WarehouseCadItemDTO.Info> list() {
         final List<WarehouseCadItem> slAll = warehouseCadItemDAO.findAll();
 
@@ -66,7 +67,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_WAREHOUSECADITEM')")
+    @PreAuthorize("hasAuthority('C_WAREHOUSE_CAD_ITEM')")
     public WarehouseCadItemDTO.Info create(WarehouseCadItemDTO.Create request) {
         final WarehouseCadItem warehouseCadItem = modelMapper.map(request, WarehouseCadItem.class);
 //		Optional<WarehouseCad> byId = warehouseCadDAO.findById(request.getWarehouseCadId());
@@ -78,7 +79,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_WAREHOUSECADITEM')")
+    @PreAuthorize("hasAuthority('U_WAREHOUSE_CAD_ITEM')")
     public WarehouseCadItemDTO.Info update(Long id, WarehouseCadItemDTO.Update request) {
         final Optional<WarehouseCadItem> slById = warehouseCadItemDAO.findById(id);
         final WarehouseCadItem warehouseCadItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadItemNotFound));
@@ -92,7 +93,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSECADITEM')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_CAD_ITEM')")
     public void delete(Long id) {
         final WarehouseCadItem warehouseCadItem = warehouseCadItemDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseCadItemNotFound));
@@ -116,7 +117,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSECADITEM')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_CAD_ITEM')")
     public void delete(WarehouseCadItemDTO.Delete request) {
         final List<WarehouseCadItem> warehouseCadItems = warehouseCadItemDAO.findAllById(request.getIds());
 
@@ -125,7 +126,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECADITEM')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD_ITEM')")
     public TotalResponse<WarehouseCadItemDTO.Info> search(MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         final SearchDTO.SearchRq request = createSearchRq(nicicoCriteria);
@@ -159,14 +160,14 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECADITEM')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD_ITEM')")
     public SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(warehouseCadItemDAO, request, entity -> modelMapper.map(entity, WarehouseCadItemDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSEISSUECATHODE')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD_ITEM')")
     public SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(WarehouseCadItemDTO.Delete request) {
 
         final List<SearchDTO.CriteriaRq> idCriteriaRqList = new ArrayList<>();
@@ -317,7 +318,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSECAD')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD_ITEM')")
     public TotalResponse<WarehouseCadItemDTO.InfoCombo2> search1(NICICOCriteria criteria) {
         final Map<String, Object> fetchedData = new HashMap<>();
         if (criteria != null && criteria.getCriteria() != null)

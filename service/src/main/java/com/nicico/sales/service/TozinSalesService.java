@@ -12,6 +12,7 @@ import com.nicico.sales.repository.TozinSalesDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class TozinSalesService implements ITozinSalesService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_TOZIN_SALES')")
     public TozinSalesDTO.Info get(Long id) {
         final Optional<TozinSales> slById = tozinSalesDAO.findById(id);
         final TozinSales tozinSales = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinSalesNotFound));
@@ -35,6 +37,7 @@ public class TozinSalesService implements ITozinSalesService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_TOZIN_SALES')")
     public List<TozinSalesDTO.Info> list() {
         final List<TozinSales> slAll = tozinSalesDAO.findAll();
 
@@ -44,6 +47,7 @@ public class TozinSalesService implements ITozinSalesService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_TOZIN_SALES')")
     public TozinSalesDTO.Info create(TozinSalesDTO.Create request) {
         final TozinSales tozinSales = modelMapper.map(request, TozinSales.class);
 
@@ -52,6 +56,7 @@ public class TozinSalesService implements ITozinSalesService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_TOZIN_SALES')")
     public TozinSalesDTO.Info update(Long id, TozinSalesDTO.Update request) {
         final Optional<TozinSales> slById = tozinSalesDAO.findById(id);
         final TozinSales tozinSales = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinSalesNotFound));
@@ -65,12 +70,14 @@ public class TozinSalesService implements ITozinSalesService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_TOZIN_SALES')")
     public void delete(Long id) {
         tozinSalesDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_TOZIN_SALES')")
     public void delete(TozinSalesDTO.Delete request) {
         final List<TozinSales> tozinSaless = tozinSalesDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class TozinSalesService implements ITozinSalesService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_TOZIN_SALES')")
     public SearchDTO.SearchRs<TozinSalesDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(tozinSalesDAO, request, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_TOZIN_SALES')")
     public TotalResponse<TozinSalesDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(tozinSalesDAO, criteria, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
     }

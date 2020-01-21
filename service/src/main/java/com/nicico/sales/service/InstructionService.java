@@ -12,6 +12,7 @@ import com.nicico.sales.repository.InstructionDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class InstructionService implements IInstructionService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_INSTRUCTION')")
     public InstructionDTO.Info get(Long id) {
         final Optional<Instruction> slById = instructionDAO.findById(id);
         final Instruction instruction = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InstructionNotFound));
@@ -35,6 +37,7 @@ public class InstructionService implements IInstructionService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INSTRUCTION')")
     public List<InstructionDTO.Info> list() {
         final List<Instruction> slAll = instructionDAO.findAll();
 
@@ -44,6 +47,7 @@ public class InstructionService implements IInstructionService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_INSTRUCTION')")
     public InstructionDTO.Info create(InstructionDTO.Create request) {
         final Instruction instruction = modelMapper.map(request, Instruction.class);
 
@@ -52,6 +56,7 @@ public class InstructionService implements IInstructionService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_INSTRUCTION')")
     public InstructionDTO.Info update(Long id, InstructionDTO.Update request) {
         final Optional<Instruction> slById = instructionDAO.findById(id);
         final Instruction instruction = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InstructionNotFound));
@@ -65,12 +70,14 @@ public class InstructionService implements IInstructionService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INSTRUCTION')")
     public void delete(Long id) {
         instructionDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INSTRUCTION')")
     public void delete(InstructionDTO.Delete request) {
         final List<Instruction> instructions = instructionDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class InstructionService implements IInstructionService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INSTRUCTION')")
     public SearchDTO.SearchRs<InstructionDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(instructionDAO, request, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_INSTRUCTION')")
     public TotalResponse<InstructionDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(instructionDAO, criteria, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
     }

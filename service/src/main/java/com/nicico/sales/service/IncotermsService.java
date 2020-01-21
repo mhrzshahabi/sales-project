@@ -12,6 +12,7 @@ import com.nicico.sales.repository.IncotermsDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class IncotermsService implements IIncotermsService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_INCOTERMS')")
     public IncotermsDTO.Info get(Long id) {
         final Optional<Incoterms> slById = incotermsDAO.findById(id);
         final Incoterms incoterms = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.IncotermsNotFound));
@@ -35,6 +37,7 @@ public class IncotermsService implements IIncotermsService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INCOTERMS')")
     public List<IncotermsDTO.Info> list() {
         final List<Incoterms> slAll = incotermsDAO.findAll();
 
@@ -44,6 +47,7 @@ public class IncotermsService implements IIncotermsService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_INCOTERMS')")
     public IncotermsDTO.Info create(IncotermsDTO.Create request) {
         final Incoterms incoterms = modelMapper.map(request, Incoterms.class);
 
@@ -52,6 +56,7 @@ public class IncotermsService implements IIncotermsService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_INCOTERMS')")
     public IncotermsDTO.Info update(Long id, IncotermsDTO.Update request) {
         final Optional<Incoterms> slById = incotermsDAO.findById(id);
         final Incoterms incoterms = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.IncotermsNotFound));
@@ -65,12 +70,14 @@ public class IncotermsService implements IIncotermsService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INCOTERMS')")
     public void delete(Long id) {
         incotermsDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INCOTERMS')")
     public void delete(IncotermsDTO.Delete request) {
         final List<Incoterms> incotermss = incotermsDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class IncotermsService implements IIncotermsService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INCOTERMS')")
     public SearchDTO.SearchRs<IncotermsDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(incotermsDAO, request, incoterms -> modelMapper.map(incoterms, IncotermsDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_INCOTERMS')")
     public TotalResponse<IncotermsDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(incotermsDAO, criteria, incoterms -> modelMapper.map(incoterms, IncotermsDTO.Info.class));
     }
