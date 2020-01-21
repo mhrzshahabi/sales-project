@@ -278,14 +278,14 @@
             ]
         });
 
-        var layout = isc.VLayout.create({
+        var layoutWarehouseIssoCathode = isc.VLayout.create({
             styleName: "expand-layout",
             padding: 5,
             membersMargin: 10,
             members: [ListGrid_WarehouseIssueCathode, recordNotFound, hLayout]
         });
 
-        return layout;
+        return layoutWarehouseIssoCathode;
     }
 
     var ListGrid_ShipmentByWarehouseIssueCathode = isc.ListGrid.create({

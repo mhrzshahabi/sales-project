@@ -389,14 +389,14 @@
         HLayout_InspectionContract_Grid.show();
         ToolStripButton_InspectionContract_Add.show();
         ToolStripButton_InspectionContract_PrintWord.show();
-        var layout = isc.VLayout.create({
+        var layoutInspectionContract = isc.VLayout.create({
             styleName: "expand-layout",
             padding: 5,
             membersMargin: 10,
             members: [HLayout_InspectionContract_Grid, recordNotFound, hLayout]
         });
 
-        return layout;
+        return layoutInspectionContract;
     }
 
 

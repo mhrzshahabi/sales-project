@@ -778,14 +778,14 @@
             ]
         });
 
-        var layout = isc.VLayout.create({
+        var layoutShipmentAssay = isc.VLayout.create({
             styleName: "expand-layout",
             padding: 5,
             membersMargin: 10,
             members: [ListGrid_ShipmentAssayHeader, recordNotFound, hLayout]
         });
 
-        return layout;
+        return layoutShipmentAssay;
         }
 
     var ListGrid_ShipmentByAssayHeader = isc.ListGrid.create({

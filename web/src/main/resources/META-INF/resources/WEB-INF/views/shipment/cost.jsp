@@ -172,14 +172,14 @@
             ]
         });
 
-        var layout = isc.VLayout.create({
+        var layoutCost = isc.VLayout.create({
             styleName: "expand-layout",
             padding: 5,
             membersMargin: 10,
             members: [ListGrid_Cost, recordNotFound, hLayout]
         });
 
-        return layout;
+        return layoutCost;
     }
 
 
