@@ -501,7 +501,7 @@ var dynamicForm_fullArticle01 =  isc.RichTextEditor.create({
             valuesManager: "valuesManagerfullArticle",
             autoDraw:true,
             height:155,
-            overflow:"scroll",
+            overflow:"auto",
             canDragResize:true,
             controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
             value:"",changed: function (form, item, value) {

@@ -107,7 +107,7 @@ var buttonAddItem=isc.IButton.create({
 });
 
     ListGrid_ContractItemShipment = isc.ListGrid.create({
-        width: "80%",
+        width: "100%",
         height: "200",
         modalEditing: true,
         canEdit: true,
@@ -123,7 +123,7 @@ var buttonAddItem=isc.IButton.create({
                     name: "plan",
                     title: "<spring:message code='shipment.plan'/>",
                     type: 'text',
-                    width: 140,
+                    width: "10%",
                     valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},
                     align: "center"
                 },
@@ -131,27 +131,27 @@ var buttonAddItem=isc.IButton.create({
                     name: "shipmentRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
-                    width: 40,
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
-                    valueField: "id", width: "380", align: "center"
+                    valueField: "id", width: "10%", align: "center"
                 },
                 {
                     name: "address",
                     title: "<spring:message code='global.address'/>",
                     type: 'text',
-                    width: "395",
+                    width: "10%",
                     align: "center"
                 },
                 {
                     name: "amount",
                     title: "<spring:message code='global.amount'/>",
                     type: 'float',
-                    width: 100,
+                    width: "10%",
                     align: "center",changed: function (form, item, value) {
                        if(ListGrid_ContractItemShipment.getEditRow()==0){
                            amountSet=value;
@@ -164,7 +164,7 @@ var buttonAddItem=isc.IButton.create({
                     title: "<spring:message code='global.sendDate'/>",
                     type: "date",
                     required: false,
-                    width: "200",
+                    width: "10%",
                     wrapTitle: false,changed: function (form, item, value) {
                         sendDateSet = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
                     }
@@ -173,12 +173,12 @@ var buttonAddItem=isc.IButton.create({
                     name: "duration",
                     title: "<spring:message code='global.duration'/>",
                     type : 'text',
-                    width: 100,
+                    width: "10%",
                     align: "center"
                 },
                 {
                 name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",
-                    type: 'text', width: 80, align: "center",changed: function (form, item, value) {
+                    type: 'text',width: "10%", align: "center",changed: function (form, item, value) {
                        if(ListGrid_ContractItemShipment.getEditRow()==0){
                            valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
                         }
@@ -207,21 +207,34 @@ var buttonAddItem=isc.IButton.create({
                 }
         },removeData: function (data) {
             var ContractShipmentId = data.id;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
-                    httpMethod: "DELETE",
-                    callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                            ListGrid_ContractItemShipment.invalidateCache();
-                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                        } else {
-                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index === 0) {
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
+                            httpMethod: "DELETE",
+                            callback: function (resp) {
+                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    ListGrid_ContractItemShipment.invalidateCache();
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                        }
+                                    }
+                                })
+                            );
                         }
                     }
-                })
-            );
+            })
         }
-
     });
 
 var article5_quality = isc.DynamicForm.create({

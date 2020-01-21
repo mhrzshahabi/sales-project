@@ -400,7 +400,6 @@ function saveListGrid_ContractConcItemShipment(contractID) {
                 data: JSON.stringify(dataEditMain),
                 callback: function (resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>");
                     } else
                         isc.say(RpcResponse_o.data);
                 }
