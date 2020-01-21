@@ -12,6 +12,7 @@ import com.nicico.sales.repository.GlossaryDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class GlossaryService implements IGlossaryService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+//    @PreAuthorize("hasAuthority('R_GLOSSARY')")
     public GlossaryDTO.Info get(Long id) {
         final Optional<Glossary> slById = glossaryDAO.findById(id);
         final Glossary glossary = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GlossaryNotFound));
@@ -35,6 +37,7 @@ public class GlossaryService implements IGlossaryService {
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_GLOSSARY')")
     public List<GlossaryDTO.Info> list() {
         final List<Glossary> slAll = glossaryDAO.findAll();
 
@@ -44,6 +47,7 @@ public class GlossaryService implements IGlossaryService {
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('C_GLOSSARY')")
     public GlossaryDTO.Info create(GlossaryDTO.Create request) {
         final Glossary glossary = modelMapper.map(request, Glossary.class);
 
@@ -52,6 +56,7 @@ public class GlossaryService implements IGlossaryService {
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('U_GLOSSARY')")
     public GlossaryDTO.Info update(Long id, GlossaryDTO.Update request) {
         final Optional<Glossary> slById = glossaryDAO.findById(id);
         final Glossary glossary = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GlossaryNotFound));
@@ -65,12 +70,14 @@ public class GlossaryService implements IGlossaryService {
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('D_GLOSSARY')")
     public void delete(Long id) {
         glossaryDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+//    @PreAuthorize("hasAuthority('D_GLOSSARY')")
     public void delete(GlossaryDTO.Delete request) {
         final List<Glossary> glossarys = glossaryDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class GlossaryService implements IGlossaryService {
 
     @Transactional(readOnly = true)
     @Override
+//    @PreAuthorize("hasAuthority('R_GLOSSARY')")
     public SearchDTO.SearchRs<GlossaryDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(glossaryDAO, request, glossary -> modelMapper.map(glossary, GlossaryDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+//    @PreAuthorize("hasAuthority('R_GLOSSARY')")
     public TotalResponse<GlossaryDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(glossaryDAO, criteria, glossary -> modelMapper.map(glossary, GlossaryDTO.Info.class));
     }

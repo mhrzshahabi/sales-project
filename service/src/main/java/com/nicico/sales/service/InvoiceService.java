@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class InvoiceService implements IInvoiceService {
     private String accountingAppUrl;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_INVOICE')")
     public InvoiceDTO.Info get(Long id) {
         final Optional<Invoice> slById = invoiceDAO.findById(id);
         final Invoice invoice = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
@@ -41,6 +43,7 @@ public class InvoiceService implements IInvoiceService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INVOICE')")
     public List<InvoiceDTO.Info> list() {
         final List<Invoice> slAll = invoiceDAO.findAll();
 
@@ -50,6 +53,7 @@ public class InvoiceService implements IInvoiceService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_INVOICE')")
     public InvoiceDTO.Info create(InvoiceDTO.Create request) {
         final Invoice invoice = modelMapper.map(request, Invoice.class);
 
@@ -58,6 +62,7 @@ public class InvoiceService implements IInvoiceService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_INVOICE')")
     public InvoiceDTO.Info update(Long id, InvoiceDTO.Update request) {
         final Optional<Invoice> slById = invoiceDAO.findById(id);
         final Invoice invoice = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
@@ -71,12 +76,14 @@ public class InvoiceService implements IInvoiceService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INVOICE')")
     public void delete(Long id) {
         invoiceDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INVOICE')")
     public void delete(InvoiceDTO.Delete request) {
         final List<Invoice> invoices = invoiceDAO.findAllById(request.getIds());
 
@@ -96,6 +103,7 @@ public class InvoiceService implements IInvoiceService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INVOICE')")
     public TotalResponse<InvoiceDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(invoiceDAO, criteria, instruction -> modelMapper.map(instruction, InvoiceDTO.Info.class));
     }

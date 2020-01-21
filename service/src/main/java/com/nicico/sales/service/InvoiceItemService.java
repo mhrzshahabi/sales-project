@@ -12,6 +12,7 @@ import com.nicico.sales.repository.InvoiceItemDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class InvoiceItemService implements IInvoiceItemService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_INVOICE_ITEM')")
     public InvoiceItemDTO.Info get(Long id) {
         final Optional<InvoiceItem> slById = invoiceItemDAO.findById(id);
         final InvoiceItem invoiceItemItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceItemNotFound));
@@ -35,6 +37,7 @@ public class InvoiceItemService implements IInvoiceItemService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INVOICE_ITEM')")
     public List<InvoiceItemDTO.Info> list() {
         final List<InvoiceItem> slAll = invoiceItemDAO.findAll();
 
@@ -44,6 +47,7 @@ public class InvoiceItemService implements IInvoiceItemService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_INVOICE_ITEM')")
     public InvoiceItemDTO.Info create(InvoiceItemDTO.Create request) {
         final InvoiceItem invoiceItem = modelMapper.map(request, InvoiceItem.class);
 
@@ -52,6 +56,7 @@ public class InvoiceItemService implements IInvoiceItemService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_INVOICE_ITEM')")
     public InvoiceItemDTO.Info update(Long id, InvoiceItemDTO.Update request) {
         final Optional<InvoiceItem> slById = invoiceItemDAO.findById(id);
         final InvoiceItem invoiceItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceItemNotFound));
@@ -65,12 +70,14 @@ public class InvoiceItemService implements IInvoiceItemService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INVOICE_ITEM')")
     public void delete(Long id) {
         invoiceItemDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INVOICE_ITEM')")
     public void delete(InvoiceItemDTO.Delete request) {
         final List<InvoiceItem> invoiceItems = invoiceItemDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class InvoiceItemService implements IInvoiceItemService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INVOICE_ITEM')")
     public SearchDTO.SearchRs<InvoiceItemDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(invoiceItemDAO, request, invoiceItem -> modelMapper.map(invoiceItem, InvoiceItemDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_INVOICE_ITEM')")
     public TotalResponse<InvoiceItemDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(invoiceItemDAO, criteria, invoiceItem -> modelMapper.map(invoiceItem, InvoiceItemDTO.Info.class));
     }

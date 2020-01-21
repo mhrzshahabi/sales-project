@@ -18,6 +18,7 @@ import com.nicico.sales.repository.InvoiceMolybdenumDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,7 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
     private final ObjectMapper objectMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_INVOICE_MOLYBDENUM')")
     public InvoiceMolybdenumDTO.Info get(Long id) {
         final Optional<InvoiceMolybdenum> slById = invoiceMolybdenumDAO.findById(id);
         final InvoiceMolybdenum invoiceMolybdenumMolybdenum = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceMolybdenumNotFound));
@@ -45,6 +47,7 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INVOICE_MOLYBDENUM')")
     public List<InvoiceMolybdenumDTO.Info> list() {
         final List<InvoiceMolybdenum> slAll = invoiceMolybdenumDAO.findAll();
 
@@ -54,6 +57,7 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_INVOICE_MOLYBDENUM')")
     public void molybdenum(String data) throws IOException {
         String[] data_ = data.split("@abaspour@"); // mo  up  down
 
@@ -112,6 +116,7 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_INVOICE_MOLYBDENUM')")
     public InvoiceMolybdenumDTO.Info create(InvoiceMolybdenumDTO.Create request) {
         final InvoiceMolybdenum invoiceMolybdenum = modelMapper.map(request, InvoiceMolybdenum.class);
 
@@ -120,6 +125,7 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_INVOICE_MOLYBDENUM')")
     public InvoiceMolybdenumDTO.Info update(Long id, InvoiceMolybdenumDTO.Update request) {
         final Optional<InvoiceMolybdenum> slById = invoiceMolybdenumDAO.findById(id);
         final InvoiceMolybdenum invoiceMolybdenum = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceMolybdenumNotFound));
@@ -133,12 +139,14 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INVOICE_MOLYBDENUM')")
     public void delete(Long id) {
         invoiceMolybdenumDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_INVOICE_MOLYBDENUM')")
     public void delete(InvoiceMolybdenumDTO.Delete request) {
         final List<InvoiceMolybdenum> invoiceMolybdenums = invoiceMolybdenumDAO.findAllById(request.getIds());
 
@@ -147,12 +155,14 @@ public class InvoiceMolybdenumService implements IInvoiceMolybdenumService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INVOICE_MOLYBDENUM')")
     public TotalResponse<InvoiceMolybdenumDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(invoiceMolybdenumDAO, criteria, instruction -> modelMapper.map(instruction, InvoiceMolybdenumDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_INVOICE_MOLYBDENUM')")
     public SearchDTO.SearchRs<InvoiceMolybdenumDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(invoiceMolybdenumDAO, request, invoiceMolybdenum -> modelMapper.map(invoiceMolybdenum, InvoiceMolybdenumDTO.Info.class));
     }

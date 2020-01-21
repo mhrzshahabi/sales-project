@@ -12,6 +12,7 @@ import com.nicico.sales.repository.FeatureDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class FeatureService implements IFeatureService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_FEATURE')")
     public FeatureDTO.Info get(Long id) {
         final Optional<Feature> slById = featureDAO.findById(id);
         final Feature feature = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.FeatureNotFound));
@@ -35,6 +37,7 @@ public class FeatureService implements IFeatureService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_FEATURE')")
     public List<FeatureDTO.Info> list() {
         final List<Feature> slAll = featureDAO.findAll();
 
@@ -44,6 +47,7 @@ public class FeatureService implements IFeatureService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_FEATURE')")
     public FeatureDTO.Info create(FeatureDTO.Create request) {
         final Feature feature = modelMapper.map(request, Feature.class);
 
@@ -52,6 +56,7 @@ public class FeatureService implements IFeatureService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_FEATURE')")
     public FeatureDTO.Info update(Long id, FeatureDTO.Update request) {
         final Optional<Feature> slById = featureDAO.findById(id);
         final Feature feature = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.FeatureNotFound));
@@ -65,12 +70,14 @@ public class FeatureService implements IFeatureService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_FEATURE')")
     public void delete(Long id) {
         featureDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_FEATURE')")
     public void delete(FeatureDTO.Delete request) {
         final List<Feature> features = featureDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class FeatureService implements IFeatureService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_FEATURE')")
     public SearchDTO.SearchRs<FeatureDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(featureDAO, request, feature -> modelMapper.map(feature, FeatureDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_FEATURE')")
     public TotalResponse<FeatureDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(featureDAO, criteria, feature -> modelMapper.map(feature, FeatureDTO.Info.class));
     }

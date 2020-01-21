@@ -12,6 +12,7 @@ import com.nicico.sales.repository.GroupsDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class GroupsService implements IGroupsService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_GROUPS')")
     public GroupsDTO.Info get(Long id) {
         final Optional<Groups> slById = groupsDAO.findById(id);
         final Groups groups = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsNotFound));
@@ -35,6 +37,7 @@ public class GroupsService implements IGroupsService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_GROUPS')")
     public List<GroupsDTO.Info> list() {
         final List<Groups> slAll = groupsDAO.findAll();
 
@@ -44,6 +47,7 @@ public class GroupsService implements IGroupsService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_GROUPS')")
     public GroupsDTO.Info create(GroupsDTO.Create request) {
         final Groups groups = modelMapper.map(request, Groups.class);
 
@@ -52,6 +56,7 @@ public class GroupsService implements IGroupsService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_GROUPS')")
     public GroupsDTO.Info update(Long id, GroupsDTO.Update request) {
         final Optional<Groups> slById = groupsDAO.findById(id);
         final Groups groups = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsNotFound));
@@ -65,12 +70,14 @@ public class GroupsService implements IGroupsService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_GROUPS')")
     public void delete(Long id) {
         groupsDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_GROUPS')")
     public void delete(GroupsDTO.Delete request) {
         final List<Groups> groupss = groupsDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class GroupsService implements IGroupsService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_GROUPS')")
     public SearchDTO.SearchRs<GroupsDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(groupsDAO, request, groups -> modelMapper.map(groups, GroupsDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_GROUPS')")
     public TotalResponse<GroupsDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(groupsDAO, criteria, groups -> modelMapper.map(groups, GroupsDTO.Info.class));
     }

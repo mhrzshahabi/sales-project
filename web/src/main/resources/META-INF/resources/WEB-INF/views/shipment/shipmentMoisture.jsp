@@ -774,7 +774,7 @@
             align: "center",
             valign: "center",
             wrap: false,
-            contents: "رکوردی یافت نشد"
+            contents: "<spring:message code='global.record.find'/>"
         });
 
         recordNotFound.hide();
@@ -809,14 +809,14 @@
         ]
         });
 
-        var layout = isc.VLayout.create({
+        var layoutShipmentMoisture = isc.VLayout.create({
         styleName: "expand-layout",
         padding: 5,
         membersMargin: 10,
         members: [ListGrid_ShipmentMoistureHeader, recordNotFound, hLayout]
         });
 
-        return layout;
+        return layoutShipmentMoisture;
         }
 
     var ListGrid_ShipmentByMoistureHeader = isc.ListGrid.create({

@@ -12,6 +12,7 @@ import com.nicico.sales.repository.CurrencyRateDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class CurrencyRateService implements ICurrencyRateService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_CURRENCY_RATE')")
     public CurrencyRateDTO.Info get(Long id) {
         final Optional<CurrencyRate> slById = currencyRateDAO.findById(id);
         final CurrencyRate currencyRate = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CurrencyRateNotFound));
@@ -35,6 +37,7 @@ public class CurrencyRateService implements ICurrencyRateService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_CURRENCY_RATE')")
     public List<CurrencyRateDTO.Info> list() {
         final List<CurrencyRate> slAll = currencyRateDAO.findAll();
 
@@ -44,6 +47,7 @@ public class CurrencyRateService implements ICurrencyRateService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_CURRENCY_RATE')")
     public CurrencyRateDTO.Info create(CurrencyRateDTO.Create request) {
         final CurrencyRate currencyRate = modelMapper.map(request, CurrencyRate.class);
 
@@ -52,6 +56,7 @@ public class CurrencyRateService implements ICurrencyRateService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_CURRENCY_RATE')")
     public CurrencyRateDTO.Info update(Long id, CurrencyRateDTO.Update request) {
         final Optional<CurrencyRate> slById = currencyRateDAO.findById(id);
         final CurrencyRate currencyRate = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CurrencyRateNotFound));
@@ -65,12 +70,14 @@ public class CurrencyRateService implements ICurrencyRateService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_CURRENCY_RATE')")
     public void delete(Long id) {
         currencyRateDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_CURRENCY_RATE')")
     public void delete(CurrencyRateDTO.Delete request) {
         final List<CurrencyRate> currencyRates = currencyRateDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class CurrencyRateService implements ICurrencyRateService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_CURRENCY_RATE')")
     public SearchDTO.SearchRs<CurrencyRateDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(currencyRateDAO, request, currencyRate -> modelMapper.map(currencyRate, CurrencyRateDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_CURRENCY_RATE')")
     public TotalResponse<CurrencyRateDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(currencyRateDAO, criteria, currencyRate -> modelMapper.map(currencyRate, CurrencyRateDTO.Info.class));
     }

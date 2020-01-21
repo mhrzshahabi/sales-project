@@ -44,7 +44,10 @@ public class WarehouseStockRestController {
         String out = "";
         for (Object[] r : ll)
             out += ", { \"plant\" : \"" + r[0].toString() + "\" , \"amount\" : \"" + r[1].toString() + "\" } ";
-        out = " { \"data\" : [ " + out.substring(1) + " ] }";
+        if(out.length() != 0)
+            out = " { \"data\" : [ " + out.substring(1) + " ] }";
+        else
+            out = " { \"data\" : [ " + out + " ] }";
         return new ResponseEntity<>(out, HttpStatus.OK);
     }
 

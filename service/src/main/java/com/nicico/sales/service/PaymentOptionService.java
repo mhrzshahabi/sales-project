@@ -12,6 +12,7 @@ import com.nicico.sales.repository.PaymentOptionDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class PaymentOptionService implements IPaymentOptionService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_PAYMENT_OPTION')")
     public PaymentOptionDTO.Info get(Long id) {
         final Optional<PaymentOption> slById = paymentOptionDAO.findById(id);
         final PaymentOption paymentOption = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.PaymentOptionNotFound));
@@ -35,6 +37,7 @@ public class PaymentOptionService implements IPaymentOptionService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_PAYMENT_OPTION')")
     public List<PaymentOptionDTO.Info> list() {
         final List<PaymentOption> slAll = paymentOptionDAO.findAll();
 
@@ -44,6 +47,7 @@ public class PaymentOptionService implements IPaymentOptionService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_PAYMENT_OPTION')")
     public PaymentOptionDTO.Info create(PaymentOptionDTO.Create request) {
         final PaymentOption paymentOption = modelMapper.map(request, PaymentOption.class);
 
@@ -52,6 +56,7 @@ public class PaymentOptionService implements IPaymentOptionService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_PAYMENT_OPTION')")
     public PaymentOptionDTO.Info update(Long id, PaymentOptionDTO.Update request) {
         final Optional<PaymentOption> slById = paymentOptionDAO.findById(id);
         final PaymentOption paymentOption = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.PaymentOptionNotFound));
@@ -65,12 +70,14 @@ public class PaymentOptionService implements IPaymentOptionService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_PAYMENT_OPTION')")
     public void delete(Long id) {
         paymentOptionDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_PAYMENT_OPTION')")
     public void delete(PaymentOptionDTO.Delete request) {
         final List<PaymentOption> paymentOptions = paymentOptionDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class PaymentOptionService implements IPaymentOptionService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_PAYMENT_OPTION')")
     public SearchDTO.SearchRs<PaymentOptionDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(paymentOptionDAO, request, paymentOption -> modelMapper.map(paymentOption, PaymentOptionDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_PAYMENT_OPTION')")
     public TotalResponse<PaymentOptionDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(paymentOptionDAO, criteria, paymentOption -> modelMapper.map(paymentOption, PaymentOptionDTO.Info.class));
     }

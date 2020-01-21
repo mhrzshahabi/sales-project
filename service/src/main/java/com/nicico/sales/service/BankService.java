@@ -12,6 +12,7 @@ import com.nicico.sales.repository.BankDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class BankService implements IBankService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_BANK')")
     public BankDTO.Info get(Long id) {
         final Optional<Bank> slById = bankDAO.findById(id);
         final Bank bank = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.BankNotFound));
@@ -36,7 +37,7 @@ public class BankService implements IBankService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_BANK')")
     public List<BankDTO.Info> list() {
         final List<Bank> slAll = bankDAO.findAll();
 
@@ -46,7 +47,7 @@ public class BankService implements IBankService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_BANK')")
+    @PreAuthorize("hasAuthority('C_BANK')")
     public BankDTO.Info create(BankDTO.Create request) {
         final Bank bank = modelMapper.map(request, Bank.class);
 
@@ -55,7 +56,7 @@ public class BankService implements IBankService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_BANK')")
+    @PreAuthorize("hasAuthority('U_BANK')")
     public BankDTO.Info update(Long id, BankDTO.Update request) {
         final Optional<Bank> slById = bankDAO.findById(id);
         final Bank bank = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.BankNotFound));
@@ -69,14 +70,14 @@ public class BankService implements IBankService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_BANK')")
+    @PreAuthorize("hasAuthority('D_BANK')")
     public void delete(Long id) {
         bankDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_BANK')")
+    @PreAuthorize("hasAuthority('D_BANK')")
     public void delete(BankDTO.Delete request) {
         final List<Bank> banks = bankDAO.findAllById(request.getIds());
 
@@ -85,14 +86,14 @@ public class BankService implements IBankService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_BANK')")
     public TotalResponse<BankDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(bankDAO, criteria, bank -> modelMapper.map(bank, BankDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_BANK')")
     public SearchDTO.SearchRs<BankDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(bankDAO, request, entity -> modelMapper.map(entity, BankDTO.Info.class));
     }

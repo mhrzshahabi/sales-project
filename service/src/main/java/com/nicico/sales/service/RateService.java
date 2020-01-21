@@ -12,6 +12,7 @@ import com.nicico.sales.repository.RateDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class RateService implements IRateService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_RATE')")
     public RateDTO.Info get(Long id) {
         final Optional<Rate> slById = rateDAO.findById(id);
         final Rate rate = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.RateNotFound));
@@ -35,6 +37,7 @@ public class RateService implements IRateService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_RATE')")
     public List<RateDTO.Info> list() {
         final List<Rate> slAll = rateDAO.findAll();
 
@@ -44,6 +47,7 @@ public class RateService implements IRateService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_RATE')")
     public RateDTO.Info create(RateDTO.Create request) {
         final Rate rate = modelMapper.map(request, Rate.class);
 
@@ -52,6 +56,7 @@ public class RateService implements IRateService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_RATE')")
     public RateDTO.Info update(Long id, RateDTO.Update request) {
         final Optional<Rate> slById = rateDAO.findById(id);
         final Rate rate = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.RateNotFound));
@@ -65,12 +70,14 @@ public class RateService implements IRateService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_RATE')")
     public void delete(Long id) {
         rateDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_RATE')")
     public void delete(RateDTO.Delete request) {
         final List<Rate> rates = rateDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class RateService implements IRateService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_RATE')")
     public SearchDTO.SearchRs<RateDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(rateDAO, request, rate -> modelMapper.map(rate, RateDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_RATE')")
     public TotalResponse<RateDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(rateDAO, criteria, rate -> modelMapper.map(rate, RateDTO.Info.class));
     }

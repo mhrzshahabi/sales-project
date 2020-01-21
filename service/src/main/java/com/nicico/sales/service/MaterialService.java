@@ -12,6 +12,7 @@ import com.nicico.sales.repository.MaterialDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class MaterialService implements IMaterialService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_MATERIAL')")
     public MaterialDTO.Info get(Long id) {
         final Optional<Material> slById = materialDAO.findById(id);
         final Material material = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.MaterialNotFound));
@@ -35,6 +37,7 @@ public class MaterialService implements IMaterialService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_MATERIAL')")
     public List<MaterialDTO.Info> list() {
         final List<Material> slAll = materialDAO.findAll();
 
@@ -44,6 +47,7 @@ public class MaterialService implements IMaterialService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_MATERIAL')")
     public MaterialDTO.Info create(MaterialDTO.Create request) {
         final Material material = modelMapper.map(request, Material.class);
 
@@ -52,6 +56,7 @@ public class MaterialService implements IMaterialService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_MATERIAL')")
     public MaterialDTO.Info update(Long id, MaterialDTO.Update request) {
         final Optional<Material> slById = materialDAO.findById(id);
         final Material material = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.MaterialNotFound));
@@ -65,12 +70,14 @@ public class MaterialService implements IMaterialService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_MATERIAL')")
     public void delete(Long id) {
         materialDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_MATERIAL')")
     public void delete(MaterialDTO.Delete request) {
         final List<Material> materials = materialDAO.findAllById(request.getIds());
 
@@ -79,13 +86,14 @@ public class MaterialService implements IMaterialService {
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_MATERIAL')")
     public SearchDTO.SearchRs<MaterialDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(materialDAO, request, material -> modelMapper.map(material, MaterialDTO.Info.class));
     }
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_BANK')")
+    @PreAuthorize("hasAuthority('R_MATERIAL')")
     public TotalResponse<MaterialDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(materialDAO, criteria, material -> modelMapper.map(material, MaterialDTO.Info.class));
     }

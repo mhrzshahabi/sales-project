@@ -11,6 +11,7 @@ import com.nicico.sales.repository.ShipmentMoistureHeaderDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class ShipmentMoistureHeaderService implements IShipmentMoistureHeaderSer
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_SHIPMENT_MOISTURE_HEADER')")
     public ShipmentMoistureHeaderDTO.Info get(Long id) {
         final Optional<ShipmentMoistureHeader> slById = shipmentMoistureHeaderDAO.findById(id);
         final ShipmentMoistureHeader shipmentMoistureHeader = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureHeaderNotFound));
@@ -34,6 +36,7 @@ public class ShipmentMoistureHeaderService implements IShipmentMoistureHeaderSer
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_MOISTURE_HEADER')")
     public List<ShipmentMoistureHeaderDTO.Info> list() {
         final List<ShipmentMoistureHeader> slAll = shipmentMoistureHeaderDAO.findAll();
 
@@ -43,6 +46,7 @@ public class ShipmentMoistureHeaderService implements IShipmentMoistureHeaderSer
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('C_SHIPMENT_MOISTURE_HEADER')")
     public ShipmentMoistureHeaderDTO.Info create(ShipmentMoistureHeaderDTO.Create request) {
         final ShipmentMoistureHeader shipmentMoistureHeader = modelMapper.map(request, ShipmentMoistureHeader.class);
 
@@ -51,6 +55,7 @@ public class ShipmentMoistureHeaderService implements IShipmentMoistureHeaderSer
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('U_SHIPMENT_MOISTURE_HEADER')")
     public ShipmentMoistureHeaderDTO.Info update(Long id, ShipmentMoistureHeaderDTO.Update request) {
         final Optional<ShipmentMoistureHeader> slById = shipmentMoistureHeaderDAO.findById(id);
         final ShipmentMoistureHeader shipmentMoistureHeader = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureHeaderNotFound));
@@ -64,12 +69,14 @@ public class ShipmentMoistureHeaderService implements IShipmentMoistureHeaderSer
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_MOISTURE_HEADER')")
     public void delete(Long id) {
         shipmentMoistureHeaderDAO.deleteById(id);
     }
 
     @Transactional
     @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_MOISTURE_HEADER')")
     public void delete(ShipmentMoistureHeaderDTO.Delete request) {
         final List<ShipmentMoistureHeader> shipmentMoistureHeaders = shipmentMoistureHeaderDAO.findAllById(request.getIds());
 
@@ -78,6 +85,7 @@ public class ShipmentMoistureHeaderService implements IShipmentMoistureHeaderSer
 
     @Transactional(readOnly = true)
     @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_MOISTURE_HEADER')")
     public TotalResponse<ShipmentMoistureHeaderDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(shipmentMoistureHeaderDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentMoistureHeaderDTO.Info.class));
     }

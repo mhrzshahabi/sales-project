@@ -74,8 +74,6 @@
                     isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
                     isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
                 ],
-
-
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index === 0) {
@@ -100,6 +98,8 @@
             });
         }
     }
+
+
 
 
     var Menu_ListGrid_WarehouseYard = isc.Menu.create({
