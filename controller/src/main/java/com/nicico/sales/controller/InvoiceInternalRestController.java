@@ -39,51 +39,44 @@ public class InvoiceInternalRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-    //@PreAuthorize("hasAuthority('r_job')")
     public ResponseEntity<InvoiceInternalDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(invoiceInternalService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    //@PreAuthorize("hasAuthority('r_job')")
     public ResponseEntity<List<InvoiceInternalDTO.Info>> list() {
         return new ResponseEntity<>(invoiceInternalService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list-accounting")
-    //@PreAuthorize("hasAuthority('r_job')")
-    public ResponseEntity<List<InvoiceInternalDTO.Info>> listAccounting() {
-        List<InvoiceInternalDTO.Info> list = invoiceInternalService.list();
-        for(InvoiceInternalDTO.Info info : list){
-            InvoiceInternalCustomerDTO.Info seller = invoiceInternalCustomerService.getByCustomerId(info.getBuyerId());
+    public ResponseEntity<TotalResponse<InvoiceInternalDTO.Info>> listAccounting(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        TotalResponse<InvoiceInternalDTO.Info> search = invoiceInternalService.search(nicicoCriteria);
+        for(InvoiceInternalDTO.Info info : search.getResponse().getData()){
             InvoiceInternalCustomerDTO.Info buyer = invoiceInternalCustomerService.getByCustomerId(info.getCustomerId());
-            info.setSellerName(seller.getCustomerName());
             info.setBuyerName(buyer.getCustomerName());
             info.setCodeTafsiliNosa(info.getCodeTafsiliNosa());
             info.setCodeMarkazHazineMahsol(info.getCodeMarkazHazineMahsol());
         }
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(search, HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//	@PreAuthorize("hasAuthority('c_job')")
     public ResponseEntity<InvoiceInternalDTO.Info> create(@Validated @RequestBody InvoiceInternalDTO.Create request) {
         return new ResponseEntity<>(invoiceInternalService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('u_job')")
     public ResponseEntity<InvoiceInternalDTO.Info> update(@PathVariable Long id, @Validated @RequestBody InvoiceInternalDTO.Update request) {
         return new ResponseEntity<>(invoiceInternalService.update(id, request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_job')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         invoiceInternalService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -91,7 +84,6 @@ public class InvoiceInternalRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_job')")
     public ResponseEntity<Void> delete(@Validated @RequestBody InvoiceInternalDTO.Delete request) {
         invoiceInternalService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -99,16 +91,13 @@ public class InvoiceInternalRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-//	@PreAuthorize("hasAuthority('r_job')")
-    public ResponseEntity<TotalResponse<InvoiceInternalDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+    public ResponseEntity<TotalResponse<InvoiceInternalDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(invoiceInternalService.search(nicicoCriteria), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_job')")
-
     public ResponseEntity<SearchDTO.SearchRs<InvoiceInternalDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(invoiceInternalService.search(request), HttpStatus.OK);
     }
