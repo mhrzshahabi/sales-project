@@ -270,6 +270,7 @@ function Menu_ListGrid_InvoiceInternal_Html_F () {
 
 /*invoice.Send2Accounting*/
     var ToolStripButton_InvoiceInternal_Send2Accounting = isc.ToolStripButton.create({
+                showIf: "false",
                 title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
                 click: function () {
                     var record = ListGrid_InvoiceInternal.getSelectedRecord();
@@ -321,7 +322,7 @@ function Menu_ListGrid_InvoiceInternal_Html_F () {
                 ToolStripButton_InvoiceInternal_Pdf,
                 // ToolStripButton_InvoiceInternal_excel,
                 ToolStripButton_InvoiceInternal_html,
-                ToolStripButton_InvoiceInternal_Send2Accounting,
+                // ToolStripButton_InvoiceInternal_Send2Accounting,
                 isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
