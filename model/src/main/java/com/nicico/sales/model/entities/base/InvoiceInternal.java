@@ -101,5 +101,4 @@ public class InvoiceInternal extends Auditable {
 	@Column(name = "CUST_CODENOSA" , length = 100)
 	private String codeTafsiliNosa;
 
-
 }
