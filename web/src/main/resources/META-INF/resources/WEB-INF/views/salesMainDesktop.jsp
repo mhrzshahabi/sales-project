@@ -216,7 +216,7 @@
 
     var label_Username = isc.Label.create({
 
-        width: 100,
+        width: 200,
         dynamicContents: true,
         styleName: "header-label-username",
         contents: "<spring:message code='global.user'/>" + ":" + '${userFullName}',

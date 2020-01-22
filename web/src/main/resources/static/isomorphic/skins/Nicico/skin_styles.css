@@ -10171,46 +10171,32 @@ hr {
   background-color: #fff;
 }
 
-.expandList .cellSelectedOverAltCol,
-.expandList .cellSelectedOverDarkAltCol,
-.expandList .cellPendingSelectedOverAltCol,
-.expandList .cellPendingSelectedOverDarkAltCol {
-  background-color: #fe9d2a;
-  color: #ffffff;
-  font-weight: bold;
-}
-
-.expandList .cellSelectedAltCol,
-.expandList .cellSelectedDarkAltCol,
-.expandList .cellSelectedOverAltCol,
-.expandList .cellSelectedOverDarkAltCol,
-.expandList .cellPendingSelectedAltCol,
-.expandList .cellPendingSelectedDarkAltCol,
-.expandList .cellPendingSelectedOverAltCol,
-.expandList .cellPendingSelectedOverDarkAltCol {
-  background-color: #fe9d2a;
-  color: #ffffff;
-  font-weight: bold;
-}
-
 .expandList .cellSelected,
 .expandList .cellSelectedDark,
+.expandList .cellSelectedOver,
+.expandList .cellSelectedOverDark,
 .expandList .cellPendingSelected,
 .expandList .cellPendingSelectedDark,
 .expandList .specialColSelected,
 .expandList .recordSummaryCellSelected,
-.expandList .recordSummaryCellSelectedDark {
-  background-color: #fe9d2a;
-  color: #ffffff;
-  font-weight: bold;
-}
-
-.expandList .cellSelected,
-.expandList .cellSelectedDark,
-.expandList .cellSelectedOver,
-.expandList .cellSelectedOverDark {
-  background-color: #fe9d2a;
-  color: #ffffff;
+.expandList .recordSummaryCellSelectedDark,
+.expandList .cellSelectedAltCol,
+.expandList .cellSelectedDarkAltCol,
+.expandList .cellPendingSelectedAltCol,
+.expandList .cellPendingSelectedDarkAltCol,
+.expandList .cellPendingSelectedOverDarkAltCol,
+.expandList .cellSelectedOverAltCol,
+.expandList .cellSelectedOverDarkAltCol,
+.expandList .cellPendingSelectedOverAltCol {
+  background: #fe9d2a;
+  background: -moz-linear-gradient(top, #fe9d2a 0%, #ffd7ad 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, #fe9d2a), color-stop(100%, #ffd7ad));
+  background: -webkit-linear-gradient(top, #fe9d2a 0%, #ffd7ad 100%);
+  background: -o-linear-gradient(top, #fe9d2a 0%, #ffd7ad 100%);
+  background: -ms-linear-gradient(top, #fe9d2a 0%, #ffd7ad 100%);
+  background: linear-gradient(to bottom, #fe9d2a 0%, #ffd7ad 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe9d2a', endColorstr='#ffd7ad', GradientType=0);
+  color: #464646;
   font-weight: bold;
 }
 
@@ -10368,7 +10354,14 @@ input[type="text"].selectItemLiteTextDisabledHintRTL {
 .recordSummaryCellSelectedDark,
 .cellSelectedOver,
 .cellSelectedOverDark {
-  background-color: #fe9d2a;
-  color: #ffffff;
+  background: #fe9d2a;
+  background: -moz-linear-gradient(top, #fe9d2a 0%, #ffd7ad 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, #fe9d2a), color-stop(100%, #ffd7ad));
+  background: -webkit-linear-gradient(top, #fe9d2a 0%, #ffd7ad 100%);
+  background: -o-linear-gradient(top, #fe9d2a 0%, #ffd7ad 100%);
+  background: -ms-linear-gradient(top, #fe9d2a 0%, #ffd7ad 100%);
+  background: linear-gradient(to bottom, #fe9d2a 0%, #ffd7ad 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe9d2a', endColorstr='#ffd7ad', GradientType=0);
+  color: #464646;
   font-weight: bold;
 }
