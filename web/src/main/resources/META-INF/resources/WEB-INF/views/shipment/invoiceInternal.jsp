@@ -49,7 +49,7 @@
                 {name:"processId"} //Bug-Fix ->Not Work Search 
            ],
 
-        fetchDataURL: "${contextPath}/api/invoiceInternal/spec-list"
+        fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
     });
 
 

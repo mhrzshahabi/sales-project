@@ -52,6 +52,7 @@ public class InvoiceInternalRestController {
     @Loggable
     @GetMapping(value = "/list-accounting")
     public ResponseEntity<TotalResponse<InvoiceInternalDTO.Info>> listAccounting(@RequestParam MultiValueMap<String, String> criteria) {
+        criteria.set("criteria","{\"fieldName\":\"processId\",\"operator\":\"isBlank\"}");
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         TotalResponse<InvoiceInternalDTO.Info> search = invoiceInternalService.search(nicicoCriteria);
         for(InvoiceInternalDTO.Info info : search.getResponse().getData()){
