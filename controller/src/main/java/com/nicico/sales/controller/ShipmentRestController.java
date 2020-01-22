@@ -25,28 +25,24 @@ public class ShipmentRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-    //@PreAuthorize("hasAuthority('r_shipment')")
     public ResponseEntity<ShipmentDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(shipmentService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    //@PreAuthorize("hasAuthority('r_shipment')")
     public ResponseEntity<List<ShipmentDTO.Info>> list() {
         return new ResponseEntity<>(shipmentService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-    //@PreAuthorize("hasAuthority('c_shipment')")
     public ResponseEntity<ShipmentDTO.Info> create(@Validated @RequestBody ShipmentDTO.Create request) {
         return new ResponseEntity<>(shipmentService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-    //@PreAuthorize("hasAuthority('u_shipment')")
     public ResponseEntity<ShipmentDTO.Info> update(@RequestBody ShipmentDTO.Update request) {
         Long id = request.getId();
         return new ResponseEntity<>(shipmentService.update(id, request), HttpStatus.OK);
@@ -54,7 +50,6 @@ public class ShipmentRestController {
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    //@PreAuthorize("hasAuthority('d_shipment')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         shipmentService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +57,6 @@ public class ShipmentRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-    //@PreAuthorize("hasAuthority('d_shipment')")
     public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentDTO.Delete request) {
         shipmentService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +64,6 @@ public class ShipmentRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-//	@PreAuthorize("hasAuthority('r_instruction')")
     public ResponseEntity<TotalResponse<ShipmentDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(shipmentService.search(nicicoCriteria), HttpStatus.OK);
@@ -78,7 +71,6 @@ public class ShipmentRestController {
 
     @Loggable
     @GetMapping(value = "/pick-list")
-//	@PreAuthorize("hasAuthority('r_shipment')")
     public ResponseEntity<String> pickList(
             @RequestParam(value = "_startRow", required = false) Integer startRow,
             @RequestParam(value = "_endRow", required = false) Integer endRow,

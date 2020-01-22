@@ -1300,7 +1300,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                         {fieldName: "contractId", operator: "equals", value: 1},
                         {fieldName: "categoryValue", operator: "equals", value: 1}]
                 },
-                width: "1500",
+                width: "1200",
                 height: "30",
                 title: "NAME",
                 changed: function (form, item, value) {
@@ -1512,7 +1512,7 @@ lotList = isc.ListGrid.create({
 var vlayoutBodyMo = isc.VLayout.create({
         width: "100%",
         height: "8%",
-        styleName: "box-shaddow",
+        styleName: "mol-page1-form",
         members: [
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactMo]}),

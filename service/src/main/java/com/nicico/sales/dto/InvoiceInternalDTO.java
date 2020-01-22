@@ -56,6 +56,7 @@ public class InvoiceInternalDTO {
     private String groupGoodName;
     private String lcDateSarReceid;
     private String processId;
+    private String codeTafsiliNosa;
 
     @Getter
     @Setter
@@ -76,6 +77,7 @@ public class InvoiceInternalDTO {
         private String sellerTafsili;
         private String sellerName;
         private String buyerName;
+        private String codeTafsiliNosa;
     }
 
     @Getter

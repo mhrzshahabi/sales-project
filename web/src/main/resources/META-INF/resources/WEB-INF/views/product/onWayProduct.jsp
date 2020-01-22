@@ -259,7 +259,6 @@
 
 
     var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
-        width: "200",
         wrapItemTitles: false,
         setMethod: 'POST',
         align: "center",
@@ -269,7 +268,6 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "200",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
@@ -279,7 +277,7 @@
             title: "<spring:message code='dailyWarehouse.fromDay'/>",
             type: 'text',
             align: "center",
-            width: 150,
+            width: 130,
             colSpan: 1,
             titleColSpan: 1,
             icons: [{
@@ -294,7 +292,6 @@
 
 
     var DynamicForm_DailyReport_Tozin1 = isc.DynamicForm.create({
-        width: "200",
         wrapItemTitles: false,
         setMethod: 'POST',
         align: "center",
@@ -315,7 +312,7 @@
             title: "<spring:message code='dailyWarehouse.toDay'/>",
             type: 'text',
             align: "center",
-            width: 150,
+            width: 130,
             colSpan: 1,
             titleColSpan: 1,
             icons: [{
@@ -330,7 +327,6 @@
 
 
     var DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
-        width: "200",
         wrapItemTitles: false,
         setMethod: 'POST',
         align: "center",
@@ -354,7 +350,7 @@
             required: true,
             title: "<spring:message code='contractItem.material'/>",
             type: 'long',
-            width: "100%",
+            width: 130,
             editorType: "SelectItem",
             optionDataSource: RestDataSource_MaterialItem_IN_ONWAYPRODUCT,
             displayField: "gdsName",
@@ -375,7 +371,6 @@
 
 
     var DynamicForm_DailyReport_Tozin3 = isc.DynamicForm.create({
-        width: "200",
         wrapItemTitles: false,
         setMethod: 'POST',
         align: "center",
@@ -391,6 +386,7 @@
         numCols: 4,
         fields: [{
             name: "type",
+            width: 130,
             title: "<spring:message code='dailyWarehouse.plant'/>",
             valueMap: {
                 "1-": "<spring:message code='global.Sarcheshmeh'/>",
@@ -404,7 +400,6 @@
 
 
     var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
-        width: "200",
         wrapItemTitles: false,
         setMethod: 'POST',
         align: "center",
@@ -420,6 +415,7 @@
         numCols: 4,
         fields: [{
             name: "type",
+            width: 130,
             title: "<spring:message code='warehouseCad.movementType'/>",
             valueMap: {
                 "جاده ای": "جاده ای",
@@ -680,19 +676,8 @@
         }
     });
 
-
-    var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
-        width: "100%",
-        height: 40,
-        membersMargin: 10,
-        members: [
-            DynamicForm_DailyReport_Tozin,
-            DynamicForm_DailyReport_Tozin1,
-            DynamicForm_DailyReport_Tozin2,
-            DynamicForm_DailyReport_Tozin3,
-            DynamicForm_DailyReport_Tozin4,
-            isc.IButton.create({
-                width: 150,
+       var onWayProduct_searchBtn = isc.IButton.create({
+                width: 120,
                 title: "<spring:message code='global.search'/>",
                 icon: "icon/search.png",
                 click: function () {
@@ -785,7 +770,28 @@
 
                     ListGrid_Tozin.fetchData(criteria);
                 }
-            }),
+            });
+
+        var HLayout_onWayProduct_searchBtn = isc.HLayout.create({
+        align: "center",
+        members:
+            [
+                onWayProduct_searchBtn
+            ]
+    });
+
+    var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
+        width: "100%",
+        height: 40,
+        membersMargin: 10,
+        align: "center",
+        members: [
+            DynamicForm_DailyReport_Tozin,
+            DynamicForm_DailyReport_Tozin1,
+            DynamicForm_DailyReport_Tozin2,
+            DynamicForm_DailyReport_Tozin3,
+            DynamicForm_DailyReport_Tozin4,
+            HLayout_onWayProduct_searchBtn,
             isc.ToolStrip.create({
                 width: "100%",
                 align: "left",

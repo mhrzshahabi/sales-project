@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStylebutton.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
-
     <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
@@ -38,7 +37,6 @@
     <script src=isomorphic/system/modules/ISC_Analytics.js></script>
     <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
     <script SRC=isomorphic/system/modules/ISC_RichTextEditor.js></script>
-
     <script SRC=isomorphic/skins/Nicico/load_skin.js></script>
     <script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>
 
@@ -216,7 +214,7 @@
 
     var label_Username = isc.Label.create({
 
-        width: 100,
+        width: 200,
         dynamicContents: true,
         styleName: "header-label-username",
         contents: "<spring:message code='global.user'/>" + ":" + '${userFullName}',
@@ -342,13 +340,7 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
-                {
-                    title: "<spring:message code='material.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='material.title'/>", "<spring:url value="/material/showForm" />")
-                    }
-                },
-                {isSeparator: true},
+
 
 
 
@@ -394,46 +386,6 @@
 
                 {isSeparator: true},
 
-                {
-                    title: "<spring:message code='commercialIncoterms.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-
-
-                {
-                    title: "<spring:message code='feature.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='feature.title'/>", "<spring:url value="/feature/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-
-
-
-                {
-                    title: "<spring:message code='glossary.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='glossary.title'/>", "<spring:url value="/glossary/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='country.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
-                    }
-                },
-
-
-                {isSeparator: true},
 
                 {
                     title: "<spring:message code='main.baseTab.test'/>",
@@ -462,34 +414,6 @@
 
 
 
-
-
-
-                {
-                    title: "<spring:message code='parameters.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-
-
-
-                {
-                    title: "<spring:message code='dcc.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='instruction.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='instruction.title'/>", "<spring:url value="/instruction/showForm" />")
-                    }
-                },
-                {isSeparator: true},
                 {
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
@@ -535,6 +459,7 @@
                             }
                         },
                         {isSeparator: true},
+
                         {
                             title: "<spring:message code='LME.title'/>",
                             click: function () {
@@ -543,13 +468,75 @@
                         },
                     ]
                 },
+                {isSeparator: true},
+
+
+                {
+                    title: "<spring:message code='material.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='material.title'/>", "<spring:url value="/material/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
+                {
+                    title: "<spring:message code='country.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
+
+                {
+                    title: "<spring:message code='parameters.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
+
+
+                {
+                    title: "<spring:message code='dcc.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
+                {
+                    title: "<spring:message code='instruction.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='instruction.title'/>", "<spring:url value="/instruction/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+                {
+                    showIf:"false",
+                    title: "<spring:message code='commercialIncoterms.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
             ]
+
+
+
         }),
     });
 
     /*----------------------settingTab------------------------*/
     settingTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.settingTab'/>",
+        title: "&nbsp; <spring:message code='global.form.new.sub'/>",
         menu: isc.Menu.create({
             placement: "none",
             data: [
@@ -889,3 +876,41 @@
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%--{--%>
+<%--    howIf:"false",--%>
+<%--    title: "<spring:message code='feature.title'/>",--%>
+<%--    click: function () {--%>
+<%--        createTab("<spring:message code='feature.title'/>", "<spring:url value="/feature/showForm" />")--%>
+<%--    }--%>
+<%--},--%>
+<%--{isSeparator: true},--%>
+
+
+
+
+<%--{--%>
+<%--    title: "<spring:message code='glossary.title'/>",--%>
+<%--    click: function () {--%>
+<%--        createTab("<spring:message code='glossary.title'/>", "<spring:url value="/glossary/showForm" />")--%>
+<%--    }--%>
+<%--},--%>
+<%--{isSeparator: true},--%>
