@@ -9422,7 +9422,9 @@ hr {
   border-radius: 3px;
   background-color: #e8f0e6;
   border: solid 1px #05a74a;
-  width: 70px;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
   height: 20px;
 }
 .toolStripButtonAddLarge:hover,

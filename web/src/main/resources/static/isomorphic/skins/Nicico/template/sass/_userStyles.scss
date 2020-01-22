@@ -454,7 +454,9 @@ $window_header_bgColor: #fe9d2a !default;
     color: #05a74a;
     font-weight: bold;
   }
-  width: 70px;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
   height: 20px;
 }
 
