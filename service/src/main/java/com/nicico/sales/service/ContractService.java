@@ -113,7 +113,6 @@ public class ContractService implements IContractService {
         String contractNo = map.get("contractNo") + "";
         Integer contractId = (Integer) map.get("contractId");
         List<WarehouseLot> listsFromHouseLot = warehouseLotDAO.findByContractId(Long.valueOf(contractId));
-        //List<ContractShipment> shipmentListContracts = contractShipmentDAO.findByContractId(Long.valueOf(contractId));
         printOnePage(printdoc, contractId);
         contractDAO.findById(contractId).getMaterial();
         map.remove("contractNo");
@@ -456,7 +455,7 @@ public class ContractService implements IContractService {
         if (headerParagraph == null) headerParagraph = header.createParagraph();
         headerParagraph.setAlignment(ParagraphAlignment.CENTER);
         InputStream in = this.getClass().getResourceAsStream("/reports/report-logo/ArmNicico.jpg");
-        run.addPicture(in, Document.PICTURE_TYPE_JPEG, "ArmNicico.jpg", Units.toEMU(400), Units.toEMU(75));
+        run.addPicture(in, Document.PICTURE_TYPE_JPEG, "ArmNicico.jpg", Units.toEMU(510), Units.toEMU(75));
         in.close();
 
         XWPFTable tableNo = printdoc.createTable(1, 2);
