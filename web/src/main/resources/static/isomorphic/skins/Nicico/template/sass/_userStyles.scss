@@ -937,15 +937,15 @@ $window_header_bgColor: #fe9d2a !default;
 .expandList .cellSelectedOverAltCol,
 .expandList .cellSelectedOverDarkAltCol,
 .expandList .cellPendingSelectedOverAltCol {
-  background: rgba(254, 157, 42, 1);
-  background: -moz-linear-gradient(top, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(254, 157, 42, 1)), color-stop(100%, rgba(255, 215, 173, 1)));
-  background: -webkit-linear-gradient(top, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-  background: -o-linear-gradient(top, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-  background: -ms-linear-gradient(top, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-  background: linear-gradient(to bottom, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe9d2a', endColorstr='#ffd7ad', GradientType=0);
-  color: #ffffff;
+  background: rgba(255,182,99,1);
+  background: -moz-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,182,99,1)), color-stop(100%, rgba(255,215,173,1)));
+  background: -webkit-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  background: -o-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  background: -ms-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  background: linear-gradient(to bottom, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb663', endColorstr='#ffd7ad', GradientType=0 );
+  color: #464646;
   font-weight: bold;
 }
 
@@ -1101,14 +1101,14 @@ input[type="text"].selectItemLiteTextDisabledHintRTL {
  .recordSummaryCellSelectedDark,
  .cellSelectedOver,
  .cellSelectedOverDark{
-   background: rgba(254, 157, 42, 1);
-   background: -moz-linear-gradient(top, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-   background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(254, 157, 42, 1)), color-stop(100%, rgba(255, 215, 173, 1)));
-   background: -webkit-linear-gradient(top, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-   background: -o-linear-gradient(top, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-   background: -ms-linear-gradient(top, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-   background: linear-gradient(to bottom, rgba(254, 157, 42, 1) 0%, rgba(255, 215, 173, 1) 100%);
-   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe9d2a', endColorstr='#ffd7ad', GradientType=0);
-   color: #ffffff;
+   background: rgba(255,182,99,1);
+   background: -moz-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,182,99,1)), color-stop(100%, rgba(255,215,173,1)));
+   background: -webkit-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   background: -o-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   background: -ms-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   background: linear-gradient(to bottom, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb663', endColorstr='#ffd7ad', GradientType=0 );
+   color: #464646;
    font-weight: bold;
 }
