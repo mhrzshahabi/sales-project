@@ -536,7 +536,7 @@
 
     /*----------------------settingTab------------------------*/
     settingTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='global.form.new.sub'/>",
+            title: "&nbsp; <spring:message code='main.settingTab'/>",
         menu: isc.Menu.create({
             placement: "none",
             data: [
