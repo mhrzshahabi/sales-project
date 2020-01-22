@@ -485,7 +485,7 @@ var DynamicForm_ContactParameter_ValueNumber8Cad=isc.DynamicForm.create({
                         {fieldName: "contractId", operator: "equals", value: 3},
                         {fieldName: "categoryValue", operator: "equals", value: 1}]
                 },
-                width: "1500",
+                width: "1200",
                 height: "30",
                 title: "NAME",
                 changed: function (form, item, value) {
@@ -532,7 +532,7 @@ var dynamicFormCad_fullArticle01 = isc.DynamicForm.create({
 var vlayoutBodyCad = isc.VLayout.create({
         width: "100%",
         height: "5",
-        styleName: "box-shaddow",
+        styleName: "cad-page1-form",
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactCad]}),

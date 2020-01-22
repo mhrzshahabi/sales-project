@@ -1690,7 +1690,7 @@ overflow: "scroll",
     });
 
     var ToolStripButton_MaterialItem_Add = isc.ToolStripButtonAddLarge.create({
-        title: "<spring:message code='global.form.new'/>",
+        title: "<spring:message code='global.form.new.sub'/>",
         click: function () {
             var record = ListGrid_Material.getSelectedRecord();
 

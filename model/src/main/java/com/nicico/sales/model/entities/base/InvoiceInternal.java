@@ -14,6 +14,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_INVOICE_INTERNAL")
+
 public class InvoiceInternal extends Auditable {
 
 	@Id
@@ -97,6 +98,8 @@ public class InvoiceInternal extends Auditable {
 	private String lcDateSarReceid;
 	@Column(name = "PROCESSID")
 	private String processId;
+	@Column(name = "CUST_CODENOSA" , length = 100)
+	private String codeTafsiliNosa;
 
 
 }

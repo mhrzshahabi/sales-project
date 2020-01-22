@@ -73,14 +73,14 @@ public class WarehouseCadItemRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list-issue-cad")
-    public ResponseEntity<TotalResponse<WarehouseCadItemDTO.InfoCombo2>> list1(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+    public ResponseEntity<TotalResponse<WarehouseCadItemDTO.InfoCombo2>> list1(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(warehouseCadItemService.search1(nicicoCriteria), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/spec-list-ids/{ids}")
-    public ResponseEntity<List<WarehouseCadItemDTO.Info>> listIds(@PathVariable String ids) throws IOException {
+    public ResponseEntity<List<WarehouseCadItemDTO.Info>> listIds(@PathVariable String ids) {
         List<Long> i = new ArrayList<>();
 
         String[] sIds = ids.split(",");
