@@ -512,3 +512,13 @@
     border: solid 1px #153560;
     font-size: 15px;
 }
+
+.cad-page1-form .formTitleDisabled,.cad-page1-form  .formTitleDisabledRTL, .cad-page1-form .formTitlePendingDisabled,.cad-page1-form  .formTitlePendingDisabledRTL {
+    color: #272727;
+}
+.mol-page1-form .formTitleDisabled,.mol-page1-form  .formTitleDisabledRTL, .mol-page1-form .formTitlePendingDisabled,.mol-page1-form  .formTitlePendingDisabledRTL {
+    color: #272727;
+}
+.conc-page1-form .formTitleDisabled,.conc-page1-form  .formTitleDisabledRTL, .conc-page1-form .formTitlePendingDisabled,.conc-page1-form  .formTitlePendingDisabledRTL {
+    color: #272727;
+}
