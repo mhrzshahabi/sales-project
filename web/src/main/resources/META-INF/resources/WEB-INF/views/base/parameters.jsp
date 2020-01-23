@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
@@ -40,11 +39,9 @@
             fetchDataURL: "${contextPath}/api/parameters/spec-list"
         });
 
-
     function ListGrid_Parameters_refresh() {
         ListGrid_Parameters.invalidateCache();
     }
-
 
     function ListGrid_Parameters_edit() {
         var record = ListGrid_Parameters.getSelectedRecord();
@@ -121,7 +118,6 @@
         }
     }
 
-
     var Menu_ListGrid_Parameters = isc.Menu.create({
         width: 150,
         data: [
@@ -153,7 +149,6 @@
         ]
     });
 
-
     var DynamicForm_Parameters = isc.DynamicForm.create({
         width: 650,
         height: "100%",
@@ -171,7 +166,6 @@
         fields:
             [
                 {name: "id", hidden: true,},
-                {type: "RowSpacerItem"},
                 {
                     name: "paramName",
                     title: "<spring:message code='parameters.paramName'/>",
@@ -180,8 +174,12 @@
                     type: "text"
                 },
                 {
-                    name: "contractId", title: "<spring:message	code='parameters.paramValue'/>",
-                    width: 500, type: "select", required: true, valueMap: {"1": "MOLYBDENUM OXIDE", "2": "CONCENTRATE","3":"CATHOD"}
+                    name: "contractId",
+                    title: "<spring:message	code='parameters.paramValue'/>",
+                    width: 500,
+                    type: "select",
+                    required: true,
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "2": "CONCENTRATE", "3": "CATHOD"}
                 },
                 {
                     name: "categoryValue",
@@ -224,8 +222,7 @@
                 {
                     name: "paramValue", title: "<spring:message	code='parameters.paramValue.c'/>",
                     width: 500, type: "textArea", required: true
-                },
-                {type: "RowSpacerItem"}
+                }
             ]
     });
 
@@ -290,15 +287,12 @@
             ]
     });
 
-
-
     var IButton_Parameters_Save = isc.IButtonSave.create(
         {
             top: 260,
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
-            click: function()
-            {
+            click: function () {
                 /*ValuesManager_GoodsUnit.validate();*/
                 DynamicForm_Parameters.validate();
                 if (DynamicForm_Parameters.hasErrors())
@@ -313,10 +307,8 @@
                         actionURL: "${contextPath}/api/parameters",
                         httpMethod: method,
                         data: JSON.stringify(data),
-                        callback: function(RpcResponse_o)
-                        {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
-                            {
+                        callback: function (RpcResponse_o) {
+                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
 
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Parameters_refresh();
@@ -328,7 +320,6 @@
                     }))
             }
         });
-
 
     var ParametersCancelBtn = isc.IButtonCancel.create({
         top: 260,
@@ -352,7 +343,6 @@
         ]
     });
 
-
     var Window_Parameters = isc.Window.create(
         {
             title: "<spring:message code='parameters.title'/> ",
@@ -364,8 +354,7 @@
             align: "center",
             autoDraw: false,
             dismissOnEscape: true,
-            closeClick: function()
-            {
+            closeClick: function () {
                 this.Super("closeClick", arguments)
             },
             items: [
@@ -373,7 +362,6 @@
                 HLayout_Parameters_IButton
             ]
         });
-
 
     var ListGrid_Parameters = isc.ListGrid.create(
         {
@@ -407,14 +395,12 @@
             showFilterEditor: true,
             filterOnKeypress: true,
             recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-            {
+            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
                 ListGrid_ParametersFeature.fetchData(
                     {
                         "tblParameters.id": record.id
-                    }, function(dsResponse, data, dsRequest)
-                    {
+                    }, function (dsResponse, data, dsRequest) {
                         ListGrid_ParametersFeature.setData(data);
                     },
                     {
@@ -422,7 +408,6 @@
                     });
             }
         });
-
 
     var HLayout_Parameters_Grid = isc.HLayout.create(
         {
@@ -432,7 +417,7 @@
                 ListGrid_Parameters
             ]
         });
-    var VLayout_Parameters_Body = isc.VLayout.create(
+    isc.VLayout.create(
         {
             width: "100%",
             height: "100%",

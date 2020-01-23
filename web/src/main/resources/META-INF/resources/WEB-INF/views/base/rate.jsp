@@ -39,7 +39,6 @@
 
     var ValuesManager_Rate = isc.ValuesManager.create({});
 
-
     var DynamicForm_Rate = isc.DynamicForm.create(
         {
             width: "100%",
@@ -59,10 +58,7 @@
             fields: [
                 {
                     name: "id",
-                    hidden: true, showIf:"false",
-                },
-                {
-                    type: "RowSpacerItem"
+                    hidden: true, showIf: "false",
                 },
                 {
                     name: "code",
@@ -71,7 +67,7 @@
                     required: true,
                     width: 300,
                     keyPressFilter: "[0-9]",
-                    length: "15" , showIf:"false",
+                    length: "15", showIf: "false",
                 },
                 {
                     name: "nameFA",
@@ -109,13 +105,9 @@
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         }]
-                },
-                {
-                type: "RowSpacerItem"
-                },
-]
+                }
+            ]
         });
-
 
     var IButton_Rate_Save = isc.IButtonSave.create({
         top: 260,
@@ -147,7 +139,6 @@
             );
         }
     });
-
 
     var Window_Rate = isc.Window.create({
         title: "<spring:message code='rate.title'/> ",
@@ -194,13 +185,11 @@
         ListGrid_Rate.invalidateCache();
     }
 
-    function ListGrid_Rate_remove()
-    {
+    function ListGrid_Rate_remove() {
 
         var record = ListGrid_Rate.getSelectedRecord();
 
-        if (record == null || record.id == null)
-        {
+        if (record == null || record.id == null) {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -210,14 +199,12 @@
                         {
                             title: "<spring:message code='global.ok'/>"
                         })],
-                    buttonClick: function()
-                    {
+                    buttonClick: function () {
                         this.hide();
                     }
                 });
         }
-        else
-        {
+        else {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.remove.ask'/>",
@@ -231,26 +218,21 @@
                             title: "<spring:message code='global.no'/>"
 
                         })],
-                    buttonClick: function(button, index)
-                    {
+                    buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0)
-                        {
+                        if (index === 0) {
 
                             var rateId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/rate/" + rateId,
                                     httpMethod: "DELETE",
-                                    callback: function(RpcResponse_o)
-                                    {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
-                                        {
+                                    callback: function (RpcResponse_o) {
+                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                             ListGrid_Rate.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
-                                        else
-                                        {
+                                        else {
                                             isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                         }
                                     }
@@ -280,7 +262,6 @@
         }
     }
 
-
     var ToolStripButton_Rate_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -307,7 +288,6 @@
         }
     });
 
-
     var ToolStripButton_Rate_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -316,7 +296,6 @@
         }
     });
 
-
     var ToolStrip_Actions_Rate = isc.ToolStrip.create({
         width: "100%",
         members: [
@@ -324,12 +303,12 @@
             ToolStripButton_Rate_Edit,
             ToolStripButton_Rate_Remove,
             isc.ToolStrip.create({
-            width: "100%",
-            align: "left",
-            border: '0px',
-            members: [
-                ToolStripButton_Rate_Refresh,
-            ]
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Rate_Refresh,
+                ]
             })
         ]
     });
@@ -391,7 +370,7 @@
                 {
                     name: "code",
                     title: "<spring:message code='rate.code'/> ",
-                    align: "center" , showIf:"false",
+                    align: "center", showIf: "false",
                 },
                 {
                     name: "nameFA",
@@ -419,10 +398,8 @@
             dataPageSize: 50,
             autoFetchData: true,
             showFilterEditor: true,
-            filterOnKeypress: true,
-            startsWithTitle: "tt"
+            filterOnKeypress: true
         });
-
 
     var HLayout_Grid_Rate = isc.HLayout.create({
         width: "100%",

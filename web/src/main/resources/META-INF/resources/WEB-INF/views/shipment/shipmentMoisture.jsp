@@ -1013,36 +1013,6 @@
                 showHover: true
             }
         ],
-/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-            };
-            ListGrid_ShipmentMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ShipmentMoistureHeader.setData(data);
-                var recordH = ListGrid_ShipmentMoistureHeader.getRecord(0);
-
-                if (ListGrid_ShipmentMoistureHeader.getRecord(0) != null)
-                    criteria1 = {
-                        _constructor: "AdvancedCriteria",
-                        operator: "and",
-                        criteria: [{fieldName: "shipmentMoistureHeader", operator: "equals", value: recordH.id}]
-                    };
-                else
-                    criteria1 = {
-                        _constructor: "AdvancedCriteria",
-                        operator: "and",
-                        criteria: [{fieldName: "shipmentMoistureHeader", operator: "equals", value: -999999999}]
-                    };
-
-                ListGrid_ShipmentMoistureItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                    ListGrid_ShipmentMoistureItem.setData(data);
-                });
-            });
-        },*/
         getExpansionComponent: function (record) {
         return getExpandedComponent_ShipmentByMoistureHeader(record)
         },
@@ -1115,7 +1085,6 @@
             [
                 {name: "id", hidden: true},
                 {name: "shipmentId", hidden: true},
-                {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentId", title: "id", canEdit: false, hidden: true},
                 {
@@ -1638,7 +1607,6 @@
         numCols: 4,
         fields:
             [
-                {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentMoistureHeaderId", title: "id", canEdit: false, hidden: true},
                 {

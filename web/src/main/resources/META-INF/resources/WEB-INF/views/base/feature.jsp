@@ -54,11 +54,16 @@
         numCols: 2,
 
         fields: [
-            {name: "id", hidden: true, showIf:"false",},
-            {type: "RowSpacerItem"},
+            {name: "id", hidden: true, showIf: "false",},
             {
-                name: "code", title: "<spring:message code='feature.code'/>", type: 'text', required: true, width: 500, showIf:"false",
-                keyPressFilter: "[0-9]", length: "100",
+                name: "code",
+                title: "<spring:message code='feature.code'/>",
+                type: 'text',
+                required: true,
+                width: 500,
+                showIf: "false",
+                keyPressFilter: "[0-9]",
+                length: "100",
             },
             {
                 name: "nameFA",
@@ -92,11 +97,9 @@
                     errorMessage: "<spring:message code='global.form.correctType'/>"
 
                 }]
-            },
-            {type: "RowSpacerItem"},
+            }
         ]
     });
-
 
     var IButton_Feature_Save = isc.IButtonSave.create({
         top: 260,
@@ -128,7 +131,6 @@
             );
         }
     });
-
 
     var Window_Feature = isc.Window.create({
         title: "<spring:message code='feature.title'/>",
@@ -242,7 +244,6 @@
         }
     }
 
-
     var ToolStripButton_Feature_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -268,7 +269,6 @@
             ListGrid_Feature_edit();
         }
     });
-
 
     var ToolStripButton_Feature_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
@@ -335,7 +335,6 @@
             fetchDataURL: "${contextPath}/api/feature/spec-list"
         });
 
-
     var ListGrid_Feature = isc.ListGrid.create(
         {
             width: "100%",
@@ -353,7 +352,7 @@
                 {
                     name: "code",
                     title: "<spring:message code='feature.code'/> ",
-                    align: "center" , showIf:"false",
+                    align: "center", showIf: "false",
                 },
                 {
                     name: "nameFA",
@@ -379,10 +378,8 @@
             dataPageSize: 50,
             autoFetchData: true,
             showFilterEditor: true,
-            filterOnKeypress: true,
-            startsWithTitle: "tt"
+            filterOnKeypress: true
         });
-
 
     var HLayout_Grid_Feature = isc.HLayout.create(
         {
@@ -393,7 +390,7 @@
             ]
         });
 
-    var VLayout_Body_Feature = isc.VLayout.create(
+    isc.VLayout.create(
         {
             width: "100%",
             height: "100%",

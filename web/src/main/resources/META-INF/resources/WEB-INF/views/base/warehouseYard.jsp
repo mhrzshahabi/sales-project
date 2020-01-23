@@ -5,7 +5,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-
     var RestDataSource_WarehouseYard__BANK = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -26,7 +25,6 @@
 
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
-
 
     function ListGrid_WarehouseYard_refresh() {
         ListGrid_WarehouseYard.invalidateCache();
@@ -99,9 +97,6 @@
         }
     }
 
-
-
-
     var Menu_ListGrid_WarehouseYard = isc.Menu.create({
         width: 150,
         data: [
@@ -151,9 +146,6 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
-                    type: "RowSpacerItem",
-                },
-                {
                     name: "warehouseNo",
                     title: "<spring:message code='warehouseCad.warehouseNo'/>",
                     width: 500,
@@ -172,10 +164,7 @@
                     width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1
-                },
-                {
-                    type: "RowSpacerItem",
-                },
+                }
             ]
     });
 
@@ -213,7 +202,6 @@
             ListGrid_WarehouseYard_remove();
         }
     });
-
 
     var ToolStrip_Actions_WarehouseYard = isc.ToolStrip.create({
         width: "100%",
@@ -271,11 +259,9 @@
         }
     });
 
-
     var Window_WarehouseYard = isc.Window.create({
         title: "<spring:message code='warehouseCad.warehouseNo'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -311,6 +297,7 @@
                 })
             ]
     });
+
     var ListGrid_WarehouseYard = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -349,7 +336,7 @@
         ]
     });
 
-    var VLayout_WarehouseYard_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

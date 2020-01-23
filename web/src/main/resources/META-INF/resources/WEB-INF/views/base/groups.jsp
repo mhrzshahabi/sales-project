@@ -124,7 +124,6 @@
             fetchDataURL: "${contextPath}/api/person/spec-list"
         });
 
-
     var Menu_ListGrid_Groups = isc.Menu.create({
         width: 150,
         data: [
@@ -173,17 +172,13 @@
 
         fields: [
             {name: "id", hidden: true,},
-            {type: "RowSpacerItem"},
             {
                 name: "groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
                 width: 400
-            },
-            {
-                type: "RowSpacerItem"
-            },
+            }
         ]
     });
 
@@ -243,7 +238,6 @@
     var Window_Groups = isc.Window.create({
         title: "<spring:message code='groups.title'/>",
         width: 600,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -427,15 +421,14 @@
                     type: 'text',
                     required: true,
                     width: "100%"
-                }, ],
+                },],
             sortField: 0,
             autoFetchData: true,
             showFilterEditor: true,
             filterOnKeypress: true,
 
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-            {
+            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
                 var criteria = {
                     _constructor: "AdvancedCriteria",
@@ -447,8 +440,7 @@
                             value: record.id
                         }]
                 };
-                ListGrid_GroupsPerson.fetchData(criteria, function(dsResponse, data, dsRequest)
-                    {
+                ListGrid_GroupsPerson.fetchData(criteria, function (dsResponse, data, dsRequest) {
                         ListGrid_GroupsPerson.setData(data);
                     },
                     {
@@ -472,7 +464,6 @@
             HLayout_Actions_Groups, HLayout_Grid_Groups
         ]
     });
-
 
     var Menu_ListGrid_Person_GroupEmail = isc.Menu.create({
         width: 150,
@@ -542,10 +533,9 @@
                     type: 'long',
                     width: "10%",
                     align: "center",
-                    sortNormalizer: function(recordObject)
-                    {
-                    return recordObject.contact.nameFA;
-                }
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.contact.nameFA;
+                    }
                 },
                 {
                     name: "fullName",
@@ -614,8 +604,7 @@
             showFilterEditor: true,
             filterOnKeypress: true,
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-            {
+            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
                 var criteria = {
                     _constructor: "AdvancedCriteria",
@@ -627,8 +616,7 @@
                             value: record.id
                         }]
                 };
-                ListGrid_GroupsPerson.fetchData(criteria, function(dsResponse, data, dsRequest)
-                    {
+                ListGrid_GroupsPerson.fetchData(criteria, function (dsResponse, data, dsRequest) {
                         ListGrid_GroupsPerson.setData(data);
                     },
                     {
@@ -636,7 +624,6 @@
                     });
             }
         });
-
 
     var HLayout_Grid_Person = isc.HLayout.create({
         width: "100%",
@@ -710,6 +697,7 @@
                 }
             ]
     });
+
     var DynamicForm_GroupsPerson = isc.DynamicForm.create({
         width: 700,
         height: "100%",
@@ -727,9 +715,7 @@
         fields:
             [
                 {name: "id", hidden: true,},
-                // {type: "RowSpacerItem"},
                 {name: "groupsId", type: "long", hidden: true},
-                // {type: "RowSpacerItem"},
                 {
                     name: "personId",
                     title: "<spring:message code='person.fullName'/>",
@@ -745,22 +731,23 @@
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                         {
-                        name: "id",
-                        align: "center",
-                        hidden: true,
+                            name: "id",
+                            align: "center",
+                            hidden: true,
                         }, {
-                        name: "fullName",
-                        width: 150,
-                        align: "center"
-                    }, {name: "contact.nameFA",
-                        title: "<spring:message code='commercialParty.title'/>",
-                        width: 200,
-                        align: "center"
+                            name: "fullName",
+                            width: 150,
+                            align: "center"
                         }, {
-                        name: "email",
-                        width: 150,
-                        align: "center"
-                    }]
+                            name: "contact.nameFA",
+                            title: "<spring:message code='commercialParty.title'/>",
+                            width: 200,
+                            align: "center"
+                        }, {
+                            name: "email",
+                            width: 150,
+                            align: "center"
+                        }]
                 }
             ]
     });
@@ -818,8 +805,6 @@
         ]
     });
 
-
-
     var GroupPersonHeaderForm = isc.DynamicForm.create({
         align: "center",
         width: 800,
@@ -842,7 +827,7 @@
     function setGroupPersonHeaderFormData(record) {
         GroupPersonHeaderForm.setValue("id", record.groups.id);
         GroupPersonHeaderForm.setValue("groupsName", record.groups.groupsName);
-    };
+    }
 
     var GroupPersonHeaderVLayout = isc.VLayout.create({
         autoDraw: false,
@@ -854,9 +839,6 @@
 
         ]
     });
-
-
-
 
     var Window_GroupsPerson = isc.Window.create({
         title: "<spring:message code='groupsPerson.title'/>",
@@ -993,6 +975,7 @@
             ListGrid_GroupsPerson_edit();
         }
     });
+
     var ToolStripButton_GroupsPerson_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1018,12 +1001,14 @@
 
         ]
     });
+
     var HLayout_Actions_GroupsPerson = isc.HLayout.create({
         width: "100%",
         members: [
             ToolStrip_Actions_GroupsPerson
         ]
     });
+
     var RestDataSource_GroupsPerson = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -1227,9 +1212,8 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.groups.groupsName;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.groups.groupsName;
                 }
             },
             {
@@ -1246,9 +1230,8 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.fullName;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.fullName;
                 }
             },
             {
@@ -1256,9 +1239,8 @@
                 title: "<spring:message code='person.jobTitle'/>",
                 type: 'text',
                 width: 150,
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.jobTitle;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.jobTitle;
                 }
             },
             {
@@ -1271,9 +1253,8 @@
                     "MIS": "<spring:message code='global.MIS'/>",
                     "MS": "<spring:message code='global.MRS'/>",
                 },
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.title;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.title;
                 }
             },
             {
@@ -1282,9 +1263,8 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.email;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.email;
                 }
             },
             {
@@ -1292,9 +1272,8 @@
                 title: "<spring:message code='person.email1'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.email1;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.email1;
                 }
             },
             {
@@ -1302,9 +1281,8 @@
                 title: "<spring:message code='person.email2'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.email2;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.email2;
                 }
             },
             {
@@ -1312,9 +1290,8 @@
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.webAddress;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.webAddress;
                 }
             },
             {
@@ -1322,9 +1299,8 @@
                 title: "<spring:message code='person.mobileNo'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.mobileNo;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.mobileNo;
                 }
             },
             {
@@ -1332,9 +1308,8 @@
                 title: "<spring:message code='person.mobileNo1'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.mobileNo1;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.mobileNo1;
                 }
             },
             {
@@ -1342,9 +1317,8 @@
                 title: "<spring:message code='person.mobileNo2'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.mobileNo2;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.mobileNo2;
                 }
             }
         ],
@@ -1353,6 +1327,7 @@
         showFilterEditor: true,
         filterOnKeypress: true,
     });
+
     var HLayout_Grid_GroupsPerson = isc.HLayout.create({
         width: "100%",
         height: "100%",

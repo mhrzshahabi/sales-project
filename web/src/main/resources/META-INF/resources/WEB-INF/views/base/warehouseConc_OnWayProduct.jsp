@@ -48,7 +48,7 @@
 
 
     var RestDataSource_tozin_IN_WAREHOUSECONC_ONWAYPRODUCT = isc.MyRestDataSource.create({
-           fields: [{
+        fields: [{
             name: "id",
             title: "id",
             primaryKey: true,
@@ -233,7 +233,6 @@
     };
 
 
-
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
         width: "100%",
         height: "200",
@@ -255,27 +254,27 @@
         }, {
             name: "description"
         }],
-        saveEdits: function() {
+        saveEdits: function () {
             var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
             if (warehouseCadItem.weightKg === undefined) {
                 isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
                 return;
             }
         },
-        removeData: function(data) {}
+        removeData: function (data) {
+        }
     });
-
 
 
     var add_bundle_button = isc.IButton.create({
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
-        click: function() {
+        click: function () {
             ListGrid_WarehouseCadItem.selectAllRecords();
-            if(ListGrid_WarehouseCadItem.getSelectedRecords().length >= 1){
+            if (ListGrid_WarehouseCadItem.getSelectedRecords().length >= 1) {
                 isc.warn("<spring:message code='warehouseMo.alert'/>");
                 ListGrid_WarehouseCadItem.deselectAllRecords();
-                    return;
+                return;
             }
             ListGrid_WarehouseCadItem.deselectAllRecords();
 
@@ -426,11 +425,11 @@
                 name: "nameFA"
             }],
             changed: function (form, item, value) {
-                if(!item.getDisplayValue(value).includes("نسانتره")){
+                if (!item.getDisplayValue(value).includes("نسانتره")) {
                     isc.warn("<spring:message code='warehouseYard.alert'/>");
                     form.getItem("warehouseYardId").setValue("");
                 }
-                }
+            }
         }, {
             name: "sourceLoadDate",
             title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
@@ -485,7 +484,7 @@
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
-        click: function() {
+        click: function () {
             DynamicForm_warehouseCAD.validate();
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
@@ -500,11 +499,11 @@
                 return;
             }
 
-            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function(element) {
+            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
                 warehouseCadItems.add(element);
             });
 
-            ListGrid_WarehouseCadItem.getAllEditRows().forEach(function(element) {
+            ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
                 var element = ListGrid_WarehouseCadItem.getEditedRecord(element);
                 if (element.weightKg !== undefined) {
                     warehouseCadItems.add(element);
@@ -526,7 +525,7 @@
                 actionURL: "${contextPath}/api/warehouseCad/",
                 httpMethod: method,
                 data: JSON.stringify(data_WarehouseCad),
-                callback: function(resp) {
+                callback: function (resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Tozin_refresh();
@@ -571,7 +570,7 @@
                         width: 100,
                         icon: "pieces/16/icon_delete.png",
                         orientation: "vertical",
-                        click: function() {
+                        click: function () {
                             Window_Bijack.close();
                         }
                     })

@@ -6,214 +6,214 @@
     var RestDataSource_ProvisionalInvoice = isc.MyRestDataSource.create({
         fields:
             [
-                {name: "id",                title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "refNumber",         title: "<spring:message code='provisionalInvoice.refNumber'/>", width: 200},
-                {name: "refDate",           title: "<spring:message code='provisionalInvoice.refDate'/>", width: 200},
-                {name: "bolNumber",         title: "<spring:message code='provisionalInvoice.bolNumber'/>", width: 200},
-                {name: "switched",          title: "<spring:message code='provisionalInvoice.switched'/>", width: 200},
-                {name: "from",              title: "<spring:message code='shipment.loading'/>", width: 200},
-                {name: "to",                title: "<spring:message code='shipment.discharge'/>", width: 200},
-                {name: "netWet",            title: "<spring:message code='provisionalInvoice.netWet'/>", width: 200},
-                {name: "priceBaseFrom",     title: "<spring:message code='provisionalInvoice.priceBaseFrom'/>", width: 200},
-                {name: "priceBaseTO",       title: "<spring:message code='provisionalInvoice.priceBaseTO'/>", width: 200},
-                {name: "LMEcopper",         title: "<spring:message code='provisionalInvoice.LMEcopper'/>", width: 200},
-                {name: "LMEsilver",         title: "<spring:message code='provisionalInvoice.LMEsilver'/>", width: 200},
-                {name: "LMEgold",           title: "<spring:message code='provisionalInvoice.LMEgold'/>", width: 200},
-                {name: "totalNetWet",       title: "<spring:message code='provisionalInvoice.totalNetWet'/>", width: 200},
-                {name: "totalNetDry",       title: "<spring:message code='provisionalInvoice.totalNetDry'/>", width: 200},
-                {name: "totalMoisture",     title: "<spring:message code='provisionalInvoice.totalMoisture'/>", width: 200},
-                {name: "tblShipment.id",     title: "",   width: 200 ,      },
-                {name: "tblContact.id",      title: "",   width: 200,        },
-                {name: "tblBolHeader.id",    title: "",   width: 200,      },
-                {name: "tblMaterial.id",     title: "",   width: 200,       },
-                {name: "tblContract.id",     title: "",   width: 200,      },
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "refNumber", title: "<spring:message code='provisionalInvoice.refNumber'/>", width: 200},
+                {name: "refDate", title: "<spring:message code='provisionalInvoice.refDate'/>", width: 200},
+                {name: "bolNumber", title: "<spring:message code='provisionalInvoice.bolNumber'/>", width: 200},
+                {name: "switched", title: "<spring:message code='provisionalInvoice.switched'/>", width: 200},
+                {name: "from", title: "<spring:message code='shipment.loading'/>", width: 200},
+                {name: "to", title: "<spring:message code='shipment.discharge'/>", width: 200},
+                {name: "netWet", title: "<spring:message code='provisionalInvoice.netWet'/>", width: 200},
+                {name: "priceBaseFrom", title: "<spring:message code='provisionalInvoice.priceBaseFrom'/>", width: 200},
+                {name: "priceBaseTO", title: "<spring:message code='provisionalInvoice.priceBaseTO'/>", width: 200},
+                {name: "LMEcopper", title: "<spring:message code='provisionalInvoice.LMEcopper'/>", width: 200},
+                {name: "LMEsilver", title: "<spring:message code='provisionalInvoice.LMEsilver'/>", width: 200},
+                {name: "LMEgold", title: "<spring:message code='provisionalInvoice.LMEgold'/>", width: 200},
+                {name: "totalNetWet", title: "<spring:message code='provisionalInvoice.totalNetWet'/>", width: 200},
+                {name: "totalNetDry", title: "<spring:message code='provisionalInvoice.totalNetDry'/>", width: 200},
+                {name: "totalMoisture", title: "<spring:message code='provisionalInvoice.totalMoisture'/>", width: 200},
+                {name: "tblShipment.id", title: "", width: 200,},
+                {name: "tblContact.id", title: "", width: 200,},
+                {name: "tblBolHeader.id", title: "", width: 200,},
+                {name: "tblMaterial.id", title: "", width: 200,},
+                {name: "tblContract.id", title: "", width: 200,},
             ],
         fetchDataURL: "rest/provisionalInvoiceRestController/list"
     });
 
- var RestDataSource_BolHeader = isc.MyRestDataSource.create({
-    fields: [{
+    var RestDataSource_BolHeader = isc.MyRestDataSource.create({
+        fields: [{
             name: "id",
             title: "id",
             primaryKey: true,
             hidden: true
         },
-        {
-            name: "tblShipment.id",
-            title: "id",
-            canEdit: false
-        },
-        {
-            name: "tblShipment.tblContract.contractNo",
-            title: "contractNo",
-            canEdit: false,
-            hidden: true
-        },
-        {
-            name: "tblShipmentContract.id",
-            title: "<spring:message code='shipment.Bol.shipmentContract'/>",
-            type: 'text'
-        },
-        {
-            name: "tblPortByDischarge.id",
-            title: "<spring:message code='port.port'/>",
-            type: 'text',
-            canEdit: false
-        },
-        {
-            name: "tblPortByDischarge.port",
-            title: "<spring:message  code = 'shipment.Bol.tblPortByDischarge' > ", type: 'text', canEdit: false
+            {
+                name: "tblShipment.id",
+                title: "id",
+                canEdit: false
+            },
+            {
+                name: "tblShipment.tblContract.contractNo",
+                title: "contractNo",
+                canEdit: false,
+                hidden: true
+            },
+            {
+                name: "tblShipmentContract.id",
+                title: "<spring:message code='shipment.Bol.shipmentContract'/>",
+                type: 'text'
+            },
+            {
+                name: "tblPortByDischarge.id",
+                title: "<spring:message code='port.port'/>",
+                type: 'text',
+                canEdit: false
+            },
+            {
+                name: "tblPortByDischarge.port",
+                title: "<spring:message  code = 'shipment.Bol.tblPortByDischarge' > ", type: 'text', canEdit: false
 
-        },
-        {
-            name: "tblSwitchPort.id",
-            title: "<spring:message code='port.port'/>",
-            type: 'text',
-            canEdit: false
-        },
-        {
-            name: "tblSwitchPort.port",
-            title: "<spring:message code='shipment.Bol.tblSwitchPort'/>",
-            type: 'text',
-            canEdit: false
-        },
-        {
-            name: "noContainer",
-            title: "<spring:message code='shipment.Bol.noContainer'/>",
-            type: 'text'
-        },
-        {
-            name: "noBundle",
-            title: "<spring:message code='shipment.Bol.noBundle'/>",
-            type: 'text'
-        },
-        {
-            name: "noPlate",
-            title: "<spring:message code='shipment.Bol.noPlate'/>",
-            type: 'text'
-        },
-        {
-            name: "blNo",
-            title: "<spring:message code='shipment.Bol.blNo'/>",
-            type: 'text'
-        },
-        {
-            name: "swBlNo",
-            title: "<spring:message code='shipment.Bol.swBlNo'/>",
-            type: 'text'
-        },
-        {
-            name: "grossWeight",
-            title: "<spring:message code='shipment.Bol.grossWeight'/>",
-            type: 'text'
-        },
-        {
-            name: "netWeight",
-            title: "<spring:message code='shipment.Bol.netWeight'/>",
-            type: 'text'
-        },
-        {
-            name: "bolDate",
-            title: "<spring:message code='shipment.Bol.bolDate'/>",
-            type: 'text'
-        },
-    ],
-    fetchDataURL: "rest/bolHeader/bolHeaderList"
-});
+            },
+            {
+                name: "tblSwitchPort.id",
+                title: "<spring:message code='port.port'/>",
+                type: 'text',
+                canEdit: false
+            },
+            {
+                name: "tblSwitchPort.port",
+                title: "<spring:message code='shipment.Bol.tblSwitchPort'/>",
+                type: 'text',
+                canEdit: false
+            },
+            {
+                name: "noContainer",
+                title: "<spring:message code='shipment.Bol.noContainer'/>",
+                type: 'text'
+            },
+            {
+                name: "noBundle",
+                title: "<spring:message code='shipment.Bol.noBundle'/>",
+                type: 'text'
+            },
+            {
+                name: "noPlate",
+                title: "<spring:message code='shipment.Bol.noPlate'/>",
+                type: 'text'
+            },
+            {
+                name: "blNo",
+                title: "<spring:message code='shipment.Bol.blNo'/>",
+                type: 'text'
+            },
+            {
+                name: "swBlNo",
+                title: "<spring:message code='shipment.Bol.swBlNo'/>",
+                type: 'text'
+            },
+            {
+                name: "grossWeight",
+                title: "<spring:message code='shipment.Bol.grossWeight'/>",
+                type: 'text'
+            },
+            {
+                name: "netWeight",
+                title: "<spring:message code='shipment.Bol.netWeight'/>",
+                type: 'text'
+            },
+            {
+                name: "bolDate",
+                title: "<spring:message code='shipment.Bol.bolDate'/>",
+                type: 'text'
+            },
+        ],
+        fetchDataURL: "rest/bolHeader/bolHeaderList"
+    });
 
     //*******************************************************************************
-var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create({
-    fields: [{
+    var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create({
+        fields: [{
             name: "id",
             title: "id",
             primaryKey: true,
             hidden: true
         },
-        {
-            name: "addendum",
-            title: "<spring:message code='contract.addendum'/>"
-        },
-        {
-            name: "contractNo",
-            title: "<spring:message code='contract.contractNo'/>"
-        },
-        {
-            name: "contractDate",
-            title: "<spring:message code='contract.contractDate'/>"
-        },
-        {
-            name: "tblContact.id",
-            title: "<spring:message code='contact.name'/> "
-        },
-        {
-            name: "tblContact.nameFA",
-            title: "<spring:message code='contact.name'/> "
-        },
-        {
-            name: "tblContactBySellerAgent.id",
-            title: "<spring:message code='contact.name'/> "
-        },
-        {
-            name: "tblContactBySellerAgent.nameFA",
-            title: "<spring:message code='contact.name'/> "
-        },
-        {
-            name: "tblContactByBuyerAgent.id",
-            title: "<spring:message code='contact.name'/> "
-        },
-        {
-            name: "tblContactByBuyerAgent.nameFA",
-            title: "<spring:message code='contact.name'/> "
-        },
-        {
-            name: "tblIncoterms.id",
-            title: "<spring:message code='incoterms.name'/>"
-        },
-        {
-            name: "tblIncoterms.code",
-            title: "<spring:message code='incoterms.name'/>"
-        },
-        {
-            name: "inspectionCostPercentSource",
-            title: "<spring:message code='contract.inspectionCostPercentSource'/>"
-        },
-        {
-            name: "inspectionCostPercentDest",
-            title: "<spring:message code='contract.inspectionCostPercentDest'/>"
-        },
-        {
-            name: "descl",
-            title: "<spring:message code='contract.descl'/>"
-        }
-    ],
-    fetchDataURL: "rest/contract/list"
-});
+            {
+                name: "addendum",
+                title: "<spring:message code='contract.addendum'/>"
+            },
+            {
+                name: "contractNo",
+                title: "<spring:message code='contract.contractNo'/>"
+            },
+            {
+                name: "contractDate",
+                title: "<spring:message code='contract.contractDate'/>"
+            },
+            {
+                name: "tblContact.id",
+                title: "<spring:message code='contact.name'/> "
+            },
+            {
+                name: "tblContact.nameFA",
+                title: "<spring:message code='contact.name'/> "
+            },
+            {
+                name: "tblContactBySellerAgent.id",
+                title: "<spring:message code='contact.name'/> "
+            },
+            {
+                name: "tblContactBySellerAgent.nameFA",
+                title: "<spring:message code='contact.name'/> "
+            },
+            {
+                name: "tblContactByBuyerAgent.id",
+                title: "<spring:message code='contact.name'/> "
+            },
+            {
+                name: "tblContactByBuyerAgent.nameFA",
+                title: "<spring:message code='contact.name'/> "
+            },
+            {
+                name: "tblIncoterms.id",
+                title: "<spring:message code='incoterms.name'/>"
+            },
+            {
+                name: "tblIncoterms.code",
+                title: "<spring:message code='incoterms.name'/>"
+            },
+            {
+                name: "inspectionCostPercentSource",
+                title: "<spring:message code='contract.inspectionCostPercentSource'/>"
+            },
+            {
+                name: "inspectionCostPercentDest",
+                title: "<spring:message code='contract.inspectionCostPercentDest'/>"
+            },
+            {
+                name: "descl",
+                title: "<spring:message code='contract.descl'/>"
+            }
+        ],
+        fetchDataURL: "rest/contract/list"
+    });
     //*******************************************************************************
 
     //*******************************************************************************
- var RestDataSource_Material_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create({
-    fields: [{
+    var RestDataSource_Material_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create({
+        fields: [{
             name: "id",
             title: "id",
             primaryKey: true,
             hidden: true
         },
-        {
-            name: "code",
-            title: "<spring:message code='goods.code'/> "
-        },
-        {
-            name: "descl" ,
-        },
-        {
-            name: "tblUnit.id" ,
-        },
-        {
-            name: "tblUnit.nameEN" ,
-        },
-    ],
-    fetchDataURL: "rest/material/materialList"
-});
+            {
+                name: "code",
+                title: "<spring:message code='goods.code'/> "
+            },
+            {
+                name: "descl",
+            },
+            {
+                name: "tblUnit.id",
+            },
+            {
+                name: "tblUnit.nameEN",
+            },
+        ],
+        fetchDataURL: "rest/material/materialList"
+    });
 
     function ListGrid_ProvisionalInvoice_refresh() {
         ListGrid_ProvisionalInvoice.invalidateCache();
@@ -239,13 +239,11 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
     }
 
 
-    function ListGrid_ProvisionalInvoice_remove()
-    {
+    function ListGrid_ProvisionalInvoice_remove() {
 
         var record = ListGrid_ProvisionalInvoice.getSelectedRecord();
 
-        if (record == null || record.id == null)
-        {
+        if (record == null || record.id == null) {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -255,14 +253,12 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                         {
                             title: "<spring:message code='global.ok'/>"
                         })],
-                    buttonClick: function()
-                    {
+                    buttonClick: function () {
                         this.hide();
                     }
                 });
         }
-        else
-        {
+        else {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.remove.ask'/>",
@@ -276,11 +272,9 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                         {
                             title: "<spring:message code='global.no'/>"
                         })],
-                    buttonClick: function(button, index)
-                    {
+                    buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0)
-                        {
+                        if (index === 0) {
                             var ProvisionalInvoiceId = record.id;
                             isc.RPCManager.sendRequest(
                                 {
@@ -290,15 +284,12 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                                     contentType: "application/json; charset=utf-8",
                                     showPrompt: true,
                                     serverOutputAsString: false,
-                                    callback: function(RpcResponse_o)
-                                    {
-                                        if (RpcResponse_o.data === 'success')
-                                        {
+                                    callback: function (RpcResponse_o) {
+                                        if (RpcResponse_o.data === 'success') {
                                             ListGrid_ProvisionalInvoice_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
-                                        else
-                                        {
+                                        else {
                                             isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                         }
                                     }
@@ -310,39 +301,38 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
     }
 
 
-
     var Menu_ListGrid_ProvisionalInvoice = isc.Menu.create({
-    width: 150,
-    data: [{
+        width: 150,
+        data: [{
             title: "<spring:message code='global.form.refresh'/>",
             icon: "pieces/16/refresh.png",
-            click: function() {
+            click: function () {
                 DynamicForm_ProvisionalInvoice.clearValues();
                 Window_ProvisionalInvoice.show();
             }
         },
-        {
-            title: "<spring:message code='global.form.new'/>",
-            icon: "pieces/16/icon_add.png",
-            click: function() {}
-        },
-        {
-            title: "<spring:message code='global.form.edit'/>",
-            icon: "pieces/16/icon_edit.png",
-            click: function() {
-                ListGrid_ProvisionalInvoice_edit();
+            {
+                title: "<spring:message code='global.form.new'/>",
+                icon: "pieces/16/icon_add.png",
+                click: function () {
+                }
+            },
+            {
+                title: "<spring:message code='global.form.edit'/>",
+                icon: "pieces/16/icon_edit.png",
+                click: function () {
+                    ListGrid_ProvisionalInvoice_edit();
+                }
+            },
+            {
+                title: "<spring:message code='global.form.remove'/>",
+                icon: "pieces/16/icon_delete.png",
+                click: function () {
+                    ListGrid_ProvisionalInvoice_remove();
+                }
             }
-        },
-        {
-            title: "<spring:message code='global.form.remove'/>",
-            icon: "pieces/16/icon_delete.png",
-            click: function() {
-                ListGrid_ProvisionalInvoice_remove();
-            }
-        }
-    ]
-});
-
+        ]
+    });
 
 
     var DynamicForm_ProvisionalInvoice = isc.DynamicForm.create({
@@ -405,7 +395,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                 },
                 {
                     name: "tblMaterial.id",
-    title: "<spring:message code='goods.nameFa'/>",
+                    title: "<spring:message code='goods.nameFa'/>",
 
                     type: 'long',
                     width: "100%",
@@ -561,18 +551,31 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                     }
                 },
                 {
-                    name: "refNumber", title: "<spring:message code='provisionalInvoice.refNumber'/>", width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
+                    name: "refNumber",
+                    title: "<spring:message code='provisionalInvoice.refNumber'/>",
+                    width: "100%",
+                    colSpan: 1,
+                    wrapTitle: false,
+                    titleColSpan: 1
 
                 },
                 {
-                    name: "refDate", ID: "refDate", title: "<spring:message code='provisionalInvoice.refDate'/>", width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
-                    , icons: [{
+                    name: "refDate",
+                    ID: "refDate",
+                    title: "<spring:message code='provisionalInvoice.refDate'/>",
+                    width: "100%",
+                    colSpan: 1,
+                    wrapTitle: false,
+                    titleColSpan: 1
+                    ,
+                    icons: [{
                         src: "pieces/pcal.png", click: function () {
                             displayDatePicker('refDate', this, 'ymd', '/');
                         }
                     }]
 
-                    , blur: function () {
+                    ,
+                    blur: function () {
                         var value = DynamicForm_ProvisionalInvoice.getItem('refDate').getValue();
                         if (value != null && value.length != 10 && value != "") {
                             DynamicForm_ProvisionalInvoice.setValue('refDate', CorrectDate(value))
@@ -581,32 +584,32 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                 },
                 {
                     name: "bolNumber", title: "<spring:message code='provisionalInvoice.bolNumber'/>"
-		, width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
+                    , width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
                 },
                 {
                     name: "switched", title: "<spring:message code='provisionalInvoice.switched'/>"
-		, width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
+                    , width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
                 },
                 {
                     name: "from", title: "<spring:message code='shipment.loading'/>"
-		, width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
+                    , width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
                 },
                 {
                     name: "to", title: "<spring:message code='shipment.discharge'/>"
-		, width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
+                    , width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
                 },
                 {
                     name: "netWet", title: "<spring:message code='provisionalInvoice.netWet'/>"
-		, width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
+                    , width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
 
                 },
                 {
                     name: "priceBaseFrom", title: "<spring:message code='provisionalInvoice.priceBaseFrom'/>"
-		, width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
+                    , width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
                 },
                 {
                     name: "priceBaseTO", title: "<spring:message code='provisionalInvoice.priceBaseTO'/>"
-		, width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
+                    , width: "100%", colSpan: 1, wrapTitle: false, titleColSpan: 1
                 },
                 {
                     name: "LMEcopper",
@@ -721,40 +724,38 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
     });
 
 
-
     var IButton_ProvisionalInvoice_Save = isc.IButtonSave.create({
-    top: 260,
-    title: "<spring:message code='global.form.save'/>",
-    icon: "pieces/16/save.png",
-    click: function() {
-        DynamicForm_ProvisionalInvoice.validate();
-        if (DynamicForm_ProvisionalInvoice.hasErrors())
-            return;
-        var shipment = DynamicForm_ProvisionalInvoice.getItem("tblShipment.id").getSelectedRecord();
-        var contract = DynamicForm_ProvisionalInvoice.getItem("tblContract.id").getSelectedRecord();
-        var material = DynamicForm_ProvisionalInvoice.getItem("tblMaterial.id").getSelectedRecord();
-        var data = DynamicForm_ProvisionalInvoice.getValues();
-        isc.RPCManager.sendRequest({
-            actionURL: "rest/provisionalInvoiceRestController/add/" + shipment.id + "/" + contract.id + "/" + material.id,
-            httpMethod: "POST",
-            useSimpleHttp: true,
-            contentType: "application/json; charset=utf-8",
-            showPrompt: false,
-            data: JSON.stringify(data),
-            serverOutputAsString: false,
-            //params: { data:data1},
-            callback: function(RpcResponse_o) {
-                if (RpcResponse_o.data === 'success') {
-                    isc.say("<spring:message code='global.form.request.successful'/>");
-                    ListGrid_ProvisionalInvoice_refresh();
-                    Window_ProvisionalInvoice.close();
-                } else
-                    isc.say(RpcResponse_o.data);
-            }
-        });
-    }
-});
-
+        top: 260,
+        title: "<spring:message code='global.form.save'/>",
+        icon: "pieces/16/save.png",
+        click: function () {
+            DynamicForm_ProvisionalInvoice.validate();
+            if (DynamicForm_ProvisionalInvoice.hasErrors())
+                return;
+            var shipment = DynamicForm_ProvisionalInvoice.getItem("tblShipment.id").getSelectedRecord();
+            var contract = DynamicForm_ProvisionalInvoice.getItem("tblContract.id").getSelectedRecord();
+            var material = DynamicForm_ProvisionalInvoice.getItem("tblMaterial.id").getSelectedRecord();
+            var data = DynamicForm_ProvisionalInvoice.getValues();
+            isc.RPCManager.sendRequest({
+                actionURL: "rest/provisionalInvoiceRestController/add/" + shipment.id + "/" + contract.id + "/" + material.id,
+                httpMethod: "POST",
+                useSimpleHttp: true,
+                contentType: "application/json; charset=utf-8",
+                showPrompt: false,
+                data: JSON.stringify(data),
+                serverOutputAsString: false,
+                //params: { data:data1},
+                callback: function (RpcResponse_o) {
+                    if (RpcResponse_o.data === 'success') {
+                        isc.say("<spring:message code='global.form.request.successful'/>");
+                        ListGrid_ProvisionalInvoice_refresh();
+                        Window_ProvisionalInvoice.close();
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            });
+        }
+    });
 
 
     var Window_ProvisionalInvoice = isc.Window.create(
@@ -769,8 +770,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
             align: "center",
             autoDraw: false,
             dismissOnEscape: true,
-            closeClick: function()
-            {
+            closeClick: function () {
                 this.Super("closeClick", arguments)
             },
             items: [
@@ -791,8 +791,7 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
                                     orientation: "vertical",
-                                    click: function()
-                                    {
+                                    click: function () {
                                         Window_ProvisionalInvoice.close();
                                     }
                                 })
@@ -959,19 +958,18 @@ var RestDataSource_Contract_IN_PROVISIONAL_INVOICE = isc.MyRestDataSource.create
         });
 
 
+    var HLayout_ProvisionalInvoice_Grid = isc.HLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+            ListGrid_ProvisionalInvoice
+        ]
+    });
 
-var HLayout_ProvisionalInvoice_Grid = isc.HLayout.create({
-    width: "100%",
-    height: "100%",
-    members: [
-        ListGrid_ProvisionalInvoice
-    ]
-});
-
-var VLayout_ProvisionalInvoice_Body = isc.VLayout.create({
-    width: "100%",
-    height: "100%",
-    members: [
-        HLayout_ProvisionalInvoice_Actions, HLayout_ProvisionalInvoice_Grid
-    ]
-});
+    var VLayout_ProvisionalInvoice_Body = isc.VLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+            HLayout_ProvisionalInvoice_Actions, HLayout_ProvisionalInvoice_Grid
+        ]
+    });

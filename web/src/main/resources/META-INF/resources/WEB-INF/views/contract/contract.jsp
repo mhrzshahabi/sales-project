@@ -814,7 +814,6 @@ ToolStripButton_Contract_Remove,
     var Window_Contract = isc.Window.create({
         title: "<spring:message code='contract.title'/> ",
         width: 580,
-        // height: "*",
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -999,31 +998,7 @@ ToolStripButton_Contract_Remove,
                     width: "100"
                 }
             ],
-        // sortField: 0,
-        // autoFetchData: true,
-        // showFilterEditor: true,
-        // filterOnKeypress: true,
-        // recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        // updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-        //     var record = this.getSelectedRecord();
-        //     companyName.setTitle(record.contractNo + ' ' + record.contact.nameFA);
-        // }
-        /*getCellCSSText: function (record, rowNum, colNum) {
-                            if (record.material.descl.contains("Cat")) {
-                                  return "font-weight:bold;background-color:#5ec4aa;";
-                                }
-                            if (record.material.descl.contains("Mol")) {
-                                  return "font-weight:bold;background-color:#f0c85a;";
-                                }
-                            if (record.material.descl.contains("Mat")) {
-                                  return "font-weight:bold;background-color:#c0110c;";
-                                }
-                            if (record.material.descl.contains("Conc")) {
-                                  return "font-weight:bold;background-color:#6aa6de;";
-                                }
-                }*/
           getExpansionComponent: function (record) {
-            //return getExpandedComponent_contract(record)
                     var dccTableId = record.id;
                     var dccTableName = "TBL_CONTRACT";
                     contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
@@ -1486,7 +1461,6 @@ ToolStripButton_Contract_Remove,
     var Window_ContractShipment = isc.Window.create({
         title: "<spring:message code='Shipment.title'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,

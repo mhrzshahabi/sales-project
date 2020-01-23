@@ -244,58 +244,58 @@
 
 
     var recordNotFound = isc.Label.create({
-    height: 30,
-    padding: 10,
-    align: "center",
-    valign: "center",
-    wrap: false,
-      contents: "<spring:message code='global.record.find'/>"
+        height: 30,
+        padding: 10,
+        align: "center",
+        valign: "center",
+        wrap: false,
+        contents: "<spring:message code='global.record.find'/>"
     });
 
     recordNotFound.hide();
 
     function setCriteria_ListGrid(recordId) {
 
-    var criteria1 = {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{
-    fieldName: "shipmentId",
-    operator: "equals",
-    value: recordId
-    }]
-    };
+        var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{
+                fieldName: "shipmentId",
+                operator: "equals",
+                value: recordId
+            }]
+        };
 
-    ListGrid_WarehouseIssueMo.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-    if (data.length === 0) {
-    recordNotFound.show();
-    ListGrid_WarehouseIssueMo.hide()
-    } else {
-    recordNotFound.hide();
-    ListGrid_WarehouseIssueMo.setData(data);
-    ListGrid_WarehouseIssueMo.show();
-    }
-    }, {operationId: "00"});
+        ListGrid_WarehouseIssueMo.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            if (data.length === 0) {
+                recordNotFound.show();
+                ListGrid_WarehouseIssueMo.hide()
+            } else {
+                recordNotFound.hide();
+                ListGrid_WarehouseIssueMo.setData(data);
+                ListGrid_WarehouseIssueMo.show();
+            }
+        }, {operationId: "00"});
     }
 
     function getExpandedComponent_ShipmentByWarehouseIssueMo(record) {
-    setCriteria_ListGrid(record.id)
-    var hLayout = isc.HLayout.create({
-    align: "center", padding: 5,
-    membersMargin: 20,
-    members: [
-    ToolStripButton_WarehouseIssueMo_Add
-    ]
-    });
+        setCriteria_ListGrid(record.id)
+        var hLayout = isc.HLayout.create({
+            align: "center", padding: 5,
+            membersMargin: 20,
+            members: [
+                ToolStripButton_WarehouseIssueMo_Add
+            ]
+        });
 
-    var layoutWarehouseIssuMo = isc.VLayout.create({
-    styleName: "expand-layout",
-    padding: 5,
-    membersMargin: 10,
-    members: [ListGrid_WarehouseIssueMo, recordNotFound, hLayout]
-    });
+        var layoutWarehouseIssuMo = isc.VLayout.create({
+            styleName: "expand-layout",
+            padding: 5,
+            membersMargin: 10,
+            members: [ListGrid_WarehouseIssueMo, recordNotFound, hLayout]
+        });
 
-    return layoutWarehouseIssuMo;
+        return layoutWarehouseIssuMo;
     }
 
 
@@ -502,7 +502,7 @@
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {
-        return getExpandedComponent_ShipmentByWarehouseIssueMo(record)
+            return getExpandedComponent_ShipmentByWarehouseIssueMo(record)
         }
     });
 
@@ -514,34 +514,34 @@
             ListGrid_ShipmentByWarehouseIssueMo
         ]
     });
-        var ToolStripButton_ListGrid_ShipmentByWarehouseIssueMo_Refresh = isc.ToolStripButtonRefresh.create({
+    var ToolStripButton_ListGrid_ShipmentByWarehouseIssueMo_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
-        ListGrid_ShipmentByWarehouseIssueMo.invalidateCache();
-        ListGrid_WarehouseIssueMo.setData([]);
+            ListGrid_ShipmentByWarehouseIssueMo.invalidateCache();
+            ListGrid_WarehouseIssueMo.setData([]);
         }
-        });
-        var ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo = isc.ToolStrip.create({
+    });
+    var ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members: [
-        isc.ToolStrip.create({
-        width: "100%",
-        align: "left",
-        border: '0px',
-        members: [
-ToolStripButton_ListGrid_ShipmentByWarehouseIssueMo_Refresh
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_ListGrid_ShipmentByWarehouseIssueMo_Refresh
+                ]
+            })
         ]
-        })
-        ]
-        });
+    });
 
     var VLayout_Body_ShipmentByWarehouseIssueMo = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo,
+            ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo,
             HLayout_Grid_ShipmentByWarehouseIssueMo
         ]
     });
@@ -686,7 +686,6 @@ ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo,
             [
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true},
-                {type: "RowSpacerItem"},
                 {
                     name: "warehouseLotId",
                     ID: "DynamicForm_WarehouseIssueMo_RestDataSource_WarehouseIssueMo_WarehouseLot",
@@ -800,12 +799,7 @@ ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo,
                     width: 500,
                     required: true,
                     length: "15"
-                },
-                {type: "RowSpacerItem"},
-                {type: "RowSpacerItem"},
-                <%--{name: "bundle",title: "<spring:message code='warehouseIssueMo.bundle'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
-                <%--{name: "sheet",title: "<spring:message code='warehouseIssueMo.sheet'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
-                <%--{name: "totalAmount",title: "<spring:message code='warehouseIssueMo.totalAmount'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
+                }
             ]
     });
 
@@ -919,7 +913,6 @@ ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo,
     var Window_WarehouseIssueMo = isc.Window.create({
         title: "<spring:message code='Shipment.titleWarehouseIssueMo'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1054,16 +1047,16 @@ ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo,
                 length: "15"
             },
             {
-            name: "editIcon",
-            width: 40,
-            align: "center",
-            showTitle: false
+                name: "editIcon",
+                width: 40,
+                align: "center",
+                showTitle: false
             },
             {
-            name: "removeIcon",
-            width: 40,
-            align: "center",
-            showTitle: false
+                name: "removeIcon",
+                width: 40,
+                align: "center",
+                showTitle: false
             }
         ],
         sortField: 0,
@@ -1075,75 +1068,76 @@ ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueMo,
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "editIcon") {
-            var editImg = isc.ImgButton.create({
-            showDown: false,
-            showRollOver: false,
-            layoutAlign: "center",
-            src: "pieces/16/icon_edit.png",
-            prompt: "ویرایش",
-            height: 16,
-            width: 16,
-            grid: this,
-            click: function () {
-            ListGrid_WarehouseIssueMo.selectSingleRecord(record);
-            ListGrid_WarehouseIssueMo_edit();
-            }
-            });
-            return editImg;
+                var editImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/16/icon_edit.png",
+                    prompt: "ویرایش",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                    click: function () {
+                        ListGrid_WarehouseIssueMo.selectSingleRecord(record);
+                        ListGrid_WarehouseIssueMo_edit();
+                    }
+                });
+                return editImg;
             } else if (fieldName == "removeIcon") {
-            var removeImg = isc.ImgButton.create({
-            showDown: false,
-            showRollOver: false,
-            layoutAlign: "center",
-            src: "pieces/16/icon_delete.png",
-            prompt: "حذف",
-            height: 16,
-            width: 16,
-            grid: this,
-            click: function () {
-            ListGrid_WarehouseIssueMo.selectSingleRecord(record);
-            ListGrid_WarehouseIssueMo_remove();
-            }
-            });
-            return removeImg;
+                var removeImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/16/icon_delete.png",
+                    prompt: "حذف",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                    click: function () {
+                        ListGrid_WarehouseIssueMo.selectSingleRecord(record);
+                        ListGrid_WarehouseIssueMo_remove();
+                    }
+                });
+                return removeImg;
             } else {
-            return null;
+                return null;
             }
         },
         recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-        loadWindowFeatureList(record)
+            loadWindowFeatureList(record)
         }
     });
 
 
     function loadWindowFeatureList(record) {
-    var dccTableId = record.id;
-    var dccTableName = "TBL_WAREHOUSE_ISSUE_MO";
+        var dccTableId = record.id;
+        var dccTableName = "TBL_WAREHOUSE_ISSUE_MO";
 
-    var window_view_url = isc.Window.create({
-    title: "<spring:message code='warehouseIssueMoAttach.title'/>",
-    width: "80%",
-    height: "40%",
-    autoCenter: true,
-    isModal: true,
-    showModalMask: true,
-    align: "center",
-    autoDraw: false,
-    dismissOnEscape: true,
-    closeClick: function () {
-    this.Super("closeClick", arguments)
-    },
-    items:
-    [
-    isc.ViewLoader.create({
-    autoDraw:true,
-    viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
-    loadingMessage:"<spring:message code='global.loadingMessage'/>"
-    })
-    ]
-    });
-    window_view_url.show();
+        var window_view_url = isc.Window.create({
+            title: "<spring:message code='warehouseIssueMoAttach.title'/>",
+            width: "80%",
+            height: "40%",
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            closeClick: function () {
+                this.Super("closeClick", arguments)
+            },
+            items:
+                [
+                    isc.ViewLoader.create({
+                        autoDraw: true,
+                        viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
+                        loadingMessage: "<spring:message code='global.loadingMessage'/>"
+                    })
+                ]
+        });
+        window_view_url.show();
     }
+
     var HLayout_WarehouseIssueMo_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",

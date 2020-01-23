@@ -988,8 +988,7 @@
         sortField: 0,
         dataPageSize: 50,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        startsWithTitle: "tt"
+        filterOnKeypress: true
     });
     var HLayout_Grid_ShipmentByAssayHeader = isc.HLayout.create({
         width: "100%",
@@ -1050,7 +1049,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
         numCols: 4,
         fields:
             [
-                {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentId", title: "id", canEdit: false, hidden: true},
                 {
@@ -1480,20 +1478,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             showTitle: false
             }
         ],
-       /* recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentAssayHeader", operator: "equals", value: record.id}]
-            };
-            ListGrid_ShipmentAssayItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ShipmentAssayItem.setData(data);
-            });
-        },
-        dataArrived: function (startRow, endRow) {
-        },*/
         sortField: 0,
         dataPageSize: 50,
         showFilterEditor: true,
@@ -1609,7 +1593,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
         numCols: 4,
         fields:
             [
-                {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentAssayHeaderId", title: "id", canEdit: false, hidden: true},
                 {
@@ -1919,8 +1902,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
         sortField: 0,
         dataPageSize: 50,
        // showFilterEditor: true,
-        filterOnKeypress: true,
-        startsWithTitle: "tt"
+        filterOnKeypress: true
     });
     var HLayout_Grid_ShipmentAssayItem = isc.HLayout.create({
         width: "100%",

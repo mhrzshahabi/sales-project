@@ -73,7 +73,8 @@
                 }
             });
         }
-    };
+    }
+
     var Menu_ListGrid_LME = isc.Menu.create({
         width: 150,
         data: [
@@ -126,9 +127,6 @@
                 {
                     name: "id",
                     hidden: true,
-                },
-                {
-                    type: "RowSpacerItem"
                 },
                 {
                     name: "id",
@@ -244,13 +242,8 @@
                     width: 430,
                     type: "date",
                     required: true,
-                },
-
-                {
-                    type: "RowSpacerItem"
                 }]
         });
-
 
     var ToolStripButton_LME_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -286,8 +279,6 @@
         }
     });
 
-
-
     var ToolStrip_Actions_LME = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -296,12 +287,12 @@
                 ToolStripButton_LME_Edit,
                 ToolStripButton_LME_Remove,
                 isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_LME_Refresh,
-                ]
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_LME_Refresh,
+                    ]
                 })
             ]
     });
@@ -366,7 +357,6 @@
                 }],
             fetchDataURL: "${contextPath}/api/LME/spec-list"
         });
-
 
     var IButton_LME_Save = isc.IButtonSave.create({
         top: 260,
@@ -507,14 +497,12 @@
             showFilterEditor: true,
             filterOnKeypress: true,
             recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-            {
+            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
                 ListGrid_LMEFeature.fetchData(
                     {
                         "lME.id": record.id
-                    }, function(dsResponse, data, dsRequest)
-                    {
+                    }, function (dsResponse, data, dsRequest) {
                         ListGrid_LMEFeature.setData(data);
                     },
                     {
@@ -538,5 +526,3 @@
             HLayout_LME_Actions, HLayout_LME_Grid
         ]
     });
-
-
