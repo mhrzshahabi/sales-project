@@ -27,35 +27,30 @@ public class FeatureRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('r_feature')")
     public ResponseEntity<FeatureDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(featureService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('r_feature')")
     public ResponseEntity<List<FeatureDTO.Info>> list() {
         return new ResponseEntity<>(featureService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//    @PreAuthorize("hasAuthority('c_feature')")
     public ResponseEntity<FeatureDTO.Info> create(@Validated @RequestBody FeatureDTO.Create request) {
         return new ResponseEntity<>(featureService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-// @PreAuthorize("hasAuthority('u_feature')")
     public ResponseEntity<FeatureDTO.Info> update(@RequestBody FeatureDTO.Update request) {
         return new ResponseEntity<>(featureService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('d_feature')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         featureService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -63,7 +58,6 @@ public class FeatureRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('d_feature')")
     public ResponseEntity<Void> delete(@Validated @RequestBody FeatureDTO.Delete request) {
         featureService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -78,7 +72,6 @@ public class FeatureRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//    @PreAuthorize("hasAuthority('r_feature')")
     public ResponseEntity<SearchDTO.SearchRs<FeatureDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(featureService.search(request), HttpStatus.OK);
     }
