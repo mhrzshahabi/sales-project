@@ -4,6 +4,7 @@
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+
     var RestDataSource_Shipment_CostHeader = isc.MyRestDataSource.create(
         {
             fields: [
@@ -95,7 +96,6 @@
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
 
-
     var Menu_ListGrid_Shipment_CostHeader = isc.Menu.create({
         width: 150,
         data: [
@@ -108,6 +108,7 @@
             }
         ]
     });
+
     var ToolStripButton_Shipment_CostHeader_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -116,6 +117,7 @@
             ListGrid_Cost.setData([]);
         }
     });
+
     var ToolStrip_Actions_Shipment_CostHeader = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
@@ -181,7 +183,6 @@
 
         return layoutCost;
     }
-
 
     var ListGrid_Shipment_CostHeader = isc.ListGrid.create({
         width: "100%",
@@ -309,6 +310,7 @@
             return getExpandedComponent_Shipment_CostHeader(record)
         }
     });
+
     var HLayout_Grid_Shipment_CostHeader = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -368,11 +370,12 @@
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
-     var RestDataSource_Contact_optionCriteria_inspector = {
+    var RestDataSource_Contact_optionCriteria_inspector = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [{fieldName: "inspector", operator: "equals", value: true}]
     };
+
     var RestDataSource_Contact_optionCriteria_insurancer = {
         _constructor: "AdvancedCriteria",
         operator: "and",
@@ -450,7 +453,7 @@
             });
         } else {
             DynamicForm_Cost.clearValues();
-            DynamicForm_Cost.setValue("sourceInspectorId",record.sourceInspectorId);
+            DynamicForm_Cost.setValue("sourceInspectorId", record.sourceInspectorId);
             DynamicForm_Cost.editRecord(record);
             if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
                 DynamicForm_Cost.getItem("sourceCopper").show();
@@ -603,7 +606,6 @@
         ]
     });
 
-
     var DynamicForm_Cost = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -619,7 +621,6 @@
         margin: 10,
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 6,
-//backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true,},
@@ -645,8 +646,8 @@
                     pickListFields: [
                         {name: "nameFA", align: "center"},
                         {name: "nameEN", align: "center"}
-                    ],change:function(){
-                    alert("as");
+                    ], change: function () {
+                        alert("as");
                     }
                 },
                 {
@@ -1219,6 +1220,7 @@
                 })
             ]
     });
+
     var ListGrid_Cost = isc.ListGrid.create({
         width: "100%",
         height: 200,
@@ -1302,16 +1304,16 @@
                     showHover: true
                 },
                 {
-                name: "editIcon",
-                width: 40,
-                showTitle: false,
-                align: "center",
+                    name: "editIcon",
+                    width: 40,
+                    showTitle: false,
+                    align: "center",
                 },
                 {
-                name: "removeIcon",
-                width: 40,
-                showTitle: false,
-                align: "center",
+                    name: "removeIcon",
+                    width: 40,
+                    showTitle: false,
+                    align: "center",
                 }
             ],
         sortField: 0,
@@ -1359,6 +1361,7 @@
         }
 
     });
+
     var HLayout_Cost_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",
