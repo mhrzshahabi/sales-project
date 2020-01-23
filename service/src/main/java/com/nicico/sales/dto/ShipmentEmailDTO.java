@@ -71,15 +71,6 @@ public class ShipmentEmailDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("ShipmentEmailSpecRs")
-	public static class ShipmentEmailSpecRs {
-		private SpecRs response;
-	}
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
 		private List<ShipmentEmailDTO.Info> data;
 		private Integer status;

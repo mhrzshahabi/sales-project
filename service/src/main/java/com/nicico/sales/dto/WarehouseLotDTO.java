@@ -74,9 +74,6 @@ public class WarehouseLotDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Integer version;
     }
 
     @Getter
@@ -87,15 +84,6 @@ public class WarehouseLotDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("WarehouseLotSpecRs")
-    public static class WarehouseLotSpecRs {
-        private SpecRs response;
     }
 
     @Getter

@@ -48,9 +48,6 @@ public class GlossaryDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Integer version;
     }
 
     @Getter
@@ -61,15 +58,6 @@ public class GlossaryDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("GlossarySpecRs")
-    public static class GlossarySpecRs {
-        private SpecRs response;
     }
 
     @Getter

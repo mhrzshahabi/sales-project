@@ -69,15 +69,6 @@ public class ShipmentMoistureItemDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("ShipmentMoistureItemSpecRs")
-	public static class ShipmentMoistureItemSpecRs {
-		private SpecRs response;
-	}
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
 		private List<ShipmentMoistureItemDTO.Info> data;
 		private Integer status;

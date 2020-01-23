@@ -66,15 +66,6 @@ public class MaterialItemDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("MaterialItemSpecRs")
-	public static class MaterialItemSpecRs {
-		private SpecRs response;
-	}
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
 		private List<MaterialItemDTO.Info> data;
 		private Integer status;

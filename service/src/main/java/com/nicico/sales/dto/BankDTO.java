@@ -68,15 +68,6 @@ public class BankDTO {
     @Setter
     @Accessors(chain = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("BankSpecRs")
-    public static class BankSpecRs {
-        private SpecRs response;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class SpecRs {
         private List<BankDTO.Info> data;
         private Integer status;
