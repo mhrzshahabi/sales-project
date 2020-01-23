@@ -27,35 +27,30 @@ public class ParametersRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('r_parameters')")
     public ResponseEntity<ParametersDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(parametersService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('r_parameters')")
     public ResponseEntity<List<ParametersDTO.Info>> list() {
         return new ResponseEntity<>(parametersService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//	@PreAuthorize("hasAuthority('c_parameters')")
     public ResponseEntity<ParametersDTO.Info> create(@Validated @RequestBody ParametersDTO.Create request) {
         return new ResponseEntity<>(parametersService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//	@PreAuthorize("hasAuthority('u_parameters')")
     public ResponseEntity<ParametersDTO.Info> update(@RequestBody ParametersDTO.Update request) {
         return new ResponseEntity<>(parametersService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_parameters')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         parametersService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -63,7 +58,6 @@ public class ParametersRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_parameters')")
     public ResponseEntity<Void> delete(@Validated @RequestBody ParametersDTO.Delete request) {
         parametersService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -78,7 +72,6 @@ public class ParametersRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_parameters')")
     public ResponseEntity<SearchDTO.SearchRs<ParametersDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(parametersService.search(request), HttpStatus.OK);
     }

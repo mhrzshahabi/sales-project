@@ -35,35 +35,30 @@ public class TozinSalesRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('r_tozinSales')")
     public ResponseEntity<TozinSalesDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(tozinSalesService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('r_tozinSales')")
     public ResponseEntity<List<TozinSalesDTO.Info>> list() {
         return new ResponseEntity<>(tozinSalesService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//	@PreAuthorize("hasAuthority('c_tozinSales')")
     public ResponseEntity<TozinSalesDTO.Info> create(@Validated @RequestBody TozinSalesDTO.Create request) {
         return new ResponseEntity<>(tozinSalesService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//	@PreAuthorize("hasAuthority('u_tozinSales')")
     public ResponseEntity<TozinSalesDTO.Info> update(@RequestBody TozinSalesDTO.Update request) {
         return new ResponseEntity<>(tozinSalesService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_tozinSales')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         tozinSalesService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -71,7 +66,6 @@ public class TozinSalesRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_tozinSales')")
     public ResponseEntity<Void> delete(@Validated @RequestBody TozinSalesDTO.Delete request) {
         tozinSalesService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -86,7 +80,6 @@ public class TozinSalesRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_tozinSales')")
     public ResponseEntity<SearchDTO.SearchRs<TozinSalesDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(tozinSalesService.search(request), HttpStatus.OK);
     }

@@ -27,35 +27,30 @@ public class GroupsRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('r_groups')")
     public ResponseEntity<GroupsDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(groupsService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('r_groups')")
     public ResponseEntity<List<GroupsDTO.Info>> list() {
         return new ResponseEntity<>(groupsService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//	@PreAuthorize("hasAuthority('c_groups')")
     public ResponseEntity<GroupsDTO.Info> create(@Validated @RequestBody GroupsDTO.Create request) {
         return new ResponseEntity<>(groupsService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//	@PreAuthorize("hasAuthority('u_groups')")
     public ResponseEntity<GroupsDTO.Info> update(@RequestBody GroupsDTO.Update request) {
         return new ResponseEntity<>(groupsService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_groups')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         groupsService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -63,7 +58,6 @@ public class GroupsRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_groups')")
     public ResponseEntity<Void> delete(@Validated @RequestBody GroupsDTO.Delete request) {
         groupsService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -78,7 +72,6 @@ public class GroupsRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_groups')")
     public ResponseEntity<SearchDTO.SearchRs<GroupsDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(groupsService.search(request), HttpStatus.OK);
     }
