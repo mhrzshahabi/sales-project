@@ -25,14 +25,12 @@ public class WarehouseLotRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-    // @PreAuthorize("hasAuthority('r_warehouseLot')")
     public ResponseEntity<WarehouseLotDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(warehouseLotService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    // @PreAuthorize("hasAuthority('r_warehouseLot')")
     public ResponseEntity<List<WarehouseLotDTO.Info>> list() {
         return new ResponseEntity<>(warehouseLotService.list(), HttpStatus.OK);
     }
@@ -45,14 +43,12 @@ public class WarehouseLotRestController {
 
     @Loggable
     @PutMapping
-    // @PreAuthorize("hasAuthority('u_warehouseLot')")
     public ResponseEntity<WarehouseLotDTO.Info> update(@RequestBody WarehouseLotDTO.Update request) {
         return new ResponseEntity<>(warehouseLotService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    // @PreAuthorize("hasAuthority('d_warehouseLot')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         warehouseLotService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -60,7 +56,6 @@ public class WarehouseLotRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-    // @PreAuthorize("hasAuthority('d_warehouseLot')")
     public ResponseEntity<Void> delete(@Validated @RequestBody WarehouseLotDTO.Delete request) {
         warehouseLotService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -68,7 +63,6 @@ public class WarehouseLotRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-//	@PreAuthorize("hasAuthority('r_instruction')")
     public ResponseEntity<TotalResponse<WarehouseLotDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(warehouseLotService.search(nicicoCriteria), HttpStatus.OK);

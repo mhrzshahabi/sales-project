@@ -35,35 +35,30 @@ public class TozinRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('r_tozin')")
     public ResponseEntity<TozinDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(tozinService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('r_tozin')")
     public ResponseEntity<List<TozinDTO.Info>> list() {
         return new ResponseEntity<>(tozinService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//    @PreAuthorize("hasAuthority('c_tozin')")
     public ResponseEntity<TozinDTO.Info> create(@Validated @RequestBody TozinDTO.Create request) {
         return new ResponseEntity<>(tozinService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//    @PreAuthorize("hasAuthority('u_tozin')")
     public ResponseEntity<TozinDTO.Info> update(@RequestBody TozinDTO.Update request) {
         return new ResponseEntity<>(tozinService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('d_tozin')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         tozinService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -71,7 +66,6 @@ public class TozinRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('d_tozin')")
     public ResponseEntity<Void> delete(@Validated @RequestBody TozinDTO.Delete request) {
         tozinService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -79,7 +73,6 @@ public class TozinRestController {
 
     @Loggable
     @GetMapping(value = "/showTransport2Plants/{date}")
-//    @PreAuthorize("hasAuthority('r_tozin')")
     public ResponseEntity<String> list(@PathVariable("date") String date) throws IOException {
         String[] plants = tozinService.findPlants();
         String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
@@ -103,7 +96,6 @@ public class TozinRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//    @PreAuthorize("hasAuthority('r_tozin')")
     public ResponseEntity<SearchDTO.SearchRs<TozinDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(tozinService.search(request), HttpStatus.OK);
     }

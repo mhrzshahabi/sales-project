@@ -22,34 +22,34 @@
         fetchDataURL: "${contextPath}/api/catodList/spec-list"
     });
 
-var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
-    fields: [{
-        name: "id",
-        title: "id",
-        primaryKey: true,
-        canEdit: false,
-        hidden: true
-    }, {
-        name: "bundleSerial",
-        title: "<spring:message code='warehouseCadItem.bundleSerial'/>",
-        width: "25%",
-        summaryFunction: "count"
-    }, {
-        name: "sheetNo",
-        title: "<spring:message code='warehouseCadItem.sheetNo'/>",
-        width: "25%",
-        summaryFunction: "sum"
-    }, {
-        name: "weightKg",
-        title: "<spring:message code='warehouseCadItem.weightKg'/>",
-        width: "25%"
-    }, {
-        name: "description",
-        title: "<spring:message code='warehouseCadItem.description'/>",
-        width: "25%"
-    }],
-    fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
-});
+    var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "bundleSerial",
+            title: "<spring:message code='warehouseCadItem.bundleSerial'/>",
+            width: "25%",
+            summaryFunction: "count"
+        }, {
+            name: "sheetNo",
+            title: "<spring:message code='warehouseCadItem.sheetNo'/>",
+            width: "25%",
+            summaryFunction: "sum"
+        }, {
+            name: "weightKg",
+            title: "<spring:message code='warehouseCadItem.weightKg'/>",
+            width: "25%"
+        }, {
+            name: "description",
+            title: "<spring:message code='warehouseCadItem.description'/>",
+            width: "25%"
+        }],
+        fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
+    });
 
     var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
         fields: [{
@@ -223,40 +223,40 @@ var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDat
 
 
     var RestDataSource_Tozin_Other_optionCriteria = {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{
-        fieldName: "target",
-        "operator": "iContains",
-        "value": "رجا"
-    }, {
-        fieldName: "tozinId",
-        operator: "notContains",
-        value: '3%'
-    }, {
-        fieldName: "codeKala",
-        operator: "equals",
-        value: ListGrid_Tozin.getSelectedRecord().codeKala
-    }]
-};
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "target",
+            "operator": "iContains",
+            "value": "رجا"
+        }, {
+            fieldName: "tozinId",
+            operator: "notContains",
+            value: '3%'
+        }, {
+            fieldName: "codeKala",
+            operator: "equals",
+            value: ListGrid_Tozin.getSelectedRecord().codeKala
+        }]
+    };
 
-var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{
-        fieldName: "target",
-        "operator": "iContains",
-        "value": "رجا"
-    }, {
-        fieldName: "tozinId",
-        operator: "contains",
-        value: '3%'
-    }, {
-        fieldName: "codeKala",
-        operator: "equals",
-        value: ListGrid_Tozin.getSelectedRecord().codeKala
-    }]
-};
+    var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "target",
+            "operator": "iContains",
+            "value": "رجا"
+        }, {
+            fieldName: "tozinId",
+            operator: "contains",
+            value: '3%'
+        }, {
+            fieldName: "codeKala",
+            operator: "equals",
+            value: ListGrid_Tozin.getSelectedRecord().codeKala
+        }]
+    };
 
 
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
@@ -295,14 +295,15 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
             title: "<spring:message code='warehouseCadItem.description'/>",
             width: "25%"
         }],
-        saveEdits: function() {
+        saveEdits: function () {
             var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
             if (warehouseCadItem.productLabel === undefined || warehouseCadItem.sheetNumber === undefined || warehouseCadItem.wazn === undefined) {
                 isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
                 return;
             }
         },
-        removeData: function(data) {}
+        removeData: function (data) {
+        }
     });
 
 
@@ -311,7 +312,6 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         width: 150,
         click: "ListGrid_WarehouseCadItem.startEditingNew()"
     });
-
 
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
@@ -327,210 +327,210 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
-                name: "id",
-                title: "id",
-                primaryKey: true,
-                canEdit: false,
-                hidden: true
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        }, {
+            name: "bijackNo",
+            title: "<spring:message code='warehouseCad.bijackNo'/>",
+            type: 'text',
+            required: true
+        }, {
+            name: "materialItemId",
+            title: "<spring:message code='contractItem.material'/>",
+            type: 'text',
+            canEdit: false
+        }, {
+            name: "plant",
+            title: "<spring:message code='contractItem.plant'/>",
+            type: 'text',
+            canEdit: false
+        }, {
+            name: "warehouseNo",
+            title: "<spring:message code='warehouseCad.warehouseNo'/>",
+            type: 'text',
+            canEdit: false
+        }, {
+            name: "movementType",
+            title: "<spring:message code='warehouseCad.movementType'/>",
+            type: 'text',
+            canEdit: false
+        }, {
+            name: "sourceTozinPlantId",
+            required: true,
+            canEdit: false,
+            colSpan: 3,
+            titleColSpan: 1,
+            showHover: true,
+            autoFetchData: false,
+            title: "<spring:message code='warehouseCad.tozinOther'/>",
+            type: 'string',
+            width: "100%",
+            editorType: "SelectItem",
+            optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT,
+            optionCriteria: RestDataSource_Tozin_Other_optionCriteria,
+            displayField: "tozinPlantId",
+            valueField: "tozinPlantId",
+            pickListWidth: "700",
+            pickListHeight: "700",
+            pickListProperties: {
+                showFilterEditor: true,
+                filterOnKeypress: false
+            },
+            pickListFields: [{
+                name: "containerId"
             }, {
-                name: "bijackNo",
-                title: "<spring:message code='warehouseCad.bijackNo'/>",
-                type: 'text',
-                required: true
+                name: "plak"
             }, {
-                name: "materialItemId",
-                title: "<spring:message code='contractItem.material'/>",
-                type: 'text',
-                canEdit: false
+                name: "carName"
             }, {
-                name: "plant",
-                title: "<spring:message code='contractItem.plant'/>",
-                type: 'text',
-                canEdit: false
+                name: "tozinDate"
             }, {
-                name: "warehouseNo",
-                title: "<spring:message code='warehouseCad.warehouseNo'/>",
-                type: 'text',
-                canEdit: false
+                name: "tozinPlantId"
+            }],
+            changed(form, item, value) {
+                DynamicForm_warehouseCAD.setValue("plant", item.getSelectedRecord().source);
+                DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
+                DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().carName);
+                DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().carName);
+                DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().nameKala);
+                DynamicForm_warehouseCAD.setValue("sourceLoadDate", item.getSelectedRecord().tozinDate);
+                DynamicForm_warehouseCAD.setValue("containerNo", item.getSelectedRecord().containerId);
+            }
+        }, {
+            name: "destinationTozinPlantId",
+            required: true,
+            colSpan: 3,
+            titleColSpan: 1,
+            showHover: true,
+            autoFetchData: false,
+            title: "<spring:message code='warehouseCad.tozinBandarAbbas'/>",
+            type: 'string',
+            width: "100%",
+            editorType: "SelectItem",
+            optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT,
+            optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
+            displayField: "tozinPlantId",
+            valueField: "tozinPlantId",
+            pickListWidth: "700",
+            pickListHeight: "700",
+            pickListProperties: {
+                showFilterEditor: true,
+                filterOnKeypress: false
+            },
+            pickListFields: [{
+                name: "containerId"
             }, {
-                name: "movementType",
-                title: "<spring:message code='warehouseCad.movementType'/>",
-                type: 'text',
-                canEdit: false
+                name: "plak"
             }, {
-                name: "sourceTozinPlantId",
-                required: true,
-                canEdit: false,
-                colSpan: 3,
-                titleColSpan: 1,
-                showHover: true,
-                autoFetchData: false,
-                title: "<spring:message code='warehouseCad.tozinOther'/>",
-                type: 'string',
-                width: "100%",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT,
-                optionCriteria: RestDataSource_Tozin_Other_optionCriteria,
-                displayField: "tozinPlantId",
-                valueField: "tozinPlantId",
-                pickListWidth: "700",
-                pickListHeight: "700",
-                pickListProperties: {
-                    showFilterEditor: true,
-                    filterOnKeypress: false
-                },
-                pickListFields: [{
-                    name: "containerId"
-                }, {
-                    name: "plak"
-                }, {
-                    name: "carName"
-                }, {
-                    name: "tozinDate"
-                }, {
-                    name: "tozinPlantId"
-                }],
-                changed(form, item, value) {
-                    DynamicForm_warehouseCAD.setValue("plant", item.getSelectedRecord().source);
-                    DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
-                    DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().carName);
-                    DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().carName);
-                    DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().nameKala);
-                    DynamicForm_warehouseCAD.setValue("sourceLoadDate", item.getSelectedRecord().tozinDate);
-                    DynamicForm_warehouseCAD.setValue("containerNo", item.getSelectedRecord().containerId);
-                }
+                name: "carName"
             }, {
-                name: "destinationTozinPlantId",
-                required: true,
-                colSpan: 3,
-                titleColSpan: 1,
-                showHover: true,
-                autoFetchData: false,
-                title: "<spring:message code='warehouseCad.tozinBandarAbbas'/>",
-                type: 'string',
-                width: "100%",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT,
-                optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
-                displayField: "tozinPlantId",
-                valueField: "tozinPlantId",
-                pickListWidth: "700",
-                pickListHeight: "700",
-                pickListProperties: {
-                    showFilterEditor: true,
-                    filterOnKeypress: false
-                },
-                pickListFields: [{
-                    name: "containerId"
-                }, {
-                    name: "plak"
-                }, {
-                    name: "carName"
-                }, {
-                    name: "tozinDate"
-                }, {
-                    name: "tozinPlantId"
-                }],
-                changed(form, item, value) {
-                    DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
-                }
+                name: "tozinDate"
             }, {
-                name: "warehouseYardId",
-                required: true,
-                colSpan: 1,
-                titleColSpan: 1,
-                showHover: true,
-                autoFetchData: false,
-                title: "<spring:message code='warehouseCad.yard'/>",
-                type: 'string',
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_WarehouseYard,
-                displayField: "nameFA",
-                valueField: "id",
-                pickListWidth: "215",
-                pickListHeight: "215",
-                pickListProperties: {
-                    showFilterEditor: true,
-                    filterOnKeypress: false
-                },
-                pickListFields: [{
-                    name: "nameFA"
-                }],
-                changed: function (form, item, value) {
-                if(!item.getDisplayValue(value).includes("کاتد")){
+                name: "tozinPlantId"
+            }],
+            changed(form, item, value) {
+                DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
+            }
+        }, {
+            name: "warehouseYardId",
+            required: true,
+            colSpan: 1,
+            titleColSpan: 1,
+            showHover: true,
+            autoFetchData: false,
+            title: "<spring:message code='warehouseCad.yard'/>",
+            type: 'string',
+            editorType: "SelectItem",
+            optionDataSource: RestDataSource_WarehouseYard,
+            displayField: "nameFA",
+            valueField: "id",
+            pickListWidth: "215",
+            pickListHeight: "215",
+            pickListProperties: {
+                showFilterEditor: true,
+                filterOnKeypress: false
+            },
+            pickListFields: [{
+                name: "nameFA"
+            }],
+            changed: function (form, item, value) {
+                if (!item.getDisplayValue(value).includes("کاتد")) {
                     isc.warn("<spring:message code='warehouseYard.alert'/>");
                     form.getItem("warehouseYardId").setValue("");
                 }
-                }
-            }, {
-                name: "sourceLoadDate",
-                title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1,
-                disabled: true
-            }, {
-                name: "destinationUnloadDate",
-                title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1,
-                disabled: true
-            }, {
-                name: "rahahanPolompNo",
-                title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1
-            }, {
-                name: "herasatPolompNo",
-                title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1
-            }, {
-                name: "containerNo",
-                title: "<spring:message code='warehouseCad.containerNo'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1
-            }, {
-                name: "sourceBundleSum",
-                title: "<spring:message code='warehouseCad.sourceBundleSum'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1
-            }, {
-                name: "destinationBundleSum",
-                title: "<spring:message code='warehouseCad.destinationBundleSum'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1
-            }, {
-                name: "sourceSheetSum",
-                title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1
-            }, {
-                name: "destinationSheetSum",
-                title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1
-            }, {
-                name: "sourceWeight",
-                title: "<spring:message code='warehouseCad.sourceWeight'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1
-            }, {
-                name: "destinationWeight",
-                title: "<spring:message code='warehouseCad.destinationWeight'/>",
-                width: 250,
-                colSpan: 1,
-                titleColSpan: 1
-            },
+            }
+        }, {
+            name: "sourceLoadDate",
+            title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1,
+            disabled: true
+        }, {
+            name: "destinationUnloadDate",
+            title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1,
+            disabled: true
+        }, {
+            name: "rahahanPolompNo",
+            title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "herasatPolompNo",
+            title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "containerNo",
+            title: "<spring:message code='warehouseCad.containerNo'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "sourceBundleSum",
+            title: "<spring:message code='warehouseCad.sourceBundleSum'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "destinationBundleSum",
+            title: "<spring:message code='warehouseCad.destinationBundleSum'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "sourceSheetSum",
+            title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "destinationSheetSum",
+            title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "sourceWeight",
+            title: "<spring:message code='warehouseCad.sourceWeight'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        }, {
+            name: "destinationWeight",
+            title: "<spring:message code='warehouseCad.destinationWeight'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        },
             {
                 type: "Header",
                 defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
@@ -552,16 +552,16 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
             var warehouseCadItems = [];
             ListGrid_WarehouseCadItem.selectAllRecords();
 
-            if (ListGrid_WarehouseCadItem.data.length == 0 ) {
-               isc.warn("<spring:message code='bijack.noitems'/>");
-               return;
+            if (ListGrid_WarehouseCadItem.data.length == 0) {
+                isc.warn("<spring:message code='bijack.noitems'/>");
+                return;
             }
 
-            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function(element) {
+            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
                 warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
-            ListGrid_WarehouseCadItem.getAllEditRows().forEach(function(element) {
+            ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
                 if (element.productLabel !== undefined && element.sheetNumber !== undefined && element.wazn !== undefined) {
                     warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
                 }
@@ -574,7 +574,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
 
             ListGrid_WarehouseCadItem.deselectAllRecords();
 
-            warehouseCadItems.forEach(function(item) {
+            warehouseCadItems.forEach(function (item) {
                 item.bundleSerial = item.productLabel;
                 delete item.productLabel;
                 item.sheetNo = item.sheetNumber;
@@ -606,11 +606,13 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
     });
 
     ListGrid_WarehouseCadItem.setData([]);
-    var criteria_catod={_constructor:"AdvancedCriteria",operator:"and",
-    criteria:[{fieldName:"tozinId",operator:"equals",value:ListGrid_Tozin.getSelectedRecord().tozinPlantId}]};
+    var criteria_catod = {
+        _constructor: "AdvancedCriteria", operator: "and",
+        criteria: [{fieldName: "tozinId", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().tozinPlantId}]
+    };
     RestDataSource_CatodList.fetchData(criteria_catod,
         function (dsResponse, data, dsRequest) {
-            data.forEach(function(item){
+            data.forEach(function (item) {
                 delete item.storeId;
                 delete item.tozinId;
                 delete item.productId;
@@ -618,52 +620,52 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 delete item.gdsCode;
             });
             ListGrid_WarehouseCadItem.setData(data);
-            var productLabel= ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("productLabel"));
+            var productLabel = ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("productLabel"));
             var sheetNumber = ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("sheetNumber"));
             var wazn = ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("wazn"));
-            DynamicForm_warehouseCAD.setValue("destinationBundleSum",productLabel[0]);
-            DynamicForm_warehouseCAD.setValue("destinationSheetSum",sheetNumber[0]);
-            DynamicForm_warehouseCAD.setValue("destinationWeight",wazn[0]);
+            DynamicForm_warehouseCAD.setValue("destinationBundleSum", productLabel[0]);
+            DynamicForm_warehouseCAD.setValue("destinationSheetSum", sheetNumber[0]);
+            DynamicForm_warehouseCAD.setValue("destinationWeight", wazn[0]);
         });
 
     DynamicForm_warehouseCAD.clearValues();
 
     DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().nameKala);
-    DynamicForm_warehouseCAD.setValue("plant",ListGrid_Tozin.getSelectedRecord().source);
+    DynamicForm_warehouseCAD.setValue("plant", ListGrid_Tozin.getSelectedRecord().source);
     DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
-    DynamicForm_warehouseCAD.setValue("movementType",DynamicForm_DailyReport_Tozin4.getValues().type);
-    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId",ListGrid_Tozin.getSelectedRecord().tozinPlantId);
-    DynamicForm_warehouseCAD.setValue("sourceLoadDate",ListGrid_Tozin.getSelectedRecord().tozinDate);
-    DynamicForm_warehouseCAD.setValue("containerNo",ListGrid_Tozin.getSelectedRecord().containerId);
-    DynamicForm_warehouseCAD.setValue("sourceBundleSum",ListGrid_Tozin.getSelectedRecord().tedad);
-    DynamicForm_warehouseCAD.setValue("sourceWeight",ListGrid_Tozin.getSelectedRecord().vazn);
+    DynamicForm_warehouseCAD.setValue("movementType", DynamicForm_DailyReport_Tozin4.getValues().type);
+    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_Tozin.getSelectedRecord().tozinPlantId);
+    DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin.getSelectedRecord().tozinDate);
+    DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin.getSelectedRecord().containerId);
+    DynamicForm_warehouseCAD.setValue("sourceBundleSum", ListGrid_Tozin.getSelectedRecord().tedad);
+    DynamicForm_warehouseCAD.setValue("sourceWeight", ListGrid_Tozin.getSelectedRecord().vazn);
 
     isc.VLayout.create({
         width: 810,
         height: 800,
         members: [
-                DynamicForm_warehouseCAD,
-                add_bundle_button,
-                ListGrid_WarehouseCadItem,
-                isc.HLayout.create({
-                    width: "100%",
-                    members:
-                        [
-                            IButton_warehouseCAD_Save,
-                            isc.Label.create({
-                                width: 5,
-                            }),
-                            isc.IButtonCancel.create({
-                                ID: "warehouseCADEditExitIButton",
-                                title: "<spring:message code='global.cancel'/>",
-                                width: 100,
-                                icon: "pieces/16/icon_delete.png",
-                                orientation: "vertical",
-                                click: function () {
-                                    Window_Bijack.close();
-                                }
-                            })
-                        ]
-                })
-       ]
+            DynamicForm_warehouseCAD,
+            add_bundle_button,
+            ListGrid_WarehouseCadItem,
+            isc.HLayout.create({
+                width: "100%",
+                members:
+                    [
+                        IButton_warehouseCAD_Save,
+                        isc.Label.create({
+                            width: 5,
+                        }),
+                        isc.IButtonCancel.create({
+                            ID: "warehouseCADEditExitIButton",
+                            title: "<spring:message code='global.cancel'/>",
+                            width: 100,
+                            icon: "pieces/16/icon_delete.png",
+                            orientation: "vertical",
+                            click: function () {
+                                Window_Bijack.close();
+                            }
+                        })
+                    ]
+            })
+        ]
     });

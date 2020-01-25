@@ -46,35 +46,30 @@ public class InvoiceRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-    // @PreAuthorize("hasAuthority('r_invoice')")
     public ResponseEntity<InvoiceDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(invoiceService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    // @PreAuthorize("hasAuthority('r_invoice')")
     public ResponseEntity<List<InvoiceDTO.Info>> list() {
         return new ResponseEntity<>(invoiceService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-    // @PreAuthorize("hasAuthority('c_invoice')")
     public ResponseEntity<InvoiceDTO.Info> create(@Validated @RequestBody InvoiceDTO.Create request) {
         return new ResponseEntity<>(invoiceService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-    // @PreAuthorize("hasAuthority('u_invoice')")
     public ResponseEntity<InvoiceDTO.Info> update(@RequestBody InvoiceDTO.Update request) {
         return new ResponseEntity<>(invoiceService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @PutMapping(value = "/molybdenum")
-    // @PreAuthorize("hasAuthority('u_invoice')")
     public ResponseEntity<Void> molybdenum(@RequestBody String data) throws IOException {
         invoiceMolybdenumService.molybdenum(data);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -82,7 +77,6 @@ public class InvoiceRestController {
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    // @PreAuthorize("hasAuthority('d_invoice')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         invoiceService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -90,7 +84,6 @@ public class InvoiceRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-    // @PreAuthorize("hasAuthority('d_invoice')")
     public ResponseEntity<Void> delete(@Validated @RequestBody InvoiceDTO.Delete request) {
         invoiceService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -98,7 +91,6 @@ public class InvoiceRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-//	@PreAuthorize("hasAuthority('r_instruction')")
     public ResponseEntity<TotalResponse<InvoiceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(invoiceService.search(nicicoCriteria), HttpStatus.OK);

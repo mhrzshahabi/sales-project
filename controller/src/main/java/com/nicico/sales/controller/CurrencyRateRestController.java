@@ -27,35 +27,30 @@ public class CurrencyRateRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('r_currencyRate')")
     public ResponseEntity<CurrencyRateDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(currencyRateService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('r_currencyRate')")
     public ResponseEntity<List<CurrencyRateDTO.Info>> list() {
         return new ResponseEntity<>(currencyRateService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//	@PreAuthorize("hasAuthority('c_currencyRate')")
     public ResponseEntity<CurrencyRateDTO.Info> create(@Validated @RequestBody CurrencyRateDTO.Create request) {
         return new ResponseEntity<>(currencyRateService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//	@PreAuthorize("hasAuthority('u_currencyRate')")
     public ResponseEntity<CurrencyRateDTO.Info> update(@RequestBody CurrencyRateDTO.Update request) {
         return new ResponseEntity<>(currencyRateService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_currencyRate')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         currencyRateService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -63,7 +58,6 @@ public class CurrencyRateRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_currencyRate')")
     public ResponseEntity<Void> delete(@Validated @RequestBody CurrencyRateDTO.Delete request) {
         currencyRateService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -78,7 +72,6 @@ public class CurrencyRateRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_currencyRate')")
     public ResponseEntity<SearchDTO.SearchRs<CurrencyRateDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(currencyRateService.search(request), HttpStatus.OK);
     }

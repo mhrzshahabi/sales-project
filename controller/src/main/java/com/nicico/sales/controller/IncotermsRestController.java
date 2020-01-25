@@ -27,35 +27,30 @@ public class IncotermsRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('r_incoterms')")
     public ResponseEntity<IncotermsDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(incotermsService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('r_incoterms')")
     public ResponseEntity<List<IncotermsDTO.Info>> list() {
         return new ResponseEntity<>(incotermsService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//	@PreAuthorize("hasAuthority('c_incoterms')")
     public ResponseEntity<IncotermsDTO.Info> create(@Validated @RequestBody IncotermsDTO.Create request) {
         return new ResponseEntity<>(incotermsService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//	@PreAuthorize("hasAuthority('u_incoterms')")
     public ResponseEntity<IncotermsDTO.Info> update(@RequestBody IncotermsDTO.Update request) {
         return new ResponseEntity<>(incotermsService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_incoterms')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         incotermsService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -63,7 +58,6 @@ public class IncotermsRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_incoterms')")
     public ResponseEntity<Void> delete(@Validated @RequestBody IncotermsDTO.Delete request) {
         incotermsService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -78,7 +72,6 @@ public class IncotermsRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_incoterms')")
     public ResponseEntity<SearchDTO.SearchRs<IncotermsDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(incotermsService.search(request), HttpStatus.OK);
     }

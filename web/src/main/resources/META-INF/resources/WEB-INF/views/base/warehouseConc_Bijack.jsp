@@ -199,33 +199,33 @@
         fetchDataURL: "${contextPath}/api/tozin/search-tozin"
     });
 
-var RestDataSource_Tozin_Other_optionCriteria = {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{
-        fieldName: "target",
-        operator: "iContains",
-        value: "رجا"
-    }, {
-        fieldName: "tozinId",
-        operator: "notContains",
-        value: '3%'
-    }]
-};
+    var RestDataSource_Tozin_Other_optionCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "target",
+            operator: "iContains",
+            value: "رجا"
+        }, {
+            fieldName: "tozinId",
+            operator: "notContains",
+            value: '3%'
+        }]
+    };
 
-var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{
-        fieldName: "target",
-        operator: "iContains",
-        value: "رجا"
-    }, {
-        fieldName: "tozinId",
-        operator: "contains",
-        value: '3%'
-    }]
-};
+    var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "target",
+            operator: "iContains",
+            value: "رجا"
+        }, {
+            fieldName: "tozinId",
+            operator: "contains",
+            value: '3%'
+        }]
+    };
 
 
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
@@ -251,7 +251,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         }, {
             name: "description"
         }],
-        saveEdits: function() {
+        saveEdits: function () {
             var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
             if (warehouseCadItem.issueId !== undefined) {
                 isc.warn("can't edit. item is not in inventory.");
@@ -270,14 +270,14 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 actionURL: "${contextPath}/api/warehouseCadItem/",
                 httpMethod: method,
                 data: JSON.stringify(warehouseCadItem),
-                callback: function(resp) {
+                callback: function (resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         //fetch data automatically
                         ListGrid_WarehouseCadItem.setData([]);
                         ListGrid_WarehouseCadItem.fetchData({
                             "warehouseCadId": warehouseCadItem.warehouseCadId
-                        }, function(dsResponse, data, dsRequest) {
+                        }, function (dsResponse, data, dsRequest) {
                             ListGrid_WarehouseCadItem.setData(data);
                         });
                     } else
@@ -285,7 +285,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 }
             }));
         },
-        removeData: function(data) {
+        removeData: function (data) {
             if (data.issueId !== undefined) {
                 isc.warn("can't remove. item is not in inventory.");
                 return;
@@ -294,12 +294,12 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/warehouseCadItem/" + warehouseCadItemId,
                 httpMethod: "DELETE",
-                callback: function(resp) {
+                callback: function (resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         ListGrid_WarehouseCadItem.setData([]);
                         ListGrid_WarehouseCadItem.fetchData({
                             "warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id
-                        }, function(dsResponse, data, dsRequest) {
+                        }, function (dsResponse, data, dsRequest) {
                             ListGrid_WarehouseCadItem.setData(data);
                         });
 
@@ -316,7 +316,7 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         showIf: "false",
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
-        click: function() {
+        click: function () {
             ListGrid_WarehouseCadItem.selectAllRecords();
             if (ListGrid_WarehouseCadItem.getSelectedRecords().length >= 1) {
                 isc.warn("<spring:message code='warehouseMo.alert'/>");
@@ -470,11 +470,11 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
                 name: "nameFA"
             }],
             changed: function (form, item, value) {
-                if(!item.getDisplayValue(value).includes("نسانتره")){
+                if (!item.getDisplayValue(value).includes("نسانتره")) {
                     isc.warn("<spring:message code='warehouseYard.alert'/>");
                     form.getItem("warehouseYardId").setValue("");
                 }
-                }
+            }
         }, {
             name: "sourceLoadDate",
             title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
@@ -526,53 +526,53 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
     });
 
     var IButton_warehouseCAD_Save = isc.IButtonSave.create({
-     showIf: "false",
-     top: 260,
-     title: "<spring:message code='global.form.save'/>",
-     icon: "pieces/16/save.png",
-     click: function() {
-         DynamicForm_warehouseCAD.validate();
-         if (DynamicForm_warehouseCAD.hasErrors())
-             return;
+        showIf: "false",
+        top: 260,
+        title: "<spring:message code='global.form.save'/>",
+        icon: "pieces/16/save.png",
+        click: function () {
+            DynamicForm_warehouseCAD.validate();
+            if (DynamicForm_warehouseCAD.hasErrors())
+                return;
 
-         DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_warehouseCAD.getSelectedRecord().materialItemId);
-         var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
-         var warehouseCadItems = [];
+            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_warehouseCAD.getSelectedRecord().materialItemId);
+            var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
+            var warehouseCadItems = [];
 
-         ListGrid_WarehouseCadItem.selectAllRecords();
-         if (ListGrid_WarehouseCadItem.data.length === 0) {
-             isc.warn("<spring:message code='bijack.noitems'/>");
-             return;
-         }
+            ListGrid_WarehouseCadItem.selectAllRecords();
+            if (ListGrid_WarehouseCadItem.data.length === 0) {
+                isc.warn("<spring:message code='bijack.noitems'/>");
+                return;
+            }
 
-         ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function(element) {
-             warehouseCadItems.add(element);
-         });
+            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
+                warehouseCadItems.add(element);
+            });
 
-         ListGrid_WarehouseCadItem.getAllEditRows().forEach(function(element) {
-             warehouseCadItems.add(ListGrid_WarehouseCadItem.getEditedRecord(element));
-         });
+            ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
+                warehouseCadItems.add(ListGrid_WarehouseCadItem.getEditedRecord(element));
+            });
 
-         ListGrid_WarehouseCadItem.deselectAllRecords();
+            ListGrid_WarehouseCadItem.deselectAllRecords();
 
-         data_WarehouseCad.warehouseCadItems = warehouseCadItems;
-         var method = "PUT";
-         if (data_WarehouseCad.id == null)
-             method = "POST";
-         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-             actionURL: "${contextPath}/api/warehouseCad/",
-             httpMethod: method,
-             data: JSON.stringify(data_WarehouseCad),
-             callback: function(resp) {
-                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-                     isc.say("<spring:message code='global.form.request.successful'/>");
-                     Window_Bijack.close();
-                 } else
-                     isc.say(RpcResponse_o.data);
-             }
-         }));
-     }
- });
+            data_WarehouseCad.warehouseCadItems = warehouseCadItems;
+            var method = "PUT";
+            if (data_WarehouseCad.id == null)
+                method = "POST";
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/warehouseCad/",
+                httpMethod: method,
+                data: JSON.stringify(data_WarehouseCad),
+                callback: function (resp) {
+                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>");
+                        Window_Bijack.close();
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }));
+        }
+    });
 
     ListGrid_WarehouseCadItem.setData([]);
     ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id},

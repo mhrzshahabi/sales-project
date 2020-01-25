@@ -27,14 +27,12 @@ public class ShipmentContractRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('r_shipmentContract')")
     public ResponseEntity<ShipmentContractDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(shipmentContractService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('r_shipmentContract')")
     public ResponseEntity<List<ShipmentContractDTO.Info>> list() {
         return new ResponseEntity<>(shipmentContractService.list(), HttpStatus.OK);
     }
@@ -42,21 +40,18 @@ public class ShipmentContractRestController {
 
     @Loggable
     @PostMapping
-//	@PreAuthorize("hasAuthority('c_shipmentContract')")
     public ResponseEntity<ShipmentContractDTO.Info> create(@Validated @RequestBody ShipmentContractDTO.Create request) {
         return new ResponseEntity<>(shipmentContractService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//	@PreAuthorize("hasAuthority('u_shipmentContract')")
     public ResponseEntity<ShipmentContractDTO.Info> update(@RequestBody ShipmentContractDTO.Update request) {
         return new ResponseEntity<>(shipmentContractService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_shipmentContract')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         shipmentContractService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -64,7 +59,6 @@ public class ShipmentContractRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_shipmentContract')")
     public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentContractDTO.Delete request) {
         shipmentContractService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -79,7 +73,6 @@ public class ShipmentContractRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_shipmentContract')")
     public ResponseEntity<SearchDTO.SearchRs<ShipmentContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(shipmentContractService.search(request), HttpStatus.OK);
     }

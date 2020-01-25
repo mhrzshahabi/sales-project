@@ -61,7 +61,7 @@
                 },
                 {
                     name: "tblId1",
-                    title:  "<spring:message code='dcc.dccViewer.Id'/>",
+                    title: "<spring:message code='dcc.dccViewer.Id'/>",
                     type: 'long',
                     required: true,
                     width: 200,
@@ -83,8 +83,7 @@
                     width: "20%",
                     align: "center"
                 }
-            ],
-
+            ]
     });
 
     function ListGrid_DccView_refresh() {
@@ -103,14 +102,14 @@
         width: "100%",
         members:
             [
-            isc.ToolStrip.create({
-            width: "100%",
-            align: "left",
-            border: '0px',
-            members: [
-                ToolStripButton_DccView_Refresh
-            ]
-            })
+                isc.ToolStrip.create({
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_DccView_Refresh
+                    ]
+                })
 
             ]
     });

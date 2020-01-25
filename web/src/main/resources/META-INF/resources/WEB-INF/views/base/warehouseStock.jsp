@@ -44,10 +44,9 @@
         }, {
             name: "materialItem.gdsName",
             title: "<spring:message code='material.descp'/>",
-            sortNormalizer: function(recordObject)
-			{
-				return recordObject.materialItem.gdsName;
-			}
+            sortNormalizer: function (recordObject) {
+                return recordObject.materialItem.gdsName;
+            }
         }],
         fetchDataURL: "${contextPath}/api/warehouseStock/spec-list"
     });
@@ -164,12 +163,12 @@
                 DynamicForm_WarehouseStock_Tozin,
                 ToolStripButton_WarehouseStock_export_Print,
                 isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_WarehouseStock_Refresh,
-                ]
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_WarehouseStock_Refresh,
+                    ]
                 })
 
             ]

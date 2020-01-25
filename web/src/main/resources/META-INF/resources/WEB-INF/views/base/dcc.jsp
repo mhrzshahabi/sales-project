@@ -43,9 +43,6 @@
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false},
                 {
-                    type: "RowSpacerItem",
-                },
-                {
                     name: "documentType",
                     title: "<spring:message code='dcc.documentType'/>",
                     type: 'text',
@@ -57,18 +54,12 @@
                     }
                 },
                 {
-                    type: "RowSpacerItem",
-                },
-                {
                     name: "description",
                     title: "<spring:message code='global.description'/>",
                     type: 'textArea',
                     required: "true",
                     width: 400,
                     height: "100"
-                },
-                {
-                    type: "RowSpacerItem",
                 },
                 {
                     ID: "fileDcc",
@@ -79,19 +70,10 @@
                     accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
                     multiple: "",
                     width: "90%",
-                },
-                {
-                    type: "RowSpacerItem",
                 }
             ]
     });
-    <%--var ToolStripButton_Dcc_Refresh = isc.ToolStripButtonRefresh.create({--%>
-        <%--icon: "[SKIN]/actions/refresh.png",--%>
-        <%--title: "<spring:message code='global.form.refresh'/>",--%>
-        <%--click: function () {--%>
-            <%--ListGrid_Dcc_refresh();--%>
-        <%--}--%>
-    <%--});--%>
+
     var ToolStripButton_Dcc_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -100,51 +82,6 @@
             dccCreateWindow.show();
         }
     });
-
-
-    <%--var ToolStripButton_Dcc_Remove = isc.ToolStripButtonRemove.create({--%>
-        <%--icon: "[SKIN]/actions/remove.png",--%>
-        <%--title: "<spring:message code='global.form.remove'/>",--%>
-        <%--click: function () {--%>
-            <%--ListGrid_Dcc_remove();--%>
-        <%--}--%>
-    <%--});--%>
-// /*    var ToolStrip_Actions_Dcc = isc.ToolStrip.create({
-//         width: "100%",
-//         members:
-//             [
-//                 ToolStripButton_Dcc_Add,
-//                 // ToolStripButton_Dcc_Edit,
-//                 ToolStripButton_Dcc_Remove,
-//                 isc.ToolStrip.create({
-//                 width: "100%",
-//                 align: "left",
-//                 border: '0px',
-//                 members: [
-//                     ToolStripButton_Dcc_Refresh,
-//                 ]
-//                 })
-//
-//             ]
-//     });*/
-
-    function ListGrid_Dcc_edit() {
-        var record = ListGrid_Dcc.getSelectedRecord();
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            dccDynamicForm.editRecord(record);
-            dccCreateWindow.show();
-        }
-    }
 
     function ListGrid_Dcc_remove() {
         var record = ListGrid_Dcc.getSelectedRecord();
@@ -190,15 +127,6 @@
         }
     }
 
-/*    var dccActionsHLayout = isc.HLayout.create({
-        width: "100%",
-        members:
-            [
-                ToolStrip_Actions_Dcc
-            ]
-    });*/
-
-
     var dccMenu = isc.Menu.create(
         {
             width: 150,
@@ -206,16 +134,14 @@
                 {
                     title: "<spring:message code='global.form.refresh'/>",
                     icon: "pieces/16/refresh.png",
-                    click: function()
-                    {
+                    click: function () {
                         ListGrid_Dcc_refresh();
                     }
                 },
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
-                    click: function()
-                    {
+                    click: function () {
                         dccDynamicForm.clearValues();
                         dccCreateWindow.show();
                     }
@@ -224,8 +150,7 @@
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
-                    click: function()
-                    {
+                    click: function () {
                         ListGrid_Dcc_remove();
                     }
                 },
@@ -235,8 +160,7 @@
                 {
                     title: "<spring:message code='global.form.dcc.download'/>",
                     icon: "icon/pdf.png",
-                    click: function()
-                    {
+                    click: function () {
                         var record = ListGrid_Dcc.getSelectedRecord();
                         if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
                             window.open("dcc/downloadFile?table=" + "contract" + "&file=" + record.fileNewName);
@@ -261,10 +185,6 @@
             ]
         });
 
-
-
-
-
     var RestDataSource_Dcc = isc.MyRestDataSource.create({
         fields: [
             {name: "id", hidden: true, primaryKey: true, canEdit: false,},
@@ -283,7 +203,6 @@
                 name: "description",
                 title: "<spring:message code='global.description'/>",
                 type: 'text',
-                // required: true,
                 width: 400
             },
             {
@@ -298,18 +217,15 @@
         fetchDataURL: "${contextPath}/api/dcc/spec-list"
     });
 
-
     var dccSaveIButton = isc.IButtonSave.create(
         {
             top: 260,
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
-            click: function()
-            {
+            click: function () {
 
                 dccDynamicForm.validate();
-                if (dccDynamicForm.hasErrors())
-                {
+                if (dccDynamicForm.hasErrors()) {
                     return;
                 }
 
@@ -319,48 +235,39 @@
                 dccDynamicForm.setValue("tblName1", dccTableName);
                 dccDynamicForm.setValue("tblId1", dccTableId);
 
-                if (dccTableName != null && dccTableName === 'TBL_CONTACT')
-                {
+                if (dccTableName != null && dccTableName === 'TBL_CONTACT') {
                     folder = "contact";
                     dccDynamicForm.setValue("folder", "contact");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_CONTRACT')
-                {
+                else if (dccTableName != null && dccTableName === 'TBL_CONTRACT') {
                     folder = "contract";
                     dccDynamicForm.setValue("folder", "contract");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_INSTRUCTION')
-                {
+                else if (dccTableName != null && dccTableName === 'TBL_INSTRUCTION') {
                     folder = "instruction";
                     dccDynamicForm.setValue("folder", "instruction");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_SHIPMENT')
-                {
+                else if (dccTableName != null && dccTableName === 'TBL_SHIPMENT') {
                     folder = "shipment";
                     dccDynamicForm.setValue("folder", "shipment");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_INVOICE')
-                {
+                else if (dccTableName != null && dccTableName === 'TBL_INVOICE') {
                     folder = "invoice";
                     dccDynamicForm.setValue("folder", "invoice");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_CAD')
-                {
+                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_CAD') {
                     folder = "warehouse_cad";
                     dccDynamicForm.setValue("folder", "warehouse_cad");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CATHODE')
-                {
+                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CATHODE') {
                     folder = "warehouse_issue_cathode";
                     dccDynamicForm.setValue("folder", "warehouse_issue_cathode");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CONS')
-                {
+                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CONS') {
                     folder = "warehouse_issue_cons";
                     dccDynamicForm.setValue("folder", "warehouse_issue_cons");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_MO')
-                {
+                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_MO') {
                     folder = "warehouse_issue_mo";
                     dccDynamicForm.setValue("folder", "warehouse_issue_mo");
                 }
@@ -377,18 +284,14 @@
                 request.setRequestHeader("contentType", "application/json; charset=utf-8");
                 request.send(formData);
                 request.timeout = 1000;
-                request.ontimeout = function()
-                {
+                request.ontimeout = function () {
                     isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
                 }
-                request.onreadystatechange = function()
-                {
-                    if (request.readyState === XMLHttpRequest.DONE)
-                    {
+                request.onreadystatechange = function () {
+                    if (request.readyState === XMLHttpRequest.DONE) {
                         if (request.status === 500)
                             isc.warn("<spring:message code='dcc.upload.error.message'/>");
-                        if (request.status === 200 || request.status == 201)
-                        {
+                        if (request.status === 200 || request.status == 201) {
                             isc.say("<spring:message code='dcc.upload.success.message'/>");
                             ListGrid_Dcc_refresh();
                             dccCreateWindow.close();
@@ -400,11 +303,9 @@
             }
         });
 
-
     var dccCreateWindow = isc.Window.create({
         title: "<spring:message code='dcc.Attachment'/> ",
         width: 550,
-        // height: 300,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -441,7 +342,6 @@
                 })
             ]
     });
-
 
     var ListGrid_Dcc = isc.ListGrid.create({
         width: "100%",
@@ -499,30 +399,9 @@
                     showTitle: false
                 },
             ],
-            createRecordComponent: function(record, colNum)
-            {
+        createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
- /*           if (fieldName == "editIcon")
-            {
-            var editImg = isc.ImgButton.create({
-                showDown: false,
-                showRollOver: false,
-                layoutAlign: "center",
-                src: "pieces/16/icon_edit.png",
-                prompt: "ویرایش",
-                height: 16,
-                width: 16,
-                grid: this,
-                click: function()
-                {
-                ListGrid_Dcc.selectSingleRecord(record);
-                ListGrid_Dcc_edit()
-                }
-            });
-            return editImg;
-            }
-            else*/ if (fieldName == "removeIcon")
-                {
+            if (fieldName == "removeIcon") {
                 var removeImg = isc.ImgButton.create({
                     showDown: false,
                     showRollOver: false,
@@ -532,19 +411,17 @@
                     height: 16,
                     width: 16,
                     grid: this,
-                click: function()
-                    {
-                      ListGrid_Dcc.selectSingleRecord(record);
-                      ListGrid_Dcc_remove()
+                    click: function () {
+                        ListGrid_Dcc.selectSingleRecord(record);
+                        ListGrid_Dcc_remove()
                     }
                 });
                 return removeImg;
-                }
-            else
-                {
-                return null;
-                }
             }
+            else {
+                return null;
+            }
+        }
     });
 
     var DccGridHLayout = isc.HLayout.create({
@@ -560,11 +437,11 @@
         members: [
             DccGridHLayout,
             isc.HLayout.create({
-            width: "100%", align: "center", margin:10, height: "30",
-            members:
-            [
-                 ToolStripButton_Dcc_Add
-            ]
+                width: "100%", align: "center", margin: 10, height: "30",
+                members:
+                    [
+                        ToolStripButton_Dcc_Add
+                    ]
             })
         ]
     });

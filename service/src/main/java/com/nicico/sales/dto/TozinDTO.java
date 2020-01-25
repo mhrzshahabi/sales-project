@@ -113,15 +113,6 @@ public class TozinDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("TozinSpecRs")
-	public static class TozinSpecRs {
-		private SpecRs response;
-	}
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
 		private List<TozinDTO.Info> data;
 		private Integer status;

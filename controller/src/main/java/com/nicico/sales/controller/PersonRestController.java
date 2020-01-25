@@ -27,35 +27,30 @@ public class PersonRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('r_person')")
     public ResponseEntity<PersonDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(personService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('r_person')")
     public ResponseEntity<List<PersonDTO.Info>> list() {
         return new ResponseEntity<>(personService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//	@PreAuthorize("hasAuthority('c_person')")
     public ResponseEntity<PersonDTO.Info> create(@Validated @RequestBody PersonDTO.Create request) {
         return new ResponseEntity<>(personService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//	@PreAuthorize("hasAuthority('u_person')")
     public ResponseEntity<PersonDTO.Info> update(@RequestBody PersonDTO.Update request) {
         return new ResponseEntity<>(personService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_person')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         personService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -63,7 +58,6 @@ public class PersonRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_person')")
     public ResponseEntity<Void> delete(@Validated @RequestBody PersonDTO.Delete request) {
         personService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -78,7 +72,6 @@ public class PersonRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_person')")
     public ResponseEntity<SearchDTO.SearchRs<PersonDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(personService.search(request), HttpStatus.OK);
     }

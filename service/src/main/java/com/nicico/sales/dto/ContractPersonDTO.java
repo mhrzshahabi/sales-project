@@ -67,15 +67,6 @@ public class ContractPersonDTO {
     @Setter
     @Accessors(chain = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("ContractPersonSpecRs")
-    public static class ContractPersonSpecRs {
-        private SpecRs response;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class SpecRs {
         private List<ContractPersonDTO.Info> data;
         private Integer status;

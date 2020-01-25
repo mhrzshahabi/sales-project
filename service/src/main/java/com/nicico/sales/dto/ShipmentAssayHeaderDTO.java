@@ -73,15 +73,6 @@ public class ShipmentAssayHeaderDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("ShipmentAssayHeaderSpecRs")
-	public static class ShipmentAssayHeaderSpecRs {
-		private SpecRs response;
-	}
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
 		private List<ShipmentAssayHeaderDTO.Info> data;
 		private Integer status;

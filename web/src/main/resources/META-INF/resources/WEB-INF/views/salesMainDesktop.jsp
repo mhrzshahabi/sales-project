@@ -24,7 +24,6 @@
     <script src="<spring:url value='/static/script/js/moment.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
 
-
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
     <script src=isomorphic/system/modules/ISC_Foundation.js></script>
@@ -40,9 +39,7 @@
     <script SRC=isomorphic/skins/Nicico/load_skin.js></script>
     <script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>
 
-
 </head>
-
 
 <c:choose>
 <c:when test="${pageContext.response.locale == 'fa'}">
@@ -57,12 +54,12 @@
 </form>
 
 <script type="application/javascript">
-    var screenW = window.screen.availWidth;
-
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    isc.DynamicForm.addProperties({requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",});
+    isc.DynamicForm.addProperties({
+        requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",
+    });
 
     isc.defineClass("MyRestDataSource", RestDataSource);
 
@@ -82,11 +79,14 @@
         }
     });
 
-    isc.SelectItem.addProperties ({
-            click:function(){
-                this.pickList.invalidateCache();
-            }
+    isc.SelectItem.addProperties({
+        allowEmptyValue:"true",
+        click: function () {
+            this.pickList.invalidateCache();
+        }
     });
+
+
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -98,8 +98,8 @@
     };
 
     function redirectLogin() {
-		location.href = "<spring:url value='/' />";
-	}
+        location.href = "<spring:url value='/' />";
+    }
 
     isc.RPCManager.addClassProperties({
         defaultPrompt: "<spring:message code='global.server.contacting'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
@@ -109,19 +109,19 @@
         promptStyle: "dialog",
         allowCrossDomainCalls: true,
         handleError: function (response, request) {
-             if(response.error=='invalid_token')
-		        isc.warn(response.data);
-                console.log("Global RPCManager Error Handler: ", request, response);
-                if (response.httpResponseCode === 401) { // Unauthorized
-                    redirectLogin();
-                } else if (response.httpResponseCode === 403) { // Forbidden
-                    // nicico.error("Access Denied"); //TODO: I18N message key
-                    isc.say(JSON.parse(response.httpResponseText).exception);
-                }else if (response.httpResponseCode === 500){
-                    isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 500");
-                }else if (response.httpResponseCode ===405){
-                    isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 450");
-                }
+            if (response.error == 'invalid_token')
+                isc.warn(response.data);
+            console.log("Global RPCManager Error Handler: ", request, response);
+            if (response.httpResponseCode === 401) { // Unauthorized
+                redirectLogin();
+            } else if (response.httpResponseCode === 403) { // Forbidden
+                // nicico.error("Access Denied"); //TODO: I18N message key
+                isc.say(JSON.parse(response.httpResponseText).exception);
+            } else if (response.httpResponseCode === 500) {
+                isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 500");
+            } else if (response.httpResponseCode === 405) {
+                isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 450");
+            }
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
                 case "Unauthorized":
@@ -178,17 +178,17 @@
             loadingMessage: " <spring:message code='global.loadingMessage'/>"
         });
 
-    isc.ViewLoader.addMethods({
-		handleError: function (rq, rs) {
-			console.log("Global ViewLoader Error: ", rq, rs);
-			if (rs.httpResponseCode === 403) { // Forbidden
-				nicico.error("Access Denied");  //TODO: I18N message key
-			} else {
-				redirectLogin();
-			}
-			return false;
-		}
-	});
+        isc.ViewLoader.addMethods({
+            handleError: function (rq, rs) {
+                console.log("Global ViewLoader Error: ", rq, rs);
+                if (rs.httpResponseCode === 403) { // Forbidden
+                    nicico.error("Access Denied");  //TODO: I18N message key
+                } else {
+                    redirectLogin();
+                }
+                return false;
+            }
+        });
 
         var flagTabExist = false;
 
@@ -347,44 +347,37 @@
             data: [
 
 
-
-
-
                 {
                     title: "<spring:message code='main.baseTab.Business'/>",
                     submenu: [
 
-                {
-                    title: "<spring:message code='commercialParty.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='commercialParty.title'/>", "<spring:url value="/contact/showForm" />")
-                    }
-                },
-                {isSeparator: true},
+                        {
+                            title: "<spring:message code='commercialParty.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='commercialParty.title'/>", "<spring:url value="/contact/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
 
 
+                        {
+                            title: "<spring:message code='person.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='person.title'/>", "<spring:url value="/person/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
 
 
+                        {
+                            title: "<spring:message code='groups.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='groups.title'/>", "<spring:url value="/groups/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
 
-
-                {
-                    title: "<spring:message code='person.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='person.title'/>", "<spring:url value="/person/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-
-                {
-                    title: "<spring:message code='groups.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='groups.title'/>", "<spring:url value="/groups/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-                ]
+                    ]
 
 
                 },
@@ -416,7 +409,6 @@
                     ]
                 },
                 {isSeparator: true},
-
 
 
                 {
@@ -494,7 +486,6 @@
                 {isSeparator: true},
 
 
-
                 {
                     title: "<spring:message code='parameters.title'/>",
                     click: function () {
@@ -502,8 +493,6 @@
                     }
                 },
                 {isSeparator: true},
-
-
 
 
                 {
@@ -524,7 +513,7 @@
                 {isSeparator: true},
 
                 {
-                    showIf:"false",
+                    showIf: "false",
                     title: "<spring:message code='commercialIncoterms.title'/>",
                     click: function () {
                         createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")
@@ -535,13 +524,12 @@
             ]
 
 
-
         }),
     });
 
     /*----------------------settingTab------------------------*/
     settingTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='global.form.new.sub'/>",
+        title: "&nbsp; <spring:message code='main.settingTab'/>",
         menu: isc.Menu.create({
             placement: "none",
             data: [
@@ -583,7 +571,7 @@
                         var url = new URL(url_string);
                         var lang = url.searchParams.get("lang");
 
-                        if(lang=="fa" || lang==null){
+                        if (lang == "fa" || lang == null) {
                             isc.Dialog.create({
                                 message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
                                 icon: "[SKIN]ask.png",
@@ -595,7 +583,7 @@
                             });
                             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
                         }
-                        else{
+                        else {
                             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
                         }
                     }
@@ -762,7 +750,7 @@
                         var url = new URL(url_string);
                         var lang = url.searchParams.get("lang");
 
-                        if(lang=="fa" || lang==null){
+                        if (lang == "fa" || lang == null) {
                             isc.Dialog.create({
                                 message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
                                 icon: "[SKIN]ask.png",
@@ -774,7 +762,7 @@
                             });
                             createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
                         }
-                        else{
+                        else {
                             createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
                         }
                     }
@@ -860,44 +848,27 @@
 
     <sec:authorize access="hasAuthority('R_CURRENCY')">
     {
-    var dollar = {};
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/currency/list",
-            httpMethod: "GET",
-            data: "",
-            callback: function (RpcResponse_o) {
-                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                    var data = JSON.parse(RpcResponse_o.data);
-                    for (x of data) {
-                        dollar[x.nameEn] = x.nameEn;
-                    }
-                } //if rpc
-            } // callback
-        })
-    );
+        var dollar = {};
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/currency/list",
+                httpMethod: "GET",
+                data: "",
+                callback: function (RpcResponse_o) {
+                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        var data = JSON.parse(RpcResponse_o.data);
+                        for (x of data) {
+                            dollar[x.nameEn] = x.nameEn;
+                        }
+                    } //if rpc
+                } // callback
+            })
+        );
     }
     </sec:authorize>
 
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <%--{--%>
@@ -908,8 +879,6 @@
 <%--    }--%>
 <%--},--%>
 <%--{isSeparator: true},--%>
-
-
 
 
 <%--{--%>

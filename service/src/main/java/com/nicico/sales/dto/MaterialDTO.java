@@ -66,9 +66,6 @@ public class MaterialDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Integer version;
 
         @ApiModelProperty(required = true)
         private Long unitId;
@@ -82,15 +79,6 @@ public class MaterialDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("MaterialSpecRs")
-    public static class MaterialSpecRs {
-        private SpecRs response;
     }
 
     @Getter

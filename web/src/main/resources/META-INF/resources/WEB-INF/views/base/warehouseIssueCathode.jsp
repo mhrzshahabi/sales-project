@@ -482,19 +482,6 @@
                 showHover: true
             }
         ],
-        // recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        /*        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                    var record = this.getSelectedRecord();
-                    var criteria1 = {
-                        _constructor: "AdvancedCriteria",
-                        operator: "and",
-                        criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-                    };
-                    ListGrid_WarehouseIssueCathode.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                        ListGrid_WarehouseIssueCathode.setData(data);
-
-                    });
-                },*/
         sortField: 0,
         dataPageSize: 50,
         //autoFetchData: false,
@@ -514,26 +501,26 @@
     });
 
     var ToolStripButton_ListGrid_ShipmentByWarehouseIssueCathode_Refresh = isc.ToolStripButtonRefresh.create({
-    icon: "[SKIN]/actions/refresh.png",
-    title: "<spring:message code='global.form.refresh'/>",
-    click: function () {
-    ListGrid_ShipmentByWarehouseIssueCathode.invalidateCache();
-    ListGrid_WarehouseIssueCathode.setData([]);
-    }
+        icon: "[SKIN]/actions/refresh.png",
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+            ListGrid_ShipmentByWarehouseIssueCathode.invalidateCache();
+            ListGrid_WarehouseIssueCathode.setData([]);
+        }
     });
     var ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueCathode = isc.ToolStrip.create({
-    width: "100%",
-    membersMargin: 5,
-    members: [
-    isc.ToolStrip.create({
-    width: "100%",
-    align: "left",
-    border: '0px',
-    members: [
-    ToolStripButton_ListGrid_ShipmentByWarehouseIssueCathode_Refresh
-    ]
-    })
-    ]
+        width: "100%",
+        membersMargin: 5,
+        members: [
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_ListGrid_ShipmentByWarehouseIssueCathode_Refresh
+                ]
+            })
+        ]
     });
 
     var VLayout_Body_ShipmentByWarehouseIssueCathode = isc.VLayout.create({
@@ -867,7 +854,6 @@
             [
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true},
-                {type: "RowSpacerItem"},
                 {
                     name: "bijak",
                     title: "<spring:message code='warehouseIssueCathode.bijak'/>",
@@ -967,12 +953,7 @@
                     width: 500,
                     required: true,
                     length: "15"
-                },
-                {type: "RowSpacerItem"},
-                {type: "RowSpacerItem"},
-                <%--{name: "bundle",title: "<spring:message code='warehouseIssueCathode.bundle'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
-                <%--{name: "sheet",title: "<spring:message code='warehouseIssueCathode.sheet'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
-                <%--{name: "totalAmount",title: "<spring:message code='warehouseIssueCathode.totalAmount'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
+                }
             ]
     });
 
@@ -1086,7 +1067,6 @@
     var Window_WarehouseIssueCathode = isc.Window.create({
         title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1302,35 +1282,34 @@
     });
 
 
-
     function loadWindowFeatureList(record) {
         var dccTableId = record.id;
         var dccTableName = "TBL_WAREHOUSE_ISSUE_CATHODE";
-       // warehouseIssueCathodeAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
-       // WindowFeature.show()
+        // warehouseIssueCathodeAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+        // WindowFeature.show()
         var window_view_url = isc.Window.create({
-                title: "<spring:message code='warehouseIssueCathodeAttach.title'/>",
-                width: "80%",
-                height: "40%",
-                autoCenter: true,
-                isModal: true,
-                showModalMask: true,
-                align: "center",
-                autoDraw: false,
-                dismissOnEscape: true,
-              closeClick: function () {
-                 this.Super("closeClick", arguments)
-                 },
+            title: "<spring:message code='warehouseIssueCathodeAttach.title'/>",
+            width: "80%",
+            height: "40%",
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            closeClick: function () {
+                this.Super("closeClick", arguments)
+            },
             items:
-              [
-                isc.ViewLoader.create({
-                autoDraw:true,
-                viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
-                loadingMessage:"<spring:message code='global.loadingMessage'/>"
-                })
-              ]
+                [
+                    isc.ViewLoader.create({
+                        autoDraw: true,
+                        viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
+                        loadingMessage: "<spring:message code='global.loadingMessage'/>"
+                    })
+                ]
         });
-            window_view_url.show();
+        window_view_url.show();
     }
 
 

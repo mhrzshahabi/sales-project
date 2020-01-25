@@ -117,15 +117,6 @@ public class ShipmentDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("ShipmentSpecRs")
-	public static class ShipmentSpecRs {
-		private SpecRs response;
-	}
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
 		private List<ShipmentDTO.Info> data;
 		private Integer status;

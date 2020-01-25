@@ -676,103 +676,103 @@
         }
     });
 
-       var onWayProduct_searchBtn = isc.IButton.create({
-                width: 120,
-                title: "<spring:message code='global.search'/>",
-                icon: "icon/search.png",
-                click: function () {
-                    var criteria;
-                    if (DynamicForm_DailyReport_Tozin4.getValues().type === 'جاده ای') {
-                        criteria = {
-                            _constructor: "AdvancedCriteria",
-                            operator: "and",
-                            criteria: [{
-                                fieldName: "mazloom",
-                                operator: "contains",
-                                value: ''
-                            },
-                                {
-                                    fieldName: "tozinDate",
-                                    operator: "greaterOrEqual",
-                                    value: DynamicForm_DailyReport_Tozin.getValues().fromDay
-                                },
-                                {
-                                    fieldName: "tozinDate",
-                                    operator: "lessOrEqual",
-                                    value: DynamicForm_DailyReport_Tozin1.getValues().toDay
-                                },
-                                {
-                                    fieldName: "codeKala",
-                                    operator: "equals",
-                                    value: DynamicForm_DailyReport_Tozin2.getValues().materialId
-                                },
-                                {
-                                    fieldName: "tozinPlantId",
-                                    operator: "contains",
-                                    value: DynamicForm_DailyReport_Tozin3.getValues().type
-                                },
-                                {
-                                    fieldName: "target",
-                                    "operator": "iContains",
-                                    "value": "رجا"
-                                },
-                                {
-                                    fieldName: "carName",
-                                    operator: "notContains",
-                                    value: 'انتينر'
-                                }
-                            ]
-                        };
-                    }
+    var onWayProduct_searchBtn = isc.IButton.create({
+        width: 120,
+        title: "<spring:message code='global.search'/>",
+        icon: "icon/search.png",
+        click: function () {
+            var criteria;
+            if (DynamicForm_DailyReport_Tozin4.getValues().type === 'جاده ای') {
+                criteria = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{
+                        fieldName: "mazloom",
+                        operator: "contains",
+                        value: ''
+                    },
+                        {
+                            fieldName: "tozinDate",
+                            operator: "greaterOrEqual",
+                            value: DynamicForm_DailyReport_Tozin.getValues().fromDay
+                        },
+                        {
+                            fieldName: "tozinDate",
+                            operator: "lessOrEqual",
+                            value: DynamicForm_DailyReport_Tozin1.getValues().toDay
+                        },
+                        {
+                            fieldName: "codeKala",
+                            operator: "equals",
+                            value: DynamicForm_DailyReport_Tozin2.getValues().materialId
+                        },
+                        {
+                            fieldName: "tozinPlantId",
+                            operator: "contains",
+                            value: DynamicForm_DailyReport_Tozin3.getValues().type
+                        },
+                        {
+                            fieldName: "target",
+                            "operator": "iContains",
+                            "value": "رجا"
+                        },
+                        {
+                            fieldName: "carName",
+                            operator: "notContains",
+                            value: 'انتينر'
+                        }
+                    ]
+                };
+            }
 
-                    if (DynamicForm_DailyReport_Tozin4.getValues().type === 'ریلی') {
-                        criteria = {
-                            _constructor: "AdvancedCriteria",
-                            operator: "and",
-                            criteria: [{
-                                fieldName: "mazloom",
-                                operator: "contains",
-                                value: ''
-                            },
-                                {
-                                    fieldName: "tozinDate",
-                                    operator: "greaterOrEqual",
-                                    value: DynamicForm_DailyReport_Tozin.getValues().fromDay
-                                },
-                                {
-                                    fieldName: "tozinDate",
-                                    operator: "lessOrEqual",
-                                    value: DynamicForm_DailyReport_Tozin1.getValues().toDay
-                                },
-                                {
-                                    fieldName: "codeKala",
-                                    operator: "equals",
-                                    value: DynamicForm_DailyReport_Tozin2.getValues().materialId
-                                },
-                                {
-                                    fieldName: "tozinPlantId",
-                                    operator: "contains",
-                                    value: DynamicForm_DailyReport_Tozin3.getValues().type
-                                },
-                                {
-                                    fieldName: "target",
-                                    "operator": "iContains",
-                                    "value": "رجا"
-                                },
-                                {
-                                    fieldName: "carName",
-                                    operator: "contains",
-                                    value: 'انتينر'
-                                }
-                            ]
-                        };
-                    }
+            if (DynamicForm_DailyReport_Tozin4.getValues().type === 'ریلی') {
+                criteria = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{
+                        fieldName: "mazloom",
+                        operator: "contains",
+                        value: ''
+                    },
+                        {
+                            fieldName: "tozinDate",
+                            operator: "greaterOrEqual",
+                            value: DynamicForm_DailyReport_Tozin.getValues().fromDay
+                        },
+                        {
+                            fieldName: "tozinDate",
+                            operator: "lessOrEqual",
+                            value: DynamicForm_DailyReport_Tozin1.getValues().toDay
+                        },
+                        {
+                            fieldName: "codeKala",
+                            operator: "equals",
+                            value: DynamicForm_DailyReport_Tozin2.getValues().materialId
+                        },
+                        {
+                            fieldName: "tozinPlantId",
+                            operator: "contains",
+                            value: DynamicForm_DailyReport_Tozin3.getValues().type
+                        },
+                        {
+                            fieldName: "target",
+                            "operator": "iContains",
+                            "value": "رجا"
+                        },
+                        {
+                            fieldName: "carName",
+                            operator: "contains",
+                            value: 'انتينر'
+                        }
+                    ]
+                };
+            }
 
-                    ListGrid_Tozin.fetchData(criteria);
-                }
-            });
+            ListGrid_Tozin.fetchData(criteria);
+        }
+    });
 
-        var HLayout_onWayProduct_searchBtn = isc.HLayout.create({
+    var HLayout_onWayProduct_searchBtn = isc.HLayout.create({
         align: "center",
         members:
             [

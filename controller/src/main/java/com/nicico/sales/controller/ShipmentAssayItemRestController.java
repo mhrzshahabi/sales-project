@@ -26,35 +26,30 @@ public class ShipmentAssayItemRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-    //	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
     public ResponseEntity<ShipmentAssayItemDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(shipmentAssayItemService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    //	@PreAuthorize("hasAuthority('r_shipmentAssayItem')")
     public ResponseEntity<List<ShipmentAssayItemDTO.Info>> list() {
         return new ResponseEntity<>(shipmentAssayItemService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-    //	@PreAuthorize("hasAuthority('c_shipmentAssayItem')")
     public ResponseEntity<ShipmentAssayItemDTO.Info> create(@Validated @RequestBody ShipmentAssayItemDTO.Create request) {
         return new ResponseEntity<>(shipmentAssayItemService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-    //	@PreAuthorize("hasAuthority('u_shipmentAssayItem')")
     public ResponseEntity<ShipmentAssayItemDTO.Info> update(@RequestBody ShipmentAssayItemDTO.Update request) {
         return new ResponseEntity<>(shipmentAssayItemService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    //	@PreAuthorize("hasAuthority('d_shipmentAssayItem')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         shipmentAssayItemService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -62,7 +57,6 @@ public class ShipmentAssayItemRestController {
 
     @Loggable
     @DeleteMapping(value = "/list/{ids}")
-    //	@PreAuthorize("hasAuthority('d_shipmentAssayItem')")
     public ResponseEntity<Void> delete(@PathVariable String ids) {
         List<Long> i = new ArrayList<>();
 
@@ -79,15 +73,13 @@ public class ShipmentAssayItemRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-//	@PreAuthorize("hasAuthority('r_instruction')")
     public ResponseEntity<TotalResponse<ShipmentAssayItemDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(shipmentAssayItemService.search(nicicoCriteria), HttpStatus.OK);
     }
 
     @RequestMapping(value = {"/addAssayPaste"}, method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseEntity<String> createAddAssayPaste(@RequestBody String data) {
+    public @ResponseBody ResponseEntity<String> createAddAssayPaste(@RequestBody String data) {
         return new ResponseEntity<>(shipmentAssayItemService.createAddAssayPaste(data), HttpStatus.OK);
     }
 }

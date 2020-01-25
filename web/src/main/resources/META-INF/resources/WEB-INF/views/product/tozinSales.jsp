@@ -2,6 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
+
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var ViewLoader_createTozinSales = isc.ViewLoader.create({
@@ -302,7 +303,6 @@
         ]
     });
 
-
     var Menu_ListGrid_Kharid_Konstantere = isc.Menu.create({
         width: 200,
         data: [
@@ -332,7 +332,6 @@
             }
         ]
     });
-
 
     var Menu_ListGrid_Kharid_Zaieat = isc.Menu.create({
         width: 250,

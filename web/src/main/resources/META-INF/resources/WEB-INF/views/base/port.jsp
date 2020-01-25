@@ -5,7 +5,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-
     var RestDataSource_Port = isc.MyRestDataSource.create(
         {
             fields: [
@@ -97,11 +96,9 @@
         }
     }
 
-    function ListGrid_Port_remove()
-    {
+    function ListGrid_Port_remove() {
         var record = ListGrid_Port.getSelectedRecord();
-        if (record == null || record.id == null)
-        {
+        if (record == null || record.id == null) {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -111,14 +108,12 @@
                         {
                             title: "<spring:message code='global.ok'/>"
                         })],
-                    buttonClick: function()
-                    {
+                    buttonClick: function () {
                         this.hide();
                     }
                 });
         }
-        else
-        {
+        else {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.remove.ask'/>",
@@ -132,25 +127,20 @@
                         {
                             title: "<spring:message code='global.no'/>"
                         })],
-                    buttonClick: function(button, index)
-                    {
+                    buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0)
-                        {
+                        if (index === 0) {
                             var PortId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/port/" + PortId,
                                     httpMethod: "DELETE",
-                                    callback: function(RpcResponse_o)
-                                    {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
-                                        {
+                                    callback: function (RpcResponse_o) {
+                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                             ListGrid_Port_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
-                                        else
-                                        {
+                                        else {
                                             isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                         }
                                     }
@@ -160,7 +150,6 @@
                 });
         }
     }
-
 
     var Menu_ListGrid_Port = isc.Menu.create({
         width: 150,
@@ -210,9 +199,6 @@
         fields:
             [
                 {name: "id", hidden: true,},
-                {
-                    type: "RowSpacerItem"
-                },
                 {
                     name: "port",
                     title: "<spring:message code='port.port'/>",
@@ -277,16 +263,13 @@
                     pickListProperties: {showFilterEditor: true}
                     ,
                     pickListFields: [
-                        {name: "id", width: 50, align: "center" ,  hidden:true},
-                        {name: "nameFa",  align: "center" , width:"10%"},
-                        {name: "nameEn",  align: "center" , width:"10%"},
+                        {name: "id", width: 50, align: "center", hidden: true},
+                        {name: "nameFa", align: "center", width: "10%"},
+                        {name: "nameEn", align: "center", width: "10%"},
 
 
                     ]
-                },
-                {
-                    type: "RowSpacerItem"
-                },
+                }
             ]
     });
 
@@ -332,12 +315,12 @@
                 ToolStripButton_Port_Edit,
                 ToolStripButton_Port_Remove,
                 isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Port_Refresh,
-                ]
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_Port_Refresh,
+                    ]
                 })
 
             ]
@@ -356,8 +339,7 @@
             top: 260,
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
-            click: function()
-            {
+            click: function () {
                 DynamicForm_Port.validate();
                 if (DynamicForm_Port.hasErrors())
                     return;
@@ -369,10 +351,8 @@
                         actionURL: "${contextPath}/api/port/",
                         httpMethod: methodXXXX,
                         data: JSON.stringify(data),
-                        callback: function(RpcResponse_o)
-                        {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
-                            {
+                        callback: function (RpcResponse_o) {
+                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Port_refresh();
                                 Window_Port.close();
@@ -383,7 +363,6 @@
                     }));
             }
         });
-
 
     var InstructionCancelBtn = isc.IButtonCancel.create({
         top: 260,
@@ -409,7 +388,6 @@
     var Window_Port = isc.Window.create({
         title: "<spring:message code='port.port'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -474,12 +452,7 @@
             sortField: 0,
             autoFetchData: true,
             showFilterEditor: true,
-            filterOnKeypress: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-            {
-                var record = this.getSelectedRecord();
-            }
+            filterOnKeypress: true
         });
 
     var HLayout_Port_Grid = isc.HLayout.create({
