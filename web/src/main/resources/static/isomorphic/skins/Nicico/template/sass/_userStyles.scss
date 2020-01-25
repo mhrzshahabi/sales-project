@@ -7,16 +7,16 @@
   display: block;
   height: 100%;
 }
-.header-logo{
-  background-color: #fe9d2a;
-}
+//.header-logo{
+//  background-color: #fe9d2a;
+//}
 .header-logo-title{
   background-color: #dcdeea;
   color: #374b71;
   height: 100%;
 }
 .header-exit{
-  background: url("../../../static/img/top-back.svg");
+ // background: url("../../../static/img/top-back.svg");
 }
 .header-filter span{
   color:#374b71;
@@ -32,11 +32,11 @@
 .header-change-lng span{
   color:#374b71 ;
 }
-.header-label-username{
-  color:#374b71 ;
-  font-size: 14px;
-  font-weight: bold;
-}
+//.header-label-username{
+//  color:#374b71 ;
+//  font-size: 14px;
+//  font-weight: bold;
+//}
 .toolStripButton{
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.16);
 }
@@ -195,8 +195,8 @@ hr {
   padding-right: 10px;
 }
 .main-menu div {
-  background-color: #153560;
-  border-color: #153560;
+  background-color: #324458;
+  border-color: #324458;
   .toolStripButton,
   .toolStripButtonFocused,
   .toolStripButtonFocusedOver,
@@ -614,13 +614,13 @@ $window_header_bgColor: #fe9d2a !default;
   font-size: $button_font_size;
   padding: 3px 4px 3px 4px;
   border-radius: 3px;
-  background-color: #15356012;
-  border: solid 1px #153560;
+  background-color: #374b71;
+  border: solid 1px #374b71;
   &:hover{
     box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
   }
   td{
-    color: #153560;
+    color: #374b71;
     font-weight: bold;
   }
 }
