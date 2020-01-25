@@ -614,6 +614,33 @@
             ]
         })
     });
+
+    /*----------------------shipmentTab------------------------*/
+    shipmentTab = isc.ToolStripMenuButton.create({
+        title: "&nbsp; <spring:message code='main.shipmentTab'/>",
+        menu: isc.Menu.create({
+            placement: "none",
+            data: [
+                {
+                    title: "<spring:message code='cargoAssignment.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='cargoAssignment.title'/>", "<spring:url value="/shipment/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='shipmentCost.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+            ]
+        })
+    });
+
+
     /*----------------------productTab------------------------*/
     productTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.productTab'/>",
@@ -688,30 +715,8 @@
         })
     });
 
-    /*----------------------shipmentTab------------------------*/
-    shipmentTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.shipmentTab'/>",
-        menu: isc.Menu.create({
-            placement: "none",
-            data: [
-                {
-                    title: "<spring:message code='cargoAssignment.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='cargoAssignment.title'/>", "<spring:url value="/shipment/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='shipmentCost.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
-                    }
-                },
-                {isSeparator: true},
 
-            ]
-        })
-    });
+
 
     /*----------------------inspectionTab------------------------*/
     inspectionTab = isc.ToolStripMenuButton.create({
@@ -736,6 +741,9 @@
             ]
         })
     });
+
+
+
 
     /*----------------------financialTab------------------------*/
     financialTab = isc.ToolStripMenuButton.create({
@@ -818,11 +826,11 @@
 
         members: [
             baseTab,
-            productTab,
             contractsTab,
             shipmentTab,
             financialTab,
             inspectionTab,
+            productTab,
             settingTab,
 
         ]
