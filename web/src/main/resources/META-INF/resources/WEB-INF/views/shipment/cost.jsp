@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -541,6 +542,7 @@
                     ListGrid_Cost_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_COST')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -591,18 +593,25 @@
                     }
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_COST')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Cost_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_COST')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Cost_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -1053,6 +1062,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_COST')">
     var ToolStripButton_Cost_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1104,7 +1114,9 @@
             }
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_COST')">
     var ToolStripButton_Cost_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1113,7 +1125,9 @@
             ListGrid_Cost_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_COST')">
     var ToolStripButton_Cost_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1121,15 +1135,25 @@
             ListGrid_Cost_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Cost = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members:
             [
+                <sec:authorize access="hasAuthority('C_COST')">
                 ToolStripButton_Cost_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_COST')">
                 ToolStripButton_Cost_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_COST')">
                 ToolStripButton_Cost_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",

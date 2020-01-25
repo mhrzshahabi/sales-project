@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -133,6 +134,7 @@
                     ListGrid_Groups_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_GROUPS')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -140,18 +142,25 @@
                     Window_Groups.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_GROUPS')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Groups_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_GROUPS')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Groups_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -333,6 +342,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_GROUPS')">
     var ToolStripButton_Groups_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -341,7 +351,9 @@
             Window_Groups.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_GROUPS')">
     var ToolStripButton_Groups_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -350,8 +362,9 @@
             ListGrid_Groups_edit();
         }
     });
+    </sec:authorize>
 
-
+    <sec:authorize access="hasAuthority('D_GROUPS')">
     var ToolStripButton_Groups_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -359,13 +372,23 @@
             ListGrid_Groups_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Groups = isc.ToolStrip.create({
         width: "100%",
         members: [
+            <sec:authorize access="hasAuthority('C_GROUPS')">
             ToolStripButton_Groups_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_GROUPS')">
             ToolStripButton_Groups_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_GROUPS')">
             ToolStripButton_Groups_Remove,
+            </sec:authorize>
+
             isc.ToolStrip.create({
                 width: "100%",
                 align: "left",

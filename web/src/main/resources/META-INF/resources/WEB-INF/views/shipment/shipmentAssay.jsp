@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -1315,6 +1316,8 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             ListGrid_ShipmentAssayHeader_refresh();
         }
     });
+
+    <sec:authorize access="hasAuthority('C_SHIPMENT_ASSAY_HEADER')">
     var ToolStripButton_ShipmentAssayHeader_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1338,6 +1341,9 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             }
         }
     });
+    </sec:authorize>
+
+    <sec:authorize access="hasAuthority('U_SHIPMENT_ASSAY_HEADER')">
     var ToolStripButton_ShipmentAssayHeader_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1345,6 +1351,9 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             ListGrid_ShipmentAssayHeader_edit();
         }
     });
+    </sec:authorize>
+
+    <sec:authorize access="hasAuthority('D_SHIPMENT_ASSAY_HEADER')">
     var ToolStripButton_ShipmentAssayHeader_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1352,12 +1361,23 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             ListGrid_ShipmentAssayHeader_remove();
         }
     });
+    </sec:authorize>
+
     var ToolStrip_Actions_ShipmentAssayHeader = isc.ToolStrip.create({
         width: "100%",
         members: [
+            <sec:authorize access="hasAuthority('C_SHIPMENT_ASSAY_HEADER')">
             ToolStripButton_ShipmentAssayHeader_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_SHIPMENT_ASSAY_HEADER')">
             ToolStripButton_ShipmentAssayHeader_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_SHIPMENT_ASSAY_HEADER')">
             ToolStripButton_ShipmentAssayHeader_Remove,
+            </sec:authorize>
+
             isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
@@ -1790,6 +1810,8 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             ListGrid_ShipmentAssayItem_refresh();
         }
     });
+
+    <sec:authorize access="hasAuthority('C_SHIPMENT_ASSAY_ITEM')">
     var ToolStripButton_ShipmentAssayItem_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1813,6 +1835,9 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             }
         }
     });
+    </sec:authorize>
+
+    <sec:authorize access="hasAuthority('U_SHIPMENT_ASSAY_ITEM')">
     var ToolStripButton_ShipmentAssayItem_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1820,6 +1845,9 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             ListGrid_ShipmentAssayItem_edit();
         }
     });
+    </sec:authorize>
+
+    <sec:authorize access="hasAuthority('D_SHIPMENT_ASSAY_ITEM')">
     var ToolStripButton_ShipmentAssayItem_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1827,13 +1855,24 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             ListGrid_ShipmentAssayItem_remove();
         }
     });
+    </sec:authorize>
+
     var ToolStrip_Actions_ShipmentAssayItem = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members: [
+            <sec:authorize access="hasAuthority('C_SHIPMENT_ASSAY_ITEM')">
             ToolStripButton_ShipmentAssayItem_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_SHIPMENT_ASSAY_ITEM')">
             ToolStripButton_ShipmentAssayItem_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_SHIPMENT_ASSAY_ITEM')">
             ToolStripButton_ShipmentAssayItem_Remove,
+            </sec:authorize>
+
             ToolStripButton_ShipmentAssayItem_Paste,
             isc.ToolStrip.create({
                 width: "100%",
