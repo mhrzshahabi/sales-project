@@ -34,7 +34,7 @@
     background-color: #fe9d2a;
     border-top-left-radius: 100%;
 }
-.header-logo:after{
+.header-logo:before{
     bottom: -39px;
     left: -32px;
     content: " ";
@@ -46,22 +46,22 @@
     border-top-left-radius: 100%;
     -moz-box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.85);
     box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.85);
-    -webkit-box-shadow: 18px 0px 8px rgba(0, 0, 0, 0.55) inset, 35px -24px 13px rgba(0,0,0,0.1) inset
+    -webkit-box-shadow: 10px 0px 5px rgba(0, 0, 0, 0.3) inset, 35px -24px 13px rgba(0,0,0,0.1) inset
 }
 .header-logo img {
     right: 16px;
     position: absolute;
 }
 
-/*.header-logo:after{*/
-    /*content: '';*/
-    /*background: url("../img/layer-top-left.svg");*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*width: 100%;*/
-    /*height: 75px;*/
-/*}*/
+.header-logo:after{
+    content: '';
+    background: url("../img/layer-top-left.svg");
+    position: absolute;
+    top: 0;
+    right: -119px;
+    width: 100%;
+    height: 75px;
+}
 
 .header-logo-title {
     background-color: #dcdeea;
@@ -96,14 +96,16 @@
 .header-title-top h3{
     color: white;
 }
-.header-title-top h4 {
-    color: #374b71;
-    font-size: 14px;
-}
+
 .header-title-top h3, .header-title-top h4 {
     padding: 0px;
     margin: 4px;
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+  //  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+}
+.header-title-top h4 {
+    color: #374b71;
+    font-size: 14px;
+    font-weight: 200;
 }
 .header-exit {
     background-image: url("../img/header-mask.png");
