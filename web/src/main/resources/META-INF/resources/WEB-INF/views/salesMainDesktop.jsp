@@ -80,7 +80,6 @@
     });
 
     isc.SelectItem.addProperties({
-        allowEmptyValue:"true",
         click: function () {
             this.pickList.invalidateCache();
         }

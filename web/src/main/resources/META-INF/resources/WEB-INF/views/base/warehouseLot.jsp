@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -159,12 +160,14 @@
                     ListGrid_WarehouseLot_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('U_WAREHOUSE_LOT')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_WarehouseLot_edit();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -334,6 +337,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('U_WAREHOUSE_LOT')">
     var ToolStripButton_WarehouseLot_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -341,12 +345,15 @@
             ListGrid_WarehouseLot_edit();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_WarehouseLot = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('U_WAREHOUSE_LOT')">
                 ToolStripButton_WarehouseLot_Edit,
+                </sec:authorize>
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
