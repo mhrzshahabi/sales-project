@@ -3,7 +3,7 @@
 }
 .header-logo:after {
     bottom: -39px;
-    left: -16px !important;
+    left: 0px !important;
     content: " ";
     position: absolute;
     width: 404px;
