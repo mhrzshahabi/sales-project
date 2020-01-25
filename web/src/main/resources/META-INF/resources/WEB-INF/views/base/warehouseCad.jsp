@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -173,12 +174,14 @@
                     ListGrid_warehouseCAD_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_warehouseCAD_edit();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -190,6 +193,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
     var ToolStripButton_warehouseCAD_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.show.bijack'/>",
@@ -197,13 +201,17 @@
             ListGrid_warehouseCAD_edit();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_warehouseCAD = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members:
             [
+            <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
                 ToolStripButton_warehouseCAD_Edit,
+            </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",

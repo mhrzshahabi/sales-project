@@ -1,6 +1,7 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
  //<script>
 
@@ -671,6 +672,7 @@ function setCriteria_ListGrid_Invoice(recordId) {
                 click: function () {
                 }
             },
+            <sec:authorize access="hasAuthority('C_INVOICE')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -700,18 +702,23 @@ function setCriteria_ListGrid_Invoice(recordId) {
                     Window_Invoice.show();
                 }
             },
+            </sec:authorize>
+            <sec:authorize access="hasAuthority('U_INVOICE')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Invoice_edit();
                 }
             },
+            </sec:authorize>
+            <sec:authorize access="hasAuthority('D_INVOICE')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Invoice_remove();
                 }
             },
+            </sec:authorize>
             {
                 title: "<spring:message code='global.Attachment'/>", icon: "pieces/512/attachment.png",
                 click: function () {
@@ -1047,6 +1054,7 @@ function setCriteria_ListGrid_Invoice(recordId) {
         <%--}--%>
     <%--});--%>
 
+    <sec:authorize access="hasAuthority('C_INVOICE')">
     var ToolStripButton_Invoice_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1083,6 +1091,7 @@ function setCriteria_ListGrid_Invoice(recordId) {
             }
         }
     });
+    </sec:authorize>
 
 /*
     var ToolStripButton_Invoice_Edit = isc.ToolStripButtonEdit.create({
@@ -1233,7 +1242,9 @@ function setCriteria_ListGrid_Invoice(recordId) {
      border: 'transparent',
      members:
             [
+                <sec:authorize access="hasAuthority('C_INVOICE')">
                 ToolStripButton_Invoice_Add,
+                </sec:authorize>
         /*        ToolStripButton_Invoice_Edit,
                 ToolStripButton_Invoice_Remove,*/
                 ToolStripButton_Invoice_Attachment,

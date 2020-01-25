@@ -2,6 +2,7 @@
     <%@ page contentType="text/html;charset=UTF-8"%>
     <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
     var RestDataSource_Contract_In_ContractPerson = isc.MyRestDataSource.create({
         fields:
@@ -77,6 +78,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_CONTRACT_PERSON')">
     var ToolStripButton_ContractPerson_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -84,7 +86,9 @@
             ListGrid_ContractPerson_add();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_CONTRACT_PERSON')">
     var ToolStripButton_ContractPerson_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -92,8 +96,9 @@
             ListGrid_ContractPerson_edit();
         }
     });
+    </sec:authorize>
 
-
+    <sec:authorize access="hasAuthority('D_CONTRACT_PERSON')">
     var ToolStripButton_ContractPerson_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -101,6 +106,7 @@
             ListGrid_ContractPerson_remove();
         }
     });
+    </sec:authorize>
 
     function ListGrid_ContractPerson_remove() {
         var record = ListGrid_ContractPerson.getSelectedRecord();
@@ -301,9 +307,18 @@
         width: "100%",
         membersMargin: 5,
         members: [
+            <sec:authorize access="hasAuthority('C_CONTRACT_PERSON')">
             ToolStripButton_ContractPerson_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_CONTRACT_PERSON')">
             ToolStripButton_ContractPerson_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_CONTRACT_PERSON')">
             ToolStripButton_ContractPerson_Remove,
+            </sec:authorize>
+
             isc.ToolStrip.create({
             width: "100%",
             align: "left",

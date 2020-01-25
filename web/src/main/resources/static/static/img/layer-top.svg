@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1720.485" height="90.377" viewBox="0 0 1720.485 90.377">
+  <defs>
+    <filter id="Path_9" x="0" y="0" width="1653.872" height="90.377" filterUnits="userSpaceOnUse">
+      <feOffset dx="10" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-opacity="0.278"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#dfdfdf"/>
+      <stop offset="0.05" stop-color="#eee"/>
+      <stop offset="0.485" stop-color="#f2f2f2"/>
+      <stop offset="0.916" stop-color="#e1e1e1"/>
+      <stop offset="1" stop-color="#c7c3c3"/>
+    </linearGradient>
+    <filter id="Path_8" x="4" y="7.007" width="1716.485" height="77.37" filterUnits="userSpaceOnUse">
+      <feOffset dx="8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-opacity="0.302"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_3500" data-name="Group 3500" transform="translate(5 16.377)">
+    <g transform="matrix(1, 0, 0, 1, -5, -16.38)" filter="url(#Path_9)">
+      <path id="Path_9-2" data-name="Path 9" d="M0-2.524S1644.545-29.84,1623.675-21.749c-21.417,8.3-39.821,32.643-72.134,58.4C1141.462,36.655,0,37.13,0,37.13Z" transform="translate(5 38.25)" fill="#fff"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -5, -16.38)" filter="url(#Path_8)">
+      <path id="Path_8-2" data-name="Path 8" d="M0-.039S1786.243-.353,1695.113-.37c-56.414,1.655-106.783,32.432-142.6,59.213C1139.383,58.843,0,59,0,59Z" transform="translate(5 16.38)" fill="url(#linear-gradient)"/>
+    </g>
+  </g>
+</svg>

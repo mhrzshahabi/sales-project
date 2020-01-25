@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -124,6 +125,7 @@
             fetchDataURL: "${contextPath}/api/person/spec-list"
         });
 
+
     var Menu_ListGrid_Groups = isc.Menu.create({
         width: 150,
         data: [
@@ -133,6 +135,7 @@
                     ListGrid_Groups_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_GROUPS')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -140,18 +143,25 @@
                     Window_Groups.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_GROUPS')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Groups_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_GROUPS')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Groups_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -172,13 +182,17 @@
 
         fields: [
             {name: "id", hidden: true,},
+            {type: "RowSpacerItem"},
             {
                 name: "groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
                 width: 400
-            }
+            },
+            {
+                type: "RowSpacerItem"
+            },
         ]
     });
 
@@ -238,6 +252,7 @@
     var Window_Groups = isc.Window.create({
         title: "<spring:message code='groups.title'/>",
         width: 600,
+// height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -333,6 +348,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_GROUPS')">
     var ToolStripButton_Groups_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -341,7 +357,9 @@
             Window_Groups.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_GROUPS')">
     var ToolStripButton_Groups_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -350,8 +368,9 @@
             ListGrid_Groups_edit();
         }
     });
+    </sec:authorize>
 
-
+    <sec:authorize access="hasAuthority('D_GROUPS')">
     var ToolStripButton_Groups_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -359,13 +378,23 @@
             ListGrid_Groups_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Groups = isc.ToolStrip.create({
         width: "100%",
         members: [
+            <sec:authorize access="hasAuthority('C_GROUPS')">
             ToolStripButton_Groups_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_GROUPS')">
             ToolStripButton_Groups_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_GROUPS')">
             ToolStripButton_Groups_Remove,
+            </sec:authorize>
+
             isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
@@ -464,6 +493,7 @@
             HLayout_Actions_Groups, HLayout_Grid_Groups
         ]
     });
+
 
     var Menu_ListGrid_Person_GroupEmail = isc.Menu.create({
         width: 150,
@@ -625,6 +655,7 @@
             }
         });
 
+
     var HLayout_Grid_Person = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -697,7 +728,6 @@
                 }
             ]
     });
-
     var DynamicForm_GroupsPerson = isc.DynamicForm.create({
         width: 700,
         height: "100%",
@@ -715,41 +745,43 @@
         fields:
             [
                 {name: "id", hidden: true,},
-                {name: "groupsId", type: "long", hidden: true},
-                {
-                    name: "personId",
-                    title: "<spring:message code='person.fullName'/>",
-                    type: 'long',
-                    width: 500,
-                    required: true,
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Person_GroupEmail,
-                    displayField: "fullName",
-                    valueField: "id",
-                    pickListWidth: 505,
-                    pickListHeight: 500,
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                        {
-                            name: "id",
-                            align: "center",
-                            hidden: true,
-                        }, {
-                            name: "fullName",
-                            width: 150,
-                            align: "center"
-                        }, {
-                            name: "contact.nameFA",
-                            title: "<spring:message code='commercialParty.title'/>",
-                            width: 200,
-                            align: "center"
-                        }, {
-                            name: "email",
-                            width: 150,
-                            align: "center"
-                        }]
-                }
-            ]
+// {type: "RowSpacerItem"},
+            {name: "groupsId", type: "long", hidden: true},
+// {type: "RowSpacerItem"},
+            {
+                name: "personId",
+                title: "<spring:message code='person.fullName'/>",
+                type: 'long',
+                width: 500,
+                required: true,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Person_GroupEmail,
+                displayField: "fullName",
+                valueField: "id",
+                pickListWidth: 505,
+                pickListHeight: 500,
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {
+                        name: "id",
+                        align: "center",
+                        hidden: true,
+                    }, {
+                        name: "fullName",
+                        width: 150,
+                        align: "center"
+                    }, {
+                        name: "contact.nameFA",
+                        title: "<spring:message code='commercialParty.title'/>",
+                        width: 200,
+                        align: "center"
+                    }, {
+                        name: "email",
+                        width: 150,
+                        align: "center"
+                    }]
+            }
+        ]
     });
 
     var IButton_GroupsPerson_Save = isc.IButtonSave.create({
@@ -805,6 +837,7 @@
         ]
     });
 
+
     var GroupPersonHeaderForm = isc.DynamicForm.create({
         align: "center",
         width: 800,
@@ -827,7 +860,7 @@
     function setGroupPersonHeaderFormData(record) {
         GroupPersonHeaderForm.setValue("id", record.groups.id);
         GroupPersonHeaderForm.setValue("groupsName", record.groups.groupsName);
-    }
+    };
 
     var GroupPersonHeaderVLayout = isc.VLayout.create({
         autoDraw: false,
@@ -839,6 +872,7 @@
 
         ]
     });
+
 
     var Window_GroupsPerson = isc.Window.create({
         title: "<spring:message code='groupsPerson.title'/>",
@@ -975,7 +1009,6 @@
             ListGrid_GroupsPerson_edit();
         }
     });
-
     var ToolStripButton_GroupsPerson_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1001,14 +1034,12 @@
 
         ]
     });
-
     var HLayout_Actions_GroupsPerson = isc.HLayout.create({
         width: "100%",
         members: [
             ToolStrip_Actions_GroupsPerson
         ]
     });
-
     var RestDataSource_GroupsPerson = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -1327,7 +1358,6 @@
         showFilterEditor: true,
         filterOnKeypress: true,
     });
-
     var HLayout_Grid_GroupsPerson = isc.HLayout.create({
         width: "100%",
         height: "100%",
