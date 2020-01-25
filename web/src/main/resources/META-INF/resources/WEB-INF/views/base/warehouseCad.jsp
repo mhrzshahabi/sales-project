@@ -201,6 +201,7 @@
             ListGrid_warehouseCAD_edit();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_warehouseCAD = isc.ToolStrip.create({
         width: "100%",
