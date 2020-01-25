@@ -216,15 +216,14 @@
 
         width: 200,
         dynamicContents: true,
-        styleName: "header-label-username",
-        contents: "<spring:message code='global.user'/>" + ":" + '${userFullName}',
+        contents: "<span class='header-label-username'><spring:message code='global.user'/></span>" + ":" +"<span class='header-label-username-span'>${userFullName}</span>" ,
     });
 
     logoutButton = isc.IButton.create({
 
-        width: "100",
+        width: "120",
         baseStyle: "header-logout",
-        title: "<spring:message code='global.exit'/>",
+        title: "<span><spring:message code='global.exit'/><span>",
         icon: "pieces/512/logout.png",
         click: function () {
             document.getElementById("logoutForm").submit();
@@ -305,33 +304,39 @@
     });
 
     var headerExitHLayout = isc.HLayout.create({
-        width: "60%",
+        width: "80%%",
         height: "100%",
         align: "center",
         styleName: "header-exit",
         members: [isc.LayoutSpacer.create({width: "80%"}), userNameHLayout, languageVLayout, logoutVLayout]
     });
 
+
+
     var headerLogo = isc.HTMLFlow.create({
-        width: "50",
+        width: "20%",
         height: "100%",
         styleName: "header-logo",
-        contents: "<img width='50' height='50' src='static/img/logo03.png'/>"
+        contents: "<div class='header-title-right'><div class='header-title-top'><h3><spring:message code='main.salesCompany'/></h3><h4><spring:message code='main.salesName'/></h4></div><div class='header-title-version'><h4><spring:message code='main.salesVersion'/></h4></div><img width='50' height='50' src='static/img/logo-white.svg'/></div>"
     });
 
-    var headerFlow = isc.HTMLFlow.create({
-        width: "10%",
-        height: "100%",
-        styleName: "mainHeaderStyleOnline header-logo-title",
-        contents: "<span><spring:message code='main.salesName'/></span>"
-    });
+    <%--var headerFlow = isc.HTMLFlow.create({--%>
+        <%--width: "10%",--%>
+        <%--height: "100%",--%>
+        <%--styleName: "mainHeaderStyleOnline header-logo-title",--%>
+        <%--contents: "<span><spring:message code='main.salesName'/></span>"--%>
+    <%--});--%>
 
     var headerLayout = isc.HLayout.create({
 
         width: "100%",
-        height: "52",
-        styleName: "header",
-        members: [headerLogo, headerFlow, headerExitHLayout],
+        height: 50,
+        styleName: "header-top",
+        members: [headerLogo,
+          //  headerFlow,
+           // headerExitHLayout
+            headerExitHLayout
+        ],
     });
 
     /*----------------------baseTab------------------------*/
@@ -818,10 +823,10 @@
     saleToolStrip = isc.ToolStrip.create({
         align: "center",
         membersMargin: 20,
-        layoutMargin: 5,
-        showShadow: true,
-        shadowDepth: 3,
-        shadowColor: "#153560",
+        //layoutMargin: 5,
+       // showShadow: true,
+       // shadowDepth: 3,
+      //  shadowColor: "#153560",
 
         members: [
             baseTab,
@@ -838,7 +843,7 @@
 
     var MainDesktopMenuH = isc.HLayout.create({
         width: "100%",
-        height: "4%",
+        height: 10,
         styleName: "main-menu",
         align: "center",
         members: [
