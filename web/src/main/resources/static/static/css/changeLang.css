@@ -6,7 +6,7 @@
     left: 0px !important;
     content: " ";
     position: absolute;
-    width: 404px;
+    width: 424px;
     height: 115px;
     background-color: #fb9b29;
     border: solid #324458 0px;
@@ -42,5 +42,15 @@
     border-top-left-radius: 0 !important;
 }
 .header-exit {
-    background-image: none !important;
+    background-image: url("../img/header-mask-ltr.png");
+    background-size: 40% !important;
+    /* background-attachment: fixed; */
+    background-repeat: no-repeat;
+    background-position: left -1px bottom 333px;
+    object-fit: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: right;
 }
