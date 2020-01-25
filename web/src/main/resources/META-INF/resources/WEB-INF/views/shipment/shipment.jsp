@@ -510,26 +510,18 @@
         titleWidth: "100",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 5,
+        numCols: 4,
         fields: [
             {name: "id", hidden: true,},
             {type: "Header", defaultValue: ""},
             {name: "blDate", hidden: true},
+
             {
-                name: "blDate", colSpan: 2,
-                title: "<spring:message code='shipment.blDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: 'date',
-                format: 'DD-MM-YYYY',
-                required: true,
-                width: 400
-            },
-            {
-                name: "numberOfBLs", colSpan: 2,
+                name: "numberOfBLs", colSpan: 4,
                 title: "<spring:message code='shipment.numberOfBLs'/>",
                 type: 'integer',
                 required: true,
-                width: 400,
+                width: "100%",
                 validators: [{
                     type: "isInteger",
                     validateOnExit: true,
@@ -539,18 +531,18 @@
             },
             {
                 name: "blNumbers",
-                colSpan: 2,
+                colSpan: 4,
                 title: "<spring:message code='shipment.blNumbers'/>",
                 type: 'text',
-                width: 400,
+                width: "100%",
                 required: true,
 
             },
             {
                 name: "swb",
-                colSpan: 2,
+                colSpan: 4,
                 title: "<spring:message code='shipment.SWB'/>",
-                type: 'text', width: 400,
+                type: 'text', width: "100%",
                 defaultValue: "Yes",
                 valueMap: {"Yes": "Yes", "No": "No"},
                 changed: function (form, item, value) {
@@ -569,21 +561,13 @@
                 }
             },
             {name: "swBlDate", hidden: true},
-            {
-                name: "swBlDate", colSpan: 2,
-                title: "<spring:message code='shipment.swBlDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: 'date',
-                format: 'DD-MM-YYYY',
-                required: true,
-                width: 400
-            },
+
+
             {
                 name: "switchBl",
                 title: "<spring:message code='shipment.switchBl'/>",
                 type: 'text',
-                width: 400,
-                startRow: true
+                startRow: true , width: "100%" , colSpan: 4
 
             },
             {
@@ -593,8 +577,8 @@
                 optionDataSource: RestDataSource_LoadingPort,
                 displayField: "port",
                 valueField: "id",
-                width: 400,
-                align: "center",
+                width: "100%",
+                align: "center", colSpan: 4,
                 startRow: true
             },
             {
@@ -603,8 +587,8 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_LoadingPort,
                 displayField: "port",
-                valueField: "id", width: 400, align: "center",
-                startRow: true
+                valueField: "id", width: "100%", align: "center",
+                startRow: true ,colSpan: 4,
             },
             {
                 name: "portByDischargeId",
@@ -612,15 +596,37 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_LoadingPort,
                 displayField: "port",
-                valueField: "id", width: 400, align: "center", startRow: true
+                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4
             },
             {
-                name: "consignee", colSpan: 2,
+                name: "consignee", colSpan: 4,
                 title: "<spring:message code='shipment.consignee'/>",
                 type: 'text',
                 required: true,
-                width: 400, startRow: true
+                width: "100%", startRow: true
             },
+
+
+            {
+                name: "swBlDate",
+                title: "<spring:message code='shipment.swBlDate'/>",
+                defaultValue: "<%=dateUtil.todayDate()%>",
+                type: 'date',
+                format: 'DD-MM-YYYY',
+                required: true,
+                width: 400 ,
+            },
+                {
+                name: "blDate", colSpan: 4,
+                title: "<spring:message code='shipment.blDate'/>",
+                defaultValue: "<%=dateUtil.todayDate()%>",
+                type: 'date',
+                format: 'DD-MM-YYYY',
+                required: true,
+                width: "100%"
+            },
+
+
         ]
     });
     var RestDataSource_Contact_optionCriteria__SHIPMENT = {
