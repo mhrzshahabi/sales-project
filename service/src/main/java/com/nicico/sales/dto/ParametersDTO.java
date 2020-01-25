@@ -66,15 +66,6 @@ public class ParametersDTO {
 	@Setter
 	@Accessors(chain = true)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("ParametersSpecRs")
-	public static class ParametersSpecRs {
-		private SpecRs response;
-	}
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class SpecRs {
 		private List<ParametersDTO.Info> data;
 		private Integer status;

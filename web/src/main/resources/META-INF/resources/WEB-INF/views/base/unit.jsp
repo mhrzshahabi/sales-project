@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -15,6 +16,7 @@
                     ListGrid_Unit_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_UNIT')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -22,83 +24,84 @@
                     Window_Unit.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_UNIT')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Unit_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_UNIT')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Unit_remove();
                 }
             }
-        ]
+            </sec:authorize>
+            ]
     });
 
     var ValuesManager_Unit = isc.ValuesManager.create({});
 
+    var DynamicForm_Unit = isc.DynamicForm.create({
+        width: "100%",
+        height: "100%",
+        setMethod: 'POST',
+        align: "center",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "100",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 2,
 
-     var DynamicForm_Unit = isc.DynamicForm.create({
-       width: "100%",
-       height: "100%",
-       setMethod: 'POST',
-       align: "center",
-       canSubmit: true,
-       showInlineErrors: true,
-       showErrorText: true,
-       showErrorStyle: true,
-       errorOrientation: "right",
-       titleWidth: "100",
-       titleAlign: "right",
-       requiredMessage: "<spring:message code='validator.field.is.required'/>",
-       numCols: 2,
-
-       fields: [{
-           name: "id",
-           hidden: true, showIf:"false",
-       }, {
-           type: "RowSpacerItem"
-       }, {
-           name: "code",
-           title: "<spring:message code='unit.code'/>",
-           type: 'text',
-           required: true,
-           width: 400,
-           keyPressFilter: "[0-9]",
-           length: "15" , showIf:"false",
-       }, {
-           name: "nameFA",
-           title: "<spring:message code='unit.nameFa'/>",
-           required: true,
-           readonly: true,
-           width: 400
-       }, {
-           name: "nameEN",
-           title: "<spring:message code='unit.nameEN'/>",
-           type: 'text',
-           required: true,
-           width: 400,
-           keyPressFilter: "[a-z|A-Z|0-9.]"
-       }, {
-           name: "symbol",
-           title: "<spring:message code='unit.symbol'/>",
-           type: 'text',
-           width: 400
-       }, {
-           name: "decimalDigit",
-           title: "<spring:message code='rate.decimalDigit'/>",
-           width: 400,
-           keyPressFilter: "[0-4]",
-           length: "1",
-           hint: "<spring:message code='deghat.ashar'/>",
-           showHintInField: true,
-       }, {
-           type: "RowSpacerItem"
-       }, ]
-   });
-
+        fields: [{
+            name: "id",
+            hidden: true, showIf: "false",
+        }, {
+            name: "code",
+            title: "<spring:message code='unit.code'/>",
+            type: 'text',
+            required: true,
+            width: 400,
+            keyPressFilter: "[0-9]",
+            length: "15", showIf: "false",
+        }, {
+            name: "nameFA",
+            title: "<spring:message code='unit.nameFa'/>",
+            required: true,
+            readonly: true,
+            width: 400
+        }, {
+            name: "nameEN",
+            title: "<spring:message code='unit.nameEN'/>",
+            type: 'text',
+            required: true,
+            width: 400,
+            keyPressFilter: "[a-z|A-Z|0-9.]"
+        }, {
+            name: "symbol",
+            title: "<spring:message code='unit.symbol'/>",
+            type: 'text',
+            width: 400
+        }, {
+            name: "decimalDigit",
+            title: "<spring:message code='rate.decimalDigit'/>",
+            width: 400,
+            keyPressFilter: "[0-4]",
+            length: "1",
+            hint: "<spring:message code='deghat.ashar'/>",
+            showHintInField: true,
+        }]
+    });
 
     var IButton_Unit_Save = isc.IButtonSave.create({
         top: 260,
@@ -175,13 +178,11 @@
         ListGrid_Unit.invalidateCache();
     }
 
-    function ListGrid_Unit_remove()
-    {
+    function ListGrid_Unit_remove() {
 
         var record = ListGrid_Unit.getSelectedRecord();
 
-        if (record == null || record.id == null)
-        {
+        if (record == null || record.id == null) {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -191,14 +192,12 @@
                         {
                             title: "<spring:message code='global.ok'/>"
                         })],
-                    buttonClick: function()
-                    {
+                    buttonClick: function () {
                         this.hide();
                     }
                 });
         }
-        else
-        {
+        else {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.remove.ask'/>",
@@ -212,25 +211,20 @@
                             title: "<spring:message code='global.no'/>"
 
                         })],
-                    buttonClick: function(button, index)
-                    {
+                    buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0)
-                        {
+                        if (index === 0) {
                             var unitId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/unit/" + unitId,
                                     httpMethod: "DELETE",
-                                    callback: function(RpcResponse_o)
-                                    {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
-                                        {
+                                    callback: function (RpcResponse_o) {
+                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                             ListGrid_Unit.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
-                                        else
-                                        {
+                                        else {
                                             isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                         }
                                     }
@@ -261,7 +255,6 @@
         }
     }
 
-
     var ToolStripButton_Unit_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -270,6 +263,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_UNIT')">
     var ToolStripButton_Unit_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -278,7 +272,9 @@
             Window_Unit.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_UNIT')">
     var ToolStripButton_Unit_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -287,8 +283,9 @@
             ListGrid_Unit_edit();
         }
     });
+    </sec:authorize>
 
-
+    <sec:authorize access="hasAuthority('D_UNIT')">
     var ToolStripButton_Unit_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -296,21 +293,30 @@
             ListGrid_Unit_remove();
         }
     });
-
+    </sec:authorize>
 
     var ToolStrip_Actions_Unit = isc.ToolStrip.create({
         width: "100%",
         members: [
+            <sec:authorize access="hasAuthority('C_UNIT')">
             ToolStripButton_Unit_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_UNIT')">
             ToolStripButton_Unit_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_UNIT')">
             ToolStripButton_Unit_Remove,
+            </sec:authorize>
+
             isc.ToolStrip.create({
-            width: "100%",
-            align: "left",
-            border: '0px',
-            members: [
-                ToolStripButton_Unit_Refresh,
-            ]
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Unit_Refresh,
+                ]
             })
 
         ]
@@ -322,7 +328,6 @@
             ToolStrip_Actions_Unit
         ]
     });
-
 
     var RestDataSource_Unit = isc.MyRestDataSource.create(
         {
@@ -357,7 +362,6 @@
             fetchDataURL: "${contextPath}/api/unit/spec-list"
         });
 
-
     var ListGrid_Unit = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -372,7 +376,7 @@
         }, {
             name: "code",
             title: "<spring:message code='unit.code'/> ",
-            align: "center" , showIf:"false",
+            align: "center", showIf: "false",
         }, {
             name: "nameFA",
             title: "<spring:message code='unit.nameFa'/> ",
@@ -396,9 +400,6 @@
         filterOnKeypress: true,
     });
 
-
-
-
     var HLayout_Grid_Unit = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -407,7 +408,7 @@
         ]
     });
 
-    var VLayout_Body_Unit = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

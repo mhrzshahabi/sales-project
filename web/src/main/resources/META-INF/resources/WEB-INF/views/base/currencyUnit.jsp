@@ -54,32 +54,6 @@
         ]
     });
 
-    var Menu_ListGrid_CurrencyUnit_Print = isc.Menu.create({
-        width: 150,
-        data: [
-            {isSeparator: true},
-            {
-                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
-                click: function () {
-                    window.open("/currencyUnit/print/pdf");
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
-                click: function () {
-                    window.open("/currencyUnit/print/excel");
-                }
-            },
-            {
-                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
-                click: function () {
-                    window.open("/currencyUnit/print/html");
-                }
-            }
-        ]
-    });
-
-
     var ValuesManager_CurrencyUnit = isc.ValuesManager.create({});
 
     var DynamicForm_CurrencyUnit = isc.DynamicForm.create(
@@ -102,9 +76,6 @@
                 {
                     name: "id",
                     hidden: true,
-                },
-                {
-                    type: "RowSpacerItem"
                 },
                 {
                     name: "code",
@@ -145,12 +116,8 @@
                     name: "decimalDigit",
                     title: "<spring:message code='currency.decimalDigit'/>",
                     width: 400
-                },
-                {
-                    type: "RowSpacerItem"
-                },]
+                }]
         });
-
 
     var IButton_CurrencyUnit_Save = isc.IButtonSave.create(
         {
@@ -185,7 +152,6 @@
                     });
             }
         });
-
 
     var Window_CurrencyUnit = isc.Window.create(
         {
@@ -229,7 +195,6 @@
                     })
             ]
         });
-
 
     function ListGrid_CurrencyUnit_refresh() {
         ListGrid_CurrencyUnit.invalidateCache();
@@ -316,7 +281,6 @@
             Window_CurrencyUnit.show();
         }
     }
-
 
     var ToolStripButton_CurrencyUnit_Refresh = isc.ToolStripButton.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -407,10 +371,8 @@
         dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
-        filterOnKeypress: true,
-        startsWithTitle: "tt"
+        filterOnKeypress: true
     });
-
 
     var HLayout_Grid_CurrencyUnit = isc.HLayout.create({
         width: "100%",

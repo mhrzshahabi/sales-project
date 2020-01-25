@@ -27,35 +27,30 @@ public class InvoiceItemRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-    // @PreAuthorize("hasAuthority('r_invoiceItem')")
     public ResponseEntity<InvoiceItemDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(invoiceItemService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    // @PreAuthorize("hasAuthority('r_invoiceItem')")
     public ResponseEntity<List<InvoiceItemDTO.Info>> list() {
         return new ResponseEntity<>(invoiceItemService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-    // @PreAuthorize("hasAuthority('c_invoiceItem')")
     public ResponseEntity<InvoiceItemDTO.Info> create(@Validated @RequestBody InvoiceItemDTO.Create request) {
         return new ResponseEntity<>(invoiceItemService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-    // @PreAuthorize("hasAuthority('u_invoiceItem')")
     public ResponseEntity<InvoiceItemDTO.Info> update(@RequestBody InvoiceItemDTO.Update request) {
         return new ResponseEntity<>(invoiceItemService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    // @PreAuthorize("hasAuthority('d_invoiceItem')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         invoiceItemService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -63,7 +58,6 @@ public class InvoiceItemRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-    // @PreAuthorize("hasAuthority('d_invoiceItem')")
     public ResponseEntity<Void> delete(@Validated @RequestBody InvoiceItemDTO.Delete request) {
         invoiceItemService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -78,7 +72,6 @@ public class InvoiceItemRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-    // @PreAuthorize("hasAuthority('r_invoiceItem')")
     public ResponseEntity<SearchDTO.SearchRs<InvoiceItemDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(invoiceItemService.search(request), HttpStatus.OK);
     }

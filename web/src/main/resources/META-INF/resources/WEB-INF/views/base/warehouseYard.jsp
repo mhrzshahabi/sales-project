@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
-
 
     var RestDataSource_WarehouseYard__BANK = isc.MyRestDataSource.create({
         fields: [{
@@ -26,7 +26,6 @@
 
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
-
 
     function ListGrid_WarehouseYard_refresh() {
         ListGrid_WarehouseYard.invalidateCache();
@@ -99,9 +98,6 @@
         }
     }
 
-
-
-
     var Menu_ListGrid_WarehouseYard = isc.Menu.create({
         width: 150,
         data: [
@@ -111,6 +107,7 @@
                     ListGrid_WarehouseYard_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_WAREHOUSE_YARD')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -118,18 +115,25 @@
                     Window_WarehouseYard.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_WAREHOUSE_YARD')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_WarehouseYard_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_WAREHOUSE_YARD')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_WarehouseYard_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -151,9 +155,6 @@
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
-                    type: "RowSpacerItem",
-                },
-                {
                     name: "warehouseNo",
                     title: "<spring:message code='warehouseCad.warehouseNo'/>",
                     width: 500,
@@ -172,10 +173,7 @@
                     width: 500,
                     colSpan: 1, required: true,
                     titleColSpan: 1
-                },
-                {
-                    type: "RowSpacerItem",
-                },
+                }
             ]
     });
 
@@ -187,6 +185,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_WAREHOUSE_YARD')">
     var ToolStripButton_WarehouseYard_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -195,7 +194,9 @@
             Window_WarehouseYard.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_WAREHOUSE_YARD')">
     var ToolStripButton_WarehouseYard_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -204,8 +205,9 @@
             ListGrid_WarehouseYard_edit();
         }
     });
+    </sec:authorize>
 
-
+    <sec:authorize access="hasAuthority('D_WAREHOUSE_YARD')">
     var ToolStripButton_WarehouseYard_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -213,15 +215,24 @@
             ListGrid_WarehouseYard_remove();
         }
     });
-
+    </sec:authorize>
 
     var ToolStrip_Actions_WarehouseYard = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('C_WAREHOUSE_YARD')">
                 ToolStripButton_WarehouseYard_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_WAREHOUSE_YARD')">
                 ToolStripButton_WarehouseYard_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_WAREHOUSE_YARD')">
                 ToolStripButton_WarehouseYard_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -271,11 +282,9 @@
         }
     });
 
-
     var Window_WarehouseYard = isc.Window.create({
         title: "<spring:message code='warehouseCad.warehouseNo'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -311,6 +320,7 @@
                 })
             ]
     });
+
     var ListGrid_WarehouseYard = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -349,7 +359,7 @@
         ]
     });
 
-    var VLayout_WarehouseYard_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

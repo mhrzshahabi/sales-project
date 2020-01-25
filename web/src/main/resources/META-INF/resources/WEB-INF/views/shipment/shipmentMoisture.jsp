@@ -1013,36 +1013,6 @@
                 showHover: true
             }
         ],
-/*        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            var criteria1 = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-            };
-            ListGrid_ShipmentMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                ListGrid_ShipmentMoistureHeader.setData(data);
-                var recordH = ListGrid_ShipmentMoistureHeader.getRecord(0);
-
-                if (ListGrid_ShipmentMoistureHeader.getRecord(0) != null)
-                    criteria1 = {
-                        _constructor: "AdvancedCriteria",
-                        operator: "and",
-                        criteria: [{fieldName: "shipmentMoistureHeader", operator: "equals", value: recordH.id}]
-                    };
-                else
-                    criteria1 = {
-                        _constructor: "AdvancedCriteria",
-                        operator: "and",
-                        criteria: [{fieldName: "shipmentMoistureHeader", operator: "equals", value: -999999999}]
-                    };
-
-                ListGrid_ShipmentMoistureItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                    ListGrid_ShipmentMoistureItem.setData(data);
-                });
-            });
-        },*/
         getExpansionComponent: function (record) {
         return getExpandedComponent_ShipmentByMoistureHeader(record)
         },
@@ -1115,7 +1085,6 @@
             [
                 {name: "id", hidden: true},
                 {name: "shipmentId", hidden: true},
-                {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentId", title: "id", canEdit: false, hidden: true},
                 {
@@ -1380,6 +1349,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
     var ToolStripButton_ShipmentMoistureHeader_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1403,7 +1373,9 @@
             }
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_HEADER')">
     var ToolStripButton_ShipmentMoistureHeader_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1411,7 +1383,9 @@
             ListGrid_ShipmentMoistureHeader_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_HEADER')">
     var ToolStripButton_ShipmentMoistureHeader_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1419,14 +1393,24 @@
             ListGrid_ShipmentMoistureHeader_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_ShipmentMoistureHeader = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members: [
+            <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
             ToolStripButton_ShipmentMoistureHeader_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_HEADER')">
             ToolStripButton_ShipmentMoistureHeader_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_HEADER')">
             ToolStripButton_ShipmentMoistureHeader_Remove,
+            </sec:authorize>
+
             isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
@@ -1638,7 +1622,6 @@
         numCols: 4,
         fields:
             [
-                {type: "RowSpacerItem"},
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentMoistureHeaderId", title: "id", canEdit: false, hidden: true},
                 {
@@ -1856,6 +1839,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_ITEM')">
     var ToolStripButton_ShipmentMoistureItem_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1878,7 +1862,9 @@
             }
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_ITEM')">
     var ToolStripButton_ShipmentMoistureItem_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1886,7 +1872,9 @@
             ListGrid_ShipmentMoistureItem_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_ITEM')">
     var ToolStripButton_ShipmentMoistureItem_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1894,14 +1882,24 @@
             ListGrid_ShipmentMoistureItem_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_ShipmentMoistureItem = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members: [
+            <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_ITEM')">
             ToolStripButton_ShipmentMoistureItem_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_ITEM')">
             ToolStripButton_ShipmentMoistureItem_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_ITEM')">
             ToolStripButton_ShipmentMoistureItem_Remove,
+            </sec:authorize>
+
             ToolStripButton_ShipmentMoistureItem_Paste,
             isc.ToolStrip.create({
                 width: "100%",

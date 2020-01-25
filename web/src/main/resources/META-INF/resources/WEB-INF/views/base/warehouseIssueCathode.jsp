@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -482,19 +483,6 @@
                 showHover: true
             }
         ],
-        // recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        /*        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                    var record = this.getSelectedRecord();
-                    var criteria1 = {
-                        _constructor: "AdvancedCriteria",
-                        operator: "and",
-                        criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-                    };
-                    ListGrid_WarehouseIssueCathode.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                        ListGrid_WarehouseIssueCathode.setData(data);
-
-                    });
-                },*/
         sortField: 0,
         dataPageSize: 50,
         //autoFetchData: false,
@@ -514,26 +502,26 @@
     });
 
     var ToolStripButton_ListGrid_ShipmentByWarehouseIssueCathode_Refresh = isc.ToolStripButtonRefresh.create({
-    icon: "[SKIN]/actions/refresh.png",
-    title: "<spring:message code='global.form.refresh'/>",
-    click: function () {
-    ListGrid_ShipmentByWarehouseIssueCathode.invalidateCache();
-    ListGrid_WarehouseIssueCathode.setData([]);
-    }
+        icon: "[SKIN]/actions/refresh.png",
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+            ListGrid_ShipmentByWarehouseIssueCathode.invalidateCache();
+            ListGrid_WarehouseIssueCathode.setData([]);
+        }
     });
     var ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueCathode = isc.ToolStrip.create({
-    width: "100%",
-    membersMargin: 5,
-    members: [
-    isc.ToolStrip.create({
-    width: "100%",
-    align: "left",
-    border: '0px',
-    members: [
-    ToolStripButton_ListGrid_ShipmentByWarehouseIssueCathode_Refresh
-    ]
-    })
-    ]
+        width: "100%",
+        membersMargin: 5,
+        members: [
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_ListGrid_ShipmentByWarehouseIssueCathode_Refresh
+                ]
+            })
+        ]
     });
 
     var VLayout_Body_ShipmentByWarehouseIssueCathode = isc.VLayout.create({
@@ -619,6 +607,7 @@
                     ListGrid_WarehouseIssueCathode_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CATHODE')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -626,18 +615,25 @@
                     Window_WarehouseIssueCathode.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_WAREHOUSE_ISSUE_CATHODE')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_WarehouseIssueCathode_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_WAREHOUSE_ISSUE_CATHODE')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_WarehouseIssueCathode_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -867,7 +863,6 @@
             [
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true},
-                {type: "RowSpacerItem"},
                 {
                     name: "bijak",
                     title: "<spring:message code='warehouseIssueCathode.bijak'/>",
@@ -967,12 +962,7 @@
                     width: 500,
                     required: true,
                     length: "15"
-                },
-                {type: "RowSpacerItem"},
-                {type: "RowSpacerItem"},
-                <%--{name: "bundle",title: "<spring:message code='warehouseIssueCathode.bundle'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
-                <%--{name: "sheet",title: "<spring:message code='warehouseIssueCathode.sheet'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
-                <%--{name: "totalAmount",title: "<spring:message code='warehouseIssueCathode.totalAmount'/>",width: 500,required: true,keyPressFilter: "[0-9]", length: "15"},--%>
+                }
             ]
     });
 
@@ -984,6 +974,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CATHODE')">
     var ToolStripButton_WarehouseIssueCathode_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1007,7 +998,9 @@
             Window_WarehouseIssueCathode.animateShow();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_WAREHOUSE_ISSUE_CATHODE')">
     var ToolStripButton_WarehouseIssueCathode_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1016,7 +1009,9 @@
             ListGrid_WarehouseIssueCathode_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_WAREHOUSE_ISSUE_CATHODE')">
     var ToolStripButton_WarehouseIssueCathode_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1024,14 +1019,24 @@
             ListGrid_WarehouseIssueCathode_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_WarehouseIssueCathode = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CATHODE')">
                 ToolStripButton_WarehouseIssueCathode_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_WAREHOUSE_ISSUE_CATHODE')">
                 ToolStripButton_WarehouseIssueCathode_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_WAREHOUSE_ISSUE_CATHODE')">
                 ToolStripButton_WarehouseIssueCathode_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -1086,7 +1091,6 @@
     var Window_WarehouseIssueCathode = isc.Window.create({
         title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1302,35 +1306,34 @@
     });
 
 
-
     function loadWindowFeatureList(record) {
         var dccTableId = record.id;
         var dccTableName = "TBL_WAREHOUSE_ISSUE_CATHODE";
-       // warehouseIssueCathodeAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
-       // WindowFeature.show()
+        // warehouseIssueCathodeAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+        // WindowFeature.show()
         var window_view_url = isc.Window.create({
-                title: "<spring:message code='warehouseIssueCathodeAttach.title'/>",
-                width: "80%",
-                height: "40%",
-                autoCenter: true,
-                isModal: true,
-                showModalMask: true,
-                align: "center",
-                autoDraw: false,
-                dismissOnEscape: true,
-              closeClick: function () {
-                 this.Super("closeClick", arguments)
-                 },
+            title: "<spring:message code='warehouseIssueCathodeAttach.title'/>",
+            width: "80%",
+            height: "40%",
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            closeClick: function () {
+                this.Super("closeClick", arguments)
+            },
             items:
-              [
-                isc.ViewLoader.create({
-                autoDraw:true,
-                viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
-                loadingMessage:"<spring:message code='global.loadingMessage'/>"
-                })
-              ]
+                [
+                    isc.ViewLoader.create({
+                        autoDraw: true,
+                        viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
+                        loadingMessage: "<spring:message code='global.loadingMessage'/>"
+                    })
+                ]
         });
-            window_view_url.show();
+        window_view_url.show();
     }
 
 

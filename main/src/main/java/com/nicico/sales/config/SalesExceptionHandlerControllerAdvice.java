@@ -57,6 +57,6 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
     public final ResponseEntity<Object> accessDeniedHandler(AccessDeniedException ex)
     {
         this.printLog(ex, true, true);
-        return this.createGeneralResponseEntity(ex, IErrorCode.Unknown);
+        return this.createGeneralResponseEntity(ex, IErrorCode.Forbidden);
     }
 }

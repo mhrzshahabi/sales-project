@@ -27,35 +27,30 @@ public class UnitRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('r_unit')")
     public ResponseEntity<UnitDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(unitService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('r_unit')")
     public ResponseEntity<List<UnitDTO.Info>> list() {
         return new ResponseEntity<>(unitService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//    @PreAuthorize("hasAuthority('c_unit')")
     public ResponseEntity<UnitDTO.Info> create(@Validated @RequestBody UnitDTO.Create request) {
         return new ResponseEntity<>(unitService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//    @PreAuthorize("hasAuthority('u_unit')")
     public ResponseEntity<UnitDTO.Info> update(@RequestBody UnitDTO.Update request) {
         return new ResponseEntity<>(unitService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('d_unit')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         unitService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -63,7 +58,6 @@ public class UnitRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('d_unit')")
     public ResponseEntity<Void> delete(@Validated @RequestBody UnitDTO.Delete request) {
         unitService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -78,7 +72,6 @@ public class UnitRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//    @PreAuthorize("hasAuthority('r_unit')")
     public ResponseEntity<SearchDTO.SearchRs<UnitDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(unitService.search(request), HttpStatus.OK);
     }

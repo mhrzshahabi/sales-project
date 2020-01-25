@@ -9,12 +9,10 @@
         ListGrid_Glossary.invalidateCache();
     }
 
-    function ListGrid_Glossary_edit()
-    {
+    function ListGrid_Glossary_edit() {
         var record = ListGrid_Glossary.getSelectedRecord();
 
-        if (record == null || record.id == null)
-        {
+        if (record == null || record.id == null) {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -24,27 +22,22 @@
                         {
                             title: "<spring:message code='global.ok'/>"
                         })],
-                    buttonClick: function()
-                    {
+                    buttonClick: function () {
                         this.hide();
                     }
                 });
         }
-        else
-        {
+        else {
             DynamicForm_Glossary.editRecord(record);
             Window_Glossary.show();
         }
     }
 
-
-    function ListGrid_Glossary_remove()
-    {
+    function ListGrid_Glossary_remove() {
 
         var record = ListGrid_Glossary.getSelectedRecord();
 
-        if (record == null || record.id == null)
-        {
+        if (record == null || record.id == null) {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -54,14 +47,12 @@
                         {
                             title: "<spring:message code='global.ok'/>"
                         })],
-                    buttonClick: function()
-                    {
+                    buttonClick: function () {
                         this.hide();
                     }
                 });
         }
-        else
-        {
+        else {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.remove.ask'/>",
@@ -75,25 +66,20 @@
                         {
                             title: "<spring:message code='global.no'/>"
                         })],
-                    buttonClick: function(button, index)
-                    {
+                    buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0)
-                        {
+                        if (index === 0) {
                             var glossaryId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/glossary/" + glossaryId,
                                     httpMethod: "DELETE",
-                                    callback: function(RpcResponse_o)
-                                    {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201)
-                                        {
+                                    callback: function (RpcResponse_o) {
+                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                             ListGrid_Glossary_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
-                                        else
-                                        {
+                                        else {
                                             isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                         }
                                     }
@@ -103,8 +89,6 @@
                 });
         }
     }
-
-
 
     var Menu_ListGrid_Glossary = isc.Menu.create({
         width: 150,
@@ -154,7 +138,6 @@
         fields:
             [
                 {name: "id", hidden: true,},
-                {type: "RowSpacerItem"},
                 {
                     name: "summary",
                     title: "<spring:message code='glossary.summary'/>",
@@ -170,9 +153,7 @@
                     width: "480",
                     required: true,
                     length: "200"
-                },
-                {type: "RowSpacerItem"}
-
+                }
             ]
     });
 
@@ -209,6 +190,7 @@
             ListGrid_Glossary_remove();
         }
     });
+
     var ToolStrip_Actions_Glossary = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -217,12 +199,12 @@
                 ToolStripButton_Glossary_Edit,
                 ToolStripButton_Glossary_Remove,
                 isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Glossary_Refresh,
-                ]
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_Glossary_Refresh,
+                    ]
                 })
 
             ]
@@ -236,7 +218,6 @@
             ]
     });
 
-
     var RestDataSource_Glossary = isc.MyRestDataSource.create({
         fields:
             [
@@ -246,7 +227,6 @@
             ],
         fetchDataURL: "${contextPath}/api/glossary/spec-list"
     });
-
 
     var IButton_Glossary_Save = isc.IButtonSave.create({
         top: 260,
@@ -282,7 +262,6 @@
         {
             title: "<spring:message code='glossary.title'/> ",
             width: 580,
-            // height: 500,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -290,8 +269,7 @@
             align: "center",
             autoDraw: false,
             dismissOnEscape: true,
-            closeClick: function()
-            {
+            closeClick: function () {
                 this.Super("closeClick", arguments)
             },
             items: [
@@ -312,8 +290,7 @@
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
                                     orientation: "vertical",
-                                    click: function()
-                                    {
+                                    click: function () {
                                         Window_Glossary.close();
                                     }
                                 })
@@ -321,7 +298,6 @@
                     })
             ]
         });
-
 
     var ListGrid_Glossary = isc.ListGrid.create(
         {
@@ -348,20 +324,18 @@
                     title: "<spring:message code='glossary.meaning'/>",
                     width: "50%",
                     align: "center"
-                }, ],
+                },],
             sortField: 0,
             autoFetchData: true,
             showFilterEditor: true,
             filterOnKeypress: true,
             recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-            {
+            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
                 ListGrid_GlossaryFeature.fetchData(
                     {
                         "glossary.id": record.id
-                    }, function(dsResponse, data, dsRequest)
-                    {
+                    }, function (dsResponse, data, dsRequest) {
                         ListGrid_GlossaryFeature.setData(data);
                     },
                     {
@@ -378,12 +352,10 @@
         ]
     });
 
-    var VLayout_Glossary_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
             HLayout_Glossary_Actions, HLayout_Glossary_Grid
         ]
     });
-
-

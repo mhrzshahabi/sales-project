@@ -27,35 +27,30 @@ public class MaterialFeatureRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('r_materialFeature')")
     public ResponseEntity<MaterialFeatureDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(materialFeatureService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('r_materialFeature')")
     public ResponseEntity<List<MaterialFeatureDTO.Info>> list() {
         return new ResponseEntity<>(materialFeatureService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//	@PreAuthorize("hasAuthority('c_materialFeature')")
     public ResponseEntity<MaterialFeatureDTO.Info> create(@Validated @RequestBody MaterialFeatureDTO.Create request) {
         return new ResponseEntity<>(materialFeatureService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-//	@PreAuthorize("hasAuthority('u_materialFeature')")
     public ResponseEntity<MaterialFeatureDTO.Info> update(@RequestBody MaterialFeatureDTO.Update request) {
         return new ResponseEntity<>(materialFeatureService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//	@PreAuthorize("hasAuthority('d_materialFeature')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         materialFeatureService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -63,7 +58,6 @@ public class MaterialFeatureRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//	@PreAuthorize("hasAuthority('d_materialFeature')")
     public ResponseEntity<Void> delete(@Validated @RequestBody MaterialFeatureDTO.Delete request) {
         materialFeatureService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -78,7 +72,6 @@ public class MaterialFeatureRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//	@PreAuthorize("hasAuthority('r_materialFeature')")
     public ResponseEntity<SearchDTO.SearchRs<MaterialFeatureDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(materialFeatureService.search(request), HttpStatus.OK);
     }

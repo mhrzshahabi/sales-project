@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
-
 
     var RestDataSource_Contact = isc.MyRestDataSource.create(
         {
@@ -126,9 +126,6 @@
             fetchDataURL: "${contextPath}/api/contact/spec-list"
         });
 
-
-
-
     var Menu_ListGrid_Person = isc.Menu.create({
         width: 150,
         data: [
@@ -138,6 +135,7 @@
                     ListGrid_Person_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_PERSON')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -145,18 +143,25 @@
                     Window_Person.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_PERSON')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Person_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_PERSON')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Person_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -179,14 +184,13 @@
 
         fields: [
             {name: "id", hidden: true,},
-            {type: "RowSpacerItem"},
             {
                 name: "contactId",
                 title: "<spring:message code='commercialParty.title'/>",
                 width: 500, wrapTitle: false, required: true,
                 editorType: "SelectItem",
                 type: 'text',
-                sortField:1
+                sortField: 1
                 ,
                 optionDataSource: RestDataSource_Contact,
                 displayField: "nameFA"
@@ -197,11 +201,11 @@
                 pickListProperties: {showFilterEditor: true}
 
                 ,
-                pickListFields: [{name: "id", width: "10%", align: "center" , hidden:true}, {
+                pickListFields: [{name: "id", width: "10%", align: "center", hidden: true}, {
                     name: "nameFA",
                     width: "10%",
                     align: "center"
-                }, {name: "nameEN", width: "10%", align: "center"}, ]
+                }, {name: "nameEN", width: "10%", align: "center"},]
             },
             {
                 name: "fullName",
@@ -237,12 +241,12 @@
                 width: 500,
                 wrapTitle: false,
                 validateOnExit: true,
-                length:20,
-                validators:[
-                {
-                type:"regexp",
-                expression:".+\\@.+\\..+",
-                }
+                length: 20,
+                validators: [
+                    {
+                        type: "regexp",
+                        expression: ".+\\@.+\\..+",
+                    }
                 ],
             },
             {
@@ -251,12 +255,12 @@
                 type: 'text',
                 width: 500,
                 wrapTitle: false,
-                length:20,
-                validators:[
-                {
-                type:"regexp",
-                expression:".+\\@.+\\..+",
-                }
+                length: 20,
+                validators: [
+                    {
+                        type: "regexp",
+                        expression: ".+\\@.+\\..+",
+                    }
                 ],
 
             },
@@ -266,12 +270,12 @@
                 type: 'text',
                 width: 500,
                 wrapTitle: false,
-                length:20,
-                validators:[
-                {
-                type:"regexp",
-                expression:".+\\@.+\\..+",
-                }
+                length: 20,
+                validators: [
+                    {
+                        type: "regexp",
+                        expression: ".+\\@.+\\..+",
+                    }
                 ],
             },
             {
@@ -279,7 +283,7 @@
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
                 width: 500,
-                length:20,
+                length: 20,
                 wrapTitle: false,
                 id: "emailtest"
 
@@ -348,7 +352,7 @@
             var method = "PUT";
             if (data.id == null)
                 method = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/person",
                 httpMethod: method,
                 data: JSON.stringify(data),
@@ -440,7 +444,7 @@
                     if (index === 0) {
 
                         var personId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/person/" + personId,
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
@@ -487,6 +491,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_PERSON')">
     var ToolStripButton_Person_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -495,7 +500,9 @@
             Window_Person.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_PERSON')">
     var ToolStripButton_Person_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -504,8 +511,9 @@
             ListGrid_Person_edit();
         }
     });
+    </sec:authorize>
 
-
+    <sec:authorize access="hasAuthority('D_PERSON')">
     var ToolStripButton_Person_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -513,20 +521,30 @@
             ListGrid_Person_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Person = isc.ToolStrip.create({
         width: "100%",
         members: [
+            <sec:authorize access="hasAuthority('C_PERSON')">
             ToolStripButton_Person_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_PERSON')">
             ToolStripButton_Person_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_PERSON')">
             ToolStripButton_Person_Remove,
+            </sec:authorize>
+
             isc.ToolStrip.create({
-            width: "100%",
-            align: "left",
-            border: '0px',
-            members: [
-                ToolStripButton_Person_Refresh,
-            ]
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Person_Refresh,
+                ]
             })
 
         ]
@@ -654,11 +672,10 @@
                     title: "<spring:message code='person.address'/>",
                     type: 'text',
                     width: 400
-                }, ],
+                }],
 
             fetchDataURL: "${contextPath}/api/person/spec-list"
         });
-
 
     var ListGrid_Person = isc.ListGrid.create(
         {
@@ -680,8 +697,7 @@
                     type: 'text',
                     width: 120,
                     align: "center",
-                    sortNormalizer: function(recordObject)
-                    {
+                    sortNormalizer: function (recordObject) {
                         return recordObject.contact.nameFA;
                     }
                 },
@@ -793,7 +809,6 @@
             filterOnKeypress: true,
         });
 
-
     var HLayout_Grid_Person = isc.HLayout.create(
         {
             width: "100%",
@@ -803,7 +818,6 @@
             ]
         });
 
-
     isc.VLayout.create(
         {
             width: "100%",
@@ -812,4 +826,3 @@
                 HLayout_Actions_Person, HLayout_Grid_Person
             ]
         });
-

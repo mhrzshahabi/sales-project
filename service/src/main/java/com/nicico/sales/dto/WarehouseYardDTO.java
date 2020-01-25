@@ -64,15 +64,6 @@ public class WarehouseYardDTO {
     @Setter
     @Accessors(chain = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("WarehouseYardSpecRs")
-    public static class WarehouseYardSpecRs {
-        private SpecRs response;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class SpecRs {
         private List<WarehouseYardDTO.Info> data;
         private Integer status;

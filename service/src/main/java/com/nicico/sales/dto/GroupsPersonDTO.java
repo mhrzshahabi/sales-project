@@ -52,9 +52,6 @@ public class GroupsPersonDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Integer version;
     }
 
     @Getter
@@ -65,15 +62,6 @@ public class GroupsPersonDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("GroupsPersonSpecRs")
-    public static class GroupsPersonSpecRs {
-        private SpecRs response;
     }
 
     @Getter

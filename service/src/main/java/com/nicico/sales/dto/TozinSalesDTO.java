@@ -80,9 +80,6 @@ public class TozinSalesDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Integer version;
     }
 
     @Getter
@@ -93,15 +90,6 @@ public class TozinSalesDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("TozinSalesSpecRs")
-    public static class TozinSalesSpecRs {
-        private SpecRs response;
     }
 
     @Getter

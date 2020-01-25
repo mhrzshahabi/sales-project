@@ -68,7 +68,6 @@
         fetchDataURL: "${contextPath}/api/person/spec-list"
     });
 
-
     var RestDataSource_Inspection = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -276,16 +275,6 @@
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
 
-
-    <%--var ToolStripButton_InspectionContract_Refresh = isc.ToolStripButtonRefresh.create({--%>
-    <%--icon: "[SKIN]/actions/refresh.png",--%>
-    <%--title: "<spring:message code='global.form.refresh'/>",--%>
-    <%--click: function () {--%>
-    <%--ListGrid_InspectionContract_refresh();--%>
-    <%--}--%>
-    <%--});--%>
-
-
     var ToolStripButton_InspectionContract_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -319,24 +308,10 @@
     var ToolStripButton_InspectionContract_PrintWord = isc.ToolStripButtonPrint.create({
         icon: "pieces/512/word.png",
         title: "<spring:message code='global.form.print.inspection'/>",
-        click:function()
-        {
+        click: function () {
             check_Insp_Print();
         }
     });
-
-
-
-
-
-
-<%--var ToolStripButton_InspectionContract_Remove = isc.ToolStripButtonRemove.create({--%>
-    <%--icon: "[SKIN]/actions/remove.png",--%>
-    <%--title: "<spring:message code='global.form.remove'/>",--%>
-    <%--click: function () {--%>
-    <%--ListGrid_InspectionContract_remove();--%>
-    <%--}--%>
-    <%--});--%>
 
     var recordNotFound = isc.Label.create({
         height: 30,
@@ -382,7 +357,7 @@
             align: "center", padding: 5,
             membersMargin: 20,
             members: [
-                ToolStripButton_InspectionContract_Add , ToolStripButton_InspectionContract_PrintWord
+                ToolStripButton_InspectionContract_Add, ToolStripButton_InspectionContract_PrintWord
             ]
         });
 
@@ -450,7 +425,6 @@
         filterOnKeypress: true,
         selectionAppearance: "checkbox"
     });
-
 
     var RestDataSource_InspectionContract = isc.MyRestDataSource.create({
         fields: [{
@@ -533,7 +507,6 @@
         fetchDataURL: "${contextPath}/api/inspectionContract/spec-list"
     });
 
-
     var IButton_InspectionContract_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -565,7 +538,6 @@
         }
     });
 
-
     var IButton_InspectionContract_Cancel = isc.IButtonCancel.create({
         top: 300,
         title: "<spring:message code='global.cancel'/>",
@@ -591,7 +563,6 @@
         ]
     });
 
-
     var VLayout_saveButton = isc.VLayout.create({
         width: "100%",
         height: "100%",
@@ -602,22 +573,6 @@
 
         ]
     });
-
-    function ListGrid_InspectionContract_refresh() {
-        ListGrid_InspectionContract.invalidateCache();
-        var record = ListGrid_InspectionContract.getSelectedRecord();
-        if (record == null || record.id == null)
-            return;
-        ListGrid_InspectionContract.fetchData(
-            {
-                "shipment.id": record.id
-            }, function (dsResponse, data, dsRequest) {
-                ListGrid_InspectionContract.setData(data);
-            },
-            {
-                operationId: "00"
-            });
-    }
 
     function ListGrid_InspectionContract_remove() {
 
@@ -733,7 +688,6 @@
                 }]
         });
 
-
     var Window_InspectionContractEmailCC = isc.Window.create({
         title: "<spring:message code='person.title'/> ",
         textAlign: "center",
@@ -800,7 +754,6 @@
         ]
     });
 
-
     var DynamicForm_InspectionContract = isc.DynamicForm.create({
         height: "400",
         setMethod: 'POST',
@@ -832,10 +785,10 @@
                 textAlign: "left"
             },
             {
-            autoCenter: true,
-            align:"center" ,
-            type: "Header",
-            defaultValue: "<spring:message code='inspection.Contract.header'/>",
+                autoCenter: true,
+                align: "center",
+                type: "Header",
+                defaultValue: "<spring:message code='inspection.Contract.header'/>",
 
             },
             {
@@ -933,50 +886,6 @@
         ]
     });
 
-
-    <%--var ToolStripButton_InspectionContract_Edit = isc.ToolStripButtonEdit.create({--%>
-    <%--    icon: "[SKIN]/actions/edit.png",--%>
-    <%--    title: "<spring:message code='global.form.edit'/>",--%>
-    <%--    click: function()--%>
-    <%--    {--%>
-
-    <%--		DynamicForm_InspectionContract.clearValues();--%>
-    <%--        ListGrid_InspectionContract_edit();--%>
-    <%--    }--%>
-    <%--});--%>
-
-
-
-    /*
-    var ToolStrip_Actions_InspectionContract = isc.ToolStrip.create({
-    width: "100%",
-    membersMargin: 5,
-    members:
-    [
-    ToolStripButton_InspectionContract_Add,
-    // ToolStripButton_InspectionContract_Edit,
-    ToolStripButton_InspectionContract_Remove,
-    isc.ToolStrip.create({
-    width: "100%",
-    align: "left",
-    border: '0px',
-    members: [
-    ToolStripButton_InspectionContract_Refresh,
-    ]
-    })
-
-    ]
-    });
-
-    var HLayout_InspectionContract_Actions = isc.HLayout.create({
-    width: "100%",
-    members:
-    [
-    ToolStrip_Actions_InspectionContract
-    ]
-    });*/
-
-
     var Window_InspectionContract = isc.Window.create({
         height: "400",
         title: "<spring:message code='inspectionContract.title'/> ",
@@ -1007,7 +916,6 @@
             })
         ]
     });
-
 
     var ListGrid_InspectionContract = isc.ListGrid.create({
         width: "100%",
@@ -1072,16 +980,7 @@
         ],
         sortField: 0,
         dataPageSize: 50,
-        //showFilterEditor: true,
-        filterOnKeypress: true,
-        sortFieldAscendingText: "مرتب سازی صعودی",
-        sortFieldDescendingText: "مرتب سازی نزولی",
-        configureSortText: "تنظیم مرتب سازی",
-        autoFitAllText: "متناسب سازی ستون ها براساس محتوا",
-        autoFitFieldText: "متناسب سازی ستون بر اساس محتوا",
-        filterUsingText: "فیلتر کردن",
-        groupByText: "گروه بندی",
-        freezeFieldText: "ثابت نگه داشتن",
+       filterOnKeypress: true,
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "removeIcon") {
@@ -1105,8 +1004,8 @@
                 return null;
             }
         }
-
     });
+
     ListGrid_InspectionContract.hide();
 
     var ListGrid_Inspection = isc.ListGrid.create({
@@ -1370,37 +1269,29 @@
             ListGrid_Inspection
         ]
     });
-    /*
 
-    var VLayout_InspectionContract_Body = isc.VLayout.create({
-    width: "100%",
-    height: "100%",
-    members: [
-    HLayout_InspectionContract_Actions, HLayout_InspectionContract_Grid
-    ]
-    });*/
-        var ToolStripButton_ListGrid_Inspection_Refresh = isc.ToolStripButtonRefresh.create({
+    var ToolStripButton_ListGrid_Inspection_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
-        ListGrid_Inspection.invalidateCache();
-        ListGrid_InspectionContract.setData([]);
+            ListGrid_Inspection.invalidateCache();
+            ListGrid_InspectionContract.setData([]);
         }
-        });
-        var ToolStrip_Actions_ListGrid_Inspection = isc.ToolStrip.create({
+    });
+    var ToolStrip_Actions_ListGrid_Inspection = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members: [
-        isc.ToolStrip.create({
-        width: "100%",
-        align: "left",
-        border: '0px',
-        members: [
-                ToolStripButton_ListGrid_Inspection_Refresh
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_ListGrid_Inspection_Refresh
+                ]
+            })
         ]
-        })
-        ]
-        });
+    });
 
     isc.VLayout.create({
         width: "100%",
@@ -1412,19 +1303,3 @@
     });
     ToolStripButton_InspectionContract_Add.hide();
     ToolStripButton_InspectionContract_PrintWord.hide();
-    <%--isc.SectionStack.create({--%>
-    <%--sections: [{--%>
-    <%--title: "<spring:message code='Shipment.title'/>",--%>
-    <%--items: VLayout_Body_InspectionByInspectionContract,--%>
-    <%--expanded: true--%>
-    <%--}, {--%>
-    <%--title: "<spring:message code='inspectionContract.title'/>",--%>
-    <%--items: HLayout_InspectionContract_Grid,--%>
-    <%--expanded: true--%>
-    <%--}],--%>
-    <%--visibilityMode: "multiple",--%>
-    <%--animateSections: true,--%>
-    <%--height: "100%",--%>
-    <%--width: "100%",--%>
-    <%--overflow: "hidden"--%>
-    <%--});--%>

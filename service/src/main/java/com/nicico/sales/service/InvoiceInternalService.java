@@ -13,9 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +24,6 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     private final ModelMapper modelMapper;
     private final InvoiceInternalDAO invoiceInternalDAO;
-
-    private final OAuth2RestTemplate restTemplate;
 
     @Value("${nicico.apps.accounting}")
     private String accountingAppUrl;
@@ -111,10 +106,8 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     public InvoiceInternalDTO.Info sendInternalForm2accounting(Long id, String data) {
         final InvoiceInternal invoice = invoiceInternalDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
-        ResponseEntity<String> processId = restTemplate.postForEntity(accountingAppUrl + "/rest/workflow/startSalesProcess", data, String.class);
-        invoice.setProcessId(processId.getBody().toString());
+        invoice.setProcessId(data);
         return save(invoice);
-
     }
 
     private InvoiceInternalDTO.Info save(InvoiceInternal invoiceInternal) {

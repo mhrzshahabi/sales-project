@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -173,12 +174,14 @@
                     ListGrid_warehouseCAD_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_warehouseCAD_edit();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -190,6 +193,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
     var ToolStripButton_warehouseCAD_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.show.bijack'/>",
@@ -197,13 +201,17 @@
             ListGrid_warehouseCAD_edit();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_warehouseCAD = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members:
             [
+            <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
                 ToolStripButton_warehouseCAD_Edit,
+            </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -225,19 +233,19 @@
     });
 
     var bijackAttachmentViewLoader = isc.ViewLoader.create(
-    {
-    autoDraw: false,
-    loadingMessage: ""
-    });
+        {
+            autoDraw: false,
+            loadingMessage: ""
+        });
 
     var hLayoutViewLoader = isc.HLayout.create({
-    width:"100%",
-    height: 180,
-    align: "center",padding: 5,
-    membersMargin: 20,
-    members: [
-     bijackAttachmentViewLoader
-     ]
+        width: "100%",
+        height: 180,
+        align: "center", padding: 5,
+        membersMargin: 20,
+        members: [
+            bijackAttachmentViewLoader
+        ]
     });
     hLayoutViewLoader.hide();
 
@@ -247,10 +255,8 @@
             height: "100%",
             dataSource: RestDataSource_WarehouseCad,
             contextMenu: Menu_ListGrid_warehouseCAD,
-            styleName:'expandList',
+            styleName: 'expandList',
             autoFetchData: true,
-            // autoFitData: "vertical",
-            //height: 150,
             alternateRecordStyles: true,
             canExpandRecords: true,
             canExpandMultipleRecords: false,
@@ -301,34 +307,32 @@
             sortField: 0,
             showFilterEditor: true,
             filterOnKeypress: true,
-            getExpansionComponent : function (record) {
-            if (record == null || record.id == null)
-            {
-            isc.Dialog.create( {
-            message: "<spring:message code='global.grid.record.not.selected'/>",
-            icon: "[SKIN]ask.png",
-            title: "<spring:message code='global.message'/>",
-            buttons: [isc.Button.create({
-            title: "<spring:message code='global.ok'/>"
-            })],
-            buttonClick: function()
-            {
-            this.hide();
-            }
-            });
-            record.id = null;
-            }
-            var dccTableId = record.id;
-            var dccTableName = "TBL_WAREHOUSE_CAD";
-            bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
-            hLayoutViewLoader.show();
-            var layoutWarehouseCad = isc.VLayout.create({
-            styleName: "expand-layout",
-            padding: 5,
-            membersMargin: 10,
-            members: [ hLayoutViewLoader ]
-            });
-            return layoutWarehouseCad;
+            getExpansionComponent: function (record) {
+                if (record == null || record.id == null) {
+                    isc.Dialog.create({
+                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                        icon: "[SKIN]ask.png",
+                        title: "<spring:message code='global.message'/>",
+                        buttons: [isc.Button.create({
+                            title: "<spring:message code='global.ok'/>"
+                        })],
+                        buttonClick: function () {
+                            this.hide();
+                        }
+                    });
+                    record.id = null;
+                }
+                var dccTableId = record.id;
+                var dccTableName = "TBL_WAREHOUSE_CAD";
+                bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                hLayoutViewLoader.show();
+                var layoutWarehouseCad = isc.VLayout.create({
+                    styleName: "expand-layout",
+                    padding: 5,
+                    membersMargin: 10,
+                    members: [hLayoutViewLoader]
+                });
+                return layoutWarehouseCad;
             }
         });
 
@@ -348,74 +352,25 @@
         ]
     });
 
-
-
-/*    isc.TabSet.create(
+    isc.HLayout.create(
         {
-            ID: "bijackMainTabSet",
-            tabBarPosition: "top",
             width: "100%",
             height: "100%",
-            tabs: [
-                {
-                    ID: "bijackTab",
-                    title: "<spring:message code='bijack'/>",
-                    icon: "",
-                    iconSize: 16,
-                    pane: VLayout_Body_WarehouseCad
-                },
-                {
-                    title: "<spring:message code='bijackAttach.title'/>",
-                    icon: "",
-                    iconSize: 16,
-                    pane: bijackAttachmentViewLoader,
-                    tabSelected: function(form, item, value)
-                    {
-                        var record = ListGrid_warehouseCAD.getSelectedRecord();
-                        if (record == null || record.id == null)
-                        {
-                            isc.Dialog.create(
-                                {
-                                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                                    icon: "[SKIN]ask.png",
-                                    title: "<spring:message code='global.message'/>",
-                                    buttons: [isc.Button.create(
-                                        {
-                                            title: "<spring:message code='global.ok'/>"
-                                        })],
-                                    buttonClick: function()
-                                    {
-                                        this.hide();
-                                    }
-                                });
-                            record.id = null;
-                        }
-                        var dccTableId = record.id;
-                        var dccTableName = "TBL_WAREHOUSE_CAD";
-                        bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
-                    }
-                },
-                ]
-        });*/
-    isc.HLayout.create(
-    {
-    width: "100%",
-    height: "100%",
-    border: "1px solid black",
-    layoutTopMargin: 5,
-    members: [
-     isc.SectionStack.create({
-            sections: [{
-            title: "<spring:message code='bijack'/>",
-            items: VLayout_Body_WarehouseCad,
-            showHeader: false,
-            expanded: true
-            }],
-        visibilityMode: "multiple",
-        animateSections: true,
-        height: "100%",
-        width: "100%",
-        overflow: "hidden"
-    })
-    ]
-});
+            border: "1px solid black",
+            layoutTopMargin: 5,
+            members: [
+                isc.SectionStack.create({
+                    sections: [{
+                        title: "<spring:message code='bijack'/>",
+                        items: VLayout_Body_WarehouseCad,
+                        showHeader: false,
+                        expanded: true
+                    }],
+                    visibilityMode: "multiple",
+                    animateSections: true,
+                    height: "100%",
+                    width: "100%",
+                    overflow: "hidden"
+                })
+            ]
+        });

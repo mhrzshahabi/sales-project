@@ -1,0 +1,79 @@
+.header-logo img {
+    left: 16px;
+}
+.header-logo:before {
+    bottom: -39px;
+    left: 0px !important;
+    content: " ";
+    position: absolute;
+    width: 424px;
+    height: 115px;
+    background-color: #fb9b29;
+    border: solid #324458 0px;
+    border-top-right-radius: 100%;
+    -moz-box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.85);
+    /* box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.85); */
+    -webkit-box-shadow: -6px 0px 7px rgba(0, 0, 0, 0.45) inset, 11px -24px 36px rgba(0,0,0,0.1) inset !important;
+    border-top-left-radius: 0% !important;
+}
+
+.header-logo:after{
+    content: '';
+    background: url("../img/layer-top-left.svg");
+    position: absolute;
+    top: 0;
+    left: -156px;
+    width: 100%;
+    height: 75px;
+}
+.header-title-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.header-title-version {
+    display: flex;
+    height: 57px;
+    margin-top: auto;
+    margin-right: 0px !important;
+}
+.header-title-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: flex-start;
+    margin-left: 11px !important;
+}
+.header-logo {
+    background-color: #fe9d2a;
+    border-top-right-radius: 100% !important;
+    border-top-left-radius: 0 !important;
+}
+.header-exit {
+    background-image: url("../img/header-mask-ltr.png");
+    background-size: 40% !important;
+    /* background-attachment: fixed; */
+    background-repeat: no-repeat;
+    background-position: left -1px bottom 333px;
+    object-fit: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: right;
+
+}
+.header-logout, .header-logoutOver, .header-logoutFocused, .header-logoutFocusedOver{
+    direction: rtl;
+}
+.header-logout img, .header-logoutOver img, .header-logoutFocused img, .header-logoutFocusedOver img{
+    margin-left: 6px;
+}
+.header-logout img, .header-logoutOver img, .header-logoutFocused img, .header-logoutFocusedOver img{
+    -moz-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    transform: scale(-1, -1);
+}

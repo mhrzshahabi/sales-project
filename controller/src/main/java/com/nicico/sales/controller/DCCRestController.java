@@ -34,21 +34,18 @@ public class DCCRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('r_dcc')")
     public ResponseEntity<DCCDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(dCCService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('r_dcc')")
     public ResponseEntity<List<DCCDTO.Info>> list() {
         return new ResponseEntity<>(dCCService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-//    @PreAuthorize("hasAuthority('c_dcc')")
     public ResponseEntity<DCCDTO.Info> createOrUpdate(
             @RequestParam("file") MultipartFile file,
             @RequestParam("folder") String folder,
@@ -103,7 +100,6 @@ public class DCCRestController {
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('d_dcc')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         DCCDTO.Info dccdto = dCCService.get(id);
         dCCService.delete(id);
@@ -119,7 +115,6 @@ public class DCCRestController {
 
     @Loggable
     @DeleteMapping(value = "/list")
-//    @PreAuthorize("hasAuthority('d_dcc')")
     public ResponseEntity<Void> delete(@Validated @RequestBody DCCDTO.Delete request) {
         dCCService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
@@ -135,7 +130,6 @@ public class DCCRestController {
 
     @Loggable
     @GetMapping(value = "/search")
-//    @PreAuthorize("hasAuthority('r_dcc')")
     public ResponseEntity<SearchDTO.SearchRs<DCCDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
         return new ResponseEntity<>(dCCService.search(request), HttpStatus.OK);
     }

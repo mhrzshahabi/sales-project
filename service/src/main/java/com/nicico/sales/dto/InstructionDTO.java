@@ -50,9 +50,6 @@ public class InstructionDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Integer version;
     }
 
     @Getter

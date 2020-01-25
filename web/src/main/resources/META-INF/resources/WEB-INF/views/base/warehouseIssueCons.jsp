@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -327,63 +328,59 @@
     });
 
 
-
     var recordNotFound = isc.Label.create({
-    height: 30,
-    padding: 10,
-    align: "center",
-    valign: "center",
-    wrap: false,
-    contents: "<spring:message code='global.record.find'/>"
+        height: 30,
+        padding: 10,
+        align: "center",
+        valign: "center",
+        wrap: false,
+        contents: "<spring:message code='global.record.find'/>"
     });
 
     recordNotFound.hide();
 
     function setCriteria_ListGrid_InsperctionContract(recordId) {
 
-    var criteria1 = {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{fieldName: "shipmentId", operator: "equals", value: recordId}]
-    };
+        var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "shipmentId", operator: "equals", value: recordId}]
+        };
 
-    ListGrid_WarehouseIssueCons.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-    if (data.length === 0) {
-    recordNotFound.show();
-    ListGrid_WarehouseIssueCons.hide()
-    } else {
-    recordNotFound.hide();
-    ListGrid_WarehouseIssueCons.setData(data);
-    ListGrid_WarehouseIssueCons.show();
-    }
-    }, {operationId: "00"});
+        ListGrid_WarehouseIssueCons.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            if (data.length === 0) {
+                recordNotFound.show();
+                ListGrid_WarehouseIssueCons.hide()
+            } else {
+                recordNotFound.hide();
+                ListGrid_WarehouseIssueCons.setData(data);
+                ListGrid_WarehouseIssueCons.show();
+            }
+        }, {operationId: "00"});
     }
 
     function getExpandedComponent_ShipmentByWarehouseIssueCons(record) {
-    setCriteria_ListGrid_InsperctionContract(record.id)
-    var hLayout = isc.HLayout.create({
-    align: "center", padding: 5,
-    membersMargin: 20,
-    members: [
-    ToolStripButton_WarehouseIssueCons_Add
-    ]
-    });
+        setCriteria_ListGrid_InsperctionContract(record.id)
+        var hLayout = isc.HLayout.create({
+            align: "center", padding: 5,
+            membersMargin: 20,
+            members: [
+                ToolStripButton_WarehouseIssueCons_Add
+            ]
+        });
 
-    var layoutWarehouseIssoCons = isc.VLayout.create({
-    styleName: "expand-layout",
-    padding: 5,
-    membersMargin: 10,
-    members: [ListGrid_WarehouseIssueCons, recordNotFound, hLayout]
-    });
+        var layoutWarehouseIssoCons = isc.VLayout.create({
+            styleName: "expand-layout",
+            padding: 5,
+            membersMargin: 10,
+            members: [ListGrid_WarehouseIssueCons, recordNotFound, hLayout]
+        });
 
-    return layoutWarehouseIssoCons;
+        return layoutWarehouseIssoCons;
     }
 
 
-
-
-
-var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
+    var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueCons,
@@ -594,28 +591,28 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         ]
     });
 
-        var ToolStripButton_ListGrid_ShipmentByWarehouseIssueCons_Refresh = isc.ToolStripButtonRefresh.create({
+    var ToolStripButton_ListGrid_ShipmentByWarehouseIssueCons_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
-        ListGrid_ShipmentByWarehouseIssueCons.invalidateCache();
-        ListGrid_WarehouseIssueCons.setData([]);
+            ListGrid_ShipmentByWarehouseIssueCons.invalidateCache();
+            ListGrid_WarehouseIssueCons.setData([]);
         }
-        });
-        var ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueCathode = isc.ToolStrip.create({
+    });
+    var ToolStrip_Actions_ListGrid_ShipmentByWarehouseIssueCathode = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members: [
-        isc.ToolStrip.create({
-        width: "100%",
-        align: "left",
-        border: '0px',
-        members: [
-            ToolStripButton_ListGrid_ShipmentByWarehouseIssueCons_Refresh
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_ListGrid_ShipmentByWarehouseIssueCons_Refresh
+                ]
+            })
         ]
-        })
-        ]
-        });
+    });
 
     var VLayout_Body_ShipmentByWarehouseIssueCons = isc.VLayout.create({
         width: "100%",
@@ -701,7 +698,9 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             click: function () {
                 ListGrid_WarehouseIssueCons_refresh();
             }
-        }, {
+        },
+        <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CONS')">
+        {
             title: "<spring:message code='global.form.new'/>",
             icon: "pieces/16/icon_add.png",
             click: function () {
@@ -709,19 +708,29 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
                 fetch_stock();
                 Window_WarehouseIssueCons.animateShow();
             }
-        }, {
+        },
+        </sec:authorize>
+
+        <sec:authorize access="hasAuthority('U_WAREHOUSE_ISSUE_CONS')">
+            {
             title: "<spring:message code='global.form.edit'/>",
             icon: "pieces/16/icon_edit.png",
             click: function () {
                 ListGrid_WarehouseIssueCons_edit();
             }
-        }, {
+        },
+        </sec:authorize>
+
+        <sec:authorize access="hasAuthority('D_WAREHOUSE_ISSUE_CONS')">
+            {
             title: "<spring:message code='global.form.remove'/>",
             icon: "pieces/16/icon_delete.png",
             click: function () {
                 ListGrid_WarehouseIssueCons_remove();
             }
-        }]
+        }
+        </sec:authorize>
+        ]
     });
 
 
@@ -739,15 +748,13 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
-       // backgroundImage: "backgrounds/leaves.jpg",
+        // backgroundImage: "backgrounds/leaves.jpg",
         fields: [{
             name: "id",
             hidden: true,
         }, {
             name: "shipmentId",
             hidden: true
-        }, {
-            type: "RowSpacerItem"
         }, {
             name: "amountSarcheshmeh",
             title: "<spring:message code='warehouseIssueCons.amountSarcheshmeh'/>",
@@ -862,10 +869,6 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             }],
             colSpan: 3,
             titleColSpan: 1
-        }, {
-            type: "RowSpacerItem"
-        }, {
-            type: "RowSpacerItem"
         }]
     });
 
@@ -878,6 +881,7 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
     });
 
 
+    <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CONS')">
     var ToolStripButton_WarehouseIssueCons_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -902,7 +906,9 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             Window_WarehouseIssueCons.animateShow();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_WAREHOUSE_ISSUE_CONS')">
     var ToolStripButton_WarehouseIssueCons_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -911,7 +917,9 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             ListGrid_WarehouseIssueCons_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_WAREHOUSE_ISSUE_CONS')">
     var ToolStripButton_WarehouseIssueCons_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -919,14 +927,24 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
             ListGrid_WarehouseIssueCons_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_WarehouseIssueCons = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CONS')">
                 ToolStripButton_WarehouseIssueCons_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_WAREHOUSE_ISSUE_CONS')">
                 ToolStripButton_WarehouseIssueCons_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_WAREHOUSE_ISSUE_CONS')">
                 ToolStripButton_WarehouseIssueCons_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -981,7 +999,6 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
     var Window_WarehouseIssueCons = isc.Window.create({
         title: "<spring:message code='Shipment.titleWarehouseIssueCons'/> ",
         width: 580,
-        // height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1103,18 +1120,18 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
                 errorMessage: "!"
             }]
         },
-        {
-        name: "editIcon",
-        width: 40,
-        align: "center",
-        showTitle: false
-        },
-        {
-        name: "removeIcon",
-        width: 40,
-        align: "center",
-        showTitle: false
-        },
+            {
+                name: "editIcon",
+                width: 40,
+                align: "center",
+                showTitle: false
+            },
+            {
+                name: "removeIcon",
+                width: 40,
+                align: "center",
+                showTitle: false
+            },
         ],
         sortField: 0,
         autoFetchData: false,
@@ -1123,49 +1140,47 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {
-        var fieldName = this.getFieldName(colNum);
+            var fieldName = this.getFieldName(colNum);
             if (fieldName == "editIcon") {
-            var editImg = isc.ImgButton.create({
-            showDown: false,
-            showRollOver: false,
-            layoutAlign: "center",
-            src: "pieces/16/icon_edit.png",
-            prompt: "ویرایش",
-            height: 16,
-            width: 16,
-            grid: this,
-            click: function () {
-            ListGrid_WarehouseIssueCons.selectSingleRecord(record);
-            ListGrid_WarehouseIssueCons_edit();
-            }
-            });
-            return editImg;
+                var editImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/16/icon_edit.png",
+                    prompt: "ویرایش",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                    click: function () {
+                        ListGrid_WarehouseIssueCons.selectSingleRecord(record);
+                        ListGrid_WarehouseIssueCons_edit();
+                    }
+                });
+                return editImg;
             } else if (fieldName == "removeIcon") {
-            var removeImg = isc.ImgButton.create({
-            showDown: false,
-            showRollOver: false,
-            layoutAlign: "center",
-            src: "pieces/16/icon_delete.png",
-            prompt: "حذف",
-            height: 16,
-            width: 16,
-            grid: this,
-            click: function () {
-             ListGrid_WarehouseIssueCons.selectSingleRecord(record);
-            ListGrid_WarehouseIssueCons_remove();
-            }
-            });
-            return removeImg;
+                var removeImg = isc.ImgButton.create({
+                    showDown: false,
+                    showRollOver: false,
+                    layoutAlign: "center",
+                    src: "pieces/16/icon_delete.png",
+                    prompt: "حذف",
+                    height: 16,
+                    width: 16,
+                    grid: this,
+                    click: function () {
+                        ListGrid_WarehouseIssueCons.selectSingleRecord(record);
+                        ListGrid_WarehouseIssueCons_remove();
+                    }
+                });
+                return removeImg;
             } else {
-             return null;
-             }
-              },
+                return null;
+            }
+        },
         recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-        loadWindowFeatureList(record)
+            loadWindowFeatureList(record)
         }
     });
-
-
 
 
     function loadWindowFeatureList(record) {
@@ -1173,26 +1188,26 @@ var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         var dccTableName = "TBL_WAREHOUSE_ISSUE_CONS";
 
         var window_view_url = isc.Window.create({
-        title: "<spring:message code='warehouseIssueConsAttach.title'/>",
-        width: "80%",
-        height: "40%",
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-        this.Super("closeClick", arguments)
-        },
-        items:
-        [
-        isc.ViewLoader.create({
-        autoDraw:true,
-        viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
-        loadingMessage:"<spring:message code='global.loadingMessage'/>"
-        })
-        ]
+            title: "<spring:message code='warehouseIssueConsAttach.title'/>",
+            width: "80%",
+            height: "40%",
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            closeClick: function () {
+                this.Super("closeClick", arguments)
+            },
+            items:
+                [
+                    isc.ViewLoader.create({
+                        autoDraw: true,
+                        viewURL: "dcc/showForm/" + dccTableName + "/" + dccTableId,
+                        loadingMessage: "<spring:message code='global.loadingMessage'/>"
+                    })
+                ]
         });
         window_view_url.show();
     }

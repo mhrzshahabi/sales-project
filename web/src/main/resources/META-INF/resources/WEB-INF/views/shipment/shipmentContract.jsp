@@ -1,7 +1,7 @@
-//<script>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-    <%@ page contentType="text/html;charset=UTF-8" %>
-    <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+//<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
@@ -174,13 +174,12 @@
         fetchDataURL: "${contextPath}/api/shipmentContract/spec-list"
     });
 
-
     var IButton_ShipmentContract_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-                    DynamicForm_ShipmentContract.validate();
+            DynamicForm_ShipmentContract.validate();
             if (DynamicForm_ShipmentContract.hasErrors())
                 return;
             var data = DynamicForm_ShipmentContract.getValues();
@@ -221,7 +220,6 @@
         ListGrid_ShipmentContract.invalidateCache();
     }
 
-
     function ListGrid_ShipmentContract_edit() {
         var record = ListGrid_ShipmentContract.getSelectedRecord();
         if (record == null || record.id == null) {
@@ -239,19 +237,16 @@
         } else {
 
             DynamicForm_ShipmentContract.editRecord(record);
-            DynamicForm_ShipmentContract.setValue("createDate" , new Date(record.createDate));
+            DynamicForm_ShipmentContract.setValue("createDate", new Date(record.createDate));
             Window_ShipmentContract.animateShow();
         }
     }
 
-
-    function ListGrid_ShipmentContract_remove()
-    {
+    function ListGrid_ShipmentContract_remove() {
 
         var record = ListGrid_ShipmentContract.getSelectedRecord();
 
-        if (record == null || record.id == null)
-        {
+        if (record == null || record.id == null) {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -261,14 +256,12 @@
                         {
                             title: "<spring:message code='global.ok'/>"
                         })],
-                    buttonClick: function()
-                    {
+                    buttonClick: function () {
                         this.hide();
                     }
                 });
         }
-        else
-        {
+        else {
             isc.Dialog.create(
                 {
                     message: "<spring:message code='global.grid.record.remove.ask'/>",
@@ -285,25 +278,20 @@
                             })
                     ],
 
-                    buttonClick: function(button, index)
-                    {
+                    buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0)
-                        {
+                        if (index === 0) {
                             var shipmentContractId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
                                     httpMethod: "DELETE",
-                                    callback: function(resp)
-                                    {
-                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)
-                                        {
+                                    callback: function (resp) {
+                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                             ListGrid_ShipmentContract_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
-                                        else
-                                        {
+                                        else {
                                             isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                         }
                                     }
@@ -313,7 +301,6 @@
                 });
         }
     }
-
 
     var Menu_ListGrid_ShipmentContract_In_ShipmentContract = isc.Menu.create({
         width: 150,
@@ -380,27 +367,20 @@
             primaryKey: true,
             canEdit: false,
             hidden: true
+        },
+
+
+            {
+                colSpan: 2,
+                name: "createDate",
+                title: "<spring:message code='shipmentContract.shipmentContractDate'/>",
+                width: 430,
+                type: "date",
+                required: true,
             },
 
 
-                 {
-                    colSpan: 2,
-                    name: "createDate",
-                    title: "<spring:message code='shipmentContract.shipmentContractDate'/>",
-                    width: 430,
-                    type: "date",
-                    required: true,
-                },
-
-
-
-
-
-
-
-
-
-{
+            {
                 colSpan: 2,
                 name: "capacity",
                 title: "<spring:message code='shipmentContract.capacity'/>", //ظرفیت
@@ -483,7 +463,7 @@
                 title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
                 align: "right",
                 width: "200",
-                length: "30", required:true
+                length: "30", required: true
             },
             {
                 colSpan: 2,
@@ -592,7 +572,7 @@
                 }
             },
 
-              {
+            {
                 name: "no",
                 title: "<spring:message code='shipmentContract.no'/>", //شماره
                 align: "right",
@@ -606,7 +586,6 @@
                 type: "Header",
                 defaultValue: dash
             },
-
 
 
         ]
@@ -645,7 +624,6 @@
             ListGrid_ShipmentContract_remove();
         }
     });
-
 
     var ToolStrip_Actions_ShipmentContract = isc.ToolStrip.create(
         {
@@ -735,10 +713,10 @@
 
                 {
 
-                name: "vesselName",
-                title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
-                align: "center",
-                width: "10%",
+                    name: "vesselName",
+                    title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
+                    align: "center",
+                    width: "10%",
 
                 },
             ],
@@ -747,7 +725,6 @@
         showFilterEditor: true,
         filterOnKeypress: true
     });
-
 
     var HLayout_ShipmentContract_Grid = isc.HLayout.create({
         width: "100%",

@@ -95,9 +95,6 @@ public class InvoiceInternalDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Integer version;
     }
 
     @Getter
@@ -108,15 +105,6 @@ public class InvoiceInternalDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("InvoiceInternalSpecRs")
-    public static class InvoiceSpecRs {
-        private SpecRs response;
     }
 
     @Getter

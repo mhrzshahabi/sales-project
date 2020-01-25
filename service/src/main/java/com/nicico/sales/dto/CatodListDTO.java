@@ -38,15 +38,6 @@ public class CatodListDTO {
     @Setter
     @Accessors(chain = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("CatodListSpecRs")
-    public static class CatodListSpecRs {
-        private SpecRs response;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class SpecRs {
         private List<CatodListDTO.Info> data;
         private Integer status;

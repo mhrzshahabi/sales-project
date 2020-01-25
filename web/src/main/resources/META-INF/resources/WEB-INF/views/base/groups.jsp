@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -134,6 +135,7 @@
                     ListGrid_Groups_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_GROUPS')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -141,18 +143,25 @@
                     Window_Groups.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_GROUPS')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Groups_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_GROUPS')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Groups_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -243,7 +252,7 @@
     var Window_Groups = isc.Window.create({
         title: "<spring:message code='groups.title'/>",
         width: 600,
-        // height: 500,
+// height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -339,6 +348,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_GROUPS')">
     var ToolStripButton_Groups_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -347,7 +357,9 @@
             Window_Groups.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_GROUPS')">
     var ToolStripButton_Groups_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -356,8 +368,9 @@
             ListGrid_Groups_edit();
         }
     });
+    </sec:authorize>
 
-
+    <sec:authorize access="hasAuthority('D_GROUPS')">
     var ToolStripButton_Groups_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -365,13 +378,23 @@
             ListGrid_Groups_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Groups = isc.ToolStrip.create({
         width: "100%",
         members: [
+            <sec:authorize access="hasAuthority('C_GROUPS')">
             ToolStripButton_Groups_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_GROUPS')">
             ToolStripButton_Groups_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_GROUPS')">
             ToolStripButton_Groups_Remove,
+            </sec:authorize>
+
             isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
@@ -427,15 +450,14 @@
                     type: 'text',
                     required: true,
                     width: "100%"
-                }, ],
+                },],
             sortField: 0,
             autoFetchData: true,
             showFilterEditor: true,
             filterOnKeypress: true,
 
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-            {
+            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
                 var criteria = {
                     _constructor: "AdvancedCriteria",
@@ -447,8 +469,7 @@
                             value: record.id
                         }]
                 };
-                ListGrid_GroupsPerson.fetchData(criteria, function(dsResponse, data, dsRequest)
-                    {
+                ListGrid_GroupsPerson.fetchData(criteria, function (dsResponse, data, dsRequest) {
                         ListGrid_GroupsPerson.setData(data);
                     },
                     {
@@ -542,10 +563,9 @@
                     type: 'long',
                     width: "10%",
                     align: "center",
-                    sortNormalizer: function(recordObject)
-                    {
-                    return recordObject.contact.nameFA;
-                }
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.contact.nameFA;
+                    }
                 },
                 {
                     name: "fullName",
@@ -614,8 +634,7 @@
             showFilterEditor: true,
             filterOnKeypress: true,
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function(viewer, record1, recordNum, field, fieldNum, value, rawValue)
-            {
+            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
                 var criteria = {
                     _constructor: "AdvancedCriteria",
@@ -627,8 +646,7 @@
                             value: record.id
                         }]
                 };
-                ListGrid_GroupsPerson.fetchData(criteria, function(dsResponse, data, dsRequest)
-                    {
+                ListGrid_GroupsPerson.fetchData(criteria, function (dsResponse, data, dsRequest) {
                         ListGrid_GroupsPerson.setData(data);
                     },
                     {
@@ -727,42 +745,43 @@
         fields:
             [
                 {name: "id", hidden: true,},
-                // {type: "RowSpacerItem"},
-                {name: "groupsId", type: "long", hidden: true},
-                // {type: "RowSpacerItem"},
-                {
-                    name: "personId",
-                    title: "<spring:message code='person.fullName'/>",
-                    type: 'long',
-                    width: 500,
-                    required: true,
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Person_GroupEmail,
-                    displayField: "fullName",
-                    valueField: "id",
-                    pickListWidth: 505,
-                    pickListHeight: 500,
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                        {
+// {type: "RowSpacerItem"},
+            {name: "groupsId", type: "long", hidden: true},
+// {type: "RowSpacerItem"},
+            {
+                name: "personId",
+                title: "<spring:message code='person.fullName'/>",
+                type: 'long',
+                width: 500,
+                required: true,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Person_GroupEmail,
+                displayField: "fullName",
+                valueField: "id",
+                pickListWidth: 505,
+                pickListHeight: 500,
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {
                         name: "id",
                         align: "center",
                         hidden: true,
-                        }, {
+                    }, {
                         name: "fullName",
                         width: 150,
                         align: "center"
-                    }, {name: "contact.nameFA",
+                    }, {
+                        name: "contact.nameFA",
                         title: "<spring:message code='commercialParty.title'/>",
                         width: 200,
                         align: "center"
-                        }, {
+                    }, {
                         name: "email",
                         width: 150,
                         align: "center"
                     }]
-                }
-            ]
+            }
+        ]
     });
 
     var IButton_GroupsPerson_Save = isc.IButtonSave.create({
@@ -819,7 +838,6 @@
     });
 
 
-
     var GroupPersonHeaderForm = isc.DynamicForm.create({
         align: "center",
         width: 800,
@@ -854,8 +872,6 @@
 
         ]
     });
-
-
 
 
     var Window_GroupsPerson = isc.Window.create({
@@ -1227,9 +1243,8 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.groups.groupsName;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.groups.groupsName;
                 }
             },
             {
@@ -1246,9 +1261,8 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.fullName;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.fullName;
                 }
             },
             {
@@ -1256,9 +1270,8 @@
                 title: "<spring:message code='person.jobTitle'/>",
                 type: 'text',
                 width: 150,
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.jobTitle;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.jobTitle;
                 }
             },
             {
@@ -1271,9 +1284,8 @@
                     "MIS": "<spring:message code='global.MIS'/>",
                     "MS": "<spring:message code='global.MRS'/>",
                 },
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.title;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.title;
                 }
             },
             {
@@ -1282,9 +1294,8 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.email;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.email;
                 }
             },
             {
@@ -1292,9 +1303,8 @@
                 title: "<spring:message code='person.email1'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.email1;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.email1;
                 }
             },
             {
@@ -1302,9 +1312,8 @@
                 title: "<spring:message code='person.email2'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.email2;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.email2;
                 }
             },
             {
@@ -1312,9 +1321,8 @@
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.webAddress;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.webAddress;
                 }
             },
             {
@@ -1322,9 +1330,8 @@
                 title: "<spring:message code='person.mobileNo'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.mobileNo;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.mobileNo;
                 }
             },
             {
@@ -1332,9 +1339,8 @@
                 title: "<spring:message code='person.mobileNo1'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.mobileNo1;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.mobileNo1;
                 }
             },
             {
@@ -1342,9 +1348,8 @@
                 title: "<spring:message code='person.mobileNo2'/>",
                 type: 'text',
                 width: "10%",
-                sortNormalizer: function(recordObject)
-                {
-                return recordObject.person.mobileNo2;
+                sortNormalizer: function (recordObject) {
+                    return recordObject.person.mobileNo2;
                 }
             }
         ],
