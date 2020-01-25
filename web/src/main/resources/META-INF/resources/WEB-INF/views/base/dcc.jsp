@@ -76,7 +76,7 @@
 
     var ToolStripButton_Dcc_Add = isc.ToolStripButtonAddLarge.create({
         icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.form.new'/>",
+        title: "<spring:message code='global.attach.file'/>",
         click: function () {
             dccDynamicForm.clearValues();
             dccCreateWindow.show();
