@@ -807,7 +807,7 @@ ul {
 .treeMenuSelectedOverDark,
 .treeMenuSelectedSelected,
 .treeMenuSelectedSelectedOver {
-  background-color: #153560;
+  background-color: #374b71;
   color: white;
 }
 
@@ -6549,7 +6549,7 @@ some LG header-titles to be vertically offset from other headers */
 .headerButtonDown,
 .sorterButtonOver,
 .sorterButtonDown {
-  color: #153560;
+  color: #374b71;
   background-color: #d9d9d9;
   font-family: BYekan;
   font-weight: bold;
@@ -6564,7 +6564,7 @@ some LG header-titles to be vertically offset from other headers */
 .headerButtonSelectedDown,
 .sorterButtonSelectedOver,
 .sorterButtonSelectedDown {
-  color: #153560;
+  color: #374b71;
   background-color: #d9d9d9;
   font-family: BYekan;
   font-weight: bold;
@@ -6690,7 +6690,7 @@ some LG header-titles to be vertically offset from other headers */
 .imgHeaderButtonDownRotated,
 .headerButtonOverRotated,
 .headerButtonDownRotated {
-  color: #153560;
+  color: #374b71;
   background-color: #d9d9d9;
   font-family: BYekan;
   font-weight: bold;
@@ -6703,7 +6703,7 @@ some LG header-titles to be vertically offset from other headers */
 .imgHeaderButtonSelectedDownRotated,
 .headerButtonSelectedOverRotated,
 .headerButtonSelectedDownRotated {
-  color: #153560;
+  color: #374b71;
   background-color: #d9d9d9;
   font-family: BYekan;
   font-weight: bold;
@@ -6822,7 +6822,7 @@ some LG header-titles to be vertically offset from other headers */
   background-color: white;
   font-size: 12px;
   font-family: BYekan;
-  color: #153560;
+  color: #374b71;
   padding-left: 3px;
   border: none;
   text-overflow: ellipsis;
@@ -6860,7 +6860,7 @@ some LG header-titles to be vertically offset from other headers */
 .recordSummaryCellOver,
 .recordSummaryCellOverDark {
   background-color: #ffd7a7;
-  color: #153560;
+  color: #374b71;
 }
 
 .tallCellDark {
@@ -6870,7 +6870,7 @@ some LG header-titles to be vertically offset from other headers */
 .tallCellOver,
 .tallCellOverDark {
   background-color: #ffd7a7;
-  color: #153560;
+  color: #374b71;
 }
 
 .cellSelected,
@@ -6937,7 +6937,7 @@ some LG header-titles to be vertically offset from other headers */
 .tallCellAltSelectedOverDark,
 .tallCellAltDisabled,
 .tallCellAltDisabledDark {
-  color: #153560;
+  color: #374b71;
   font-family: BYekan;
   font-size: 12px;
   text-overflow: ellipsis;
@@ -6963,7 +6963,7 @@ some LG header-titles to be vertically offset from other headers */
 .tallCellAltSelectedOver,
 .tallCellAltSelectedOverDark {
   background-color: #929292;
-  color: #153560;
+  color: #374b71;
   border-top: none;
   border-bottom: none;
 }
@@ -7005,7 +7005,7 @@ some LG header-titles to be vertically offset from other headers */
 .cellDisabledDarkAltCol {
   font-size: 12px;
   font-family: BYekan;
-  color: #153560;
+  color: #374b71;
   padding-left: 3px;
   text-overflow: ellipsis;
   border: none;
@@ -7034,7 +7034,7 @@ some LG header-titles to be vertically offset from other headers */
 .cellOverAltCol,
 .cellOverDarkAltCol {
   background-color: #ffd7a7;
-  color: #153560;
+  color: #374b71;
 }
 
 .cellSelectedAltCol,
@@ -8820,18 +8820,14 @@ a.calMonthEventLink:active {
   height: 100%;
 }
 
-.header-logo {
-  background-color: #fe9d2a;
-}
+/*.header-logo {*/
+  /*background-color: #fe9d2a;*/
+/*}*/
 
 .header-logo-title {
   background-color: #dcdeea;
   color: #374b71;
   height: 100%;
-}
-
-.header-exit {
-  background: url("../../../static/img/top-back.svg");
 }
 
 .header-filter span {
@@ -8850,12 +8846,6 @@ a.calMonthEventLink:active {
 
 .header-change-lng span {
   color: #374b71;
-}
-
-.header-label-username {
-  color: #374b71;
-  font-size: 14px;
-  font-weight: bold;
 }
 
 .toolStripButton {
@@ -9019,8 +9009,8 @@ hr {
 }
 
 .main-menu div {
-  background-color: #153560;
-  border-color: #153560;
+  background-color: #324458;
+  border-color: #324458;
 }
 .main-menu div .toolStripButton,
 .main-menu div .toolStripButtonFocused,
@@ -9772,8 +9762,8 @@ hr {
   font-size: 12px;
   padding: 3px 4px 3px 4px;
   border-radius: 3px;
-  background-color: #15356012;
-  border: solid 1px #153560;
+  background-color: #374b71;
+  border: solid 1px #374b71;
 }
 .toolStripButtonExcel:hover,
 .toolStripButtonExcelOver:hover,
@@ -9823,7 +9813,7 @@ hr {
 .toolStripButtonExcelSelectedOpened td,
 .toolStripButtonExcelSelectedDownOpened td,
 .toolStripButtonExcelSelectedOverOpened td {
-  color: #153560;
+  color: #374b71;
   font-weight: bold;
 }
 

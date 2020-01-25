@@ -76,7 +76,7 @@
 /* a table cell that holds a highlighted day (usually either today's date or the current date field value) */
 
 .dpDayHighlightTD {
-    background-color: #153560;
+    background-color: #374b71;
 }
 
 /* the date number table cell that the mouse pointer is currently over (you can use contrasting colors to make it apparent which cell is being hovered over) */
