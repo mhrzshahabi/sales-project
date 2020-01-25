@@ -78,7 +78,7 @@
 .header-title-version {
     display: flex;
     //height: 57px;
-    margin-right: 30px;
+    margin-right: 60px;
     margin-top: auto;
 }
 .header-title-version h4{
@@ -91,7 +91,7 @@
     flex-direction:column ;
     justify-content: right;
     align-items: flex-start;
-    margin-right: 60px;
+    margin-right: 43px;
 }
 .header-title-top h3{
     color: white;
@@ -149,11 +149,11 @@
     color: #374b71;
     font-size: 14px;
 }
-.header-logout, .header-logoutOver, .header-logoutFocused, .header-logoutFocusedOver{
+.header-logout, .header-logoutOver, .header-logoutFocused, .header-logoutFocusedOver, .header-logoutFocusedDown{
     background: none;
     direction: ltr;
 }
-.header-logout span, .header-logoutOver span, .header-logoutFocused span, .header-logoutFocused span, .header-logoutFocusedOver span {
+.header-logout span, .header-logoutOver span, .header-logoutFocused span, .header-logoutFocused span, .header-logoutFocusedOver span, .header-logoutFocusedDown span {
     padding-left: 6px;
 }
 .header-logo-title span {

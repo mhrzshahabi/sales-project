@@ -44,7 +44,7 @@
     flex-direction: column;
     justify-content: right;
     align-items: flex-start;
-    margin-left: 60px !important;
+    margin-left: 11px !important;
 }
 .header-logo {
     background-color: #fe9d2a;
@@ -63,6 +63,7 @@
     -o-background-size: cover;
     background-size: cover;
     background-position: right;
+
 }
 .header-logout, .header-logoutOver, .header-logoutFocused, .header-logoutFocusedOver{
     direction: rtl;
