@@ -57,7 +57,9 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    isc.DynamicForm.addProperties({requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",});
+    isc.DynamicForm.addProperties({
+        requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",
+    });
 
     isc.defineClass("MyRestDataSource", RestDataSource);
 
@@ -78,10 +80,13 @@
     });
 
     isc.SelectItem.addProperties({
+        allowEmptyValue:"true",
         click: function () {
             this.pickList.invalidateCache();
         }
     });
+
+
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
