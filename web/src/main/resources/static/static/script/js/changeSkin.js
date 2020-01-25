@@ -65,6 +65,14 @@ function change_fontFace(){
     src: local('☺'), url('./static/font/RobotoLight.woff2') format('woff2'), url('./static/font/RobotoLight.woff') format('woff'), url('./static/font/RobotoLight.otf') format('opentype'), url('./static/font/RobotoLight.ttf') format('truetype');\
 }\
 "));
+        var head  = document.getElementsByTagName('head')[0];
+        var link  = document.createElement('link');
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '/sales/static/css/changeLang.css';
+        link.media = 'all';
+        head.appendChild(link);
+
     }
     document.head.appendChild(newStyle);
 }
