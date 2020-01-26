@@ -1402,6 +1402,7 @@
         ]
     });
 
+
     isc.SectionStack.create({
         ID: "Shipment_CostHeader_Section_Stack",
         sections:
