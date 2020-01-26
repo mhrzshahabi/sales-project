@@ -220,7 +220,7 @@
 
     logoutButton = isc.IButton.create({
 
-        width: "120",
+        width: "80",
         baseStyle: "header-logout",
         title: "<span><spring:message code='global.exit'/><span>",
         icon: "pieces/512/logout.png",
@@ -282,11 +282,34 @@
         isc.FileLoader.loadLocale("en");
     }
 
+
+
+
     var languageVLayout = isc.VLayout.create({
         width: "5%",
         align: "center",
         defaultLayoutAlign: "left",
         members: [languageForm]
+    });
+
+
+
+    var toggleSwitch = isc.HTMLFlow.create({
+        width: 32,
+        height: "100%",
+        align: "center",
+        styleName: "toggle-switch",
+        contents: "<label class=\"switch-btn\">\n" +
+            "  <input type=\"checkbox\" onchange='onToggleClick(event)'>\n" +
+            "  <span class=\"slider round\"></span>\n" +
+            "</label>"
+    });
+
+    var languageAndToggleHLayout = isc.HLayout.create({
+        width: "5%",
+        align: "center",
+        defaultLayoutAlign: "left",
+        members: [toggleSwitch,languageVLayout]
     });
 
     var userNameHLayout = isc.HLayout.create({
@@ -298,6 +321,7 @@
     var logoutVLayout = isc.VLayout.create({
         width: "5%",
         align: "center",
+        styleName: "header-logout-Vlayout",
         defaultLayoutAlign: "left",
         members: [logoutButton]
     });
@@ -307,13 +331,13 @@
         height: "100%",
         align: "center",
         styleName: "header-exit",
-        members: [isc.LayoutSpacer.create({width: "80%"}), userNameHLayout, languageVLayout, logoutVLayout]
+        members: [isc.LayoutSpacer.create({width: "80%"}), userNameHLayout, languageAndToggleHLayout, logoutVLayout]
     });
 
 
 
     var headerLogo = isc.HTMLFlow.create({
-        width: "20%",
+        width: 350,
         height: "100%",
         styleName: "header-logo",
         contents: "<div class='header-title-right'><div class='header-title-top'><h3><spring:message code='main.salesCompany'/></h3><h4><spring:message code='main.salesName'/></h4></div><div class='header-title-version'><h4><spring:message code='main.salesVersion'/></h4></div><img width='50' height='50' src='static/img/logo-white.svg'/></div>"
@@ -331,6 +355,7 @@
         width: "100%",
         height: 50,
         styleName: "header-top",
+        animateStateChanges: true,
         members: [headerLogo,
           //  headerFlow,
            // headerExitHLayout
@@ -840,6 +865,7 @@
         width: "100%",
         height: 10,
         styleName: "main-menu",
+        animateStateChanges: true,
         align: "center",
         members: [
             saleToolStrip
@@ -851,6 +877,52 @@
         height: "100%",
         backgroundColor: "",
         members: [headerLayout, MainDesktopMenuH, mainTabSet]
+    });
+
+    var checked = null;
+    function onToggleClick (e){
+        checked = e.target.checked;
+        if(checked)
+        {
+
+            headerLayout.setStyleName('header-top toggle-hide')
+            MainDesktopMenuH.setStyleName('main-menu toggle-hide')
+            headerLayout.setVisibility(false);
+            MainDesktopMenuH.setVisibility(false);
+
+
+        }else {
+            headerLayout.setStyleName('header-top toggle-show')
+            MainDesktopMenuH.setStyleName('main-menu toggle-show')
+            headerLayout.setVisibility(true);
+            MainDesktopMenuH.setVisibility(true);
+            }
+        console.log(checked)
+    }
+
+    document.addEventListener("mousemove", function(event){
+        console.log(event.clientY)
+        if(event.clientY <= 0)
+        {
+            headerLayout.setStyleName('header-top toggle-show')
+            MainDesktopMenuH.setStyleName('main-menu toggle-show')
+            headerLayout.setVisibility(true);
+            MainDesktopMenuH.setVisibility(true);
+
+        }else  if(event.clientY > 100){
+            if(checked){
+                headerLayout.setStyleName('header-top toggle-hide')
+                MainDesktopMenuH.setStyleName('main-menu toggle-hide')
+                headerLayout.setVisibility(false);
+                MainDesktopMenuH.setVisibility(false);
+            }else{
+                headerLayout.setStyleName('header-top toggle-show')
+                MainDesktopMenuH.setStyleName('main-menu toggle-show')
+                headerLayout.setVisibility(true);
+                MainDesktopMenuH.setVisibility(true);
+            }
+
+        }
     });
 
     <sec:authorize access="hasAuthority('R_CURRENCY')">
