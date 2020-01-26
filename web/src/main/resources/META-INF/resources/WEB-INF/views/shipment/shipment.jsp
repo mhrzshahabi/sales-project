@@ -281,6 +281,7 @@
     });
 
     var dash = "\n";
+
     var DynamicForm_Shipment = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
