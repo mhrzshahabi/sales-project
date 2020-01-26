@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -806,9 +805,9 @@
         align: "center", padding: 5,
         membersMargin: 20,
         members: [
-        <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
-        ToolStripButton_ShipmentMoistureHeader_Add
-        </sec:authorize>
+            <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
+                ToolStripButton_ShipmentMoistureHeader_Add
+            </sec:authorize>
         ]
         });
 

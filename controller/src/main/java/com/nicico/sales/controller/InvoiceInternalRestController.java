@@ -9,7 +9,10 @@ import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.InvoiceInternalCustomerDTO;
 import com.nicico.sales.dto.InvoiceInternalDTO;
+import com.nicico.sales.dto.InvoiceInternalViewDTO;
 import com.nicico.sales.iservice.IInvoiceInternalService;
+import com.nicico.sales.iservice.IInvoiceInternalViewService;
+import com.nicico.sales.model.entities.base.InvoiceInternalView;
 import com.nicico.sales.service.InvoiceInternalCustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +38,7 @@ import java.util.Map;
 public class InvoiceInternalRestController {
 
     private final IInvoiceInternalService invoiceInternalService;
+    private final IInvoiceInternalViewService iInvoiceInternalViewService;
     private final InvoiceInternalCustomerService invoiceInternalCustomerService;
     private final ReportUtil reportUtil;
 
@@ -52,6 +57,8 @@ public class InvoiceInternalRestController {
     @Loggable
     @GetMapping(value = "/list-accounting")
     public ResponseEntity<TotalResponse<InvoiceInternalDTO.Info>> listAccounting(@RequestParam MultiValueMap<String, String> criteria) {
+       // List<InvoiceInternalView> invoiceInternalViews=iInvoiceInternalViewService.list();
+
         criteria.set("criteria","{\"fieldName\":\"processId\",\"operator\":\"isNull\"}");
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         TotalResponse<InvoiceInternalDTO.Info> search = invoiceInternalService.search(nicicoCriteria);
