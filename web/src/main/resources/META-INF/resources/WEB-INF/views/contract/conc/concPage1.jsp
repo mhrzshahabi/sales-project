@@ -480,7 +480,7 @@ isc.DynamicForm.create({
                 title: "NAME",
                 changed: function (form, item, value) {
                     DynamicForm_ContactParameter_ValueNumber8Conc.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue);
-                    dynamicForm_fullArticle01.setValue(dynamicForm_fullArticle01.getValue()+"\n"+"-"+DynamicForm_ContactParameter_ValueNumber8Conc.getValue("definitionsOne"))
+                    dynamicForm_fullArticle01.setValue(dynamicForm_fullArticle01.getValue()+"<br>"+"-"+DynamicForm_ContactParameter_ValueNumber8Conc.getValue("definitionsOne"))
                     DynamicForm_ContactParameter_ValueNumber8Conc.clearValue("definitionsOne");
                     }
             }
