@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -805,7 +806,9 @@
         align: "center", padding: 5,
         membersMargin: 20,
         members: [
+        <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
         ToolStripButton_ShipmentMoistureHeader_Add
+        </sec:authorize>
         ]
         });
 
@@ -1839,7 +1842,7 @@
         }
     });
 
-    <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_ITEM')">
+    <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
     var ToolStripButton_ShipmentMoistureItem_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1864,7 +1867,7 @@
     });
     </sec:authorize>
 
-    <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_ITEM')">
+    <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_HEADER')">
     var ToolStripButton_ShipmentMoistureItem_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1874,7 +1877,7 @@
     });
     </sec:authorize>
 
-    <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_ITEM')">
+    <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_HEADER')">
     var ToolStripButton_ShipmentMoistureItem_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1888,15 +1891,15 @@
         width: "100%",
         membersMargin: 5,
         members: [
-            <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_ITEM')">
+            <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
             ToolStripButton_ShipmentMoistureItem_Add,
             </sec:authorize>
 
-            <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_ITEM')">
+            <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_HEADER')">
             ToolStripButton_ShipmentMoistureItem_Edit,
             </sec:authorize>
 
-            <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_ITEM')">
+            <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_HEADER')">
             ToolStripButton_ShipmentMoistureItem_Remove,
             </sec:authorize>
 
