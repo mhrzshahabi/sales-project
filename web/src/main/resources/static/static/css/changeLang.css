@@ -39,12 +39,18 @@
     margin-top: auto;
     margin-right: 0px !important;
 }
+.header-title-version h4 {
+    position: absolute;
+    bottom: 2px;
+    left: auto;
+    right: 10px;
+}
 .header-title-top {
     display: flex;
     flex-direction: column;
     justify-content: right;
     align-items: flex-start;
-    margin-left: 11px !important;
+    margin-left: -47px !important;
 }
 .header-logo {
     background-color: #fe9d2a;
@@ -76,4 +82,7 @@
     -o-transform: scale(-1, -1);
     -webkit-transform: scale(-1, -1);
     transform: scale(-1, -1);
+}
+.header-logout-Vlayout {
+    padding-right: 10px;
 }
