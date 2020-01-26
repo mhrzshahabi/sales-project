@@ -900,7 +900,7 @@
 
     document.addEventListener("mousemove", function(event){
         console.log(event.clientY)
-        if(event.clientY <= 0)
+        if(event.clientY <= 2)
         {
             headerLayout.setStyleName('header-top toggle-show')
             MainDesktopMenuH.setStyleName('main-menu toggle-show')
