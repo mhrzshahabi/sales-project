@@ -71,10 +71,10 @@
     background-position: right;
 
 }
-.header-logout, .header-logoutOver, .header-logoutFocused, .header-logoutFocusedOver{
+.header-logout, .header-logoutOver, .header-logoutFocused, .header-logoutFocusedOver, .header-logoutFocusedDown{
     direction: rtl;
 }
-.header-logout img, .header-logoutOver img, .header-logoutFocused img, .header-logoutFocusedOver img{
+.header-logout img, .header-logoutOver img, .header-logoutFocused img, .header-logoutFocusedOver img,  .header-logoutFocusedDown img{
     margin-left: 6px;
 }
 .header-logout img, .header-logoutOver img, .header-logoutFocused img, .header-logoutFocusedOver img{

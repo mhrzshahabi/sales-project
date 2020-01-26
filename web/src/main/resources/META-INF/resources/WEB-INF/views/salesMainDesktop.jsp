@@ -355,10 +355,8 @@
         width: "100%",
         height: 50,
         styleName: "header-top",
-        animateStateChanges: true,
         members: [headerLogo,
           //  headerFlow,
-           // headerExitHLayout
             headerExitHLayout
         ],
     });
