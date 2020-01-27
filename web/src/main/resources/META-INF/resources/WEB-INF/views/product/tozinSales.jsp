@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -303,6 +304,7 @@
         ]
     });
 
+    <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var Menu_ListGrid_Kharid_Konstantere = isc.Menu.create({
         width: 200,
         data: [
@@ -332,6 +334,7 @@
             }
         ]
     });
+    </sec:authorize>
 
     var Menu_ListGrid_Kharid_Zaieat = isc.Menu.create({
         width: 250,
@@ -363,6 +366,7 @@
         ]
     });
 
+    <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var MenuButton_Forosh_Bargiri = isc.MenuButton.create({
         ID: "MenuButton_Forosh_Bargiri",
         autoDraw: false,
@@ -371,7 +375,9 @@
         width: 200,
         menu: Menu_ListGrid_Forosh_Bargiri
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var MenuButton_Kharid_Konstantere = isc.MenuButton.create({
         ID: "MenuButton_Kharid_Konstantere",
         autoDraw: false,
@@ -380,7 +386,9 @@
         width: 200,
         menu: Menu_ListGrid_Kharid_Konstantere
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var MenuButton_Kharid_Zaieat = isc.MenuButton.create({
         ID: "MenuButton_Kharid_Zaieat",
         autoDraw: false,
@@ -389,6 +397,7 @@
         width: 250,
         menu: Menu_ListGrid_Kharid_Zaieat
     });
+    </sec:authorize>
 
     var ToolStripButton_TozinSales_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -402,9 +411,18 @@
         width: "100%",
         membersMargin: 10,
         members: [
+            <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
             MenuButton_Forosh_Bargiri,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
             MenuButton_Kharid_Konstantere,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
             MenuButton_Kharid_Zaieat,
+            </sec:authorize>
+
             DynamicForm_DailyReport_TozinSales,
             isc.ToolStrip.create({
                 width: "100%",
