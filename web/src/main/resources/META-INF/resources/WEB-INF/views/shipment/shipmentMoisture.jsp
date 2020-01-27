@@ -229,7 +229,7 @@
         });
 
 
-
+    <sec:authorize access="hasAuthority('R_SHIPMENT')">
     var MyRestDataSource_ShipmentByMoistureHeader = isc.MyRestDataSource.create(
         {
             fields: [
@@ -430,6 +430,7 @@
                 }],
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
+    </sec:authorize>
 
 
     var ShipmentMoistureItemData = [];
@@ -509,6 +510,7 @@
             testData: ShipmentMoistureItemData,
             clientOnly: true
         });
+
 
     function pasteText(text) {
         var fieldNames = [];
@@ -822,10 +824,13 @@
         return layoutShipmentMoisture;
         }
 
+
     var ListGrid_ShipmentByMoistureHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
+        <sec:authorize access="hasAuthority('R_SHIPMENT')">
         dataSource: MyRestDataSource_ShipmentByMoistureHeader,
+        </sec:authorize>
         styleName: 'expandList',
         autoFetchData: true,
         alternateRecordStyles: true,
@@ -1024,6 +1029,7 @@
         showFilterEditor: true,
         filterOnKeypress: true
     });
+
 
     var HLayout_Grid_ShipmentByMoistureHeader = isc.HLayout.create({
         width: "100%",

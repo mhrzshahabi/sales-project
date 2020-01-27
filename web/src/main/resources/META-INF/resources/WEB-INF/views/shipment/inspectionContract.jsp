@@ -69,6 +69,7 @@
         fetchDataURL: "${contextPath}/api/person/spec-list"
     });
 
+    <sec:authorize access="hasAuthority('R_SHIPMENT')">
     var RestDataSource_Inspection = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -275,6 +276,7 @@
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
+    </sec:authorize>
 
     <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
     var ToolStripButton_InspectionContract_Add = isc.ToolStripButtonAdd.create({
@@ -1037,7 +1039,9 @@
     var ListGrid_Inspection = isc.ListGrid.create({
         width: "100%",
         height: "100%",
+        <sec:authorize access="hasAuthority('R_SHIPMENT')">
         dataSource: RestDataSource_Inspection,
+        </sec:authorize>
         styleName: 'expandList',
         autoFetchData: true,
         alternateRecordStyles: true,
