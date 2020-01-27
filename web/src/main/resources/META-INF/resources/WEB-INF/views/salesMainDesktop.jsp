@@ -355,10 +355,8 @@
         width: "100%",
         height: 50,
         styleName: "header-top",
-        animateStateChanges: true,
         members: [headerLogo,
           //  headerFlow,
-           // headerExitHLayout
             headerExitHLayout
         ],
     });
@@ -712,7 +710,7 @@
                     click: function () {
                         createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
                     }
-                },
+                }/*,
                 {isSeparator: true},
                 {
                     title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
@@ -734,7 +732,7 @@
                         createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
                     }
                 },
-                {isSeparator: true},
+                {isSeparator: true},*/
             ]
         })
     });
@@ -902,7 +900,7 @@
 
     document.addEventListener("mousemove", function(event){
         console.log(event.clientY)
-        if(event.clientY <= 0)
+        if(event.clientY <= 2)
         {
             headerLayout.setStyleName('header-top toggle-show')
             MainDesktopMenuH.setStyleName('main-menu toggle-show')
