@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -97,6 +98,7 @@
                 }
             },
             {isSeparator: true},
+            <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
@@ -105,6 +107,9 @@
                     window.open('${printUrl}' + '/' + toDay);
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
             {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
@@ -113,6 +118,9 @@
                     window.open('${printUrl}' + '/' + toDay);
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
@@ -121,6 +129,7 @@
                     window.open('${printUrl}' + '/' + toDay);
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -132,6 +141,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
     var ToolStripButton_WarehouseStock_Print = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='WarehouseStock.Reportoncommitmentsleadingupto'/>",
         click: function () {
@@ -142,7 +152,9 @@
             window.open('${printUrl}' + '/' + toDay);
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
     var ToolStripButton_WarehouseStock_export_Print = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='WarehouseStock.ReportExport'/>",
         click: function () {
@@ -153,15 +165,23 @@
             window.open('${printUrl}' + '/' + toDay);
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_WarehouseStock = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members:
             [
+                <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
                 ToolStripButton_WarehouseStock_Print,
+                </sec:authorize>
+
                 DynamicForm_WarehouseStock_Tozin,
+
+                <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
                 ToolStripButton_WarehouseStock_export_Print,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
