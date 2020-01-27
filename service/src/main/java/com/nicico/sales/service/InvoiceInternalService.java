@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -36,6 +37,15 @@ public class InvoiceInternalService implements IInvoiceInternalService {
         final InvoiceInternal invoiceInternal = invoiceInternalDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalNotFound));
         return modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class);
+    }
+
+    public List<InvoiceInternalDTO.Info> getIds(List id) {
+        final List<InvoiceInternal>  allByIds= invoiceInternalDAO.findAllById(id);
+        List<InvoiceInternalDTO.Info> invoiceInternalDTOS=new ArrayList<InvoiceInternalDTO.Info>();
+        for (InvoiceInternal invoiceInternal:allByIds ) {
+            invoiceInternalDTOS.add(modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
+        }
+        return invoiceInternalDTOS;
     }
 
     @Transactional(readOnly = true)

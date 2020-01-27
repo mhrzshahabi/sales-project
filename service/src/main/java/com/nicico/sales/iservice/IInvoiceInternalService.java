@@ -11,6 +11,8 @@ public interface IInvoiceInternalService {
 
 	InvoiceInternalDTO.Info get(Long id);
 
+	List<InvoiceInternalDTO.Info> getIds(List id);
+
 	List<InvoiceInternalDTO.Info> list();
 
 	InvoiceInternalDTO.Info create(InvoiceInternalDTO.Create request);
