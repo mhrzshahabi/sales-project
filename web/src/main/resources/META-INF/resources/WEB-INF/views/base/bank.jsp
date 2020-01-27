@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -51,6 +52,7 @@
             fetchDataURL: "${contextPath}/api/bank/spec-list"
         });
 
+
     var RestDataSource_Country_IN_BANK = isc.MyRestDataSource.create(
         {
             fields: [
@@ -79,9 +81,11 @@
             fetchDataURL: "${contextPath}/api/country/spec-list"
         });
 
+
     function ListGrid_Bank_refresh() {
         ListGrid_Bank.invalidateCache();
     }
+
 
     function ListGrid_Bank_edit() {
         var record = ListGrid_Bank.getSelectedRecord();
@@ -166,6 +170,7 @@
         }
     }
 
+
     var Menu_ListGrid_Bank = isc.Menu.create(
         {
             width: 150,
@@ -177,6 +182,7 @@
                         ListGrid_Bank_refresh();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_BANK')">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -185,6 +191,9 @@
                         Window_Bank.show();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_BANK')">
                 {
                     title: "<spring:message code='global.form.edit'/>",
                     icon: "pieces/16/icon_edit.png",
@@ -192,14 +201,19 @@
                         ListGrid_Bank_edit();
                     }
                 },
-                {
+                </sec:authorize>
+
+                    <sec:authorize access="hasAuthority('D_BANK')">{
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
                     click: function () {
                         ListGrid_Bank_remove();
                     }
-                }]
+                }
+                </sec:authorize>
+            ]
         });
+
 
     var DynamicForm_Bank = isc.DynamicForm.create(
         {
@@ -220,6 +234,9 @@
                 {
                     name: "id",
                     hidden: true
+                },
+                {
+                    type: "RowSpacerItem"
                 },
                 {
                     name: "bankCode",
@@ -309,9 +326,13 @@
                             colSpan: 1,
                             titleColSpan: 1
                         }]
-                }
+                },
+                {
+                    type: "RowSpacerItem"
+                },
             ]
         });
+
 
     var ToolStripButton_Bank_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -321,6 +342,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_BANK')">
     var ToolStripButton_Bank_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -329,7 +351,9 @@
             Window_Bank.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_BANK')">
     var ToolStripButton_Bank_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -337,7 +361,9 @@
             ListGrid_Bank_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_BANK')">
     var ToolStripButton_Bank_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -345,14 +371,24 @@
             ListGrid_Bank_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Bank = isc.ToolStrip.create(
         {
             width: "100%",
             members: [
+                <sec:authorize access="hasAuthority('C_BANK')">
                 ToolStripButton_Bank_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_BANK')">
                 ToolStripButton_Bank_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_BANK')">
                 ToolStripButton_Bank_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create(
                     {
                         width: "100%",
@@ -365,6 +401,7 @@
 
             ]
         });
+
 
     var HLayout_Bank_Actions = isc.HLayout.create({
         width: "100%",
@@ -411,6 +448,7 @@
         {
             title: "<spring:message code='bank.title'/> ",
             width: 580,
+// height: 500,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -447,6 +485,7 @@
                     })
             ]
         });
+
 
     var ListGrid_Bank = isc.ListGrid.create(
         {

@@ -50,7 +50,10 @@
     flex-direction: column;
     justify-content: right;
     align-items: flex-start;
-    margin-left: -47px !important;
+    margin-left: -32px !important;
+}
+.header-title-top h3{
+    font-size: 11px;
 }
 .header-logo {
     background-color: #fe9d2a;
@@ -71,10 +74,10 @@
     background-position: right;
 
 }
-.header-logout, .header-logoutOver, .header-logoutFocused, .header-logoutFocusedOver{
+.header-logout, .header-logoutOver, .header-logoutFocused, .header-logoutFocusedOver, .header-logoutFocusedDown{
     direction: rtl;
 }
-.header-logout img, .header-logoutOver img, .header-logoutFocused img, .header-logoutFocusedOver img{
+.header-logout img, .header-logoutOver img, .header-logoutFocused img, .header-logoutFocusedOver img,  .header-logoutFocusedDown img{
     margin-left: 6px;
 }
 .header-logout img, .header-logoutOver img, .header-logoutFocused img, .header-logoutFocusedOver img{

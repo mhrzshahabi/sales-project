@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -275,6 +276,7 @@
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
 
+    <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
     var ToolStripButton_InspectionContract_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -303,8 +305,9 @@
             }
         }
     });
+    </sec:authorize>
 
-
+    <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
     var ToolStripButton_InspectionContract_PrintWord = isc.ToolStripButtonPrint.create({
         icon: "pieces/512/word.png",
         title: "<spring:message code='global.form.print.inspection'/>",
@@ -312,6 +315,7 @@
             check_Insp_Print();
         }
     });
+    </sec:authorize>
 
     var recordNotFound = isc.Label.create({
         height: 30,
@@ -357,13 +361,26 @@
             align: "center", padding: 5,
             membersMargin: 20,
             members: [
-                ToolStripButton_InspectionContract_Add, ToolStripButton_InspectionContract_PrintWord
+                <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
+                ToolStripButton_InspectionContract_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
+                ToolStripButton_InspectionContract_PrintWord
+                </sec:authorize>
             ]
         });
 
         HLayout_InspectionContract_Grid.show();
+
+        <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
         ToolStripButton_InspectionContract_Add.show();
+        </sec:authorize>
+
+        <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
         ToolStripButton_InspectionContract_PrintWord.show();
+        </sec:authorize>
+
         var layoutInspectionContract = isc.VLayout.create({
             styleName: "expand-layout",
             padding: 5,
@@ -655,6 +672,7 @@
                         Window_InspectionContract.show();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -664,6 +682,7 @@
                         Window_InspectionContract.show();
                     }
                 },
+                </sec:authorize>
                 <%--{--%>
                 <%--	title: "<spring:message code='global.form.edit'/>",--%>
                 <%--	icon: "pieces/16/icon_edit.png",--%>
@@ -673,6 +692,8 @@
                 <%--		ListGrid_InspectionContract_edit();--%>
                 <%--	}--%>
                 <%--},--%>
+
+                <sec:authorize access="hasAuthority('D_INSPECTION_CONTRACT')">
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
@@ -680,12 +701,17 @@
                         ListGrid_InspectionContract_remove();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
                 {
                     title: "<spring:message code='global.form.print.inspection'/>",
                     click: function () {
                         check_Insp_Print();
                     }
-                }]
+                }
+                </sec:authorize>
+                ]
         });
 
     var Window_InspectionContractEmailCC = isc.Window.create({
@@ -1301,5 +1327,10 @@
             HLayout_Inspection_Grid
         ]
     });
+    <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
     ToolStripButton_InspectionContract_Add.hide();
+    </sec:authorize>
+
+    <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
     ToolStripButton_InspectionContract_PrintWord.hide();
+    </sec:authorize>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -8,6 +9,7 @@
     function ListGrid_Instruction_refresh() {
         ListGrid_Instruction.invalidateCache();
     }
+
 
     function ListGrid_Instruction_edit() {
         var record = ListGrid_Instruction.getSelectedRecord();
@@ -34,6 +36,7 @@
             Window_Instruction.show();
         }
     }
+
 
     function ListGrid_Instruction_remove() {
         var record = ListGrid_Instruction.getSelectedRecord();
@@ -93,6 +96,7 @@
         }
     }
 
+
     var Menu_ListGrid_Instruction = isc.Menu.create(
         {
             width: 150,
@@ -104,6 +108,7 @@
                         ListGrid_Instruction_refresh();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_INSTRUCTION')">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -112,6 +117,9 @@
                         Window_Instruction.show();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_INSTRUCTION')">
                 {
                     title: "<spring:message code='global.form.edit'/>",
                     icon: "pieces/16/icon_edit.png",
@@ -119,14 +127,20 @@
                         ListGrid_Instruction_edit();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_INSTRUCTION')">
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
                     click: function () {
                         ListGrid_Instruction_remove();
                     }
-                }]
+                }
+                </sec:authorize>
+            ]
         });
+
 
     var DynamicForm_Instruction = isc.DynamicForm.create(
         {
@@ -147,6 +161,9 @@
                 {
                     name: "id",
                     hidden: true
+                },
+                {
+                    type: "RowSpacerItem"
                 },
                 {
                     name: "id",
@@ -176,8 +193,12 @@
                     width: 400,
                     align: "center",
                     type: "date"
+                },
+                {
+                    type: "RowSpacerItem"
                 }]
         });
+
 
     var ToolStripButton_Instruction_Refresh = isc.ToolStripButtonRefresh.create(
         {
@@ -188,6 +209,7 @@
             }
         });
 
+    <sec:authorize access="hasAuthority('C_INSTRUCTION')">
     var ToolStripButton_Instruction_Add = isc.ToolStripButtonAdd.create(
         {
             icon: "[SKIN]/actions/add.png",
@@ -197,7 +219,9 @@
                 Window_Instruction.show();
             }
         });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_INSTRUCTION')">
     var ToolStripButton_Instruction_Edit = isc.ToolStripButtonEdit.create(
         {
             icon: "[SKIN]/actions/edit.png",
@@ -207,7 +231,9 @@
                 ListGrid_Instruction_edit();
             }
         });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_INSTRUCTION')">
     var ToolStripButton_Instruction_Remove = isc.ToolStripButtonRemove.create(
         {
             icon: "[SKIN]/actions/remove.png",
@@ -216,14 +242,24 @@
                 ListGrid_Instruction_remove();
             }
         });
+    </sec:authorize>
 
     var ToolStrip_Actions_Instruction = isc.ToolStrip.create(
         {
             width: "100%",
             members: [
+                <sec:authorize access="hasAuthority('C_INSTRUCTION')">
                 ToolStripButton_Instruction_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_INSTRUCTION')">
                 ToolStripButton_Instruction_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_INSTRUCTION')">
                 ToolStripButton_Instruction_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create(
                     {
                         width: "100%",
@@ -274,6 +310,7 @@
             fetchDataURL: "${contextPath}/api/instruction/spec-list"
         });
 
+
     var IButton_Instruction_Save = isc.IButtonSave.create(
         {
             top: 260,
@@ -288,6 +325,19 @@
                     return;
                 DynamicForm_Instruction.setValue("disableDate", DynamicForm_Instruction.getValue("disableDate").toNormalDate("toUSShortDate"));
                 DynamicForm_Instruction.setValue("runDate", DynamicForm_Instruction.getValue("runDate").toNormalDate("toUSShortDate"));
+
+                /*if (d < dRun)
+                {
+                isc.warn("
+
+                <spring:message code='instruction.date.validation'/>",
+{
+title: "
+
+                <spring:message code='dialog_WarnTitle'/>"
+});
+return;
+}*/
 
                 var data = DynamicForm_Instruction.getValues();
                 var methodXXXX = "PUT";
@@ -310,6 +360,7 @@
             }
         });
 
+
     var InstructionCancelBtn = isc.IButtonCancel.create(
         {
             top: 260,
@@ -323,6 +374,7 @@
             }
         });
 
+
     var HLayout_Instruction_IButton = isc.HLayout.create(
         {
             layoutMargin: 5,
@@ -334,9 +386,11 @@
             ]
         });
 
+
     var Window_Instruction = isc.Window.create({
         title: "<spring:message code='instruction.title'/> ",
         width: 580,
+// height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -353,6 +407,7 @@
                 HLayout_Instruction_IButton
             ]
     });
+
 
     var ListGrid_Instruction = isc.ListGrid.create(
         {
@@ -392,6 +447,7 @@
             filterOnKeypress: true
 
         });
+
 
     var HLayout_Instruction_Grid = isc.HLayout.create(
         {

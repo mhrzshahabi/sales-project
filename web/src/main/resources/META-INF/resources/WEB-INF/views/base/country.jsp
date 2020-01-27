@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -34,9 +35,11 @@
             fetchDataURL: "${contextPath}/api/country/spec-list"
         });
 
+
     function ListGrid_Country_refresh() {
         ListGrid_Country.invalidateCache();
     }
+
 
     function ListGrid_Country_edit() {
         var record = ListGrid_Country.getSelectedRecord();
@@ -56,6 +59,7 @@
             Window_Country.show();
         }
     }
+
 
     function ListGrid_Country_remove() {
         var record = ListGrid_Country.getSelectedRecord();
@@ -112,6 +116,7 @@
         }
     }
 
+
     var Menu_ListGrid_Country = isc.Menu.create({
         width: 150,
         data: [
@@ -121,6 +126,7 @@
                     ListGrid_Country_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_COUNTRY')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -128,20 +134,28 @@
                     Window_Country.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_COUNTRY')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Country_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_COUNTRY')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Country_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
+
 
     var DynamicForm_Country = isc.DynamicForm.create(
         {
@@ -162,6 +176,9 @@
                 {
                     name: "id",
                     hidden: true,
+                },
+                {
+                    type: "RowSpacerItem"
                 },
                 {
                     name: "code",
@@ -191,9 +208,13 @@
                     required: true,
                     keyPressFilter: "[a-z|A-Z|0-9.]",
                     titleColSpan: 1
-                }
+                },
+                {
+                    type: "RowSpacerItem"
+                },
             ]
         });
+
 
     var ToolStripButton_Country_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -203,6 +224,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_COUNTRY')">
     var ToolStripButton_Country_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -211,7 +233,9 @@
             Window_Country.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_COUNTRY')">
     var ToolStripButton_Country_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -220,7 +244,9 @@
             ListGrid_Country_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_COUNTRY')">
     var ToolStripButton_Country_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -228,14 +254,24 @@
             ListGrid_Country_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Country = isc.ToolStrip.create(
         {
             width: "100%",
             members: [
+                <sec:authorize access="hasAuthority('C_COUNTRY')">
                 ToolStripButton_Country_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_COUNTRY')">
                 ToolStripButton_Country_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_COUNTRY')">
                 ToolStripButton_Country_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create(
                     {
                         width: "100%",
@@ -278,7 +314,7 @@
                         callback: function (resp) {
                             if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
-                                //resp.setHeader('Cache-Control', 'no-cache');
+//resp.setHeader('Cache-Control', 'no-cache');
                                 ListGrid_Country_refresh();
                                 Window_Country.close();
                             }
@@ -311,10 +347,12 @@
         ]
     });
 
+
     var Window_Country = isc.Window.create(
         {
             title: "<spring:message code='country.title'/> ",
             width: 580,
+// height: 500,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -330,6 +368,7 @@
                 HLayout_Country_IButton
             ]
         });
+
 
     var ListGrid_Country = isc.ListGrid.create(
         {
@@ -386,3 +425,4 @@
                 HLayout_Country_Actions, HLayout_Country_Grid
             ]
         });
+

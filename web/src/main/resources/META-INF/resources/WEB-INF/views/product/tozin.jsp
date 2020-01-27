@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -325,7 +326,7 @@
         ]
     });
 
-
+    <sec:authorize access="hasAuthority('O_TOZIN')">
     var MenuButton_Tozin = isc.MenuButton.create({
         ID: "MenuButton_Tozin",
         autoDraw: false,
@@ -334,6 +335,7 @@
         width: 125,
         menu: Menu_ListGrid_Tozin
     });
+    </sec:authorize>
 
     var ToolStripButton_Tozin_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -348,7 +350,9 @@
         membersMargin: 10,
         members:
             [
+                <sec:authorize access="hasAuthority('O_TOZIN')">
                 MenuButton_Tozin,
+                </sec:authorize>
                 DynamicForm_DailyReport_Tozin,
                 isc.ToolStrip.create({
                     width: "100%",

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
@@ -253,6 +254,7 @@ var ListGrid_Cad = isc.ListGrid.create({
             ]
     });
 
+    <sec:authorize access="hasAuthority('C_CONTRACT')">
     var ToolStripButton_ContactCad_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -264,7 +266,9 @@ var ListGrid_Cad = isc.ListGrid.create({
             },250)
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_CONTRACT')">
     var ToolStripButton_ContactCad_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -364,14 +368,7 @@ var ListGrid_Cad = isc.ListGrid.create({
             })},300)
         }
     }});
-
-
-
-
-
-
-
-
+    </sec:authorize>
 
 
 function Contract_Cathod_remove() {
@@ -460,8 +457,14 @@ function deleteFromContractShipment(id){
     var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
             membersMargin: 5,
             members: [
+
+                <sec:authorize access="hasAuthority('C_CONTRACT')">
                 ToolStripButton_ContactCad_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CONTRACT')">
                 ToolStripButton_ContactCad_Edit,
+                </sec:authorize>
 
                 isc.ToolStrip.create({
                 width: "100%",

@@ -1,6 +1,7 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
@@ -319,6 +320,8 @@
                             {name: "contact.nameFA",showTitle:"true",width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
                         ]
                         });
+
+    <sec:authorize access="hasAuthority('C_CONTRACT')">
     var ToolStripButton_ContactMo_Add = isc.ToolStripButtonAdd.create({
                             icon: "[SKIN]/actions/add.png",
                             title: "<spring:message code='global.form.new'/>",
@@ -340,7 +343,10 @@
                                     lotList.fetchData(RestDataSource_ShipmentContractUsed);
                             }
                     });
-                    var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
+    </sec:authorize>
+
+    <sec:authorize access="hasAuthority('U_CONTRACT')">
+    var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
                             icon: "[SKIN]/actions/edit.png",
                             title: "<spring:message code='global.form.edit'/>",
                             click: function () {
@@ -615,6 +621,7 @@
                                 lotList.fetchData(criterialotList);
                             }
                             }});
+    </sec:authorize>
 
                     var ToolStripButton_Contact_Remove= isc.ToolStripButtonRemove.create({
                             icon: "[SKIN]/actions/remove.png",
@@ -702,8 +709,15 @@
                         height: "100%",
                         membersMargin: 5,
                         members: [
+
+                            <sec:authorize access="hasAuthority('C_CONTRACT')">
                             ToolStripButton_ContactMo_Add,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('U_CONTRACT')">
                             ToolStripButton_ContactMo_Edit,
+                            </sec:authorize>
+
                             isc.ToolStrip.create({
                             width: "100%",
                             align: "left",
