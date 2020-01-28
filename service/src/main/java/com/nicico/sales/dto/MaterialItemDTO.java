@@ -21,56 +21,56 @@ public class MaterialItemDTO {
     private String gdsName;
     private Long materialId;
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("MaterialItemInfo")
-	public static class Info extends MaterialItemDTO {
-		private Long id;
-		private MaterialDTO material;
-		private Date createdDate;
-		private String createdBy;
-		private Date lastModifiedDate;
-		private String lastModifiedBy;
-		private Integer version;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("MaterialItemInfo")
+    public static class Info extends MaterialItemDTO {
+        private Long id;
+        private MaterialDTO material;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("MaterialItemCreateRq")
-	public static class Create extends MaterialItemDTO {
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("MaterialItemCreateRq")
+    public static class Create extends MaterialItemDTO {
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("MaterialItemUpdateRq")
-	public static class Update extends MaterialItemDTO {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Long id;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("MaterialItemUpdateRq")
+    public static class Update extends MaterialItemDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long id;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("MaterialItemDeleteRq")
-	public static class Delete {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private List<Long> ids;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("MaterialItemDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public static class SpecRs {
-		private List<MaterialItemDTO.Info> data;
-		private Integer status;
-		private Integer startRow;
-		private Integer endRow;
-		private Integer totalRows;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class SpecRs {
+        private List<MaterialItemDTO.Info> data;
+        private Integer status;
+        private Integer startRow;
+        private Integer endRow;
+        private Integer totalRows;
+    }
 }

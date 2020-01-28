@@ -2,24 +2,23 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.RateDTO;
 
 import java.util.List;
 
 public interface IRateService {
 
-	RateDTO.Info get(Long id);
+    RateDTO.Info get(Long id);
 
-	List<RateDTO.Info> list();
+    List<RateDTO.Info> list();
 
-	RateDTO.Info create(RateDTO.Create request);
+    RateDTO.Info create(RateDTO.Create request);
 
-	RateDTO.Info update(Long id, RateDTO.Update request);
+    RateDTO.Info update(Long id, RateDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(RateDTO.Delete request);
+    void delete(RateDTO.Delete request);
 
-	TotalResponse<RateDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<RateDTO.Info> search(NICICOCriteria criteria);
 }

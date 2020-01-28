@@ -2,24 +2,23 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.InvoiceInternalCustomerDTO;
 
 import java.util.List;
 
 public interface IInvoiceInternalCustomerService {
 
-	InvoiceInternalCustomerDTO.Info get(Long id);
+    InvoiceInternalCustomerDTO.Info get(Long id);
 
-	List<InvoiceInternalCustomerDTO.Info> list();
+    List<InvoiceInternalCustomerDTO.Info> list();
 
-	InvoiceInternalCustomerDTO.Info create(InvoiceInternalCustomerDTO.Create request);
+    InvoiceInternalCustomerDTO.Info create(InvoiceInternalCustomerDTO.Create request);
 
-	InvoiceInternalCustomerDTO.Info update(Long id, InvoiceInternalCustomerDTO.Update request);
+    InvoiceInternalCustomerDTO.Info update(Long id, InvoiceInternalCustomerDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(InvoiceInternalCustomerDTO.Delete request);
+    void delete(InvoiceInternalCustomerDTO.Delete request);
 
-	TotalResponse<InvoiceInternalCustomerDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<InvoiceInternalCustomerDTO.Info> search(NICICOCriteria criteria);
 }

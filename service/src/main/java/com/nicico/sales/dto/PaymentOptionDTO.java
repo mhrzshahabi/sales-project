@@ -17,57 +17,57 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentOptionDTO {
 
-	private String namePay;
+    private String namePay;
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("PaymentOptionInfo")
-	public static class Info extends PaymentOptionDTO {
-		private Long id;
-		private Date createdDate;
-		private String createdBy;
-		private Date lastModifiedDate;
-		private String lastModifiedBy;
-		private Integer version;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("PaymentOptionInfo")
+    public static class Info extends PaymentOptionDTO {
+        private Long id;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("PaymentOptionCreateRq")
-	public static class Create extends PaymentOptionDTO {
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("PaymentOptionCreateRq")
+    public static class Create extends PaymentOptionDTO {
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("PaymentOptionUpdateRq")
-	public static class Update extends PaymentOptionDTO {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Long id;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("PaymentOptionUpdateRq")
+    public static class Update extends PaymentOptionDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long id;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("PaymentOptionDeleteRq")
-	public static class Delete {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private List<Long> ids;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("PaymentOptionDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public static class SpecRs {
-		private List<PaymentOptionDTO.Info> data;
-		private Integer status;
-		private Integer startRow;
-		private Integer endRow;
-		private Integer totalRows;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class SpecRs {
+        private List<PaymentOptionDTO.Info> data;
+        private Integer status;
+        private Integer startRow;
+        private Integer endRow;
+        private Integer totalRows;
+    }
 }
