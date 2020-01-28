@@ -634,20 +634,23 @@
 
     isc.VLayout.create({
         width: 810,
-        height: 800,
+        height: 900,
         members: [
             DynamicForm_warehouseCAD,
             add_bundle_button,
             ListGrid_WarehouseCadItem,
             isc.HLayout.create({
                 width: "100%",
+                align: "center",
+                margin: 10,
+                padding: 20,
                 members:
                     [
                         IButton_warehouseCAD_Save,
                         isc.Label.create({
                             width: 5,
                         }),
-                        /*isc.IButtonCancel.create({
+                        isc.IButtonCancel.create({
                             ID: "warehouseCADEditExitIButton",
                             title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -656,7 +659,7 @@
                                 click: function () {
                                     Window_Bijack.close();
                                 }
-                            })*/
+                            })
                     ]
             })
         ]

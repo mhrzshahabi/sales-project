@@ -104,15 +104,15 @@
     isc.ViewLoader.create({
         ID: "BijackViewLoader",
         width: 830,
-        height: 700,
+        height: 800,
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
 
     var Window_Bijack = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
-        width: 830,
-        height: 700,
+        width: 810,
+        height: 800,
         autoSize: true,
         autoCenter: true,
         isModal: true,

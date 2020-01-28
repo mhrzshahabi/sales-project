@@ -455,7 +455,7 @@
     isc.ViewLoader.create({
         ID: "BijackViewLoader",
         width: 830,
-        height: 730,
+        height: 800,
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
@@ -491,11 +491,9 @@
         errorOrientation: "right",
         titleWidth: "100",
         titleAlign: "right",
-        //backgroundImage: "backgrounds/leaves.jpg",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [
-
             {
                 name: "id",
                 title: "id",

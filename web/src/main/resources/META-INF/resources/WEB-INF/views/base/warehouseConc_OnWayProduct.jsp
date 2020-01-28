@@ -283,17 +283,19 @@
     });
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 4,
+    placement: "fillScreen",
+    setMethod: 'POST',
+    align: "center",
+    layoutAlign: "center",
+    canSubmit: true,
+    showInlineErrors: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    errorOrientation: "right",
+    titleWidth: "110",
+    titleAlign: "right",
+    requiredMessage: "<spring:message code='validator.field.is.required'/>",
+    numCols: 4,
         fields: [{
             name: "id",
             title: "id",
@@ -382,8 +384,8 @@
             optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
             displayField: "tozinPlantId",
             valueField: "tozinPlantId",
-            pickListWidth: "700",
-            pickListHeight: "700",
+            pickListWidth: 650,
+            pickListHeight: 350,
             pickListProperties: {
                 showFilterEditor: true,
                 filterOnKeypress: false
@@ -430,54 +432,97 @@
                     form.getItem("warehouseYardId").setValue("");
                 }
             }
-        }, {
-            name: "sourceLoadDate",
-            title: "<spring:message code='warehouseCad.sourceLoadDate'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1,
-            disabled: true
-        }, {
-            name: "destinationUnloadDate",
-            title: "<spring:message code='warehouseCad.destinationUnloadDate'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1,
-            disabled: true
-        }, {
+        },
+
+
+ {
             name: "rahahanPolompNo",
             title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
             width: 250,
             colSpan: 1,
             titleColSpan: 1
-        }, {
-            name: "herasatPolompNo",
-            title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        }, {
+        },
+
+        {
             name: "containerNo",
-            title: "<spring:message code='warehouseCad.containerNo'/>",
+            title: "<spring:message code='warehouseCad.containerNo'/>", //شماره کانتینر
             width: 250,
             colSpan: 1,
             titleColSpan: 1
-        }, {
+        },
+
+        {
+            name: "herasatPolompNo",
+            title: "<spring:message code='warehouseCad.herasatPolompNo'/>", //شماره پلمپ حراست
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        },
+
+
+        {
+          align: "center",
+          layoutAlign: "center",
+          type: "Header",
+          defaultValue: "<spring:message code='bijack.title.destination.center'/>" ,
+        },
+
+
+
+        {
+        type: "staticText",
+        title: "<b><spring:message code='bijack.title.destination.right'/></b>",
+        wrapTitle: true,
+        width: 90 ,
+        },
+
+        {
+        type: "staticText",
+        title: "<b><spring:message code='bijack.title.destination.left'/></b>",
+        wrapTitle: false,
+        width: 90 ,
+        },
+
+
+       {
+            name: "sourceLoadDate",
+            title: "<spring:message code='warehouseCad.sourceLoadDate'/>", //=تاریخ بارگیری در مبدا
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1,
+            disabled: true
+        },
+
+        {
+            name: "destinationUnloadDate",
+            title: "<spring:message code='warehouseCad.destinationUnloadDate'/>", //تاریخ تخلیه در مقصد
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1,
+            disabled: true
+        },
+        {
             name: "sourceWeight",
-            title: "<spring:message code='warehouseCad.sourceWeight'/>",
+            title: "<spring:message code='warehouseCad.sourceWeight'/>", //وزن مبدا
             width: 250,
             colSpan: 1,
             titleColSpan: 1
         }, {
             name: "destinationWeight",
-            title: "<spring:message code='warehouseCad.destinationWeight'/>",
+            title: "<spring:message code='warehouseCad.destinationWeight'/>", //وزن مقصد
             width: 250,
             colSpan: 1,
             titleColSpan: 1
-        }, {
-            type: "Header",
-            defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
-        }]
+        },
+            {
+                align: "center",
+                layoutAlign: "center",
+                type: "Header",
+                defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
+            }
+
+
+        ]
     });
 
     var IButton_warehouseCAD_Save = isc.IButtonSave.create({
@@ -552,13 +597,18 @@
 
     isc.VLayout.create({
         width: 810,
-        height: 800,
+        height: "100%",
+        padding: 10,
+        margin: 10,
         members: [
             DynamicForm_warehouseCAD,
             add_bundle_button,
             ListGrid_WarehouseCadItem,
             isc.HLayout.create({
                 width: "100%",
+                align: "center",
+                margin: 10,
+                padding: 20,
                 members: [
                     IButton_warehouseCAD_Save,
                     isc.Label.create({
@@ -578,3 +628,5 @@
             })
         ]
     });
+
+
