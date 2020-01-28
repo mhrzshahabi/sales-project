@@ -4,7 +4,6 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.TozinSalesDTO;
 import com.nicico.sales.iservice.ITozinSalesService;
@@ -90,7 +89,7 @@ public class TozinSalesRestController {
             reportUtil.export("/reports/tozin_forosh_bargiri.jasper", params, response);
         } else if (name.equals("Kharid_Konstantere")) {
             reportUtil.export("/reports/tozin_kharid_konstantere.jasper", params, response);
-        }else if (name.equals("Kharid_Zaieat")) {
+        } else if (name.equals("Kharid_Zaieat")) {
             reportUtil.export("/reports/tozin_kharid_zayeat.jasper", params, response);
         }
     }

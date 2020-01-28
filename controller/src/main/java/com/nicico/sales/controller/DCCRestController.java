@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.file.FileInfo;
 import com.nicico.sales.dto.DCCDTO;
 import com.nicico.sales.iservice.IDCCService;

@@ -2,7 +2,6 @@ package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.InspectionContractDTO;
 import com.nicico.sales.iservice.IInspectionContractService;
 import lombok.RequiredArgsConstructor;

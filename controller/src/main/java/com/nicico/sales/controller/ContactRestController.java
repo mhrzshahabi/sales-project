@@ -3,7 +3,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContactDTO;
 import com.nicico.sales.iservice.IContactService;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +47,7 @@ public class ContactRestController {
                 + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? "Seller," : "")
                 + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? "AgentSeller," : "")
                 + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? "Agent Buyer," : "");
-        request.setCommercialRole(commercialRole.substring(0,commercialRole.length()-1));
+        request.setCommercialRole(commercialRole.substring(0, commercialRole.length() - 1));
         return new ResponseEntity<>(contactService.create(request), HttpStatus.CREATED);
     }
 
@@ -63,7 +62,7 @@ public class ContactRestController {
                 + (request.getSeller() != null && request.getSeller().toString().equalsIgnoreCase("true") ? "Seller," : "")
                 + (request.getAgentSeller() != null && request.getAgentSeller().toString().equalsIgnoreCase("true") ? "Agent Seller," : "")
                 + (request.getAgentBuyer() != null && request.getAgentBuyer().toString().equalsIgnoreCase("true") ? "Agent Buyer," : "");
-        request.setCommercialRole(commercialRole.substring(0,commercialRole.length()-1));
+        request.setCommercialRole(commercialRole.substring(0, commercialRole.length() - 1));
         return new ResponseEntity<>(contactService.update(request.getId(), request), HttpStatus.OK);
     }
 
