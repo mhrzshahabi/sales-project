@@ -1,7 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-
 //<script>
+
+    <%@ page contentType="text/html;charset=UTF-8" %>
+    <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+    <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
@@ -174,6 +175,7 @@
         fetchDataURL: "${contextPath}/api/shipmentContract/spec-list"
     });
 
+
     var IButton_ShipmentContract_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -220,6 +222,7 @@
         ListGrid_ShipmentContract.invalidateCache();
     }
 
+
     function ListGrid_ShipmentContract_edit() {
         var record = ListGrid_ShipmentContract.getSelectedRecord();
         if (record == null || record.id == null) {
@@ -241,6 +244,7 @@
             Window_ShipmentContract.animateShow();
         }
     }
+
 
     function ListGrid_ShipmentContract_remove() {
 
@@ -302,6 +306,7 @@
         }
     }
 
+
     var Menu_ListGrid_ShipmentContract_In_ShipmentContract = isc.Menu.create({
         width: 150,
         data: [{
@@ -312,6 +317,7 @@
                 ListGrid_ShipmentContract.invalidateCache();
             }
         },
+            <sec:authorize access="hasAuthority('C_SHIPMENT_CONTRACT')">
             {
                 title: "<spring:message code='global.form.new'/>",
                 icon: "pieces/16/icon_add.png",
@@ -320,6 +326,9 @@
                     Window_ShipmentContract.animateShow();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_SHIPMENT_CONTRACT')">
             {
                 title: "<spring:message code='global.form.edit'/>",
                 icon: "pieces/16/icon_edit.png",
@@ -328,6 +337,9 @@
                     ListGrid_ShipmentContract_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_SHIPMENT_CONTRACT')">
             {
                 title: "<spring:message code='global.form.remove'/>",
                 icon: "pieces/16/icon_delete.png",
@@ -336,6 +348,7 @@
                     ListGrid_ShipmentContract_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -599,6 +612,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_SHIPMENT_CONTRACT')">
     var ToolStripButton_ShipmentContract_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -608,7 +622,9 @@
             Window_ShipmentContract.animateShow();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_SHIPMENT_CONTRACT')">
     var ToolStripButton_ShipmentContract_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -616,7 +632,9 @@
             ListGrid_ShipmentContract_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_SHIPMENT_CONTRACT')">
     var ToolStripButton_ShipmentContract_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -624,15 +642,26 @@
             ListGrid_ShipmentContract_remove();
         }
     });
+    </sec:authorize>
+
 
     var ToolStrip_Actions_ShipmentContract = isc.ToolStrip.create(
         {
             width: "100%",
             membersMargin: 5,
             members: [
+                <sec:authorize access="hasAuthority('C_SHIPMENT_CONTRACT')">
                 ToolStripButton_ShipmentContract_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_SHIPMENT_CONTRACT')">
                 ToolStripButton_ShipmentContract_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_SHIPMENT_CONTRACT')">
                 ToolStripButton_ShipmentContract_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create(
                     {
                         width: "100%",
@@ -725,6 +754,7 @@
         showFilterEditor: true,
         filterOnKeypress: true
     });
+
 
     var HLayout_ShipmentContract_Grid = isc.HLayout.create({
         width: "100%",

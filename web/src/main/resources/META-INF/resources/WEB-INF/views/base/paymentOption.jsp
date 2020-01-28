@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -86,6 +87,7 @@
         }
     }
 
+
     var Menu_ListGrid_PaymentOption = isc.Menu.create({
         width: 150,
         data: [
@@ -95,6 +97,7 @@
                     ListGrid_PaymentOption_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_PAYMENT_OPTION')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -102,20 +105,28 @@
                     Window_PaymentOption.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_PAYMENT_OPTION')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_PaymentOption_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_PAYMENT_OPTION')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_PaymentOption_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
+
 
     var DynamicForm_PaymentOption = isc.DynamicForm.create({
         width: "100%",
@@ -134,6 +145,7 @@
         fields:
             [
                 {name: "id", hidden: true,},
+                {type: "RowSpacerItem"},
                 {
                     name: "namePay",
                     title: "<spring:message code='paymentOption.payName'/>",
@@ -141,7 +153,8 @@
                     width: 500,
                     required: true,
                     length: "255"
-                }
+                },
+                {type: "RowSpacerItem"}
             ]
     });
 
@@ -153,6 +166,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_PAYMENT_OPTION')">
     var ToolStripButton_PaymentOption_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -161,7 +175,9 @@
             Window_PaymentOption.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_PAYMENT_OPTION')">
     var ToolStripButton_PaymentOption_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -170,7 +186,9 @@
             ListGrid_PaymentOption_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_PAYMENT_OPTION')">
     var ToolStripButton_PaymentOption_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -178,14 +196,24 @@
             ListGrid_PaymentOption_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_PaymentOption = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('C_PAYMENT_OPTION')">
                 ToolStripButton_PaymentOption_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_PAYMENT_OPTION')">
                 ToolStripButton_PaymentOption_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_PAYMENT_OPTION')">
                 ToolStripButton_PaymentOption_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -205,7 +233,6 @@
                 ToolStrip_Actions_PaymentOption
             ]
     });
-
     var RestDataSource_PaymentOption = isc.MyRestDataSource.create({
         fields:
             [
@@ -216,6 +243,7 @@
         fetchDataURL: "${contextPath}/api/paymentOption/spec-list"
 
     });
+
 
     var IButton_PaymentOption_Save = isc.IButtonSave.create(
         {
@@ -250,6 +278,7 @@
             }
         });
 
+
     var PaymentOptionCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
@@ -270,10 +299,12 @@
         ]
     });
 
+
     var Window_PaymentOption = isc.Window.create(
         {
             title: "<spring:message code='paymentOption.title'/> ",
             width: 600,
+// height: 200,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -289,6 +320,7 @@
                 HLayout_PaymentOption_IButton
             ]
         });
+
 
     var ListGrid_PaymentOption = isc.ListGrid.create({
         width: "100%",
@@ -313,7 +345,6 @@
         showFilterEditor: true,
         filterOnKeypress: true
     });
-
     var HLayout_PaymentOption_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",

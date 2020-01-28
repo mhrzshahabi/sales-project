@@ -13,9 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,16 +32,25 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
+    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public InvoiceInternalDTO.Info get(Long id) {
         final InvoiceInternal invoiceInternal = invoiceInternalDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalNotFound));
         return modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class);
     }
 
+    public List<InvoiceInternalDTO.Info> getIds(List id) {
+        final List<InvoiceInternal>  allByIds= invoiceInternalDAO.findAllById(id);
+        List<InvoiceInternalDTO.Info> invoiceInternalDTOS=new ArrayList<InvoiceInternalDTO.Info>();
+        for (InvoiceInternal invoiceInternal:allByIds ) {
+            invoiceInternalDTOS.add(modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
+        }
+        return invoiceInternalDTOS;
+    }
+
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
+    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public List<InvoiceInternalDTO.Info> list() {
         final List<InvoiceInternal> slAll = invoiceInternalDAO.findAll();
 
@@ -49,7 +60,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_INVOICE_INTERNAL')")
+    @PreAuthorize("hasAuthority('C_INVOICE_INTERNAL')")
     public InvoiceInternalDTO.Info create(InvoiceInternalDTO.Create request) {
         final InvoiceInternal invoiceInternal = modelMapper.map(request, InvoiceInternal.class);
 
@@ -58,7 +69,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_INVOICE_INTERNAL')")
+    @PreAuthorize("hasAuthority('U_INVOICE_INTERNAL')")
     public InvoiceInternalDTO.Info update(Long id, InvoiceInternalDTO.Update request) {
         final InvoiceInternal invoiceInternal = invoiceInternalDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
@@ -72,14 +83,14 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_INVOICE_INTERNAL')")
+    @PreAuthorize("hasAuthority('D_INVOICE_INTERNAL')")
     public void delete(Long id) {
         invoiceInternalDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_INVOICE_INTERNAL')")
+    @PreAuthorize("hasAuthority('D_INVOICE_INTERNAL')")
     public void delete(InvoiceInternalDTO.Delete request) {
         final List<InvoiceInternal> indices = invoiceInternalDAO.findAllById(request.getIds());
 
@@ -88,7 +99,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
+    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(invoiceInternalDAO, criteria, invoiceInternal -> modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
     }
@@ -96,7 +107,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
+    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public SearchDTO.SearchRs<InvoiceInternalDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(invoiceInternalDAO, request, invoiceInternal -> modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
     }

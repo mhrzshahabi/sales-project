@@ -50,12 +50,27 @@ public class InvoiceInternalRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/list-accounting/{ids}")
+    public ResponseEntity<List<InvoiceInternalDTO.Info>> listAccounting(@PathVariable List<Long> ids) {
+        List<InvoiceInternalDTO.Info> lastIds = invoiceInternalService.getIds(ids);
+        for (InvoiceInternalDTO.Info info : lastIds) {
+            InvoiceInternalCustomerDTO.Info buyer = invoiceInternalCustomerService.getByCustomerId(info.getCustomerId());
+            info.setBuyerName(buyer.getCustomerName());
+            info.setCodeTafsiliNosa(info.getCodeTafsiliNosa());
+            info.setCodeMarkazHazineMahsol(info.getCodeMarkazHazineMahsol());
+        }
+        return new ResponseEntity<>(lastIds, HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/list-accounting")
-    public ResponseEntity<TotalResponse<InvoiceInternalDTO.Info>> listAccounting(@RequestParam MultiValueMap<String, String> criteria) {
-        criteria.set("criteria","{\"fieldName\":\"processId\",\"operator\":\"isNull\"}");
+    public ResponseEntity<TotalResponse<InvoiceInternalDTO.Info>> listAccountingLong(@RequestParam MultiValueMap<String, String> criteria) {
+        // List<InvoiceInternalView> invoiceInternalViews=iInvoiceInternalViewService.list();
+
+        criteria.set("criteria", "{\"fieldName\":\"processId\",\"operator\":\"isNull\"}");
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         TotalResponse<InvoiceInternalDTO.Info> search = invoiceInternalService.search(nicicoCriteria);
-        for(InvoiceInternalDTO.Info info : search.getResponse().getData()){
+        for (InvoiceInternalDTO.Info info : search.getResponse().getData()) {
             InvoiceInternalCustomerDTO.Info buyer = invoiceInternalCustomerService.getByCustomerId(info.getCustomerId());
             info.setBuyerName(buyer.getCustomerName());
             info.setCodeTafsiliNosa(info.getCodeTafsiliNosa());

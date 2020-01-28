@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -15,6 +16,7 @@
                     ListGrid_Rate_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_RATE')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -22,22 +24,30 @@
                     Window_Rate.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_RATE')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Rate_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_RATE')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Rate_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
     var ValuesManager_Rate = isc.ValuesManager.create({});
+
 
     var DynamicForm_Rate = isc.DynamicForm.create(
         {
@@ -59,6 +69,9 @@
                 {
                     name: "id",
                     hidden: true, showIf: "false",
+                },
+                {
+                    type: "RowSpacerItem"
                 },
                 {
                     name: "code",
@@ -105,9 +118,13 @@
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         }]
-                }
+                },
+                {
+                    type: "RowSpacerItem"
+                },
             ]
         });
+
 
     var IButton_Rate_Save = isc.IButtonSave.create({
         top: 260,
@@ -139,6 +156,7 @@
             );
         }
     });
+
 
     var Window_Rate = isc.Window.create({
         title: "<spring:message code='rate.title'/> ",
@@ -262,6 +280,7 @@
         }
     }
 
+
     var ToolStripButton_Rate_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -270,6 +289,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_RATE')">
     var ToolStripButton_Rate_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -278,7 +298,9 @@
             Window_Rate.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_RATE')">
     var ToolStripButton_Rate_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -287,7 +309,9 @@
             ListGrid_Rate_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_RATE')">
     var ToolStripButton_Rate_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -295,22 +319,34 @@
             ListGrid_Rate_remove();
         }
     });
+    </sec:authorize>
+
 
     var ToolStrip_Actions_Rate = isc.ToolStrip.create({
         width: "100%",
-        members: [
-            ToolStripButton_Rate_Add,
-            ToolStripButton_Rate_Edit,
-            ToolStripButton_Rate_Remove,
-            isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Rate_Refresh,
-                ]
-            })
-        ]
+        members:
+            [
+                <sec:authorize access="hasAuthority('C_RATE')">
+                ToolStripButton_Rate_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_RATE')">
+                ToolStripButton_Rate_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_RATE')">
+                ToolStripButton_Rate_Remove,
+                </sec:authorize>
+
+                isc.ToolStrip.create({
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_Rate_Refresh,
+                    ]
+                })
+            ]
     });
 
     var HLayout_Actions_Rate = isc.HLayout.create({
@@ -398,8 +434,10 @@
             dataPageSize: 50,
             autoFetchData: true,
             showFilterEditor: true,
-            filterOnKeypress: true
+            filterOnKeypress: true,
+            startsWithTitle: "tt"
         });
+
 
     var HLayout_Grid_Rate = isc.HLayout.create({
         width: "100%",

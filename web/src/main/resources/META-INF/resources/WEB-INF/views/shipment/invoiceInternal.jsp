@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -79,7 +80,7 @@
         }
     }
 
-
+    <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_html = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.html'/>",
         icon: "icon/html.jpg",
@@ -87,7 +88,9 @@
             ToolStripButton_InvoiceInternal_Html_F();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_Pdf = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.pdf'/>",
         icon: "icon/pdf.png",
@@ -96,6 +99,7 @@
 
         }
     });
+    </sec:authorize>
 
     var ToolStripButton_InvoiceInternal_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -137,7 +141,7 @@
                     ListGrid_InvoiceInternal_refresh();
                 }
             },
-
+            <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
             {
                 title: "<spring:message code='global.form.print.pdf'/>",
                 icon: "icon/pdf.png",
@@ -145,15 +149,18 @@
                     Menu_ListGrid_InvoiceInternal_Pdf_F();
                 }
 
-            }
+            },
+            </sec:authorize>
 
-            , {
+            <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
+            {
                 title: "<spring:message code='global.form.print.html'/>",
                 icon: "icon/html.jpg",
                 click: function () {
                     Menu_ListGrid_InvoiceInternal_Html_F();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -198,8 +205,14 @@
         membersMargin: 5,
         members:
             [
+                <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
                 ToolStripButton_InvoiceInternal_Pdf,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
                 ToolStripButton_InvoiceInternal_html,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",

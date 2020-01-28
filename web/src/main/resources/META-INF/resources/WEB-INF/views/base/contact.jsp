@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -261,6 +262,7 @@
                         ListGrid_Contact_refresh();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_CONTACT')">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -269,6 +271,9 @@
                         Window_Contact.animateShow();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CONTACT')">
                 {
                     title: "<spring:message code='global.form.edit'/>",
                     icon: "pieces/16/icon_edit.png",
@@ -276,13 +281,18 @@
                         ListGrid_Contact_edit();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_CONTACT')">
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
                     click: function () {
                         ListGrid_Contact_remove();
                     }
-                }]
+                }
+                </sec:authorize>
+                ]
         });
 
     var ValuesManager_Contact = isc.ValuesManager.create({});
@@ -849,6 +859,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_CONTACT')">
     var ToolStripButton_Contact_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -857,7 +868,9 @@
             Window_Contact.animateShow();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_CONTACT')">
     var ToolStripButton_Contact_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -865,7 +878,9 @@
             ListGrid_Contact_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_CONTACT')">
     var ToolStripButton_Contact_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -873,6 +888,7 @@
             ListGrid_Contact_remove();
         }
     });
+    </sec:authorize>
 
     var ListGrid_ContactAccount = isc.ListGrid.create(
         {
@@ -1407,15 +1423,16 @@
             autoDraw: true,
             tabs: [
                 {
-                    title: "<spring:message code='global.form.edit'/>",
-                    icon: "pieces/16/icon_edit.png",
-                    pane: editPane
-                },
-                {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
                     pane: createPane
-                }]
+                },
+                {
+                    title: "<spring:message code='global.form.edit'/>",
+                    icon: "pieces/16/icon_edit.png",
+                    pane: editPane
+                }
+                ]
         });
 
     var Button_Delete_Account = isc.IButton.create(
@@ -1580,9 +1597,19 @@
     var ToolStrip_Actions_Contact = isc.ToolStrip.create({
         width: "100%",
         members: [
+
+            <sec:authorize access="hasAuthority('C_CONTACT')">
             ToolStripButton_Contact_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_CONTACT')">
             ToolStripButton_Contact_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_CONTACT')">
             ToolStripButton_Contact_Remove,
+            </sec:authorize>
+
             ToolStripButton_Contact_Accounts,
             isc.ToolStrip.create({
                 width: "100%",

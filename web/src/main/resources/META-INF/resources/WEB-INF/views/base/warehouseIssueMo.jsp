@@ -75,7 +75,9 @@
         },],
         fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
     });
-    //*******************************************************************************
+
+
+    <sec:authorize access="hasAuthority('R_SHIPMENT')">
     var MyRestDataSource_ShipmentByWarehouseIssueMo = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -242,7 +244,7 @@
         }],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
-
+    </sec:authorize>
 
     var recordNotFound = isc.Label.create({
         height: 30,
@@ -303,7 +305,9 @@
     var ListGrid_ShipmentByWarehouseIssueMo = isc.ListGrid.create({
         width: "100%",
         height: "100%",
+        <sec:authorize access="hasAuthority('R_SHIPMENT')">
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueMo,
+        </sec:authorize>
         styleName: 'expandList',
         autoFetchData: true,
         alternateRecordStyles: true,

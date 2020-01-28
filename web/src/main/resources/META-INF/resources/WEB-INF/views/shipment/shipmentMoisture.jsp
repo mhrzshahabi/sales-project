@@ -229,7 +229,7 @@
         });
 
 
-
+    <sec:authorize access="hasAuthority('R_SHIPMENT')">
     var MyRestDataSource_ShipmentByMoistureHeader = isc.MyRestDataSource.create(
         {
             fields: [
@@ -430,6 +430,7 @@
                 }],
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
+    </sec:authorize>
 
 
     var ShipmentMoistureItemData = [];
@@ -509,6 +510,7 @@
             testData: ShipmentMoistureItemData,
             clientOnly: true
         });
+
 
     function pasteText(text) {
         var fieldNames = [];
@@ -822,10 +824,13 @@
         return layoutShipmentMoisture;
         }
 
+
     var ListGrid_ShipmentByMoistureHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
+        <sec:authorize access="hasAuthority('R_SHIPMENT')">
         dataSource: MyRestDataSource_ShipmentByMoistureHeader,
+        </sec:authorize>
         styleName: 'expandList',
         autoFetchData: true,
         alternateRecordStyles: true,
@@ -1024,6 +1029,7 @@
         showFilterEditor: true,
         filterOnKeypress: true
     });
+
 
     var HLayout_Grid_ShipmentByMoistureHeader = isc.HLayout.create({
         width: "100%",
@@ -1842,7 +1848,7 @@
         }
     });
 
-    <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
+    <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_ITEM')">
     var ToolStripButton_ShipmentMoistureItem_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1867,7 +1873,7 @@
     });
     </sec:authorize>
 
-    <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_HEADER')">
+    <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_ITEM')">
     var ToolStripButton_ShipmentMoistureItem_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1877,7 +1883,7 @@
     });
     </sec:authorize>
 
-    <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_HEADER')">
+    <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_ITEM')">
     var ToolStripButton_ShipmentMoistureItem_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1891,15 +1897,15 @@
         width: "100%",
         membersMargin: 5,
         members: [
-            <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
+            <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_ITEM')">
             ToolStripButton_ShipmentMoistureItem_Add,
             </sec:authorize>
 
-            <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_HEADER')">
+            <sec:authorize access="hasAuthority('U_SHIPMENT_MOISTURE_ITEM')">
             ToolStripButton_ShipmentMoistureItem_Edit,
             </sec:authorize>
 
-            <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_HEADER')">
+            <sec:authorize access="hasAuthority('D_SHIPMENT_MOISTURE_ITEM')">
             ToolStripButton_ShipmentMoistureItem_Remove,
             </sec:authorize>
 
