@@ -24,6 +24,4 @@ public interface IWarehouseCadService {
     TotalResponse<WarehouseCadDTO.Info> search(NICICOCriteria nicicoCriteria);
 
     TotalResponse<WarehouseCadDTO.InfoCombo> search1(NICICOCriteria nicicoCriteria);
-
-    SearchDTO.SearchRs<WarehouseCadDTO.Info> search(SearchDTO.SearchRq request);
 }

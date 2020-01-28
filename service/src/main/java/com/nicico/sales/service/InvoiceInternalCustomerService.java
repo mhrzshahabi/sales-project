@@ -99,14 +99,6 @@ public class InvoiceInternalCustomerService implements IInvoiceInternalCustomerS
         return SearchUtil.search(invoiceInternalCustomerDAO, criteria, invoiceInternalCustomer -> modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class));
     }
 
-
-    @Transactional(readOnly = true)
-    @Override
-//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_CUSTOMER')")
-    public SearchDTO.SearchRs<InvoiceInternalCustomerDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(invoiceInternalCustomerDAO, request, invoiceInternalCustomer -> modelMapper.map(invoiceInternalCustomer, InvoiceInternalCustomerDTO.Info.class));
-    }
-
     @Transactional(readOnly = true)
     public InvoiceInternalCustomerDTO.Info getByCustomerId(String id) {
         final InvoiceInternalCustomer invoiceInternalCustomer = invoiceInternalCustomerDAO.findByCustomerId(id)

@@ -21,7 +21,5 @@ public interface IIncotermsService {
 
 	void delete(IncotermsDTO.Delete request);
 
-	SearchDTO.SearchRs<IncotermsDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<IncotermsDTO.Info> search(NICICOCriteria criteria);
 }

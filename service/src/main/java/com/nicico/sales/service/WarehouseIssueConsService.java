@@ -94,13 +94,6 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
         return SearchUtil.search(warehouseIssueConsDAO, criteria, warehouseIssueCons -> modelMapper.map(warehouseIssueCons, WarehouseIssueConsDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CONS')")
-    public SearchDTO.SearchRs<WarehouseIssueConsDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseIssueConsDAO, request, entity -> modelMapper.map(entity, WarehouseIssueConsDTO.Info.class));
-    }
-
     private WarehouseIssueConsDTO.Info save(WarehouseIssueCons warehouseIssueCons, WarehouseIssueCons oldIssueCons) {
         Double oldAmountSarcheshmeh = (oldIssueCons != null) ? oldIssueCons.getAmountSarcheshmeh() : 0D;
         Double oldAmountMiduk = (oldIssueCons != null) ? oldIssueCons.getAmountMiduk() : 0D;

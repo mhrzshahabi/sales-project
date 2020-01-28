@@ -99,14 +99,6 @@ public class InvoiceInternalLcService implements IInvoiceInternalLcService {
         return SearchUtil.search(invoiceInternalLcDAO, criteria, invoiceInternalLc -> modelMapper.map(invoiceInternalLc, InvoiceInternalLcDTO.Info.class));
     }
 
-
-    @Transactional(readOnly = true)
-    @Override
-//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL_LC')")
-    public SearchDTO.SearchRs<InvoiceInternalLcDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(invoiceInternalLcDAO, request, invoiceInternalLc -> modelMapper.map(invoiceInternalLc, InvoiceInternalLcDTO.Info.class));
-    }
-
     private InvoiceInternalLcDTO.Info save(InvoiceInternalLc invoiceInternalLc) {
         final InvoiceInternalLc saved = invoiceInternalLcDAO.saveAndFlush(invoiceInternalLc);
         return modelMapper.map(saved, InvoiceInternalLcDTO.Info.class);

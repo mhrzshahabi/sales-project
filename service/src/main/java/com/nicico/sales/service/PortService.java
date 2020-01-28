@@ -91,13 +91,6 @@ public class PortService implements IPortService {
         return SearchUtil.search(portDAO, criteria, port -> modelMapper.map(port, PortDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_PORT')")
-    public SearchDTO.SearchRs<PortDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(portDAO, request, port -> modelMapper.map(port, PortDTO.Info.class));
-    }
-
     private PortDTO.Info save(Port port) {
         final Port saved = portDAO.saveAndFlush(port);
         return modelMapper.map(saved, PortDTO.Info.class);

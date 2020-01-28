@@ -69,12 +69,4 @@ public class ContractShipmentRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractShipmentService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<ContractShipmentDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(contractShipmentService.search(request), HttpStatus.OK);
-    }
-
 }

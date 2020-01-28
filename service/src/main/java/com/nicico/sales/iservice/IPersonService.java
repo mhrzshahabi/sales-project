@@ -21,7 +21,5 @@ public interface IPersonService {
 
 	void delete(PersonDTO.Delete request);
 
-	SearchDTO.SearchRs<PersonDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<PersonDTO.Info> search(NICICOCriteria criteria);
 }

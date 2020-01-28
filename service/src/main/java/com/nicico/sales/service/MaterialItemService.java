@@ -91,13 +91,6 @@ public class MaterialItemService implements IMaterialItemService {
         return SearchUtil.search(materialItemDAO, criteria, materialItem -> modelMapper.map(materialItem, MaterialItemDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_MATERIAL_ITEM')")
-    public SearchDTO.SearchRs<MaterialItemDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(materialItemDAO, request, entity -> modelMapper.map(entity, MaterialItemDTO.Info.class));
-    }
-
     private MaterialItemDTO.Info save(MaterialItem materialItem) {
         final MaterialItem saved = materialItemDAO.saveAndFlush(materialItem);
         return modelMapper.map(saved, MaterialItemDTO.Info.class);

@@ -69,10 +69,4 @@ public class CountryRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(countryService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<CountryDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(countryService.search(request), HttpStatus.OK);
-    }
 }

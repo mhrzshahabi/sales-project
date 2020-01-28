@@ -69,10 +69,4 @@ public class PersonRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(personService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<PersonDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(personService.search(request), HttpStatus.OK);
-    }
 }

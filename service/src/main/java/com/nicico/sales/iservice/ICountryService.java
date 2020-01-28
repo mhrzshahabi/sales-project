@@ -21,7 +21,5 @@ public interface ICountryService {
 
 	void delete(CountryDTO.Delete request);
 
-	SearchDTO.SearchRs<CountryDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<CountryDTO.Info> search(NICICOCriteria criteria);
 }

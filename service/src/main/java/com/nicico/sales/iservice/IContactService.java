@@ -22,6 +22,4 @@ public interface IContactService {
     void delete(ContactDTO.Delete request);
 
     TotalResponse<ContactDTO.Info> search(NICICOCriteria criteria);
-
-    SearchDTO.SearchRs<ContactDTO.Info> search(SearchDTO.SearchRq request);
 }

@@ -91,13 +91,6 @@ public class BankService implements IBankService {
         return SearchUtil.search(bankDAO, criteria, bank -> modelMapper.map(bank, BankDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_BANK')")
-    public SearchDTO.SearchRs<BankDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(bankDAO, request, entity -> modelMapper.map(entity, BankDTO.Info.class));
-    }
-
     private BankDTO.Info save(Bank bank) {
         final Bank saved = bankDAO.saveAndFlush(bank);
         return modelMapper.map(saved, BankDTO.Info.class);

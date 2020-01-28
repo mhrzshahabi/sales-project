@@ -21,7 +21,5 @@ public interface IRateService {
 
 	void delete(RateDTO.Delete request);
 
-	SearchDTO.SearchRs<RateDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<RateDTO.Info> search(NICICOCriteria criteria);
 }

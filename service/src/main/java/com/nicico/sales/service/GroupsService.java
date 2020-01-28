@@ -87,13 +87,6 @@ public class GroupsService implements IGroupsService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_GROUPS')")
-    public SearchDTO.SearchRs<GroupsDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(groupsDAO, request, groups -> modelMapper.map(groups, GroupsDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_GROUPS')")
     public TotalResponse<GroupsDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(groupsDAO, criteria, groups -> modelMapper.map(groups, GroupsDTO.Info.class));
     }

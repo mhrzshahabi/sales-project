@@ -388,13 +388,6 @@ public class ContractService implements IContractService {
         return SearchUtil.search(contractDAO, criteria, contract -> modelMapper.map(contract, ContractDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTRACT')")
-    public SearchDTO.SearchRs<ContractDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(contractDAO, request, contract -> modelMapper.map(contract, ContractDTO.Info.class));
-    }
-
     private ContractDTO.Info save(Contract contract) {
         final Contract saved = contractDAO.saveAndFlush(contract);
         return modelMapper.map(saved, ContractDTO.Info.class);

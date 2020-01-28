@@ -87,13 +87,6 @@ public class CurrencyRateService implements ICurrencyRateService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_CURRENCY_RATE')")
-    public SearchDTO.SearchRs<CurrencyRateDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(currencyRateDAO, request, currencyRate -> modelMapper.map(currencyRate, CurrencyRateDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CURRENCY_RATE')")
     public TotalResponse<CurrencyRateDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(currencyRateDAO, criteria, currencyRate -> modelMapper.map(currencyRate, CurrencyRateDTO.Info.class));
     }

@@ -67,10 +67,4 @@ public class InspectionContractRestController {
         TotalResponse<InspectionContractDTO.Info> search = inspectionContractService.search(criteria);
         return new ResponseEntity<TotalResponse<InspectionContractDTO.Info>>(search, HttpStatus.OK);
     }
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<InspectionContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(inspectionContractService.search(request), HttpStatus.OK);
-    }
 }

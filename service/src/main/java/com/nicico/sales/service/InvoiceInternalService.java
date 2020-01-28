@@ -104,14 +104,6 @@ public class InvoiceInternalService implements IInvoiceInternalService {
         return SearchUtil.search(invoiceInternalDAO, criteria, invoiceInternal -> modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
     }
 
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
-    public SearchDTO.SearchRs<InvoiceInternalDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(invoiceInternalDAO, request, invoiceInternal -> modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
-    }
-
     @Transactional
     @Override
     public InvoiceInternalDTO.Info sendInternalForm2accounting(Long id, String data) {

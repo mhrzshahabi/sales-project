@@ -22,6 +22,4 @@ public interface IWarehouseIssueConsService {
     void delete(WarehouseIssueConsDTO.Delete request);
 
     TotalResponse<WarehouseIssueConsDTO.Info> search(NICICOCriteria criteria);
-
-    SearchDTO.SearchRs<WarehouseIssueConsDTO.Info> search(SearchDTO.SearchRq request);
 }

@@ -91,13 +91,6 @@ public class CurrencyService implements ICurrencyService {
         return SearchUtil.search(currencyDAO, criteria, currency -> modelMapper.map(currency, CurrencyDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CURRENCY')")
-    public SearchDTO.SearchRs<CurrencyDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(currencyDAO, request, currency -> modelMapper.map(currency, CurrencyDTO.Info.class));
-    }
-
     private CurrencyDTO.Info save(Currency currency) {
         final Currency saved = currencyDAO.saveAndFlush(currency);
         return modelMapper.map(saved, CurrencyDTO.Info.class);

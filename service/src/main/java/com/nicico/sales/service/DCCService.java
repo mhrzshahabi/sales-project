@@ -87,13 +87,6 @@ public class DCCService implements IDCCService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_DCC')")
-    public SearchDTO.SearchRs<DCCDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(dCCDAO, request, dCC -> modelMapper.map(dCC, DCCDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_DCC')")
     public TotalResponse<DCCDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(dCCDAO, criteria, dcc -> modelMapper.map(dcc, DCCDTO.Info.class));
     }

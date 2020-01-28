@@ -87,13 +87,6 @@ public class PaymentOptionService implements IPaymentOptionService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_PAYMENT_OPTION')")
-    public SearchDTO.SearchRs<PaymentOptionDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(paymentOptionDAO, request, paymentOption -> modelMapper.map(paymentOption, PaymentOptionDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_PAYMENT_OPTION')")
     public TotalResponse<PaymentOptionDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(paymentOptionDAO, criteria, paymentOption -> modelMapper.map(paymentOption, PaymentOptionDTO.Info.class));
     }

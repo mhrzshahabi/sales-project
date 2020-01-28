@@ -21,7 +21,5 @@ public interface IUnitService {
 
     void delete(UnitDTO.Delete request);
 
-    SearchDTO.SearchRs<UnitDTO.Info> search(SearchDTO.SearchRq request);
-
     TotalResponse<UnitDTO.Info> search(NICICOCriteria criteria);
 }

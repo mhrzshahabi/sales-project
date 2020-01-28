@@ -87,13 +87,6 @@ public class TozinSalesService implements ITozinSalesService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_TOZIN_SALES')")
-    public SearchDTO.SearchRs<TozinSalesDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(tozinSalesDAO, request, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_TOZIN_SALES')")
     public TotalResponse<TozinSalesDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(tozinSalesDAO, criteria, tozinSales -> modelMapper.map(tozinSales, TozinSalesDTO.Info.class));
     }

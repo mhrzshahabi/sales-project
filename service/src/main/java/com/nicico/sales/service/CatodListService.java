@@ -51,12 +51,5 @@ public class CatodListService implements ICatodListService {
     public TotalResponse<CatodListDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(catodListDAO, criteria, catodList -> modelMapper.map(catodList, CatodListDTO.Info.class));
     }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CATODLIST')")
-    public SearchDTO.SearchRs<CatodListDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(catodListDAO, request, entity -> modelMapper.map(entity, CatodListDTO.Info.class));
-    }
     
 }

@@ -105,13 +105,6 @@ public class WarehouseIssueMoService implements IWarehouseIssueMoService {
         return SearchUtil.search(warehouseIssueMoDAO, criteria, warehouseIssueMo -> modelMapper.map(warehouseIssueMo, WarehouseIssueMoDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_MO')")
-    public SearchDTO.SearchRs<WarehouseIssueMoDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseIssueMoDAO, request, entity -> modelMapper.map(entity, WarehouseIssueMoDTO.Info.class));
-    }
-
     private WarehouseIssueMoDTO.Info save(WarehouseIssueMo warehouseIssueMo, WarehouseIssueMo oldIssueMo) {
         Long oldIssue = 0L;
         if (oldIssueMo != null)

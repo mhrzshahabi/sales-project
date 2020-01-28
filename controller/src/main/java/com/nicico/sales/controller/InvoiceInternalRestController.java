@@ -113,12 +113,6 @@ public class InvoiceInternalRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<InvoiceInternalDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(invoiceInternalService.search(request), HttpStatus.OK);
-    }
-
-    @Loggable
     @PutMapping
     @RequestMapping("/sendForm-2accounting/{id}")
     public ResponseEntity<InvoiceInternalDTO.Info> sendForm2accounting(@PathVariable Long id, @RequestBody String data) {

@@ -21,7 +21,5 @@ public interface ILMEService {
 
 	void delete(LMEDTO.Delete request);
 
-	SearchDTO.SearchRs<LMEDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<LMEDTO.Info> search(NICICOCriteria criteria);
 }

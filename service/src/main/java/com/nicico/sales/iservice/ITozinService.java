@@ -21,8 +21,6 @@ public interface ITozinService {
 
     void delete(TozinDTO.Delete request);
 
-    SearchDTO.SearchRs<TozinDTO.Info> search(SearchDTO.SearchRq request);
-
     TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria);
 
     TotalResponse<TozinDTO.Info> searchTozinOnTheWay(NICICOCriteria criteria, String tozin);

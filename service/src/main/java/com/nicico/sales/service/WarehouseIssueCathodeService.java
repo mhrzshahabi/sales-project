@@ -104,13 +104,6 @@ public class WarehouseIssueCathodeService implements IWarehouseIssueCathodeServi
         return SearchUtil.search(warehouseIssueCathodeDAO, criteria, warehouseIssueCathode -> modelMapper.map(warehouseIssueCathode, WarehouseIssueCathodeDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CATHODE')")
-    public SearchDTO.SearchRs<WarehouseIssueCathodeDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseIssueCathodeDAO, request, entity -> modelMapper.map(entity, WarehouseIssueCathodeDTO.Info.class));
-    }
-
     private WarehouseIssueCathodeDTO.Info save(WarehouseIssueCathode warehouseIssueCathode, WarehouseIssueCathode oldIssueCathode) {
         String newIds[] = warehouseIssueCathode.getBijakIds().split(",");
         String oldIds[] = {"x"};

@@ -87,13 +87,6 @@ public class InstructionService implements IInstructionService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_INSTRUCTION')")
-    public SearchDTO.SearchRs<InstructionDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(instructionDAO, request, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_INSTRUCTION')")
     public TotalResponse<InstructionDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(instructionDAO, criteria, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
     }

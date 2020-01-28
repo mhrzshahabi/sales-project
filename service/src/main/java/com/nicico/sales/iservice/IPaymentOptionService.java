@@ -21,7 +21,5 @@ public interface IPaymentOptionService {
 
 	void delete(PaymentOptionDTO.Delete request);
 
-	SearchDTO.SearchRs<PaymentOptionDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<PaymentOptionDTO.Info> search(NICICOCriteria criteria);
 }

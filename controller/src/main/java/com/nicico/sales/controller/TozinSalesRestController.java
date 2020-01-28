@@ -79,12 +79,6 @@ public class TozinSalesRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<TozinSalesDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(tozinSalesService.search(request), HttpStatus.OK);
-    }
-
-    @Loggable
     @GetMapping(value = {"/print/{name}/{type}/{date}"})
     public void print(HttpServletResponse response, @PathVariable String name, @PathVariable String type,
                       @PathVariable("date") String date) throws SQLException, IOException, JRException {

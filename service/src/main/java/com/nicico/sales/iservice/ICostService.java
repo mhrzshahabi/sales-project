@@ -22,6 +22,4 @@ public interface ICostService {
     void delete(CostDTO.Delete request);
 
     TotalResponse<CostDTO.Info> search(NICICOCriteria criteria);
-
-    SearchDTO.SearchRs<CostDTO.Info> search(SearchDTO.SearchRq request);
 }

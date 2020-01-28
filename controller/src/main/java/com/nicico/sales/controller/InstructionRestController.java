@@ -69,10 +69,4 @@ public class InstructionRestController {
 		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
 		return new ResponseEntity<>(instructionService.search(nicicoCriteria), HttpStatus.OK);
 	}
-
-	@Loggable
-	@GetMapping(value = "/search")
-	public ResponseEntity<SearchDTO.SearchRs<InstructionDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(instructionService.search(request), HttpStatus.OK);
-	}
 }

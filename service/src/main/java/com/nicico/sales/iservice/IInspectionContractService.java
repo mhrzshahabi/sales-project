@@ -21,8 +21,6 @@ public interface IInspectionContractService {
 
 	void delete(InspectionContractDTO.Delete request);
 
-	SearchDTO.SearchRs<InspectionContractDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<InspectionContractDTO.Info> search(MultiValueMap<String, String> criteria);
 
 	String getMaterial(Long id);

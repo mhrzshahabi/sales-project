@@ -122,13 +122,6 @@ public class WarehouseCadService implements IWarehouseCadService {
         return new TotalResponse<>(gridResponse);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD')")
-    public SearchDTO.SearchRs<WarehouseCadDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseCadDAO, request, entity -> modelMapper.map(entity, WarehouseCadDTO.Info.class));
-    }
-
     private WarehouseCadDTO.Info save(WarehouseCad warehouseCad) {
         if (warehouseCad.getPlant().equals("مجتمع مس شهربابك -ميدوك ") || warehouseCad.getPlant().equals("مجتمع مس شهربابك - خاتون آباد "))
             warehouseCad.setPlant("Miduk");

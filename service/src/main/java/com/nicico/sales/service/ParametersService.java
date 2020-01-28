@@ -87,13 +87,6 @@ public class ParametersService implements IParametersService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_PARAMETERS')")
-    public SearchDTO.SearchRs<ParametersDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(parametersDAO, request, parameters -> modelMapper.map(parameters, ParametersDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_PARAMETERS')")
     public TotalResponse<ParametersDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(parametersDAO, criteria, parameters -> modelMapper.map(parameters, ParametersDTO.Info.class));
     }

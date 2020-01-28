@@ -22,6 +22,4 @@ public interface IBankService {
     void delete(BankDTO.Delete request);
 
     TotalResponse<BankDTO.Info> search(NICICOCriteria criteria);
-
-    SearchDTO.SearchRs<BankDTO.Info> search(SearchDTO.SearchRq request);
 }

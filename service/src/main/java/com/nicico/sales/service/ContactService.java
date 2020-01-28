@@ -117,13 +117,6 @@ public class ContactService implements IContactService {
         return SearchUtil.search(contactDAO, criteria, contact -> modelMapper.map(contact, ContactDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTACT')")
-    public SearchDTO.SearchRs<ContactDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(contactDAO, request, contact -> modelMapper.map(contact, ContactDTO.Info.class));
-    }
-
     private ContactDTO.Info save(Contact contact) {
         final Contact saved = contactDAO.saveAndFlush(contact);
         return modelMapper.map(saved, ContactDTO.Info.class);

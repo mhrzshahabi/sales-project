@@ -25,7 +25,5 @@ public interface IInvoiceInternalService {
 
 	TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria);
 
-	SearchDTO.SearchRs<InvoiceInternalDTO.Info> search(SearchDTO.SearchRq request);
-
 	InvoiceInternalDTO.Info sendInternalForm2accounting(Long id, String data);
 }

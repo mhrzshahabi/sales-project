@@ -87,13 +87,6 @@ public class MaterialFeatureService implements IMaterialFeatureService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_MATERIAL_FEATURE')")
-    public SearchDTO.SearchRs<MaterialFeatureDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(materialFeatureDAO, request, materialFeature -> modelMapper.map(materialFeature, MaterialFeatureDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_MATERIAL_FEATURE')")
     public TotalResponse<MaterialFeatureDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(materialFeatureDAO, criteria, materialFeature -> modelMapper.map(materialFeature, MaterialFeatureDTO.Info.class));
     }

@@ -109,13 +109,6 @@ public class ContactAccountService implements IContactAccountService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
-    public SearchDTO.SearchRs<ContactAccountDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(contactAccountDAO, request, contactAccount -> modelMapper.map(contactAccount, ContactAccountDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
     public TotalResponse<ContactAccountDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(contactAccountDAO, criteria, contactAccount -> modelMapper.map(contactAccount, ContactAccountDTO.Info.class));
     }

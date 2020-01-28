@@ -103,13 +103,6 @@ public class TozinService implements ITozinService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_TOZIN')")
-    public SearchDTO.SearchRs<TozinDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(tozinDAO, request, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_TOZIN')")
     public TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria) {
         return SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
     }

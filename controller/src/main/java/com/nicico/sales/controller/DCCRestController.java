@@ -126,11 +126,4 @@ public class DCCRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(dCCService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<DCCDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(dCCService.search(request), HttpStatus.OK);
-    }
 }

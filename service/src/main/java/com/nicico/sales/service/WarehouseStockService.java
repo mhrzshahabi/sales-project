@@ -91,13 +91,6 @@ public class WarehouseStockService implements IWarehouseStockService {
         return SearchUtil.search(warehouseStockDAO, criteria, warehouseStock -> modelMapper.map(warehouseStock, WarehouseStockDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_STOCK')")
-    public SearchDTO.SearchRs<WarehouseStockDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseStockDAO, request, entity -> modelMapper.map(entity, WarehouseStockDTO.Info.class));
-    }
-
     private WarehouseStockDTO.Info save(WarehouseStock warehouseStock) {
         final WarehouseStock saved = warehouseStockDAO.saveAndFlush(warehouseStock);
         return modelMapper.map(saved, WarehouseStockDTO.Info.class);

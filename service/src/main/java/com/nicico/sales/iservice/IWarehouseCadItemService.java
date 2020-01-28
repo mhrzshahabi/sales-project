@@ -27,8 +27,6 @@ public interface IWarehouseCadItemService {
 
     TotalResponse<WarehouseCadItemDTO.InfoCombo2> search1(NICICOCriteria criteria);
 
-    SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(SearchDTO.SearchRq request);
-
     SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(WarehouseCadItemDTO.Delete request);
 
     WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem, WarehouseCadItem oldCadItem);

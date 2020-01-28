@@ -22,6 +22,4 @@ public interface IParametersService {
 	void delete(ParametersDTO.Delete request);
 
 	TotalResponse<ParametersDTO.Info> search(NICICOCriteria criteria);
-
-	SearchDTO.SearchRs<ParametersDTO.Info> search(SearchDTO.SearchRq request);
 }

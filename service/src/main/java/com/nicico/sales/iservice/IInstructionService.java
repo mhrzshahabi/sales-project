@@ -21,7 +21,5 @@ public interface IInstructionService {
 
 	void delete(InstructionDTO.Delete request);
 
-	SearchDTO.SearchRs<InstructionDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<InstructionDTO.Info> search(NICICOCriteria criteria);
 }

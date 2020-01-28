@@ -87,13 +87,6 @@ public class CountryService implements ICountryService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_COUNTRY')")
-    public SearchDTO.SearchRs<CountryDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(countryDAO, request, country -> modelMapper.map(country, CountryDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_COUNTRY')")
     public TotalResponse<CountryDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(countryDAO, criteria, country -> modelMapper.map(country, CountryDTO.Info.class));
     }

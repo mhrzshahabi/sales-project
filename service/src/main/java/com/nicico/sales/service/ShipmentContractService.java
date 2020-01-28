@@ -87,13 +87,6 @@ public class ShipmentContractService implements IShipmentContractService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_SHIPMENT_CONTRACT')")
-    public SearchDTO.SearchRs<ShipmentContractDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(shipmentContractDAO, request, shipmentContract -> modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_SHIPMENT_CONTRACT')")
     public TotalResponse<ShipmentContractDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(shipmentContractDAO, criteria, shipmentContract -> modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class));
     }

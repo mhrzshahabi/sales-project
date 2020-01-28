@@ -87,13 +87,6 @@ public class LMEService implements ILMEService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_LME')")
-    public SearchDTO.SearchRs<LMEDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(lMEDAO, request, lME -> modelMapper.map(lME, LMEDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_LME')")
     public TotalResponse<LMEDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(lMEDAO, criteria, lme -> modelMapper.map(lme, LMEDTO.Info.class));
     }

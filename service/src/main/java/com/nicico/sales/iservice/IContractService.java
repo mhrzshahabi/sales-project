@@ -31,6 +31,4 @@ public interface IContractService {
 	void delete(ContractDTO.Delete request);
 
 	TotalResponse<ContractDTO.Info> search(NICICOCriteria criteria);
-
-	SearchDTO.SearchRs<ContractDTO.Info> search(SearchDTO.SearchRq request);
 }

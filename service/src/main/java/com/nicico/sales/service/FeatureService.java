@@ -87,13 +87,6 @@ public class FeatureService implements IFeatureService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_FEATURE')")
-    public SearchDTO.SearchRs<FeatureDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(featureDAO, request, feature -> modelMapper.map(feature, FeatureDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_FEATURE')")
     public TotalResponse<FeatureDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(featureDAO, criteria, feature -> modelMapper.map(feature, FeatureDTO.Info.class));
     }

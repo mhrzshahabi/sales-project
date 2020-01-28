@@ -95,12 +95,6 @@ public class TozinRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<TozinDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(tozinService.search(request), HttpStatus.OK);
-    }
-
-    @Loggable
     @GetMapping(value = {"/spec-list"})
     public ResponseEntity<TotalResponse<TozinDTO.Info>> searchTozin(@RequestParam MultiValueMap<String, String> criteria) {
         if (criteria.containsKey("criteria") && criteria.get("criteria").get(0).contains("mazloom")) {

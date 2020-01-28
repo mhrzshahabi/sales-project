@@ -87,13 +87,6 @@ public class ContractCurrencyService implements IContractCurrencyService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_CONTRACT_CURRENCY')")
-    public SearchDTO.SearchRs<ContractCurrencyDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(contractCurrencyDAO, request, contractCurrency -> modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTRACT_CURRENCY')")
     public TotalResponse<ContractCurrencyDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(contractCurrencyDAO, criteria, contractCurrency -> modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class));
     }

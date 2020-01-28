@@ -22,6 +22,4 @@ public interface IPortService {
 	void delete(PortDTO.Delete request);
 
 	TotalResponse<PortDTO.Info> search(NICICOCriteria criteria);
-
-	SearchDTO.SearchRs<PortDTO.Info> search(SearchDTO.SearchRq request);
 }

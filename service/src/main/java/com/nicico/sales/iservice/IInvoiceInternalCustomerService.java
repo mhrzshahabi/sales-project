@@ -22,6 +22,4 @@ public interface IInvoiceInternalCustomerService {
 	void delete(InvoiceInternalCustomerDTO.Delete request);
 
 	TotalResponse<InvoiceInternalCustomerDTO.Info> search(NICICOCriteria criteria);
-
-	SearchDTO.SearchRs<InvoiceInternalCustomerDTO.Info> search(SearchDTO.SearchRq request);
 }

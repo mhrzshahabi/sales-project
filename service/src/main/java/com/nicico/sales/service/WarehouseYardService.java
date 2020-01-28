@@ -91,13 +91,6 @@ public class WarehouseYardService implements IWarehouseYardService {
         return SearchUtil.search(warehouseYardDAO, criteria, warehouseYard -> modelMapper.map(warehouseYard, WarehouseYardDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_YARD')")
-    public SearchDTO.SearchRs<WarehouseYardDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseYardDAO, request, entity -> modelMapper.map(entity, WarehouseYardDTO.Info.class));
-    }
-
     private WarehouseYardDTO.Info save(WarehouseYard warehouseYard) {
         final WarehouseYard saved = warehouseYardDAO.saveAndFlush(warehouseYard);
         return modelMapper.map(saved, WarehouseYardDTO.Info.class);

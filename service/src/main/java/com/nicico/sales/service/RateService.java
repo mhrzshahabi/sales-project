@@ -87,13 +87,6 @@ public class RateService implements IRateService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_RATE')")
-    public SearchDTO.SearchRs<RateDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(rateDAO, request, rate -> modelMapper.map(rate, RateDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_RATE')")
     public TotalResponse<RateDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(rateDAO, criteria, rate -> modelMapper.map(rate, RateDTO.Info.class));
     }

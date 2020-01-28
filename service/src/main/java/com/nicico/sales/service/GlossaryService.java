@@ -87,13 +87,6 @@ public class GlossaryService implements IGlossaryService {
     @Transactional(readOnly = true)
     @Override
 //    @PreAuthorize("hasAuthority('R_GLOSSARY')")
-    public SearchDTO.SearchRs<GlossaryDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(glossaryDAO, request, glossary -> modelMapper.map(glossary, GlossaryDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-//    @PreAuthorize("hasAuthority('R_GLOSSARY')")
     public TotalResponse<GlossaryDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(glossaryDAO, criteria, glossary -> modelMapper.map(glossary, GlossaryDTO.Info.class));
     }

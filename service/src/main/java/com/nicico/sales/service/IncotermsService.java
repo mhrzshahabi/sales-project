@@ -87,13 +87,6 @@ public class IncotermsService implements IIncotermsService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_INCOTERMS')")
-    public SearchDTO.SearchRs<IncotermsDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(incotermsDAO, request, incoterms -> modelMapper.map(incoterms, IncotermsDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_INCOTERMS')")
     public TotalResponse<IncotermsDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(incotermsDAO, criteria, incoterms -> modelMapper.map(incoterms, IncotermsDTO.Info.class));
     }

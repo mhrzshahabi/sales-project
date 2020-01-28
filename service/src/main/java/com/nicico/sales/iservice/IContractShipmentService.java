@@ -21,7 +21,5 @@ public interface IContractShipmentService {
 
     void delete(ContractShipmentDTO.Delete request);
 
-    SearchDTO.SearchRs<ContractShipmentDTO.Info> search(SearchDTO.SearchRq request);
-
     TotalResponse<ContractShipmentDTO.Info> search(NICICOCriteria criteria);
 }

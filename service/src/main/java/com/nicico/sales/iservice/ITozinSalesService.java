@@ -21,7 +21,5 @@ public interface ITozinSalesService {
 
 	void delete(TozinSalesDTO.Delete request);
 
-	SearchDTO.SearchRs<TozinSalesDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<TozinSalesDTO.Info> search(NICICOCriteria criteria);
 }

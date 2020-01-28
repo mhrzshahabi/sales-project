@@ -87,13 +87,6 @@ public class UnitService implements IUnitService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_UNIT')")
-    public SearchDTO.SearchRs<UnitDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(unitDAO, request, unit -> modelMapper.map(unit, UnitDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_UNIT')")
     public TotalResponse<UnitDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(unitDAO, criteria, unit -> modelMapper.map(unit, UnitDTO.Info.class));
     }

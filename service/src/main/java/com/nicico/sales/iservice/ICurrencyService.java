@@ -21,7 +21,5 @@ public interface ICurrencyService {
 
 	void delete(CurrencyDTO.Delete request);
 
-	SearchDTO.SearchRs<CurrencyDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<CurrencyDTO.Info> search(NICICOCriteria criteria);
 }

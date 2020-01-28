@@ -91,13 +91,6 @@ public class CostService implements ICostService {
         return SearchUtil.search(costDAO, criteria, cost -> modelMapper.map(cost, CostDTO.Info.class));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_COST')")
-    public SearchDTO.SearchRs<CostDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(costDAO, request, cost -> modelMapper.map(cost, CostDTO.Info.class));
-    }
-
     private CostDTO.Info save(Cost cost) {
         final Cost saved = costDAO.saveAndFlush(cost);
         return modelMapper.map(saved, CostDTO.Info.class);

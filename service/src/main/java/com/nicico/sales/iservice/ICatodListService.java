@@ -14,6 +14,4 @@ public interface ICatodListService {
     List<CatodListDTO.Info> list();
 
     TotalResponse<CatodListDTO.Info> search(NICICOCriteria criteria);
-
-    SearchDTO.SearchRs<CatodListDTO.Info> search(SearchDTO.SearchRq request);
 }

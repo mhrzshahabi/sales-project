@@ -68,10 +68,4 @@ public class InvoiceMolybdenumRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(invoiceMolybdenumService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<InvoiceMolybdenumDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(invoiceMolybdenumService.search(request), HttpStatus.OK);
-    }
 }

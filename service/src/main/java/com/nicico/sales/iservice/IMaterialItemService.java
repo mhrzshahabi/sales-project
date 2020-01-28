@@ -22,6 +22,4 @@ public interface IMaterialItemService {
 	void delete(MaterialItemDTO.Delete request);
 
 	TotalResponse<MaterialItemDTO.Info> search(NICICOCriteria criteria);
-
-	SearchDTO.SearchRs<MaterialItemDTO.Info> search(SearchDTO.SearchRq request);
 }

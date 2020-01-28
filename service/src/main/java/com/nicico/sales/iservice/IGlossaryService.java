@@ -21,7 +21,5 @@ public interface IGlossaryService {
 
 	void delete(GlossaryDTO.Delete request);
 
-	SearchDTO.SearchRs<GlossaryDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<GlossaryDTO.Info> search(NICICOCriteria criteria);
 }

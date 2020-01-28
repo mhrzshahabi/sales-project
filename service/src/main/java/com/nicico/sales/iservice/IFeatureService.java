@@ -21,7 +21,5 @@ public interface IFeatureService {
 
 	void delete(FeatureDTO.Delete request);
 
-	SearchDTO.SearchRs<FeatureDTO.Info> search(SearchDTO.SearchRq request);
-
 	TotalResponse<FeatureDTO.Info> search(NICICOCriteria criteria);
 }
