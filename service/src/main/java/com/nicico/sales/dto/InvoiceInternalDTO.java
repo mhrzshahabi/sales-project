@@ -14,7 +14,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InvoiceInternalDTO {
 
-    private String id;
+    private Long id;
     private String lcId;
     private String havalehId;
     private String invDate;

@@ -23,7 +23,7 @@ public class InvoiceInternalDocument extends Auditable {
     private Long id;
 
     @Column(name = "INV_ID", length = 10)
-    private String invId;
+    private Long invId;
 
     @Column(name = "PROCESSID")
     private String processId;

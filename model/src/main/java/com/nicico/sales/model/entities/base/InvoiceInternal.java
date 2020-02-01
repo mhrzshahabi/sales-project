@@ -40,7 +40,7 @@ import javax.persistence.Id;
                 "havealayandegi," +
                 "havemaleyate," +
                 "inv_date," +
-                "vi.inv_id," +
+                "REPLACE(vi.inv_id,'-','') as inv_id," +
                 "inv_other_kosorat," +
                 "inv_sented," +
                 "lc_datesarresed," +
@@ -58,12 +58,12 @@ import javax.persistence.Id;
                 " FROM" +
                 " n_master.view_innersalesforsalse vi" +
                 " INNER JOIN n_master.customer1tbl mc ON mc.cust_id = vi.customerid"+
-                " RIGHT JOIN TBL_INVOICEINTERNALDOCUMENT ti ON ti.INV_ID <> vi.inv_id"
+                " WHERE vi.inv_id <> (select ti.INV_ID from TBL_INVOICEINTERNALDOCUMENT ti)"
 )
 public class InvoiceInternal {
     @Id
     @Column(name = "INV_ID", length = 100)
-    private String id;
+    private Long id;
 
     @Column(name = "LCID", length = 100)
     private String lcId;

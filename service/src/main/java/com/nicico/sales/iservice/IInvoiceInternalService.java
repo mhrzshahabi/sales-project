@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface IInvoiceInternalService {
 
-    InvoiceInternalDTO.Info get(String id);
+    InvoiceInternalDTO.Info get(Long id);
 
-    List<InvoiceInternalDTO.Info> getIds(List<String> id);
+    List<InvoiceInternalDTO.Info> getIds(List<Long> id);
 
     List<InvoiceInternalDTO.Info> list();
 
     TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria);
 
-    InvoiceInternalDTO.Info sendInternalForm2accounting(String id, String data);
+    InvoiceInternalDTO.Info sendInternalForm2accounting(Long id, String data);
 }

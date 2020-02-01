@@ -37,7 +37,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
-    public InvoiceInternalDTO.Info get(String id) {
+    public InvoiceInternalDTO.Info get(Long id) {
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final InvoiceInternal invoiceInternal = invoiceInternalDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalNotFound));
@@ -46,7 +46,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
-    public List<InvoiceInternalDTO.Info> getIds(List<String> id) {
+    public List<InvoiceInternalDTO.Info> getIds(List<Long> id) {
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final List<InvoiceInternal> allByIds = invoiceInternalDAO.findAllById(id);
         List<InvoiceInternalDTO.Info> invoiceInternalDTOS = new ArrayList<InvoiceInternalDTO.Info>();
@@ -69,7 +69,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional(readOnly = true)
     @Override
-    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
+  //@PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria) {
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         return SearchUtil.search(invoiceInternalDAO, criteria, invoiceInternal -> modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
@@ -78,7 +78,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional
     @Override
-    public InvoiceInternalDTO.Info sendInternalForm2accounting(String id, String data) {
+    public InvoiceInternalDTO.Info sendInternalForm2accounting(Long id,String data) {
         InvoiceInternalDocument invoice = new InvoiceInternalDocument();
         invoice.setInvId(id);
         invoice.setProcessId(data);

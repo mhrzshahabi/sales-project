@@ -34,7 +34,7 @@ public class InvoiceInternalRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-    public ResponseEntity<InvoiceInternalDTO.Info> get(@PathVariable String id) {
+    public ResponseEntity<InvoiceInternalDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(invoiceInternalService.get(id), HttpStatus.OK);
     }
 
@@ -46,7 +46,7 @@ public class InvoiceInternalRestController {
 
     @Loggable
     @GetMapping(value = "/list-accounting/{ids}")
-    public ResponseEntity<List<InvoiceInternalDTO.Info>> listAccounting(@PathVariable List<String> ids) {
+    public ResponseEntity<List<InvoiceInternalDTO.Info>> listAccounting(@PathVariable List<Long> ids) {
         List<InvoiceInternalDTO.Info> lastIds = invoiceInternalService.getIds(ids);
         return new ResponseEntity<>(lastIds, HttpStatus.OK);
     }
@@ -70,7 +70,7 @@ public class InvoiceInternalRestController {
     @Loggable
     @PutMapping
     @RequestMapping("/sendForm-2accounting/{id}")
-    public ResponseEntity<InvoiceInternalDTO.Info> sendForm2accounting(@PathVariable String id, @RequestBody String data) {
+    public ResponseEntity<InvoiceInternalDTO.Info> sendForm2accounting(@PathVariable Long id, @RequestBody String data) {
         return new ResponseEntity<>(invoiceInternalService.sendInternalForm2accounting(id, data), HttpStatus.OK);
     }
 
