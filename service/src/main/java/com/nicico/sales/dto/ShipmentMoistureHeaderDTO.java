@@ -17,67 +17,67 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentMoistureHeaderDTO {
 
-	private Long shipmentId;
-	private Long inspectionByContactId;
-	private String description;
-	private String location;
-	private String inspectionDate;
-	private Double totalWetWeight;
-	private Double averageMoisturePercent;
-	private Double totalDryWeight;
-	private Double totalH2oWeight;
+    private Long shipmentId;
+    private Long inspectionByContactId;
+    private String description;
+    private String location;
+    private String inspectionDate;
+    private Double totalWetWeight;
+    private Double averageMoisturePercent;
+    private Double totalDryWeight;
+    private Double totalH2oWeight;
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("ShipmentMoistureHeaderInfo")
-	public static class Info extends ShipmentMoistureHeaderDTO {
-		private Long id;
-		private ContactDTO inspectionByContact;
-		private ShipmentDTO shipment;
-		private Date createdDate;
-		private String createdBy;
-		private Date lastModifiedDate;
-		private String lastModifiedBy;
-		private Integer version;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentMoistureHeaderInfo")
+    public static class Info extends ShipmentMoistureHeaderDTO {
+        private Long id;
+        private ContactDTO inspectionByContact;
+        private ShipmentDTO shipment;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("ShipmentMoistureHeaderCreateRq")
-	public static class Create extends ShipmentMoistureHeaderDTO {
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentMoistureHeaderCreateRq")
+    public static class Create extends ShipmentMoistureHeaderDTO {
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("ShipmentMoistureHeaderUpdateRq")
-	public static class Update extends ShipmentMoistureHeaderDTO {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Long id;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentMoistureHeaderUpdateRq")
+    public static class Update extends ShipmentMoistureHeaderDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long id;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("ShipmentMoistureHeaderDeleteRq")
-	public static class Delete {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private List<Long> ids;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentMoistureHeaderDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public static class SpecRs {
-		private List<ShipmentMoistureHeaderDTO.Info> data;
-		private Integer status;
-		private Integer startRow;
-		private Integer endRow;
-		private Integer totalRows;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class SpecRs {
+        private List<ShipmentMoistureHeaderDTO.Info> data;
+        private Integer status;
+        private Integer startRow;
+        private Integer endRow;
+        private Integer totalRows;
+    }
 }

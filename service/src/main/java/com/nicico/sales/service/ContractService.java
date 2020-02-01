@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractDTO;
-import com.nicico.sales.dto.ShipmentContractDTO;
 import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.model.entities.base.ContractDetail;
@@ -34,7 +32,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.io.*;
 import java.math.BigInteger;
 import java.text.ParseException;
@@ -117,31 +114,31 @@ public class ContractService implements IContractService {
         contractDAO.findById(contractId).getMaterial();
         map.remove("contractNo");
         map.remove("contractId");
-        String flag="";
-        String articl04,articl05,articl06,articl07,articl08,articl09,articl10,articl11,articl12="";
-         if(contractNo.contains("_Conc") || contractNo.contains("Cathod_")){
-                flag="Article04";
-                articl04= "–SHIPMENT:";
-                articl05= "–DELIVERY TERMS";
-                articl06= "– INSURANCE";
-                articl07= "- RISK OF LOSS";
-                articl08= "- PRICE TERMS";
-                articl09= "- DEDUCTIONS";
-                articl10="- QUOTATIONAL PERIOD";
-                articl11="- PEYMENT";
-                articl12="- CURRENCY CONVERSION:";
-            }else{
-                flag="Article05";
-                articl04= "–PACKING:";
-                articl05= "–SHIPMENT:";
-                articl06= "- DELIVERY TERMS:";
-                articl07= "– PRICE:";
-                articl08= "- QUOTATIONAL PERIOD:";
-                articl09= "– PAYMENT:";
-                articl10="- CURRENCY CONVERSION:";
-                articl11="- TITLE AND RISK OF LOSS:";
-                articl12="– WEIGHT:";
-            }
+        String flag = "";
+        String articl04, articl05, articl06, articl07, articl08, articl09, articl10, articl11, articl12 = "";
+        if (contractNo.contains("_Conc") || contractNo.contains("Cathod_")) {
+            flag = "Article04";
+            articl04 = "–SHIPMENT:";
+            articl05 = "–DELIVERY TERMS";
+            articl06 = "– INSURANCE";
+            articl07 = "- RISK OF LOSS";
+            articl08 = "- PRICE TERMS";
+            articl09 = "- DEDUCTIONS";
+            articl10 = "- QUOTATIONAL PERIOD";
+            articl11 = "- PEYMENT";
+            articl12 = "- CURRENCY CONVERSION:";
+        } else {
+            flag = "Article05";
+            articl04 = "–PACKING:";
+            articl05 = "–SHIPMENT:";
+            articl06 = "- DELIVERY TERMS:";
+            articl07 = "– PRICE:";
+            articl08 = "- QUOTATIONAL PERIOD:";
+            articl09 = "– PAYMENT:";
+            articl10 = "- CURRENCY CONVERSION:";
+            articl11 = "- TITLE AND RISK OF LOSS:";
+            articl12 = "– WEIGHT:";
+        }
         for (String key : map.keySet()) {
             String value = map.get(key) + "";
             dataALLArticle = dataALLArticle + " " + key + "&?" + " " + value;
@@ -345,14 +342,16 @@ public class ContractService implements IContractService {
     @PreAuthorize("hasAuthority('D_CONTRACT')")
     public void delete(Long id) {
         ContractDetail contractDetails = contractDetailDAO.findByContract_id(id);
-        if(contractDetails!=null){contractDetailDAO.deleteById(contractDetails.getID());}
-        List<ContractShipment> contractShipments = contractShipmentDAO.findByContractId(id);
-        if(contractShipments.size()>0){
-                    for (ContractShipment contractShipment : contractShipments) {
-                    contractShipmentDAO.deleteById(contractShipment.getId());
-                        }
+        if (contractDetails != null) {
+            contractDetailDAO.deleteById(contractDetails.getID());
         }
-       contractDAO.deleteById(id);
+        List<ContractShipment> contractShipments = contractShipmentDAO.findByContractId(id);
+        if (contractShipments.size() > 0) {
+            for (ContractShipment contractShipment : contractShipments) {
+                contractShipmentDAO.deleteById(contractShipment.getId());
+            }
+        }
+        contractDAO.deleteById(id);
     }
 
     @Transactional

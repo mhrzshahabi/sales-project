@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InvoiceInternalDTO;
 import com.nicico.sales.iservice.IInvoiceInternalService;
@@ -40,9 +39,9 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     }
 
     public List<InvoiceInternalDTO.Info> getIds(List id) {
-        final List<InvoiceInternal>  allByIds= invoiceInternalDAO.findAllById(id);
-        List<InvoiceInternalDTO.Info> invoiceInternalDTOS=new ArrayList<InvoiceInternalDTO.Info>();
-        for (InvoiceInternal invoiceInternal:allByIds ) {
+        final List<InvoiceInternal> allByIds = invoiceInternalDAO.findAllById(id);
+        List<InvoiceInternalDTO.Info> invoiceInternalDTOS = new ArrayList<InvoiceInternalDTO.Info>();
+        for (InvoiceInternal invoiceInternal : allByIds) {
             invoiceInternalDTOS.add(modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
         }
         return invoiceInternalDTOS;

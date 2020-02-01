@@ -18,82 +18,82 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentContractDTO {
 
-	private Contact tblContactByOwners;
-	private String no;
-	private Double capacity;
-	private String laycanStart;
-	private String laycanEnd;
-	private String loadingRate;
-	private String dischargeRate;
-	private Double demurrage;
-	private Double dispatch;
-	private Double freight;
-	private String bale;
-	private String grain;
-	private String grossWeight;
-	private String vesselName;
-	private String yearOfBuilt;
-	private String imoNo;
-	private Integer officialNo;
-	private String loa;
-	private String beam;
-	private String cranes;
-	private String holds;
-	private String hatch;
-	private String classType;
-	private String weighingMethodes;
-	private String shipFlag;
-	private String createDate;
+    private Contact tblContactByOwners;
+    private String no;
+    private Double capacity;
+    private String laycanStart;
+    private String laycanEnd;
+    private String loadingRate;
+    private String dischargeRate;
+    private Double demurrage;
+    private Double dispatch;
+    private Double freight;
+    private String bale;
+    private String grain;
+    private String grossWeight;
+    private String vesselName;
+    private String yearOfBuilt;
+    private String imoNo;
+    private Integer officialNo;
+    private String loa;
+    private String beam;
+    private String cranes;
+    private String holds;
+    private String hatch;
+    private String classType;
+    private String weighingMethodes;
+    private String shipFlag;
+    private String createDate;
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("ShipmentContractInfo")
-	public static class Info extends ShipmentContractDTO {
-		private Long id;
-		private Date createdDate;
-		private String createdBy;
-		private Date lastModifiedDate;
-		private String lastModifiedBy;
-		private Integer version;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentContractInfo")
+    public static class Info extends ShipmentContractDTO {
+        private Long id;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("ShipmentContractCreateRq")
-	public static class Create extends ShipmentContractDTO {
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentContractCreateRq")
+    public static class Create extends ShipmentContractDTO {
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("ShipmentContractUpdateRq")
-	public static class Update extends ShipmentContractDTO {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Long id;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentContractUpdateRq")
+    public static class Update extends ShipmentContractDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long id;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("ShipmentContractDeleteRq")
-	public static class Delete {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private List<Long> ids;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentContractDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public static class SpecRs {
-		private List<ShipmentContractDTO.Info> data;
-		private Integer status;
-		private Integer startRow;
-		private Integer endRow;
-		private Integer totalRows;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class SpecRs {
+        private List<ShipmentContractDTO.Info> data;
+        private Integer status;
+        private Integer startRow;
+        private Integer endRow;
+        private Integer totalRows;
+    }
 }

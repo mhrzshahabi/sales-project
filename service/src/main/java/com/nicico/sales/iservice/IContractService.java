@@ -2,33 +2,29 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContractDTO;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 public interface IContractService {
 
-	ContractDTO.Info get(Long id);
+    ContractDTO.Info get(Long id);
 
-	List<ContractDTO.Info> list();
+    List<ContractDTO.Info> list();
 
-	void writeToWord(String request) throws Exception;
+    void writeToWord(String request) throws Exception;
 
-	List<String> readFromWord(String contractNo);
+    List<String> readFromWord(String contractNo);
 
-	ContractDTO.Info create(ContractDTO.Create request);
+    ContractDTO.Info create(ContractDTO.Create request);
 
-	ContractDTO.Info update(Long id, ContractDTO.Update request);
+    ContractDTO.Info update(Long id, ContractDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	String printContract(Long id);
+    String printContract(Long id);
 
-	void delete(ContractDTO.Delete request);
+    void delete(ContractDTO.Delete request);
 
-	TotalResponse<ContractDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ContractDTO.Info> search(NICICOCriteria criteria);
 }

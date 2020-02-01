@@ -10,21 +10,21 @@ import java.util.List;
 
 public interface IInvoiceMolybdenumService {
 
-	InvoiceMolybdenumDTO.Info get(Long id);
+    InvoiceMolybdenumDTO.Info get(Long id);
 
-	List<InvoiceMolybdenumDTO.Info> list();
+    List<InvoiceMolybdenumDTO.Info> list();
 
-	void molybdenum(String data) throws IOException;
+    void molybdenum(String data) throws IOException;
 
-	InvoiceMolybdenumDTO.Info create(InvoiceMolybdenumDTO.Create request);
+    InvoiceMolybdenumDTO.Info create(InvoiceMolybdenumDTO.Create request);
 
-	InvoiceMolybdenumDTO.Info update(Long id, InvoiceMolybdenumDTO.Update request);
+    InvoiceMolybdenumDTO.Info update(Long id, InvoiceMolybdenumDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(InvoiceMolybdenumDTO.Delete request);
+    void delete(InvoiceMolybdenumDTO.Delete request);
 
-	TotalResponse<InvoiceMolybdenumDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<InvoiceMolybdenumDTO.Info> search(NICICOCriteria criteria);
 
-	SearchDTO.SearchRs<InvoiceMolybdenumDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<InvoiceMolybdenumDTO.Info> search(SearchDTO.SearchRq request);
 }

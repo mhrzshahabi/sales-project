@@ -79,7 +79,8 @@ public class ShipmentMoistureItemRestController {
     }
 
     @RequestMapping(value = {"/addMoisturePaste"}, method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<String> createAddMoisturePaste(@RequestBody String data) {
+    public @ResponseBody
+    ResponseEntity<String> createAddMoisturePaste(@RequestBody String data) {
         return new ResponseEntity<>(shipmentMoistureItemService.createAddMoisturePaste(data), HttpStatus.OK);
     }
 }

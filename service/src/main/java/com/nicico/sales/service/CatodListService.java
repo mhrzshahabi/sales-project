@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CatodListDTO;
 import com.nicico.sales.iservice.ICatodListService;
@@ -51,5 +50,5 @@ public class CatodListService implements ICatodListService {
     public TotalResponse<CatodListDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(catodListDAO, criteria, catodList -> modelMapper.map(catodList, CatodListDTO.Info.class));
     }
-    
+
 }

@@ -5,7 +5,6 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.InvoiceInternalCustomerDTO;
 import com.nicico.sales.dto.InvoiceInternalDTO;

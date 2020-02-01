@@ -9,17 +9,17 @@ import java.util.List;
 
 public interface IShipmentEmailService {
 
-	ShipmentEmailDTO.Info get(Long id);
+    ShipmentEmailDTO.Info get(Long id);
 
-	List<ShipmentEmailDTO.Info> list();
+    List<ShipmentEmailDTO.Info> list();
 
-	ShipmentEmailDTO.Info create(ShipmentEmailDTO.Create request) throws MessagingException;
+    ShipmentEmailDTO.Info create(ShipmentEmailDTO.Create request) throws MessagingException;
 
-	ShipmentEmailDTO.Info update(Long id, ShipmentEmailDTO.Update request);
+    ShipmentEmailDTO.Info update(Long id, ShipmentEmailDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ShipmentEmailDTO.Delete request);
+    void delete(ShipmentEmailDTO.Delete request);
 
-	TotalResponse<ShipmentEmailDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ShipmentEmailDTO.Info> search(NICICOCriteria criteria);
 }
