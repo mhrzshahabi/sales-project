@@ -607,9 +607,9 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            // DynamicForm_warehouseCAD.validate();
-            // if (DynamicForm_warehouseCAD.hasErrors())
-            //     return;
+            DynamicForm_warehouseCAD.validate();
+            if (DynamicForm_warehouseCAD.hasErrors())
+                return;
 
             DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
