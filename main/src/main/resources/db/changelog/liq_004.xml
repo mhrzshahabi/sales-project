@@ -19,6 +19,11 @@
     <changeSet author="RMazloom" id="1578893517121-241">
         <createSequence sequenceName="seq_invoice_internal_document"/>
     </changeSet>
-
+    <changeSet author="RMazloom" id="1578893517121-242">
+        <dropTable tableName="TBL_CATOD_LIST"/>
+        <dropTable tableName="TBL_INVOICE_INTERNAL"/>
+        <dropTable tableName="TBL_INVOICE_INTERNAL_CUSTOMER"/>
+        <dropTable tableName="TBL_INVOICE_INTERNAL_LC"/>
+    </changeSet>
 
 </databaseChangeLog>

@@ -5,11 +5,9 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.InvoiceInternalDTO;
 import com.nicico.sales.iservice.IInvoiceInternalService;
-import com.nicico.sales.service.InvoiceInternalCustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
@@ -32,7 +30,6 @@ import java.util.Map;
 public class InvoiceInternalRestController {
 
     private final IInvoiceInternalService invoiceInternalService;
-    private final InvoiceInternalCustomerService invoiceInternalCustomerService;
     private final ReportUtil reportUtil;
 
     @Loggable
@@ -50,7 +47,7 @@ public class InvoiceInternalRestController {
     @Loggable
     @GetMapping(value = "/list-accounting/{ids}")
     public ResponseEntity<List<InvoiceInternalDTO.Info>> listAccounting(@PathVariable List<String> ids) {
-          List<InvoiceInternalDTO.Info> lastIds = invoiceInternalService.getIds(ids);
+        List<InvoiceInternalDTO.Info> lastIds = invoiceInternalService.getIds(ids);
         return new ResponseEntity<>(lastIds, HttpStatus.OK);
     }
 
