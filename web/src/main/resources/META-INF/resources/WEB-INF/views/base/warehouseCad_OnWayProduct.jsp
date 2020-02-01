@@ -322,7 +322,7 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "110",
+        titleWidth: "150",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
@@ -556,19 +556,43 @@
             width: 250,
             colSpan: 1,
             titleColSpan: 1
-        }, {
+        },
+        {
             name: "sourceWeight",
             title: "<spring:message code='warehouseCad.sourceWeight'/>",
             width: 250,
             colSpan: 1,
-            titleColSpan: 1
-        }, {
+            titleColSpan: 1 , keyPressFilter: "[0-9]",
+        },
+        {
             name: "destinationWeight",
             title: "<spring:message code='warehouseCad.destinationWeight'/>",
             width: 250,
             colSpan: 1,
+            titleColSpan: 1 , keyPressFilter: "[0-9]",
+        },
+
+        {
+            name: "sheetNumSource",
+            title: "<spring:message code='warehouseCad.SheetNumber.Source'/>",
+            width: 250,
+            colSpan: 1,
             titleColSpan: 1
         },
+
+        {
+            name: "sheetNumDestination",
+            title: "<spring:message code='warehouseCad.SheetNumber.Destination'/>",
+            width: 250,
+            colSpan: 1,
+            titleColSpan: 1
+        },
+
+
+
+
+
+
             {
                 align: "center",
                 layoutAlign: "center",
