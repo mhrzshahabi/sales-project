@@ -6,6 +6,7 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
+
     var RestDataSource_Shipment_CostHeader = isc.MyRestDataSource.create(
         {
             fields: [
@@ -97,6 +98,7 @@
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
 
+
     var Menu_ListGrid_Shipment_CostHeader = isc.Menu.create({
         width: 150,
         data: [
@@ -171,7 +173,9 @@
             align: "center", padding: 5,
             membersMargin: 20,
             members: [
-                ToolStripButton_Cost_Add
+                <sec:authorize access="hasAuthority('C_COST')">
+                ToolStripButton_Cost_Add,
+                </sec:authorize>
             ]
         });
 
@@ -327,6 +331,7 @@
             ToolStrip_Actions_Shipment_CostHeader, HLayout_Grid_Shipment_CostHeader
         ]
     });
+
 
     var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [
@@ -533,6 +538,7 @@
         }
     }
 
+
     var Menu_ListGrid_Cost = isc.Menu.create({
         width: 150,
         data: [
@@ -614,6 +620,7 @@
             </sec:authorize>
         ]
     });
+
 
     var DynamicForm_Cost = isc.DynamicForm.create({
         width: "100%",
@@ -1053,6 +1060,7 @@
                 },
             ]
     });
+
 
     var ToolStripButton_Cost_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
