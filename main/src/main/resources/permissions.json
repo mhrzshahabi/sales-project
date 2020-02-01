@@ -3,7 +3,7 @@
 
     {
       "code": "R_BANK",
-      "title": "نمایش اطلاعات بانک"
+      "title": "نمایش بانک"
     },
     {
       "code": "C_BANK",
@@ -19,7 +19,7 @@
     },
     {
       "code": "R_CATODLIST",
-      "title": "نمایش اطلاعات لیست کاتد"
+      "title": "نمایش لیست کاتد"
     },
     {
       "code": "C_CATODLIST",
@@ -35,7 +35,7 @@
     },
     {
       "code": "R_CONTACT_ACCOUNT",
-      "title": "نمایش اطلاعات حساب"
+      "title": "نمایش حساب"
     },
     {
       "code": "C_CONTACT_ACCOUNT",
@@ -51,7 +51,7 @@
     },
     {
       "code": "R_CONTACT",
-      "title": "نمایش اطلاعات طرف حساب تجاری"
+      "title": "نمایش طرف حساب تجاری"
     },
     {
       "code": "C_CONTACT",
@@ -199,7 +199,7 @@
     },
     {
       "code": "R_CURRENCY",
-      "title": "نمایش نرخ تبدیل ارز"
+      "title": "نمایش ارز"
     },
     {
       "code": "C_CURRENCY",
