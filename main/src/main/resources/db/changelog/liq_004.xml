@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="RMazloom" id="1578893517121-240">
+        <createTable tableName="TBL_INVOICEINTERNALDOCUMENT">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_INVOICEINTERNALDOCUMENT_PK"/>
+            </column>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="INV_ID" type="VARCHAR2(255 CHAR)"/>
+            <column name="PROCESSID" type="VARCHAR2(255 CHAR)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-241">
+        <createSequence sequenceName="seq_invoice_internal_document"/>
+    </changeSet>
+
+
+</databaseChangeLog>

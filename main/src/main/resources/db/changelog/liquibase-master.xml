@@ -8,4 +8,5 @@
 	<include file="classpath:/db/changelog/liq_001.xml"/>
 	<include file="classpath:/db/changelog/liq_002.xml"/>
 	<include file="classpath:/db/changelog/liq_003.xml"/>
+	<include file="classpath:/db/changelog/liq_004.xml"/>
 </databaseChangeLog>
