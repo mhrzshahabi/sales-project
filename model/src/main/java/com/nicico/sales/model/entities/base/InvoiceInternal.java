@@ -40,7 +40,7 @@ import javax.persistence.Id;
                 "havealayandegi," +
                 "havemaleyate," +
                 "inv_date," +
-                "REPLACE(vi.inv_id,'-','') as inv_id," +
+                "vi.inv_id," +
                 "inv_other_kosorat," +
                 "inv_sented," +
                 "lc_datesarresed," +
@@ -63,7 +63,7 @@ import javax.persistence.Id;
 public class InvoiceInternal {
     @Id
     @Column(name = "INV_ID", length = 100)
-    private Long id;
+    private String id;
 
     @Column(name = "LCID", length = 100)
     private String lcId;

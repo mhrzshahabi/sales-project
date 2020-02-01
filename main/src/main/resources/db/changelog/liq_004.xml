@@ -25,10 +25,10 @@
         <dropTable tableName="TBL_INVOICE_INTERNAL_CUSTOMER"/>
         <dropTable tableName="TBL_INVOICE_INTERNAL_LC"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-243">
+    <changeSet author="RMazloom" id="1578893517121-244">
         <modifyDataType
                 columnName="INV_ID"
-                newDataType="NUMBER(19, 0)"
+                newDataType="varchar2(255 CHAR)"
                 tableName="TBL_INVOICEINTERNALDOCUMENT"/>
     </changeSet>
 
