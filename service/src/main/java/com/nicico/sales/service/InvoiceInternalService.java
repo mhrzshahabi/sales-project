@@ -49,7 +49,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional(readOnly = true)
     @Override
-    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public List<InvoiceInternalDTO.Info> list() {
         final List<InvoiceInternal> slAll = invoiceInternalDAO.findAll();
 
@@ -98,7 +98,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional(readOnly = true)
     @Override
-    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
+//    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(invoiceInternalDAO, criteria, invoiceInternal -> modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
     }

@@ -17,26 +17,29 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseCadDTO {
 
-    private String warehouseNo;
-    private Long materialItemId;
-    private String plant;
-    private Double weightKg;
-    private String bijackNo;
-    private String movementType;
-    private Long warehouseYardId;
-    private String sourceLoadDate;
-    private String destinationUnloadDate;
-    private String containerNo;
-    private String rahahanPolompNo;
-    private String herasatPolompNo;
+    private String  warehouseNo;
+    private Long    materialItemId;
+    private String  plant;
+    private Double  weightKg;
+    private String  bijackNo;
+    private String  movementType;
+    private Long    warehouseYardId;
+    private String  sourceLoadDate;
+    private String  destinationUnloadDate;
+    private String  containerNo;
+    private String  rahahanPolompNo;
+    private String  herasatPolompNo;
     private Integer sourceBundleSum;
     private Integer destinationBundleSum;
     private Integer sourceSheetSum;
     private Integer destinationSheetSum;
-    private String sourceTozinPlantId;
-    private String destinationTozinPlantId;
-    private Double sourceWeight;
-    private Double destinationWeight;
+    private String  sourceTozinPlantId;
+    private String  destinationTozinPlantId;
+    private Double  sourceWeight;
+    private Double  destinationWeight;
+    private Integer sheetNumSource;
+    private Integer sheetNumDestination;
+
 
     @Getter
     @Setter
