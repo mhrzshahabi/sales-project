@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CatodListDTO {
+public class CathodeListDTO {
 
     private String storeId;
     private String tozinId;
@@ -27,7 +27,7 @@ public class CatodListDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("CatodListInfo")
-    public static class Info extends CatodListDTO {
+    public static class Info extends CathodeListDTO {
         private Long id;
     }
 
@@ -36,7 +36,7 @@ public class CatodListDTO {
     @Accessors(chain = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class SpecRs {
-        private List<CatodListDTO.Info> data;
+        private List<CathodeListDTO.Info> data;
         private Integer status;
         private Integer startRow;
         private Integer endRow;
