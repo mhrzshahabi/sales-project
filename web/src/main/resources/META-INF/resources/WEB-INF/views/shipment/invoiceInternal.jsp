@@ -9,7 +9,6 @@
     var RestDataSource_InvoiceInternal = isc.MyRestDataSource.create({
         fields:
             [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "invId"},
                 {name: "lcId"},
                 {name: "havalehId"},
@@ -46,8 +45,7 @@
                 {name: "gdsName"},
                 {name: "groupGoodsNosa"},
                 {name: "groupGoodName"},
-                {name: "lcDateSarReceid"},
-                {name: "processId"} //Bug-Fix ->Not Work Search
+                {name: "lcDateSarReceid"}
             ],
 
         fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
@@ -308,7 +306,6 @@
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "processId", title: "<spring:message code='invoice.processId'/>"},
                 {name: "invDate", title: "<spring:message code='invoice.invDate'/>"},
                 {name: "havalehId", title: "<spring:message code='invoice.havalehId'/>"},
                 {name: "customerName", title: "<spring:message code='invoice.customerName'/>"},
