@@ -143,21 +143,9 @@ public class TozinService implements ITozinService {
             requestCriteriaRqList.add(systemTypeCriteriaRq);
         }
 
-        final SearchDTO.SearchRq request = createSearchRq(criteria);
+        TotalResponse<TozinDTO.Info> search = SearchUtil.search(tozinDAO, criteria, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
 
-        if (request.getCriteria() != null) {
-            requestCriteriaRqList.add(request.getCriteria());
-        }
-
-        SearchDTO.CriteriaRq requestCriteriaRq = new SearchDTO.CriteriaRq()
-                .setOperator(EOperator.and)
-                .setCriteria(requestCriteriaRqList);
-
-        request.setCriteria(requestCriteriaRq);
-
-        final SearchDTO.SearchRs<TozinDTO.Info> response = SearchUtil.search(tozinDAO, request, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
-
-        return mapSearchRs(criteria, response);
+        return search;
 
     }
 
