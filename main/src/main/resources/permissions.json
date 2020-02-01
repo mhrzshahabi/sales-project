@@ -398,6 +398,10 @@
       "title": "حذف صورتحساب"
     },
     {
+      "code": "O_INVOICE",
+      "title": "خروجی صورتحساب"
+    },
+    {
       "code": "R_LME",
       "title": "نمایش LME"
     },
