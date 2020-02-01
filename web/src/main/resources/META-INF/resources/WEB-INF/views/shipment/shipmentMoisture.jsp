@@ -229,7 +229,6 @@
         });
 
 
-    <sec:authorize access="hasAuthority('R_SHIPMENT')">
     var MyRestDataSource_ShipmentByMoistureHeader = isc.MyRestDataSource.create(
         {
             fields: [
@@ -430,7 +429,6 @@
                 }],
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
-    </sec:authorize>
 
 
     var ShipmentMoistureItemData = [];
@@ -828,9 +826,7 @@
     var ListGrid_ShipmentByMoistureHeader = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        <sec:authorize access="hasAuthority('R_SHIPMENT')">
         dataSource: MyRestDataSource_ShipmentByMoistureHeader,
-        </sec:authorize>
         styleName: 'expandList',
         autoFetchData: true,
         alternateRecordStyles: true,
