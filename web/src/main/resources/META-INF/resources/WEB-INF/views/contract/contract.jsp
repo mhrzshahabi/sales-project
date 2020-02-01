@@ -202,7 +202,7 @@
         }
     });
 
-    <sec:authorize access="hasAuthority('C_CONTRACT')">
+
     var ToolStripButton_Contract_Add = isc.ToolStripMenuButton.create({
         showSelectedIcon: false,
         showRollOverIcon: false,
@@ -236,7 +236,6 @@
         }),
 
     });
-    </sec:authorize>
 
     <sec:authorize access="hasAuthority('O_CONTRACT')">
     var ToolStripButton_Contract_Print = isc.ToolStripButtonPrint.create({
@@ -281,9 +280,7 @@
         membersMargin: 15,
         members:
             [
-                <sec:authorize access="hasAuthority('C_CONTRACT')">
                 ToolStripButton_Contract_Add,
-                </sec:authorize>
 
                 <sec:authorize access="hasAuthority('D_CONTRACT')">
                 ToolStripButton_Contract_Remove,

@@ -69,7 +69,6 @@
         fetchDataURL: "${contextPath}/api/person/spec-list"
     });
 
-    <sec:authorize access="hasAuthority('R_SHIPMENT')">
     var RestDataSource_Inspection = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -276,7 +275,7 @@
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
-    </sec:authorize>
+
 
     <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
     var ToolStripButton_InspectionContract_Add = isc.ToolStripButtonAdd.create({
@@ -375,13 +374,8 @@
 
         HLayout_InspectionContract_Grid.show();
 
-        <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
         ToolStripButton_InspectionContract_Add.show();
-        </sec:authorize>
-
-        <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
         ToolStripButton_InspectionContract_PrintWord.show();
-        </sec:authorize>
 
         var layoutInspectionContract = isc.VLayout.create({
             styleName: "expand-layout",
@@ -1039,9 +1033,7 @@
     var ListGrid_Inspection = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        <sec:authorize access="hasAuthority('R_SHIPMENT')">
         dataSource: RestDataSource_Inspection,
-        </sec:authorize>
         styleName: 'expandList',
         autoFetchData: true,
         alternateRecordStyles: true,
@@ -1331,10 +1323,6 @@
             HLayout_Inspection_Grid
         ]
     });
-    <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
-    ToolStripButton_InspectionContract_Add.hide();
-    </sec:authorize>
 
-    <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
+    ToolStripButton_InspectionContract_Add.hide();
     ToolStripButton_InspectionContract_PrintWord.hide();
-    </sec:authorize>

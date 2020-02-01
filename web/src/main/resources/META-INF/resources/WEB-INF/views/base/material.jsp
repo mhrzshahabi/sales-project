@@ -674,7 +674,9 @@
                 align: "center", padding: 5,
                 membersMargin: 20,
                 members: [
+                    <sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">
                     ToolStripButton_MaterialItem_Add
+                    </sec:authorize>
                 ]
             });
 
@@ -829,24 +831,32 @@
                     ListGrid_MaterialFeature_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_FEATURE')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     ListGrid_MaterialFeature_add();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_FEATURE')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_MaterialFeature_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_FEATURE')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_MaterialFeature_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -1125,6 +1135,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_FEATURE')">
     var ToolStripButton_MaterialFeature_Add = isc.ToolStripButtonAddLarge.create({
 
         title: "<spring:message code='global.form.new'/>",
@@ -1132,7 +1143,9 @@
             ListGrid_MaterialFeature_add();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_FEATURE')">
     var ToolStripButton_MaterialFeature_Edit = isc.ToolStripButtonEdit.create({
 
         title: "<spring:message code='global.form.edit'/>",
@@ -1141,7 +1154,9 @@
             ListGrid_MaterialFeature_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_FEATURE')">
     var ToolStripButton_MaterialFeature_Remove = isc.ToolStripButtonRemove.create({
 
         title: "<spring:message code='global.form.remove'/>",
@@ -1149,14 +1164,24 @@
             ListGrid_MaterialFeature_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_MaterialFeature = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('C_FEATURE')">
                 ToolStripButton_MaterialFeature_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_FEATURE')">
                 ToolStripButton_MaterialFeature_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_FEATURE')">
                 ToolStripButton_MaterialFeature_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -1436,7 +1461,9 @@
         align: "center", padding: 5,
         membersMargin: 10,
         members: [
+            <sec:authorize access="hasAuthority('C_FEATURE')">
             ToolStripButton_MaterialFeature_Add
+            </sec:authorize>
         ]
     });
 
@@ -1603,6 +1630,7 @@
                     ListGrid_MaterialItem_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -1610,18 +1638,25 @@
                     Window_MaterialItem.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_MATERIAL_ITEM')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_MaterialItem_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_MATERIAL_ITEM')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_MaterialItem_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -1668,6 +1703,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">
     var ToolStripButton_MaterialItem_Add = isc.ToolStripButtonAddLarge.create({
         title: "<spring:message code='global.form.new.sub'/>",
         click: function () {
@@ -1690,7 +1726,9 @@
             }
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_MATERIAL_ITEM')">
     var ToolStripButton_MaterialItem_Edit = isc.ToolStripButtonEdit.create({
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -1698,21 +1736,33 @@
             ListGrid_MaterialItem_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_MATERIAL_ITEM')">
     var ToolStripButton_MaterialItem_Remove = isc.ToolStripButtonRemove.create({
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             ListGrid_MaterialItem_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_MaterialItem = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">
                 ToolStripButton_MaterialItem_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_MATERIAL_ITEM')">
                 ToolStripButton_MaterialItem_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_MATERIAL_ITEM')">
                 ToolStripButton_MaterialItem_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
