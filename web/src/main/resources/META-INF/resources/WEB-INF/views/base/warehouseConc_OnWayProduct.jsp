@@ -2,7 +2,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
-alert("bbb");
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECONC_ONWAYPRODUCT = isc.MyRestDataSource.create({
