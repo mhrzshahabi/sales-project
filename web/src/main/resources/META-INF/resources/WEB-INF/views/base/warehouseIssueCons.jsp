@@ -159,7 +159,6 @@
 
     //*******************************************************************************
 
-    <sec:authorize access="hasAuthority('R_SHIPMENT')">
     var MyRestDataSource_ShipmentByWarehouseIssueCons = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -326,7 +325,6 @@
         }],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
-    </sec:authorize>
 
     var recordNotFound = isc.Label.create({
         height: 30,
@@ -365,7 +363,9 @@
             align: "center", padding: 5,
             membersMargin: 20,
             members: [
+                <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CONS')">
                 ToolStripButton_WarehouseIssueCons_Add
+                </sec:authorize>
             ]
         });
 
@@ -383,9 +383,7 @@
     var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        <sec:authorize access="hasAuthority('R_SHIPMENT')">
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueCons,
-        </sec:authorize>
         styleName: 'expandList',
         alternateRecordStyles: true,
         canExpandRecords: true,

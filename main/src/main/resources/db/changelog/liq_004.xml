@@ -31,5 +31,9 @@
                 newDataType="varchar2(255 CHAR)"
                 tableName="TBL_INVOICEINTERNALDOCUMENT"/>
     </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-245">
+        <dropTable tableName="V_TOZINE_CONTENT_B"/>
+        <dropTable tableName="V_TOZINE_CONTENT_M"/>
+    </changeSet>
 
 </databaseChangeLog>

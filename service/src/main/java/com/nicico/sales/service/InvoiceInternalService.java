@@ -69,7 +69,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional(readOnly = true)
     @Override
-  //@PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
+  @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria) {
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         return SearchUtil.search(invoiceInternalDAO, criteria, invoiceInternal -> modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
