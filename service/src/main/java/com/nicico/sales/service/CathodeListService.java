@@ -26,6 +26,7 @@ public class CathodeListService implements ICathodeListService {
     @Override
     @PreAuthorize("hasAuthority('R_CATODLIST')")
     public TotalResponse<CathodeListDTO.Info> search(NICICOCriteria criteria) {
+        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         return SearchUtil.search(cathodeListDAO, criteria, entity -> modelMapper.map(entity, CathodeListDTO.Info.class));
     }
