@@ -52,7 +52,7 @@ public class TozinSalesFormController {
     }
 
     @RequestMapping("/print/{name}/{type}/{date}")
-    public ResponseEntity<?> print(HttpServletResponse response, Authentication authentication, @PathVariable String name,
+    public ResponseEntity<?> print(HttpServletResponse response, @PathVariable String name,
                                    @PathVariable String type, @PathVariable String date) throws SQLException, IOException, JRException {
         String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
         Map<String, Object> params = new HashMap<>();
