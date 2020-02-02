@@ -938,7 +938,6 @@
         ]
     });
 
-
         var ShipmentCancelBtn_Help_shipment = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/help.png",
         title: "<spring:message code='global.form.help'/>",
