@@ -407,78 +407,18 @@ function saveListGrid_ContractCadItemShipment(contractID) {
 
     var dataALLArticle = {};
     function saveValueAllArticles(contractID) {
-
-        if(valuesManagerfullArticle.getValue("fullArticle01")==undefined){
-          dataALLArticle.Article01="";
-        }else{
-          dataALLArticle.Article01 = valuesManagerfullArticle.getValue("fullArticle01");
-        }
-
-        if(valuesManagerfullArticle.getValue("fullArticle02")==undefined){
-          dataALLArticle.Article02="";
-        }else{
-          dataALLArticle.Article02 = valuesManagerfullArticle.getValue("fullArticle02");
-        }
-
-        if(article3_quality.getValue("fullArticle3")==undefined){
-          dataALLArticle.Article03="";
-        }else{
-          dataALLArticle.Article03 = article3_quality.getValue("fullArticle3");
-        }
-
-        if(article4_quality.getValue("fullArticle4")==undefined){
-          dataALLArticle.Article04="";
-        }else{
-          dataALLArticle.Article04 = article4_quality.getValue("fullArticle4");
-        }
-
-        if(article5_quality.getValue("fullArticle5")==undefined){
-          dataALLArticle.Article05="";
-        }else{
-          dataALLArticle.Article05 = article5_quality.getValue("fullArticle5");
-        }
-
-        if(article6_quality.getValue("fullArticle6")==undefined){
-          dataALLArticle.Article06="";
-        }else{
-          dataALLArticle.Article06 = article6_quality.getValue("fullArticle6");
-        }
-
-        if(article7_quality.getValue("fullArticle7")==undefined){
-          dataALLArticle.Article07="";
-        }else{
-          dataALLArticle.Article07 = article7_quality.getValue("fullArticle7");
-        }
-
-        if(article8_quality.getValue("fullArticle8")==undefined){
-          dataALLArticle.Article08="";
-        }else{
-          dataALLArticle.Article08 = article8_quality.getValue("fullArticle8");
-        }
-
-        if(article9_quality.getValue("fullArticle9")==undefined){
-          dataALLArticle.Article09="";
-        }else{
-          dataALLArticle.Article09 = article9_quality.getValue("fullArticle9");
-        }
-
-        if(article10_quality.getValue("fullArticle10")==undefined){
-          dataALLArticle.Article10="";
-        }else{
-          dataALLArticle.Article10 = article10_quality.getValue("fullArticle10");
-        }
-
-        if(article11_quality.getValue("fullArticle11")==undefined){
-          dataALLArticle.Article11="";
-        }else{
-          dataALLArticle.Article11 = article11_quality.getValue("fullArticle11");
-        }
-
-        if(article12_quality.getValue("fullArticle12")==undefined){
-          dataALLArticle.Article12="";
-        }else{
-          dataALLArticle.Article12 = article12_quality.getValue("fullArticle12");
-        }
+        dataALLArticle.Article01 = nvlCad(dynamicFormCad_fullArticle01.getValue());
+        dataALLArticle.Article02 = nvlCad(dynamicForm_fullArticle02Cad.getValue());
+        dataALLArticle.Article03 = nvlCad(fullArticle3.getValue());
+        dataALLArticle.Article04 = nvlCad(fullArticle4.getValue());
+        dataALLArticle.Article05 = nvlCad(article5_quality.getValue());
+        dataALLArticle.Article06 = nvlCad(fullArticle6.getValue());
+        dataALLArticle.Article07 = nvlCad(fullArticle7.getValue());
+        dataALLArticle.Article08 = nvlCad(fullArticle8.getValue());
+        dataALLArticle.Article09 = nvlCad(fullArticle9.getValue());
+        dataALLArticle.Article10 = nvlCad(fullArticle10.getValue());
+        dataALLArticle.Article11 = nvlCad(article11_quality.getValue());
+        dataALLArticle.Article12 = nvlCad(fullArticle12.getValue());
         dataALLArticle.contractNo = contactCadHeader.getValue("contractNo");
         dataALLArticle.contractId = contractID;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -492,6 +432,14 @@ function saveListGrid_ContractCadItemShipment(contractID) {
                     isc.say(RpcResponse_o.data);
             }
         }))
+    }
+
+function nvlCad(articleIsNotNull){
+        if(articleIsNotNull == undefined){
+            return "";
+        }else{
+            return articleIsNotNull;
+        }
     }
 
 function saveCotractCadDetails(data, contractID) {

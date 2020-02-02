@@ -299,18 +299,18 @@ var ListGrid_Cad = isc.ListGrid.create({
                         setTimeout(function(){
                                 recordContractNo=contactCadHeader.getValue("contractNo");
                                 contactCadTabs.selectTab(0);
-                                valuesManagerfullArticle.setValue("fullArticle01",textMain.Article01);
-                                valuesManagerfullArticle.setValue("fullArticle02",textMain.Article02);
-                                article3_quality.setValue("fullArticle3",textMain.Article03);
-                                article4_quality.setValue("fullArticle4",textMain.Article04);
-                                article5_quality.setValue("fullArticle5",textMain.Article05);
-                                article6_quality.setValue("fullArticle6",textMain.Article06);
-                                article7_quality.setValue("fullArticle7",textMain.Article07);
-                                article8_quality.setValue("fullArticle8",textMain.Article08);
-                                article9_quality.setValue("fullArticle9",textMain.Article09);
-                                article10_quality.setValue("fullArticle10",textMain.Article10);
-                                article11_quality.setValue("fullArticle11",textMain.Article11);
-                                article12_quality.setValue("fullArticle12",textMain.Article12);
+                                dynamicFormCad_fullArticle01.setValue(textMain.Article01);
+                                dynamicForm_fullArticle02Cad.setValue(textMain.Article02);
+                                fullArticle3.setValue(textMain.Article03);
+                                fullArticle4.setValue(textMain.Article04);
+                                article5_quality.setValue(textMain.Article05);
+                                fullArticle6.setValue(textMain.Article06);
+                                fullArticle7.setValue(textMain.Article07);
+                                fullArticle8.setValue(textMain.Article08);
+                                fullArticle9.setValue(textMain.Article09);
+                                fullArticle10.setValue(textMain.Article10);
+                                article11_quality.setValue(textMain.Article11);
+                                fullArticle12.setValue(textMain.Article12);
                                 contactCadHeader.setValue("createDate", record.contractDate)
                                 contactCadHeader.setValue("contractNo", record.contractNo)
                                 contactCadHeader.setValue("contactId", record.contactId)
