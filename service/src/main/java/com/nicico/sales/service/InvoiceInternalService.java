@@ -38,6 +38,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public InvoiceInternalDTO.Info get(String id) {
+        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final InvoiceInternal invoiceInternal = invoiceInternalDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalNotFound));
@@ -47,6 +48,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public List<InvoiceInternalDTO.Info> getIds(List<String> id) {
+        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final List<InvoiceInternal> allByIds = invoiceInternalDAO.findAllById(id);
         List<InvoiceInternalDTO.Info> invoiceInternalDTOS = new ArrayList<InvoiceInternalDTO.Info>();
@@ -61,6 +63,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     @Override
     @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public List<InvoiceInternalDTO.Info> list() {
+        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final List<InvoiceInternal> slAll = invoiceInternalDAO.findAll();
         return modelMapper.map(slAll, new TypeToken<List<InvoiceInternalDTO.Info>>() {
@@ -71,6 +74,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     @Override
   @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria) {
+        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         return SearchUtil.search(invoiceInternalDAO, criteria, invoiceInternal -> modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
     }
