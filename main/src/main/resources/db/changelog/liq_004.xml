@@ -41,6 +41,7 @@
         <dropView viewName="VIEW_FROSH"/>
         <sql>
             alter session set nls_language = 'AMERICAN';
+            alter session set time_zone = 'UTC';
         </sql>
         <createView viewName="VIEW_TOZIN">
             <![CDATA[
