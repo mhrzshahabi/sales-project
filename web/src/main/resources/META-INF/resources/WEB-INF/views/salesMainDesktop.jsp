@@ -964,9 +964,10 @@
 
     /*Help*/
     isc.HTMLFlow.create({
+        textAlign: "center",
         top:100,
         contents:"<div id=\"mybutton\">\n" +
-            "<button class=\"feedback\"><spring:message code='global.form.help'/></button>\n" +
+            "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
             "</div>",
         dynamicContents:true,
         click:function()
@@ -977,8 +978,5 @@
     /*Help*/
 
 </script>
-
-
-
 </body>
 </html>
