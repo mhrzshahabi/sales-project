@@ -10,10 +10,14 @@
 
     <changeSet  author="jalalazad"  id="1578893517121-229" >
         <addColumn tableName="TBL_WAREHOUSE_CAD">
-            <column name="SOURCE_SHEET_SUM_DELIVERY" type="NUMBER(10,0)" />
-            <column name="DESTINATION_SHEET_SUM_DELIVERY" type="NUMBER(10,0)" />
+            <column name="SHEET_NUM_SOURCE" type="NUMBER(10,0)" />
+            <column name="SHEET_NUM_DESTINATION" type="NUMBER(10,0)" />
         </addColumn>
     </changeSet>
 
+    <changeSet  author="jalalazad"  id="1578893517121-230" >
+        <renameColumn tableName="TBL_WAREHOUSE_CAD" oldColumnName="SHEET_NUM_SOURCE" newColumnName="SOURCE_SHEET_SUM_DELIVERY"  />
+        <renameColumn tableName="TBL_WAREHOUSE_CAD" oldColumnName="SHEET_NUM_DESTINATION" newColumnName="DESTINATION_SHEET_SUM_DELIVERY"  />
+    </changeSet>
 
 </databaseChangeLog>
