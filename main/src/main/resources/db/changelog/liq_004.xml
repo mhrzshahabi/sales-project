@@ -20,30 +20,48 @@
         <createSequence sequenceName="seq_invoice_internal_document"/>
     </changeSet>
     <changeSet author="RMazloom" id="1578893517121-242">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="TBL_CATOD_LIST"/>
+            <tableExists tableName="TBL_INVOICE_INTERNAL"/>
+            <tableExists tableName="TBL_INVOICE_INTERNAL_CUSTOMER"/>
+            <tableExists tableName="TBL_INVOICE_INTERNAL_LC"/>
+        </preConditions>
         <dropTable tableName="TBL_CATOD_LIST"/>
         <dropTable tableName="TBL_INVOICE_INTERNAL"/>
         <dropTable tableName="TBL_INVOICE_INTERNAL_CUSTOMER"/>
         <dropTable tableName="TBL_INVOICE_INTERNAL_LC"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-244">
+    <changeSet author="RMazloom" id="1578893517121-243">
         <modifyDataType
                 columnName="INV_ID"
                 newDataType="varchar2(255 CHAR)"
                 tableName="TBL_INVOICEINTERNALDOCUMENT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-245">
+    <changeSet author="RMazloom" id="1578893517121-244">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="V_TOZINE_CONTENT_B"/>
+            <tableExists tableName="V_TOZINE_CONTENT_M"/>
+        </preConditions>
         <dropTable tableName="V_TOZINE_CONTENT_B"/>
         <dropTable tableName="V_TOZINE_CONTENT_M"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-246">
-        <preConditions onFail="WARN"><tableExists schemaName="schemaName" tableName="tableName"/></preConditions>
-        <!--<dropView viewName="VIEW_TOZIN"/>
+    <changeSet author="RMazloom" id="1578893517121-245">
+        <preConditions onFail="MARK_RAN">
+            <viewExists viewName="VIEW_TOZIN"/>
+            <viewExists viewName="VIEW_TOZIN_S"/>
+            <viewExists viewName="VIEW_FROSH"/>
+        </preConditions>
+        <dropView viewName="VIEW_TOZIN"/>
         <dropView viewName="VIEW_TOZIN_S"/>
-        <dropView viewName="VIEW_FROSH"/>-->
+        <dropView viewName="VIEW_FROSH"/>
+    </changeSet>
+    <changeSet id="RMazloom" author="1578893517121-246">
         <sql>
             alter session set nls_language = 'AMERICAN';
             alter session set time_zone = 'UTC';
         </sql>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-247">
         <createView viewName="VIEW_TOZIN">
             <![CDATA[
                  select  m.id material_id,card_id,
