@@ -915,6 +915,39 @@
         }
     });
 
+
+
+    var fillScreenWindow_letter = isc.Window.create({
+        placement: "fillScreen",
+        autoDraw: false,
+        title: "<spring:message code='global.form.help'/>",
+        items: [
+            isc.HLayout.create({
+                width: "100%",
+                layoutMargin:5,
+                membersMargin: 10,
+                members: [
+                    isc.HTMLPane.create({
+                        ID:"myPane",
+                        showEdges:true,
+                        contentsURL:"/sales/help/LoadingLetter.html",
+                        contentsType:"page"
+                    })
+                    ]
+                })
+        ]
+    });
+
+
+        var ShipmentCancelBtn_Help_shipment = isc.ToolStripButtonPrint.create({
+        icon: "[SKIN]/actions/help.png",
+        title: "<spring:message code='global.form.help'/>",
+        click:function()
+        {
+            fillScreenWindow_letter.show();
+        }
+   });
+
     var ShipmentCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
@@ -1132,6 +1165,8 @@
             <sec:authorize access="hasAuthority('D_SHIPMENT')">
             ToolStripButton_Shipment_Remove,
             </sec:authorize>
+
+        ShipmentCancelBtn_Help_shipment,
 
             isc.ToolStrip.create({
                 width: "100%",

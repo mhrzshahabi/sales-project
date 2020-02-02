@@ -549,7 +549,7 @@
     });
 
     /* Start ----------------------help General---------------------------------*/
-        var fillScreenWindow = isc.Window.create({
+        var fillScreenWindow_Main = isc.Window.create({
         placement: "fillScreen",
         autoDraw: false,
         title: "<spring:message code='global.form.help'/>",
@@ -575,7 +575,7 @@
         title: "<spring:message code='global.form.help'/>",
         click:function()
         {
-            fillScreenWindow.show();
+            fillScreenWindow_Main .show();
         }
     });
 
