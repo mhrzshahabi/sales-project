@@ -96,11 +96,11 @@ public class WarehouseCad extends Auditable {
     @Column(name = "DESTINATION_WEIGHT")
     private Double destinationWeight;
 
-    @Column(name = "SHEET_NUM_SOURCE")
-    private Integer sheetNumSource;
+    @Column(name = "SOURCE_SHEET_SUM_DELIVERY")
+    private Integer sourceSheetSumDelivery;
 
-    @Column(name = "SHEET_NUM_DESTINATION")
-    private Integer sheetNumDestination;
+    @Column(name = "DESTINATION_SHEET_SUM_DELIVERY")
+    private Integer destinationSheetSumDelivery;
 
 
 }

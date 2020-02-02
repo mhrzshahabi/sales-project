@@ -37,8 +37,8 @@ public class WarehouseCadDTO {
     private String  destinationTozinPlantId;
     private Double  sourceWeight;
     private Double  destinationWeight;
-    private Integer sheetNumSource;
-    private Integer sheetNumDestination;
+    private Integer sourceSheetSumDelivery;
+    private Integer destinationSheetSumDelivery;
 
 
     @Getter

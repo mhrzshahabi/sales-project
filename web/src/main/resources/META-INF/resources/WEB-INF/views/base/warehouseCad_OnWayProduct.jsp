@@ -573,7 +573,7 @@
         },
 
         {
-            name: "sheetNumSource",
+            name: "sourceSheetSumDelivery",
             title: "<spring:message code='warehouseCad.SheetNumber.Source'/>",
             width: 250,
             colSpan: 1,
@@ -581,7 +581,7 @@
         },
 
         {
-            name: "sheetNumDestination",
+            name: "destinationSheetSumDelivery",
             title: "<spring:message code='warehouseCad.SheetNumber.Destination'/>",
             width: 250,
             colSpan: 1,
