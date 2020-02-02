@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
-
+alert("bbb");
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECONC_ONWAYPRODUCT = isc.MyRestDataSource.create({
@@ -384,6 +384,8 @@
             optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
             displayField: "tozinPlantId",
             valueField: "tozinPlantId",
+            addUnknownValues: false,
+            useClientFiltering: false,
             pickListWidth: 650,
             pickListHeight: 350,
             pickListProperties: {
@@ -531,6 +533,11 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
+            if(DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")==undefined){
+                    isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
+                    DynamicForm_warehouseCAD.validate()
+                    return;
+                }
             DynamicForm_warehouseCAD.validate();
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;

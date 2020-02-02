@@ -255,7 +255,8 @@
             fieldName: "codeKala",
             operator: "equals",
             value: ListGrid_Tozin.getSelectedRecord().codeKala
-        }]
+        }
+        ]
     };
 
 
@@ -403,11 +404,13 @@
             showHover: true,
             autoFetchData: false,
             title: "<spring:message code='warehouseCad.tozinBandarAbbas'/>",
-            type: 'string',
             width: "100%",
-            editorType: "SelectItem",
+            editorType: "ComboBoxItem",
             optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT,
             optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
+            addUnknownValues: false,
+            useClientFiltering: false,
+            generateExactMatchCriteria: true,
             displayField: "tozinPlantId",
             valueField: "tozinPlantId",
             pickListWidth: 650,
@@ -425,11 +428,10 @@
             ],
             changed(form, item, value) {
                 DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
-                console.log(item.getSelectedRecord());
                 DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
                 DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
             }
-        }, {
+        },{
             name: "warehouseYardId",
             required: true,
             colSpan: 1,
@@ -611,10 +613,14 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
+             if(DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")==undefined){
+                    isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
+                    DynamicForm_warehouseCAD.validate()
+                    return;
+                }
             DynamicForm_warehouseCAD.validate();
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
-
             DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             var warehouseCadItems = [];
