@@ -570,15 +570,6 @@
         ]
     });
 
-     ShipmentCancelBtnHelp = isc.ToolStripButtonPrint.create({
-         icon: "[SKIN]/actions/help.png",
-        title: "<spring:message code='global.form.help'/>",
-        click:function()
-        {
-            fillScreenWindow_Main .show();
-        }
-    });
-
     /*End --------------------------help General----------------------------*/
 
 
@@ -885,7 +876,6 @@
             inspectionTab,
             productTab,
             settingTab,
-            ShipmentCancelBtnHelp
         ]
     });
 
@@ -972,6 +962,23 @@
     }
     </sec:authorize>
 
+    /*Help*/
+    isc.HTMLFlow.create({
+        top:100,
+        contents:"<div id=\"mybutton\">\n" +
+            "<button class=\"feedback\"><spring:message code='global.form.help'/></button>\n" +
+            "</div>",
+        dynamicContents:true,
+        click:function()
+        {
+            fillScreenWindow_Main .show();
+        }
+    });
+    /*Help*/
+
 </script>
+
+
+
 </body>
 </html>
