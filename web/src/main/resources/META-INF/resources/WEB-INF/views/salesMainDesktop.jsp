@@ -548,6 +548,42 @@
         }),
     });
 
+    /* Start ----------------------help General---------------------------------*/
+        var fillScreenWindow = isc.Window.create({
+        placement: "fillScreen",
+        autoDraw: false,
+        title: "<spring:message code='global.form.help'/>",
+        items: [
+            isc.HLayout.create({
+                width: "100%",
+                layoutMargin:5,
+                membersMargin: 10,
+                members: [
+                    isc.HTMLPane.create({
+                        ID:"myPane",
+                        showEdges:true,
+                        contentsURL:"/sales/help/general-sales.html",
+                        contentsType:"page"
+                    })
+                    ]
+                })
+        ]
+    });
+
+     ShipmentCancelBtnHelp = isc.ToolStripButtonPrint.create({
+         icon: "[SKIN]/actions/help.png",
+        title: "<spring:message code='global.form.help'/>",
+        click:function()
+        {
+            fillScreenWindow.show();
+        }
+    });
+
+    /*End --------------------------help General----------------------------*/
+
+
+
+
     /*----------------------settingTab------------------------*/
     settingTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.settingTab'/>",
@@ -840,10 +876,6 @@
     saleToolStrip = isc.ToolStrip.create({
         align: "center",
         membersMargin: 20,
-        //layoutMargin: 5,
-       // showShadow: true,
-       // shadowDepth: 3,
-      //  shadowColor: "#153560",
 
         members: [
             baseTab,
@@ -853,7 +885,7 @@
             inspectionTab,
             productTab,
             settingTab,
-
+            ShipmentCancelBtnHelp
         ]
     });
 
