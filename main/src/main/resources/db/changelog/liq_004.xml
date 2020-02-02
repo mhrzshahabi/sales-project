@@ -35,5 +35,99 @@
         <dropTable tableName="V_TOZINE_CONTENT_B"/>
         <dropTable tableName="V_TOZINE_CONTENT_M"/>
     </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-246">
+        <dropView viewName="VIEW_TOZIN"/>
+        <dropView viewName="VIEW_TOZIN_S"/>
+        <dropView viewName="VIEW_FROSH"/>
+        <sql>
+            alter session set nls_language = 'AMERICAN';
+        </sql>
+        <createView viewName="VIEW_TOZIN">
+            <![CDATA[
+                 select  m.id material_id,card_id,
+                carno1,
+                carno3,
+                plak,
+                carname,
+                contener_id,
+                contener_no1,
+                contener_no3,
+                contener_name,
+                to_char(p.id)||p.NAMEfa tozine_id,
+                tozine_id tozin_plant_id,
+                wazn1,
+                wazn2,
+                case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
+                wazn,
+                greatest (nvl(tedad,1),1) tedad,
+                nvl(unit_kala,6) unit_kala,
+                nvl(packname,'فله') packname,
+                havcode,
+                dat,
+                tzn_date,
+                tzn_time,
+                v.gdscode,
+                v.gdsname,
+                v.sourceid,
+                sourcee,
+                v.targetid,
+                v.target,
+                hav_name,
+                hav_from,
+                hav_to,
+                hav_date,
+                hav_isfinal,
+                p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id
+
+                from n_master.v_tozine_content_m v
+                join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
+                join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
+                left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
+                left join TBL_TOZIN_TARGET t on t.targetid=v.targetid
+                order by v.PLAK,v.CONTENER_ID,v.TZN_DATE,v.TZN_TIME
+            ]]>
+        </createView>
+        <createView viewName="VIEW_TOZIN_S">
+            <![CDATA[
+                 SELECT card_id,carno1,carno3,carpelak plak,carname,customerid,customer,sellerid,seller,
+              wazn1,wazn2,wazn,
+
+                greatest (nvl(tedad,1),1) tedad,
+                nvl(unit_kala,6) unit_kala,
+                nvl(packname,'فله') packname
+
+              ,havcode,dat,tzn_date,tzn_time,v.gdscode,v.gdsname,
+                v.sourceid,v.sourcee,v.targetid,v.target,
+                to_char(p.id)||p.NAMEfa tozine_id,cast('    ' as varchar2(300))    HAV_NAME,cast('    ' as varchar2(20))  HAV_DATE,
+                tozine_id tozin_plant_id,
+                case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
+                p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id,
+                isoky hav_isfinal
+
+                FROM n_master.v_tozine_content_b v
+                join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
+                join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
+                left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
+                left join TBL_TOZIN_TARGET t on t.targetid=v.targetid
+
+                order by carpelak ,carname,v.TZN_DATE,v.TZN_TIME,customerid,customer,sellerid
+            ]]>
+        </createView>
+        <createView viewName="VIEW_FROSH">
+            <![CDATA[
+                 select tzn_date,p.id,p.namefa plant,m.gdscode,m.gdsname
+				 , case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,
+				 nvl(sum(wazn),0) wazn,sum(case when tedad is null then 1 when tedad=0 then 1 else tedad end) tedad
+				 from n_master.v_tozine_content_m m
+				join tbl_tozin_target s on s.targetid=sourceid
+				join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
+				join tbl_tozin_material mt on mt.gdscode=m.gdscode
+				where  m.targetid not in (select targetid from tbl_tozin_target)
+				group by tzn_date,p.id,p.namefa ,m.gdscode,m.gdsname
+				 , (case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end)
+				 order by tzn_date,p.id,m.gdscode
+            ]]>
+        </createView>
+    </changeSet>
 
 </databaseChangeLog>

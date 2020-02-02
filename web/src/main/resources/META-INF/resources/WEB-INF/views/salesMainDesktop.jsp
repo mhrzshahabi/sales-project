@@ -926,11 +926,9 @@
             headerLayout.setVisibility(true);
             MainDesktopMenuH.setVisibility(true);
             }
-        console.log(checked)
     }
 
     document.addEventListener("mousemove", function(event){
-        console.log(event.clientY)
         if(event.clientY <= 2)
         {
             headerLayout.setStyleName('header-top toggle-show')

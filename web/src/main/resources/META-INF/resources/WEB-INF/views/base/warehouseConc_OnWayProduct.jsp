@@ -448,7 +448,8 @@
             title: "<spring:message code='warehouseCad.containerNo'/>", //شماره کانتینر
             width: 250,
             colSpan: 1,
-            titleColSpan: 1
+            titleColSpan: 1,
+            canEdit: false
         },
 
         {
@@ -490,7 +491,7 @@
             width: 250,
             colSpan: 1,
             titleColSpan: 1,
-            disabled: true
+            canEdit: false
         },
 
         {
@@ -499,20 +500,22 @@
             width: 250,
             colSpan: 1,
             titleColSpan: 1,
-            disabled: true
+            canEdit: false
         },
         {
             name: "sourceWeight",
             title: "<spring:message code='warehouseCad.sourceWeight'/>", //وزن مبدا
             width: 250,
             colSpan: 1,
-            titleColSpan: 1
+            titleColSpan: 1,
+            canEdit: false
         }, {
             name: "destinationWeight",
             title: "<spring:message code='warehouseCad.destinationWeight'/>", //وزن مقصد
             width: 250,
             colSpan: 1,
-            titleColSpan: 1
+            titleColSpan: 1,
+            canEdit: false
         },
             {
                 align: "center",
@@ -520,8 +523,6 @@
                 type: "Header",
                 defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
             }
-
-
         ]
     });
 

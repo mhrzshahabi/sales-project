@@ -379,17 +379,13 @@
                 showFilterEditor: true,
                 filterOnKeypress: false
             },
-            pickListFields: [{
-                name: "containerId"
-            }, {
-                name: "plak"
-            }, {
-                name: "carName"
-            }, {
-                name: "tozinDate"
-            }, {
-                name: "tozinPlantId"
-            }],
+            pickListFields: [
+                {name: "containerId"},
+                {name: "plak"},
+                {name: "carName"},
+                {name: "tozinDate"},
+                {name: "tozinPlantId"}
+            ],
             changed(form, item, value) {
                 DynamicForm_warehouseCAD.setValue("plant", item.getSelectedRecord().source);
                 DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
@@ -420,19 +416,18 @@
                 showFilterEditor: true,
                 filterOnKeypress: false
             },
-            pickListFields: [{
-                name: "containerId"
-            }, {
-                name: "plak"
-            }, {
-                name: "carName"
-            }, {
-                name: "tozinDate"
-            }, {
-                name: "tozinPlantId"
-            }],
+            pickListFields: [
+                {name: "containerId"},
+                {name: "plak"},
+                {name: "carName"},
+                {name: "tozinDate"},
+                {name: "tozinPlantId"}
+            ],
             changed(form, item, value) {
                 DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
+                console.log(item.getSelectedRecord());
+                DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
+                DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
             }
         }, {
             name: "warehouseYardId",
@@ -464,29 +459,30 @@
             }
         },
 
-        {
-            name: "rahahanPolompNo",
-            title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        },
+            {
+                name: "rahahanPolompNo",
+                title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1
+            },
 
-        {
-            name: "containerNo",
-            title: "<spring:message code='warehouseCad.containerNo'/>", //شماره کانتینر
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        },
+            {
+                name: "containerNo",
+                title: "<spring:message code='warehouseCad.containerNo'/>", //شماره کانتینر
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1,
+                canEdit: false
+            },
 
-        {
-            name: "herasatPolompNo",
-            title: "<spring:message code='warehouseCad.herasatPolompNo'/>", //شماره پلمپ حراست
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        },
+            {
+                name: "herasatPolompNo",
+                title: "<spring:message code='warehouseCad.herasatPolompNo'/>", //شماره پلمپ حراست
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1
+            },
 
 
             {
@@ -497,80 +493,88 @@
             },
 
 
-        {
-        type: "staticText",
-        title: "<b><spring:message code='bijack.title.destination.right'/></b>",
-        wrapTitle: true,
-        width: 90 ,
-        },
+            {
+                type: "staticText",
+                title: "<b><spring:message code='bijack.title.destination.right'/></b>",
+                wrapTitle: true,
+                width: 90,
+            },
 
-        {
+            {
 
-        type: "staticText",
-        title: "<b><spring:message code='bijack.title.destination.left'/></b>",
-        wrapTitle: false,
-        width: 90 ,
-        },
+                type: "staticText",
+                title: "<b><spring:message code='bijack.title.destination.left'/></b>",
+                wrapTitle: false,
+                width: 90,
+            },
 
-       {
-            name: "sourceLoadDate",
-            title: "<spring:message code='warehouseCad.sourceLoadDate'/>", //=تاریخ بارگیری در مبدا
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1,
-            disabled: true
-        },
+            {
+                name: "sourceLoadDate",
+                title: "<spring:message code='warehouseCad.sourceLoadDate'/>", //=تاریخ بارگیری در مبدا
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1,
+                canEdit: false
+            },
 
-        {
-            name: "destinationUnloadDate",
-            title: "<spring:message code='warehouseCad.destinationUnloadDate'/>", //تاریخ تخلیه در مقصد
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1,
-            disabled: true
-        },
-        {
-            name: "sourceBundleSum",
-            title: "<spring:message code='warehouseCad.sourceBundleSum'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        },
-        {
-            name: "destinationBundleSum",
-            title: "<spring:message code='warehouseCad.destinationBundleSum'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        },
-        {
-            name: "sourceSheetSum",
-            title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        },
-        {
-            name: "destinationSheetSum",
-            title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        },
-        {
-            name: "sourceWeight",
-            title: "<spring:message code='warehouseCad.sourceWeight'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1 , keyPressFilter: "[0-9]",
-        },
-        {
-            name: "destinationWeight",
-            title: "<spring:message code='warehouseCad.destinationWeight'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1 , keyPressFilter: "[0-9]",
-        },
+            {
+                name: "destinationUnloadDate",
+                title: "<spring:message code='warehouseCad.destinationUnloadDate'/>", //تاریخ تخلیه در مقصد
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1,
+                canEdit: false
+            },
+            {
+                name: "sourceBundleSum",
+                title: "<spring:message code='warehouseCad.sourceBundleSum'/>",
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1,
+                canEdit: false
+            },
+            {
+                name: "destinationBundleSum",
+                title: "<spring:message code='warehouseCad.destinationBundleSum'/>",
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1,
+                canEdit: false
+            },
+            {
+                name: "sourceSheetSum",
+                title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1,
+                canEdit: false
+            },
+            {
+                name: "destinationSheetSum",
+                title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1,
+                canEdit: false
+            },
+            {
+                name: "sourceWeight",
+                title: "<spring:message code='warehouseCad.sourceWeight'/>",
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1,
+                keyPressFilter: "[0-9]",
+                canEdit: false
+            },
+            {
+                name: "destinationWeight",
+                title: "<spring:message code='warehouseCad.destinationWeight'/>",
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1,
+                keyPressFilter: "[0-9]",
+                canEdit: false
+            },
 
         {
             name: "sourceSheetSumDelivery",
@@ -684,12 +688,6 @@
                 delete item.gdsCode;
             });
             ListGrid_WarehouseCadItem.setData(data);
-            var productLabel = ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("productLabel"));
-            var sheetNumber = ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("sheetNumber"));
-            var wazn = ListGrid_WarehouseCadItem.getGridSummary(ListGrid_WarehouseCadItem.getField("wazn"));
-            DynamicForm_warehouseCAD.setValue("destinationBundleSum", productLabel[0]);
-            DynamicForm_warehouseCAD.setValue("destinationSheetSum", sheetNumber[0]);
-            DynamicForm_warehouseCAD.setValue("destinationWeight", wazn[0]);
         });
 
     DynamicForm_warehouseCAD.clearValues();
