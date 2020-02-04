@@ -255,19 +255,20 @@
             fieldName: "codeKala",
             operator: "equals",
             value: ListGrid_Tozin.getSelectedRecord().codeKala
-        }
-        ]
+        }]
     };
 
 
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
         width: "100%",
-        height: "200",
-        modalEditing: true,
+        height: "80%",
         canEdit: true,
-        autoFetchData: false,
+        // autoFetchData: true,
+        editEvent: "click",
+        editByCell: true,
+        modalEditing: true,
         canRemoveRecords: false, //pms is credited
-        autoSaveEdits: true,
+        autoSaveEdits: false,
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT,
         showGridSummary: true,
         fields: [{
@@ -296,13 +297,32 @@
             title: "<spring:message code='warehouseCadItem.description'/>",
             width: "25%"
         }],
-        saveEdits: function () {
-            var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
-            if (warehouseCadItem.productLabel === undefined || warehouseCadItem.sheetNumber === undefined || warehouseCadItem.wazn === undefined) {
-                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
-                return;
-            }
-        },
+        // saveEdits: function () {
+            <%--var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());--%>
+            <%--if (warehouseCadItem.productLabel === undefined || warehouseCadItem.sheetNumber === undefined || warehouseCadItem.wazn === undefined) {--%>
+                <%--isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");--%>
+                <%--return;--%>
+            <%--}--%>
+            <%--else{--%>
+                    <%--var method = "PUT";--%>
+                    <%--if (warehouseCadItem.id == null)--%>
+                    <%--method = "POST";--%>
+                    <%--isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {--%>
+                    <%--actionURL: "${contextPath}/api/warehouseCadItem/",--%>
+                    <%--httpMethod: method,--%>
+                    <%--data: JSON.stringify(warehouseCadItem),--%>
+                    <%--callback: function (resp) {--%>
+                    <%--if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {--%>
+                    <%--isc.say("<spring:message code='global.form.request.successful'/>");--%>
+                    <%--//fetch data automatically--%>
+                    <%--ListGrid_WarehouseCadItem.setData([]);--%>
+                    <%--ListGrid_WarehouseCadItem.fetchData();--%>
+                    <%--} else--%>
+                    <%--isc.say(RpcResponse_o.data);--%>
+                    <%--}--%>
+                    <%--}));--%>
+                 <%--}--%>
+        // },
         removeData: function (data) {
         }
     });
@@ -428,10 +448,11 @@
             ],
             changed(form, item, value) {
                 DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
+                console.log(item.getSelectedRecord());
                 DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
                 DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
             }
-        },{
+        }, {
             name: "warehouseYardId",
             required: true,
             colSpan: 1,
@@ -624,22 +645,38 @@
             DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             var warehouseCadItems = [];
+
             ListGrid_WarehouseCadItem.selectAllRecords();
 
-            if (ListGrid_WarehouseCadItem.data.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
-
-            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
-                warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
-            });
+            var editRowsIndex = [];
+            editRowsIndex = ListGrid_WarehouseCadItem.getAllEditRows();
 
             ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
-                if (element.productLabel !== undefined && element.sheetNumber !== undefined && element.wazn !== undefined) {
-                    warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
-                }
+                warehouseCadItems.add(JSON.parse(JSON.stringify(ListGrid_WarehouseCadItem.getEditedRecord(element))))
             });
+
+
+            var selectRows = [];
+            selectRows = ListGrid_WarehouseCadItem.getSelectedRecords();
+
+
+            for (var i=0; i < selectRows.length; i++) {
+                var Exist = false;
+
+                for (var j=0; j < editRowsIndex.length; j++) {
+
+                    if(i == editRowsIndex[j]) {
+                        Exist = true;
+                        break;
+                    }//if
+
+                }//for j
+                if (Exist){
+                    warehouseCadItems.add(JSON.parse(JSON.stringify(selectRows[i])));
+                }
+
+
+            }//for i
 
             if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
@@ -654,9 +691,12 @@
                 item.sheetNo = item.sheetNumber;
                 delete item.sheetNumber;
                 item.weightKg = item.wazn;
-                delete item.wazn;
+                delete item.wazn
+                // item.id = item.productID;
+                // delete item.productID;
             });
 
+            alert(JSON.stringify(warehouseCadItems))
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
 
             var method = "PUT";
@@ -684,6 +724,7 @@
         _constructor: "AdvancedCriteria", operator: "and",
         criteria: [{fieldName: "tozinId", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().tozinPlantId}]
     };
+
     RestDataSource_CatodList.fetchData(criteria_catod,
         function (dsResponse, data, dsRequest) {
             data.forEach(function (item) {
