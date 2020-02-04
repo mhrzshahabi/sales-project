@@ -560,7 +560,7 @@
                 membersMargin: 10,
                 members: [
                     isc.HTMLPane.create({
-                        ID:"myPane",
+                        ID:"myPane2",
                         showEdges:true,
                         contentsURL:"/sales/help/general-sales.html",
                         contentsType:"page"
