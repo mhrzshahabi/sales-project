@@ -263,11 +263,13 @@
         width: "100%",
         height: "80%",
         canEdit: true,
-        // autoFetchData: true,
+        autoFetchData: true,
         editEvent: "click",
         editByCell: true,
         modalEditing: true,
-        canRemoveRecords: false, //pms is credited
+        canRemoveRecords: true,
+        deferRemoval: false,
+        saveLocally: true,
         autoSaveEdits: false,
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT,
         showGridSummary: true,
@@ -280,23 +282,46 @@
         }, {
             name: "productLabel",
             title: "<spring:message code='warehouseCadItem.bundleSerial'/>",
-            width: "25%",
+            width: "20%",
             summaryFunction: "count"
         }, {
             name: "sheetNumber",
             title: "<spring:message code='warehouseCadItem.sheetNo'/>",
-            width: "25%",
+            width: "20%",
             summaryFunction: "sum"
         }, {
             name: "wazn",
             title: "<spring:message code='warehouseCadItem.weightKg'/>",
-            width: "25%",
+            width: "20%",
             summaryFunction: "sum"
         }, {
             name: "description",
             title: "<spring:message code='warehouseCadItem.description'/>",
             width: "25%"
-        }],
+        },
+        <%--{--%>
+            <%--name:"button",--%>
+            <%--type: "button",--%>
+            <%--width: "15%",--%>
+            <%--title: "Remove",--%>
+            <%--startRow: false,--%>
+            <%--click: function (data)  {--%>
+                        <%--isc.Dialog.create({--%>
+                            <%--message: "<spring:message code='global.grid.record.remove.ask'/>",--%>
+                            <%--icon: "[SKIN]ask.png",--%>
+                            <%--title: "<spring:message code='global.grid.record.remove.ask.title'/>",--%>
+                            <%--buttons: [--%>
+                            <%--isc.Button.create({title: "<spring:message code='global.yes'/>"}),--%>
+                            <%--isc.Button.create({title: "<spring:message code='global.no'/>"})--%>
+                            <%--],--%>
+                            <%--buttonClick: function (button, index) {--%>
+                            <%--this.hide();--%>
+                            <%--ListGrid_WarehouseCadItem.removeSelectedData(data);--%>
+                            <%--}--%>
+                        <%--});--%>
+            <%--}--%>
+        <%--}--%>
+        ],
         // saveEdits: function () {
             <%--var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());--%>
             <%--if (warehouseCadItem.productLabel === undefined || warehouseCadItem.sheetNumber === undefined || warehouseCadItem.wazn === undefined) {--%>
@@ -323,7 +348,26 @@
                     <%--}));--%>
                  <%--}--%>
         // },
-        removeData: function (data) {
+        removeData: function (record) {
+
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+
+                    if (index === 0){
+                        ListGrid_WarehouseCadItem.data.remove(record);
+                        alert(JSON.stringify(ListGrid_WarehouseCadItem.data));
+                    }
+
+                    }
+            });
         }
     });
 
@@ -639,9 +683,14 @@
                     DynamicForm_warehouseCAD.validate()
                     return;
                 }
+            alert("////");
+            alert(JSON.stringify(ListGrid_WarehouseCadItem.data));
+            alert("****");
+
             DynamicForm_warehouseCAD.validate();
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
+
             DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             var warehouseCadItems = [];
@@ -696,7 +745,7 @@
                 // delete item.productID;
             });
 
-            alert(JSON.stringify(warehouseCadItems))
+            // alert(JSON.stringify(warehouseCadItems))
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
 
             var method = "PUT";
