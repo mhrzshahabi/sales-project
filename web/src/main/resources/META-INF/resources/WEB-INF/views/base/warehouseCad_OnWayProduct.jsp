@@ -6,13 +6,7 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_CatodList = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        }, {
+        fields: [ {
             name: "productLabel"
         }, {
             name: "sheetNumber"
@@ -263,23 +257,16 @@
         width: "100%",
         height: "80%",
         canEdit: true,
-        autoFetchData: true,
+        // autoFetchData: true,
         editEvent: "click",
         editByCell: true,
         modalEditing: true,
-        canRemoveRecords: true,
+        canRemoveRecords: true, //pms is credited
+        autoSaveEdits: false,
         deferRemoval: false,
         saveLocally: true,
-        autoSaveEdits: false,
-        dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT,
         showGridSummary: true,
         fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        }, {
             name: "productLabel",
             title: "<spring:message code='warehouseCadItem.bundleSerial'/>",
             width: "20%",
@@ -683,49 +670,31 @@
                     DynamicForm_warehouseCAD.validate()
                     return;
                 }
-            alert("////");
-            alert(JSON.stringify(ListGrid_WarehouseCadItem.data));
-            alert("****");
-
             DynamicForm_warehouseCAD.validate();
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
-
             DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             var warehouseCadItems = [];
 
             ListGrid_WarehouseCadItem.selectAllRecords();
 
-            var editRowsIndex = [];
-            editRowsIndex = ListGrid_WarehouseCadItem.getAllEditRows();
+            if (ListGrid_WarehouseCadItem.data.length == 0) {
+                isc.warn("<spring:message code='bijack.noitems'/>");
+                return;
+            }
 
             ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
-                warehouseCadItems.add(JSON.parse(JSON.stringify(ListGrid_WarehouseCadItem.getEditedRecord(element))))
+                var record = ListGrid_WarehouseCadItem.getEditedRecord(JSON.parse(JSON.stringify(element)));
+                if (record.productLabel !== undefined && record.sheetNumber !== undefined && record.wazn !== undefined) {
+                    warehouseCadItems.add(record);
+                    ListGrid_WarehouseCadItem.deselectRecord(ListGrid_WarehouseCadItem.getRecord(element));
+                }
             });
 
-
-            var selectRows = [];
-            selectRows = ListGrid_WarehouseCadItem.getSelectedRecords();
-
-
-            for (var i=0; i < selectRows.length; i++) {
-                var Exist = false;
-
-                for (var j=0; j < editRowsIndex.length; j++) {
-
-                    if(i == editRowsIndex[j]) {
-                        Exist = true;
-                        break;
-                    }//if
-
-                }//for j
-                if (Exist){
-                    warehouseCadItems.add(JSON.parse(JSON.stringify(selectRows[i])));
-                }
-
-
-            }//for i
+            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
+                warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
+            });
 
             if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
@@ -740,12 +709,10 @@
                 item.sheetNo = item.sheetNumber;
                 delete item.sheetNumber;
                 item.weightKg = item.wazn;
-                delete item.wazn
-                // item.id = item.productID;
-                // delete item.productID;
+                delete item.wazn;
             });
 
-            // alert(JSON.stringify(warehouseCadItems))
+            console.log(warehouseCadItems,"*********warehouseCadItems")
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
 
             var method = "PUT";
