@@ -261,7 +261,7 @@
         editEvent: "click",
         editByCell: true,
         modalEditing: true,
-        canRemoveRecords: true, //pms is credited
+        canRemoveRecords: true,
         autoSaveEdits: false,
         deferRemoval: false,
         saveLocally: true,
@@ -285,56 +285,8 @@
             name: "description",
             title: "<spring:message code='warehouseCadItem.description'/>",
             width: "25%"
-        },
-        <%--{--%>
-            <%--name:"button",--%>
-            <%--type: "button",--%>
-            <%--width: "15%",--%>
-            <%--title: "Remove",--%>
-            <%--startRow: false,--%>
-            <%--click: function (data)  {--%>
-                        <%--isc.Dialog.create({--%>
-                            <%--message: "<spring:message code='global.grid.record.remove.ask'/>",--%>
-                            <%--icon: "[SKIN]ask.png",--%>
-                            <%--title: "<spring:message code='global.grid.record.remove.ask.title'/>",--%>
-                            <%--buttons: [--%>
-                            <%--isc.Button.create({title: "<spring:message code='global.yes'/>"}),--%>
-                            <%--isc.Button.create({title: "<spring:message code='global.no'/>"})--%>
-                            <%--],--%>
-                            <%--buttonClick: function (button, index) {--%>
-                            <%--this.hide();--%>
-                            <%--ListGrid_WarehouseCadItem.removeSelectedData(data);--%>
-                            <%--}--%>
-                        <%--});--%>
-            <%--}--%>
-        <%--}--%>
-        ],
-        // saveEdits: function () {
-            <%--var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());--%>
-            <%--if (warehouseCadItem.productLabel === undefined || warehouseCadItem.sheetNumber === undefined || warehouseCadItem.wazn === undefined) {--%>
-                <%--isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");--%>
-                <%--return;--%>
-            <%--}--%>
-            <%--else{--%>
-                    <%--var method = "PUT";--%>
-                    <%--if (warehouseCadItem.id == null)--%>
-                    <%--method = "POST";--%>
-                    <%--isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {--%>
-                    <%--actionURL: "${contextPath}/api/warehouseCadItem/",--%>
-                    <%--httpMethod: method,--%>
-                    <%--data: JSON.stringify(warehouseCadItem),--%>
-                    <%--callback: function (resp) {--%>
-                    <%--if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {--%>
-                    <%--isc.say("<spring:message code='global.form.request.successful'/>");--%>
-                    <%--//fetch data automatically--%>
-                    <%--ListGrid_WarehouseCadItem.setData([]);--%>
-                    <%--ListGrid_WarehouseCadItem.fetchData();--%>
-                    <%--} else--%>
-                    <%--isc.say(RpcResponse_o.data);--%>
-                    <%--}--%>
-                    <%--}));--%>
-                 <%--}--%>
-        // },
+        }],
+
         removeData: function (record) {
 
             isc.Dialog.create({
@@ -350,7 +302,6 @@
 
                     if (index === 0){
                         ListGrid_WarehouseCadItem.data.remove(record);
-                        alert(JSON.stringify(ListGrid_WarehouseCadItem.data));
                     }
 
                     }
@@ -712,7 +663,6 @@
                 delete item.wazn;
             });
 
-            console.log(warehouseCadItems,"*********warehouseCadItems")
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
 
             var method = "PUT";
