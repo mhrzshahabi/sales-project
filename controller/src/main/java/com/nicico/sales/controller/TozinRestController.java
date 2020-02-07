@@ -30,45 +30,6 @@ import java.util.Map;
 public class TozinRestController {
 
     private final ITozinService tozinService;
-    private final ReportUtil reportUtil;
-
-    @Loggable
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<TozinDTO.Info> get(@PathVariable Long id) {
-        return new ResponseEntity<>(tozinService.get(id), HttpStatus.OK);
-    }
-
-    @Loggable
-    @GetMapping(value = "/list")
-    public ResponseEntity<List<TozinDTO.Info>> list() {
-        return new ResponseEntity<>(tozinService.list(), HttpStatus.OK);
-    }
-
-    @Loggable
-    @PostMapping
-    public ResponseEntity<TozinDTO.Info> create(@Validated @RequestBody TozinDTO.Create request) {
-        return new ResponseEntity<>(tozinService.create(request), HttpStatus.CREATED);
-    }
-
-    @Loggable
-    @PutMapping
-    public ResponseEntity<TozinDTO.Info> update(@RequestBody TozinDTO.Update request) {
-        return new ResponseEntity<>(tozinService.update(request.getId(), request), HttpStatus.OK);
-    }
-
-    @Loggable
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        tozinService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @Loggable
-    @DeleteMapping(value = "/list")
-    public ResponseEntity<Void> delete(@Validated @RequestBody TozinDTO.Delete request) {
-        tozinService.delete(request);
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
     @Loggable
     @GetMapping(value = "/showTransport2Plants/{date}")
@@ -112,16 +73,5 @@ public class TozinRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(tozinService.searchTozinOnTheWay(nicicoCriteria, "DestTozin"), HttpStatus.OK);
 
-    }
-
-    @Loggable
-    @GetMapping(value = {"/print/{type}/{date}"})
-    public void print(HttpServletResponse response, @PathVariable String type, @PathVariable("date") String date)
-            throws SQLException, IOException, JRException {
-        String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
-        Map<String, Object> params = new HashMap<>();
-        params.put("dateReport", day);
-        params.put(ConstantVARs.REPORT_TYPE, type);
-        reportUtil.export("/reports/tozin_beyn_mojtama.jasper", params, response);
     }
 }

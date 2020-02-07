@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,72 +42,16 @@ public class TozinService implements ITozinService {
     private final MaterialItemDAO materialItemDAO;
     private final ModelMapper modelMapper;
     private final ObjectMapper objectMapper;
-
-    @Transactional(readOnly = true)
-    @PreAuthorize("hasAuthority('R_TOZIN')")
-    public TozinDTO.Info get(Long id) {
-        final Optional<Tozin> slById = tozinDAO.findById(id);
-        final Tozin tozin = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinNotFound));
-
-        return modelMapper.map(tozin, TozinDTO.Info.class);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_TOZIN')")
-    public List<TozinDTO.Info> list() {
-        final List<Tozin> slAll = tozinDAO.findAll();
-
-        return modelMapper.map(slAll, new TypeToken<List<TozinDTO.Info>>() {
-        }.getType());
-    }
-
-    @Transactional
-    @Override
-    @PreAuthorize("hasAuthority('C_TOZIN')")
-    public TozinDTO.Info create(TozinDTO.Create request) {
-        final Tozin tozin = modelMapper.map(request, Tozin.class);
-
-        return save(tozin);
-    }
-
-    @Transactional
-    @Override
-    @PreAuthorize("hasAuthority('U_TOZIN')")
-    public TozinDTO.Info update(Long id, TozinDTO.Update request) {
-        final Optional<Tozin> slById = tozinDAO.findById(id);
-        final Tozin tozin = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.TozinNotFound));
-
-        Tozin updating = new Tozin();
-        modelMapper.map(tozin, updating);
-        modelMapper.map(request, updating);
-
-        return save(updating);
-    }
-
-    @Transactional
-    @Override
-    @PreAuthorize("hasAuthority('D_TOZIN')")
-    public void delete(Long id) {
-        tozinDAO.deleteById(id);
-    }
-
-    @Transactional
-    @Override
-    @PreAuthorize("hasAuthority('D_TOZIN')")
-    public void delete(TozinDTO.Delete request) {
-        final List<Tozin> tozins = tozinDAO.findAllById(request.getIds());
-
-        tozinDAO.deleteAll(tozins);
-    }
+    private final EntityManager entityManager;
 
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_TOZIN')")
     public TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria) {
+        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
+        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         return SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
     }
-
 
     @Transactional(readOnly = true)
     @Override
@@ -143,15 +88,12 @@ public class TozinService implements ITozinService {
             requestCriteriaRqList.add(systemTypeCriteriaRq);
         }
 
+        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
+        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         TotalResponse<TozinDTO.Info> search = SearchUtil.search(tozinDAO, criteria, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
 
         return search;
 
-    }
-
-    private TozinDTO.Info save(Tozin tozin) {
-        final Tozin saved = tozinDAO.saveAndFlush(tozin);
-        return modelMapper.map(saved, TozinDTO.Info.class);
     }
 
     @PreAuthorize("hasAuthority('R_TOZIN')")
