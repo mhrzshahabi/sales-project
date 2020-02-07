@@ -94,15 +94,45 @@ span:hover {
 }
 
 
-#isc_W0{
 
+
+/*Help General*/
+.glow-on-hover {
+    background: #111;
+    color: #989898;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    cursor: help;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 50px;
+    height: 50px;
+    flex-direction: row;
+    text-align: center;
+    
 }
 
-/*.formTitle{*/
-/*    font-weight: lighter !important;*/
-/*    white-space: nowrap !important;*/
-/*}*/
 
-/*#isc_8I{*/
-/*    height: 400px !important;*/
-/*}*/
+#mybutton {
+    position: fixed;
+    left: 10px;
+    bottom: 6px;
+    -webkit-transition: all 0.75s ease 0s;
+    -moz-transition: all 0.75s ease 0s;
+    -o-transition: all 0.75s ease 0s;
+    transition: all 0.75s ease 0s;
+    opacity:0.5;
+    text-align: center;
+}
+#mybutton:hover {
+    bottom: 8px;
+    opacity:1;
+
+}
+/*Help General*/
+

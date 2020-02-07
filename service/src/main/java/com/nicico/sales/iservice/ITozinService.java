@@ -8,18 +8,6 @@ import java.util.List;
 
 public interface ITozinService {
 
-    TozinDTO.Info get(Long id);
-
-    List<TozinDTO.Info> list();
-
-    TozinDTO.Info create(TozinDTO.Create request);
-
-    TozinDTO.Info update(Long id, TozinDTO.Update request);
-
-    void delete(Long id);
-
-    void delete(TozinDTO.Delete request);
-
     TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria);
 
     TotalResponse<TozinDTO.Info> searchTozinOnTheWay(NICICOCriteria criteria, String tozin);

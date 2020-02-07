@@ -560,7 +560,7 @@
                 membersMargin: 10,
                 members: [
                     isc.HTMLPane.create({
-                        ID:"myPane",
+                        ID:"myPane2",
                         showEdges:true,
                         contentsURL:"/sales/help/general-sales.html",
                         contentsType:"page"
@@ -568,15 +568,6 @@
                     ]
                 })
         ]
-    });
-
-     ShipmentCancelBtnHelp = isc.ToolStripButtonPrint.create({
-         icon: "[SKIN]/actions/help.png",
-        title: "<spring:message code='global.form.help'/>",
-        click:function()
-        {
-            fillScreenWindow_Main .show();
-        }
     });
 
     /*End --------------------------help General----------------------------*/
@@ -885,7 +876,6 @@
             inspectionTab,
             productTab,
             settingTab,
-            ShipmentCancelBtnHelp
         ]
     });
 
@@ -971,6 +961,21 @@
         );
     }
     </sec:authorize>
+
+    /*Help*/
+    isc.HTMLFlow.create({
+        textAlign: "center",
+        top:100,
+        contents:"<div id=\"mybutton\">\n" +
+            "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
+            "</div>",
+        dynamicContents:true,
+        click:function()
+        {
+            fillScreenWindow_Main .show();
+        }
+    });
+    /*Help*/
 
 </script>
 </body>
