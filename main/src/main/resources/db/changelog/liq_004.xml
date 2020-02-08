@@ -157,4 +157,16 @@
         <dropTable tableName="TBL_TOZIN"/>
         <dropSequence sequenceName="SEQ_TOZIN"/>
     </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-248">
+        <preConditions onFail="MARK_RAN">
+            <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL"/>
+            <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL_CUSTOMER"/>
+            <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL_LC"/>
+            <sequenceExists sequenceName="SEQ_TOZIN_SALES"/>
+        </preConditions>
+        <dropSequence sequenceName="SEQ_INVOICE_INTERNAL"/>
+        <dropSequence sequenceName="SEQ_INVOICE_INTERNAL_CUSTOMER"/>
+        <dropSequence sequenceName="SEQ_INVOICE_INTERNAL_LC"/>
+        <dropSequence sequenceName="SEQ_TOZIN_SALES"/>
+    </changeSet>
 </databaseChangeLog>
