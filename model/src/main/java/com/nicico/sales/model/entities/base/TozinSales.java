@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.TozinSalesId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

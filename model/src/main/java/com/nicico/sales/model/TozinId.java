@@ -1,7 +1,10 @@
-package com.nicico.sales.model.entities.base;
+package com.nicico.sales.model;
+
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = false)
 public class TozinId implements Serializable {
 
     private String target;

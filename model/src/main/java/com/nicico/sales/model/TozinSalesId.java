@@ -1,8 +1,11 @@
-package com.nicico.sales.model.entities.base;
+package com.nicico.sales.model;
+
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
-class TozinSalesId implements Serializable {
+@EqualsAndHashCode(callSuper = false)
+public class TozinSalesId implements Serializable {
 
     private Long pId;
     private String cardId;

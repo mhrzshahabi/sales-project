@@ -1,8 +1,11 @@
-package com.nicico.sales.model.entities.base;
+package com.nicico.sales.model;
+
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
-class CathodeListId implements Serializable {
+@EqualsAndHashCode(callSuper = false)
+public class CathodeListId implements Serializable {
     private String storeId;
     private String tozinId;
     private String productId;

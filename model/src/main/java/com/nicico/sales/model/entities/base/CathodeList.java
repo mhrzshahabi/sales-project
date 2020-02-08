@@ -1,10 +1,9 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.CathodeListId;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import oracle.jdbc.proxy.annotation.Pre;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
