@@ -2821,7 +2821,6 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         height: "100%",
         align: "center",
         overflow: "scroll",
-// backgroundImage: "backgrounds/leaves.jpg",
         members: [
             LablePageTwo,
             vlayoutArticle3_1,
