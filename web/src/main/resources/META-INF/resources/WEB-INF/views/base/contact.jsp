@@ -902,7 +902,6 @@
             autoDraw: false,
             warnOnRemoval: "true",
             warnOnRemovalMessage: "<spring:message code='global.grid.record.remove.ask'/> ",
-            recordClick: "ContactAccount_EditDynamicForm.editRecord(record)",
             fields: [
                 {
                     name: "id",
@@ -991,6 +990,7 @@
             recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 if (record != null){
                     contactAccountTabs.enableTab("edit");
+                    ContactAccount_EditDynamicForm.editRecord(record);
                 }
             },
         });
