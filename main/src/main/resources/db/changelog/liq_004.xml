@@ -157,7 +157,7 @@
         <dropTable tableName="TBL_TOZIN"/>
         <dropSequence sequenceName="SEQ_TOZIN"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-248">
+    <changeSet author="RMazloom" id="1578893517121-249">
         <preConditions onFail="MARK_RAN">
             <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL"/>
             <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL_CUSTOMER"/>
