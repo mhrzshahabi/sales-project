@@ -41,6 +41,10 @@
                 title: "<spring:message code='contact.date'/>",
                 type: "date",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 width: "90%",
                 wrapTitle: false
             },
@@ -49,6 +53,10 @@
                 title: "<spring:message code='contact.no'/>",
                 requiredMessage: "<spring:message code='validator.field.is.required'/>",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 readonly: true,
                 width: "90%",
                 wrapTitle: false
@@ -258,6 +266,10 @@
                 name: "contactId",
                 showHover: true,
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 autoFetchData: false,
                 title: "<spring:message code='contact.commercialRole.buyer'/>",
                 width: "600",
@@ -366,6 +378,10 @@
                 title: "<spring:message code='contact.commercialRole.seller'/>",
                 width: "600",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_Contact_optionCriteria,
@@ -523,6 +539,10 @@ var vlayoutBodyConc = isc.VLayout.create({
             isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormConc",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: "400",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,

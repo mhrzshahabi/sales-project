@@ -273,6 +273,10 @@ var article6_quality = isc.DynamicForm.create({
                 showHintInField: true,
                 hint: "FOB",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 type: 'long',
                 numCols: 4,
                 editorType: "SelectItem",
@@ -291,6 +295,10 @@ var article6_quality = isc.DynamicForm.create({
                 name: "portByPortSourceId",
                 editorType: "SelectItem",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 optionDataSource: RestDataSource_Port,
                 displayField: "port",
                 valueField: "id",
