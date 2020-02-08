@@ -58,38 +58,6 @@ public class TozinSalesDTO {
     @ApiModel("TozinSalesInfo")
     public static class Info extends TozinSalesDTO {
         private Long id;
-        private Date createdDate;
-        private String createdBy;
-        private Date lastModifiedDate;
-        private String lastModifiedBy;
-        private Integer version;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("TozinSalesCreateRq")
-    public static class Create extends TozinSalesDTO {
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("TozinSalesUpdateRq")
-    public static class Update extends TozinSalesDTO {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Long id;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("TozinSalesDeleteRq")
-    public static class Delete {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private List<Long> ids;
     }
 
     @Getter

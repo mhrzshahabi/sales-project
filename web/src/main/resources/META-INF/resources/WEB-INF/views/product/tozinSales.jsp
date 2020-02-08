@@ -35,13 +35,7 @@
     }
 
     var RestDataSource_TozinSales = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        },
+        fields: [
             {
                 name: "cardId",
                 title: "<spring:message code='Tozin.cardId'/>",
@@ -449,7 +443,6 @@
         dataSource: RestDataSource_TozinSales,
         fields:
             [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "plak",
                     title: "<spring:message code='Tozin.plak'/>",

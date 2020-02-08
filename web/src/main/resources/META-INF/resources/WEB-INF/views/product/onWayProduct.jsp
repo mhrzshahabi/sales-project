@@ -186,7 +186,6 @@
                 title: "<spring:message code='Tozin.sourcePlantId'/>"
             },
         ],
-
         fetchDataURL: "${contextPath}/api/tozin/spec-list"
     });
 
@@ -257,7 +256,6 @@
         ]
     });
 
-
     var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
         wrapItemTitles: false,
         setMethod: 'POST',
@@ -289,7 +287,6 @@
             defaultValue: "1398/01/6",
         }]
     });
-
 
     var DynamicForm_DailyReport_Tozin1 = isc.DynamicForm.create({
         wrapItemTitles: false,
@@ -369,6 +366,14 @@
         }]
     });
 
+    <%--let yard = new Map([--%>
+    <%--    ["1-","<spring:message code='global.Sarcheshmeh'/>" ],--%>
+    <%--    ["2-","<spring:message code='global.Miduk'/>" ],--%>
+    <%--    ["4-","<spring:message code='global.KhatonAbad'/>" ],--%>
+    <%--    ["5-","<spring:message code='global.Sungun'/>" ],--%>
+    <%--    ]);--%>
+    <%--let yard_search = new Map(yard);--%>
+
 
     var DynamicForm_DailyReport_Tozin3 = isc.DynamicForm.create({
         wrapItemTitles: false,
@@ -388,13 +393,25 @@
             name: "type",
             width: 130,
             title: "<spring:message code='dailyWarehouse.plant'/>",
-            valueMap: {
+                //
+                // click: function () {
+                // for (let chap of yard_search){
+                //     alert(chap);
+                //
+                // }
+                // },
+                valueMap: {
                 "1-": "<spring:message code='global.Sarcheshmeh'/>",
                 "2-": "<spring:message code='global.Miduk'/>",
                 "4-": "<spring:message code='global.KhatonAbad'/>",
                 "5-": "<spring:message code='global.Sungun'/>"
-            },
-            defaultValue: "1-"
+                },
+                defaultValue: "1-"
+
+            <%--    valueMap: {--%>
+            <%--    },--%>
+            <%--&lt;%&ndash;defaultValue: yard.set(1 , '<spring:message code='global.Sarcheshmeh'/>'),&ndash;%&gt;--%>
+            <%--defaultValue: "1-": "<spring:message code='global.Sarcheshmeh'/>"--%>
         }]
     });
 
@@ -674,6 +691,50 @@
         }
     });
 
+        var excel = isc.DynamicForm.create({
+        method: "POST",
+        action: "${contextPath}/tozin/print/",
+        canSubmit: true,
+        autoDraw: true,
+        visibility:"hidden",
+        target: "_Blank",
+        fields: [
+            {name: "top", type: "hidden"},
+            {name: "fields", type: "hidden"},
+            {name: "headers", type: "hidden"},
+            {name: "criteria", type: "hidden"}
+        ]
+        });
+
+        ToolStripButton_Tozin_Report = isc.ToolStripButtonRefresh.create({
+        ID: "exportButton",
+        icon: "[SKIN]/actions/excel-512.png",
+        title: "<spring:message code='global.form.export'/>",
+        click: function () {
+                    const fieldsGrid = ListGrid_Tozin.getFields().filter(
+                    function(q) {return q.name.toString().toLowerCase() !== 'grouptitle'});
+                    const fields = fieldsGrid.map(function(f) { return f.name});
+                    const headers = fieldsGrid.map(function(f) { return f.title});
+                    var   Vahed_tolidi_List = DynamicForm_DailyReport_Tozin3.getField("type").getValueMap();
+                    var   Vahed_tolidi_Value = DynamicForm_DailyReport_Tozin3.getValue("type");
+                    const top = Vahed_tolidi_List[Vahed_tolidi_Value];
+                    const filterEditorCriteria = ListGrid_Tozin.getFilterEditorCriteria();
+                            const criterias = [];
+                            filterEditorCriteria.criteria.forEach(function(key,index){
+                               if(key.fieldName.toString().toLowerCase()!=='mazloom')  criterias.add(key);
+                            });
+                            filterEditorCriteria.criteria = criterias;
+                            console.log("ListGrid_Tozin.getFilterEditorCriteria()",ListGrid_Tozin.getFilterEditorCriteria());
+                            const criteria = JSON.stringify(filterEditorCriteria);
+                            excel.setValues({
+                            top:top,
+                            fields:fields,
+                            headers:headers,
+                            criteria:criteria
+                            });
+                            console.log(excel.getValues());
+                            excel.submitForm();
+}});
     var onWayProduct_searchBtn = isc.IButton.create({
         width: 120,
         title: "<spring:message code='global.search'/>",
@@ -795,13 +856,12 @@
                 align: "left",
                 border: '0px',
                 members: [
-                    ToolStripButton_Tozin_Refresh,
+                    ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report
                 ]
             })
 
         ]
     });
-
 
     var HLayout_Tozin_Actions = isc.HLayout.create({
         width: "100%",
@@ -925,7 +985,10 @@
     };
 
 
+
     var ListGrid_Tozin = isc.ListGrid.create({
+        ID:"export_Tozin",
+        alternateRecordStyles:true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
@@ -1033,7 +1096,6 @@
         }
 
     });
-
 
     var VLayout_Tozin_Grid = isc.VLayout.create({
         width: "100%",

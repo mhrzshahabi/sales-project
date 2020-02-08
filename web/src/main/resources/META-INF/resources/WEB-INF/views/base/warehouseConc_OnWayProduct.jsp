@@ -234,33 +234,44 @@
 
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
         width: "100%",
-        height: "200",
-        modalEditing: true,
+        height: "80%",
         canEdit: true,
-        autoFetchData: false,
+        // autoFetchData: true,
+        editEvent: "click",
+        editByCell: true,
+        modalEditing: true,
         canRemoveRecords: true,
-        autoSaveEdits: true,
-        dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECONC_ONWAYPRODUCT,
+        autoSaveEdits: false,
+        deferRemoval: false,
+        saveLocally: true,
         showGridSummary: true,
         fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
+            name: "weightKg",
+            title: "<spring:message code='warehouseCadItem.weightKg'/>"
         }, {
-            name: "weightKg"
-        }, {
-            name: "description"
+            name: "description",
+            title: "<spring:message code='warehouseCadItem.description'/>"
         }],
-        saveEdits: function () {
-            var warehouseCadItem = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
-            if (warehouseCadItem.weightKg === undefined) {
-                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>.");
-                return;
-            }
-        },
-        removeData: function (data) {
+        removeData: function (record) {
+
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                this.hide();
+
+                if (index === 0){
+                    ListGrid_WarehouseCadItem.data.remove(record);
+                    alert(JSON.stringify(ListGrid_WarehouseCadItem.data));
+                }
+
+                }
+            });
         }
     });
 
@@ -546,30 +557,32 @@
             var warehouseCadItems = [];
 
             ListGrid_WarehouseCadItem.selectAllRecords();
-            if (ListGrid_WarehouseCadItem.data.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
-
-            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
-                warehouseCadItems.add(element);
-            });
 
             ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
-                var element = ListGrid_WarehouseCadItem.getEditedRecord(element);
-                if (element.weightKg !== undefined) {
-                    warehouseCadItems.add(element);
+                var record = ListGrid_WarehouseCadItem.getEditedRecord(JSON.parse(JSON.stringify(element)));
+                if (record.weightKg !== undefined) {
+                warehouseCadItems.add(record);
+                ListGrid_WarehouseCadItem.deselectRecord(ListGrid_WarehouseCadItem.getRecord(element));
                 }
+            });
+
+            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
+                warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
             if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }
+            if (warehouseCadItems.length > 1){
+                isc.warn("<spring:message code='bijack.moreThanOne'/>");
+                return;
+            }
 
             ListGrid_WarehouseCadItem.deselectAllRecords();
 
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
+
             var method = "PUT";
             if (data_WarehouseCad.id == null)
                 method = "POST";
