@@ -734,7 +734,6 @@
                         isc.VLayout.create({
                             width: "100%",
                             height: "100%",
-                            //backgroundImage: "backgrounds/leaves.jpg",
                             align: "center",
                             members:
                                 [
@@ -863,7 +862,6 @@
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
-        //backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true,},
