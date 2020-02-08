@@ -988,6 +988,11 @@
                     }
                 }
             },
+            recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                if (record != null){
+                    contactAccountTabs.enableTab("edit");
+                }
+            },
         });
 
     var ContactAccountGridHeaderForm = isc.DynamicForm.create({
@@ -1427,14 +1432,17 @@
             autoDraw: true,
             tabs: [
                 {
+                    name: "create",
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
                     pane: createPane
                 },
                 {
+                    name: "edit",
                     title: "<spring:message code='global.form.edit'/>",
                     icon: "pieces/16/icon_edit.png",
-                    pane: editPane
+                    pane: editPane,
+                    disabled: true
                 }
                 ]
         });

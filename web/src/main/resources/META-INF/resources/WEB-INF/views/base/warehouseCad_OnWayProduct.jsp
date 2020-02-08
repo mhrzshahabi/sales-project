@@ -647,10 +647,19 @@
                 warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
+
+
             if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }
+
+            warehouseCadItems.forEach(function (record) {
+                if (record.productLabel == undefined || record.sheetNumber == undefined || record.wazn == undefined) {
+                    alert("undefined");
+                    isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
+                }
+            });
 
             ListGrid_WarehouseCadItem.deselectAllRecords();
 
