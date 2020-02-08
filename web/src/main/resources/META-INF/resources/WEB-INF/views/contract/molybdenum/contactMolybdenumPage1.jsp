@@ -233,6 +233,10 @@
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
                     required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: 400
                 },
                 {
@@ -240,6 +244,10 @@
                     title: "<spring:message code='port.port'/>",
                     type: 'text',
                     required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: 400
                 },
                 {name: "discharge.port", title: "<spring:message code='port.port'/>", align: "center"},
@@ -248,6 +256,10 @@
                     title: "<spring:message code='global.address'/>",
                     type: 'text',
                     required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: 400
                 },
                 {
@@ -255,6 +267,10 @@
                     title: "<spring:message code='global.amount'/>",
                     type: 'float',
                     required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: 400
                 },
                 {
@@ -875,6 +891,10 @@ Window_ContactMo = isc.Window.create({
                 type: "date",
                 format: 'DD-MM-YYYY',
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 width: "90%",
                 wrapTitle: false
             },
@@ -883,6 +903,10 @@ Window_ContactMo = isc.Window.create({
                 title: "<spring:message code='contact.no'/>",
                 requiredMessage: "<spring:message code='validator.field.is.required'/>",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 readonly: true,
                 width: "90%",
                 wrapTitle: false
@@ -914,6 +938,10 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 name: "contactId",
                 showHover: true,
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 autoFetchData: false,
                 title: "<spring:message code='contact.commercialRole.buyer'/>",
                 width: "600",
@@ -1113,6 +1141,10 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 title: "<spring:message code='contact.commercialRole.seller'/>",
                 width: "600",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_Contact_optionCriteria,
@@ -1533,6 +1565,10 @@ var vlayoutBodyMo = isc.VLayout.create({
             isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormMaterial",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: "400",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,
@@ -2435,6 +2471,10 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 showHintInField: true,
                 hint: "FOB",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 title: "<spring:message code='incoterms.name'/>",
                 type: 'long',
                 numCols: 4,

@@ -365,7 +365,11 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    hint: "Persian/فارسی"
+                    hint: "Persian/فارسی", validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     required: true,
