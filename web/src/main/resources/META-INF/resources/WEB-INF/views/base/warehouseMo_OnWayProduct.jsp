@@ -564,17 +564,27 @@
 
             ListGrid_WarehouseCadItem.selectAllRecords();
 
+            var notComplete = 0;
             ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
                 var record = ListGrid_WarehouseCadItem.getEditedRecord(JSON.parse(JSON.stringify(element)));
-                if (record.lotName !== undefined && record.barrelNo !== undefined && record.weightKg !== undefined) {
+                if (record.lotName !== undefined && record.barrelNo !== undefined && record.weightKg !== undefined &&
+                    record.lotName !== null && record.barrelNo !== null && record.weightKg !== null) {
                 warehouseCadItems.add(record);
-                ListGrid_WarehouseCadItem.deselectRecord(ListGrid_WarehouseCadItem.getRecord(element));
                 }
+                else {
+                    notComplete++;
+                }
+                ListGrid_WarehouseCadItem.deselectRecord(ListGrid_WarehouseCadItem.getRecord(element));
             });
 
             ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
                 warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
+
+            if (notComplete != 0) {
+                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
+                return;
+            }
 
             if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
@@ -607,6 +617,14 @@
             }));
         }
     });
+
+    <%--function requiredFields(record){--%>
+        <%--if(record.lotName !== undefined && record.barrelNo !== undefined && record.weightKg !== undefined){--%>
+            <%--return record;--%>
+        <%--}else {--%>
+            <%--isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");--%>
+        <%--}--%>
+    <%--}--%>
 
 
     ListGrid_WarehouseCadItem.setData([]);
