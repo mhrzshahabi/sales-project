@@ -663,7 +663,6 @@
                         {name: "nameFA", align: "center"},
                         {name: "nameEN", align: "center"}
                     ], change: function () {
-                        alert("as");
                     }
                 },
                 {

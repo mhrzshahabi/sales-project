@@ -391,7 +391,6 @@
                                                         var textMo = resp.httpResponseText;
                                                         var text2Mo = textMo.replaceAll('","', '","').replaceAll('&?','":"')
                                                         var textMainMo= JSON.parse(text2Mo.replaceAt(0,'{"').replaceAt(text2Mo.length-1,'}'));
-                                                        console.log(textMainMo);
                                                         setTimeout(function(){
                                                                // contactTabs.selectTab(0);
                                                                 valuesManagerfullArticleMo.setValue("fullArticle01",textMainMo.Article01);
@@ -3838,7 +3837,6 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContractDetail.article10_number59=valuesManagerArticle10.getValue("article10_number59");
                     dataSaveAndUpdateContractDetail.article10_number60=valuesManagerArticle10.getValue("article10_number60");
                     dataSaveAndUpdateContractDetail.article10_number61=valuesManagerArticle10.getValue("article10_number61");
-             console.log(dataSaveAndUpdateContract);
             if(methodUrl=="PUT"){
                         dataSaveAndUpdateContractDetail.contractNo=contactHeader.getValue("contractNo");
             }

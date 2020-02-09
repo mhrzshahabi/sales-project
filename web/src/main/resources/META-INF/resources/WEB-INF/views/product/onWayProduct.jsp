@@ -724,7 +724,6 @@
                                if(key.fieldName.toString().toLowerCase()!=='mazloom')  criterias.add(key);
                             });
                             filterEditorCriteria.criteria = criterias;
-                            console.log("ListGrid_Tozin.getFilterEditorCriteria()",ListGrid_Tozin.getFilterEditorCriteria());
                             const criteria = JSON.stringify(filterEditorCriteria);
                             excel.setValues({
                             top:top,
@@ -732,7 +731,6 @@
                             headers:headers,
                             criteria:criteria
                             });
-                            console.log(excel.getValues());
                             excel.submitForm();
 }});
     var onWayProduct_searchBtn = isc.IButton.create({

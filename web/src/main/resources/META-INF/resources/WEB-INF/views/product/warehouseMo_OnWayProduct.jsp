@@ -33,7 +33,7 @@
         fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
     });
 
-    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseYard_IN_WAREHOUSEMO_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -55,7 +55,7 @@
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
 
-    var RestDataSource_tozin_IN_WAREHOUSEMO_BIJACK = isc.MyRestDataSource.create({
+    var RestDataSource_tozin_IN_WAREHOUSEMO_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -281,7 +281,6 @@
 
                 if (index === 0){
                 ListGrid_WarehouseCadItem.data.remove(record);
-                alert(JSON.stringify(ListGrid_WarehouseCadItem.data));
                 }
 
                 }
@@ -356,7 +355,7 @@
             type: 'string',
             width: "100%",
             editorType: "SelectItem",
-            optionDataSource: RestDataSource_tozin_IN_WAREHOUSEMO_BIJACK,
+            optionDataSource: RestDataSource_tozin_IN_WAREHOUSEMO_ONWAYPRODUCT,
             optionCriteria: RestDataSource_Tozin_Other_optionCriteria,
             displayField: "tozinPlantId",
             valueField: "tozinPlantId",
@@ -397,7 +396,7 @@
             type: 'string',
             width: "100%",
             editorType: "SelectItem",
-            optionDataSource: RestDataSource_tozin_IN_WAREHOUSEMO_BIJACK,
+            optionDataSource: RestDataSource_tozin_IN_WAREHOUSEMO_ONWAYPRODUCT,
             optionCriteria: RestDataSource_Tozin_BandarAbbas_optionCriteria,
             displayField: "tozinPlantId",
             valueField: "tozinPlantId",
@@ -433,7 +432,7 @@
             title: "<spring:message code='warehouseCad.yard'/>",
             type: 'string',
             editorType: "SelectItem",
-            optionDataSource: RestDataSource_WarehouseYard,
+            optionDataSource: RestDataSource_WarehouseYard_IN_WAREHOUSEMO_ONWAYPRODUCT,
             displayField: "nameFA",
             valueField: "id",
             pickListWidth: "215",

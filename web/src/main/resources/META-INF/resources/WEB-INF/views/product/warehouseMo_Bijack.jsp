@@ -39,8 +39,7 @@
         fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
     });
 
-
-    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseYard_IN_WAREHOUSEMO_BIJACK = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -61,7 +60,6 @@
         }],
         fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
     });
-
 
     var RestDataSource_tozin_IN_WAREHOUSEMO_BIJACK = isc.MyRestDataSource.create({
         fields: [{
@@ -467,7 +465,7 @@
             title: "<spring:message code='warehouseCad.yard'/>",
             type: 'string',
             editorType: "SelectItem",
-            optionDataSource: RestDataSource_WarehouseYard,
+            optionDataSource: RestDataSource_WarehouseYard_IN_WAREHOUSEMO_BIJACK,
             displayField: "nameFA",
             valueField: "id",
             pickListWidth: "215",

@@ -6,7 +6,7 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_WarehouseYard__BANK = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -324,7 +324,7 @@
     var ListGrid_WarehouseYard = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_WarehouseYard__BANK,
+        dataSource: RestDataSource_WarehouseYard,
         contextMenu: Menu_ListGrid_WarehouseYard,
         fields:
             [

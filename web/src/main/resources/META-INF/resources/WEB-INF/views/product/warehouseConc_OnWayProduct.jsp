@@ -267,7 +267,6 @@
 
                 if (index === 0){
                     ListGrid_WarehouseCadItem.data.remove(record);
-                    alert(JSON.stringify(ListGrid_WarehouseCadItem.data));
                 }
 
                 }

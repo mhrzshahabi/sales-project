@@ -6,46 +6,14 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_CatodList = isc.MyRestDataSource.create({
-        fields: [ {
-            name: "productLabel"
-        }, {
-            name: "sheetNumber"
-        }, {
-            name: "wazn"
-        }],
+        fields: [
+            {name: "productLabel"},
+            {name: "sheetNumber"},
+            {name: "wazn"}],
         fetchDataURL: "${contextPath}/api/catodList/spec-list"
     });
 
-    var RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        }, {
-            name: "bundleSerial",
-            title: "<spring:message code='warehouseCadItem.bundleSerial'/>",
-            width: "25%",
-            summaryFunction: "count"
-        }, {
-            name: "sheetNo",
-            title: "<spring:message code='warehouseCadItem.sheetNo'/>",
-            width: "25%",
-            summaryFunction: "sum"
-        }, {
-            name: "weightKg",
-            title: "<spring:message code='warehouseCadItem.weightKg'/>",
-            width: "25%"
-        }, {
-            name: "description",
-            title: "<spring:message code='warehouseCadItem.description'/>",
-            width: "25%"
-        }],
-        fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
-    });
-
-    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -215,25 +183,6 @@
         fetchDataURL: "${contextPath}/api/tozin/search-tozin"
     });
 
-
-    var RestDataSource_Tozin_Other_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{
-            fieldName: "target",
-            "operator": "iContains",
-            "value": "رجا"
-        }, {
-            fieldName: "tozinId",
-            operator: "notContains",
-            value: '3%'
-        }, {
-            fieldName: "codeKala",
-            operator: "equals",
-            value: ListGrid_Tozin.getSelectedRecord().codeKala
-        }]
-    };
-
     var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
@@ -252,15 +201,13 @@
         }]
     };
 
-
-    var ListGrid_WarehouseCadItem = isc.ListGrid.create({
+    var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create({
         width: "100%",
-        height: "100%",
+        height: "200",
+        modalEditing: true,
         canEdit: true,
-        // autoFetchData: true,
         editEvent: "click",
         editByCell: true,
-        modalEditing: true,
         canRemoveRecords: true,
         autoSaveEdits: false,
         deferRemoval: false,
@@ -294,17 +241,17 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                isc.Button.create({title: "<spring:message code='global.no'/>"})
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
 
-                    if (index === 0){
-                        ListGrid_WarehouseCadItem.data.remove(record);
+                    if (index === 0) {
+                        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.data.remove(record);
                     }
 
-                    }
+                }
             });
         }
     });
@@ -313,7 +260,7 @@
     var add_bundle_button = isc.IButton.create({
         title: "<spring:message code='warehouseCad.addBundle'/>",
         width: 150,
-        click: "ListGrid_WarehouseCadItem.startEditingNew()"
+        click: "ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.startEditingNew()"
     });
 
 
@@ -366,38 +313,8 @@
             canEdit: false,
             colSpan: 3,
             titleColSpan: 1,
-            showHover: true,
-            autoFetchData: false,
             title: "<spring:message code='warehouseCad.tozinOther'/>",
-            type: 'string',
-            width: "100%",
-            editorType: "SelectItem",
-            optionDataSource: RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT,
-            optionCriteria: RestDataSource_Tozin_Other_optionCriteria,
-            displayField: "tozinPlantId",
-            valueField: "tozinPlantId",
-            pickListWidth: "700",
-            pickListHeight: "700",
-            pickListProperties: {
-                showFilterEditor: true,
-                filterOnKeypress: false
-            },
-            pickListFields: [
-                {name: "containerId"},
-                {name: "plak"},
-                {name: "carName"},
-                {name: "tozinDate"},
-                {name: "tozinPlantId"}
-            ],
-            changed(form, item, value) {
-                DynamicForm_warehouseCAD.setValue("plant", item.getSelectedRecord().source);
-                DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
-                DynamicForm_warehouseCAD.setValue("movementType", item.getSelectedRecord().carName);
-                DynamicForm_warehouseCAD.setValue("warehouse", item.getSelectedRecord().carName);
-                DynamicForm_warehouseCAD.setValue("materialItemId", item.getSelectedRecord().nameKala);
-                DynamicForm_warehouseCAD.setValue("sourceLoadDate", item.getSelectedRecord().tozinDate);
-                DynamicForm_warehouseCAD.setValue("containerNo", item.getSelectedRecord().containerId);
-            }
+            width: "100%"
         }, {
             name: "destinationTozinPlantId",
             required: true,
@@ -444,7 +361,7 @@
             title: "<spring:message code='warehouseCad.yard'/>",
             type: 'string',
             editorType: "SelectItem",
-            optionDataSource: RestDataSource_WarehouseYard,
+            optionDataSource: RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT,
             displayField: "nameFA",
             valueField: "id",
             pickListWidth: "215",
@@ -581,28 +498,29 @@
                 canEdit: false
             },
 
-        {
-            name: "sourceSheetSumDelivery",
-            title: "<spring:message code='warehouseCad.SheetNumber.Source'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        },
+            {
+                name: "sourceSheetSumDelivery",
+                title: "<spring:message code='warehouseCad.SheetNumber.Source'/>",
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1
+            },
 
-        {
-            name: "destinationSheetSumDelivery",
-            title: "<spring:message code='warehouseCad.SheetNumber.Destination'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        },
+            {
+                name: "destinationSheetSumDelivery",
+                title: "<spring:message code='warehouseCad.SheetNumber.Destination'/>",
+                width: 250,
+                colSpan: 1,
+                titleColSpan: 1
+            },
 
-        {
-            align: "center",
-            layoutAlign: "center",
-            type: "Header",
-            defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
-        }
+
+            {
+                align: "center",
+                layoutAlign: "center",
+                type: "Header",
+                defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
+            }
         ]
     });
 
@@ -649,11 +567,11 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-             if(DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")==undefined){
-                    isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
-                    DynamicForm_warehouseCAD.validate()
-                    return;
-                }
+            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined) {
+                isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
+                DynamicForm_warehouseCAD.validate()
+                return;
+            }
             DynamicForm_warehouseCAD.validate();
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
@@ -661,29 +579,27 @@
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             var warehouseCadItems = [];
 
-            ListGrid_WarehouseCadItem.selectAllRecords();
+            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.selectAllRecords();
 
-            if (ListGrid_WarehouseCadItem.data.length == 0) {
+            if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.data.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }
 
             var notComplete = 0;
-            ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
-                var record = ListGrid_WarehouseCadItem.getEditedRecord(JSON.parse(JSON.stringify(element)));
+            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getAllEditRows().forEach(function (element) {
+                var record = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getEditedRecord(JSON.parse(JSON.stringify(element)));
                 if (record.productLabel !== undefined && record.sheetNumber !== undefined && record.wazn !== undefined &&
                     record.productLabel !== null && record.sheetNumber !== null && record.wazn !== null) {
                     warehouseCadItems.add(record);
-                    // alert("Added");
                 }
                 else {
-                    // alert("Not Added " + record.productLabel + "/ " + record.sheetNumber + "/ " + record.wazn);
                     notComplete++;
                 }
-                ListGrid_WarehouseCadItem.deselectRecord(ListGrid_WarehouseCadItem.getRecord(element));
+                ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.deselectRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getRecord(element));
             });
 
-            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
+            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getSelectedRecords().forEach(function (element) {
                 warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
@@ -697,7 +613,7 @@
                 return;
             }
 
-            ListGrid_WarehouseCadItem.deselectAllRecords();
+            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.deselectAllRecords();
 
             warehouseCadItems.forEach(function (item) {
                 item.bundleSerial = item.productLabel;
@@ -732,7 +648,7 @@
         }
     });
 
-    ListGrid_WarehouseCadItem.setData([]);
+    ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
     var criteria_catod = {
         _constructor: "AdvancedCriteria", operator: "and",
         criteria: [{fieldName: "tozinId", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().tozinPlantId}]
@@ -747,7 +663,7 @@
                 delete item.packingTypeId;
                 delete item.gdsCode;
             });
-            ListGrid_WarehouseCadItem.setData(data);
+            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(data);
         });
 
     DynamicForm_warehouseCAD.clearValues();
@@ -770,7 +686,7 @@
         members: [
             DynamicForm_warehouseCAD,
             add_bundle_button,
-            ListGrid_WarehouseCadItem,
+            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT,
             DynamicForm_warehouseCAD_Desc,
             isc.HLayout.create({
                 width: "100%",
