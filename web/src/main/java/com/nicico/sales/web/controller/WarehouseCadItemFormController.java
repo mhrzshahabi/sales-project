@@ -11,7 +11,7 @@ public class WarehouseCadItemFormController {
 
     @RequestMapping("/showForm")
     public String showWarehouseCadItem() {
-        return "base/warehouseCadItem";
+        return "product/warehouseCadItem";
     }
 
 }

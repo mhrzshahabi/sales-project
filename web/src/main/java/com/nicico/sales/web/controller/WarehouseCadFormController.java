@@ -29,22 +29,22 @@ public class WarehouseCadFormController {
 
     @RequestMapping("/showForm")
     public String showWarehouseCad() {
-        return "base/warehouseCad";
+        return "product/warehouseCad";
     }
 
     @RequestMapping("/showWarehouseCadForm")
     public String showWarehouseCadForm() {
-        return "base/warehouseCad_Bijack";
+        return "product/warehouseCad_Bijack";
     }
 
     @RequestMapping("/showWarehouseMoForm")
     public String showWarehouseMoForm() {
-        return "base/warehouseMo_Bijack";
+        return "product/warehouseMo_Bijack";
     }
 
     @RequestMapping("/showWarehouseConcForm")
     public String showWarehouseConcForm() {
-        return "base/warehouseConc_Bijack";
+        return "product/warehouseConc_Bijack";
     }
 
     @RequestMapping("/print/{id}")

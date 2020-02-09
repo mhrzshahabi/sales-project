@@ -181,7 +181,7 @@ public class WarehouseStockFormController {
 
     @RequestMapping("/showForm")
     public String showWarehouseStock() {
-        return "base/warehouseStock";
+        return "product/warehouseStock";
     }
 
     @Loggable

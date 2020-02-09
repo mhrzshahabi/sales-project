@@ -11,6 +11,6 @@ public class WarehouseIssueConsFormController {
 
     @RequestMapping("/showForm")
     public String showWarehouseIssueCons() {
-        return "base/warehouseIssueCons";
+        return "product/warehouseIssueCons";
     }
 }

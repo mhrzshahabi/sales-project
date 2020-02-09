@@ -57,17 +57,17 @@ public class TozinFormController {
 
     @RequestMapping("/showWarehouseCadForm")
     public String showWarehouseCadForm() {
-        return "base/warehouseCad_OnWayProduct";
+        return "product/warehouseCad_OnWayProduct";
     }
 
     @RequestMapping("/showWarehouseMoForm")
     public String showWarehouseMoForm() {
-        return "base/warehouseMo_OnWayProduct";
+        return "product/warehouseMo_OnWayProduct";
     }
 
     @RequestMapping("/showWarehouseConcForm")
     public String showWarehouseConcForm() {
-        return "base/warehouseConc_OnWayProduct";
+        return "product/warehouseConc_OnWayProduct";
     }
 
     @RequestMapping(value = {"/showTransport2Plants/{date}"})
@@ -81,7 +81,7 @@ public class TozinFormController {
 
         String out = modelMapFromRest.getBody();
         req.setAttribute("out", out);
-        return "base/tozinTransport2Plants";
+        return "product/tozinTransport2Plants";
     }
 
     @RequestMapping("/print/{type}/{date}")

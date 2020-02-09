@@ -11,6 +11,6 @@ public class WarehouseIssueCathodeFormController {
 
     @RequestMapping("/showForm")
     public String showWarehouseIssueCathode() {
-        return "base/warehouseIssueCathode";
+        return "prodcut/warehouseIssueCathode";
     }
 }

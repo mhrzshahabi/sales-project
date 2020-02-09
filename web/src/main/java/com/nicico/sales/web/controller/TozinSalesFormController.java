@@ -48,7 +48,7 @@ public class TozinSalesFormController {
 
         String out = modelMapFromRest.getBody();
         req.setAttribute("out", out);
-        return "base/tozinSalesTransport2Plants";
+        return "prodcut/tozinSalesTransport2Plants";
     }
 
     @RequestMapping("/print/{name}/{type}/{date}")
