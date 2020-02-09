@@ -221,7 +221,7 @@
             fieldName: "tozinId",
             operator: "contains",
             value: '3%'
-        },{
+        }, {
             fieldName: "codeKala",
             operator: "equals",
             value: ListGrid_warehouseCAD.getSelectedRecord().materialItem.gdsCode

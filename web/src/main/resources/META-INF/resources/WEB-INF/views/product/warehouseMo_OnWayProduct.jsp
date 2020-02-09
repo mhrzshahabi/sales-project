@@ -4,35 +4,6 @@
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_WarehouseCadITEM = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        }, {
-            name: "lotName",
-            title: "<spring:message code='warehouseCadItem.lotName'/>",
-            width: "25%",
-            summaryFunction: "count"
-        }, {
-            name: "barrelNo",
-            title: "<spring:message code='warehouseCadItem.barrelNo'/>",
-            width: "25%",
-            summaryFunction: "sum"
-        }, {
-            name: "weightKg",
-            title: "<spring:message code='warehouseCadItem.weightKg'/>",
-            width: "25%"
-        }, {
-            name: "description",
-            title: "<spring:message code='warehouseCadItem.description'/>",
-            width: "25%"
-        }],
-        fetchDataURL: "${contextPath}/api/warehouseCadItem/spec-list"
-    });
-
     var RestDataSource_WarehouseYard_IN_WAREHOUSEMO_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
