@@ -11,6 +11,6 @@ public class WarehouseYardFormController {
 
     @RequestMapping("/showForm")
     public String showWarehouseYard() {
-        return "prodcut/warehouseYard";
+        return "base/warehouseYard";
     }
 }
