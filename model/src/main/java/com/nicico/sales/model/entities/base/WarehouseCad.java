@@ -102,5 +102,11 @@ public class WarehouseCad extends Auditable {
     @Column(name = "DESTINATION_SHEET_SUM_DELIVERY")
     private Integer destinationSheetSumDelivery;
 
+    @Column(name = "BIJAK_FIRST_DESCRIPTION")
+    private String bijakFirstDescription;
+
+    @Column(name = "BIJAK_SECOND_DESCRIPTION")
+    private String bijakSecondDescription;
+
 
 }

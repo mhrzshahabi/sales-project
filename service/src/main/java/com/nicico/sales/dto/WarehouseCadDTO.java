@@ -39,6 +39,8 @@ public class WarehouseCadDTO {
     private Double  destinationWeight;
     private Integer sourceSheetSumDelivery;
     private Integer destinationSheetSumDelivery;
+    private String bijakFirstDescription;
+    private String bijakSecondDescription;
 
 
     @Getter

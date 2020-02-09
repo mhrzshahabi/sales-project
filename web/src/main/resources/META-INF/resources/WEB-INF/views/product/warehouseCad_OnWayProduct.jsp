@@ -255,7 +255,7 @@
 
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
         width: "100%",
-        height: "80%",
+        height: "100%",
         canEdit: true,
         // autoFetchData: true,
         editEvent: "click",
@@ -597,17 +597,50 @@
             titleColSpan: 1
         },
 
+        {
+            align: "center",
+            layoutAlign: "center",
+            type: "Header",
+            defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
+        }
+        ]
+    });
 
-
-
-
-
+    var DynamicForm_warehouseCAD_Desc = isc.DynamicForm.create({
+        setMethod: 'POST',
+        align: "center",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "150",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        fields: [
             {
-                align: "center",
-                layoutAlign: "center",
-                type: "Header",
-                defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
-            }
+                type: "RowSpacerItem"
+            },
+            {
+                name: "bijakFirstDescription",
+                title: "<spring:message code='warehouseCad.bijakFirstDescription'/>",
+                type: "textarea",
+                orientation: "right",
+                length: 255,
+                width: 700,
+                rowSpan: 2,
+                height: 40
+            },
+            {
+                name: "bijakSecondDescription",
+                title: "<spring:message code='warehouseCad.bijakSecondDescription'/>",
+                type: "textarea",
+                orientation: "right",
+                length: 255,
+                width: 700,
+                rowSpan: 2,
+                height: 40
+            },
         ]
     });
 
@@ -676,6 +709,8 @@
             });
 
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
+            data_WarehouseCad.bijakFirstDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakFirstDescription");
+            data_WarehouseCad.bijakSecondDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakSecondDescription");
 
             var method = "PUT";
             if (data_WarehouseCad.id == null)
@@ -736,6 +771,7 @@
             DynamicForm_warehouseCAD,
             add_bundle_button,
             ListGrid_WarehouseCadItem,
+            DynamicForm_warehouseCAD_Desc,
             isc.HLayout.create({
                 width: "100%",
                 align: "center",
