@@ -55,7 +55,7 @@
         <dropView viewName="VIEW_TOZIN_S"/>
         <dropView viewName="VIEW_FROSH"/>
     </changeSet>
-    <changeSet id="RMazloom" author="1578893517121-246">
+    <changeSet author="RMazloom" id="1578893517121-246">
         <sql>
             alter session set nls_language = 'AMERICAN';
             alter session set time_zone = 'UTC';
