@@ -258,8 +258,8 @@
         }, {
             name: "description"
         }],
-        removeData: function (data) {
-            if (data.issueId !== undefined) {
+        removeData: function (record) {
+            if (record.issueId !== undefined) {
                 isc.warn("can't remove. item is not in inventory.");
                 return;
             }
@@ -567,9 +567,8 @@
             var notComplete = 0;
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getAllEditRows().forEach(function (element) {
                 var record = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(JSON.parse(JSON.stringify(element)));
-                console.log(record);
-                if (record.productLabel !== undefined && record.sheetNumber !== undefined && record.wazn !== undefined &&
-                    record.productLabel !== null && record.sheetNumber !== null && record.wazn !== null) {
+                if (record.bundleSerial !== undefined && record.sheetNo !== undefined && record.weightKg !== undefined &&
+                    record.bundleSerial !== null && record.sheetNo !== null && record.weightKg !== null) {
                     warehouseCadItems.add(record);
                 }
                 else {
@@ -593,15 +592,6 @@
             }
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.deselectAllRecords();
-
-            warehouseCadItems.forEach(function (item) {
-                item.bundleSerial = item.productLabel;
-                delete item.productLabel;
-                item.sheetNo = item.sheetNumber;
-                delete item.sheetNumber;
-                item.weightKg = item.wazn;
-                delete item.wazn;
-            });
 
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
 
