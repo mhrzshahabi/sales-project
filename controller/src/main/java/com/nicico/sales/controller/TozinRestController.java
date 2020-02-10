@@ -32,29 +32,6 @@ public class TozinRestController {
     private final ITozinService tozinService;
 
     @Loggable
-    @GetMapping(value = "/showTransport2Plants/{date}")
-    public ResponseEntity<String> list(@PathVariable("date") String date) throws IOException {
-        String[] plants = tozinService.findPlants();
-        String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
-        String out = "";
-
-        for (int i = 0; i < plants.length; i++) {
-            String[] plantId = plants[i].split(",");
-            out += "<table width='100%' align='center'  border='1' cellspacing='1' cellpadding='1'> <tbody><tr><td><b>" + plantId[1] + "</b></td> </tr> ";
-            out += "<tr> . </tr><tr> </tr><tr><th>مبدا</th><th>مقصد</th><th>محصول</th><th>حمل</th><th>تناژ</th><th>تعداد</th></tr>";
-            List<Object[]> list = tozinService.findTransport2Plants(day, plantId[0]);
-            for (Object[] aa : list) {
-                out += "<tr>";
-                for (Object s : aa) {
-                    out += "<td>" + s.toString() + "</td>";
-                }
-            }
-            out += "</tr></table>";
-        }
-        return new ResponseEntity<>(out, HttpStatus.OK);
-    }
-
-    @Loggable
     @GetMapping(value = {"/spec-list"})
     public ResponseEntity<TotalResponse<TozinDTO.Info>> searchTozin(@RequestParam MultiValueMap<String, String> criteria) {
         if (criteria.containsKey("criteria") && criteria.get("criteria").get(0).contains("mazloom")) {

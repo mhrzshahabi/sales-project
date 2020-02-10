@@ -29,26 +29,9 @@ import java.util.Map;
 public class TozinSalesFormController {
     private final ReportUtil reportUtil;
 
-    @Value("${nicico.rest-api.url:''}")
-    private String restApiUrl;
-
     @RequestMapping("/showForm")
     public String showTozinSales() {
         return "product/tozinSales";
-    }
-
-    @RequestMapping(value = {"/showTransport2Plants/{date}"})
-    public String showTransport2Plants(HttpServletRequest req, @PathVariable String date, @RequestParam("Authorization") String auth) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", auth);
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> modelMapFromRest = restTemplate.exchange(restApiUrl + "/api/tozinSales/showTransport2Plants/" + date, HttpMethod.GET, request, String.class);
-
-        String out = modelMapFromRest.getBody();
-        req.setAttribute("out", out);
-        return "prodcut/tozinSalesTransport2Plants";
     }
 
     @RequestMapping("/print/{name}/{type}/{date}")

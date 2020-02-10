@@ -42,8 +42,6 @@ public class TozinFormController {
     private final SpecListUtil specListUtil;
     private final ITozinService iTozinService;
     private final MakeExcelOutputUtil makeExcelOutputUtil;
-    @Value("${nicico.rest-api.url:''}")
-    private String restApiUrl;
 
     @RequestMapping("/showForm")
     public String showTozin() {
@@ -70,22 +68,8 @@ public class TozinFormController {
         return "product/warehouseConc_OnWayProduct";
     }
 
-    @RequestMapping(value = {"/showTransport2Plants/{date}"})
-    public String showTransport2Plants(HttpServletRequest req, @PathVariable String date, @RequestParam("Authorization") String auth) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", auth);
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> modelMapFromRest = restTemplate.exchange(restApiUrl + "/api/tozin/showTransport2Plants/" + date, HttpMethod.GET, request, String.class);
-
-        String out = modelMapFromRest.getBody();
-        req.setAttribute("out", out);
-        return "product/tozinTransport2Plants";
-    }
-
     @RequestMapping("/print/{type}/{date}")
-    public ResponseEntity<?> print(HttpServletResponse response, Authentication authentication, @PathVariable String type, @PathVariable String date)
+    public ResponseEntity<?> print(HttpServletResponse response, @PathVariable String type, @PathVariable String date)
             throws SQLException, IOException, JRException {
 
         String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
@@ -99,10 +83,9 @@ public class TozinFormController {
     /*Add By JZ*/
     @RequestMapping("/print")
     public void ExportToExcel(@RequestParam MultiValueMap<String, String> criteria, HttpServletResponse response) throws Exception {
-        List<TozinDTO.Info> data;
         List<Object> resp = new ArrayList<>();
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(criteria, TozinDTO.Info.class);
-        data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();
+        List<TozinDTO.Info> data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();
         if (data != null) resp.addAll(data);
         String topRowTitle = criteria.getFirst("top");
         String[] fields = criteria.getFirst("fields").split(",");
