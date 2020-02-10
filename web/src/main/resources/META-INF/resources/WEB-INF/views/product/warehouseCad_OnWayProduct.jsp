@@ -536,9 +536,9 @@
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
-            {
-                type: "RowSpacerItem"
-            },
+            // {
+            //     type: "RowSpacerItem"
+            // },
             {
                 name: "bijakFirstDescription",
                 title: "<spring:message code='warehouseCad.bijakFirstDescription'/>",

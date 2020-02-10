@@ -236,9 +236,9 @@
         editEvent: "click",
         editByCell: true,
         canRemoveRecords: true,
-        autoSaveEdits: false,
+        autoSaveEdits: true,
         deferRemoval: false,
-        saveLocally: true,
+        // saveLocally: true,
         showGridSummary: true,
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_BIJACK,
         fields: [{
@@ -275,11 +275,48 @@
                     this.hide();
 
                     if (index === 0) {
-                        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.data.remove(record);
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: "${contextPath}/api/warehouseCadItem/" + record.id ,
+                        httpMethod: "DELETE",
+                        callback: function (resp) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.invalidateCache();
+                        } else
+                            isc.say(RpcResponse_o.data);
+                        }
+                        }))
                     }
 
                 }
             });
+        },
+        saveEdits: function () {
+
+            var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditRow());
+
+            if (warehouseCadItemRecord.bundleSerial != undefined && warehouseCadItemRecord.sheetNo != undefined && warehouseCadItemRecord.weightKg != undefined &&
+                warehouseCadItemRecord.bundleSerial != null && warehouseCadItemRecord.sheetNo != null && warehouseCadItemRecord.weightKg != null){
+
+                    if (warehouseCadItemRecord.id != null){
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: "${contextPath}/api/warehouseCadItem/",
+                        httpMethod: "PUT",
+                        data: JSON.stringify(warehouseCadItemRecord),
+                        callback: function (resp) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                            // isc.say("<spring:message code='global.form.request.successful'/>.");
+                            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.refresh();
+                            } else
+                            isc.say(RpcResponse_o.data);
+                        }
+                        }))
+                    }
+            }
+            else {
+                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
+                return;
+            }
         }
     });
 
@@ -534,16 +571,49 @@
         ]
     });
 
+    var DynamicForm_warehouseCAD_Desc = isc.DynamicForm.create({
+        setMethod: 'POST',
+        align: "center",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "150",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        fields: [
+        // {
+        // type: "RowSpacerItem"
+        // },
+        {
+        name: "bijakFirstDescription",
+        title: "<spring:message code='warehouseCad.bijakFirstDescription'/>",
+        type: "textarea",
+        orientation: "right",
+        length: 255,
+        width: 700,
+        rowSpan: 2,
+        height: 40
+        },
+        {
+        name: "bijakSecondDescription",
+        title: "<spring:message code='warehouseCad.bijakSecondDescription'/>",
+        type: "textarea",
+        orientation: "right",
+        length: 255,
+        width: 700,
+        rowSpan: 2,
+        height: 40
+        },
+        ]
+    });
+
     var IButton_warehouseCAD_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*var warehouseCadItem = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditRow());
-            if (warehouseCadItem.issueId !== undefined) {
-                isc.warn("can't edit. item is not in inventory.");
-                return;
-            }*/
 
             if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
@@ -564,27 +634,13 @@
                 return;
             }
 
-            var notComplete = 0;
-            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getAllEditRows().forEach(function (element) {
-                var record = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(JSON.parse(JSON.stringify(element)));
-                if (record.bundleSerial !== undefined && record.sheetNo !== undefined && record.weightKg !== undefined &&
-                    record.bundleSerial !== null && record.sheetNo !== null && record.weightKg !== null) {
-                    warehouseCadItems.add(record);
-                }
-                else {
-                    notComplete++;
-                }
-                ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.deselectRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getRecord(element));
-            });
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getSelectedRecords().forEach(function (element) {
+                if (element.bundleSerial != undefined && element.sheetNo != undefined && element.weightKg != undefined &&
+                    element.bundleSerial != null && element.sheetNo != null && element.weightKg != null)
                 warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
-            if (notComplete !== 0) {
-                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
-                return;
-            }
 
             if (warehouseCadItems.length === 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
@@ -594,6 +650,8 @@
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.deselectAllRecords();
 
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
+            data_WarehouseCad.bijakFirstDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakFirstDescription");
+            data_WarehouseCad.bijakSecondDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakSecondDescription");
 
             var method = "PUT";
             if (data_WarehouseCad.id == null)
@@ -632,6 +690,9 @@
     DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_warehouseCAD.getSelectedRecord().sourceLoadDate);
     DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_warehouseCAD.getSelectedRecord().containerNo);
 
+    DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_warehouseCAD.getSelectedRecord().bijakFirstDescription);
+    DynamicForm_warehouseCAD_Desc.setValue("bijakSecondDescription", ListGrid_warehouseCAD.getSelectedRecord().bijakSecondDescription);
+
     isc.VLayout.create({
         width: 810,
         height: 800,
@@ -641,6 +702,7 @@
             DynamicForm_warehouseCAD,
             add_bundle_button,
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK,
+            DynamicForm_warehouseCAD_Desc,
             isc.HLayout.create({
                 width: "100%",
                 align: "center",
