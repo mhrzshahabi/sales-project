@@ -230,11 +230,11 @@
 
     var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK = isc.ListGrid.create({
         width: "100%",
-        height: "200",
+        height: "80%",
         modalEditing: true,
         canEdit: true,
         editEvent: "click",
-        editByCell: true,
+        // editByCell: true,
         canRemoveRecords: true,
         autoSaveEdits: true,
         deferRemoval: false,
@@ -296,16 +296,20 @@
             });
         },
         saveEdits: function () {
-
             var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditRow());
 
             if (warehouseCadItemRecord.bundleSerial != undefined && warehouseCadItemRecord.sheetNo != undefined && warehouseCadItemRecord.weightKg != undefined &&
                 warehouseCadItemRecord.bundleSerial != null && warehouseCadItemRecord.sheetNo != null && warehouseCadItemRecord.weightKg != null){
 
-                    if (warehouseCadItemRecord.id != null){
+            // warehouseCadItemRecord.warehouseCadId = DynamicForm_warehouseCAD.get("id");
+            // console.log(warehouseCadItemRecord);
+            var method = "PUT";
+            if (warehouseCadItemRecord.id == null)
+                method = "POST";
+
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         actionURL: "${contextPath}/api/warehouseCadItem/",
-                        httpMethod: "PUT",
+                        httpMethod: method,
                         data: JSON.stringify(warehouseCadItemRecord),
                         callback: function (resp) {
                             if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
@@ -315,7 +319,7 @@
                             isc.say(RpcResponse_o.data);
                         }
                         }))
-                    }
+
             }
             else {
                 isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
@@ -633,6 +637,7 @@
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.selectAllRecords();
 
+            console.log(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.data)
             if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.data.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;

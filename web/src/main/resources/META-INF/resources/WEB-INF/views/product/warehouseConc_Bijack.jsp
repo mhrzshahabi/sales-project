@@ -223,12 +223,12 @@
         height: "80%",
         canEdit: true,
         editEvent: "click",
-        editByCell: true,
+        // editByCell: true,
         modalEditing: true,
         canRemoveRecords: true,
-        autoSaveEdits: false,
+        autoSaveEdits: true,
         deferRemoval: false,
-        saveLocally: true,
+        // saveLocally: true,
         showGridSummary: true,
         datasource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECONC_BIJACK,
         fields: [{
@@ -245,23 +245,71 @@
             name: "description"
         }],
         removeData: function (record) {
+
+            if (record.issueId !== undefined) {
+                isc.warn("can't remove. item is not in inventory.");
+                return;
+            }
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [
-                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                isc.Button.create({title: "<spring:message code='global.no'/>"})
                 ],
                 buttonClick: function (button, index) {
-                    this.hide();
+                this.hide();
 
-                    if (index === 0) {
-                        ListGrid_WarehouseCadItem.data.remove(record);
+                if (index === 0) {
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/warehouseCadItem/" + record.id ,
+                    httpMethod: "DELETE",
+                    callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>");
+                        ListGrid_WarehouseCadItem.invalidateCache();
+                        ListGrid_WarehouseCadItem.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id},
+                        function (dsResponse, data, dsRequest) {
+                            ListGrid_WarehouseCadItem.setData(data);
+                        });
+                    } else
+                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                     }
-
+                    }))
+                }
                 }
             });
+        },
+        saveEdits: function () {
+
+            var warehouseCadItemRecord = ListGrid_WarehouseCadItem.getEditedRecord(ListGrid_WarehouseCadItem.getEditRow());
+
+            if (warehouseCadItemRecord.lotName != undefined && warehouseCadItemRecord.barrelNo != undefined && warehouseCadItemRecord.weightKg != undefined &&
+                warehouseCadItemRecord.lotName != null && warehouseCadItemRecord.barrelNo != null && warehouseCadItemRecord.weightKg != null){
+
+                var method = "PUT";
+                if (warehouseCadItemRecord.id == null)
+                method = "POST";
+
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/warehouseCadItem/",
+                    httpMethod: method,
+                    data: JSON.stringify(warehouseCadItemRecord),
+                    callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        ListGrid_WarehouseCadItem.refresh();
+                        // alert(ListGrid_WarehouseCadItem.data.length())
+                    } else
+                        isc.say(RpcResponse_o.data);
+                    }
+                }))
+
+            }
+            else {
+                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
+                return;
+            }
         }
     });
 
@@ -504,26 +552,10 @@
 
             ListGrid_WarehouseCadItem.selectAllRecords();
 
-            var notComplete = 0;
-            ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
-                var record = ListGrid_WarehouseCadItem.getEditedRecord(JSON.parse(JSON.stringify(element)));
-                if (record.weightKg !== undefined && record.weightKg !== null) {
-                    warehouseCadItems.add(record);
-                }
-                else {
-                    notComplete++;
-                }
-                ListGrid_WarehouseCadItem.deselectRecord(ListGrid_WarehouseCadItem.getRecord(element));
-            });
-
             ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
-                warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
+                if (element.weightKg !== undefined && element.weightKg !== null)
+                    warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
-
-            if (notComplete != 0) {
-                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
-                return;
-            }
 
             if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
