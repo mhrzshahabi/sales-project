@@ -322,7 +322,6 @@
         }]
     });
 
-
     var DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
         wrapItemTitles: false,
         setMethod: 'POST',
@@ -362,15 +361,6 @@
         }]
     });
 
-    <%--let yard = new Map([--%>
-    <%--    ["1-","<spring:message code='global.Sarcheshmeh'/>" ],--%>
-    <%--    ["2-","<spring:message code='global.Miduk'/>" ],--%>
-    <%--    ["4-","<spring:message code='global.KhatonAbad'/>" ],--%>
-    <%--    ["5-","<spring:message code='global.Sungun'/>" ],--%>
-    <%--    ]);--%>
-    <%--let yard_search = new Map(yard);--%>
-
-
     var DynamicForm_DailyReport_Tozin3 = isc.DynamicForm.create({
         wrapItemTitles: false,
         setMethod: 'POST',
@@ -387,13 +377,6 @@
         fields: [{
             name: "type",
             title: "<spring:message code='dailyWarehouse.plant'/>",
-            //
-            // click: function () {
-            // for (let chap of yard_search){
-            //     alert(chap);
-            //
-            // }
-            // },
             valueMap: {
                 "1-": "<spring:message code='global.Sarcheshmeh'/>",
                 "2-": "<spring:message code='global.Miduk'/>",
@@ -401,14 +384,8 @@
                 "5-": "<spring:message code='global.Sungun'/>"
             },
             defaultValue: "1-"
-
-            <%--    valueMap: {--%>
-            <%--    },--%>
-            <%--&lt;%&ndash;defaultValue: yard.set(1 , '<spring:message code='global.Sarcheshmeh'/>'),&ndash;%&gt;--%>
-            <%--defaultValue: "1-": "<spring:message code='global.Sarcheshmeh'/>"--%>
         }]
     });
-
 
     var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
         wrapItemTitles: false,
@@ -436,7 +413,6 @@
         },]
     });
 
-
     var Menu_ListGrid_Tozin = isc.Menu.create({
         width: 150,
         data: [{
@@ -461,7 +437,6 @@
             }
         }]
     });
-
 
     isc.ViewLoader.create({
         ID: "BijackViewLoader",
@@ -488,7 +463,6 @@
             BijackViewLoader
         ]
     });
-
 
     var DynamicForm_Tozin = isc.DynamicForm.create({
         width: "100%",
@@ -923,7 +897,6 @@
         }
     });
 
-
     var IButton_Tozin_Cancel = isc.IButtonCancel.create({
         top: 260,
         title: "<spring:message code='global.cancel'/>",
@@ -932,7 +905,6 @@
             Window_Tozin.close();
         }
     });
-
 
     var Window_Tozin = isc.Window.create({
         title: "<spring:message code='warehouses.title'/> ",
@@ -962,7 +934,6 @@
 
         ]
     });
-
 
     var RestDataSource_TozinInitialCriteria = {
         _constructor: "AdvancedCriteria",
@@ -1004,7 +975,6 @@
             }
         ]
     };
-
 
     var ListGrid_Tozin = isc.ListGrid.create({
         ID: "export_Tozin",
