@@ -203,6 +203,48 @@
     });
     </sec:authorize>
 
+    var excel = isc.DynamicForm.create({
+        method: "POST",
+        action: "${contextPath}/warehouseCad/print/",
+        canSubmit: true,
+        autoDraw: true,
+        visibility: "hidden",
+        target: "_Blank",
+        fields: [
+            {name: "top", type: "hidden"},
+            {name: "fields", type: "hidden"},
+            {name: "headers", type: "hidden"},
+            {name: "criteria", type: "hidden"}
+        ]
+    });
+
+    ToolStripButton_WarehouseCAD_Report = isc.ToolStripButtonRefresh.create({
+        ID: "exportButton",
+        icon: "[SKIN]/actions/excel-512.png",
+        title: "<spring:message code='global.form.export'/>",
+        click: function () {
+            const fieldsGrid = ListGrid_warehouseCAD.getFields().filter(
+                function (q) {
+                    return q.name.toString().toLowerCase() !== 'grouptitle'
+                });
+
+            const fields = fieldsGrid.map(function (f) {
+                return f.name
+            });
+            const headers = fieldsGrid.map(function (f) {
+                return f.title
+            });
+
+            excel.setValues({
+                top: "",
+                fields: fields,
+                headers: headers,
+                criteria: ""
+            });
+            excel.submitForm();
+        }
+    });
+
     var ToolStrip_Actions_warehouseCAD = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
@@ -217,7 +259,7 @@
                     align: "left",
                     border: '0px',
                     members: [
-                        ToolStripButton_warehouseCAD_Refresh,
+                        ToolStripButton_warehouseCAD_Refresh, ToolStripButton_WarehouseCAD_Report
                     ]
                 })
 

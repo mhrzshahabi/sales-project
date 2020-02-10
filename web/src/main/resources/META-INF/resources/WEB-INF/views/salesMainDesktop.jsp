@@ -178,25 +178,15 @@
         });
 
         isc.ViewLoader.addMethods({
-           handleError: function (rq, rs) {
-              console.log("Global ViewLoader Error: ", rq, rs);
-              if (rs.httpResponseCode === 403) { // Forbidden
-                 nicico.error("Access Denied");  //TODO: I18N message key
-              } else if(rs.httpResponseCode === 401 || (rs.httpResponseCode === 200 && rs.context.actionURL !== rq.actionURL)) {
-                 redirectLogin()
-              } else {
-                 console.log("rs.context.actionURL:", rs.context.actionURL, ", rq.actionURL:",rq.actionURL)
-                 var panelContainer = this.getPanelContainer();
-                 console.log('panelContainer', panelContainer)
-                 var nameWindow = panelContainer.title ? panelContainer.title : "";
-                 if (!nameWindow)
-                    nameWindow = "";
-                 isc.warn("اشکال در بارگذاری صفحه: (" + nameWindow + ")" + "<br>" +rq.actionURL, null)
-                 if(panelContainer)
-                    panelContainer.closeClick();
-              }
-              return false;
-           }
+            handleError: function (rq, rs) {
+                console.log("Global ViewLoader Error: ", rq, rs);
+                if (rs.httpResponseCode === 403) { // Forbidden
+                    nicico.error("Access Denied");  //TODO: I18N message key
+                } else {
+                    redirectLogin();
+                }
+                return false;
+            }
         });
 
         var flagTabExist = false;
