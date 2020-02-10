@@ -282,8 +282,12 @@
                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.invalidateCache();
+                            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id},
+                            function (dsResponse, data, dsRequest) {
+                            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.setData(data);
+                            });
                         } else
-                            isc.say(RpcResponse_o.data);
+                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                         }
                         }))
                     }
