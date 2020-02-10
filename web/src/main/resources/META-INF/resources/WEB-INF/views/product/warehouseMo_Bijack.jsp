@@ -223,7 +223,7 @@
         }, {
             fieldName: "codeKala",
             operator: "equals",
-            value: ListGrid_Tozin.getSelectedRecord().codeKala
+            value: ListGrid_warehouseCAD.getSelectedRecord().codeKala
         }]
     };
 
@@ -510,7 +510,7 @@
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
 
-            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
+            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_warehouseCAD.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             var warehouseCadItems = [];
 
@@ -561,7 +561,7 @@
                 callback: function (resp) {
                     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
-                        ListGrid_Tozin_refresh();
+                        ListGrid_warehouseCAD_refresh();
                         Window_Bijack.close();
                     } else
                         isc.say(RpcResponse_o.data);
