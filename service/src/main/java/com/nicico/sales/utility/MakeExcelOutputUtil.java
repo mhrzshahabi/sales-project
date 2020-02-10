@@ -1,6 +1,5 @@
 package com.nicico.sales.utility;
 
-import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.i18n.CaptionFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -11,7 +10,6 @@ import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -49,7 +47,7 @@ public class MakeExcelOutputUtil {
 
     public byte[] makeOutput(List<Object> list, Class<?> entityClass, String[] fieldsName, String[] headers, Boolean insertRowNum, String topRowTitle) throws Exception {
 
-        if(topRowTitle == null)
+        if (topRowTitle == null)
             topRowTitle = "";
 
         workbook = new XSSFWorkbook();
