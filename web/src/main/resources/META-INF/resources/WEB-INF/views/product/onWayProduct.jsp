@@ -347,19 +347,15 @@
             required: true,
             title: "<spring:message code='contractItem.material'/>",
             type: 'long',
-            width: 130,
             editorType: "SelectItem",
             optionDataSource: RestDataSource_MaterialItem_IN_ONWAYPRODUCT,
             displayField: "gdsName",
             valueField: "gdsCode",
-            pickListWidth: "200",
-            pickListHeight: "200",
             pickListProperties: {
                 showFilterEditor: true
             },
             pickListFields: [{
                 name: "gdsName",
-                width: 218,
                 align: "center"
             }],
             defaultValue: 11
@@ -385,28 +381,26 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "200",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "type",
-            width: 130,
             title: "<spring:message code='dailyWarehouse.plant'/>",
-                //
-                // click: function () {
-                // for (let chap of yard_search){
-                //     alert(chap);
-                //
-                // }
-                // },
-                valueMap: {
+            //
+            // click: function () {
+            // for (let chap of yard_search){
+            //     alert(chap);
+            //
+            // }
+            // },
+            valueMap: {
                 "1-": "<spring:message code='global.Sarcheshmeh'/>",
                 "2-": "<spring:message code='global.Miduk'/>",
                 "4-": "<spring:message code='global.KhatonAbad'/>",
                 "5-": "<spring:message code='global.Sungun'/>"
-                },
-                defaultValue: "1-"
+            },
+            defaultValue: "1-"
 
             <%--    valueMap: {--%>
             <%--    },--%>
@@ -472,7 +466,7 @@
     isc.ViewLoader.create({
         ID: "BijackViewLoader",
         width: 830,
-        height: 800,
+        height: 830,
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
@@ -480,7 +474,7 @@
     var Window_Bijack = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
         width: 830,
-        height: 730,
+        height: 830,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -682,7 +676,6 @@
         ]
     });
 
-
     var ToolStripButton_Tozin_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
@@ -691,12 +684,12 @@
         }
     });
 
-        var excel = isc.DynamicForm.create({
+    var excel = isc.DynamicForm.create({
         method: "POST",
         action: "${contextPath}/tozin/print/",
         canSubmit: true,
         autoDraw: true,
-        visibility:"hidden",
+        visibility: "hidden",
         target: "_Blank",
         fields: [
             {name: "top", type: "hidden"},
@@ -704,35 +697,65 @@
             {name: "headers", type: "hidden"},
             {name: "criteria", type: "hidden"}
         ]
-        });
+    });
 
-        ToolStripButton_Tozin_Report = isc.ToolStripButtonRefresh.create({
+    ToolStripButton_Tozin_Report = isc.ToolStripButtonRefresh.create({
         ID: "exportButton",
         icon: "[SKIN]/actions/excel-512.png",
         title: "<spring:message code='global.form.export'/>",
         click: function () {
-                    const fieldsGrid = ListGrid_Tozin.getFields().filter(
-                    function(q) {return q.name.toString().toLowerCase() !== 'grouptitle'});
-                    const fields = fieldsGrid.map(function(f) { return f.name});
-                    const headers = fieldsGrid.map(function(f) { return f.title});
-                    var   Vahed_tolidi_List = DynamicForm_DailyReport_Tozin3.getField("type").getValueMap();
-                    var   Vahed_tolidi_Value = DynamicForm_DailyReport_Tozin3.getValue("type");
-                    const top = Vahed_tolidi_List[Vahed_tolidi_Value];
-                    const filterEditorCriteria = ListGrid_Tozin.getFilterEditorCriteria();
-                            const criterias = [];
-                            filterEditorCriteria.criteria.forEach(function(key,index){
-                               if(key.fieldName.toString().toLowerCase()!=='mazloom')  criterias.add(key);
-                            });
-                            filterEditorCriteria.criteria = criterias;
-                            const criteria = JSON.stringify(filterEditorCriteria);
-                            excel.setValues({
-                            top:top,
-                            fields:fields,
-                            headers:headers,
-                            criteria:criteria
-                            });
-                            excel.submitForm();
-}});
+            const fieldsGrid = ListGrid_Tozin.getFields().filter(
+                function (q) {
+                    return q.name.toString().toLowerCase() !== 'grouptitle'
+                });
+            const fields = fieldsGrid.map(function (f) {
+                return f.name
+            });
+            const headers = fieldsGrid.map(function (f) {
+                return f.title
+            });
+
+            var fromDay_Value = DynamicForm_DailyReport_Tozin.getValue("fromDay");
+
+            var toDay_Value = DynamicForm_DailyReport_Tozin1.getValue("toDay");
+
+            var materialId_List = DynamicForm_DailyReport_Tozin2.getField("materialId").getValueMap();
+            var materialId_Value = DynamicForm_DailyReport_Tozin2.getValue("materialId");
+
+            var Vahed_tolidi_List = DynamicForm_DailyReport_Tozin3.getField("type").getValueMap();
+            var Vahed_tolidi_Value = DynamicForm_DailyReport_Tozin3.getValue("type");
+
+            var movementType_List = DynamicForm_DailyReport_Tozin4.getField("type").getValueMap();
+            var movementType_Value = DynamicForm_DailyReport_Tozin4.getValue("type");
+
+            const material = materialId_List[materialId_Value];
+            const vahed_tolidi = Vahed_tolidi_List[Vahed_tolidi_Value];
+            const movementType = movementType_List[movementType_Value];
+
+            const top =
+                " از تاریخ: " + fromDay_Value +
+                " تا تاریخ: " + toDay_Value +
+                " محصول: " + material +
+                " واحد تولیدی: " + vahed_tolidi +
+                " نوع حمل: " + movementType;
+
+            const filterEditorCriteria = ListGrid_Tozin.getCriteria();
+            const criterias = [];
+            filterEditorCriteria.criteria.forEach(function (key, index) {
+                if (key.fieldName.toString().toLowerCase() !== 'mazloom') criterias.add(key);
+            });
+            filterEditorCriteria.criteria = criterias;
+            const criteria = JSON.stringify(filterEditorCriteria);
+            excel.setValues({
+                top: top,
+                fields: fields,
+                headers: headers,
+                criteria: criteria
+            });
+            excel.submitForm();
+        }
+    });
+
     var onWayProduct_searchBtn = isc.IButton.create({
         width: 120,
         title: "<spring:message code='global.search'/>",
@@ -983,10 +1006,9 @@
     };
 
 
-
     var ListGrid_Tozin = isc.ListGrid.create({
-        ID:"export_Tozin",
-        alternateRecordStyles:true,
+        ID: "export_Tozin",
+        alternateRecordStyles: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
