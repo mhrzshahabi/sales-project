@@ -12,7 +12,4 @@ public interface ITozinService {
 
     TotalResponse<TozinDTO.Info> searchTozinOnTheWay(NICICOCriteria criteria, String tozin);
 
-    List<Object[]> findTransport2Plants(String date, String plantId);
-
-    String[] findPlants();
 }
