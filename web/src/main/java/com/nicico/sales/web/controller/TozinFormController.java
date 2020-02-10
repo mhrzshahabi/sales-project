@@ -69,7 +69,7 @@ public class TozinFormController {
     }
 
     @RequestMapping("/print/{type}/{date}")
-    public ResponseEntity<?> print(HttpServletResponse response, @PathVariable String type, @PathVariable String date)
+    public void print(HttpServletResponse response, @PathVariable String type, @PathVariable String date)
             throws SQLException, IOException, JRException {
 
         String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
@@ -77,7 +77,6 @@ public class TozinFormController {
         params.put("dateReport", day);
         params.put(ConstantVARs.REPORT_TYPE, type);
         reportUtil.export("/reports/tozin_beyn_mojtama.jasper", params, response);
-        return null;
     }
 
     /*Add By JZ*/
