@@ -79,7 +79,6 @@ public class TozinFormController {
         reportUtil.export("/reports/tozin_beyn_mojtama.jasper", params, response);
     }
 
-    /*Add By JZ*/
     @RequestMapping("/print")
     public void ExportToExcel(@RequestParam MultiValueMap<String, String> criteria, HttpServletResponse response) throws Exception {
         List<Object> resp = new ArrayList<>();
@@ -91,42 +90,5 @@ public class TozinFormController {
         String[] headers = criteria.getFirst("headers").split(",");
         byte[] bytes = makeExcelOutputUtil.makeOutput(resp, TozinDTO.Info.class, fields, headers, true, topRowTitle);
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    private class criteriaInterFace {
-        public String fiedName;
-        public String operator;
-        public String value;
-        @Override
-        public String toString() {
-            return String.format("{\"fieldName\":\"%s\",\"operator\":\"%s\",\"value\":\"%s\"", fiedName, operator, value);
-        }
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    private class advancedCriteria {
-        public String operator;
-        public String _constructor;
-        public List<criteriaInterFace> critera;
-        @Override
-        public String toString() {
-            String string = String.format("{\"operator\":\"%s\" , \"criteria\":[", operator);
-            if (_constructor != null)
-                string = String.format("{\"_constructor\":\"%s\",\"operator\":\"%s\" , \"criteria\":[", _constructor, operator);
-            for (Integer i = 0; i < critera.size(); i++) {
-                final criteriaInterFace criteriaInterFace = critera.get(i);
-                string = string + criteriaInterFace.toString();
-                if (i < critera.size()) string = string + ",";
-            }
-            string = string + "]";
-            return string;
-        }
     }
 }

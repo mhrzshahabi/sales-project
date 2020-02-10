@@ -96,13 +96,4 @@ public class TozinService implements ITozinService {
 
     }
 
-    @PreAuthorize("hasAuthority('R_TOZIN')")
-    public List<Object[]> findTransport2Plants(String date, String plantId) {
-        return tozinDAO.findTransport2Plants(date, plantId);
-    }
-
-    @PreAuthorize("hasAuthority('R_TOZIN')")
-    public String[] findPlants() {
-        return tozinDAO.findPlants();
-    }
 }
