@@ -188,8 +188,8 @@
         operator: "and",
         criteria: [{
             fieldName: "target",
-            "operator": "iContains",
-            "value": "رجا"
+            operator: "iContains",
+            value: "رجا"
         }, {
             fieldName: "tozinId",
             operator: "contains",
@@ -203,7 +203,7 @@
 
     var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create({
         width: "100%",
-        height: "200",
+        height: "80%",
         modalEditing: true,
         canEdit: true,
         editEvent: "click",
@@ -233,7 +233,6 @@
             title: "<spring:message code='warehouseCadItem.description'/>",
             width: "25%"
         }],
-
         removeData: function (record) {
 
             isc.Dialog.create({
@@ -309,7 +308,6 @@
             canEdit: false
         }, {
             name: "sourceTozinPlantId",
-            required: true,
             canEdit: false,
             colSpan: 3,
             titleColSpan: 1,
@@ -345,7 +343,6 @@
             ],
             changed(form, item, value) {
                 DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
-                console.log(item.getSelectedRecord());
                 DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
                 DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
             }
@@ -379,17 +376,17 @@
             }
         },
             {
+                name: "containerNo",
+                title: "<spring:message code='warehouseCad.containerNo'/>",
+                colSpan: 1,
+                titleColSpan: 1,
+                canEdit: false
+            },
+            {
                 name: "rahahanPolompNo",
                 title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
                 colSpan: 1,
                 titleColSpan: 1
-            },
-            {
-                name: "containerNo",
-                title: "<spring:message code='warehouseCad.containerNo'/>", //شماره کانتینر
-                colSpan: 1,
-                titleColSpan: 1,
-                canEdit: false
             },
             {
                 name: "herasatPolompNo",
@@ -503,13 +500,10 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "210",
+        titleWidth: "150",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
-            // {
-            //     type: "RowSpacerItem"
-            // },
             {
                 name: "bijakFirstDescription",
                 title: "<spring:message code='warehouseCad.bijakFirstDescription'/>",
@@ -529,7 +523,7 @@
                 width: 700,
                 rowSpan: 2,
                 height: 40
-            },
+            }
         ]
     });
 
@@ -538,7 +532,7 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined) {
+            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") === undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
                 DynamicForm_warehouseCAD.validate()
                 return;
@@ -551,12 +545,6 @@
             var warehouseCadItems = [];
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.selectAllRecords();
-
-            if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.data.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
-
             var notComplete = 0;
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getAllEditRows().forEach(function (element) {
                 var record = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getEditedRecord(JSON.parse(JSON.stringify(element)));
@@ -574,12 +562,13 @@
                 warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
-            if (notComplete != 0) {
+            if (notComplete !== 0) {
                 isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
                 return;
             }
 
-            if (warehouseCadItems.length == 0) {
+            console.log(warehouseCadItems);
+            if (warehouseCadItems.length === 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }

@@ -23,7 +23,7 @@ public class WarehouseCadItemDTO {
     private Long barrelNo;
     private Double weightKg;
     private Double issueId;
-    private Double description;
+    private String description;
 
     @Getter
     @Setter
