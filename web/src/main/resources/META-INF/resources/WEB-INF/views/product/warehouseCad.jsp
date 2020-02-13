@@ -166,6 +166,64 @@
         }
     }
 
+    function ListGrid_warehouseCAD_remove() {
+        var record = ListGrid_warehouseCAD.getSelectedRecord();
+
+        if (record == null || record.id == null) {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create(
+                        {
+                            title: "<spring:message code='global.ok'/>"
+                        })],
+                    buttonClick: function () {
+                        this.hide();
+                    }
+                });
+        }
+        else {
+            isc.Dialog.create(
+                {
+                    message: "<spring:message code='global.grid.record.remove.ask'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                    buttons: [
+                        isc.IButtonSave.create(
+                            {
+                                title: "<spring:message code='global.yes'/>"
+                            }),
+                        isc.IButtonCancel.create(
+                            {
+                                title: "<spring:message code='global.no'/>"
+                            })
+                    ],
+                    buttonClick: function (button, index) {
+                        this.hide();
+                        if (index === 0) {
+                            var warehouseCadId = record.id;
+                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                                {
+                                    actionURL: "${contextPath}/api/warehouseCad/" + warehouseCadId,
+                                    httpMethod: "DELETE",
+                                    callback: function (resp) {
+                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                            ListGrid_warehouseCAD_refresh();
+                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                        }
+                                        else {
+                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                        }
+                                    }
+                                }));
+                        }
+                    }
+                });
+        }
+    }
+
     var Menu_ListGrid_warehouseCAD = isc.Menu.create({
         width: 150,
         data: [
@@ -180,6 +238,14 @@
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_warehouseCAD_edit();
+                }
+            },
+            </sec:authorize>
+            <sec:authorize access="hasAuthority('D_WAREHOUSE_CAD')">
+            {
+                title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_remove.png",
+                click: function () {
+                    ListGrid_warehouseCAD_remove();
                 }
             }
             </sec:authorize>
@@ -200,6 +266,16 @@
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
             ListGrid_warehouseCAD_edit();
+        }
+    });
+    </sec:authorize>
+
+    <sec:authorize access="hasAuthority('D_WAREHOUSE_CAD')">
+    var ToolStripButton_warehouseCAD_Remove = isc.ToolStripButtonRemove.create({
+        icon: "[SKIN]/actions/remove.png",
+        title: "<spring:message code='global.form.remove'/>",
+        click: function () {
+            ListGrid_warehouseCAD_remove();
         }
     });
     </sec:authorize>
@@ -253,6 +329,9 @@
             [
             <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
                 ToolStripButton_warehouseCAD_Edit,
+            </sec:authorize>
+            <sec:authorize access="hasAuthority('D_WAREHOUSE_CAD')">
+                ToolStripButton_warehouseCAD_Remove,
             </sec:authorize>
 
                 isc.ToolStrip.create({
