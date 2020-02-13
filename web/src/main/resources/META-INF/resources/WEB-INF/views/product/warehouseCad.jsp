@@ -197,7 +197,7 @@
     <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
     var ToolStripButton_warehouseCAD_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
-        title: "<spring:message code='global.form.show.bijack'/>",
+        title: "<spring:message code='global.form.edit'/>",
         click: function () {
             ListGrid_warehouseCAD_edit();
         }

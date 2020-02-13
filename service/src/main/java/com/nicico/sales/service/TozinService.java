@@ -88,12 +88,23 @@ public class TozinService implements ITozinService {
             requestCriteriaRqList.add(systemTypeCriteriaRq);
         }
 
+        final SearchDTO.SearchRq request = createSearchRq(criteria);
+
+        if (request.getCriteria() != null) {
+            requestCriteriaRqList.add(request.getCriteria());
+        }
+
+        SearchDTO.CriteriaRq requestCriteriaRq = new SearchDTO.CriteriaRq()
+                .setOperator(EOperator.and)
+                .setCriteria(requestCriteriaRqList);
+
+        request.setCriteria(requestCriteriaRq);
+
         entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
         entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
-        TotalResponse<TozinDTO.Info> search = SearchUtil.search(tozinDAO, criteria, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
+        final SearchDTO.SearchRs<TozinDTO.Info> response = SearchUtil.search(tozinDAO, request, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
 
-        return search;
-
+        return mapSearchRs(criteria, response);
     }
 
 }
