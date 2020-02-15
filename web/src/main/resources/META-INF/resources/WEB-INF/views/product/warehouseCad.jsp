@@ -170,17 +170,17 @@
             });
         } else {
 
-            if (record.materialItem.gdsCode === '9' || record.materialItem.gdsCode === '10' || record.materialItem.gdsCode === '11' ||
-                record.materialItem.gdsCode === '114' || record.materialItem.gdsCode === '129' || record.materialItem.gdsCode === '86' ||
-                record.materialItem.gdsCode === '90' || record.materialItem.gdsCode === '95') {
+            if (record.materialItem.gdsCode === 9 || record.materialItem.gdsCode === 10 || record.materialItem.gdsCode === 11 ||
+                record.materialItem.gdsCode === 114 || record.materialItem.gdsCode === 129 || record.materialItem.gdsCode === 86 ||
+                record.materialItem.gdsCode === 90 || record.materialItem.gdsCode === 95) {
                 BijackViewLoader.setViewURL("warehouseCad/showWarehouseCadForm");
                 Window_Bijack.show();
             }
-            if (record.materialItem.gdsCode === '97') {
+            if (record.materialItem.gdsCode === 97) {
                 BijackViewLoader.setViewURL("warehouseCad/showWarehouseMoForm");
                 Window_Bijack.show();
             }
-            if (record.materialItem.gdsCode === '8') {
+            if (record.materialItem.gdsCode === 8) {
                 BijackViewLoader.setViewURL("warehouseCad/showWarehouseConcForm");
                 Window_Bijack.show();
             }
