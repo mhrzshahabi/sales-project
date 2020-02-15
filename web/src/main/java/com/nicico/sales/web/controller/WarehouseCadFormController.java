@@ -68,7 +68,7 @@ public class WarehouseCadFormController {
         String topRowTitle = criteria.getFirst("top");
         String[] fields = criteria.getFirst("fields").split(",");
         String[] headers = criteria.getFirst("headers").split(",");
-        byte[] bytes = makeExcelOutputUtil.makeOutput(resp, TozinDTO.Info.class, fields, headers, true, topRowTitle);
+        byte[] bytes = makeExcelOutputUtil.makeOutput(resp, WarehouseCadDTO.Info.class, fields, headers, true, topRowTitle);
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
     }
 }

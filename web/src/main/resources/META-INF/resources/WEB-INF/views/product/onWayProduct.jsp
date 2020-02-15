@@ -708,10 +708,10 @@
 
             const top =
                 " از تاریخ: " + fromDay_Value +
-                " تا تاریخ: " + toDay_Value +
-                " محصول: " + material +
-                " واحد تولیدی: " + vahed_tolidi +
-                " نوع حمل: " + movementType;
+                "------ تا تاریخ: " + toDay_Value +
+                "------ محصول: " + material +
+                "------ واحد تولیدی: " + vahed_tolidi +
+                "------ نوع حمل: " + movementType;
 
             const filterEditorCriteria = ListGrid_Tozin.getCriteria();
             const criterias = [];

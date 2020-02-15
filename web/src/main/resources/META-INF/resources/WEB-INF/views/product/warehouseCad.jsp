@@ -6,6 +6,27 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
+    var RestDataSource_MaterialItem_IN_WAREHOUSECAD = isc.MyRestDataSource.create({
+        fields: [{
+            name: "id",
+            title: "id",
+            primaryKey: true,
+            hidden: true
+        },
+            {
+                name: "gdsCode",
+                title: "<spring:message code='goods.code'/> "
+            },
+            {
+                name: "gdsName"
+            },
+            {
+                name: "materialId"
+            }
+        ],
+        fetchDataURL: "${contextPath}/api/materialItem/spec-list"
+    });
+
     var RestDataSource_WarehouseCad = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -312,28 +333,188 @@
                 return f.title
             });
 
-            excel.setValues({
-                top: "",
-                fields: fields,
-                headers: headers,
-                criteria: ""
-            });
+            var materialId_List = DynamicForm_Material_WarehouseCad.getField("materialId").getValueMap();
+            var materialId_Value = DynamicForm_Material_WarehouseCad.getValue("materialId");
+
+            var plant_List = DynamicForm_Plant_WarehouseCad.getField("type").getValueMap();
+            var plant_Value = DynamicForm_Plant_WarehouseCad.getValue("type");
+
+            var movementType_List = DynamicForm_MovementType_WarehouseCad.getField("type").getValueMap();
+            var movementType_Value = DynamicForm_MovementType_WarehouseCad.getValue("type");
+
+            const material = materialId_List[materialId_Value];
+            const plant = plant_List[plant_Value];
+            const movementType = movementType_List[movementType_Value];
+
+            const top =
+                "------ محصول: " + material +
+                "------ واحد تولیدی: " + plant +
+                "------ نوع حمل: " + movementType;
+            const filterEditorCriteria = ListGrid_warehouseCAD.getCriteria();
+            const criterias = [];
+            fields.splice(0, 1);
+            headers.splice(0, 1);
+            if (filterEditorCriteria.criteria == undefined) {
+                excel.setValues({
+                    top: "",
+                    fields: fields,
+                    headers: headers,
+                    criteria: JSON.stringify({})
+                });
+            } else {
+                filterEditorCriteria.criteria.forEach(function (key, index) {
+                    if (key.fieldName.toString().toLowerCase() !== 'materialitem.gdscode')
+                        criterias.add(key);
+                });
+                filterEditorCriteria.criteria = criterias;
+                const criteria = JSON.stringify(filterEditorCriteria);
+
+                excel.setValues({
+                    top: top,
+                    fields: fields,
+                    headers: headers,
+                    criteria: criteria
+                });
+            }
             excel.submitForm();
         }
     });
+
+    var DynamicForm_Material_WarehouseCad = isc.DynamicForm.create({
+        wrapItemTitles: false,
+        setMethod: 'POST',
+        align: "center",
+        target: "_Blank",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "200",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 4,
+        fields: [{
+            name: "materialId",
+            colSpan: 3,
+            titleColSpan: 1,
+            showHover: true,
+            autoFetchData: false,
+            title: "<spring:message code='contractItem.material'/>",
+            type: 'long',
+            editorType: "SelectItem",
+            optionDataSource: RestDataSource_MaterialItem_IN_WAREHOUSECAD,
+            displayField: "gdsName",
+            valueField: "gdsCode",
+            pickListProperties: {
+                showFilterEditor: true
+            },
+            pickListFields: [{
+                name: "gdsName",
+                align: "center"
+            }],
+            defaultValue: 11
+        }]
+    });
+
+    var DynamicForm_Plant_WarehouseCad = isc.DynamicForm.create({
+        wrapItemTitles: false,
+        setMethod: 'POST',
+        align: "center",
+        target: "_Blank",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 4,
+        fields: [{
+            name: "type",
+            title: "<spring:message code='dailyWarehouse.plant'/>",
+            valueMap: {
+                "Sarcheshmeh": "<spring:message code='global.Sarcheshmeh'/>",
+                "Miduk": "<spring:message code='global.Miduk'/>",
+                "خاتون": "<spring:message code='global.KhatonAbad'/>",
+                "sungun": "<spring:message code='global.Sungun'/>"
+            },
+            defaultValue: "Sarcheshmeh"
+        }]
+    });
+
+    var DynamicForm_MovementType_WarehouseCad = isc.DynamicForm.create({
+        wrapItemTitles: false,
+        setMethod: 'POST',
+        align: "center",
+        target: "_Blank",
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleWidth: "200",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        numCols: 4,
+        fields: [{
+            name: "type",
+            width: 130,
+            title: "<spring:message code='warehouseCad.movementType'/>",
+            valueMap: {
+                "جاده ای": "جاده ای",
+                "ریلی": "ریلی"
+            },
+            defaultValue: "ریلی"
+        }]
+    });
+
+    var warehouseCAD_searchBtn = isc.IButton.create({
+        width: 120,
+        title: "<spring:message code='global.search'/>",
+        icon: "icon/search.png",
+        click: function () {
+            var criteria = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [
+                    {
+                        fieldName: "materialItem.gdsCode",
+                        operator: "contains",
+                        value: DynamicForm_Material_WarehouseCad.getValues().materialId
+                    },
+                    {
+                        fieldName: "plant",
+                        operator: "contains",
+                        value: DynamicForm_Plant_WarehouseCad.getValues().type
+                    },
+                    {
+                        fieldName: "movementType",
+                        operator: "contains",
+                        value: DynamicForm_MovementType_WarehouseCad.getValues().type
+                    }
+                ]
+            };
+            ListGrid_warehouseCAD.fetchData(criteria);
+        }
+    });
+
 
     var ToolStrip_Actions_warehouseCAD = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
         members:
             [
-            <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
+                <sec:authorize access="hasAuthority('U_WAREHOUSE_CAD')">
                 ToolStripButton_warehouseCAD_Edit,
-            </sec:authorize>
-            <sec:authorize access="hasAuthority('D_WAREHOUSE_CAD')">
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('D_WAREHOUSE_CAD')">
                 ToolStripButton_warehouseCAD_Remove,
-            </sec:authorize>
-
+                </sec:authorize>
+                DynamicForm_Material_WarehouseCad,
+                DynamicForm_Plant_WarehouseCad,
+                DynamicForm_MovementType_WarehouseCad,
+                warehouseCAD_searchBtn,
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -427,8 +608,6 @@
                     width: "16.66%"
                 }],
             sortField: 0,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             getExpansionComponent: function (record) {
                 if (record == null || record.id == null) {
                     isc.Dialog.create({
@@ -446,7 +625,7 @@
                 }
                 var dccTableId = record.id;
                 var dccTableName = "TBL_WAREHOUSE_CAD";
-                bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+                bijackAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
                 hLayoutViewLoader.show();
                 var layoutWarehouseCad = isc.VLayout.create({
                     styleName: "expand-layout",
