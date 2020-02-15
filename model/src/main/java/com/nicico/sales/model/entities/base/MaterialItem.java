@@ -23,7 +23,7 @@ public class MaterialItem extends Auditable {
     private Long id;
 
     @Column(name = "GDSCODE")
-    private String gdsCode;
+    private Long gdsCode;
 
     @Column(name = "GDSNAME")
     private String gdsName;

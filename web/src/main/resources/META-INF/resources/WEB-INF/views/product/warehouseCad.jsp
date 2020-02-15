@@ -363,7 +363,6 @@
                 });
             } else {
                 filterEditorCriteria.criteria.forEach(function (key, index) {
-                    if (key.fieldName.toString().toLowerCase() !== 'materialitem.gdscode')
                         criterias.add(key);
                 });
                 filterEditorCriteria.criteria = criterias;
@@ -480,7 +479,7 @@
                 criteria: [
                     {
                         fieldName: "materialItem.gdsCode",
-                        operator: "contains",
+                        operator: "equals",
                         value: DynamicForm_Material_WarehouseCad.getValues().materialId
                     },
                     {
