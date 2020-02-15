@@ -47,7 +47,7 @@
         fetchDataURL: "${contextPath}/api/warehouseCad/spec-list-issue-cad"
     });
 
-    <sec:authorize access="hasAuthority('R_SHIPMENT')">
+
     var MyRestDataSource_ShipmentByWarehouseIssueCathode = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -214,7 +214,6 @@
         }],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
-    </sec:authorize>
 
 
     var RestDataSource_WarehouseCadITEMByWarehouseIssueCathode = isc.MyRestDataSource.create({
@@ -278,7 +277,9 @@
             align: "center", padding: 5,
             membersMargin: 20,
             members: [
+                <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CATHODE')">
                 ToolStripButton_WarehouseIssueCathode_Add
+                </sec:authorize>
             ]
         });
 
@@ -295,9 +296,7 @@
     var ListGrid_ShipmentByWarehouseIssueCathode = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        <sec:authorize access="hasAuthority('R_SHIPMENT')">
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueCathode,
-        </sec:authorize>
         styleName: 'expandList',
         autoFetchData: true,
         alternateRecordStyles: true,
@@ -851,7 +850,6 @@
         width: 650,
         height: "100%",
         setMethod: 'POST',
-
         align: "center",
         canSubmit: true,
         showInlineErrors: true,
