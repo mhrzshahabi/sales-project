@@ -67,7 +67,7 @@ public class TozinService implements ITozinService {
                 log.error("searchTozinOnTheWay error: {}", e.getMessage());
             }
         });
-        MaterialItem materialItem = materialItemDAO.findByGdsCode(fetchedData.get("codeKala").toString());
+    MaterialItem materialItem = materialItemDAO.findByGdsCode(new Long(fetchedData.get("codeKala").toString()) );
 
         Set<WarehouseCad> bijacks = warehouseCadDAO.getAllByMaterialItemId(materialItem.getId());
 

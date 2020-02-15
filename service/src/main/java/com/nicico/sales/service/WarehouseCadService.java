@@ -56,7 +56,7 @@ public class WarehouseCadService implements IWarehouseCadService {
     @PreAuthorize("hasAuthority('C_WAREHOUSE_CAD')")
     public WarehouseCadDTO.Info create(WarehouseCadDTO.Create request) {
         final WarehouseCad warehouseCad = modelMapper.map(request, WarehouseCad.class);
-        MaterialItem materialItem = materialItemDAO.findByGdsCode(String.valueOf(request.getMaterialItemId()));
+        MaterialItem materialItem = materialItemDAO.findByGdsCode(request.getMaterialItemId());
         warehouseCad.setMaterialItem(materialItem);
         warehouseCad.setMaterialItemId(materialItem.getId());
         WarehouseCadDTO.Info saved = save(warehouseCad);
