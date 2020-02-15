@@ -588,7 +588,10 @@
                 },
                 {
                     name: "materialItem.gdsName",
-                    width: "16.66%"
+                    width: "16.66%",
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.materialItem.gdsName;
+                    }
                 },
                 {
                     name: "movementType",

@@ -332,7 +332,7 @@
             valueField: "tozinPlantId",
             pickListProperties: {
                 showFilterEditor: true,
-                filterOnKeypress: false
+                filterOnKeypress: true
             },
             pickListFields: [
                 {name: "containerId"},
