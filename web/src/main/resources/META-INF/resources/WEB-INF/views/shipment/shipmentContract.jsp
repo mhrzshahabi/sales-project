@@ -390,6 +390,10 @@
                 width: 430,
                 type: "date",
                 required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
 
@@ -401,7 +405,11 @@
                 width: "200",
                 required: true,
                 length: "30",
-                keyPressFilter: "[0-9]"
+                keyPressFilter: "[0-9]",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -476,7 +484,11 @@
                 title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
                 align: "right",
                 width: "200",
-                length: "30", required: true
+                length: "30", required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 colSpan: 2,
@@ -505,8 +517,10 @@
                 length: "30",
                 keyPressFilter: "[0-9]",
                 type: "isInteger",
-
-
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 colSpan: 2,
@@ -582,7 +596,11 @@
                     " draft survey ": "<spring:message code='shipmentContract.draftSurvey'/>" //بازرسي درافت كشتي
                     ,
                     " weighbridge ": "<spring:message code='shipmentContract.weighbridge'/>" //باسكول
-                }
+                },
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -593,6 +611,10 @@
                 width: "200",
                 required: true,
                 length: "30",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
