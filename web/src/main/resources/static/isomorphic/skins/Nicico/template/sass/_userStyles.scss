@@ -668,7 +668,7 @@ $window_header_bgColor: #fe9d2a !default;
 .menuTable{
   background-color: white;
   td{
-    font-weight: bold;
+   // font-weight: bold;
   }
   .menuTitleField, .menuTitleFieldOver{
       text-align: center;
@@ -683,6 +683,9 @@ $window_header_bgColor: #fe9d2a !default;
   }
 }
 
+.menuTable tr[role="menuitemcheckable"] .menuIconField img {
+  display: block !important;
+}
 
 .selectItemPickerIcon,
 .selectItemPickerIconOver,
