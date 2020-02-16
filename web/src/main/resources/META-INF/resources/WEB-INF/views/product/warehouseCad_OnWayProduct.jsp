@@ -285,7 +285,11 @@
             name: "bijackNo",
             title: "<spring:message code='warehouseCad.bijackNo'/>",
             type: 'text',
-            required: true
+            required: true,
+            validators: [{
+            type:"required",
+            validateOnChange: true
+            }]
         }, {
             name: "materialItemId",
             title: "<spring:message code='contractItem.material'/>",
@@ -316,6 +320,10 @@
         }, {
             name: "destinationTozinPlantId",
             required: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }],
             colSpan: 3,
             titleColSpan: 1,
             showHover: true,
@@ -349,6 +357,10 @@
         }, {
             name: "warehouseYardId",
             required: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }],
             colSpan: 1,
             titleColSpan: 1,
             showHover: true,

@@ -429,7 +429,11 @@
                     required: true,
                     width: "10%",
                     align: "center",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "createDate",
@@ -448,7 +452,11 @@
                     type: 'text',
                     required: true,
                     width: "10%",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }],
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
@@ -893,7 +901,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -901,7 +913,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "description",
@@ -910,7 +926,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -919,7 +939,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -928,7 +952,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "month",
@@ -937,7 +965,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -953,7 +985,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swb",
@@ -961,7 +997,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "switchPort.port",
@@ -969,7 +1009,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "status",
@@ -1061,6 +1105,10 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     colSpan: 1,
                     titleColSpan: 1,
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     optionDataSource: MyRestDataSource_Contact_IN_SHIPMENT_ASSAY,
                     displayField: "nameEN",
                     wrapTitle: false,
@@ -1079,7 +1127,11 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                 {
                     name: "location", title: "<spring:message code='shipment.Assay.location'/>", type: 'text',
                     valueMap: {"source": "source", "destination": "destination"},
-                    required: true
+                    required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "inspectionDate",
@@ -1093,7 +1145,11 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     type: 'date',
                     format: 'DD-MM-YYYY',
                     required: true,
-                    width: "100%", colSpan: 3, titleColSpan: 1
+                    width: "100%", colSpan: 3, titleColSpan: 1,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "averageCuPercent",
@@ -1102,9 +1158,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1114,9 +1174,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1126,9 +1190,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1622,9 +1690,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isInteger",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1634,9 +1706,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1646,9 +1722,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1658,9 +1738,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
             ]

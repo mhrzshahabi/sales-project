@@ -198,9 +198,13 @@
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }]
                 },
                 {
@@ -251,6 +255,11 @@
                     width: 430,
                     type: "date",
                     required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }]
         });
 

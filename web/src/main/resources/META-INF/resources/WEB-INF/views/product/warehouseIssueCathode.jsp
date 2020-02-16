@@ -194,7 +194,11 @@
             required: true,
             width: "10%",
             align: "center",
-            showHover: true
+            showHover: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }]
         }, {
             name: "createDate",
             title: "<spring:message code='shipment.createDate'/>",
@@ -210,7 +214,11 @@
             type: 'text',
             required: true,
             width: "10%",
-            showHover: true
+            showHover: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }]
         }],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
@@ -396,7 +404,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -404,7 +416,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "description",
@@ -413,7 +429,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -422,7 +442,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -431,7 +455,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "month",
@@ -440,7 +468,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -456,7 +488,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swb",
@@ -464,7 +500,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "switchPort.port",
@@ -472,7 +512,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "status",
@@ -869,6 +913,10 @@
                     title: "<spring:message code='warehouseIssueCathode.bijak'/>",
                     type: 'text',
                     width: 500, required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_WarehouseIssueCathode_WarehouseCad,
                     displayField: "bijackNo",
@@ -909,7 +957,11 @@
                     title: "<spring:message code='warehouseIssueCathode.containerNo'/>",
                     width: 500,
                     required: true,
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "emptyWeight",
@@ -919,9 +971,13 @@
                     length: "15",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "!"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -932,9 +988,13 @@
                     length: "15",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "!"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -945,9 +1005,13 @@
                     length: "15",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "!"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -955,14 +1019,22 @@
                     title: "<spring:message code='warehouseIssueCathode.sealedCustom'/>",
                     width: 500,
                     required: true,
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "sealedShip",
                     title: "<spring:message code='warehouseIssueCathode.sealedShip'/>",
                     width: 500,
                     required: true,
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }
             ]
     });
@@ -1158,14 +1230,22 @@
                     width: "10%",
                     required: true,
                     keyPressFilter: "[0-9]",
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "containerNo",
                     title: "<spring:message code='warehouseIssueCathode.containerNo'/>",
                     width: "10%",
                     required: true,
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "emptyWeight",
@@ -1175,9 +1255,13 @@
                     length: "15",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "!"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1188,9 +1272,13 @@
                     length: "15",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "!"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1201,9 +1289,13 @@
                     length: "15",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "!"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1218,7 +1310,11 @@
                     title: "<spring:message code='warehouseIssueCathode.sealedShip'/>",
                     width: "10%",
                     required: true,
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "bundle",
@@ -1234,7 +1330,11 @@
                     width: "10%",
                     required: true,
                     keyPressFilter: "[0-9]",
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "totalAmount",
@@ -1242,7 +1342,11 @@
                     width: "10%",
                     required: true,
                     keyPressFilter: "[0-9]",
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "editIcon",

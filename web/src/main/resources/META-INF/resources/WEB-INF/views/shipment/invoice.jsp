@@ -424,7 +424,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -432,12 +436,17 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
                 name: "month", title: "<spring:message code='shipment.month'/>",
-                type: 'text', required: true, width: "10%", align: "center", showHover: true
+                type: 'text', required: true, width: "10%", align: "center", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
 
             {
@@ -839,7 +848,11 @@
                     type: 'text',
                     width: "100%",
                     required: true,
-                    valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"}
+                    valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"},
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "paidStatus",
@@ -859,7 +872,11 @@
                     width: "100%",
                     colSpan: 1,
                     titleColSpan: 1,
-                    wrapTitle: false
+                    wrapTitle: false,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "invoiceDate",
@@ -868,7 +885,11 @@
                     type: 'date',
                     format: 'DD-MM-YYYY HH:mm:ss',
                     required: true,
-                    width: "100%"
+                    width: "100%",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     type: "Header",
@@ -883,9 +904,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -897,9 +922,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -911,9 +940,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -939,6 +972,10 @@
                             min: 80,
                             max: 120,
                             errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }
                     ]
                 },
@@ -988,9 +1025,13 @@
                     type: 'float', required: true, width: "100%",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {

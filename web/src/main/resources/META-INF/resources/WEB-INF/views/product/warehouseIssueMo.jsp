@@ -77,7 +77,6 @@
     });
 
 
-    <sec:authorize access="hasAuthority('R_SHIPMENT')">
     var MyRestDataSource_ShipmentByWarehouseIssueMo = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
@@ -224,7 +223,11 @@
             required: true,
             width: "10%",
             align: "center",
-            showHover: true
+            showHover: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }]
         }, {
             name: "createDate",
             title: "<spring:message code='shipment.createDate'/>",
@@ -240,11 +243,14 @@
             type: 'text',
             required: true,
             width: "10%",
-            showHover: true
+            showHover: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }]
         }],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
-    </sec:authorize>
 
     var recordNotFound = isc.Label.create({
         height: 30,
@@ -287,7 +293,9 @@
             align: "center", padding: 5,
             membersMargin: 20,
             members: [
+                <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_MO')">
                 ToolStripButton_WarehouseIssueMo_Add
+                </sec:authorize>
             ]
         });
 
@@ -305,9 +313,7 @@
     var ListGrid_ShipmentByWarehouseIssueMo = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        <sec:authorize access="hasAuthority('R_SHIPMENT')">
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueMo,
-        </sec:authorize>
         styleName: 'expandList',
         autoFetchData: true,
         alternateRecordStyles: true,
@@ -419,14 +425,22 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "portByDischarge.port",
                 title: "<spring:message code='shipment.discharge'/>",
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             <%--// {name: "dischargeAddress", title:"<spring:message code='global.address'/>", type:'text', required: true, width: "10%" ,showHover:true},--%>
             {
@@ -436,7 +450,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "contractShipment.sendDate",
                 title: "<spring:message code='global.sendDate'/>",
@@ -444,7 +462,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "createDate",
                 title: "<spring:message code='global.createDate'/>",
@@ -452,7 +474,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "month",
                 title: "<spring:message code='shipment.month'/>",
@@ -460,7 +486,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "contactByAgent.nameFA",
                 title: "<spring:message code='shipment.agent'/>",
@@ -474,21 +504,33 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "swb",
                 title: "<spring:message code='shipment.SWB'/>",
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "switchPort.port",
                 title: "<spring:message code='port.switchPort'/>",
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "status",
                 title: "<spring:message code='shipment.staus'/>",
@@ -705,6 +747,10 @@
                     type: 'text',
                     width: 500,
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_WarehouseIssueMo_WarehouseLot,
                     displayField: "lotName",
@@ -763,7 +809,11 @@
                     title: "<spring:message code='warehouseIssueMo.containerNo'/>",
                     width: 500,
                     required: true,
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "emptyWeight",
@@ -773,9 +823,13 @@
                     length: "15",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "!"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -786,9 +840,13 @@
                     length: "15",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "!"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -796,21 +854,33 @@
                     title: "<spring:message code='warehouseIssueMo.sealedInspector'/>",
                     width: 500,
                     required: true,
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "sealedCustom",
                     title: "<spring:message code='warehouseIssueMo.sealedCustom'/>",
                     width: 500,
                     required: true,
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "sealedShip",
                     title: "<spring:message code='warehouseIssueMo.sealedShip'/>",
                     width: 500,
                     required: true,
-                    length: "15"
+                    length: "15",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }
             ]
     });
@@ -996,13 +1066,21 @@
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
-                length: "15"
+                length: "15",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "containerNo",
                 title: "<spring:message code='warehouseIssueMo.containerNo'/>",
                 width: "10%",
                 required: true,
-                length: "15"
+                length: "15",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "emptyWeight",
                 title: "<spring:message code='warehouseIssueMo.emptyWeight'/>",
@@ -1011,9 +1089,13 @@
                 length: "15",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "!"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             }, {
                 name: "amountCustom",
@@ -1023,9 +1105,13 @@
                 length: "15",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "!"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             }, {
                 name: "amountPms",
@@ -1035,43 +1121,67 @@
                 length: "15",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "!"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             }, {
                 name: "sealedCustom",
                 title: "<spring:message code='warehouseIssueMo.sealedCustom'/>",
                 width: "10%",
                 required: true,
-                length: "15"
+                length: "15",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "sealedShip",
                 title: "<spring:message code='warehouseIssueMo.sealedShip'/>",
                 width: "10%",
                 required: true,
-                length: "15"
+                length: "15",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "bundle",
                 title: "<spring:message code='warehouseIssueMo.bundle'/>",
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
-                length: "15"
+                length: "15",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "sheet",
                 title: "<spring:message code='warehouseIssueMo.sheet'/>",
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
-                length: "15"
+                length: "15",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "totalAmount",
                 title: "<spring:message code='warehouseIssueMo.totalAmount'/>",
                 width: "10%",
                 required: true,
                 keyPressFilter: "[0-9]",
-                length: "15"
+                length: "15",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "editIcon",

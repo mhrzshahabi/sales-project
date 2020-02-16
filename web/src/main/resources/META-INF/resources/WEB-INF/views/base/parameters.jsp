@@ -180,7 +180,12 @@
                     title: "<spring:message code='parameters.paramName'/>",
                     width: 500,
                     required: true,
-                    type: "text"
+                    type: "text",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "contractId",
@@ -188,7 +193,12 @@
                     width: 500,
                     type: "select",
                     required: true,
-                    valueMap: {"1": "MOLYBDENUM OXIDE", "2": "CONCENTRATE", "3": "CATHOD"}
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "2": "CONCENTRATE", "3": "CATHOD"},
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "categoryValue",
@@ -226,11 +236,21 @@
                         "27": "article27",
                         "-1": "Another",
                         "-2": "BANK REFERENCE"
-                    }
+                    },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "paramValue", title: "<spring:message	code='parameters.paramValue.c'/>",
-                    width: 500, type: "textArea", required: true
+                    width: 500, type: "textArea", required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }
             ]
     });

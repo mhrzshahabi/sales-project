@@ -213,7 +213,12 @@
                     width: 450, required: true, length: "4000",
                     colSpan: 1,
                     titleColSpan: 1,
-                    wrapTitle: false
+                    wrapTitle: false,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "loa",
@@ -276,7 +281,12 @@
                         {name: "nameEn", align: "center", width: "10%"},
 
 
-                    ]
+                    ],
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }
             ]
     });

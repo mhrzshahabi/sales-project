@@ -191,6 +191,11 @@
                     titleColSpan: 1,
                     hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true, showIf: "false",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFa",
@@ -198,7 +203,12 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameEn",
@@ -207,7 +217,12 @@
                     colSpan: 1,
                     required: true,
                     keyPressFilter: "[a-z|A-Z|0-9.]",
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     type: "RowSpacerItem"

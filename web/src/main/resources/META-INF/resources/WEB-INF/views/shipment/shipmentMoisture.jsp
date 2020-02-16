@@ -406,7 +406,11 @@
                     required: true,
                     width: "10%",
                     align: "center",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "createDate",
@@ -425,7 +429,11 @@
                     type: 'text',
                     required: true,
                     width: "10%",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }],
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
@@ -926,7 +934,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -934,7 +946,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "description",
@@ -943,7 +959,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -952,7 +972,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -961,7 +985,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "month",
@@ -970,7 +998,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -986,7 +1018,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swb",
@@ -994,7 +1030,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "switchPort.port",
@@ -1002,7 +1042,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "status",
@@ -1099,8 +1143,11 @@
                     editorType: "SelectItem",
                     colSpan: 1,
                     titleColSpan: 1,
-                    required: true
-                    ,
+                    required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     optionDataSource: MyRestDataSource_Contact_IN_SHIPMENT_MOISTURE,
                     displayField: "nameEN",
                     wrapTitle: false,
@@ -1123,6 +1170,10 @@
                     type: 'text',
                     wrapTitle: false,
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     valueMap: {"source": "source", "destination": "destination"}
                 },
                 {
@@ -1146,9 +1197,13 @@
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1173,9 +1228,13 @@
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1640,14 +1699,17 @@
                     name: "wetWeight",
                     title: "<spring:message code='shipment.Moisture.wetWeight'/>",
                     wrapTitle: false,
-                    required: true
-                    ,
+                    required: true,
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1672,9 +1734,13 @@
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {

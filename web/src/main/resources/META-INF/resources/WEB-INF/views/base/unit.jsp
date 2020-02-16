@@ -62,7 +62,6 @@
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
-
         fields: [{
             name: "id",
             hidden: true, showIf: "false",
@@ -74,19 +73,34 @@
             width: 400,
             keyPressFilter: "[0-9]",
             length: "15", showIf: "false",
+            validators: [
+            {
+                type:"required",
+                validateOnChange: true
+            }]
         }, {
             name: "nameFA",
             title: "<spring:message code='unit.nameFa'/>",
             required: true,
             readonly: true,
-            width: 400
+            width: 400,
+            validators: [
+            {
+                type:"required",
+                validateOnChange: true
+            }]
         }, {
             name: "nameEN",
             title: "<spring:message code='unit.nameEN'/>",
             type: 'text',
             required: true,
             width: 400,
-            keyPressFilter: "[a-z|A-Z|0-9.]"
+            keyPressFilter: "[a-z|A-Z|0-9.]",
+            validators: [
+            {
+                type:"required",
+                validateOnChange: true
+            }]
         }, {
             name: "symbol",
             title: "<spring:message code='unit.symbol'/>",
@@ -100,7 +114,9 @@
             length: "1",
             hint: "<spring:message code='deghat.ashar'/>",
             showHintInField: true,
-        }]
+        },{
+            type: "RowSpacerItem"
+          }]
     });
 
     var IButton_Unit_Save = isc.IButtonSave.create({
@@ -137,7 +153,6 @@
     var Window_Unit = isc.Window.create({
         title: "<spring:message code='unit.title'/>",
         width: 580,
-        height: 310,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -145,7 +160,6 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
-        margin: '10px',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },

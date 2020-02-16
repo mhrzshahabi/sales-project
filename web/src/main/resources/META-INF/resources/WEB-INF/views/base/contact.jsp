@@ -380,7 +380,12 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     hint: "Latin",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "tradeMark",
@@ -581,6 +586,11 @@
                 title: "<spring:message code='contact.phone'/>",
                 width: 500,
                 wrapTitle: false,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "mobile",
@@ -613,7 +623,12 @@
                 pickListFields: [
                     {name: "id", width: 480, align: "center", hidden: true},
                     {name: "nameFa", width: 480, align: "center"},
-                ]
+                ],
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
 
@@ -1091,9 +1106,13 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
-                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                            errorMessage: "<spring:message code='global.form.correctType'/>",
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }]
                 },
                 {
@@ -1134,10 +1153,13 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
-                            width: 300,
+                            validateOnChange: true,
                             stopOnError: true,
-                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                            errorMessage: "<spring:message code='global.form.correctType'/>",
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }]
                 },
                 {
@@ -1147,7 +1169,12 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
-                    format: ""
+                    format: "",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "bankSwift",
@@ -1156,7 +1183,12 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
-                    format: ""
+                    format: "",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "accountOwner",
@@ -1224,9 +1256,13 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }]
                 },
                 {
@@ -1267,9 +1303,13 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }]
                 },
                 {
@@ -1278,7 +1318,12 @@
                     type: 'text',
                     required: true,
                     width: 300,
-                    colSpan: "2"
+                    colSpan: "2",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "bankSwift",
@@ -1286,7 +1331,12 @@
                     type: 'text',
                     required: true,
                     width: 300,
-                    colSpan: "2"
+                    colSpan: "2",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "accountOwner",

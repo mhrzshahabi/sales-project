@@ -247,6 +247,11 @@
                     titleColSpan: 1,
                     keyPressFilter: "[0-9]",
                     length: "15", showIf: "false",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "bankName",
@@ -254,7 +259,12 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "enBankName",
@@ -262,7 +272,12 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "address",
@@ -270,7 +285,12 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "coreBranch",
@@ -283,7 +303,12 @@
                         {
                             "core": "<spring:message code='bank.coreBranch.centralOffice'/>",
                             "branch": "<spring:message code='bank.coreBranch.branch'/>"
-                        }
+                        },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "countryId",
@@ -325,7 +350,12 @@
                             align: "center",
                             colSpan: 1,
                             titleColSpan: 1
-                        }]
+                        }],
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     type: "RowSpacerItem"

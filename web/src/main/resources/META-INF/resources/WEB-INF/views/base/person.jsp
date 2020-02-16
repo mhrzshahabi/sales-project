@@ -205,7 +205,13 @@
                     name: "nameFA",
                     width: "10%",
                     align: "center"
-                }, {name: "nameEN", width: "10%", align: "center"},]
+                }, {name: "nameEN", width: "10%", align: "center"},
+                ],
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "fullName",
@@ -213,6 +219,11 @@
                 type: 'text', wrapTitle: false,
                 required: true, length: "200",
                 width: 500,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "jobTitle",
@@ -246,6 +257,11 @@
                     {
                         type: "regexp",
                         expression: ".+\\@.+\\..+",
+                        validateOnChange: true
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }
                 ],
             },
@@ -579,7 +595,12 @@
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
                     required: true,
-                    width: 400
+                    width: 400,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "jobTitle",
@@ -605,7 +626,12 @@
                     type: 'text',
                     required: true,
                     width: 400,
-                    regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"
+                    regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "email1",
@@ -706,7 +732,12 @@
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
                     required: true,
-                    width: 150
+                    width: 150,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "jobTitle",
@@ -731,7 +762,12 @@
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
                     required: true,
-                    width: 150
+                    width: 150,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "email1",

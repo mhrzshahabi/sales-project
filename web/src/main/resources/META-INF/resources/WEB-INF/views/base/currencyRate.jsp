@@ -153,6 +153,11 @@
                     type: "date",
                     width: "400",
                     required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "irrUsd",
@@ -163,6 +168,11 @@
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
                     showHintInField: true, required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
 
                 },
                 {
@@ -194,6 +204,9 @@
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
                     showHintInField: true
+                },
+                {
+                   type: "RowSpacerItem"
                 }
             ]
     });
@@ -358,7 +371,7 @@
         {
             title: "<spring:message code='exchangeRate.title'/> ",
             width: 580,
-            height: 310,
+            // height: 310,
             autoSize: true,
             autoCenter: true,
             isModal: true,

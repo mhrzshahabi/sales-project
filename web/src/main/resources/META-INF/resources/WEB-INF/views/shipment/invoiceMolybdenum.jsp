@@ -195,13 +195,21 @@
                     type: 'text',
                     width: "100%",
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"}
                 },
                 {
                     name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>",
                     required: true,
                     width: "100%",
-                    wrapTitle: false,colSpan:2,titleColSpan:2
+                    wrapTitle: false,colSpan:2,titleColSpan:2,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                 },
                 {
                     name: "invoiceDate",
@@ -210,6 +218,10 @@
                     type: 'date',// useTextField:true,
                     format: 'YYYY-MM-DD',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:3,titleColSpan:1
                 },
                  {
@@ -253,6 +265,10 @@
                     title: "<spring:message code='invoice.priceBase'/>",titleOrientation:'top',
                     type: 'text',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:4,titleColSpan:1,
                 },
                 {name: "priceReference",title:"Reference", titleOrientation:'top',type: 'text', required: false, width: "100%",colSpan:1 ,valueMap: {"LME":"LME","PLATTS":"PLATTS","SHFG":"SHFG"} },
@@ -262,7 +278,8 @@
                  {name: "priceToDate",title:"To Date", titleOrientation:'top',type: 'text', useTextField:true, required: false, width: "100%",colSpan:2,mask:"####/##/##",
                        hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=item.getValue();if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
                 {name: "molybdJenumUnitPrice", title: "MO/Oz USD", titleOrientation:'top',type: 'currencyFloat3', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
+                    validators: [{type: "isFloat",validateOnChange: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" },
+                                 { type:"required", validateOnChange: true }],
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdJenumUnitPrice","none",-1,3);	} },
               // {
               //       type: "Header",
@@ -313,7 +330,7 @@
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
@@ -322,6 +339,10 @@
                             min: 10,
                             max: 120,
                             errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }
                     ],
                     changed	: function(form, item, value){
@@ -338,9 +359,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
    <%		for (int i=0;i<(loopUp==0 ? 3 : loopUp+2 );i++){ %>
@@ -369,9 +394,13 @@
                     type: 'currencyFloat2Sign', required: true, width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",canEdit:false,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                {
@@ -384,6 +413,10 @@
                     type: 'text',
                     required: true,
                     width: "100%",colSpan:4,titleColSpan:1,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                 },
                  {
                     name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",keyPressFilter: "[0-9.]",
@@ -391,10 +424,14 @@
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }
                     ],
                     changed	: function(form, item, value){
 		   			  	multiplyMolybdenumAndSet("rate2dollar",'invoiceValueD',"invoiceValueUp");
@@ -419,9 +456,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
    <%		for (int i=0;i<(loopDown==0 ? 3 : loopDown+2 );i++){ %>
@@ -453,9 +494,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
             ],
