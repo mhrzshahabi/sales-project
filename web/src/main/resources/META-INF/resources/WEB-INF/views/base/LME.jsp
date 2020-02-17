@@ -156,7 +156,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "goldUsdOunce",
@@ -171,7 +172,8 @@
                             required: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "silverUsdOunce",
@@ -186,7 +188,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "seleniumUsdLb",
@@ -205,7 +208,8 @@
                         {
                             type:"required",
                             validateOnChange: true
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "platinumUsdOunce",
@@ -219,7 +223,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "palladiumUsdOunce",
@@ -233,7 +238,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "molybdenumUsdLb",
@@ -247,7 +253,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "lmeDate",

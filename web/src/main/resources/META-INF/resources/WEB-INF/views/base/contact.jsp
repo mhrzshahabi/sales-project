@@ -365,8 +365,9 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    hint: "Persian/فارسی", validators: [
-                    {
+                    hint: "Persian/فارسی",
+                    textAlign: "right",
+                    validators: [{
                         type:"required",
                         validateOnChange: true
                     }]
@@ -380,6 +381,7 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     hint: "Latin",
+                    textAlign: "left",
                     wrapTitle: false,
                     validators: [
                     {
@@ -413,7 +415,8 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "commercialRegistration",
@@ -423,7 +426,8 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
 
                 {
@@ -535,7 +539,8 @@
                     title: "<spring:message code='contact.nationalCode'/>",
                     width: 200,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "economicalCode",
@@ -544,7 +549,8 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "status",
@@ -590,13 +596,15 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                textAlign: "left"
             },
             {
                 name: "mobile",
                 title: "<spring:message code='contact.mobile'/>",
                 width: 500,
                 wrapTitle: false,
+                textAlign: "left"
             },
 
             {
@@ -605,6 +613,7 @@
                 title: "<spring:message code='contact.fax'/>",
                 width: 500,
                 wrapTitle: false,
+                textAlign: "left"
             },
 
             {
@@ -644,6 +653,7 @@
                         validateOnChange: true,
                     }
                 ],
+                textAlign: "left"
             },
 
             {
@@ -651,7 +661,6 @@
                 title: "<spring:message code='contact.email'/>",
                 width: 500,
                 wrapTitle: false,
-                validateOnExit: true,
                 validators: [
                     {
                         type: "regexp",
@@ -659,6 +668,7 @@
                         validateOnChange: true,
                     }
                 ],
+                textAlign: "left"
             }
         ],
 
@@ -1113,7 +1123,8 @@
                         {
                             type:"required",
                             validateOnChange: true
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankId",
@@ -1160,7 +1171,8 @@
                         {
                             type:"required",
                             validateOnChange: true
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankShaba",
@@ -1174,7 +1186,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
+                    }],
+                textAlign: "left"
                 },
                 {
                     name: "bankSwift",
@@ -1188,7 +1201,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
+                    }],
+                textAlign: "left"
                 },
                 {
                     name: "accountOwner",
@@ -1263,7 +1277,8 @@
                         {
                             type:"required",
                             validateOnChange: true
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankId",
@@ -1310,7 +1325,8 @@
                         {
                             type:"required",
                             validateOnChange: true
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankShaba",
@@ -1323,7 +1339,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankSwift",
@@ -1336,7 +1353,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "accountOwner",

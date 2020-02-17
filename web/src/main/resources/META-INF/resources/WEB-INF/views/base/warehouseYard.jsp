@@ -183,6 +183,9 @@
                         type:"required",
                         validateOnChange: true
                     }]
+                },
+                {
+                    type: "RowSpacerItem"
                 }
             ]
     });

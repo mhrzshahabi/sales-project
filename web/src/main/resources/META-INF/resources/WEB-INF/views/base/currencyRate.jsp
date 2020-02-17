@@ -146,7 +146,13 @@
         numCols: 2,
         fields:
             [
-                {name: "id", hidden: true,},
+                {
+                    name: "id",
+                    hidden: true
+                },
+                {
+                    type: "RowSpacerItem"
+                },
                 {
                     name: "curDate",
                     title: "<spring:message code='currencyRate.curDate'/>",
@@ -155,7 +161,7 @@
                     required: true,
                     validators: [
                     {
-                        type:"required",
+                        type: "required",
                         validateOnChange: true
                     }]
                 },
@@ -172,8 +178,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
-
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "eurUsd",
@@ -183,7 +189,8 @@
                     keyPressFilter: "[0-9.]",
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
-                    showHintInField: true
+                    showHintInField: true,
+                    textAlign: "left"
                 },
                 {
                     name: "aedUsd",
@@ -193,7 +200,8 @@
                     keyPressFilter: "[0-9.]",
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
-                    showHintInField: true
+                    showHintInField: true,
+                    textAlign: "left"
                 },
                 {
                     name: "rmbUsd",
@@ -203,7 +211,8 @@
                     keyPressFilter: "[0-9.]",
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
-                    showHintInField: true
+                    showHintInField: true,
+                    textAlign: "left"
                 },
                 {
                    type: "RowSpacerItem"

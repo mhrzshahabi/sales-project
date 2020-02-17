@@ -218,7 +218,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
+                    }],
+                    textAlign: "right"
                 },
                 {
                     name: "nameEn",
@@ -232,7 +233,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "symbol",

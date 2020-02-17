@@ -440,7 +440,7 @@
                         type:"required",
                         validateOnChange: true
                     }],
-
+                    textAlign: "left",
                     hint: "<spring:message code='global.didit'/>",
                     showHintInField: true,
                 },
@@ -456,7 +456,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "descp",
@@ -469,7 +470,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
+                    }],
+                    textAlign: "right"
                 },
                 {
                     name: "unitId",
@@ -1088,7 +1090,7 @@
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     width: 300,
-
+                    textAlign: "left",
                     hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     validators: [
@@ -1719,7 +1721,8 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }]
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "gdsName",
