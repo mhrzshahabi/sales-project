@@ -1021,7 +1021,6 @@
         return getExpandedComponent_ShipmentByMoistureHeader(record)
         },
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true
     });
@@ -1514,7 +1513,6 @@
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true,
         showRecordComponents: true,
@@ -1988,7 +1986,6 @@
             },
         ],
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true
     });

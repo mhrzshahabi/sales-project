@@ -17,25 +17,16 @@ import javax.persistence.IdClass;
 @AllArgsConstructor
 @Entity
 @Immutable
-@Subselect("select * from view_tozin")
+@Subselect("select * from n_master.V_TOZINE_CONTENT_M")
 @IdClass(TozinId.class)
 public class Tozin {
 
     @Id
-    @Column(name = "TARGET")
-    private String target;
-    @Id
-    @Column(name = "CARD_ID")
-    private String cardId;
-    @Id
-    @Column(name = "PID")
-    private Long pId;
-    @Id
     @Column(name = "SOURCEE")
     private String source;
     @Id
-    @Column(name = "tozin_plant_id")
-    private String tozinPlantId;
+    @Column(name = "TOZINE_ID")
+    private String tozinId;
     @Id
     @Column(name = "GDSNAME")
     private String nameKala;
@@ -43,8 +34,23 @@ public class Tozin {
     @Column(name = "GDSCODE")
     private Long codeKala;
     @Id
-    @Column(name = "MATERIAL_ID")
-    private Long materialId;
+    @Column(name = "TARGET")
+    private String target;
+    @Id
+    @Column(name = "CARD_ID")
+    private String cardId;
+    @Column(name = "PLAK")
+    private String plak;
+    @Column(name = "CARNAME")
+    private String carName;
+    @Column(name = "CONTENER_ID")
+    private String containerId;
+    @Column(name = "CONTENER_NO1")
+    private String containerNo1;
+    @Column(name = "CONTENER_NO3")
+    private String containerNo3;
+    @Column(name = "CONTENER_NAME")
+    private String containerName;
     @Column(name = "WAZN1")
     private Long vazn1;
     @Column(name = "WAZN2")
@@ -79,29 +85,19 @@ public class Tozin {
     private String havalehTo;
     @Column(name = "HAV_DATE")
     private String havalehDate;
-    @Column(name = "HAV_ISFINAL")
-    private String isFinal;
-    @Column(name = "source_plant_id")
-    private String sourcePlantId;
-    @Column(name = "target_plant_id")
-    private String targetPlantId;
-    @Column(name = "TOZINE_ID")
-    private String tozinId;
     @Column(name = "CARNO1")
     private String carNo1;
     @Column(name = "CARNO3")
     private String carNo3;
-    @Column(name = "PLAK")
-    private String plak;
-    @Column(name = "CARNAME")
-    private String carName;
-    @Column(name = "CONTENER_ID")
-    private String containerId;
-    @Column(name = "CONTENER_NO1")
-    private String containerNo1;
-    @Column(name = "CONTENER_NO3")
-    private String containerNo3;
-    @Column(name = "CONTENER_NAME")
-    private String containerName;
+    @Column(name = "HAV_ISFINAL")
+    private String isFinal;
+    @Column(name = "CTRL_DESC_OUT")
+    private String ctrlDescOut;
+    @Column(name = "TZN_SHARH2")
+    private String tznSharh2;
+    @Column(name = "STR_SHARH2")
+    private String strSharh2;
+    @Column(name = "TZN_SHARH1")
+    private String tznSharh1;
 
 }

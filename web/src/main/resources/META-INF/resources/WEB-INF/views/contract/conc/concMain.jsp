@@ -263,7 +263,6 @@
     var ListGrid_Conc = isc.ListGrid.create({
         dataSource: RestDataSource_Contract,
         initialCriteria: criteriaConc,
-        dataPageSize: 50,
         showFilterEditor: true,
         autoFetchData: true,
         fields:

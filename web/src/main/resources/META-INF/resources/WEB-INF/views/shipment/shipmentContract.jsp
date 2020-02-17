@@ -361,7 +361,6 @@
         wrapItemTitles: false,
         autoDraw: false,
         autoFocus: "true",
-        dataPageSize: 50,
         setMethod: 'POST',
         align: "center",
         canSubmit: true,

@@ -988,7 +988,6 @@
         return getExpandedComponent_ShipmentByAssayHeader(record)
         },
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true
     });
@@ -1500,7 +1499,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true,
         showRecordComponents: true,
@@ -1940,8 +1938,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
-       // showFilterEditor: true,
         filterOnKeypress: true
     });
     var HLayout_Grid_ShipmentAssayItem = isc.HLayout.create({

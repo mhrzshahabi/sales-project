@@ -431,7 +431,6 @@
 
             ],
             sortField: 0,
-            dataPageSize: 50,
             autoFetchData: true,
             showFilterEditor: true,
             filterOnKeypress: true,

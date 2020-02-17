@@ -971,7 +971,6 @@
                     defaultValue: false
                 }],
             sortField: 2,
-            dataPageSize: 50,
             autoFetchData: false,
             showFilterEditor: true,
             filterOnKeypress: true,
@@ -1838,7 +1837,6 @@
 
             ],
             sortField: 0,
-            dataPageSize: 50,
             showFilterEditor: true,
             getExpansionComponent: function (record) {
                 if (record == null || record.id == null) {

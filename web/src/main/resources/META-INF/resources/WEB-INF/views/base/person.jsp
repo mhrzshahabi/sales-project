@@ -803,7 +803,6 @@
             ],
             sortField: 2,
             sortDirection: "descending",
-            dataPageSize: 50,
             autoFetchData: true,
             showFilterEditor: true,
             filterOnKeypress: true,

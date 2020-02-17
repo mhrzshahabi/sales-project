@@ -432,7 +432,6 @@
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
@@ -1001,7 +1000,6 @@
 
         ],
         sortField: 0,
-        dataPageSize: 50,
        filterOnKeypress: true,
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
@@ -1253,7 +1251,6 @@
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: false,
         getExpansionComponent: function (record) {

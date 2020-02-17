@@ -319,7 +319,6 @@
                         height: "100%",
                         dataSource: RestDataSource_Contract,
                         initialCriteria: criteriaMo,
-                        dataPageSize: 50,
                         showFilterEditor: true,
                         autoFetchData: true,
                         fields:
@@ -1520,7 +1519,6 @@ lotList = isc.ListGrid.create({
         width: "100%",
         height: "180",
         dataSource: RestDataSource_WarehouseLot,
-        dataPageSize: 50,
         autoSaveEdits: false,
         autoFetchData: false,
         fields:

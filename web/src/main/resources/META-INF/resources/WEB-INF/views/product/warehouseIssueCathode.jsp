@@ -488,8 +488,6 @@
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
-        //autoFetchData: false,
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {
@@ -683,7 +681,6 @@
                 canDragRecordsOut: true,
                 dragDataAction: "copy",
                 canReorderRecords: true,
-                dataPageSize: 50,
                 autoFetchData: false,
                 showFilterEditor: true,
                 filterOnKeypress: true,
@@ -708,7 +705,6 @@
                 canReorderRecords: true,
                 canRemoveRecords: true,
                 canAcceptDroppedRecords: true,
-                dataPageSize: 50,
                 autoFetchData: false,
                 showFilterEditor: true,
                 filterOnKeypress: true

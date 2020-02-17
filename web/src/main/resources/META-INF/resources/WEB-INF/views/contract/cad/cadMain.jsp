@@ -224,7 +224,6 @@ var Window_ContactCad = isc.Window.create({
 
 var ListGrid_Cad = isc.ListGrid.create({
         dataSource: RestDataSource_Contract,
-        dataPageSize: 50,
         showFilterEditor: true,
         autoFetchData: true,
         initialCriteria: criteriaCad,

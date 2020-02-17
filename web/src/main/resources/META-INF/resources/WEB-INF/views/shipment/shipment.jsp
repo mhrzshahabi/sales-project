@@ -1398,7 +1398,6 @@
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
         filterOnKeypress: true,
         autoFetchData: true,
         showFilterEditor: true,
@@ -1620,7 +1619,6 @@
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 150}
         ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true,
@@ -1922,7 +1920,6 @@
                 },
             ],
         sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         filterOnKeypress: true

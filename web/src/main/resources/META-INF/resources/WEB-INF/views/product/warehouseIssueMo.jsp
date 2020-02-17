@@ -503,7 +503,6 @@
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {
