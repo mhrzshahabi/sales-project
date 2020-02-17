@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.util.List;
 
 @Getter
@@ -14,14 +16,18 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TozinDTO {
 
-    private String target;
-    private String cardId;
-    private Long pId;
     private String source;
-    private String tozinPlantId;
+    private String tozinId;
     private String nameKala;
     private Long codeKala;
-    private Long materialId;
+    private String target;
+    private String cardId;
+    private String plak;
+    private String carName;
+    private String containerId;
+    private String containerNo1;
+    private String containerNo3;
+    private String containerName;
     private Long vazn1;
     private Long vazn2;
     private String condition;
@@ -39,18 +45,13 @@ public class TozinDTO {
     private String havalehFrom;
     private String havalehTo;
     private String havalehDate;
-    private String isFinal;
-    private String sourcePlantId;
-    private String targetPlantId;
-    private String tozinId;
     private String carNo1;
     private String carNo3;
-    private String plak;
-    private String carName;
-    private String containerId;
-    private String containerNo1;
-    private String containerNo3;
-    private String containerName;
+    private String isFinal;
+    private String ctrlDescOut;
+    private String tznSharh2;
+    private String strSharh2;
+    private String tznSharh1;
 
     @Getter
     @Setter

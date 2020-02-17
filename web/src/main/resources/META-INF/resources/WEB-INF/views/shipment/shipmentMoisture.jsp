@@ -406,7 +406,11 @@
                     required: true,
                     width: "10%",
                     align: "center",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "createDate",
@@ -425,7 +429,11 @@
                     type: 'text',
                     required: true,
                     width: "10%",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }],
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
@@ -741,7 +749,7 @@
                                                     data: JSON.stringify(data),
                                                     callback: function(resp)
                                                     {
-                                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)
+                                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201)
                                                         {
                                                             isc.say("<spring:message code='global.form.request.successful'/>");
                                                             ListGrid_ShipmentMoistureItem_refresh();
@@ -789,7 +797,7 @@
             };
 
         ListGrid_ShipmentMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-        if (data.length === 0) {
+        if (data.length == 0) {
         recordNotFound.show();
         ListGrid_ShipmentMoistureHeader.hide()
         } else {
@@ -926,7 +934,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -934,7 +946,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "description",
@@ -943,7 +959,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -952,7 +972,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -961,7 +985,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "month",
@@ -970,7 +998,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -986,7 +1018,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swb",
@@ -994,7 +1030,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "switchPort.port",
@@ -1002,7 +1042,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "status",
@@ -1021,7 +1065,6 @@
         return getExpandedComponent_ShipmentByMoistureHeader(record)
         },
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true
     });
@@ -1099,8 +1142,11 @@
                     editorType: "SelectItem",
                     colSpan: 1,
                     titleColSpan: 1,
-                    required: true
-                    ,
+                    required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     optionDataSource: MyRestDataSource_Contact_IN_SHIPMENT_MOISTURE,
                     displayField: "nameEN",
                     wrapTitle: false,
@@ -1123,6 +1169,10 @@
                     type: 'text',
                     wrapTitle: false,
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     valueMap: {"source": "source", "destination": "destination"}
                 },
                 {
@@ -1146,9 +1196,13 @@
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1173,9 +1227,13 @@
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1227,7 +1285,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ShipmentMoistureHeader_refresh();
                             Window_ShipmentMoistureHeader.close();
@@ -1302,7 +1360,7 @@
                 buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
 
                         var shipmentId = record.id;
 
@@ -1310,7 +1368,7 @@
                                 actionURL: "${contextPath}/api/shipmentMoistureHeader/" + shipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_ShipmentMoistureHeader_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -1514,7 +1572,6 @@
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true,
         showRecordComponents: true,
@@ -1640,14 +1697,17 @@
                     name: "wetWeight",
                     title: "<spring:message code='shipment.Moisture.wetWeight'/>",
                     wrapTitle: false,
-                    required: true
-                    ,
+                    required: true,
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1672,9 +1732,13 @@
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1717,7 +1781,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ShipmentMoistureItem_refresh();
                             Window_ShipmentMoistureItem.close();
@@ -1773,7 +1837,7 @@
 
     function ListGrid_ShipmentMoistureItem_remove() {
         var selected = ListGrid_ShipmentMoistureItem.getSelection();
-        if (selected == null || selected.length === 0) {
+        if (selected == null || selected.length == 0) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
                 icon: "[SKIN]ask.png",
@@ -1798,12 +1862,12 @@
             ],
             buttonClick: function (button, index) {
                 this.hide();
-                if (index === 0) {
+                if (index == 0) {
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/shipmentMoistureItem/list/" + ids,
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_ShipmentMoistureItem_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -1988,7 +2052,6 @@
             },
         ],
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true
     });

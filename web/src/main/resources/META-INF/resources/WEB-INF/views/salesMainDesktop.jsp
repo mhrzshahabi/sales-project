@@ -111,14 +111,14 @@
             if (response.error == 'invalid_token')
                 isc.warn(response.data);
             console.log("Global RPCManager Error Handler: ", request, response);
-            if (response.httpResponseCode === 401) { // Unauthorized
+            if (response.httpResponseCode == 401) { // Unauthorized
                 redirectLogin();
-            } else if (response.httpResponseCode === 403) { // Forbidden
+            } else if (response.httpResponseCode == 403) { // Forbidden
                 // nicico.error("Access Denied"); //TODO: I18N message key
                 isc.say(JSON.parse(response.httpResponseText).exception);
-            } else if (response.httpResponseCode === 500) {
+            } else if (response.httpResponseCode == 500) {
                 isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 500");
-            } else if (response.httpResponseCode === 405) {
+            } else if (response.httpResponseCode == 405) {
                 isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 450");
             }
             const httpResponse = JSON.parse(response.httpResponseText);
@@ -146,7 +146,7 @@
     Page.setAppImgDir("static/img/");
 
     isc.ListGrid.addProperties({
-        dataPageSize: 5,
+        dataPageSize: 50,
         showPrompt: true,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
@@ -180,7 +180,7 @@
         isc.ViewLoader.addMethods({
             handleError: function (rq, rs) {
                 console.log("Global ViewLoader Error: ", rq, rs);
-                if (rs.httpResponseCode === 403) { // Forbidden
+                if (rs.httpResponseCode == 403) { // Forbidden
                     nicico.error("Access Denied");  //TODO: I18N message key
                 } else {
                     redirectLogin();
@@ -194,7 +194,7 @@
         if (mainTabSet.tabs != null) {
             for (i = 0; i < mainTabSet.tabs.length; i++) {
 
-                if (title === mainTabSet.getTab(i).title) {
+                if (title == mainTabSet.getTab(i).title) {
                     mainTabSet.selectTab(i);
                     flagTabExist = true;
                     break;
@@ -276,7 +276,7 @@
     });
     languageForm.setValue("languageName", "<c:out value='${pageContext.response.locale}'/>");
 
-    if (languageForm.getValue("languageName") === 'fa') {
+    if (languageForm.getValue("languageName") == 'fa') {
         isc.FileLoader.loadLocale("fa")
     } else {
         isc.FileLoader.loadLocale("en");
@@ -644,13 +644,13 @@
                     }
                 },
                 {isSeparator: true},
-                {
+                /*{
                     title: "<spring:message code='charter.title'/>",
                     click: function () {
                         createTab("<spring:message code='charter.title'/>", "<spring:url value="/shipmentContract/showForm" />")
                     }
                 },
-                {isSeparator: true},
+                {isSeparator: true},*/
                 {
                     title: "<spring:message code='contractPerson.title'/>",
                     click: function () {
@@ -736,7 +736,7 @@
                     click: function () {
                         createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
                     }
-                },
+                }/*,
                 {isSeparator: true},
                 {
                     title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
@@ -757,14 +757,10 @@
                     click: function () {
                         createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
                     }
-                },
-                {isSeparator: true},
+                }*/
             ]
         })
     });
-
-
-
 
     /*----------------------inspectionTab------------------------*/
     inspectionTab = isc.ToolStripMenuButton.create({
@@ -784,8 +780,7 @@
                     click: function () {
                         createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")
                     }
-                },
-                {isSeparator: true},
+                }
             ]
         })
     });
@@ -853,7 +848,7 @@
                         buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                         buttonClick: function (button, index) {
                             this.hide();
-                            if (index === 0) {
+                            if (index == 0) {
                                 mainTabSet.removeTabs(mainTabSet.tabs);
                             }
                         }
@@ -873,7 +868,7 @@
             contractsTab,
             shipmentTab,
             financialTab,
-            inspectionTab,
+            // inspectionTab,
             productTab,
             settingTab,
         ]
@@ -950,7 +945,7 @@
                 httpMethod: "GET",
                 data: "",
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         var data = JSON.parse(RpcResponse_o.data);
                         for (x of data) {
                             dollar[x.nameEn] = x.nameEn;

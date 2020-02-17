@@ -43,8 +43,9 @@
                 required: true,
                 validators: [
                 {
-                type:"required",
-                validateOnChange: true }],
+                    type:"required",
+                    validateOnChange: true
+                }],
                 width: "90%",
                 wrapTitle: false
             },
@@ -55,8 +56,10 @@
                 required: true,
                 validators: [
                 {
-                type:"required",
-                validateOnChange: true }],
+                    type:"required",
+                    validateOnChange: true
+                }],
+                textAlign: "left",
                 readonly: true,
                 width: "90%",
                 wrapTitle: false

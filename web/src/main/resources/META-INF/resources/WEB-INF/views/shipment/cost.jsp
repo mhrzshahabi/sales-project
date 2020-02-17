@@ -156,7 +156,7 @@
         };
 
         ListGrid_Cost.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            if (data.length === 0) {
+            if (data.length == 0) {
                 recordNotFound.show();
                 ListGrid_Cost.hide()
             } else {
@@ -257,27 +257,33 @@
             },
             {
                 name: "portByLoading.port", title: "<spring:message code='shipment.loading'/>",
-                type: 'text', required: true, width: "10%", showHover: true
+                type: 'text', required: true, width: "10%", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
             {
                 name: "portByDischarge.port", title: "<spring:message code='shipment.discharge'/>",
-                type: 'text', required: true, width: "10%", showHover: true
+                type: 'text', required: true, width: "10%", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
             {
                 name: "description", title: "<spring:message code='shipment.description'/>",
-                type: 'text', required: true, width: "10%", align: "center", showHover: true
+                type: 'text', required: true, width: "10%", align: "center", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
             {
                 name: "contractShipment.sendDate", title: "<spring:message code='global.sendDate'/>",
-                type: 'text', required: true, width: "10%", align: "center", showHover: true
+                type: 'text', required: true, width: "10%", align: "center", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
             {
                 name: "createDate", title: "<spring:message code='global.createDate'/>",
-                type: 'text', required: true, width: "10%", align: "center", showHover: true
+                type: 'text', required: true, width: "10%", align: "center", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
             {
                 name: "month", title: "<spring:message code='shipment.month'/>",
-                type: 'text', required: true, width: "10%", align: "center", showHover: true
+                type: 'text', required: true, width: "10%", align: "center", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
             {
                 name: "contactByAgent.nameFA", title: "<spring:message code='shipment.agent'/>",
@@ -285,7 +291,8 @@
             },
             {
                 name: "vesselName", title: "<spring:message code='shipment.vesselName'/>",
-                type: 'text', required: true, width: "10%", showHover: true
+                type: 'text', required: true, width: "10%", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
             {
                 name: "swb",
@@ -293,11 +300,16 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
-                name: "switchPort.port", title: "<spring:message code='port.switchPort'/>"
-                , type: 'text', required: true, width: "10%", showHover: true
+                name: "switchPort.port", title: "<spring:message code='port.switchPort'/>",
+                type: 'text', required: true, width: "10%", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
             {
                 name: "status", title: "<spring:message code='shipment.staus'/>",
@@ -461,7 +473,7 @@
             DynamicForm_Cost.clearValues();
             DynamicForm_Cost.setValue("sourceInspectorId", record.sourceInspectorId);
             DynamicForm_Cost.editRecord(record);
-            if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
+            if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Copper Concentrate') {
                 DynamicForm_Cost.getItem("sourceCopper").show();
                 DynamicForm_Cost.getItem("destinationCopper").show();
                 DynamicForm_Cost.getItem("sourceGold").show();
@@ -470,7 +482,7 @@
                 DynamicForm_Cost.getItem("destinationSilver").show();
                 DynamicForm_Cost.getItem("sourceMolybdenum").hide();
                 DynamicForm_Cost.getItem("destinationMolybdenum").hide();
-            } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+            } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Molybdenum Oxide') {
                 DynamicForm_Cost.getItem("sourceCopper").hide();
                 DynamicForm_Cost.getItem("destinationCopper").hide();
                 DynamicForm_Cost.getItem("sourceGold").hide();
@@ -518,13 +530,13 @@
                 }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var CostId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/cost/" + record.id,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Cost_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -567,7 +579,7 @@
                     } else {
                         DynamicForm_Cost.clearValues();
                         DynamicForm_Cost.setValue("shipmentId", record.id);
-                        if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
+                        if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Copper Concentrate') {
                             DynamicForm_Cost.getItem("sourceCopper").show();
                             DynamicForm_Cost.getItem("destinationCopper").show();
                             DynamicForm_Cost.getItem("sourceGold").show();
@@ -576,7 +588,7 @@
                             DynamicForm_Cost.getItem("destinationSilver").show();
                             DynamicForm_Cost.getItem("sourceMolybdenum").hide();
                             DynamicForm_Cost.getItem("destinationMolybdenum").hide();
-                        } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+                        } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Molybdenum Oxide') {
                             DynamicForm_Cost.getItem("sourceCopper").hide();
                             DynamicForm_Cost.getItem("destinationCopper").hide();
                             DynamicForm_Cost.getItem("sourceGold").hide();
@@ -983,9 +995,13 @@
                     width: "100%",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1089,7 +1105,7 @@
             } else {
                 DynamicForm_Cost.clearValues();
                 DynamicForm_Cost.setValue("shipmentId", record.id);
-                if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
+                if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Copper Concentrate') {
                     DynamicForm_Cost.getItem("sourceCopper").show();
                     DynamicForm_Cost.getItem("destinationCopper").show();
                     DynamicForm_Cost.getItem("sourceGold").show();
@@ -1098,7 +1114,7 @@
                     DynamicForm_Cost.getItem("destinationSilver").show();
                     DynamicForm_Cost.getItem("sourceMolybdenum").hide();
                     DynamicForm_Cost.getItem("destinationMolybdenum").hide();
-                } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+                } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Molybdenum Oxide') {
                     DynamicForm_Cost.getItem("sourceCopper").hide();
                     DynamicForm_Cost.getItem("destinationCopper").hide();
                     DynamicForm_Cost.getItem("sourceGold").hide();
@@ -1199,7 +1215,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             Window_Cost.close();
                             ListGrid_Cost.invalidateCache();
@@ -1275,7 +1291,12 @@
                     required: true,
                     width: "10%",
                     align: "center",
-                    showHover: true
+                    showHover: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "sourceInspectionCurrency", title: "<spring:message code='cost.sourceInspectionCurrency'/>",
@@ -1291,7 +1312,11 @@
                     required: true,
                     width: "10%",
                     align: "center",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "destinationInspectionCurrency",
@@ -1303,7 +1328,8 @@
                 },
                 {
                     name: "otherCost", title: "<spring:message code='cost.otherCost'/>",
-                    type: 'text', required: true, width: "10%", align: "center", showHover: true
+                    type: 'text', required: true, width: "10%", align: "center", showHover: true,
+                    validators: [{ type:"required", validateOnChange: true }]
                 },
                 {
                     name: "otherCostCurrency", title: "<spring:message code='cost.otherCostCurrency'/>",
@@ -1311,11 +1337,13 @@
                 },
                 {
                     name: "sarcheshmehLabCost", title: "<spring:message code='cost.sarcheshmehLabCost'/>",
-                    type: 'text', required: true, width: "10%", align: "center", showHover: true
+                    type: 'text', required: true, width: "10%", align: "center", showHover: true,
+                    validators: [{ type:"required", validateOnChange: true }]
                 },
                 {
                     name: "umpireCost", title: "<spring:message code='cost.umpireCost'/>",
-                    type: 'text', required: true, width: "10%", align: "center", showHover: true
+                    type: 'text', required: true, width: "10%", align: "center", showHover: true,
+                    validators: [{ type:"required", validateOnChange: true }]
                 },
                 {
                     name: "umpireCostCurrency",
@@ -1332,7 +1360,11 @@
                     required: true,
                     width: "10%",
                     align: "center",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "editIcon",

@@ -58,7 +58,7 @@
     function ToolStripButton_InvoiceInternal_Pdf_F() {
 
         var record = ListGrid_InvoiceInternal.getSelectedRecord();
-        if (record === null || record === " ") {
+        if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
             var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
@@ -70,7 +70,7 @@
     function ToolStripButton_InvoiceInternal_Html_F() {
 
         var record = ListGrid_InvoiceInternal.getSelectedRecord();
-        if (record === null || record === " ") {
+        if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
             var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
@@ -110,7 +110,7 @@
     function Menu_ListGrid_InvoiceInternal_Pdf_F() {
 
         var record = ListGrid_InvoiceInternal.getSelectedRecord();
-        if (record === null || record === " ") {
+        if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
             var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
@@ -121,7 +121,7 @@
     function Menu_ListGrid_InvoiceInternal_Html_F() {
 
         var record = ListGrid_InvoiceInternal.getSelectedRecord();
-        if (record === null || record === " ") {
+        if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
             var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
@@ -249,7 +249,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_InvoiceInternal_refresh();
                             Window_InvoiceInternal.close();

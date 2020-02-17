@@ -263,7 +263,6 @@
     var ListGrid_Conc = isc.ListGrid.create({
         dataSource: RestDataSource_Contract,
         initialCriteria: criteriaConc,
-        dataPageSize: 50,
         showFilterEditor: true,
         autoFetchData: true,
         fields:
@@ -340,7 +339,7 @@
                     httpMethod: "PUT",
                     data: JSON.stringify(record.contractNo + "_Conc"),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             contactConcTabs.selectTab(0);
                             var text = resp.httpResponseText;
                             var text2 = text.replaceAll('","', '","').replaceAll('&?', '":"')

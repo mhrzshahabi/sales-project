@@ -194,7 +194,7 @@
                 data: JSON.stringify(data),
                 callback: function (resp) {
 
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_ShipmentContract_refresh();
                         Window_ShipmentContract.hide();
@@ -284,14 +284,14 @@
 
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var shipmentContractId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
                                     httpMethod: "DELETE",
                                     callback: function (resp) {
-                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                             ListGrid_ShipmentContract_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -361,7 +361,6 @@
         wrapItemTitles: false,
         autoDraw: false,
         autoFocus: "true",
-        dataPageSize: 50,
         setMethod: 'POST',
         align: "center",
         canSubmit: true,
@@ -390,6 +389,10 @@
                 width: 430,
                 type: "date",
                 required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
 
@@ -401,7 +404,11 @@
                 width: "200",
                 required: true,
                 length: "30",
-                keyPressFilter: "[0-9]"
+                keyPressFilter: "[0-9]",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -476,7 +483,11 @@
                 title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
                 align: "right",
                 width: "200",
-                length: "30", required: true
+                length: "30", required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 colSpan: 2,
@@ -505,8 +516,10 @@
                 length: "30",
                 keyPressFilter: "[0-9]",
                 type: "isInteger",
-
-
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 colSpan: 2,
@@ -582,7 +595,11 @@
                     " draft survey ": "<spring:message code='shipmentContract.draftSurvey'/>" //بازرسي درافت كشتي
                     ,
                     " weighbridge ": "<spring:message code='shipmentContract.weighbridge'/>" //باسكول
-                }
+                },
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -593,6 +610,10 @@
                 width: "200",
                 required: true,
                 length: "30",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {

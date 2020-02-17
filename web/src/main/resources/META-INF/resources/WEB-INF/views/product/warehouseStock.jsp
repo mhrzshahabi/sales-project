@@ -23,6 +23,7 @@
             name: "warehouseYardId"
         }, {
             name: "warehouseYard.nameFA",
+            type: "text",
             title: "<spring:message code='warehouseCad.yard'/>",
             sortNormalizer: function (recordObject) {
                 return recordObject.warehouseYard.nameFA

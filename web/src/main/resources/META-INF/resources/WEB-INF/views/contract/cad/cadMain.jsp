@@ -224,7 +224,6 @@ var Window_ContactCad = isc.Window.create({
 
 var ListGrid_Cad = isc.ListGrid.create({
         dataSource: RestDataSource_Contract,
-        dataPageSize: 50,
         showFilterEditor: true,
         autoFetchData: true,
         initialCriteria: criteriaCad,
@@ -292,7 +291,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                 httpMethod: "PUT",
                 data: JSON.stringify(record.contractNo),
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         var text = resp.httpResponseText;
                         var text2 = text.replaceAll('","', '","').replaceAll('&?','":"')
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
@@ -394,13 +393,13 @@ function Contract_Cathod_remove() {
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var ContractIDDelete = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/contract/" + ContractIDDelete,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_Cad.invalidateCache();
                                         deleteFromContractDetail(ContractIDDelete);
                                     } else {
@@ -420,7 +419,7 @@ function deleteFromContractDetail(id){
                                 actionURL: "${contextPath}/api/contractDetail/deleteByContractId/" + id,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_Cad.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -435,7 +434,7 @@ function deleteFromContractShipment(id){
                                 actionURL: "${contextPath}/api/contractDetail/deleteByContractId/" + id,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_Cad.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {

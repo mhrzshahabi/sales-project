@@ -75,13 +75,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var WarehouseYardId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/warehouseYard/" + WarehouseYardId,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_WarehouseYard_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -165,14 +165,27 @@
                             "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",
                             "Sarcheshmeh": "<spring:message code='global.Sarcheshmeh'/>",
                             "Sungun": "<spring:message code='global.Sungun'/>"
-                        }
+                        },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFA",
                     title: "<spring:message code='warehouseCad.yard'/>",
                     width: 500,
                     colSpan: 1, required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+                },
+                {
+                    type: "RowSpacerItem"
                 }
             ]
     });
@@ -270,7 +283,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseYard_refresh();
                             Window_WarehouseYard.close();

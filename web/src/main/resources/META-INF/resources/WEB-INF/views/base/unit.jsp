@@ -62,7 +62,6 @@
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
-
         fields: [{
             name: "id",
             hidden: true, showIf: "false",
@@ -74,19 +73,36 @@
             width: 400,
             keyPressFilter: "[0-9]",
             length: "15", showIf: "false",
+            validators: [
+            {
+                type:"required",
+                validateOnChange: true
+            }]
         }, {
             name: "nameFA",
             title: "<spring:message code='unit.nameFa'/>",
             required: true,
             readonly: true,
-            width: 400
+            width: 400,
+            validators: [
+            {
+                type:"required",
+                validateOnChange: true
+            }],
+            textAlign: "right"
         }, {
             name: "nameEN",
             title: "<spring:message code='unit.nameEN'/>",
             type: 'text',
             required: true,
             width: 400,
-            keyPressFilter: "[a-z|A-Z|0-9.]"
+            keyPressFilter: "[a-z|A-Z|0-9.]",
+            validators: [
+            {
+                type:"required",
+                validateOnChange: true
+            }],
+            textAlign: "left"
         }, {
             name: "symbol",
             title: "<spring:message code='unit.symbol'/>",
@@ -100,7 +116,10 @@
             length: "1",
             hint: "<spring:message code='deghat.ashar'/>",
             showHintInField: true,
-        }]
+            textAlign: "left"
+        },{
+            type: "RowSpacerItem"
+          }]
     });
 
     var IButton_Unit_Save = isc.IButtonSave.create({
@@ -121,7 +140,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Unit_refresh();
                             Window_Unit.close();
@@ -137,7 +156,6 @@
     var Window_Unit = isc.Window.create({
         title: "<spring:message code='unit.title'/>",
         width: 580,
-        height: 310,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -145,7 +163,6 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
-        margin: '10px',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
@@ -213,14 +230,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var unitId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/unit/" + unitId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_Unit.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }

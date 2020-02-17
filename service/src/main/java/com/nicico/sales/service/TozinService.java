@@ -67,7 +67,7 @@ public class TozinService implements ITozinService {
                 log.error("searchTozinOnTheWay error: {}", e.getMessage());
             }
         });
-    MaterialItem materialItem = materialItemDAO.findByGdsCode(new Long(fetchedData.get("codeKala").toString()) );
+        MaterialItem materialItem = materialItemDAO.findByGdsCode(new Long(fetchedData.get("codeKala").toString()) );
 
         Set<WarehouseCad> bijacks = warehouseCadDAO.getAllByMaterialItemId(materialItem.getId());
 
@@ -82,7 +82,7 @@ public class TozinService implements ITozinService {
         if (!CollectionUtils.isEmpty(sourceTozinPlantIds)) {
             final SearchDTO.CriteriaRq systemTypeCriteriaRq = new SearchDTO.CriteriaRq()
                     .setOperator(EOperator.notEqual)
-                    .setFieldName("tozinPlantId")
+                    .setFieldName("tozinId")
                     .setValue(sourceTozinPlantIds);
 
             requestCriteriaRqList.add(systemTypeCriteriaRq);

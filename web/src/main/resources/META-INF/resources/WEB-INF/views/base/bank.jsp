@@ -148,14 +148,14 @@
                     ],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var BankId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/bank/" + BankId,
                                     httpMethod: "DELETE",
                                     callback: function (resp) {
-                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                             ListGrid_Bank_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -247,6 +247,11 @@
                     titleColSpan: 1,
                     keyPressFilter: "[0-9]",
                     length: "15", showIf: "false",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "bankName",
@@ -254,7 +259,13 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "right"
                 },
                 {
                     name: "enBankName",
@@ -262,7 +273,13 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "address",
@@ -270,7 +287,12 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "coreBranch",
@@ -283,7 +305,12 @@
                         {
                             "core": "<spring:message code='bank.coreBranch.centralOffice'/>",
                             "branch": "<spring:message code='bank.coreBranch.branch'/>"
-                        }
+                        },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "countryId",
@@ -325,7 +352,12 @@
                             align: "center",
                             colSpan: 1,
                             titleColSpan: 1
-                        }]
+                        }],
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     type: "RowSpacerItem"
@@ -432,7 +464,7 @@
                         httpMethod: method,
                         data: JSON.stringify(data),
                         callback: function (resp) {
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Bank_refresh();
                                 Window_Bank.close();

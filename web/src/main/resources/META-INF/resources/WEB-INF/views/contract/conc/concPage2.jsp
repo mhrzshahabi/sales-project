@@ -76,6 +76,7 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
                 showTitle: false,
                 startRow: false,
                 width: "100",
+                textAlign: "left"
             },
             {
                 name: "unitCu",
@@ -108,6 +109,7 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
                 showTitle: false,
                 startRow: false,
                 width: "100",
+                textAlign: "left"
             },
             {
                 name: "unitMo",
@@ -207,7 +209,8 @@ isc.ListGrid.create({
                     type: "date",
                     required: false,
                     width: "10%",
-                    wrapTitle: false,changed: function (form, item, value) {
+                    wrapTitle: false,
+                    changed: function (form, item, value) {
                         sendDateSetConc = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
                         sendDateSetConcSave = value;
                     }
@@ -229,7 +232,7 @@ isc.ListGrid.create({
                 },
             ],saveEdits: function () {
                 var ContractItemShipmentRecord = ListGrid_ContractConcItemShipment.getEditedRecord(ListGrid_ContractConcItemShipment.getEditRow());
-                if(ListGrid_ContractConcItemShipment.getSelectedRecord() === null){
+                if(ListGrid_ContractConcItemShipment.getSelectedRecord() == null){
                         return;
                 }else{
                     var dateSend= (ListGrid_ContractConcItemShipment.getSelectedRecord().sendDate);
@@ -239,7 +242,7 @@ isc.ListGrid.create({
                         httpMethod: "PUT",
                         data: JSON.stringify(ContractItemShipmentRecord),
                         callback: function (resp) {
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                     ListGrid_ContractConcItemShipment.invalidateCache();
                             } else
@@ -259,12 +262,12 @@ isc.ListGrid.create({
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                                          isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                                 actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                                                 httpMethod: "DELETE",
                                                 callback: function (resp) {
-                                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                                         ListGrid_ContractConcItemShipment.invalidateCache();
                                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                                     } else {
@@ -406,7 +409,8 @@ var dynamicForm_article9Conc = isc.DynamicForm.create({
                 title:"What is the value of TC",
                 startRow: true,
                 width: "100",
-                keyPressFilter: "[0-9.]"
+                keyPressFilter: "[0-9.]",
+                textAlign: "left"
             },
             {
                 name: "RC",
@@ -414,7 +418,8 @@ var dynamicForm_article9Conc = isc.DynamicForm.create({
                 title:"What is the value of RC",
                 startRow: true,
                 width: "100",
-                keyPressFilter: "[0-9.]"
+                keyPressFilter: "[0-9.]",
+                textAlign: "left"
             },
         ]
 })
@@ -442,7 +447,8 @@ var article10_qualityConc = isc.DynamicForm.create({
                 defaultValue: "",
                 width: "500",
                 wrap: false,
-                title: "<strong class='cssDynamicForm'>AVERAGE OF WORKING DAYS OF QUOTATIONAL PERIOD<strong>",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>AVERAGE OF WORKING DAYS OF QUOTATIONAL PERIOD<strong>",
+                changed: function (form, item, value) {
                 }
             }
         ]

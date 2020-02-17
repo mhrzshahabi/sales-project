@@ -13,7 +13,6 @@
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
 
-
     isc.Window.create({
         title: "<spring:message code='dailyReport.DailyReportBandarAbbas'/> ",
         width: "1560",
@@ -30,33 +29,47 @@
         ]
     });
 
-
     function ListGrid_Tozin_refresh() {
         ListGrid_Tozin.invalidateCache();
     }
 
-
     var RestDataSource_Tozin = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        },
+        fields: [
+            {
+                name: "id",
+                title: "id",
+                primaryKey: true,
+                canEdit: false,
+                hidden: true
+            },
+            {
+                name: "source",
+                title: "<spring:message code='Tozin.source'/>",
+                align: "center"
+            },
+            {
+                name: "tozinId",
+                title: "<spring:message code='Tozin.tozinId'/>",
+                align: "center"
+            },
+            {
+                name: "nameKala",
+                title: "<spring:message code='Tozin.nameKala'/>",
+                align: "center"
+            },
+            {
+                name: "codeKala",
+                title: "<spring:message code='Tozin.codeKala'/>",
+                align: "center"
+            },
+            {
+                name: "target",
+                title: "<spring:message code='Tozin.target'/>",
+                align: "center"
+            },
             {
                 name: "cardId",
                 title: "<spring:message code='Tozin.cardId'/>",
-                align: "center"
-            },
-            {
-                name: "carNo1",
-                title: "<spring:message code='Tozin.carNo1'/>",
-                align: "center"
-            },
-            {
-                name: "carNo3",
-                title: "<spring:message code='Tozin.carNo3'/>",
                 align: "center"
             },
             {
@@ -135,11 +148,6 @@
                 align: "center"
             },
             {
-                name: "tozinId",
-                title: "<spring:message code='Tozin.tozinId'/>",
-                align: "center"
-            },
-            {
                 name: "tozinDate",
                 title: "<spring:message code='Tozin.tozinDate'/>",
                 align: "center"
@@ -150,33 +158,13 @@
                 align: "center"
             },
             {
-                name: "codeKala",
-                title: "<spring:message code='Tozin.codeKala'/>",
-                align: "center"
-            },
-            {
-                name: "nameKala",
-                title: "<spring:message code='Tozin.nameKala'/>",
-                align: "center"
-            },
-            {
                 name: "sourceId",
                 title: "<spring:message code='Tozin.sourceId'/>",
                 align: "center"
             },
             {
-                name: "source",
-                title: "<spring:message code='Tozin.source'/>",
-                align: "center"
-            },
-            {
                 name: "targetId",
                 title: "<spring:message code='Tozin.targetId'/>",
-                align: "center"
-            },
-            {
-                name: "target",
-                title: "<spring:message code='Tozin.target'/>",
                 align: "center"
             },
             {
@@ -200,18 +188,38 @@
                 align: "center"
             },
             {
+                name: "carNo1",
+                title: "<spring:message code='Tozin.carNo1'/>",
+                align: "center"
+            },
+            {
+                name: "carNo3",
+                title: "<spring:message code='Tozin.carNo3'/>",
+                align: "center"
+            },
+            {
                 name: "isFinal",
                 title: "<spring:message code='Tozin.isFinal'/>",
                 align: "center"
             },
             {
-                name: "targetPlantId",
-                title: "<spring:message code='Tozin.targetPlantId'/>"
+                name: "ctrlDescOut",
+                title: "<spring:message code='Tozin.isFinal'/>",
+                align: "center"
             },
             {
-                name: "sourcePlantId",
-                title: "<spring:message code='Tozin.sourcePlantId'/>"
-            },
+                name: "tznSharh2",
+                title: "<spring:message code='Tozin.isFinal'/>",
+                align: "center"
+            }, {
+                name: "strSharh2",
+                title: "<spring:message code='Tozin.isFinal'/>",
+                align: "center"
+            }, {
+                name: "tznSharh1",
+                title: "<spring:message code='Tozin.isFinal'/>",
+                align: "center"
+            }
         ],
         fetchDataURL: "${contextPath}/api/tozin/spec-list"
     });
@@ -377,84 +385,61 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Tozin,
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        },
+        fields: [
+            {
+                name: "id",
+                title: "id",
+                primaryKey: true,
+                canEdit: false,
+                hidden: true
+            },
             {
                 name: "plak",
                 title: "<spring:message code='Tozin.plak'/>",
                 align: "center",
-                showHover: true,
-                width: "10%",
-                operator: "equals"
+                width: "10%"
             },
             {
                 name: "containerId",
                 title: "<spring:message code='Tozin.containerId'/>",
                 align: "center",
-                showHover: true,
                 width: "10%"
             },
             {
                 name: "vazn",
                 title: "<spring:message code='Tozin.vazn'/>",
                 align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "tedad",
-                title: "<spring:message code='Tozin.tedad'/>",
-                align: "center",
-                showHover: true,
                 width: "10%"
             },
             {
                 name: "nameKala",
                 title: "<spring:message code='Tozin.nameKala'/>",
                 align: "center",
-                showHover: true,
                 width: "10%"
             },
             {
                 name: "source",
                 title: "<spring:message code='Tozin.source'/>",
                 align: "center",
-                showHover: true,
                 width: "10%"
             },
             {
                 name: "target",
                 title: "<spring:message code='Tozin.target'/>",
                 align: "center",
-                showHover: true,
                 width: "10%"
             },
             {
-                name: "packName",
-                title: "<spring:message code='Tozin.packName'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "tozinPlantId",
-                showHover: true,
+                name: "tozinId",
+                title: "<spring:message code='Tozin.tozinPlantId'/>",
                 width: "10%",
-                title: "<spring:message code='Tozin.tozinPlantId'/>"
             },
             {
                 name: "tozinDate",
-                showHover: true,
+                title: "<spring:message code='Tozin.tozinDate'/>",
                 width: "10%",
-                title: "<spring:message code='Tozin.tozinDate'/>"
             }
         ],
-        dataPageSize: 50,
         autoFetchData: true,
         showFilterEditor: true,
         allowFilterExpressions: true,

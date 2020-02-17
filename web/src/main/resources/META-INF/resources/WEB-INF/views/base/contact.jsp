@@ -365,8 +365,9 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    hint: "Persian/فارسی", validators: [
-                    {
+                    hint: "Persian/فارسی",
+                    textAlign: "right",
+                    validators: [{
                         type:"required",
                         validateOnChange: true
                     }]
@@ -380,7 +381,13 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     hint: "Latin",
-                    wrapTitle: false
+                    textAlign: "left",
+                    wrapTitle: false,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "tradeMark",
@@ -408,7 +415,8 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "commercialRegistration",
@@ -418,7 +426,8 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
 
                 {
@@ -530,7 +539,8 @@
                     title: "<spring:message code='contact.nationalCode'/>",
                     width: 200,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "economicalCode",
@@ -539,7 +549,8 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "status",
@@ -581,12 +592,19 @@
                 title: "<spring:message code='contact.phone'/>",
                 width: 500,
                 wrapTitle: false,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                textAlign: "left"
             },
             {
                 name: "mobile",
                 title: "<spring:message code='contact.mobile'/>",
                 width: 500,
                 wrapTitle: false,
+                textAlign: "left"
             },
 
             {
@@ -595,6 +613,7 @@
                 title: "<spring:message code='contact.fax'/>",
                 width: 500,
                 wrapTitle: false,
+                textAlign: "left"
             },
 
             {
@@ -613,7 +632,12 @@
                 pickListFields: [
                     {name: "id", width: 480, align: "center", hidden: true},
                     {name: "nameFa", width: 480, align: "center"},
-                ]
+                ],
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
 
@@ -629,6 +653,7 @@
                         validateOnChange: true,
                     }
                 ],
+                textAlign: "left"
             },
 
             {
@@ -636,7 +661,6 @@
                 title: "<spring:message code='contact.email'/>",
                 width: 500,
                 wrapTitle: false,
-                validateOnExit: true,
                 validators: [
                     {
                         type: "regexp",
@@ -644,6 +668,7 @@
                         validateOnChange: true,
                     }
                 ],
+                textAlign: "left"
             }
         ],
 
@@ -675,7 +700,7 @@
         let Val_inspector = DynamicForm_Contact_GeneralInfo.getValue("inspector");
         let Val_insurancer = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
         let Val_all = [Val_seller, Val_buyer, Val_agentSeller, Val_agentBuyer, Val_transporter, Val_shipper, Val_inspector, Val_insurancer].values();
-        if (ValuesManager_Contact !== null) {
+        if (ValuesManager_Contact != null) {
             ValuesManager_Contact.validate();
             if (DynamicForm_Contact_GeneralInfo.hasErrors())
                 contactTabs.selectTab(0);
@@ -683,7 +708,7 @@
                 contactTabs.selectTab(1);
             else {
                 for (let chap of Val_all) {
-                    if (chap === true) {
+                    if (chap == true) {
                         var contactData = Object.assign(ValuesManager_Contact.getValues());
                         var httpMethod = "PUT";
                         if (contactData.id == null)
@@ -693,7 +718,7 @@
                             httpMethod: httpMethod,
                             data: JSON.stringify(contactData),
                             callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_Contact.invalidateCache();
                                     isc.say("<spring:message code='global.form.request.successful'/>");
                                     Window_Contact.close();
@@ -806,14 +831,14 @@
                     ],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var contactId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/contact/" + contactId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_Contact.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -971,7 +996,6 @@
                     defaultValue: false
                 }],
             sortField: 2,
-            dataPageSize: 50,
             autoFetchData: false,
             showFilterEditor: true,
             filterOnKeypress: true,
@@ -1091,10 +1115,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
-                            errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                            errorMessage: "<spring:message code='global.form.correctType'/>",
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankId",
@@ -1134,11 +1163,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
-                            width: 300,
+                            validateOnChange: true,
                             stopOnError: true,
-                            errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                            errorMessage: "<spring:message code='global.form.correctType'/>",
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankShaba",
@@ -1147,7 +1180,13 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
-                    format: ""
+                    format: "",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                textAlign: "left"
                 },
                 {
                     name: "bankSwift",
@@ -1156,7 +1195,13 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
-                    format: ""
+                    format: "",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                textAlign: "left"
                 },
                 {
                     name: "accountOwner",
@@ -1224,10 +1269,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankId",
@@ -1267,10 +1317,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankShaba",
@@ -1278,7 +1333,13 @@
                     type: 'text',
                     required: true,
                     width: 300,
-                    colSpan: "2"
+                    colSpan: "2",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankSwift",
@@ -1286,7 +1347,13 @@
                     type: 'text',
                     required: true,
                     width: 300,
-                    colSpan: "2"
+                    colSpan: "2",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "accountOwner",
@@ -1339,7 +1406,7 @@
                                 parentId: data["contactId"]
                             },
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 ContactAccount_CreateDynamicForm.clearValues();
                                 ListGrid_ContactAccount.invalidateCache();
                                 ListGrid_Contact.invalidateCache();
@@ -1370,7 +1437,7 @@
                         httpMethod: "PUT",
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 ListGrid_ContactAccount.invalidateCache();
                                 ListGrid_Contact.invalidateCache();
                                 isc.say("<spring:message code='global.form.request.successful'/>");
@@ -1489,7 +1556,7 @@
                                 ],
                                 buttonClick: function (button, index) {
                                     this.hide();
-                                    if (index === 0) {
+                                    if (index == 0) {
                                         if (record.isDefault) {
                                             isc.warn("<spring:message code='exception.DeleteDefaultAccount'/>");
                                             return;
@@ -1500,7 +1567,7 @@
                                                 actionURL: "${contextPath}/api/contactAccount/" + contactAccountId,
                                                 httpMethod: "DELETE",
                                                 callback: function (RpcResponse_o) {
-                                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                                         ListGrid_ContactAccount.invalidateCache();
                                                         ListGrid_Contact.invalidateCache();
                                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
@@ -1838,7 +1905,6 @@
 
             ],
             sortField: 0,
-            dataPageSize: 50,
             showFilterEditor: true,
             getExpansionComponent: function (record) {
                 if (record == null || record.id == null) {

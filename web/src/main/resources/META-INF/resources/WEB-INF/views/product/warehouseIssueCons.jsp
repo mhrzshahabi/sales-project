@@ -33,7 +33,7 @@
                 httpMethod: "GET",
                 data: "",
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         var data = JSON.parse(RpcResponse_o.data);
                         for (x of data.data) {
                             stocks[x.plant] = x.amount;
@@ -71,9 +71,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -84,9 +88,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -97,9 +105,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -110,9 +122,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -123,9 +139,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -136,9 +156,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {name: "id"},
@@ -305,7 +329,11 @@
             required: true,
             width: "10%",
             align: "center",
-            showHover: true
+            showHover: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }]
         }, {
             name: "createDate",
             title: "<spring:message code='shipment.createDate'/>",
@@ -321,7 +349,11 @@
             type: 'text',
             required: true,
             width: "10%",
-            showHover: true
+            showHover: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }]
         }],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
@@ -346,7 +378,7 @@
         };
 
         ListGrid_WarehouseIssueCons.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            if (data.length === 0) {
+            if (data.length == 0) {
                 recordNotFound.show();
                 ListGrid_WarehouseIssueCons.hide()
             } else {
@@ -492,14 +524,22 @@
             type: 'text',
             required: true,
             width: "10%",
-            showHover: true
+            showHover: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }]
         }, {
             name: "portByDischarge.port",
             title: "<spring:message code='shipment.discharge'/>",
             type: 'text',
             required: true,
             width: "10%",
-            showHover: true
+            showHover: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }]
         },
             {
                 name: "description",
@@ -508,7 +548,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "contractShipment.sendDate",
                 title: "<spring:message code='global.sendDate'/>",
@@ -516,7 +560,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "createDate",
                 title: "<spring:message code='global.createDate'/>",
@@ -524,7 +572,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "month",
                 title: "<spring:message code='shipment.month'/>",
@@ -532,7 +584,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "contactByAgent.nameFA",
                 title: "<spring:message code='shipment.agent'/>",
@@ -546,21 +602,33 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "swb",
                 title: "<spring:message code='shipment.SWB'/>",
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "switchPort.port",
                 title: "<spring:message code='port.switchPort'/>",
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }, {
                 name: "status",
                 title: "<spring:message	code='shipment.staus'/>",
@@ -575,7 +643,6 @@
             }
         ],
         sortField: 0,
-        dataPageSize: 50,
         showFilterEditor: true,
         filterOnKeypress: true,
         getExpansionComponent: function (record) {
@@ -668,13 +735,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var WarehouseIssueConsId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/warehouseIssueCons/" + WarehouseIssueConsId,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_WarehouseIssueCons_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -763,9 +830,13 @@
             wrapTitle: false,
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }],
             changed: function (form, item, value) {
                 if (value != null && typeof(value) != 'undefined') {
@@ -791,9 +862,13 @@
             wrapTitle: false,
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }],
             changed: function (form, item, value) {
                 if (value != null && typeof(value) != 'undefined') {
@@ -819,9 +894,13 @@
             wrapTitle: false,
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }],
             changed: function (form, item, value) {
                 if (value != null && typeof(value) != 'undefined') {
@@ -847,9 +926,13 @@
             wrapTitle: false,
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }],
             colSpan: 3,
             titleColSpan: 1
@@ -862,9 +945,13 @@
             wrapTitle: false,
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }],
             colSpan: 3,
             titleColSpan: 1
@@ -982,7 +1069,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseIssueCons_refresh();
                             setCriteria_ListGrid_InsperctionContract(data.shipmentId)
@@ -1054,9 +1141,13 @@
             length: "15",
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }]
         }, {
             name: "amountMiduk",
@@ -1066,9 +1157,13 @@
             length: "15",
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+            type:"required",
+            validateOnChange: true
             }]
         }, {
             name: "amountSungon",
@@ -1078,9 +1173,13 @@
             length: "15",
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }]
         }, {
             name: "amountPms",
@@ -1090,9 +1189,13 @@
             length: "15",
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }]
         }, {
             name: "amountDraft",
@@ -1102,9 +1205,13 @@
             length: "15",
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }]
         }, {
             name: "totalAmount",
@@ -1114,9 +1221,13 @@
             length: "15",
             validators: [{
                 type: "isFloat",
-                validateOnExit: true,
+                validateOnChange: true,
                 stopOnError: true,
                 errorMessage: "!"
+            },
+            {
+                type:"required",
+                validateOnChange: true
             }]
         },
             {

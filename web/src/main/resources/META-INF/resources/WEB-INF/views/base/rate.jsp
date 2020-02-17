@@ -81,13 +81,24 @@
                     width: 300,
                     keyPressFilter: "[0-9]",
                     length: "15", showIf: "false",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFA",
                     title: "<spring:message code='rate.nameFa'/>",
                     required: true,
                     readonly: true,
-                    width: 300
+                    width: 300,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "right"
                 },
                 {
                     name: "nameEN",
@@ -95,7 +106,13 @@
                     type: 'text',
                     width: 300,
                     required: true,
-                    keyPressFilter: "[a-z|A-Z|0-9.]"
+                    keyPressFilter: "[a-z|A-Z|0-9.]",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "symbol",
@@ -117,7 +134,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     type: "RowSpacerItem"
@@ -144,7 +162,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Rate_refresh();
                             Window_Rate.close();
@@ -238,7 +256,7 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
 
                             var rateId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
@@ -246,7 +264,7 @@
                                     actionURL: "${contextPath}/api/rate/" + rateId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_Rate.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -431,7 +449,6 @@
 
             ],
             sortField: 0,
-            dataPageSize: 50,
             autoFetchData: true,
             showFilterEditor: true,
             filterOnKeypress: true,

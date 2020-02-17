@@ -69,14 +69,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var currencyRateId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/currencyRate/" + currencyRateId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_CurrencyRate_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -146,13 +146,24 @@
         numCols: 2,
         fields:
             [
-                {name: "id", hidden: true,},
+                {
+                    name: "id",
+                    hidden: true
+                },
+                {
+                    type: "RowSpacerItem"
+                },
                 {
                     name: "curDate",
                     title: "<spring:message code='currencyRate.curDate'/>",
                     type: "date",
                     width: "400",
                     required: true,
+                    validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "irrUsd",
@@ -163,7 +174,12 @@
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
                     showHintInField: true, required: true,
-
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "eurUsd",
@@ -173,7 +189,8 @@
                     keyPressFilter: "[0-9.]",
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
-                    showHintInField: true
+                    showHintInField: true,
+                    textAlign: "left"
                 },
                 {
                     name: "aedUsd",
@@ -183,7 +200,8 @@
                     keyPressFilter: "[0-9.]",
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
-                    showHintInField: true
+                    showHintInField: true,
+                    textAlign: "left"
                 },
                 {
                     name: "rmbUsd",
@@ -193,7 +211,11 @@
                     keyPressFilter: "[0-9.]",
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
-                    showHintInField: true
+                    showHintInField: true,
+                    textAlign: "left"
+                },
+                {
+                   type: "RowSpacerItem"
                 }
             ]
     });
@@ -342,7 +364,7 @@
                         httpMethod: methodXXXX,
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_CurrencyRate_refresh();
                                 Window_CurrencyRate.close();
@@ -358,7 +380,7 @@
         {
             title: "<spring:message code='exchangeRate.title'/> ",
             width: 580,
-            height: 310,
+            // height: 310,
             autoSize: true,
             autoCenter: true,
             isModal: true,

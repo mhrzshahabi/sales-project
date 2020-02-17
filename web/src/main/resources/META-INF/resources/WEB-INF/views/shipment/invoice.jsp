@@ -287,7 +287,7 @@
 
 
         ListGrid_Invoice.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            if (data.length === 0) {
+            if (data.length == 0) {
                 recordNotFound.show();
                 ListGrid_Invoice.hide()
             } else {
@@ -424,7 +424,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -432,12 +436,17 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
                 name: "month", title: "<spring:message code='shipment.month'/>",
-                type: 'text', required: true, width: "10%", align: "center", showHover: true
+                type: 'text', required: true, width: "10%", align: "center", showHover: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
 
             {
@@ -644,15 +653,15 @@
                 }
             });
         } else {
-            if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '26030090') {
+            if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code == '26030090') {
                 ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/" + record.id + "/con/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                 Window_Invoice_Concentrate.show();
                 return;
-            } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
+            } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code == '28257000') {
                 ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/" + record.id + "/mol/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                 Window_Molybdenum.show();
                 return;
-            } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
+            } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code == '74031100') {
                 ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/" + record.id + "/cat/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                 Window_Cathodes.show();
                 return;
@@ -697,13 +706,13 @@
                 }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var InvoiceId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/invoice/" + record.id,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Invoice_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -730,15 +739,15 @@
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     DynamicForm_Invoice.clearValues();
-                    if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '26030090') {
+                    if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code == '26030090') {
                         ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/0/con/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Invoice_Concentrate.show();
                         return;
-                    } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
+                    } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code == '28257000') {
                         ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/0/mol/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Molybdenum.show();
                         return;
-                    } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
+                    } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code == '74031100') {
                         ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id + "/" + record.id + "/cat/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                         Window_Cathodes.show();
                         return;
@@ -839,7 +848,11 @@
                     type: 'text',
                     width: "100%",
                     required: true,
-                    valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"}
+                    valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"},
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "paidStatus",
@@ -859,7 +872,11 @@
                     width: "100%",
                     colSpan: 1,
                     titleColSpan: 1,
-                    wrapTitle: false
+                    wrapTitle: false,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "invoiceDate",
@@ -868,7 +885,11 @@
                     type: 'date',
                     format: 'DD-MM-YYYY HH:mm:ss',
                     required: true,
-                    width: "100%"
+                    width: "100%",
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     type: "Header",
@@ -883,9 +904,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -897,9 +922,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -911,9 +940,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -939,6 +972,10 @@
                             min: 80,
                             max: 120,
                             errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }
                     ]
                 },
@@ -988,9 +1025,13 @@
                     type: 'float', required: true, width: "100%",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1127,15 +1168,15 @@
                     }
                 });
             } else {
-                if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '26030090') {
+                if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code == '26030090') {
                     ViewLoader_Concentrate.setViewURL("<spring:url value="/invoice/showForm" />/" + record.id + "/0/con/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                     Window_Invoice_Concentrate.show();
                     return;
-                } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '28257000') {
+                } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code == '28257000') {
                     ViewLoader_Molybdenum.setViewURL("<spring:url value="/invoice/showForm" />/" + record.id + "/0/mol/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                     Window_Molybdenum.show();
                     return;
-                } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code === '74031100') {
+                } else if (ListGrid_Shipment_InvoiceHeader.getSelectedRecord().material.code == '74031100') {
                     ViewLoader_Cathodes.setViewURL("<spring:url value="/invoice/showForm" />/" + record.id + "/0/cat/" + ListGrid_Shipment_InvoiceHeader.getSelectedRecord().contractId);
                     Window_Cathodes.show();
                 } else {
@@ -1160,7 +1201,7 @@
     function ToolStripButton_Invoice_Pdf_F() {
 
         var record = ListGrid_Invoice.getSelectedRecord();
-        if (record === null || record === " ") {
+        if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
             var rowId = ListGrid_Invoice.getSelectedRecord().id;
@@ -1172,7 +1213,7 @@
     function ToolStripButton_Invoice_Html_F() {
 
         var record = ListGrid_Invoice.getSelectedRecord();
-        if (record === null || record === " ") {
+        if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
             var rowId = ListGrid_Invoice.getSelectedRecord().id;
@@ -1184,7 +1225,7 @@
     function ToolStripButton_Invoice_Excel_F() {
 
         var record = ListGrid_Invoice.getSelectedRecord();
-        if (record === null || record === " ") {
+        if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
             var rowId = ListGrid_Invoice.getSelectedRecord().id;
@@ -1253,7 +1294,7 @@
                         httpMethod: "PUT",
                         data: JSON.stringify(data2acc),
                         callback: function (resp) {
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Invoice_refresh();
                             } else
@@ -1334,7 +1375,7 @@
                 httpMethod: method,
                 data: JSON.stringify(data),
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Invoice_refresh();
                         Window_Invoice.close();

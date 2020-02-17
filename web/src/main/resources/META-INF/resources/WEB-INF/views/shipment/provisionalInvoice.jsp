@@ -274,7 +274,7 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var ProvisionalInvoiceId = record.id;
                             isc.RPCManager.sendRequest(
                                 {
@@ -285,7 +285,7 @@
                                     showPrompt: true,
                                     serverOutputAsString: false,
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.data === 'success') {
+                                        if (RpcResponse_o.data == 'success') {
                                             ListGrid_ProvisionalInvoice_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -746,7 +746,7 @@
                 serverOutputAsString: false,
                 //params: { data:data1},
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.data === 'success') {
+                    if (RpcResponse_o.data == 'success') {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_ProvisionalInvoice_refresh();
                         Window_ProvisionalInvoice.close();
