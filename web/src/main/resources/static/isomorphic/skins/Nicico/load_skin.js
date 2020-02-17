@@ -750,7 +750,13 @@ isc.loadSkin = function (theWindow) {
         }
         if (isc.FormItem) {
             isc.FormItem.addClassProperties({defaultPickerIconSpace: 4});
-            isc.FormItem.addProperties({showRTL: true, showOver: true, showFocusedErrorState: true})
+
+            isc.FormItem.addProperties({showRTL: true, showOver: true, showFocusedErrorState: true,
+                focus: function (form, item){
+                    if(item.$14x)
+                        item.$14x.dir ="auto";
+            }
+            })
         }
         if (isc.CheckboxItem) {
             isc.CheckboxItem.addProperties({
