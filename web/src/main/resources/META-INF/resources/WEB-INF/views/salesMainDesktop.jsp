@@ -430,8 +430,6 @@
                     ]
                 },
                 {isSeparator: true},
-
-
                 {
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
@@ -539,8 +537,7 @@
                     click: function () {
                         createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")
                     }
-                },
-                {isSeparator: true},
+                }
 
             ]
 
@@ -573,8 +570,6 @@
     /*End --------------------------help General----------------------------*/
 
 
-
-
     /*----------------------settingTab------------------------*/
     settingTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.settingTab'/>",
@@ -600,8 +595,7 @@
                     click: function () {
                         createTab("<spring:message code='setting.roleUser'/>", "<spring:url value="web/oauth/users/show-form" />", false);
                     }
-                },
-                {isSeparator: true},
+                }
             ]
         })
     });
@@ -651,14 +645,12 @@
                     }
                 },
                 {isSeparator: true},*/
-                {
+                /*{
                     title: "<spring:message code='contractPerson.title'/>",
                     click: function () {
                         createTab("<spring:message code='contractPerson.title'/>", "<spring:url value="/contractPerson/showForm" />")
                     }
-                },
-                {isSeparator: true},
-
+                }*/
             ]
         })
     });
@@ -681,9 +673,7 @@
                     click: function () {
                         createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
                     }
-                },
-                {isSeparator: true},
-
+                }
             ]
         })
     });
@@ -824,8 +814,7 @@
                     click: function () {
                         createTab("<spring:message code='issuedInternalInvoices.title'/>", "<spring:url value="/invoiceInternal/showForm" />")
                     }
-                },
-                {isSeparator: true},
+                }
             ]
         })
     });
@@ -899,15 +888,15 @@
         if(checked)
         {
 
-            headerLayout.setStyleName('header-top toggle-hide')
-            MainDesktopMenuH.setStyleName('main-menu toggle-hide')
+            headerLayout.setStyleName('header-top toggle-hide');
+            MainDesktopMenuH.setStyleName('main-menu toggle-hide');
             headerLayout.setVisibility(false);
             MainDesktopMenuH.setVisibility(false);
 
 
         }else {
-            headerLayout.setStyleName('header-top toggle-show')
-            MainDesktopMenuH.setStyleName('main-menu toggle-show')
+            headerLayout.setStyleName('header-top toggle-show');
+            MainDesktopMenuH.setStyleName('main-menu toggle-show');
             headerLayout.setVisibility(true);
             MainDesktopMenuH.setVisibility(true);
             }
@@ -916,20 +905,20 @@
     document.addEventListener("mousemove", function(event){
         if(event.clientY <= 2)
         {
-            headerLayout.setStyleName('header-top toggle-show')
-            MainDesktopMenuH.setStyleName('main-menu toggle-show')
+            headerLayout.setStyleName('header-top toggle-show');
+            MainDesktopMenuH.setStyleName('main-menu toggle-show');
             headerLayout.setVisibility(true);
             MainDesktopMenuH.setVisibility(true);
 
         }else  if(event.clientY > 100){
             if(checked){
-                headerLayout.setStyleName('header-top toggle-hide')
-                MainDesktopMenuH.setStyleName('main-menu toggle-hide')
+                headerLayout.setStyleName('header-top toggle-hide');
+                MainDesktopMenuH.setStyleName('main-menu toggle-hide');
                 headerLayout.setVisibility(false);
                 MainDesktopMenuH.setVisibility(false);
             }else{
-                headerLayout.setStyleName('header-top toggle-show')
-                MainDesktopMenuH.setStyleName('main-menu toggle-show')
+                headerLayout.setStyleName('header-top toggle-show');
+                MainDesktopMenuH.setStyleName('main-menu toggle-show');
                 headerLayout.setVisibility(true);
                 MainDesktopMenuH.setVisibility(true);
             }
