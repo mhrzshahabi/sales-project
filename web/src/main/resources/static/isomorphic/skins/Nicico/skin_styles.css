@@ -3824,7 +3824,7 @@ option:checked {
 .selectItemLiteTextDisabledHintRTL {
   outline: none;
   border: 0px;
-  padding-right: 0px;
+  padding-right: 8px;
   background-color: transparent;
 }
 

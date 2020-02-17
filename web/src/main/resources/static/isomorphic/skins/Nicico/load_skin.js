@@ -891,6 +891,10 @@ isc.loadSkin = function (theWindow) {
                 showOver: true,
                 src: "[SKIN]/DynamicForm/date_control.png"
             })
+            isc.RelativeDateItem.addProperties({
+                startDate:isc.Date.createLogicalDate(new Date().getFullYear() - 21, 1, 1),
+                endDate:isc.Date.createLogicalDate(new Date().getFullYear() + 20, 12, 31)
+            });
         }
         if (isc.RichTextEditor) {
             isc.RichTextEditor.addProperties({
@@ -1020,6 +1024,10 @@ isc.loadSkin = function (theWindow) {
             if (isc.NativeDatetimeItem) {
                 isc.NativeDatetimeItem.addProperties({textBoxStyle: "textItemLite"})
             }
+            isc.DateItem.addProperties({
+                startDate:isc.Date.createLogicalDate(new Date().getFullYear() - 21, 1, 1),
+                endDate:isc.Date.createLogicalDate(new Date().getFullYear() + 20, 12, 31)
+            });
         }
         if (isc.MiniDateRangeItem) {
             isc.MiniDateRangeItem.addProperties({
