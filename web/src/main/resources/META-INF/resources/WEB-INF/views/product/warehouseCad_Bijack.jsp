@@ -631,7 +631,7 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "150",
+        titleWidth: "200",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
@@ -641,7 +641,7 @@
                 type: "textarea",
                 orientation: "right",
                 length: 255,
-                width: 700,
+                width: 650,
                 rowSpan: 2,
                 height: 40
             },
@@ -651,7 +651,7 @@
                 type: "textarea",
                 orientation: "right",
                 length: 255,
-                width: 700,
+                width: 650,
                 rowSpan: 2,
                 height: 40
             }

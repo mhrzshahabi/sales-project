@@ -560,7 +560,7 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleWidth: "150",
+        titleWidth: "200",
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
@@ -570,9 +570,10 @@
                 type: "textarea",
                 orientation: "right",
                 length: 255,
-                width: 700,
+                width: 650,
                 rowSpan: 2,
-                height: 40
+                height: 40,
+                canEdit: false
             },
             {
                 name: "bijakSecondDescription",
@@ -580,9 +581,10 @@
                 type: "textarea",
                 orientation: "right",
                 length: 255,
-                width: 700,
+                width: 650,
                 rowSpan: 2,
-                height: 40
+                height: 40,
+                canEdit: false
             }
         ]
     });
@@ -697,6 +699,9 @@
     DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin.getSelectedRecord().containerId);
     DynamicForm_warehouseCAD.setValue("sourceBundleSum", ListGrid_Tozin.getSelectedRecord().tedad);
     DynamicForm_warehouseCAD.setValue("sourceWeight", ListGrid_Tozin.getSelectedRecord().vazn);
+
+    DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_Tozin.getSelectedRecord().strSharh2);
+    DynamicForm_warehouseCAD_Desc.setValue("bijakSecondDescription", ListGrid_Tozin.getSelectedRecord().ctrlDescOut);
 
     isc.VLayout.create({
         width: 830,
