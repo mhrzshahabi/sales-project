@@ -24,22 +24,23 @@ import org.apache.poi.util.Units;
 import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.*;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.io.*;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -55,6 +56,7 @@ public class ContractService implements IContractService {
     private final ContractDetailDAO contractDetailDAO;
     private final ShipmentContractService shipmentContractService;
     private final ShipmentContractDAO shipmentContractDAO;
+    private final EntityManager entityManager;
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private MyXWPFHtmlDocument myXWPFHtmlDocument;
@@ -100,8 +102,10 @@ public class ContractService implements IContractService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @PreAuthorize("hasAuthority('O_CONTRACT')")
     public void writeToWord(String request) throws Exception {
+        AuditReader reader = AuditReaderFactory.get(entityManager);
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         XWPFDocument printdoc = new XWPFDocument();
         String dataALLArticle = "";
@@ -111,6 +115,13 @@ public class ContractService implements IContractService {
         Integer contractId = (Integer) map.get("contractId");
         List<WarehouseLot> listsFromHouseLot = warehouseLotDAO.findByContractId(Long.valueOf(contractId));
         printOnePage(printdoc, contractId);
+        reader.createQuery().forRevisionsOfEntity(Contract.class, true, false).getResultList();
+        List<Number> oldContract = reader.getRevisions(Contract.class, Long.valueOf(contractId));
+        List<Integer> intList = new ArrayList<Integer>(oldContract.size());
+        for (Number i : oldContract) {
+            intList.add((Integer) i);
+        }
+        int maxRef = findMax(intList);
         contractDAO.findById(contractId).getMaterial();
         map.remove("contractNo");
         map.remove("contractId");
@@ -274,6 +285,10 @@ public class ContractService implements IContractService {
             ContractWrite = contractNo.replace("_Conc", "");
             prefixContractWrite = "Conc_";
             prefixPrintContractWrite = "PrintConc_";
+        } else if (contractNo.contains("MO_OX")) {
+            ContractWrite = contractNo;
+            prefixContractWrite = "MoOx_";
+            prefixPrintContractWrite = "PrintMoOx_";
         } else {
             ContractWrite = contractNo;
             prefixContractWrite = "Cathod_";
@@ -285,7 +300,7 @@ public class ContractService implements IContractService {
             directory.mkdir();
         }
         OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc");
-        OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + ".doc");
+        OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".doc");
         XWPFParagraph paragraph = doc.createParagraph();
         XWPFRun run = paragraph.createRun();
         //String base64Text = Base64.getEncoder().encodeToString(dataALLArticle.getBytes());
@@ -358,18 +373,54 @@ public class ContractService implements IContractService {
     @Override
     @PreAuthorize("hasAuthority('O_CONTRACT')")
     public String printContract(Long id) {
-        Contract contract = contractDAO.findById(id).get();
+        int maxRef = 0;
         String flag = "";
-        if (contract.getMaterial().getDescl().contains("Mo")) {
-            flag = "PrintCathod_MO_OX" + contract.getContractNo();
-        } else if (contract.getMaterial().getDescl().contains("Conc")) {
-            flag = "PrintConc_" + contract.getContractNo();
-        } else if (contract.getMaterial().getDescl().contains("Cath")) {
-            flag = "PrintCathod_" + contract.getContractNo();
+        Contract contract = contractDAO.findById(id).get();
+        AuditReader reader = AuditReaderFactory.get(entityManager);
+        reader.createQuery().forRevisionsOfEntity(Contract.class, true, false).getResultList();
+        List<Number> oldContract = reader.getRevisions(Contract.class, Long.valueOf(id));
+        if (oldContract.size() > 0) {
+            List<Integer> intList = new ArrayList<Integer>(oldContract.size());
+            for (Number i : oldContract) {
+                intList.add((Integer) i);
+            }
+            maxRef = findMax(intList);
+            if (contract.getMaterial().getDescl().contains("Mo")) {
+                flag = "PrintMoOx_" + contract.getContractNo() + "_" + maxRef;
+            } else if (contract.getMaterial().getDescl().contains("Conc")) {
+                flag = "PrintConc_" + contract.getContractNo() + "_" + maxRef;
+            } else if (contract.getMaterial().getDescl().contains("Cath")) {
+                flag = "PrintCathod_" + contract.getContractNo() + "_" + maxRef;
+            }
+        } else {
+            if (contract.getMaterial().getDescl().contains("Mo")) {
+                flag = "PrintMoOx_" + contract.getContractNo();
+            } else if (contract.getMaterial().getDescl().contains("Conc")) {
+                flag = "PrintConc_" + contract.getContractNo();
+            } else if (contract.getMaterial().getDescl().contains("Cath")) {
+                flag = "PrintCathod_" + contract.getContractNo();
+            }
         }
         return flag;
 
     }
+
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('O_CONTRACT')")
+    public String printContract(Long id, Long idDraft) {
+        String flag = "";
+        Contract contract = contractDAO.findById(id).get();
+        if (contract.getMaterial().getDescl().contains("Mo")) {
+            flag = "PrintMoOx_" + contract.getContractNo() + "_" + idDraft;
+        } else if (contract.getMaterial().getDescl().contains("Conc")) {
+            flag = "PrintConc_" + contract.getContractNo() + "_" + idDraft;
+        } else if (contract.getMaterial().getDescl().contains("Cath")) {
+            flag = "PrintCathod_" + contract.getContractNo() + "_" + idDraft;
+        }
+        return flag;
+    }
+
 
     @Transactional
     @Override
@@ -386,6 +437,7 @@ public class ContractService implements IContractService {
     public TotalResponse<ContractDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(contractDAO, criteria, contract -> modelMapper.map(contract, ContractDTO.Info.class));
     }
+
 
     private ContractDTO.Info save(Contract contract) {
         final Contract saved = contractDAO.saveAndFlush(contract);
@@ -603,6 +655,15 @@ public class ContractService implements IContractService {
         STJc.Enum en = STJc.Enum.forInt(align.getValue());
         jc.setVal(en);
     }
+
+    private Integer findMax(List<Integer> list) {
+        if (list == null || list.size() == 0) {
+            return Integer.MIN_VALUE;
+        }
+        List<Integer> sortedlist = new ArrayList<>(list);
+        Collections.sort(sortedlist);
+        return sortedlist.get(sortedlist.size() - 1);
+    }
 }
 
 
@@ -647,4 +708,6 @@ final class XWPFHtmlRelation extends POIXMLRelation {
                 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk",
                 "/word/htmlDoc#.html");
     }
+
+
 }

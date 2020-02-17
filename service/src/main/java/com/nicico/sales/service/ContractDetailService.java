@@ -34,6 +34,13 @@ public class ContractDetailService implements IContractDetailService {
         return modelMapper.map(contractDetail, ContractDetailDTO.Info.class);
     }
 
+    public ContractDetailDTO.Info findByContractID(Long id) {
+        final Optional<ContractDetail> slById = contractDetailDAO.findByContractId(id);
+        final ContractDetail contractDetail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractDetailNotFound));
+
+        return modelMapper.map(contractDetail, ContractDetailDTO.Info.class);
+    }
+
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")

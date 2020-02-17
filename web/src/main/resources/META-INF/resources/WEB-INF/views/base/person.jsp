@@ -261,8 +261,7 @@
                         type:"required",
                         validateOnChange: true
                     }
-                ],
-                textAlign: "left"
+                ]
             },
             {
                 name: "email1",
@@ -276,8 +275,7 @@
                         type: "regexp",
                         expression: ".+\\@.+\\..+",
                     }
-                ],
-                textAlign: "left"
+                ]
             },
             {
                 name: "email2",
@@ -291,8 +289,7 @@
                         type: "regexp",
                         expression: ".+\\@.+\\..+",
                     }
-                ],
-                textAlign: "left"
+                ]
             },
             {
                 name: "webAddress",
@@ -306,15 +303,15 @@
             },
             {
                 name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 500,
-                wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
+                wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
                 name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 500,
-                wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
+                wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
                 name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", length: "20", type: 'text',
-                width: 500, wrapTitle: false, keyPressFilter: "[0-9.+]", textAlign: "left"
+                width: 500, wrapTitle: false, keyPressFilter: "[0-9.+]"
             },
             {
                 name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text',
@@ -322,23 +319,21 @@
             },
             {
                 name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text',
-                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
+                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
                 name: "whatsApp",
                 title: "<spring:message code='person.whatsApp'/>",
                 type: 'text',
                 width: 500,
-                wrapTitle: false,
-                textAlign: "left"
+                wrapTitle: false
             },
             {
                 name: "weChat",
                 title: "<spring:message code='person.weChat'/>",
                 type: 'text',
                 width: 500,
-                wrapTitle: false,
-                textAlign: "left"
+                wrapTitle: false
             },
             {
                 name: "address",

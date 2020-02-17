@@ -43,6 +43,7 @@ public class SalesException extends NICICOException {
         ContactNotFound(404),
         ContactAccountNotFound(404),
         ContractNotFound(404),
+        ContractAuditNotFound(404),
         ContractCurrencyNotFound(404),
         ContractPenaltyNotFound(404),
         ContractPersonNotFound(404),

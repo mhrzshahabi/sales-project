@@ -80,6 +80,10 @@ var contactCadTabs = isc.TabSet.create({
         icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
+            var dataSaveAndUpdateContractCad = {};
+            if(methodHtpp=="PUT"){
+                   dataSaveAndUpdateContractCad.id=ListGrid_Cad.getSelectedRecord().id;
+            }
             contactCadHeader.validate();
             dynamicFormCath.validate();
             valuesManagerArticle6_quality.validate();
@@ -91,7 +95,6 @@ var contactCadTabs = isc.TabSet.create({
                 return;
             }
             contactCadHeader.setValue("contractDate",contactCadHeader.getValues().createDate.toNormalDate("toUSShortDate"));
-            var dataSaveAndUpdateContractCad = {};
             dataSaveAndUpdateContractCad.contractDate = contactCadHeader.getValue("contractDate");
             dataSaveAndUpdateContractCad.contractNo = contactCadHeader.getValue("contractNo");
             dataSaveAndUpdateContractCad.contactId = contactCadHeader.getValue("contactId");
@@ -304,11 +307,9 @@ var contactCadTabs = isc.TabSet.create({
         dataSaveAndUpdateContractCadDetail.article10_number60 =valuesManagerArticle10_quality.getValue("article10_number60");
         dataSaveAndUpdateContractCadDetail.article10_number61 =valuesManagerArticle10_quality.getValue("article10_number61");
         recordContractNo=contactCadHeader.getValue("contractNo");
+
         var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "material.descl", operator: "contains", value: "Cath"},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
         RestDataSource_Contract.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
-        if(data[0]!=undefined){
-                isc.warn("<spring:message code='main.contractsDuplicate'/>");
-               }else{
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
                 httpMethod: methodHtpp,
@@ -322,7 +323,6 @@ var contactCadTabs = isc.TabSet.create({
                         isc.say(RpcResponse_o.data);
                 }
             }))
-            }
             })
         }
     })

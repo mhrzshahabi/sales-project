@@ -61,6 +61,10 @@
         requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",
     });
 
+    isc.RichTextEditor.addProperties({
+        fontControls: ["fontSizeSelector"],
+    })
+
     isc.defineClass("MyRestDataSource", RestDataSource);
 
     isc.MyRestDataSource.addProperties({

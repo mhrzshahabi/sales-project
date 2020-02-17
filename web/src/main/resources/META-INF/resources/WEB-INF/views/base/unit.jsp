@@ -88,8 +88,7 @@
             {
                 type:"required",
                 validateOnChange: true
-            }],
-            textAlign: "right"
+            }]
         }, {
             name: "nameEN",
             title: "<spring:message code='unit.nameEN'/>",
@@ -101,8 +100,7 @@
             {
                 type:"required",
                 validateOnChange: true
-            }],
-            textAlign: "left"
+            }]
         }, {
             name: "symbol",
             title: "<spring:message code='unit.symbol'/>",
@@ -115,8 +113,7 @@
             keyPressFilter: "[0-4]",
             length: "1",
             hint: "<spring:message code='deghat.ashar'/>",
-            showHintInField: true,
-            textAlign: "left"
+            showHintInField: true
         },{
             type: "RowSpacerItem"
           }]

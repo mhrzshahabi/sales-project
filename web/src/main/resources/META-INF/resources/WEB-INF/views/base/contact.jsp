@@ -366,7 +366,6 @@
                     titleColSpan: 1,
                     wrapTitle: false,
                     hint: "Persian/فارسی",
-                    textAlign: "right",
                     validators: [{
                         type:"required",
                         validateOnChange: true
@@ -381,7 +380,6 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     hint: "Latin",
-                    textAlign: "left",
                     wrapTitle: false,
                     validators: [
                     {
@@ -415,8 +413,7 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false,
-                    textAlign: "left"
+                    wrapTitle: false
                 },
                 {
                     name: "commercialRegistration",
@@ -426,8 +423,7 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false,
-                    textAlign: "left"
+                    wrapTitle: false
                 },
 
                 {
@@ -549,8 +545,7 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false,
-                    textAlign: "left"
+                    wrapTitle: false
                 },
                 {
                     name: "status",
@@ -596,15 +591,13 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }],
-                textAlign: "left"
+                }]
             },
             {
                 name: "mobile",
                 title: "<spring:message code='contact.mobile'/>",
                 width: 500,
-                wrapTitle: false,
-                textAlign: "left"
+                wrapTitle: false
             },
 
             {
@@ -652,8 +645,7 @@
                         expression: "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
                         validateOnChange: true,
                     }
-                ],
-                textAlign: "left"
+                ]
             },
 
             {
@@ -667,8 +659,7 @@
                         expression: ".+\\@.+\\..+",
                         validateOnChange: true,
                     }
-                ],
-                textAlign: "left"
+                ]
             }
         ],
 
@@ -1122,8 +1113,7 @@
                         {
                             type:"required",
                             validateOnChange: true
-                        }],
-                    textAlign: "left"
+                        }]
                 },
                 {
                     name: "bankId",
@@ -1185,8 +1175,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                textAlign: "left"
+                    }]
                 },
                 {
                     name: "bankSwift",
@@ -1200,8 +1189,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                textAlign: "left"
+                    }]
                 },
                 {
                     name: "accountOwner",
@@ -1276,8 +1264,7 @@
                         {
                             type:"required",
                             validateOnChange: true
-                        }],
-                    textAlign: "left"
+                        }]
                 },
                 {
                     name: "bankId",
@@ -1338,8 +1325,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                    textAlign: "left"
+                    }]
                 },
                 {
                     name: "bankSwift",
@@ -1352,8 +1338,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                    textAlign: "left"
+                    }]
                 },
                 {
                     name: "accountOwner",

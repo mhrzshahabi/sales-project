@@ -440,7 +440,6 @@
                         type:"required",
                         validateOnChange: true
                     }],
-                    textAlign: "left",
                     hint: "<spring:message code='global.didit'/>",
                     showHintInField: true,
                 },
@@ -449,7 +448,6 @@
                     title: "<spring:message code='material.descl'/>",
                     type: 'text',
                     width: 400, required: true,
-                    textAlign: "left",
                     length: 200,
                     requiredTitlePrefix: "<span style='color:#ff0842;font-size:22px; padding-left: 2px;'>*</span>",
                     validators: [
@@ -470,8 +468,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                    textAlign: "right"
+                    }]
                 },
                 {
                     name: "unitId",
@@ -1090,7 +1087,6 @@
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     width: 300,
-                    textAlign: "left",
                     hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     validators: [

@@ -1879,7 +1879,6 @@
                     name: "emailBody",
                     title: "<spring:message code='global.emailBody'/>",
                     align: "center",
-                    textAlign: "left",
                     width: "700",
                     type: "textArea",
                     height: 200
@@ -1888,7 +1887,6 @@
                     name: "emailRespond",
                     title: "<spring:message code='global.emailRespond'/>",
                     align: "center",
-                    textAlign: "left",
                     width: "700",
                     type: "textArea",
                     height: 200

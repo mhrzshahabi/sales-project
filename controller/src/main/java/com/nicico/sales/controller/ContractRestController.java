@@ -3,7 +3,9 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.ContractAuditDTO;
 import com.nicico.sales.dto.ContractDTO;
+import com.nicico.sales.iservice.IContractAuditService;
 import com.nicico.sales.iservice.IContractService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ import java.util.List;
 public class ContractRestController {
 
     private final IContractService contractService;
+    private final IContractAuditService contractAuditService;
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -60,6 +63,13 @@ public class ContractRestController {
     public ResponseEntity<Void> delete(@Validated @RequestBody ContractDTO.Delete request) {
         contractService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/spec-list-audit")
+    public ResponseEntity<TotalResponse<ContractAuditDTO.Info>> listAudit(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contractAuditService.search(nicicoCriteria), HttpStatus.OK);
     }
 
     @Loggable

@@ -233,8 +233,7 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }],
-                    textAlign: "left"
+                    }]
                 },
                 {
                     name: "beam",
@@ -243,8 +242,7 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    length: "100",
-                    textAlign: "left"
+                    length: "100"
                 },
                 {
                     name: "arrival",
@@ -259,8 +257,7 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }],
-                    textAlign: "left"
+                    }]
                 },
                 {
                     name: "countryId",

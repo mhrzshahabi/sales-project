@@ -24,6 +24,8 @@ public interface IContractService {
 
     String printContract(Long id);
 
+    String printContract(Long id,Long idDraft);
+
     void delete(ContractDTO.Delete request);
 
     TotalResponse<ContractDTO.Info> search(NICICOCriteria criteria);

@@ -3,6 +3,9 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -11,6 +14,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@Audited
+@AuditOverride(forClass = Auditable.class, isAudited = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTRACT")
@@ -51,6 +56,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactByBuyer"))
 	private Contact contact; // contactByBuyer
 
@@ -59,6 +65,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "SELLER_AGENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactBySellerAgent"))
 	private Contact contactBySellerAgent;
 
@@ -67,6 +74,7 @@ public class Contract extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
     @JoinColumn(name = "CONTACT_INSPECTION_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT))
     private Contact contactInspection;
 
@@ -75,6 +83,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "BUYER_AGENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactByBuyerAgent"))
 	private Contact contactByBuyerAgent;
 
@@ -83,6 +92,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "SELLER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactBySeller"))
 	private Contact contactBySeller;
 
@@ -91,6 +101,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "DEFINITION_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contract2parmtrByDefinitin"))
 	private Parameters parameterByDefinition;
 
@@ -99,6 +110,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "INCOTERMS_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contract2incoterm"))
 	private Incoterms incoterms;
 
@@ -239,6 +251,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "PORT_SOURCE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2PortBySourcePortId"))
 	private Port portByPortSource;
 
@@ -247,6 +260,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2materialByMaterialId"))
 	private Material material;
 
@@ -258,6 +272,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2unitByUnitId"))
 	private Unit unit;
 

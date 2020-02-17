@@ -264,8 +264,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                    textAlign: "right"
+                    }]
                 },
                 {
                     name: "enBankName",
@@ -278,8 +277,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                    textAlign: "left"
+                    }]
                 },
                 {
                     name: "address",

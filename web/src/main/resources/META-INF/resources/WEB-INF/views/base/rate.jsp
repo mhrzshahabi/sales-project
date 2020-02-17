@@ -97,8 +97,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                    textAlign: "right"
+                    }]
                 },
                 {
                     name: "nameEN",
@@ -111,8 +110,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                    textAlign: "left"
+                    }]
                 },
                 {
                     name: "symbol",
@@ -134,8 +132,7 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }],
-                    textAlign: "left"
+                        }]
                 },
                 {
                     type: "RowSpacerItem"

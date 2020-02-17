@@ -59,7 +59,6 @@
                     type:"required",
                     validateOnChange: true
                 }],
-                textAlign: "left",
                 readonly: true,
                 width: "90%",
                 wrapTitle: false

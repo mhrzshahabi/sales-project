@@ -75,8 +75,7 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
                 keyPressFilter: "[0-9.]",
                 showTitle: false,
                 startRow: false,
-                width: "100",
-                textAlign: "left"
+                width: "100"
             },
             {
                 name: "unitCu",
@@ -108,8 +107,7 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
                 keyPressFilter: "[0-9.]",
                 showTitle: false,
                 startRow: false,
-                width: "100",
-                textAlign: "left"
+                width: "100"
             },
             {
                 name: "unitMo",
@@ -409,8 +407,7 @@ var dynamicForm_article9Conc = isc.DynamicForm.create({
                 title:"What is the value of TC",
                 startRow: true,
                 width: "100",
-                keyPressFilter: "[0-9.]",
-                textAlign: "left"
+                keyPressFilter: "[0-9.]"
             },
             {
                 name: "RC",

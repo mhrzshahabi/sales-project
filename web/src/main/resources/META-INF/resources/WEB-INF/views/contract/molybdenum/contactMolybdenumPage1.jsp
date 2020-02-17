@@ -906,7 +906,6 @@ Window_ContactMo = isc.Window.create({
                     type:"required",
                     validateOnChange: true
                 }],
-                textAlign: "left",
                 readonly: true,
                 width: "90%",
                 wrapTitle: false
@@ -1443,8 +1442,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                     article2_1.setValue("article2_13_1",value);
                     dynamicForm_article3_3.setValue("article3_number17_4",value);
                     dynamicForm_article3.setValue("article3_number17_9", value);
-                },
-                textAlign: "left"
+                }
             },
             {
                 type: "text",
@@ -1735,8 +1733,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 width: "50",
                 startRow: false,
                 keyPressFilter: "[0-9.]",
-                title: '(',
-                textAlign: "left"
+                title: '('
             }, {
                 type: "text",
                 name: "article3_number17_9",
@@ -1954,7 +1951,6 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 showHintInField: true,
                 startRow: false,
                 title: '+/-', keyPressFilter: "[0-9.]",
-                textAlign: "left",
                 changed: function (form, item, value) {
                     dynamicForm_article3.setValue("article3_number17_9", value);
                     dynamicForm_article5_number29_1.setValue("article5_number29_3", value);

@@ -283,7 +283,8 @@ var ListGrid_Cad = isc.ListGrid.create({
                                         buttonClick: function () {
                                             this.hide();
                                         }});
-        } else {
+            } else {
+            methodHtpp="PUT";
             criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
             Window_ContactCad.show();
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {

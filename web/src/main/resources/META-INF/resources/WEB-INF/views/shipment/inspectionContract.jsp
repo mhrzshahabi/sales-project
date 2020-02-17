@@ -591,7 +591,7 @@
         height: "100%",
         layoutMargin: 30,
         membersMargin: 5,
-        textAlign: "center",
+        ``
         align: "center",
         members: [
             IButton_InspectionContract_Save,
@@ -803,7 +803,6 @@
         height: "400",
         setMethod: 'POST',
         align: "center",
-        textAlign: "left",
         canSubmit: true,
         errorOrientation: "bottom",
         showInlineErrors: true,
@@ -826,8 +825,7 @@
                 name: "shipment.id",
                 title: "<spring:message code='contact.name'/>",
                 align: "right",
-                hidden: true,
-                textAlign: "left"
+                hidden: true
             },
             {
                 autoCenter: true,
@@ -885,7 +883,6 @@
                 type: 'text',
                 width: "650",
                 align: "left",
-                textAlign: "left",
                 required: true,
                 validators: [{
                     type: "regexp",

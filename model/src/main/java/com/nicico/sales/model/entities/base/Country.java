@@ -9,6 +9,8 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
@@ -18,6 +20,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
+@Audited
+@AuditOverride(forClass = Auditable.class, isAudited = true)
 @Entity
 @Table(name = "TBL_COUNTRY")
 public class Country extends Auditable {

@@ -178,8 +178,7 @@
                     {
                         type:"required",
                         validateOnChange: true
-                    }],
-                    textAlign: "left"
+                    }]
                 },
                 {
                     name: "eurUsd",
@@ -189,8 +188,7 @@
                     keyPressFilter: "[0-9.]",
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
-                    showHintInField: true,
-                    textAlign: "left"
+                    showHintInField: true
                 },
                 {
                     name: "aedUsd",
@@ -200,8 +198,7 @@
                     keyPressFilter: "[0-9.]",
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
-                    showHintInField: true,
-                    textAlign: "left"
+                    showHintInField: true
                 },
                 {
                     name: "rmbUsd",

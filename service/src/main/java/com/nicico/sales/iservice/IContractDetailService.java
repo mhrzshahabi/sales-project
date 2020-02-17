@@ -10,6 +10,8 @@ public interface IContractDetailService {
 
     ContractDetailDTO.Info get(Long id);
 
+    ContractDetailDTO.Info findByContractID(Long id);
+
     List<ContractDetailDTO.Info> list();
 
     ContractDetailDTO FindByContractID(Long id);
