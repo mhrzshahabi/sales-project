@@ -644,13 +644,13 @@
                     }
                 },
                 {isSeparator: true},
-                {
+                /*{
                     title: "<spring:message code='charter.title'/>",
                     click: function () {
                         createTab("<spring:message code='charter.title'/>", "<spring:url value="/shipmentContract/showForm" />")
                     }
                 },
-                {isSeparator: true},
+                {isSeparator: true},*/
                 {
                     title: "<spring:message code='contractPerson.title'/>",
                     click: function () {
@@ -780,8 +780,7 @@
                     click: function () {
                         createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")
                     }
-                },
-                {isSeparator: true},
+                }
             ]
         })
     });
@@ -869,7 +868,7 @@
             contractsTab,
             shipmentTab,
             financialTab,
-            inspectionTab,
+            // inspectionTab,
             productTab,
             settingTab,
         ]
