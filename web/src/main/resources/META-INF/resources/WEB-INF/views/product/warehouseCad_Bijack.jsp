@@ -312,8 +312,8 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
-                        if (record.issueId !== undefined) {
+                    if (index == 0) {
+                        if (record.issueId != undefined) {
                             isc.warn("can't remove. item is not in inventory.");
                             return;
                         }
@@ -321,7 +321,7 @@
                             actionURL: "${contextPath}/api/warehouseCadItem/" + record.id,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     isc.say("<spring:message code='global.form.request.successful'/>.");
                                     ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.invalidateCache();
                                     ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id},
@@ -338,12 +338,12 @@
         },
         saveEdits: function () {
             var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditRow());
-            if (warehouseCadItemRecord.issueId !== undefined) {
-                isc.warn("can't edit. item is not in inventory.");
+            if (warehouseCadItemRecord.issueId != undefined) {
+                isc.warn("<spring:message code='bijack.item.inventory'/>");
                 return;
             }
 
-            if (warehouseCadItemRecord.bundleSerial !== undefined && warehouseCadItemRecord.sheetNo !== undefined && warehouseCadItemRecord.weightKg !== undefined &&
+            if (warehouseCadItemRecord.bundleSerial != undefined && warehouseCadItemRecord.sheetNo != undefined && warehouseCadItemRecord.weightKg != undefined &&
                 warehouseCadItemRecord.bundleSerial != null && warehouseCadItemRecord.sheetNo != null && warehouseCadItemRecord.weightKg != null) {
 
                 warehouseCadItemRecord.warehouseCadId = ListGrid_warehouseCAD.getSelectedRecord().id;
@@ -355,7 +355,7 @@
                     httpMethod: method,
                     data: JSON.stringify(warehouseCadItemRecord),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>.");
                             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.setData([]);
                             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.fetchData({"warehouseCadId": ListGrid_warehouseCAD.getSelectedRecord().id},
@@ -663,7 +663,7 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") === undefined) {
+            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
                 DynamicForm_warehouseCAD.validate()
                 return;
@@ -679,18 +679,18 @@
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.selectAllRecords();
 
-            if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.data.length === 0) {
+            if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.data.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getSelectedRecords().forEach(function (element) {
-                if (element.bundleSerial !== undefined && element.sheetNo !== undefined && element.weightKg !== undefined &&
+                if (element.bundleSerial != undefined && element.sheetNo != undefined && element.weightKg != undefined &&
                     element.bundleSerial != null && element.sheetNo != null && element.weightKg != null)
                     warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
-            if (warehouseCadItems.length === 0) {
+            if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }
@@ -709,7 +709,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data_WarehouseCad),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_warehouseCAD_refresh();
                             Window_Bijack.close();

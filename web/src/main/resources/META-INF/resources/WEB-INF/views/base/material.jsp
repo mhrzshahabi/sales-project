@@ -278,7 +278,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Material_refresh();
                             Window_Material.close();
@@ -343,13 +343,13 @@
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var materialId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/material/" + materialId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Material_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -680,7 +680,7 @@
             }, {operationId: "00"});
 
             ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                if (data.length === 0) {
+                if (data.length == 0) {
                     recordNotFound.show();
                     ListGrid_MaterialItem.hide()
                 } else {
@@ -822,14 +822,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var MaterialFeatureId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/materialFeature/" + MaterialFeatureId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_MaterialFeature_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -1258,7 +1258,7 @@
                         httpMethod: methodXXXX,
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_MaterialFeature_refresh();
                                 Window_MaterialFeature.close();
@@ -1630,14 +1630,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var MaterialItemId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/materialItem/" + MaterialItemId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_MaterialItem_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -1863,7 +1863,7 @@
                         httpMethod: methodXXXX,
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_MaterialItem.invalidateCache();
                                 setCriteria_ListGrid(data.materialId)

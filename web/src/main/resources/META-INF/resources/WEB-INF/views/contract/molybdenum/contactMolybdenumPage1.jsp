@@ -2269,7 +2269,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 },
             ],saveEdits: function () {
                 var ContractItemShipmentRecord = ListGrid_ContractItemShipment.getEditedRecord(ListGrid_ContractItemShipment.getEditRow());
-                if(ListGrid_ContractItemShipment.getSelectedRecord() === null){
+                if(ListGrid_ContractItemShipment.getSelectedRecord() == null){
                         return;
                 }else{
                      var dateSendMol= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
@@ -2302,7 +2302,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                             httpMethod: "DELETE",

@@ -168,12 +168,12 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/contract/" + record.id,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     ListGrid_Contract_refresh();
                                 } else {

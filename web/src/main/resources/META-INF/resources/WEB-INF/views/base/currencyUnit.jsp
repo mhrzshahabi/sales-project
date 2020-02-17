@@ -141,7 +141,7 @@
                         data: JSON.stringify(data),
                         serverOutputAsString: false,
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.data === 'success') {
+                            if (RpcResponse_o.data == 'success') {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_CurrencyUnit_refresh();
                                 Window_CurrencyUnit.close();
@@ -233,7 +233,7 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var currencyUnitId = record.id;
                             isc.RPCManager.sendRequest(
                                 {
@@ -244,7 +244,7 @@
                                     showPrompt: true,
                                     serverOutputAsString: false,
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.data === 'success') {
+                                        if (RpcResponse_o.data == 'success') {
                                             ListGrid_CurrencyUnit.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         } else {

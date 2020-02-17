@@ -276,7 +276,7 @@
         };
 
         ListGrid_WarehouseIssueMo.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            if (data.length === 0) {
+            if (data.length == 0) {
                 recordNotFound.show();
                 ListGrid_WarehouseIssueMo.hide()
             } else {
@@ -642,13 +642,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var WarehouseIssueMoId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/warehouseIssueMo/" + WarehouseIssueMoId,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_WarehouseIssueMo_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -993,7 +993,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseIssueMo_refresh();
                             setCriteria_ListGrid(data.shipmentId)

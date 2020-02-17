@@ -312,8 +312,8 @@
                 ],
                 buttonClick: function (button, index) {
                 this.hide();
-                if (index === 0) {
-                    if (record.issueId !== undefined) {
+                if (index == 0) {
+                    if (record.issueId != undefined) {
             isc.warn("can't remove. item is not in inventory.");
             return;
             }
@@ -338,8 +338,8 @@
         },
         saveEdits: function () {
             var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getEditRow());
-            if (warehouseCadItemRecord.issueId !== undefined) {
-                isc.warn("can't edit. item is not in inventory.");
+            if (warehouseCadItemRecord.issueId != undefined) {
+                isc.warn("<spring:message code='bijack.item.inventory'/>");
                 return;
             }
 
@@ -594,7 +594,7 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            if(DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")===undefined){
+            if(DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")==undefined){
                     isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
                     DynamicForm_warehouseCAD.validate()
                     return;
@@ -610,12 +610,12 @@
             ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.selectAllRecords();
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getSelectedRecords().forEach(function (element) {
-                if (element.lotName !== undefined && element.barrelNo !== undefined && element.weightKg !== undefined &&
-                    element.lotName !== null && element.barrelNo !== null && element.weightKg !== null)
+                if (element.lotName != undefined && element.barrelNo != undefined && element.weightKg != undefined &&
+                    element.lotName != null && element.barrelNo != null && element.weightKg != null)
                 warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
-            if (warehouseCadItems.length === 0) {
+            if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }
@@ -636,7 +636,7 @@
                 httpMethod: method,
                 data: JSON.stringify(data_WarehouseCad),
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_warehouseCAD_refresh();
                         Window_Bijack.close();

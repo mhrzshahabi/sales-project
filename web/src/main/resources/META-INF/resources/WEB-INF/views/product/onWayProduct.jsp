@@ -428,17 +428,17 @@
             icon: "product/warehouses.png",
             click: function () {
                 var record = ListGrid_Tozin.getSelectedRecord();
-                if (record.codeKala === 9 || record.codeKala === 10 || record.codeKala === 11 ||
-                    record.codeKala === 114 || record.codeKala === 129 || record.codeKala === 86 ||
-                    record.codeKala === 90 || record.codeKala === 95) {
+                if (record.codeKala == 9 || record.codeKala == 10 || record.codeKala == 11 ||
+                    record.codeKala == 114 || record.codeKala == 129 || record.codeKala == 86 ||
+                    record.codeKala == 90 || record.codeKala == 95) {
                     BijackViewLoader.setViewURL("tozin/showWarehouseCadForm");
                     Window_Bijack.show();
                 }
-                if (record.codeKala === 97 || record.codeKala === 100) {
+                if (record.codeKala == 97 || record.codeKala == 100) {
                     BijackViewLoader.setViewURL("tozin/showWarehouseMoForm");
                     Window_Bijack.show();
                 }
-                if (record.codeKala === 8) {
+                if (record.codeKala == 8) {
                     BijackViewLoader.setViewURL("tozin/showWarehouseConcForm");
                     Window_Bijack.show();
                 }
@@ -502,7 +502,7 @@
         click: function () {
             const fieldsGrid = ListGrid_Tozin.getFields().filter(
                 function (q) {
-                    return q.name.toString().toLowerCase() !== 'grouptitle'
+                    return q.name.toString().toLowerCase() != 'grouptitle'
                 });
             const fields = fieldsGrid.map(function (f) {
                 return f.name
@@ -538,7 +538,7 @@
             const filterEditorCriteria = ListGrid_Tozin.getCriteria();
             const criterias = [];
             filterEditorCriteria.criteria.forEach(function (key, index) {
-                if (key.fieldName.toString() !== 'onWayProduct') criterias.add(key);
+                if (key.fieldName.toString() != 'onWayProduct') criterias.add(key);
             });
             filterEditorCriteria.criteria = criterias;
             const criteria = JSON.stringify(filterEditorCriteria);
@@ -558,7 +558,7 @@
         icon: "icon/search.png",
         click: function () {
             var criteria;
-            if (DynamicForm_DailyReport_Tozin4.getValues().type === 'جاده ای') {
+            if (DynamicForm_DailyReport_Tozin4.getValues().type == 'جاده ای') {
                 criteria = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -602,7 +602,7 @@
                 };
             }
 
-            if (DynamicForm_DailyReport_Tozin4.getValues().type === 'ریلی') {
+            if (DynamicForm_DailyReport_Tozin4.getValues().type == 'ریلی') {
                 criteria = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",

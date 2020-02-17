@@ -268,7 +268,7 @@
         };
 
         ListGrid_WarehouseIssueCathode.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            if (data.length === 0) {
+            if (data.length == 0) {
                 recordNotFound.show();
                 ListGrid_WarehouseIssueCathode.hide()
             } else {
@@ -623,13 +623,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var WarehouseIssueCathodeId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/warehouseIssueCathode/" + WarehouseIssueCathodeId,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_WarehouseIssueCathode_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -692,7 +692,7 @@
                     actionURL: "${contextPath}/api/warehouseCadItem/spec-list-ids/" + ids,
                     httpMethod: "GET",
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             var data = JSON.parse(RpcResponse_o.data);
                             warehouseIssueCathode_bijak_show(data);
                         } //if rpc
@@ -1144,7 +1144,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseIssueCathode_refresh();
                             setCriteria_ListGrid_InsperctionContract(data.shipmentId)

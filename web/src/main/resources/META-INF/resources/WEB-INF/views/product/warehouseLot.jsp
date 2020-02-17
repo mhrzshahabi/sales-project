@@ -392,7 +392,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             Window_WarehouseLot.close();
                             ListGrid_WarehouseLot.invalidateCache();

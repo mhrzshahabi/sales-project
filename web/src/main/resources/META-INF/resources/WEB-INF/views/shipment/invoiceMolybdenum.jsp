@@ -62,7 +62,7 @@
        DynamicForm_Invoice_Molybdenum_setValue('commercialInvoceValue',am)	; // calling to compute invoice
 	}
 	function precise_round(num, dec){
-        if ((typeof num !== 'number') || (typeof dec !== 'number'))
+        if ((typeof num != 'number') || (typeof dec != 'number'))
             return false;
         var num_sign = num >= 0 ? 1 : -1;
         return (Math.round((num*Math.pow(10,dec))+(num_sign*0.0001))/Math.pow(10,dec)).toFixed(dec);
@@ -762,7 +762,7 @@
                 httpMethod: method,
                 data: dataOut,
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Invoice_refresh();
                         Window_Molybdenum.close();

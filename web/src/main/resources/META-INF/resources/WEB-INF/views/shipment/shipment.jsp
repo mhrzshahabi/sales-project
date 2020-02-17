@@ -247,7 +247,7 @@
 
     function check_Shipment_Print() {
         record = ListGrid_Shipment.getSelectedRecord();
-        if (record === null) {
+        if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
             "<spring:url value="/shipment/print/" var="printUrl"/>";
@@ -379,7 +379,7 @@
                     DynamicForm_Shipment.setValue("contractShipmentId", record.cisId);
                     DynamicForm_Shipment1.setValue("portByDischargeId", record.dischargeID);
                     DynamicForm_Shipment1.setValue("dischargeAddress", record.dischargeAddress);
-                    if (record.code === 'FOB') {
+                    if (record.code == 'FOB') {
                         DynamicForm_Shipment2.getItem("freight").setRequired(false);
                         DynamicForm_Shipment2.getItem("totalFreight").setRequired(false);
                     } else {
@@ -977,13 +977,13 @@
 
             var dataShipment = Object.assign(DynamicForm_Shipment.getValues());
             var methodXXXX = "PUT";
-            if ((dataShipment.id == null) || (dataShipment.id === 'undefiend')) methodXXXX = "POST";
+            if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/shipment/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(dataShipment),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Shipment_refresh();
                             Window_Shipment.close();
@@ -1137,13 +1137,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var shipmentId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/shipment/" + shipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Shipment.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -1178,7 +1178,7 @@
             DynamicForm_Shipment.setValue("createDate", new Date(record.createDate));
             DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
             DynamicForm_Shipment1.setValue("blDate", new Date(record.blDate));
-            if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA === 'undefiend'))
+            if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA == 'undefiend'))
                 Shipment_contact_name.setContents(record.contract.contact.nameFA);
             abal.hide();
             Window_Shipment.animateShow();
@@ -1646,7 +1646,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ShipmentEmail_refresh();
                             Window_ShipmentEmail.close();
@@ -1783,7 +1783,7 @@
                                 title: "<spring:message code='global.ok'/>",
                                 click: function () {
                                     var selectedPerson = ListGrid_Person_EmailCC.getSelection();
-                                    if (selectedPerson.length === 0) {
+                                    if (selectedPerson.length == 0) {
                                         Window_ShipmentEmailCC.close();
                                         return;
                                     }
@@ -1802,7 +1802,7 @@
                                                 if (oldPersons[j] == selectedPerson[i].email)
                                                     notIn = false;
                                         if (notIn)
-                                            persons = (persons === "" ? persons : persons + ",") + selectedPerson[i].email;
+                                            persons = (persons == "" ? persons : persons + ",") + selectedPerson[i].email;
                                     }
                                     DynamicForm_ShipmentEmail.setValue("emailCC", persons);
                                     Window_ShipmentEmailCC.close();

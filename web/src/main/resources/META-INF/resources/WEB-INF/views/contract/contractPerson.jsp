@@ -131,13 +131,13 @@
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var contractPersonId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/contractPerson/" + contractPersonId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_ContractPerson.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -272,7 +272,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ContractPerson_refresh();
                             Window_ContractPerson.close();

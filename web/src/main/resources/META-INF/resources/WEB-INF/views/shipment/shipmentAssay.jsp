@@ -721,7 +721,7 @@
                                         httpMethod: methodXXXX,
                                         data: JSON.stringify(data),
                                         callback: function (RpcResponse_o) {
-                                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                                 ListGrid_ShipmentAssayItem_refresh();
                                                 PasteDialogShipmentAssayItem_windows.close();
@@ -765,7 +765,7 @@
         };
 
         ListGrid_ShipmentAssayHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-        if (data.length === 0) {
+        if (data.length == 0) {
         recordNotFound.show();
         ListGrid_ShipmentAssayHeader.hide()
         } else {
@@ -1244,7 +1244,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                 httpMethod: methodXXXX,
                 data: JSON.stringify(data),
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_ShipmentAssayHeader_refresh();
                         Window_ShipmentAssayHeader.close();
@@ -1337,13 +1337,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                 }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var shipmentId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/shipmentAssayHeader/" + shipmentId,
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_ShipmentAssayHeader_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -1769,7 +1769,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                 httpMethod: methodXXXX,
                 data: JSON.stringify(data),
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_ShipmentAssayItem_refresh();
                         Window_ShipmentAssayItem.close();
@@ -1823,7 +1823,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
 
     function ListGrid_ShipmentAssayItem_remove() {
         var selected = ListGrid_ShipmentAssayItem.getSelection();
-        if (selected == null || selected.length === 0) {
+        if (selected == null || selected.length == 0) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
                 icon: "[SKIN]ask.png",
@@ -1848,12 +1848,12 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             ],
             buttonClick: function (button, index) {
                 this.hide();
-                if (index === 0) {
+                if (index == 0) {
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         actionURL: "${contextPath}/api/shipmentAssayItem/list/" + ids,
                         httpMethod: "DELETE",
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 ListGrid_ShipmentAssayItem_refresh();
                                 isc.say("<spring:message code='global.grid.record.remove.success'/>");
                             } else {

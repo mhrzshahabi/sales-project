@@ -156,7 +156,7 @@
         };
 
         ListGrid_Cost.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            if (data.length === 0) {
+            if (data.length == 0) {
                 recordNotFound.show();
                 ListGrid_Cost.hide()
             } else {
@@ -473,7 +473,7 @@
             DynamicForm_Cost.clearValues();
             DynamicForm_Cost.setValue("sourceInspectorId", record.sourceInspectorId);
             DynamicForm_Cost.editRecord(record);
-            if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
+            if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Copper Concentrate') {
                 DynamicForm_Cost.getItem("sourceCopper").show();
                 DynamicForm_Cost.getItem("destinationCopper").show();
                 DynamicForm_Cost.getItem("sourceGold").show();
@@ -482,7 +482,7 @@
                 DynamicForm_Cost.getItem("destinationSilver").show();
                 DynamicForm_Cost.getItem("sourceMolybdenum").hide();
                 DynamicForm_Cost.getItem("destinationMolybdenum").hide();
-            } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+            } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Molybdenum Oxide') {
                 DynamicForm_Cost.getItem("sourceCopper").hide();
                 DynamicForm_Cost.getItem("destinationCopper").hide();
                 DynamicForm_Cost.getItem("sourceGold").hide();
@@ -530,13 +530,13 @@
                 }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var CostId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/cost/" + record.id,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_Cost_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -579,7 +579,7 @@
                     } else {
                         DynamicForm_Cost.clearValues();
                         DynamicForm_Cost.setValue("shipmentId", record.id);
-                        if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
+                        if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Copper Concentrate') {
                             DynamicForm_Cost.getItem("sourceCopper").show();
                             DynamicForm_Cost.getItem("destinationCopper").show();
                             DynamicForm_Cost.getItem("sourceGold").show();
@@ -588,7 +588,7 @@
                             DynamicForm_Cost.getItem("destinationSilver").show();
                             DynamicForm_Cost.getItem("sourceMolybdenum").hide();
                             DynamicForm_Cost.getItem("destinationMolybdenum").hide();
-                        } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+                        } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Molybdenum Oxide') {
                             DynamicForm_Cost.getItem("sourceCopper").hide();
                             DynamicForm_Cost.getItem("destinationCopper").hide();
                             DynamicForm_Cost.getItem("sourceGold").hide();
@@ -1105,7 +1105,7 @@
             } else {
                 DynamicForm_Cost.clearValues();
                 DynamicForm_Cost.setValue("shipmentId", record.id);
-                if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Copper Concentrate') {
+                if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Copper Concentrate') {
                     DynamicForm_Cost.getItem("sourceCopper").show();
                     DynamicForm_Cost.getItem("destinationCopper").show();
                     DynamicForm_Cost.getItem("sourceGold").show();
@@ -1114,7 +1114,7 @@
                     DynamicForm_Cost.getItem("destinationSilver").show();
                     DynamicForm_Cost.getItem("sourceMolybdenum").hide();
                     DynamicForm_Cost.getItem("destinationMolybdenum").hide();
-                } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl === 'Molybdenum Oxide') {
+                } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Molybdenum Oxide') {
                     DynamicForm_Cost.getItem("sourceCopper").hide();
                     DynamicForm_Cost.getItem("destinationCopper").hide();
                     DynamicForm_Cost.getItem("sourceGold").hide();
@@ -1215,7 +1215,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             Window_Cost.close();
                             ListGrid_Cost.invalidateCache();

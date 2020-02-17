@@ -700,7 +700,7 @@
         let Val_inspector = DynamicForm_Contact_GeneralInfo.getValue("inspector");
         let Val_insurancer = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
         let Val_all = [Val_seller, Val_buyer, Val_agentSeller, Val_agentBuyer, Val_transporter, Val_shipper, Val_inspector, Val_insurancer].values();
-        if (ValuesManager_Contact !== null) {
+        if (ValuesManager_Contact != null) {
             ValuesManager_Contact.validate();
             if (DynamicForm_Contact_GeneralInfo.hasErrors())
                 contactTabs.selectTab(0);
@@ -708,7 +708,7 @@
                 contactTabs.selectTab(1);
             else {
                 for (let chap of Val_all) {
-                    if (chap === true) {
+                    if (chap == true) {
                         var contactData = Object.assign(ValuesManager_Contact.getValues());
                         var httpMethod = "PUT";
                         if (contactData.id == null)
@@ -718,7 +718,7 @@
                             httpMethod: httpMethod,
                             data: JSON.stringify(contactData),
                             callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_Contact.invalidateCache();
                                     isc.say("<spring:message code='global.form.request.successful'/>");
                                     Window_Contact.close();
@@ -831,14 +831,14 @@
                     ],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var contactId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/contact/" + contactId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_Contact.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -1406,7 +1406,7 @@
                                 parentId: data["contactId"]
                             },
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 ContactAccount_CreateDynamicForm.clearValues();
                                 ListGrid_ContactAccount.invalidateCache();
                                 ListGrid_Contact.invalidateCache();
@@ -1437,7 +1437,7 @@
                         httpMethod: "PUT",
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 ListGrid_ContactAccount.invalidateCache();
                                 ListGrid_Contact.invalidateCache();
                                 isc.say("<spring:message code='global.form.request.successful'/>");
@@ -1556,7 +1556,7 @@
                                 ],
                                 buttonClick: function (button, index) {
                                     this.hide();
-                                    if (index === 0) {
+                                    if (index == 0) {
                                         if (record.isDefault) {
                                             isc.warn("<spring:message code='exception.DeleteDefaultAccount'/>");
                                             return;
@@ -1567,7 +1567,7 @@
                                                 actionURL: "${contextPath}/api/contactAccount/" + contactAccountId,
                                                 httpMethod: "DELETE",
                                                 callback: function (RpcResponse_o) {
-                                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                                         ListGrid_ContactAccount.invalidateCache();
                                                         ListGrid_Contact.invalidateCache();
                                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");

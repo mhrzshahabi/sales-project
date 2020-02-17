@@ -148,14 +148,14 @@
                     ],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var BankId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/bank/" + BankId,
                                     httpMethod: "DELETE",
                                     callback: function (resp) {
-                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                             ListGrid_Bank_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -464,7 +464,7 @@
                         httpMethod: method,
                         data: JSON.stringify(data),
                         callback: function (resp) {
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Bank_refresh();
                                 Window_Bank.close();

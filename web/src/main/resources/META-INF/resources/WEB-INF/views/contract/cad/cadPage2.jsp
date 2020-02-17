@@ -186,7 +186,7 @@ var buttonAddItem=isc.IButton.create({
                 },
             ],saveEdits: function () {
                 var ContractItemShipmentRecord = ListGrid_ContractItemShipment.getEditedRecord(ListGrid_ContractItemShipment.getEditRow());
-                if(ListGrid_ContractItemShipment.getSelectedRecord() === null){
+                if(ListGrid_ContractItemShipment.getSelectedRecord() == null){
                         return;
                 }else{
                      var dateSendCad= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
@@ -196,7 +196,7 @@ var buttonAddItem=isc.IButton.create({
                         httpMethod: "PUT",
                         data: JSON.stringify(ContractItemShipmentRecord),
                         callback: function (resp) {
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_ContractItemShipment.setData([]);
                                 ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
@@ -217,12 +217,12 @@ var buttonAddItem=isc.IButton.create({
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                             httpMethod: "DELETE",
                             callback: function (resp) {
-                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                     ListGrid_ContractItemShipment.invalidateCache();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {

@@ -358,7 +358,7 @@
 
         ListGrid_InspectionContract.fetchData(criteria1, function (dsResponse, data, dsRequest) {
 
-            if (data.length === 0) {
+            if (data.length == 0) {
                 recordNotFound.show();
                 ListGrid_InspectionContract.hide()
             } else {
@@ -561,7 +561,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             Window_InspectionContract.hide();
                             ListGrid_InspectionContract.invalidateCache();
@@ -644,7 +644,7 @@
                     buttonClick: function (button, index) {
                         this.hide();
 
-                        if (index === 0) {
+                        if (index == 0) {
                             var inspectionContractId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
@@ -652,7 +652,7 @@
                                     httpMethod: "DELETE",
                                     serverOutputAsString: false,
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_InspectionContract.invalidateCache();
                                             setCriteria_ListGrid_InsperctionContract(record.shipmentId)
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
@@ -670,7 +670,7 @@
     function check_Insp_Print() {
         var record = ListGrid_InspectionContract.getSelectedRecord();
 
-        if (record === null) {
+        if (record == null) {
             isc.say("<spring:message code='global.grid.print.inspection'/>");
         } else {
             "<spring:url value="/inspectionContract/print/" var="printUrl"/>";
@@ -767,7 +767,7 @@
                                 title: "<spring:message code='global.ok'/>",
                                 click: function () {
                                     var selectedPerson = ListGrid_PersonByInspectionContract_EmailCC.getSelection();
-                                    if (selectedPerson.length === 0) {
+                                    if (selectedPerson.length == 0) {
 
                                         Window_InspectionContractEmailCC.close();
                                         return;
@@ -783,7 +783,7 @@
                                     for (i = 0; i < selectedPerson.length; i++) {
                                         notIn = true;
                                         if (notIn)
-                                            persons = (persons === "" ? persons : persons + ",") + selectedPerson[i].email;
+                                            persons = (persons == "" ? persons : persons + ",") + selectedPerson[i].email;
                                     }
                                     DynamicForm_InspectionContract.setValue("emailCC", persons);
                                     Window_InspectionContractEmailCC.close();

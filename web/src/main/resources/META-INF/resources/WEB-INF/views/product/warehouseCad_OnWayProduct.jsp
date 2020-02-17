@@ -294,7 +294,7 @@
                 buttonClick: function (button, index) {
                     this.hide();
 
-                    if (index === 0) {
+                    if (index == 0) {
                         ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.data.remove(record);
                     }
 
@@ -594,7 +594,7 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") === undefined) {
+            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
                 DynamicForm_warehouseCAD.validate()
                 return;
@@ -610,8 +610,8 @@
             var notComplete = 0;
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getAllEditRows().forEach(function (element) {
                 var record = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getEditedRecord(JSON.parse(JSON.stringify(element)));
-                if (record.productLabel !== undefined && record.sheetNumber !== undefined && record.wazn !== undefined &&
-                    record.productLabel !== null && record.sheetNumber !== null && record.wazn !== null) {
+                if (record.productLabel != undefined && record.sheetNumber != undefined && record.wazn != undefined &&
+                    record.productLabel != null && record.sheetNumber != null && record.wazn != null) {
                     warehouseCadItems.add(record);
                 }
                 else {
@@ -624,13 +624,13 @@
                 warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
-            if (notComplete !== 0) {
+            if (notComplete != 0) {
                 isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
                 return;
             }
 
             console.log(warehouseCadItems);
-            if (warehouseCadItems.length === 0) {
+            if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }
@@ -658,7 +658,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data_WarehouseCad),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Tozin_refresh();
                             Window_Bijack.close();
