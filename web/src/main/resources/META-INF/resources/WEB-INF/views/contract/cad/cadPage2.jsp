@@ -275,8 +275,9 @@ var article6_quality = isc.DynamicForm.create({
                 required: true,
                 validators: [
                 {
-                type:"required",
-                validateOnChange: true }],
+                    type:"required",
+                    validateOnChange: true
+                }],
                 type: 'long',
                 numCols: 4,
                 editorType: "SelectItem",

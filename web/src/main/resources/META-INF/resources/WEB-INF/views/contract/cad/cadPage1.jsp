@@ -58,8 +58,10 @@
                 required: true,
                 validators: [
                 {
-                type:"required",
-                validateOnChange: true }],
+                    type:"required",
+                    validateOnChange: true
+                }],
+                textAlign: "left",
                 readonly: true,
                 width: "90%",
                 wrapTitle: false
@@ -271,8 +273,9 @@
                 required: true,
                 validators: [
                 {
-                type:"required",
-                validateOnChange: true }],
+                    type:"required",
+                    validateOnChange: true
+                }],
                 autoFetchData: false,
                 title: "<spring:message code='contact.commercialRole.buyer'/>",
                 width: "600",
@@ -387,8 +390,9 @@
                 required: true,
                 validators: [
                 {
-                type:"required",
-                validateOnChange: true }],
+                    type:"required",
+                    validateOnChange: true
+                }],
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 displayField: "nameFA",
