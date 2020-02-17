@@ -903,8 +903,10 @@ Window_ContactMo = isc.Window.create({
                 required: true,
                 validators: [
                 {
-                type:"required",
-                validateOnChange: true }],
+                    type:"required",
+                    validateOnChange: true
+                }],
+                textAlign: "left",
                 readonly: true,
                 width: "90%",
                 wrapTitle: false
@@ -1404,7 +1406,8 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 keyPressFilter: "[0-9.]", ///article2_number10
                 changed: function (form, item, value) {
                     article2Mo.setValue("amount_en", numberToEnglish(value))
-                    }
+                    },
+                textAlign: "left"
             },
             {
                 type: "text", styleName: "textToLable", width: "200",
@@ -1440,7 +1443,8 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                     article2_1.setValue("article2_13_1",value);
                     dynamicForm_article3_3.setValue("article3_number17_4",value);
                     dynamicForm_article3.setValue("article3_number17_9", value);
-                }
+                },
+                textAlign: "left"
             },
             {
                 type: "text",
@@ -1480,7 +1484,8 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 name: "article2_13_1",
                 width: "50",
                 startRow: false, keyPressFilter: "[0-9.]",
-                title: '<b><font size=2px>THE TOLERENCE OF +/-%</font><b>'
+                title: '<b><font size=2px>THE TOLERENCE OF +/-%</font><b>',
+                textAlign: "left"
             },
             {
                 type: "text",
@@ -1730,14 +1735,16 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 width: "50",
                 startRow: false,
                 keyPressFilter: "[0-9.]",
-                title: '('
+                title: '(',
+                textAlign: "left"
             }, {
                 type: "text",
                 name: "article3_number17_9",
                 showTitle: true,
                 width: "50",
                 startRow: false, keyPressFilter: "[0-9.]",
-                title: '+/-'
+                title: '+/-',
+                textAlign: "left"
             }, {
                 type: "text",
                 name: "article3_number17_10",
@@ -1947,6 +1954,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 showHintInField: true,
                 startRow: false,
                 title: '+/-', keyPressFilter: "[0-9.]",
+                textAlign: "left",
                 changed: function (form, item, value) {
                     dynamicForm_article3.setValue("article3_number17_9", value);
                     dynamicForm_article5_number29_1.setValue("article5_number29_3", value);
@@ -2024,6 +2032,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 width: "70",
                 defaultValue: "220",
                 keyPressFilter: "[0-9.]",
+                textAlign: "left",
                 showHintInField: true,
                 startRow: false,
                 title: '',changed: function (form, item, value) {
@@ -2827,6 +2836,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     });
     //END PAGE TWO
+
     //START PAGE THREE
     var dynamicForm_article7_number41 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle7",

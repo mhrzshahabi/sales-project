@@ -201,6 +201,11 @@
                     titleColSpan: 1,
                     required: true,
                     keyPressFilter: "[0-9]", length: "15", showIf: "false",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFa",
@@ -208,7 +213,13 @@
                     width: 400,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "right"
                 },
                 {
                     name: "nameEn",
@@ -217,7 +228,13 @@
                     colSpan: 1,
                     required: true,
                     wrapTitle: false,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "symbol",

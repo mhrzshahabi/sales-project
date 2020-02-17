@@ -81,13 +81,24 @@
                     width: 300,
                     keyPressFilter: "[0-9]",
                     length: "15", showIf: "false",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFA",
                     title: "<spring:message code='rate.nameFa'/>",
                     required: true,
                     readonly: true,
-                    width: 300
+                    width: 300,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "right"
                 },
                 {
                     name: "nameEN",
@@ -95,7 +106,13 @@
                     type: 'text',
                     width: 300,
                     required: true,
-                    keyPressFilter: "[a-z|A-Z|0-9.]"
+                    keyPressFilter: "[a-z|A-Z|0-9.]",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "symbol",
@@ -117,7 +134,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     type: "RowSpacerItem"

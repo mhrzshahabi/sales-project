@@ -180,7 +180,12 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
             {
@@ -197,7 +202,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
@@ -213,7 +223,12 @@
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 400},
             {
@@ -222,7 +237,8 @@
                     "MIS": "<spring:message code='global.MIS'/>", "MRS": "<spring:message code='global.MRS'/>",
                 }
             },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400},
+            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true,
+                validators: [{ type:"required", validateOnChange: true }], width: 400},
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400}
         ],
@@ -326,6 +342,11 @@
                 pickListWidth: 680,
                 pickListHeight: "500",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true
+                }],
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "contractNo", width: "10%", align: "center"},
@@ -393,7 +414,12 @@
                 type: 'date',
                 format: 'DD-MM-YYYY',
                 required: true,
-                width: "100%"
+                width: "100%",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "loadingLetter",
@@ -402,7 +428,12 @@
                 type: 'text',
                 required: true,
                 length: "100",
-                width: "100%"
+                width: "100%",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "amount", colSpan: 4,
@@ -413,14 +444,19 @@
                 keyPressFilter: "[0-9.]",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                type:"required",
+                validateOnChange: true
                 }]
             },
             {
                 name: "shipmentType", colSpan: 4, title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required: true
+                type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
 
             {
@@ -535,9 +571,13 @@
                 width: "100%",
                 validators: [{
                     type: "isInteger",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
@@ -547,6 +587,11 @@
                 type: 'text',
                 width: "100%",
                 required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
 
             },
             {
@@ -614,7 +659,12 @@
                 title: "<spring:message code='shipment.consignee'/>",
                 type: 'text',
                 required: true,
-                width: "100%", startRow: true
+                width: "100%", startRow: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swBlDate",
@@ -624,6 +674,11 @@
                 format: 'DD-MM-YYYY',
                 required: true,
                 width: 400 ,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
                 {
                 name: "blDate", colSpan: 4,
@@ -632,7 +687,12 @@
                 type: 'date',
                 format: 'DD-MM-YYYY',
                 required: true,
-                width: "100%"
+                width: "100%",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
 
@@ -683,7 +743,12 @@
                         name: "nameEN",
                         align: "center"
                     },
-                    {name: "country.nameFa", align: "center"}]
+                    {name: "country.nameFa", align: "center"}],
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
 
@@ -705,9 +770,13 @@
                 width: "100%",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
@@ -727,9 +796,13 @@
                 width: "100%",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
@@ -741,9 +814,13 @@
                 width: "100%",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
@@ -763,9 +840,13 @@
                 width: "100%",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
@@ -1281,7 +1362,12 @@
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required: true
+                required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -1299,7 +1385,12 @@
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required: true
+                required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "noContainer",
@@ -1315,7 +1406,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -1323,7 +1419,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -1332,7 +1433,12 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -1341,7 +1447,12 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "month",
@@ -1350,7 +1461,12 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -1366,7 +1482,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swb",
@@ -1382,7 +1503,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "status",
@@ -1604,7 +1730,12 @@
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: 150
+                width: 150,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "title", title: "<spring:message code='person.title'/>", type: 'text', width: 150,
@@ -1614,7 +1745,8 @@
                     "MRS": "<spring:message code='global.MRS'/>"
                 }
             },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 150},
+            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true,
+                validators: [{ type:"required", validateOnChange: true }], width: 150},
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 150},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 150}
         ],

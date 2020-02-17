@@ -432,11 +432,15 @@
                     keyPressFilter: "[0-9]",
                     validators: [{
                         type: "number",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }],
-
+                    textAlign: "left",
                     hint: "<spring:message code='global.didit'/>",
                     showHintInField: true,
                 },
@@ -448,7 +452,12 @@
                     textAlign: "left",
                     length: 200,
                     requiredTitlePrefix: "<span style='color:#ff0842;font-size:22px; padding-left: 2px;'>*</span>",
-
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "descp",
@@ -456,7 +465,13 @@
                     type: 'text',
                     width: 400,
                     required: true,
-                    length: 200
+                    length: 200,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "right"
                 },
                 {
                     name: "unitId",
@@ -475,7 +490,15 @@
                         {name: "id", align: "center", hidden: true},
                         {name: "nameFA", width: 195, align: "center"},
                         {name: "nameEN", width: 195, align: "center"},
-                    ]
+                    ],
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+                },
+                {
+                    type: "RowSpacerItem"
                 }
             ]
     });
@@ -896,7 +919,11 @@
                     width: 300,
                     hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
-
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "featureId",
@@ -937,7 +964,12 @@
                             align: "center",
                             width: "10%",
                             showIf: "true",
-                        }]
+                        }],
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "minValue",
@@ -1058,7 +1090,7 @@
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     width: 300,
-
+                    textAlign: "left",
                     hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     validators: [
@@ -1684,14 +1716,25 @@
                     title: "<spring:message code='MaterialItem.gdsCode'/> ",
                     required: true,
                     keyPressFilter: "[0-9]",
-                    length: "15"
+                    length: "15",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "gdsName",
                     width: "300",
                     title: "<spring:message code='MaterialItem.gdsName'/> ",
                     required: true,
-                    length: "200"
+                    length: "200",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
             ]
     });

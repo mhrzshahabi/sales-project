@@ -51,25 +51,40 @@
                     valueMap: {
                         "letter": "<spring:message code='dcc.letter'/>",
                         "contract": "<spring:message code='contract.title'/>"
-                    }
+                    },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "description",
                     title: "<spring:message code='global.description'/>",
                     type: 'textArea',
-                    required: "true",
+                    required: true,
                     width: 400,
-                    height: "100"
+                    height: "100",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     ID: "fileDcc",
                     name: "fileDcc",
                     title: "<spring:message code='global.Attachment'/> ",
                     type: "file",
-                    required: "true",
+                    required: true,
                     accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
                     multiple: "",
                     width: "90%",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }
             ]
     });
@@ -197,7 +212,12 @@
                 ,
                 valueMap: {
                     "letter": "<spring:message code='dcc.letter'/>"
-                }
+                },
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "description",
@@ -210,7 +230,12 @@
                 title: "<spring:message code='global.fileName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {name: "fileNewName", title: "<spring:message code='global.fileNewName'/>", type: 'text', width: 400}
         ],
@@ -376,7 +401,12 @@
                     valueMap: {
                         "letter": "<spring:message code='dcc.letter'/>",
                         "contract": "<spring:message code='contract.title'/>"
-                    }
+                    },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "description",

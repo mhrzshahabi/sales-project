@@ -76,6 +76,7 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
                 showTitle: false,
                 startRow: false,
                 width: "100",
+                textAlign: "left"
             },
             {
                 name: "unitCu",
@@ -108,6 +109,7 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
                 showTitle: false,
                 startRow: false,
                 width: "100",
+                textAlign: "left"
             },
             {
                 name: "unitMo",
@@ -207,7 +209,8 @@ isc.ListGrid.create({
                     type: "date",
                     required: false,
                     width: "10%",
-                    wrapTitle: false,changed: function (form, item, value) {
+                    wrapTitle: false,
+                    changed: function (form, item, value) {
                         sendDateSetConc = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
                         sendDateSetConcSave = value;
                     }
@@ -406,7 +409,8 @@ var dynamicForm_article9Conc = isc.DynamicForm.create({
                 title:"What is the value of TC",
                 startRow: true,
                 width: "100",
-                keyPressFilter: "[0-9.]"
+                keyPressFilter: "[0-9.]",
+                textAlign: "left"
             },
             {
                 name: "RC",
@@ -414,7 +418,8 @@ var dynamicForm_article9Conc = isc.DynamicForm.create({
                 title:"What is the value of RC",
                 startRow: true,
                 width: "100",
-                keyPressFilter: "[0-9.]"
+                keyPressFilter: "[0-9.]",
+                textAlign: "left"
             },
         ]
 })
@@ -442,7 +447,8 @@ var article10_qualityConc = isc.DynamicForm.create({
                 defaultValue: "",
                 width: "500",
                 wrap: false,
-                title: "<strong class='cssDynamicForm'>AVERAGE OF WORKING DAYS OF QUOTATIONAL PERIOD<strong>",changed: function (form, item, value) {
+                title: "<strong class='cssDynamicForm'>AVERAGE OF WORKING DAYS OF QUOTATIONAL PERIOD<strong>",
+                changed: function (form, item, value) {
                 }
             }
         ]

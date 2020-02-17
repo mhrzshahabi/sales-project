@@ -213,7 +213,12 @@
                     width: 450, required: true, length: "4000",
                     colSpan: 1,
                     titleColSpan: 1,
-                    wrapTitle: false
+                    wrapTitle: false,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "loa",
@@ -228,7 +233,8 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "beam",
@@ -237,7 +243,8 @@
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    length: "100"
+                    length: "100",
+                    textAlign: "left"
                 },
                 {
                     name: "arrival",
@@ -252,7 +259,8 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "countryId",
@@ -276,7 +284,12 @@
                         {name: "nameEn", align: "center", width: "10%"},
 
 
-                    ]
+                    ],
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }
             ]
     });

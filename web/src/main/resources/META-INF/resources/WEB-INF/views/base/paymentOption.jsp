@@ -152,7 +152,12 @@
                     type: 'text',
                     width: 500,
                     required: true,
-                    length: "255"
+                    length: "255",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {type: "RowSpacerItem"}
             ]

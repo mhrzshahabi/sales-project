@@ -365,8 +365,9 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    hint: "Persian/فارسی", validators: [
-                    {
+                    hint: "Persian/فارسی",
+                    textAlign: "right",
+                    validators: [{
                         type:"required",
                         validateOnChange: true
                     }]
@@ -380,7 +381,13 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     hint: "Latin",
-                    wrapTitle: false
+                    textAlign: "left",
+                    wrapTitle: false,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "tradeMark",
@@ -408,7 +415,8 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "commercialRegistration",
@@ -418,7 +426,8 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
 
                 {
@@ -530,7 +539,8 @@
                     title: "<spring:message code='contact.nationalCode'/>",
                     width: 200,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "economicalCode",
@@ -539,7 +549,8 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "status",
@@ -581,12 +592,19 @@
                 title: "<spring:message code='contact.phone'/>",
                 width: 500,
                 wrapTitle: false,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                textAlign: "left"
             },
             {
                 name: "mobile",
                 title: "<spring:message code='contact.mobile'/>",
                 width: 500,
                 wrapTitle: false,
+                textAlign: "left"
             },
 
             {
@@ -595,6 +613,7 @@
                 title: "<spring:message code='contact.fax'/>",
                 width: 500,
                 wrapTitle: false,
+                textAlign: "left"
             },
 
             {
@@ -613,7 +632,12 @@
                 pickListFields: [
                     {name: "id", width: 480, align: "center", hidden: true},
                     {name: "nameFa", width: 480, align: "center"},
-                ]
+                ],
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
 
@@ -629,6 +653,7 @@
                         validateOnChange: true,
                     }
                 ],
+                textAlign: "left"
             },
 
             {
@@ -636,7 +661,6 @@
                 title: "<spring:message code='contact.email'/>",
                 width: 500,
                 wrapTitle: false,
-                validateOnExit: true,
                 validators: [
                     {
                         type: "regexp",
@@ -644,6 +668,7 @@
                         validateOnChange: true,
                     }
                 ],
+                textAlign: "left"
             }
         ],
 
@@ -1090,10 +1115,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
-                            errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                            errorMessage: "<spring:message code='global.form.correctType'/>",
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankId",
@@ -1133,11 +1163,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
-                            width: 300,
+                            validateOnChange: true,
                             stopOnError: true,
-                            errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                            errorMessage: "<spring:message code='global.form.correctType'/>",
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankShaba",
@@ -1146,7 +1180,13 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
-                    format: ""
+                    format: "",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                textAlign: "left"
                 },
                 {
                     name: "bankSwift",
@@ -1155,7 +1195,13 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
-                    format: ""
+                    format: "",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                textAlign: "left"
                 },
                 {
                     name: "accountOwner",
@@ -1223,10 +1269,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankId",
@@ -1266,10 +1317,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankShaba",
@@ -1277,7 +1333,13 @@
                     type: 'text',
                     required: true,
                     width: 300,
-                    colSpan: "2"
+                    colSpan: "2",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankSwift",
@@ -1285,7 +1347,13 @@
                     type: 'text',
                     required: true,
                     width: 300,
-                    colSpan: "2"
+                    colSpan: "2",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "accountOwner",

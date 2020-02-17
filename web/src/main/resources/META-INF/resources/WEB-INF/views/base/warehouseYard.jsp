@@ -165,14 +165,27 @@
                             "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",
                             "Sarcheshmeh": "<spring:message code='global.Sarcheshmeh'/>",
                             "Sungun": "<spring:message code='global.Sungun'/>"
-                        }
+                        },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFA",
                     title: "<spring:message code='warehouseCad.yard'/>",
                     width: 500,
                     colSpan: 1, required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+                },
+                {
+                    type: "RowSpacerItem"
                 }
             ]
     });

@@ -203,7 +203,11 @@
                         width: "10%",
                         align: "center"
                     }
-                ]
+                ],
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "personId",
@@ -227,7 +231,14 @@
                         width: "10%",
                         align: "center"
                     }
-                ]
+                ],
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
+            {
+               type: "RowSpacerItem"
             }
         ]
     });

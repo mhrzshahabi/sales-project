@@ -178,7 +178,12 @@
                     width: 400,
                     align: "center",
                     required: true,
-                    length: "4000"
+                    length: "4000",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "disableDate",

@@ -156,7 +156,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "goldUsdOunce",
@@ -171,7 +172,8 @@
                             required: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "silverUsdOunce",
@@ -186,7 +188,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "seleniumUsdLb",
@@ -198,10 +201,15 @@
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "platinumUsdOunce",
@@ -215,7 +223,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "palladiumUsdOunce",
@@ -229,7 +238,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "molybdenumUsdLb",
@@ -243,7 +253,8 @@
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "lmeDate",
@@ -251,6 +262,11 @@
                     width: 430,
                     type: "date",
                     required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }]
         });
 

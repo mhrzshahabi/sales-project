@@ -190,11 +190,9 @@
                 width: 500, wrapTitle: false, required: true,
                 editorType: "SelectItem",
                 type: 'text',
-                sortField: 1
-                ,
+                sortField: 1,
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA"
-                ,
+                displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: 500,
                 pickListHeight: 400,
@@ -205,7 +203,13 @@
                     name: "nameFA",
                     width: "10%",
                     align: "center"
-                }, {name: "nameEN", width: "10%", align: "center"},]
+                }, {name: "nameEN", width: "10%", align: "center"},
+                ],
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "fullName",
@@ -213,6 +217,11 @@
                 type: 'text', wrapTitle: false,
                 required: true, length: "200",
                 width: 500,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "jobTitle",
@@ -246,8 +255,14 @@
                     {
                         type: "regexp",
                         expression: ".+\\@.+\\..+",
+                        validateOnChange: true
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }
                 ],
+                textAlign: "left"
             },
             {
                 name: "email1",
@@ -262,7 +277,7 @@
                         expression: ".+\\@.+\\..+",
                     }
                 ],
-
+                textAlign: "left"
             },
             {
                 name: "email2",
@@ -277,6 +292,7 @@
                         expression: ".+\\@.+\\..+",
                     }
                 ],
+                textAlign: "left"
             },
             {
                 name: "webAddress",
@@ -285,42 +301,44 @@
                 width: 500,
                 length: 20,
                 wrapTitle: false,
-                id: "emailtest"
-
+                id: "emailtest",
+                textAlign: "left"
             },
             {
                 name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 500,
-                wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
+                wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
             },
             {
                 name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 500,
-                wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
+                wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
             },
             {
                 name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", length: "20", type: 'text',
-                width: 500, wrapTitle: false, keyPressFilter: "[0-9.+]"
+                width: 500, wrapTitle: false, keyPressFilter: "[0-9.+]", textAlign: "left"
             },
             {
                 name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text',
-                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
+                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
             },
             {
                 name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text',
-                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
+                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
             },
             {
                 name: "whatsApp",
                 title: "<spring:message code='person.whatsApp'/>",
                 type: 'text',
                 width: 500,
-                wrapTitle: false
+                wrapTitle: false,
+                textAlign: "left"
             },
             {
                 name: "weChat",
                 title: "<spring:message code='person.weChat'/>",
                 type: 'text',
                 width: 500,
-                wrapTitle: false
+                wrapTitle: false,
+                textAlign: "left"
             },
             {
                 name: "address",
@@ -579,7 +597,12 @@
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
                     required: true,
-                    width: 400
+                    width: 400,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "jobTitle",
@@ -605,7 +628,12 @@
                     type: 'text',
                     required: true,
                     width: 400,
-                    regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"
+                    regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "email1",
@@ -706,7 +734,12 @@
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
                     required: true,
-                    width: 150
+                    width: 150,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "jobTitle",
@@ -731,7 +764,12 @@
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
                     required: true,
-                    width: 150
+                    width: 150,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "email1",
