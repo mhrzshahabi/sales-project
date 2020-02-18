@@ -1,9 +1,5 @@
 package com.nicico.sales.model.entities.base;
 
-/**
- * EMAMI
- */
-
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
