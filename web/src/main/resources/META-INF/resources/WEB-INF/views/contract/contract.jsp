@@ -211,7 +211,6 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
     };
 
         var ToolStripButton_Contract_DraftList = isc.ToolStripButtonDraft.create({
-        title: "Draft",
         click: function () {
              var recordContract = ListGrid_Contract.getSelectedRecord();
                  if (recordContract == null || recordContract.id == null) {
