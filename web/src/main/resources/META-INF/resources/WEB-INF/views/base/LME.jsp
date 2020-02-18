@@ -168,7 +168,7 @@
                         {
                             type: "isFloat",
                             validateOnExit: true,
-                            required: true,
+                            required: true, errorOrientation: "bottom",
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         }]
@@ -182,7 +182,7 @@
                     validators: [
                         {
                             type: "isFloat",
-                            required: true,
+                            required: true, errorOrientation: "bottom",
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
@@ -194,7 +194,7 @@
                     width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     validators: [
                         {
                             type: "isFloat",
@@ -255,7 +255,7 @@
                     title: "<spring:message code='LME.LMEDate'/>",
                     width: 430,
                     type: "date",
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     validators: [
                     {
                         type:"required",
@@ -427,7 +427,7 @@
 
     var Window_LME = isc.Window.create({
         title: "<spring:message code='LME.title'/> ",
-        width: 700,
+        width: 650,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -442,7 +442,12 @@
             [
                 DynamicForm_LME,
                 isc.HLayout.create({
-                    width: "100%",
+                margin: '10px',
+                padding: 10,
+               layoutMargin: 10,
+               membersMargin: 5,
+               align: "center",
+               width: "100%",
                     members:
                         [
                             IButton_LME_Save,

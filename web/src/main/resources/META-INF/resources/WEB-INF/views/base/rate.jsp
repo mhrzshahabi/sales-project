@@ -192,7 +192,12 @@
             DynamicForm_Rate,
 
             isc.HLayout.create({
-                width: "100%",
+               margin: '10px',
+                padding: 10,
+               layoutMargin: 10,
+               membersMargin: 5,
+               align: "center",
+               width: "100%",
                 members:
                     [
                         IButton_Rate_Save,

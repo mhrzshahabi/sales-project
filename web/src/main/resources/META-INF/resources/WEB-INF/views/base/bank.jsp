@@ -218,7 +218,7 @@
     var DynamicForm_Bank = isc.DynamicForm.create(
         {
             width: 650,
-            height: "100%",
+            height: 100,
             setMethod: 'POST',
             align: "center",
             canSubmit: true,
@@ -243,7 +243,7 @@
                     title: "<spring:message code='bank.bankCode'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     keyPressFilter: "[0-9]",
                     length: "15", showIf: "false",
@@ -258,7 +258,7 @@
                     title: "<spring:message code='bank.nameFa'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     validators: [
                     {
@@ -271,7 +271,7 @@
                     title: "<spring:message code='bank.nameEn'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     validators: [
                     {
@@ -284,7 +284,7 @@
                     title: "<spring:message code='bank.address'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     validators: [
                     {
@@ -297,7 +297,7 @@
                     title: "<spring:message code='bank.coreBranch'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     valueMap:
                         {
@@ -315,15 +315,15 @@
                     title: "<spring:message code='country.nameFa'/>",
                     type: 'long',
                     width: 500,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Country_IN_BANK,
                     displayField: "nameFa",
                     colSpan: 1,
                     titleColSpan: 1,
                     valueField: "id",
-                    pickListWidth: "500",
-                    pickListHeight: "500",
+                    pickListWidth: 500,
+                    pickListHeight: 300,
                     pickListProperties:
                         {
                             showFilterEditor: true
@@ -477,8 +477,7 @@
     var Window_Bank = isc.Window.create(
         {
             title: "<spring:message code='bank.title'/> ",
-            width: 580,
-// height: 500,
+            width: 650,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -493,7 +492,12 @@
                 DynamicForm_Bank,
                 isc.HLayout.create(
                     {
-                        width: "100%",
+                      margin: '10px',
+                      padding: 10,
+                    layoutMargin: 10,
+                    membersMargin: 5,
+                    align: "center",
+                     width: "100%",
                         members: [
                             IButton_Bank_Save,
                             isc.Label.create(

@@ -311,6 +311,9 @@
     var IButton_Country_Save = isc.IButtonSave.create(
         {
             top: 260,
+            layoutMargin: 5,
+            membersMargin: 5,
+            width: 120,
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
             click: function () {
@@ -353,13 +356,26 @@
     });
 
     var HLayout_Country_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
-        width: "100%",
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_Country_Save,
             CountryCancelBtn
         ]
+    });
+
+
+    var VLayout_saveButton_country = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+    members: [
+    HLayout_Country_IButton
+    ]
     });
 
 
@@ -380,7 +396,7 @@
             },
             items: [
                 DynamicForm_Country,
-                HLayout_Country_IButton
+                VLayout_saveButton_country
             ]
         });
 

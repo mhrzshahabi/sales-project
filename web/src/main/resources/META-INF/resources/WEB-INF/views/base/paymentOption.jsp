@@ -129,8 +129,8 @@
 
 
     var DynamicForm_PaymentOption = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
+        width: 650,
+        height: 100,
         setMethod: 'POST',
         align: "center",
         canSubmit: true,
@@ -151,7 +151,7 @@
                     title: "<spring:message code='paymentOption.payName'/>",
                     type: 'text',
                     width: 500,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     length: "255",
                     validators: [
                     {
@@ -296,8 +296,12 @@
     });
 
     var HLayout_PaymentOption_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_PaymentOption_Save,
             PaymentOptionCancelBtn
@@ -305,11 +309,22 @@
     });
 
 
+        var VLayout_saveButton_paymentOption = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_PaymentOption_IButton
+        ]
+    });
+
+
+
+
     var Window_PaymentOption = isc.Window.create(
         {
             title: "<spring:message code='paymentOption.title'/> ",
-            width: 600,
-// height: 200,
+            width: 580,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -322,7 +337,7 @@
             },
             items: [
                 DynamicForm_PaymentOption,
-                HLayout_PaymentOption_IButton
+                VLayout_saveButton_paymentOption
             ]
         });
 

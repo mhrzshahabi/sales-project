@@ -62,6 +62,7 @@
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
+
         fields: [{
             name: "id",
             hidden: true, showIf: "false",
@@ -153,6 +154,7 @@
     var Window_Unit = isc.Window.create({
         title: "<spring:message code='unit.title'/>",
         width: 580,
+        height: 310,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -160,13 +162,19 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
+        margin: '10px',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
         items: [
             DynamicForm_Unit,
             isc.HLayout.create({
-                width: "100%",
+                margin: '10px',
+                padding: 10,
+               layoutMargin: 10,
+               membersMargin: 5,
+               align: "center",
+               width: "100%",
                 members:
                     [
                         IButton_Unit_Save,

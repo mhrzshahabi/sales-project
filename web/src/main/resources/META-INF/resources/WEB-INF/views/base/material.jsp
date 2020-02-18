@@ -592,8 +592,12 @@
             [
                 DynamicForm_Material,
                 isc.HLayout.create({
-                    width: "100%",
+                    margin: '10px',
+                    padding: 10,
+                    layoutMargin: 10,
+                    membersMargin: 5,
                     align: "center",
+                    width: "100%",
                     members:
                         [
                             IButton_Material_Save,
@@ -1087,6 +1091,7 @@
                     keyPressFilter: "[0-9.]",
                     length: "15",
                     width: 300,
+
                     hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
                     validators: [
@@ -1269,8 +1274,8 @@
 
     var MaterialFeatureCancelBtn = isc.IButtonCancel.create({
         top: 260,
-        layoutMargin: 5,
-        membersMargin: 5,
+        layoutMargin: 20,
+        membersMargin:20,
         width: 120,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",
@@ -1280,14 +1285,31 @@
     });
 
     var HLayout_MaterialFeature_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
-        width: "100%",
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_MaterialFeature_Save,
             MaterialFeatureCancelBtn
         ]
     });
+
+
+        var VLayout_saveButton_MaterialFeature = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_MaterialFeature_IButton
+        ]
+    });
+
+
+
+
 
     var Window_MaterialFeature = isc.Window.create(
         {
@@ -1305,7 +1327,7 @@
             },
             items: [
                 DynamicForm_MaterialFeature,
-                HLayout_MaterialFeature_IButton
+                VLayout_saveButton_MaterialFeature
             ]
         });
 
@@ -1838,6 +1860,8 @@
     var IButton_MaterialItem_Save = isc.IButtonSave.create(
         {
             top: 260,
+            layoutMargin: 5,
+            membersMargin: 5,
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
             click: function () {

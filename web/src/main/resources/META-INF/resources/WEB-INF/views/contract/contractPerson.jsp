@@ -172,7 +172,8 @@
     }
 
     var DynamicForm_ContractPerson = isc.DynamicForm.create({
-        width:"500",
+        width:600,
+        height: 100,
         setMethod: 'POST',
         align: "center",
         canSubmit: true,
@@ -286,17 +287,32 @@
     });
 
     var HLayout_ContractPerson_IButton = isc.HLayout.create({
-        width: "100%",
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_ContractPerson_Save,
             ContractPersonCancelBtn
         ]
     });
 
+
+        var VLayout_saveButton_ContractPerson = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_ContractPerson_IButton
+        ]
+    });
+
+
+
     var Window_ContractPerson = isc.Window.create({
-        width:"200",
+        width:580,
         title: "<spring:message code='contractPerson.title'/>",
         autoSize: true,
         autoCenter: true,
@@ -310,7 +326,7 @@
         },
         items: [
             DynamicForm_ContractPerson,
-            HLayout_ContractPerson_IButton
+            VLayout_saveButton_ContractPerson
         ]
     });
 

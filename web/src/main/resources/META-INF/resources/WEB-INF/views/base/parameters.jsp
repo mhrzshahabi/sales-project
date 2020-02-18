@@ -160,7 +160,7 @@
 
     var DynamicForm_Parameters = isc.DynamicForm.create({
         width: 650,
-        height: "100%",
+        height: 100,
         setMethod: 'POST',
         align: "center",
         canSubmit: true,
@@ -378,14 +378,29 @@
     });
 
     var HLayout_Parameters_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
-        width: "100%",
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_Parameters_Save,
             ParametersCancelBtn
         ]
     });
+
+
+       var VLayout_saveButton_parameter = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_Parameters_IButton
+        ]
+    });
+
+
 
     var Window_Parameters = isc.Window.create(
         {
@@ -403,7 +418,7 @@
             },
             items: [
                 DynamicForm_Parameters,
-                HLayout_Parameters_IButton
+                VLayout_saveButton_parameter
             ]
         });
 

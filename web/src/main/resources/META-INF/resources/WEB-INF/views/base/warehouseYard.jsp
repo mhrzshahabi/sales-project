@@ -297,7 +297,7 @@
 
     var Window_WarehouseYard = isc.Window.create({
         title: "<spring:message code='warehouseCad.warehouseNo'/> ",
-        width: 580,
+        width: 650,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -312,6 +312,9 @@
             [
                 DynamicForm_WarehouseYard,
                 isc.HLayout.create({
+                    layoutMargin: 10,
+                    membersMargin: 5,
+                    align: "center",
                     width: "100%",
                     members:
                         [

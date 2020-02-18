@@ -144,8 +144,8 @@
 
     var DynamicForm_Instruction = isc.DynamicForm.create(
         {
-            width: "100%",
-            height: "100%",
+            width: 650,
+            height: 100,
             setMethod: 'POST',
             align: "center",
             canSubmit: true,
@@ -177,7 +177,7 @@
                     title: "<spring:message code='instruction.titleInstruction'/>",
                     width: 400,
                     align: "center",
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     length: "4000",
                     validators: [
                     {
@@ -382,9 +382,12 @@ return;
 
     var HLayout_Instruction_IButton = isc.HLayout.create(
         {
-            layoutMargin: 5,
+            width: 650,
+            height: "100%",
+            layoutMargin: 10,
             membersMargin: 5,
-            width: "100%",
+            textAlign: "center",
+            align: "center",
             members: [
                 IButton_Instruction_Save,
                 InstructionCancelBtn
@@ -392,10 +395,19 @@ return;
         });
 
 
+        var VLayout_saveButton_instruction = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_Instruction_IButton
+        ]
+    });
+
+
     var Window_Instruction = isc.Window.create({
         title: "<spring:message code='instruction.title'/> ",
         width: 580,
-// height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -409,7 +421,7 @@ return;
         items:
             [
                 DynamicForm_Instruction,
-                HLayout_Instruction_IButton
+                VLayout_saveButton_instruction
             ]
     });
 

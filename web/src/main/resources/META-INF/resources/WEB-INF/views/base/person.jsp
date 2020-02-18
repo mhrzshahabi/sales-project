@@ -168,7 +168,7 @@
     var ValuesManager_Person = isc.ValuesManager.create({});
     var DynamicForm_Person = isc.DynamicForm.create({
         valuesManager: ValuesManager_Person,
-        width: 700,
+        width: 500,
         height: "100%",
         setMethod: 'POST',
         align: "center",
@@ -187,7 +187,7 @@
             {
                 name: "contactId",
                 title: "<spring:message code='commercialParty.title'/>",
-                width: 500, wrapTitle: false, required: true,
+                width: 500, wrapTitle: false, required: true, errorOrientation: "bottom",
                 editorType: "SelectItem",
                 type: 'text',
                 sortField: 1,
@@ -215,7 +215,7 @@
                 name: "fullName",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text', wrapTitle: false,
-                required: true, length: "200",
+                required: true, length: "200", errorOrientation: "bottom",
                 width: 500,
                 validators: [
                 {
@@ -246,7 +246,7 @@
                 name: "email",
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
-                required: true,
+                required: true, errorOrientation: "bottom",
                 width: 500,
                 wrapTitle: false,
                 validateOnExit: true,
@@ -395,19 +395,33 @@
     });
 
     var HLayout_Person_IButton = isc.HLayout.create({
+        width: 650,
+        height: "100%",
         layoutMargin: 10,
-        membersMargin: 10,
-        width: "100%",
+        membersMargin: 5,
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_Person_Save,
             PersonCancelBtn
         ]
     });
 
+
+    var VLayout_saveButton_person = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_Person_IButton
+
+        ]
+    });
+
+
+
     var Window_Person = isc.Window.create({
         title: "<spring:message code='person.title'/>",
-        width: 580,
-        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -421,7 +435,7 @@
         },
         items: [
             DynamicForm_Person,
-            HLayout_Person_IButton
+            VLayout_saveButton_person
         ]
     });
 
@@ -591,7 +605,7 @@
                     name: "fullName",
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     width: 400,
                     validators: [
                     {
@@ -621,7 +635,7 @@
                     name: "email",
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     width: 400,
                     regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$",
                     validators: [
@@ -728,7 +742,7 @@
                     name: "fullName",
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     width: 150,
                     validators: [
                     {
@@ -758,7 +772,7 @@
                     name: "email",
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     width: 150,
                     validators: [
                     {

@@ -392,7 +392,10 @@
                 DynamicForm_CurrencyRate,
                 isc.HLayout.create(
                     {
-                        width: "100%",
+                    layoutMargin: 10,
+                    membersMargin: 5,
+                    align: "center",
+                    width: "100%",
                         members: [
                             IButton_CurrencyRate_Save,
                             isc.Label.create(
