@@ -458,15 +458,18 @@
         </createTable>
     </changeSet>
     <changeSet author="RMazloom" id="1582016166374-253">
-        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_DETAIL_AUD" constraintName="FKh92jkixaa0x6m9nko06gl91yn" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_DETAIL_AUD"
+                                 constraintName="FKh92jkixaa0x6m9nko06gl91yn" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
+                                 validate="true"/>
     </changeSet>
     <changeSet author="RMazloom" id="1582016166374-254">
-        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_AUD" constraintName="FKlm8xyddachsbk86ovfnfau1t2" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_AUD"
+                                 constraintName="FKlm8xyddachsbk86ovfnfau1t2" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
+                                 validate="true"/>
     </changeSet>
     <changeSet author="RMazloom" id="1582016166374-255">
         <createSequence sequenceName="HIBERNATE_SEQUENCE"/>
-    </changeSet>
-    <changeSet id="RMazloom" author="1582016166374-256">
-
     </changeSet>
 </databaseChangeLog>
