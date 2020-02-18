@@ -48,6 +48,7 @@ public class ContractDetailRestController {
     @PutMapping
     public ResponseEntity<ContractDetailDTO.Info> update(@RequestBody ContractDetailDTO.Update request) {
         ContractDetailDTO.Info info = contractDetailService.findByContractID(request.getContract_id());
+        request.setId(info.getId());
         return new ResponseEntity<>(contractDetailService.update(info.getId(), request), HttpStatus.OK);
     }
 

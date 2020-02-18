@@ -224,6 +224,20 @@ isc.loadSkin = function (theWindow) {
             showDownIcon: true,
             showSelectedIcon: true,
         });
+        isc.ClassFactory.defineClass("ToolStripButtonDraft", "Button").addProperties({
+            baseStyle: "toolStripButtonEdit",
+            icon: "[SKIN]/actions/dr.png",
+            title: actions_btn.edit,
+            autoFit: true,
+            iconSize: 15,
+            height: 17,
+            labelVPad: 0,
+            showTitle: false,
+            showRollOver: true,
+            showDown: true,
+            showDownIcon: true,
+            showSelectedIcon: true,
+        });
         isc.ClassFactory.defineClass("ToolStripButtonExcel", "Button").addProperties({
             baseStyle: "toolStripButtonExcel",
             icon: "[SKIN]/actions/excel.png",

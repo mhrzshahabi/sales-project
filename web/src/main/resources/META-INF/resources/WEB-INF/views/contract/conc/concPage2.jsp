@@ -154,7 +154,7 @@ isc.ListGrid.create({
         canEdit: true,
         canRemoveRecords: true,
         autoFetchData: false,
-        autoSaveEdits: true,
+        autoSaveEdits: false,
         dataSource: RestDataSource_ContractShipment,
         fields:
             [

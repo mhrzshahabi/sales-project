@@ -210,7 +210,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         criteria: [{fieldName: "seller", operator: "equals", value: true}]
     };
 
-        var ToolStripButton_Contract_DraftList = isc.ToolStripButtonRefresh.create({
+        var ToolStripButton_Contract_DraftList = isc.ToolStripButtonDraft.create({
         title: "Draft",
         click: function () {
              var recordContract = ListGrid_Contract.getSelectedRecord();
@@ -406,11 +406,18 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 </sec:authorize>
 
                 isc.ToolStrip.create({
+                    align: "left",
+                    border: '0px',
+                    members: [
+                    ToolStripButton_Contract_DraftList
+                    ]
+                }),
+                isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
                     border: '0px',
                     members: [
-                        ToolStripButton_Contract_DraftList,ToolStripButton_Contract_Refresh
+                        ToolStripButton_Contract_Refresh
                     ]
                 })
             ]

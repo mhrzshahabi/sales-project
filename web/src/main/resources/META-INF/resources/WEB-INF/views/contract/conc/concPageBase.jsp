@@ -81,6 +81,10 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
     icon: "pieces/16/save.png",
     iconOrientation: "right",
     click: function(){
+             var dataSaveAndUpdateContractConc = {};
+             if(methodHtpp=="PUT"){
+                dataSaveAndUpdateContractConc.id=ListGrid_Conc.getSelectedRecord().id;
+            }
             contactHeaderConc.validate();
             dynamicFormConc.validate();
             valuesManagerArticle5_DeliveryTermsConc.validate();
@@ -92,7 +96,7 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
                 return;
             }
             contactHeaderConc.setValue("contractDate", contactHeaderConc.getValues().createDate.toNormalDate("toUSShortDate"));
-            var dataSaveAndUpdateContractConc = {};
+
             dataSaveAndUpdateContractConc.contractDate = contactHeaderConc.getValue("contractDate");
             dataSaveAndUpdateContractConc.contractNo = contactHeaderConc.getValue("contractNo");
             dataSaveAndUpdateContractConc.contactId = contactHeaderConc.getValue("contactId");
@@ -310,12 +314,9 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
         recordContractNoConc=contactHeaderConc.getValue("contractNo");
         var criteriaContractNoConc={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:dynamicFormConc.getValue("materialId")},{fieldName:"contractNo",operator:"equals",value:recordContractNoConc}]};
         RestDataSource_Contract.fetchData(criteriaContractNoConc,function(dsResponse, data, dsRequest) {
-        if(data[0]!=undefined){
-                isc.warn("<spring:message code='main.contractsDuplicate'/>");
-               }else{
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
-                httpMethod: "POST",
+                httpMethod: methodHtpp,
                 data: JSON.stringify(dataSaveAndUpdateContractConc),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
@@ -326,7 +327,6 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
                         isc.say(RpcResponse_o.data);
                 }
             }))
-            }
             })
         }
 });
@@ -377,7 +377,7 @@ function saveCotractConcDetails(data, contractID) {
         data.string_Currency="";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",
-            httpMethod: "POST",
+            httpMethod: methodHtpp,
             data: JSON.stringify(data),
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {

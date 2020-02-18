@@ -302,6 +302,7 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
+            methodHtpp="POST";
             Window_ContactConc.show();
             setTimeout(function () {
                 clearAdd()
@@ -328,6 +329,7 @@
                     }
                 });
             } else {
+                methodHtpp="PUT";
                 criteriaContractConcItemShipment = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -416,7 +418,7 @@
                         valuesManagerArticle12_quality.setValue("article12_number61", data[0].article10_number61)
                         valuesManagerArticle10_quality.setValue("article10_quality1", data[0].article9_ImportantNote)
                     })
-                }, 200)
+                }, 300)
             }
         }
     });
