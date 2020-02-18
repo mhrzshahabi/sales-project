@@ -19,7 +19,7 @@ import javax.persistence.*;
 public class WarehouseCadItem extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_WAREHOUSE_CAD_ITEM")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WAREHOUSE_CAD_ITEM")
     @SequenceGenerator(name = "SEQ_WAREHOUSE_CAD_ITEM", sequenceName = "SEQ_WAREHOUSE_CAD_ITEM", allocationSize = 1)
     @Column(name = "ID")
     private Long id;

@@ -18,7 +18,7 @@ public class Feature extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_FEATURE")
-	@SequenceGenerator(name = "SEQ_FEATURE", sequenceName = "SEQ_FEATURE")
+	@SequenceGenerator(name = "SEQ_FEATURE", sequenceName = "SEQ_FEATURE", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

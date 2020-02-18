@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class ShipmentAssayHeader extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SHIPMENT_ASSAY_HEADER")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT_ASSAY_HEADER")
 	@SequenceGenerator(name = "SEQ_SHIPMENT_ASSAY_HEADER", sequenceName = "SEQ_SHIPMENT_ASSAY_HEADER", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;

@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"ID"}, callSuper = false)
 @Audited
-@AuditOverride(forClass = Auditable.class, isAudited = true)
+@AuditOverride(forClass = Auditable.class)
 @Entity
 @Table(name = "TBL_CONTRACT_DETAIL")
 public class ContractDetail extends Auditable {

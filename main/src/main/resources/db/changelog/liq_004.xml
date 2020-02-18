@@ -169,4 +169,304 @@
         <dropSequence sequenceName="SEQ_INVOICE_INTERNAL_LC"/>
         <dropSequence sequenceName="SEQ_TOZIN_SALES"/>
     </changeSet>
+    <changeSet author="RMazloom" id="1582016166374-250">
+        <createTable tableName="REVINFO">
+            <column autoIncrement="true" name="REV" type="NUMBER(10, 0)">
+                <constraints primaryKey="true" primaryKeyName="REVINFOPK"/>
+            </column>
+            <column name="REVTSTMP" type="NUMBER(19, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="RMazloom" id="1582016166374-251">
+        <createTable tableName="TBL_CONTRACT_AUD">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_AUDPK"/>
+            </column>
+            <column name="REV" type="NUMBER(10, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_AUDPK"/>
+            </column>
+            <column name="REVTYPE" type="NUMBER(3, 0)"/>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_created_date" type="TIMESTAMP"/>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="DP_SELLER" type="VARCHAR2(255 CHAR)"/>
+            <column name="LP_SELLER" type="VARCHAR2(255 CHAR)"/>
+            <column name="C_ADDENDUM" type="VARCHAR2(200 CHAR)"/>
+            <column name="C_ADDENDUM_DATE" type="VARCHAR2(50 CHAR)"/>
+            <column name="C_ADDENDUM_DESC" type="VARCHAR2(1000 CHAR)"/>
+            <column name="AMOUNT" type="FLOAT(24)"/>
+            <column name="AMOUNT_EN" type="VARCHAR2(255 CHAR)"/>
+            <column name="BUYER_AGENT_ID" type="NUMBER(19, 0)"/>
+            <column name="SELLER_AGENT_ID" type="NUMBER(19, 0)"/>
+            <column name="SELLER_ID" type="NUMBER(19, 0)"/>
+            <column name="CONTACT_ID" type="NUMBER(19, 0)"/>
+            <column name="CONTACT_INSPECTION_ID" type="NUMBER(19, 0)"/>
+            <column name="CONTENT_TYPE" type="VARCHAR2(255 CHAR)"/>
+            <column name="C_CONTRACT_DATE" type="VARCHAR2(50 CHAR)"/>
+            <column name="C_CONTRACT_NO" type="VARCHAR2(200 CHAR)"/>
+            <column name="COPPER" type="FLOAT(24)"/>
+            <column name="GCOPPER_TOLORANCE" type="FLOAT(24)"/>
+            <column name="DELAY" type="VARCHAR2(255 CHAR)"/>
+            <column name="DESC_NOT" type="VARCHAR2(255 CHAR)"/>
+            <column name="C_DESCL" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNT" type="FLOAT(24)"/>
+            <column name="DRAFT_DP_WEIGHTREF" type="VARCHAR2(255 CHAR)"/>
+            <column name="DRAFT_LP_WEIGHTREF" type="VARCHAR2(255 CHAR)"/>
+            <column name="EVENT_PAYMENT" type="VARCHAR2(255 CHAR)"/>
+            <column name="FINAL_DP_WEIGHT" type="NUMBER(1, 0)"/>
+            <column name="FINAL_LP_WEIGHT" type="NUMBER(1, 0)"/>
+            <column name="GOLD" type="FLOAT(24)"/>
+            <column name="GOLD_TOLORANCE" type="FLOAT(24)"/>
+            <column name="INCOTERMS_ID" type="NUMBER(19, 0)"/>
+            <column name="INCOTERMS" type="VARCHAR2(255 CHAR)"/>
+            <column name="INPECTION_DP" type="NUMBER(1, 0)"/>
+            <column name="INPECTION_LP" type="NUMBER(1, 0)"/>
+            <column name="INSPECTION_COST_DST" type="NUMBER(19, 0)"/>
+            <column name="INSPECTION_COST_SRC" type="NUMBER(19, 0)"/>
+            <column name="INVOICE" type="NUMBER(19, 0)"/>
+            <column name="INVOICE_TYPE" type="VARCHAR2(255 CHAR)"/>
+            <column name="C_IS_COMPLETE" type="VARCHAR2(3 CHAR)"/>
+            <column name="MATERIAL_ID" type="NUMBER(19, 0)"/>
+            <column name="MO_AMOUNT" type="FLOAT(24)"/>
+            <column name="MOISTURE_DP" type="NUMBER(1, 0)"/>
+            <column name="MOISTURE_LP" type="NUMBER(1, 0)"/>
+            <column name="MOLYBDENUM" type="FLOAT(24)"/>
+            <column name="MOLYBDENUM_TOLORANCE" type="FLOAT(24)"/>
+            <column name="NO_DAY_FINAL" type="VARCHAR2(255 CHAR)"/>
+            <column name="OFFICE_SOURCE" type="VARCHAR2(255 CHAR)"/>
+            <column name="OPTIONAL" type="NUMBER(10, 0)"/>
+            <column name="DEFINITION_ID" type="NUMBER(19, 0)"/>
+            <column name="PAY_TIME" type="VARCHAR2(255 CHAR)"/>
+            <column name="PLANT" type="VARCHAR2(255 CHAR)"/>
+            <column name="PORT_SOURCE_ID" type="NUMBER(19, 0)"/>
+            <column name="PREFIX_PAYMENT" type="VARCHAR2(255 CHAR)"/>
+            <column name="PREMIUM" type="FLOAT(24)"/>
+            <column name="PREPAID" type="NUMBER(19, 0)"/>
+            <column name="PREPAID_CUR" type="VARCHAR2(20 CHAR)"/>
+            <column name="PRICE_CAL_PERIOD" type="VARCHAR2(255 CHAR)"/>
+            <column name="PRICE_PERIOD" type="VARCHAR2(255 CHAR)"/>
+            <column name="PROVISIONAL_COEFFICIENT" type="NUMBER(19, 0)"/>
+            <column name="PUBLISH_TIME" type="VARCHAR2(255 CHAR)"/>
+            <column name="PUBLISHER" type="VARCHAR2(255 CHAR)"/>
+            <column name="RC" type="FLOAT(24)"/>
+            <column name="REPORT_TITLE" type="VARCHAR2(255 CHAR)"/>
+            <column name="RUN_END_DATE" type="VARCHAR2(255 CHAR)"/>
+            <column name="RUN_FROM" type="VARCHAR2(255 CHAR)"/>
+            <column name="RUN_START_DATE" type="VARCHAR2(255 CHAR)"/>
+            <column name="RUN_TILL" type="VARCHAR2(255 CHAR)"/>
+            <column name="SAMPLING_DP" type="NUMBER(1, 0)"/>
+            <column name="SAMPLING_LP" type="NUMBER(1, 0)"/>
+            <column name="C_SIDE_CONTRACT_DATE" type="VARCHAR2(50 CHAR)"/>
+            <column name="C_SIDE_CONTRACT_NO" type="VARCHAR2(200 CHAR)"/>
+            <column name="SILVER" type="FLOAT(24)"/>
+            <column name="SILVER_TOLORANCE" type="FLOAT(24)"/>
+            <column name="TIME_ISSUANCE" type="VARCHAR2(255 CHAR)"/>
+            <column name="TC" type="FLOAT(24)"/>
+            <column name="UNIT_ID" type="NUMBER(19, 0)"/>
+            <column name="WEIGHING_DP" type="NUMBER(1, 0)"/>
+            <column name="WEIGHING_LP" type="NUMBER(1, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="RMazloom" id="1582016166374-252">
+        <createTable tableName="TBL_CONTRACT_DETAIL_AUD">
+            <column name="id" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_DETAIL_AUDPK"/>
+            </column>
+            <column name="REV" type="NUMBER(10, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_DETAIL_AUDPK"/>
+            </column>
+            <column name="REVTYPE" type="NUMBER(3, 0)"/>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_created_date" type="TIMESTAMP"/>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="PREFIXC" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PREFIXCOPPER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PREFIXMOLYBDENUM" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PREFIXP" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PREFIXPB" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PREFIXS" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PREFIXSI" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ADDRESS_CONTACTAGENTBUYER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ADDRESS_CONTACTAGENTSELLER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ADDRESS_CONTACTBUYER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ADDRESS_CONTACTSELLER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="AMOUNT_NUMBER19_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="AMOUNT_NUMBER19_2" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE10_NUMBER56" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE10_NUMBER57" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE10_NUMBER58" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE10_NUMBER59" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE10_NUMBER60" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE10_NUMBER61" type="FLOAT(24)"/>
+            <column name="ARTICLE2_13_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_10" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_11" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_12" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_2" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_3" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_4" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_5" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_6" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_7" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_8" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE3_NUMBER17_9" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE4_NUMBER18" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE5_NOTE1_LABLE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE5_NOTE1_VALUE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE5_NUMBER21_6" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED_4" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED_5" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED_NUMBER32" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED_NUMBER33" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED_NUMBER33_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED_NUMBER36_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED_NUMBER37_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED_NUMBER37_2" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_CONTAINERIZED_NUMBER37_3" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_NUMBER31" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_NUMBER31_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_NUMBER32_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE6_NUMBER34" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE7_NUMBER3" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE7_NUMBER37" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE7_NUMBER3_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE7_NUMBER40_2" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE7_NUMBER40_3" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE7_NUMBER41" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE8_3" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE8_NUMBER42" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE8_NUMBER43" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE8_NUMBER44_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE8_VALUE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_ENGLISHI_NUMBER22" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_IMPORTANTNOTE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_NUMBER22" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_NUMBER23" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE8_NUMBER45" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_NUMBER48" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_NUMBER49_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_NUMBER51" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_NUMBER54" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_NUMBER54_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="ARTICLE9_NUMBER55" type="VARCHAR2(4000 CHAR)"/>
+            <column name="CONTRACT_ID" type="NUMBER(19, 0)"/>
+            <column name="DISCOUNTFOR" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXEIGHT" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXEIGHT_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXELEVEN" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXELEVEN_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXFIVE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXFIVE_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXFOUR_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXNINE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXNINE_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXONE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXONE_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXSEVEN" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXSEVEN_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXSIX" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXSIX_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXTEN" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXTEN_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXTHREE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXTHREE_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXTWO" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTPERFIXTWO_1" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITEIGHT" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITELEVEN" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITFIVE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITFOUR" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITNINE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITONE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITSEVEN" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITSIX" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITTEN" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTUNITTWO" type="VARCHAR2(4000 CHAR)"/>
+            <column name="DISCOUNTVALUEEIGHT" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEEIGHT_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEEIGHT_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEELEVEN" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEELEVEN_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEELEVEN_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEFIVE" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEFIVE_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEFIVE_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEFOUR" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEFOUR_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEFOUR_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUENINE" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUENINE_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUENINE_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEONE" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEONE_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUEONE_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUESEVEN" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUESEVEN_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUESEVEN_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUESIX" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUESIX_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUESIX_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUETEN" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUETEN_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUETEN_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUETHREE" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUETHREE_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUETHREE_2" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUETWO" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUETWO_1" type="FLOAT(24)"/>
+            <column name="DISCOUNTVALUETWO_2" type="FLOAT(24)"/>
+            <column name="FEILD_ALL_DEFINITIONS_SAVE" type="VARCHAR2(4000 CHAR)"/>
+            <column name="MOBILE_CONTACTAGENTBUYER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="MOBILE_CONTACTAGENTSELLER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="MOBILE_CONTACTBUYER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="MOBILE_CONTACTSELLER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="NAME_CONTACTAGENTBUYER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="NAME_CONTACTAGENTSELLER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="NAME_CONTACTBUYER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="NAME_CONTACTSELLER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PHONE_CONTACTAGENTBUYER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PHONE_CONTACTAGENTSELLER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PHONE_CONTACTBUYER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="PHONE_CONTACTSELLER" type="VARCHAR2(4000 CHAR)"/>
+            <column name="RESPONSIBLETELERONS" type="VARCHAR2(4000 CHAR)"/>
+            <column name="SHIPMENT_NUMBER20" type="VARCHAR2(4000 CHAR)"/>
+            <column name="STRING_CURRENCY" type="VARCHAR2(4000 CHAR)"/>
+            <column name="TOLERANCEC" type="FLOAT(24)"/>
+            <column name="TOLERANCECU" type="FLOAT(24)"/>
+            <column name="TOLERANCEMO" type="FLOAT(24)"/>
+            <column name="TOLERANCEP" type="FLOAT(24)"/>
+            <column name="TOLERANCEPB" type="FLOAT(24)"/>
+            <column name="TOLERANCES" type="FLOAT(24)"/>
+            <column name="TOLERANCESI" type="FLOAT(24)"/>
+            <column name="TYPICAL_SI" type="NUMBER(19, 0)"/>
+            <column name="TYPICAL_C" type="NUMBER(19, 0)"/>
+            <column name="TYPICAL_P" type="NUMBER(19, 0)"/>
+            <column name="TYPICAL_PB" type="NUMBER(19, 0)"/>
+            <column name="TYPICAL_S" type="NUMBER(19, 0)"/>
+            <column name="TYPICAL_SIZE_MIN" type="VARCHAR2(4000 CHAR)"/>
+            <column name="TYPICAL_UNITC" type="VARCHAR2(4000 CHAR)"/>
+            <column name="TYPICAL_UNITCU" type="VARCHAR2(4000 CHAR)"/>
+            <column name="TYPICAL_UNITMO" type="VARCHAR2(4000 CHAR)"/>
+            <column name="TYPICAL_UNITP" type="VARCHAR2(4000 CHAR)"/>
+            <column name="TYPICAL_UNITPB" type="VARCHAR2(4000 CHAR)"/>
+            <column name="TYPICAL_UNITS" type="VARCHAR2(4000 CHAR)"/>
+            <column name="TYPICAL_UNITSI" type="VARCHAR2(4000 CHAR)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="RMazloom" id="1582016166374-253">
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_DETAIL_AUD" constraintName="FKh92jkixaa0x6m9nko06gl91yn" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1582016166374-254">
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_AUD" constraintName="FKlm8xyddachsbk86ovfnfau1t2" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1582016166374-255">
+        <createSequence sequenceName="HIBERNATE_SEQUENCE"/>
+    </changeSet>
+    <changeSet id="RMazloom" author="1582016166374-256">
+
+    </changeSet>
 </databaseChangeLog>

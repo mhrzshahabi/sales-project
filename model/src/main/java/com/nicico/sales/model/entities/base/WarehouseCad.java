@@ -18,7 +18,7 @@ import java.util.List;
 public class WarehouseCad extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_WAREHOUSE_CAD")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WAREHOUSE_CAD")
     @SequenceGenerator(name = "SEQ_WAREHOUSE_CAD", sequenceName = "SEQ_WAREHOUSE_CAD", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
