@@ -645,7 +645,6 @@
                     ]
                 };
             }
-
             ListGrid_Tozin.fetchData(criteria);
         }
     });

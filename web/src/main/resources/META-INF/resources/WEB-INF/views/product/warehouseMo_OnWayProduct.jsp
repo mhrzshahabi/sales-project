@@ -227,7 +227,7 @@
         }, {
             fieldName: "tozinId",
             operator: "contains",
-            value: '3%'
+            value: '3-'
         }, {
             fieldName: "codeKala",
             operator: "equals",
@@ -328,13 +328,14 @@
                         };
                     RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT.fetchData(RestDataSource_TozinStatic_BandarAbbas_optionCriteria,function(dsResponse, data, dsRequest) {
                             if (data.length==0){
-                                isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
+                                isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsNotValid'/>")
                                 DynamicForm_warehouseCAD.clearValue("destinationTozinPlantStaticId")
                                 DynamicForm_warehouseCAD.getField('destinationTozinPlantId').setDisabled(false);
                             }else{
                                 DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
                                 DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
                                 DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
+                                isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
                             }
                     })
                 }
