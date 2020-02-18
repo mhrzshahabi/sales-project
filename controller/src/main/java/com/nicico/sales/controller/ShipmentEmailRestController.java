@@ -22,60 +22,51 @@ import java.util.List;
 @RequestMapping(value = "/api/shipmentEmail")
 public class ShipmentEmailRestController {
 
-	private final IShipmentEmailService shipmentEmailService;
+    private final IShipmentEmailService shipmentEmailService;
 
-	// ------------------------------s
+    @Loggable
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ShipmentEmailDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(shipmentEmailService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/{id}")
-	//@PreAuthorize("hasAuthority('r_shipmentEmail')")
-	public ResponseEntity<ShipmentEmailDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(shipmentEmailService.get(id), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<ShipmentEmailDTO.Info>> list() {
+        return new ResponseEntity<>(shipmentEmailService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
-	//@PreAuthorize("hasAuthority('r_shipmentEmail')")
-	public ResponseEntity<List<ShipmentEmailDTO.Info>> list() {
-		return new ResponseEntity<>(shipmentEmailService.list(), HttpStatus.OK);
-	}
+    @Loggable
+    @PostMapping
+    public ResponseEntity<ShipmentEmailDTO.Info> create(@Validated @RequestBody ShipmentEmailDTO.Create request) throws MessagingException {
+        return new ResponseEntity<>(shipmentEmailService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PostMapping
-	//@PreAuthorize("hasAuthority('c_shipmentEmail')")
-	public ResponseEntity<ShipmentEmailDTO.Info> create(@Validated @RequestBody ShipmentEmailDTO.Create request) throws MessagingException {
-		return new ResponseEntity<>(shipmentEmailService.create(request), HttpStatus.CREATED);
-	}
+    @Loggable
+    @PutMapping
+    public ResponseEntity<ShipmentEmailDTO.Info> update(@RequestBody ShipmentEmailDTO.Update request) {
+        return new ResponseEntity<>(shipmentEmailService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PutMapping
-	//@PreAuthorize("hasAuthority('u_shipmentEmail')")
-	public ResponseEntity<ShipmentEmailDTO.Info> update(@RequestBody ShipmentEmailDTO.Update request) {
-		return new ResponseEntity<>(shipmentEmailService.update(request.getId(), request), HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        shipmentEmailService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
-	//@PreAuthorize("hasAuthority('d_shipmentEmail')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		shipmentEmailService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/list")
+    public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentEmailDTO.Delete request) {
+        shipmentEmailService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
-	//@PreAuthorize("hasAuthority('d_shipmentEmail')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentEmailDTO.Delete request) {
-		shipmentEmailService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
-
-	@Loggable
-	@GetMapping(value = "/spec-list")
-//	@PreAuthorize("hasAuthority('r_instruction')")
-	public ResponseEntity<TotalResponse<ShipmentEmailDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(shipmentEmailService.search(nicicoCriteria), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<ShipmentEmailDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(shipmentEmailService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
 }

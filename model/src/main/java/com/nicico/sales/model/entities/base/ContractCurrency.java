@@ -18,7 +18,7 @@ public class ContractCurrency extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_CURRENCY")
-	@SequenceGenerator(name = "SEQ_CONTRACT_CURRENCY", sequenceName = "SEQ_CONTRACT_CURRENCY")
+	@SequenceGenerator(name = "SEQ_CONTRACT_CURRENCY", sequenceName = "SEQ_CONTRACT_CURRENCY", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
@@ -30,15 +30,15 @@ public class ContractCurrency extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CURRENCY_ID", nullable = false, insertable = false, updatable = false)
-	private Currency tblCurrency;
+	@JoinColumn(name = "CURRENCY_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "ContractCurrency2CURRENCY"))
+	private Currency currency;
 
 	@Column(name = "CURRENCY_ID")
 	private Long currencyId;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "ContractCurrency2contract"))
 	private Contract contract;
 
 	@Column(name = "CONTRACT_ID")

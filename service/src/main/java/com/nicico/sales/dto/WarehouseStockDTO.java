@@ -16,88 +16,68 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseStockDTO {
-	private String warehouseNo;
-	private String plant;
-	private Long warehouseYardId;
-	private Long sheet;
-	private Long bundle;
-	private Double amount;
-	private Long barrel;
-	private Long lot;
-	private Long materialItemId;
 
-	// ------------------------------
+    private String warehouseNo;
+    private String plant;
+    private Long warehouseYardId;
+    private Long sheet;
+    private Long bundle;
+    private Double amount;
+    private Long barrel;
+    private Long lot;
+    private Long materialItemId;
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("WarehouseStockInfo")
-	public static class Info extends WarehouseStockDTO {
-		private Long id;
-		private MaterialItemDTO materialItem;
-		private WarehouseYardDTO warehouseYard;
-		private Date createdDate;
-		private String createdBy;
-		private Date lastModifiedDate;
-		private String lastModifiedBy;
-		private Integer version;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseStockInfo")
+    public static class Info extends WarehouseStockDTO {
+        private Long id;
+        private MaterialItemDTO materialItem;
+        private WarehouseYardDTO warehouseYard;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
 
-	// ------------------------------
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseStockCreateRq")
+    public static class Create extends WarehouseStockDTO {
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("WarehouseStockCreateRq")
-	public static class Create extends WarehouseStockDTO {
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseStockUpdateRq")
+    public static class Update extends WarehouseStockDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long id;
+    }
 
-	// ------------------------------
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseStockDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("WarehouseStockUpdateRq")
-	public static class Update extends WarehouseStockDTO {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Long id;
-	}
-
-	// ------------------------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("WarehouseStockDeleteRq")
-	public static class Delete {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private List<Long> ids;
-	}
-
-	// ------------------------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("WarehouseStockSpecRs")
-	public static class WarehouseStockSpecRs {
-		private SpecRs response;
-	}
-
-	// ---------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public static class SpecRs {
-		private List<WarehouseStockDTO.Info> data;
-		private Integer status;
-		private Integer startRow;
-		private Integer endRow;
-		private Integer totalRows;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class SpecRs {
+        private List<WarehouseStockDTO.Info> data;
+        private Integer status;
+        private Integer startRow;
+        private Integer endRow;
+        private Integer totalRows;
+    }
 }

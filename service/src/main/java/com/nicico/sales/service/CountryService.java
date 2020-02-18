@@ -1,7 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CountryDTO;
 import com.nicico.sales.iservice.ICountryService;
@@ -25,7 +26,7 @@ public class CountryService implements ICountryService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_COUNTRY')")
+    @PreAuthorize("hasAuthority('R_COUNTRY')")
     public CountryDTO.Info get(Long id) {
         final Optional<Country> slById = countryDAO.findById(id);
         final Country country = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CountryNotFound));
@@ -35,7 +36,7 @@ public class CountryService implements ICountryService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_COUNTRY')")
+    @PreAuthorize("hasAuthority('R_COUNTRY')")
     public List<CountryDTO.Info> list() {
         final List<Country> slAll = countryDAO.findAll();
 
@@ -45,7 +46,7 @@ public class CountryService implements ICountryService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_COUNTRY')")
+    @PreAuthorize("hasAuthority('C_COUNTRY')")
     public CountryDTO.Info create(CountryDTO.Create request) {
         final Country country = modelMapper.map(request, Country.class);
 
@@ -54,7 +55,7 @@ public class CountryService implements ICountryService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_COUNTRY')")
+    @PreAuthorize("hasAuthority('U_COUNTRY')")
     public CountryDTO.Info update(Long id, CountryDTO.Update request) {
         final Optional<Country> slById = countryDAO.findById(id);
         final Country country = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CountryNotFound));
@@ -68,14 +69,14 @@ public class CountryService implements ICountryService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_COUNTRY')")
+    @PreAuthorize("hasAuthority('D_COUNTRY')")
     public void delete(Long id) {
         countryDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_COUNTRY')")
+    @PreAuthorize("hasAuthority('D_COUNTRY')")
     public void delete(CountryDTO.Delete request) {
         final List<Country> countrys = countryDAO.findAllById(request.getIds());
 
@@ -84,9 +85,9 @@ public class CountryService implements ICountryService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_COUNTRY')")
-    public SearchDTO.SearchRs<CountryDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(countryDAO, request, country -> modelMapper.map(country, CountryDTO.Info.class));
+    @PreAuthorize("hasAuthority('R_COUNTRY')")
+    public TotalResponse<CountryDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(countryDAO, criteria, country -> modelMapper.map(country, CountryDTO.Info.class));
     }
 
     private CountryDTO.Info save(Country country) {

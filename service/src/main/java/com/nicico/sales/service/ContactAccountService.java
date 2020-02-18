@@ -1,7 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContactAccountDTO;
 import com.nicico.sales.iservice.IContactAccountService;
@@ -26,7 +27,7 @@ public class ContactAccountService implements IContactAccountService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
+    @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
     public ContactAccountDTO.Info get(Long id) {
         final Optional<ContactAccount> slById = contactAccountDAO.findById(id);
         final ContactAccount contactAccount = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactAccountNotFound));
@@ -36,7 +37,7 @@ public class ContactAccountService implements IContactAccountService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
+    @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
     public List<ContactAccountDTO.Info> list() {
         final List<ContactAccount> slAll = contactAccountDAO.findAll();
 
@@ -46,7 +47,7 @@ public class ContactAccountService implements IContactAccountService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_CONTACT_ACCOUNT')")
+    @PreAuthorize("hasAuthority('C_CONTACT_ACCOUNT')")
     public ContactAccountDTO.Info create(ContactAccountDTO.Create request) {
         final ContactAccount contactAccount = modelMapper.map(request, ContactAccount.class);
         if (contactAccount.getIsDefault()) {
@@ -68,7 +69,7 @@ public class ContactAccountService implements IContactAccountService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_CONTACT_ACCOUNT')")
+    @PreAuthorize("hasAuthority('U_CONTACT_ACCOUNT')")
     public ContactAccountDTO.Info update(Long id, ContactAccountDTO.Update request) {
         final Optional<ContactAccount> slById = contactAccountDAO.findById(id);
         final ContactAccount contactAccount = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactAccountNotFound));
@@ -90,14 +91,14 @@ public class ContactAccountService implements IContactAccountService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CONTACT_ACCOUNT')")
+    @PreAuthorize("hasAuthority('D_CONTACT_ACCOUNT')")
     public void delete(Long id) {
         contactAccountDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CONTACT_ACCOUNT')")
+    @PreAuthorize("hasAuthority('D_CONTACT_ACCOUNT')")
     public void delete(ContactAccountDTO.Delete request) {
         final List<ContactAccount> contactAccounts = contactAccountDAO.findAllById(request.getIds());
 
@@ -106,12 +107,10 @@ public class ContactAccountService implements IContactAccountService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
-    public SearchDTO.SearchRs<ContactAccountDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(contactAccountDAO, request, contactAccount -> modelMapper.map(contactAccount, ContactAccountDTO.Info.class));
+    @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
+    public TotalResponse<ContactAccountDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(contactAccountDAO, criteria, contactAccount -> modelMapper.map(contactAccount, ContactAccountDTO.Info.class));
     }
-
-    // ------------------------------
 
     private ContactAccountDTO.Info save(ContactAccount contactAccount) {
         final ContactAccount saved = contactAccountDAO.saveAndFlush(contactAccount);

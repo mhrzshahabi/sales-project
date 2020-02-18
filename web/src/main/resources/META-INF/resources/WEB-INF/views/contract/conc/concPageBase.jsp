@@ -1,98 +1,10 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    <% DateUtil dateUtil = new DateUtil();%>
-var RestDataSource_Parameters = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: 200},
-                {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: 200},
-                {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: 200},
-                {name: "contractId", title: "<spring:message code='parameters.paramValue'/>", width: 200},
-                {name: "categoryValue", title: "<spring:message code='parameters.paramValue'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/parameters/spec-list"
-    });
-var RestDataSource_Contact = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='contact.code'/>"},
-            {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
-            {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-            {name: "phone", title: "<spring:message code='contact.phone'/>"},
-            {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
-            {name: "fax", title: "<spring:message code='contact.fax'/>"},
-            {name: "address", title: "<spring:message code='contact.address'/>"},
-            {name: "webSite", title: "<spring:message code='contact.webSite'/>"},
-            {name: "email", title: "<spring:message code='contact.email'/>"},
-            {
-                name: "type",
-                title: "<spring:message code='contact.type'/>",
-                valueMap: {
-                    "true": "<spring:message code='contact.type.real'/>",
-                    "false": "<spring:message code='contact.type.legal'/>"
-                }
-            },
-            {name: "nationalCode", title: "<spring:message code='contact.nationalCode'/>"},
-            {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
-            {name: "bankAccount", title: "<spring:message code='contact.bankAccount'/>"},
-            {name: "bankShaba", title: "<spring:message code='contact.bankShaba'/>"},
-            {name: "bankSwift", title: "<spring:message code='contact.bankShaba'/>"},
-            {name: "ceoPassportNo"},
-            {name: "ceo"},
-            {name: "commercialRole"},
-            {
-                name: "status",
-                title: "<spring:message code='contact.status'/>",
-                valueMap: {"true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"}
-            },
-            {name: "tradeMark"},
-            {name: "commercialRegistration"},
-            {name: "branchName"},
-            {name: "countryId", title: "<spring:message code='country.nameFa'/>", type: 'long'},
-            {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
-            {name: "contactAccounts"}
-        ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list"
-    });
 
-var RestDataSource_Unit = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='unit.code'/> "},
-                {name: "nameFA", title: "<spring:message code='unit.nameFa'/> "},
-                {name: "nameEN", title: "<spring:message code='unit.nameEN'/> "},
-                {name: "symbol", title: "<spring:message code='unit.symbol'/>"},
-                {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
-            ],
-        fetchDataURL: "${contextPath}/api/unit/spec-list"
-    });
-
-    var RestDataSource_Contact_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "seller", operator: "equals", value: true}]
-    };
-    var RestDataSource_ContactBUYER_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "buyer", operator: "equals", value: true}]
-    };
-    var RestDataSource_ContactAgentBuyer_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "agentBuyer", operator: "equals", value: true}]
-    };
-    var RestDataSource_ContactAgentSeller_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "agentSeller", operator: "equals", value: true}]
-    };
 
 function factoryLableHedear(id, contents, width, height, padding) {
         isc.Label.create({
@@ -101,13 +13,12 @@ function factoryLableHedear(id, contents, width, height, padding) {
             height: height,
             styleName: "helloWorldText",
             padding: padding,
-            backgroundColor: "#84c1ed",
+           // backgroundColor: "#84c1ed",
             align: "center",
             valign: "center",
             wrap: false,
-            showEdges: true,
+            //showEdges: true,
             showShadow: true,
-            icon: "icons/16/world.png",
             contents: contents
         });
     }
@@ -137,73 +48,315 @@ function factoryLableHedear(id, contents, width, height, padding) {
         })
     }
 
-var contactTabs = isc.TabSet.create({
+var contactConcTabs = isc.TabSet.create({
         width: "100%",
         height: "97%",
         tabs: [
             {
                 title: "page1", canClose: false,
                 pane: isc.ViewLoader.create({
-                                    autoDraw:false,
-                                    viewURL:"<spring:url value="/contact/cadPage1" />",
-                                    loadingMessage:"Loading Page.."
+                                    ID: "ViewLoaderpage1",
+                                    autoDraw:true,
+                                    viewURL:"<spring:url value="/contact/concPage1" />",
+                                    loadingMessage:"Loading Page1.."
                                     })
             },
             {
                 title: "page2", canClose: false,
                 pane: isc.ViewLoader.create({
-                                    autoDraw:false,
-                                    viewURL:"<spring:url value="/contact/cadPage2" />",
-                                    loadingMessage:"Loading Page.."
+                                    ID: "ViewLoaderpage2",
+                                    autoDraw:true,
+                                    viewURL:"<spring:url value="/contact/concPage2" />",
+                                    loadingMessage:"Loading Page2..",
+                                    viewLoaded: function() {
+                                            flagEdit=1;
+                                            }
                                     })
-            },
-            {
-                title: "page3", canClose: false,
-                pane: ""
             }
         ]
     });
-isc.IButton.create({
-    ID:"IButton_Contact_Save",
+
+var IButton_ContactConc_Save = isc.IButtonSave.create({
     title: "save",
-    icon: "icons/16/world.png",
+    icon: "pieces/16/save.png",
     iconOrientation: "right",
     click: function(){
-         var dataSaveAndUpdateContract={};
-                    dataSaveAndUpdateContract.contractDate= contactHeader.getValue("createDateDumy");
-                    dataSaveAndUpdateContract.contractNo=contactHeader.getValue("contractNo");
-                    dataSaveAndUpdateContract.contactId=contactHeader.getValue("contactId");
-                    dataSaveAndUpdateContract.contactByBuyerAgentId=contactHeader.getValue("contactByBuyerAgentId");
-                    dataSaveAndUpdateContract.contactBySellerId=contactHeader.getValue("contactBySellerId");
-                    dataSaveAndUpdateContract.contactBySellerAgentId=contactHeader.getValue("contactBySellerAgentId");
-                    dataSaveAndUpdateContract.amount=valuesManagerArticle2.getValue("amount");
-                    dataSaveAndUpdateContract.amount_en=valuesManagerArticle2.getValue("amount_en");
-                    dataSaveAndUpdateContract.unitId=valuesManagerArticle2.getValue("unitId");
-                    dataSaveAndUpdateContract.cathodesTolorance=valuesManagerArticle2.getValue("cathodesTolorance");
-                    dataSaveAndUpdateContract.optional=valuesManagerArticle2.getValue("optional");
-                    dataSaveAndUpdateContract.plant=valuesManagerArticle2.getValue("plant");
-                    dataSaveAndUpdateContract.materialId=-42;
-         alert(JSON.stringify(dataSaveAndUpdateContract));
-    }
-})
+            contactHeaderConc.validate();
+            dynamicFormConc.validate();
+            valuesManagerArticle5_DeliveryTermsConc.validate();
+            if (contactHeaderConc.hasErrors()|| dynamicFormConc.hasErrors()){
+                return;
+            }
+            if (valuesManagerArticle5_DeliveryTermsConc.hasErrors()){
+                contactConcTabs.selectTab(1);
+                return;
+            }
+            contactHeaderConc.setValue("contractDate", contactHeaderConc.getValues().createDate.toNormalDate("toUSShortDate"));
+            var dataSaveAndUpdateContractConc = {};
+            dataSaveAndUpdateContractConc.contractDate = contactHeaderConc.getValue("contractDate");
+            dataSaveAndUpdateContractConc.contractNo = contactHeaderConc.getValue("contractNo");
+            dataSaveAndUpdateContractConc.contactId = contactHeaderConc.getValue("contactId");
+            dataSaveAndUpdateContractConc.contactByBuyerAgentId = contactHeaderConc.getValue("contactByBuyerAgentId");
+            dataSaveAndUpdateContractConc.contactBySellerId = contactHeaderConc.getValue("contactBySellerId");
+            dataSaveAndUpdateContractConc.contactBySellerAgentId = contactHeaderConc.getValue("contactBySellerAgentId");
+            dataSaveAndUpdateContractConc.amount = valuesManagerArticle2Conc.getValue("amount");
+            dataSaveAndUpdateContractConc.amount_en = valuesManagerArticle2Conc.getValue("amount_en");
+            dataSaveAndUpdateContractConc.unitId = valuesManagerArticle2Conc.getValue("unitId");
+            dataSaveAndUpdateContractConc.molybdenumTolorance = valuesManagerArticle2Conc.getValue("cathodesTolorance");
+            dataSaveAndUpdateContractConc.optional = valuesManagerArticle2Conc.getValue("optional");
+            dataSaveAndUpdateContractConc.plant = valuesManagerArticle2Conc.getValue("plant");
+            dataSaveAndUpdateContractConc.contactInspectionId = 0;
+            dataSaveAndUpdateContractConc.molybdenum = valuesManagerArticle3_conc.getValue("MO");
+            dataSaveAndUpdateContractConc.copper = valuesManagerArticle3_conc.getValue("CU");
+            dataSaveAndUpdateContractConc.mo_amount = 0;
+            dataSaveAndUpdateContractConc.timeIssuance = valuesManagerArticle3_conc.getValue("unitCu");  ///unit1
+            dataSaveAndUpdateContractConc.prefixPayment = valuesManagerArticle3_conc.getValue("unitMo"); ///unit2
+            dataSaveAndUpdateContractConc.invoiceType = "any";
+            dataSaveAndUpdateContractConc.runStartDate = "";
+            dataSaveAndUpdateContractConc.runTill = "";
+            dataSaveAndUpdateContractConc.runEndtDate = "";
+            dataSaveAndUpdateContractConc.incotermsId = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermsId");
+            dataSaveAndUpdateContractConc.portByPortSourceId = valuesManagerArticle5_DeliveryTermsConc.getValue("portByPortSourceId");
+            dataSaveAndUpdateContractConc.incotermsText = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermsText");
+            dataSaveAndUpdateContractConc.officeSource = "TEHRAN";
+            dataSaveAndUpdateContractConc.priceCalPeriod = "any";
+            dataSaveAndUpdateContractConc.publishTime = "any";
+            dataSaveAndUpdateContractConc.reportTitle = "any";
+            dataSaveAndUpdateContractConc.delay = "any";
+            dataSaveAndUpdateContractConc.prepaid = "";
+            dataSaveAndUpdateContractConc.prepaidCurrency = "any";
+            dataSaveAndUpdateContractConc.payTime = "any";
+            dataSaveAndUpdateContractConc.pricePeriod = "any";
+            dataSaveAndUpdateContractConc.eventPayment = "any";
+            dataSaveAndUpdateContractConc.contentType = "any";
+            dataSaveAndUpdateContractConc.materialId = dynamicFormConc.getValue("materialId");
+            dataSaveAndUpdateContractConc.treatCost = valuesManagerArticle9_conc.getValue("TC");
+            dataSaveAndUpdateContractConc.refinaryCost = valuesManagerArticle9_conc.getValue("RC");
+
+        var dataSaveAndUpdateContractConcDetail = {};
+
+        dataSaveAndUpdateContractConcDetail.name_ContactAgentSeller = contactHeaderConcAgent.getValue("name_ContactAgentSeller")
+        dataSaveAndUpdateContractConcDetail.phone_ContactAgentSeller = contactHeaderConcAgent.getValue("phone_ContactAgentSeller")
+        dataSaveAndUpdateContractConcDetail.mobile_ContactAgentSeller = contactHeaderConcAgent.getValue("mobile_ContactAgentSeller")
+        dataSaveAndUpdateContractConcDetail.address_ContactAgentSeller = contactHeaderConcAgent.getValue("address_ContactAgentSeller")
+        dataSaveAndUpdateContractConcDetail.address_ContactSeller = contactHeaderConcAgent.getValue("address_ContactSeller")
+        dataSaveAndUpdateContractConcDetail.mobile_ContactSeller = contactHeaderConcAgent.getValue("mobile_ContactSeller")
+        dataSaveAndUpdateContractConcDetail.phone_ContactSeller = contactHeaderConcAgent.getValue("phone_ContactSeller")
+        dataSaveAndUpdateContractConcDetail.name_ContactSeller = contactHeaderConcAgent.getValue("name_ContactSeller")
+        dataSaveAndUpdateContractConcDetail.name_ContactAgentBuyer = contactHeaderConcAgent.getValue("name_ContactAgentBuyer")
+        dataSaveAndUpdateContractConcDetail.phone_ContactAgentBuyer = contactHeaderConcAgent.getValue("phone_ContactAgentBuyer")
+        dataSaveAndUpdateContractConcDetail.mobile_ContactAgentBuyer = contactHeaderConcAgent.getValue("mobile_ContactAgentBuyer")
+        dataSaveAndUpdateContractConcDetail.address_ContactAgentBuyer = contactHeaderConcAgent.getValue("address_ContactAgentBuyer")
+        dataSaveAndUpdateContractConcDetail.name_ContactBuyer = contactHeaderConcAgent.getValue("name_ContactBuyer")
+        dataSaveAndUpdateContractConcDetail.phone_ContactBuyer = contactHeaderConcAgent.getValue("phone_ContactBuyer")
+        dataSaveAndUpdateContractConcDetail.mobile_ContactBuyer = contactHeaderConcAgent.getValue("mobile_ContactBuyer")
+        dataSaveAndUpdateContractConcDetail.address_ContactBuyer = contactHeaderConcAgent.getValue("address_ContactBuyer")
+        dataSaveAndUpdateContractConcDetail.article2_13_1 = "";
+        dataSaveAndUpdateContractConcDetail.responsibleTelerons = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_7 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_8 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_9 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_10 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_11 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_12 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_2 = "";
+        dataSaveAndUpdateContractConcDetail.PrefixMolybdenum = "";
+        dataSaveAndUpdateContractConcDetail.toleranceMO = "";
+        dataSaveAndUpdateContractConcDetail.typical_unitMO = "";
+        dataSaveAndUpdateContractConcDetail.PrefixCopper = "";
+        dataSaveAndUpdateContractConcDetail.toleranceCU = "";
+        dataSaveAndUpdateContractConcDetail.typical_unitCU = "";
+        dataSaveAndUpdateContractConcDetail.PrefixC = "";
+        dataSaveAndUpdateContractConcDetail.typical_c = 0;
+        dataSaveAndUpdateContractConcDetail.toleranceC = "";
+        dataSaveAndUpdateContractConcDetail.typical_unitC = "";
+        dataSaveAndUpdateContractConcDetail.PrefixS = "";
+        dataSaveAndUpdateContractConcDetail.typical_s = 0;
+        dataSaveAndUpdateContractConcDetail.toleranceS = "";
+        dataSaveAndUpdateContractConcDetail.typical_unitS = "";
+        dataSaveAndUpdateContractConcDetail.PrefixPb = "";
+        dataSaveAndUpdateContractConcDetail.typical_pb = 0;
+        dataSaveAndUpdateContractConcDetail.tolerancePb = "";
+        dataSaveAndUpdateContractConcDetail.typical_unitPb = "";
+        dataSaveAndUpdateContractConcDetail.PrefixP = "";
+        dataSaveAndUpdateContractConcDetail.typical_p = 0;
+        dataSaveAndUpdateContractConcDetail.toleranceP = "";
+        dataSaveAndUpdateContractConcDetail.typical_unitP = "";
+        dataSaveAndUpdateContractConcDetail.PrefixSi = "";
+        dataSaveAndUpdateContractConcDetail.typical_Si = 0;
+        dataSaveAndUpdateContractConcDetail.toleranceSi = "";
+        dataSaveAndUpdateContractConcDetail.typical_unitSi = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_3 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_13 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_4 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_5 = "";
+        dataSaveAndUpdateContractConcDetail.article3_number17_6 = "";
+        dataSaveAndUpdateContractConcDetail.article4_number18 = "";
+        dataSaveAndUpdateContractConcDetail.amount_number19_2 = "";
+        dataSaveAndUpdateContractConcDetail.amount_number19_1 = "";
+        dataSaveAndUpdateContractConcDetail.shipment_number20 = "";
+        dataSaveAndUpdateContractConcDetail.article5_number21_6 = "";
+        dataSaveAndUpdateContractConcDetail.article6_number31 = "";
+        dataSaveAndUpdateContractConcDetail.article6_number31_1 = "";
+        dataSaveAndUpdateContractConcDetail.article6_number32_1 = "";
+        dataSaveAndUpdateContractConcDetail.article6_number34 = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized_number36_1 = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized_number33 = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized_number37_1 = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized_number37_2 = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized_number33_1 = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized_number37_3 = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized_number32 = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized_4 = "";
+        dataSaveAndUpdateContractConcDetail.article6_Containerized_5 = "";
+        dataSaveAndUpdateContractConcDetail.article7_number41 = "";
+        dataSaveAndUpdateContractConcDetail.article7_number3 = "";
+        dataSaveAndUpdateContractConcDetail.article7_number37 = "";
+        dataSaveAndUpdateContractConcDetail.article7_number3_1 = "";
+        dataSaveAndUpdateContractConcDetail.article7_number39_1 = "";
+        dataSaveAndUpdateContractConcDetail.article7_number40_2 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueOne = 0;
+        dataSaveAndUpdateContractConcDetail.discountFor = "";
+        dataSaveAndUpdateContractConcDetail.discountValueOne_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixOne = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitOne = valuesManagerArticle3_conc.getValue("unitCu");
+        dataSaveAndUpdateContractConcDetail.discountPerfixOne_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueOne_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueTwo = "";
+        dataSaveAndUpdateContractConcDetail.discountValueTwo_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixTwo = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitTwo = valuesManagerArticle3_conc.getValue("unitMo");
+        dataSaveAndUpdateContractConcDetail.discountPerfixTwo_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueTwo_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueThree = "";
+        dataSaveAndUpdateContractConcDetail.discountFor = "";
+        dataSaveAndUpdateContractConcDetail.discountValueThree_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixThree = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitThree = "";
+        dataSaveAndUpdateContractConcDetail.discountPerfixThree_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueThree_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueFour = "";
+        dataSaveAndUpdateContractConcDetail.discountValueFour_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountUnitFour = "";
+        dataSaveAndUpdateContractConcDetail.discountPerfixFour_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueFour_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueFive = 0;
+        dataSaveAndUpdateContractConcDetail.discountFor = "";
+        dataSaveAndUpdateContractConcDetail.discountValueFive_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixFive = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitFive = "";
+        dataSaveAndUpdateContractConcDetail.discountPerfixFive_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueFive_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueSix = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueSix_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixSix = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitSix = "";
+        dataSaveAndUpdateContractConcDetail.discountPerfixSix_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueSix_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueSeven = "";
+        dataSaveAndUpdateContractConcDetail.discountValueSeven_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountPerfixSeven = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitSeven = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixSeven_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueSeven_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueEight = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueEight_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixEight = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitEight = "";
+        dataSaveAndUpdateContractConcDetail.discountPerfixEight_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueEight_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueNine = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueNine_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixNine = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitNine = "";
+        dataSaveAndUpdateContractConcDetail.discountPerfixNine_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueNine_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueTen = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueTen_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixTen = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitTen = "";
+        dataSaveAndUpdateContractConcDetail.discountPerfixTen_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueTen_2 = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueEleven = 0;
+        dataSaveAndUpdateContractConcDetail.discountValueEleven_1 = 0;
+        dataSaveAndUpdateContractConcDetail.discountPerfixEleven = "";
+        dataSaveAndUpdateContractConcDetail.discountUnitEleven = "";
+        dataSaveAndUpdateContractConcDetail.discountPerfixEleven_1 = "";
+        dataSaveAndUpdateContractConcDetail.discountValueEleven_2 = 0;
+        dataSaveAndUpdateContractConcDetail.article8_number42 = "";
+        dataSaveAndUpdateContractConcDetail.article8_3 = "";
+        dataSaveAndUpdateContractConcDetail.article8_value = "";
+        dataSaveAndUpdateContractConcDetail.article8_number43 = "";
+        dataSaveAndUpdateContractConcDetail.article8_number44_1 = "";
+        dataSaveAndUpdateContractConcDetail.article9_number45 = "";
+        dataSaveAndUpdateContractConcDetail.article9_number22 = "";
+        dataSaveAndUpdateContractConcDetail.article9_Englishi_number22 = "";
+        dataSaveAndUpdateContractConcDetail.article9_number23 = "";
+        dataSaveAndUpdateContractConcDetail.article9_number48 = "";
+        dataSaveAndUpdateContractConcDetail.article9_number49_1 = "";
+        dataSaveAndUpdateContractConcDetail.article9_number51 = "";
+        dataSaveAndUpdateContractConcDetail.article9_number54 = "";
+        dataSaveAndUpdateContractConcDetail.article9_number54_1 = "";
+        dataSaveAndUpdateContractConcDetail.article9_number55 = "";
+        dataSaveAndUpdateContractConcDetail.article9_ImportantNote = valuesManagerArticle10_quality.getValue("article10_quality1");
+        dataSaveAndUpdateContractConcDetail.article10_number56 =valuesManagerArticle12_quality.getValue("article12_number56");
+        dataSaveAndUpdateContractConcDetail.article10_number57 =valuesManagerArticle12_quality.getValue("article12_number57");
+        dataSaveAndUpdateContractConcDetail.article10_number58 =valuesManagerArticle12_quality.getValue("article12_number58");
+        dataSaveAndUpdateContractConcDetail.article10_number59 =valuesManagerArticle12_quality.getValue("article12_number59");
+        dataSaveAndUpdateContractConcDetail.article10_number60 =valuesManagerArticle12_quality.getValue("article12_number60");
+        dataSaveAndUpdateContractConcDetail.article10_number61 =valuesManagerArticle12_quality.getValue("article12_number61");
+        recordContractNoConc=contactHeaderConc.getValue("contractNo");
+        var criteriaContractNoConc={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:dynamicFormConc.getValue("materialId")},{fieldName:"contractNo",operator:"equals",value:recordContractNoConc}]};
+        RestDataSource_Contract.fetchData(criteriaContractNoConc,function(dsResponse, data, dsRequest) {
+        if(data[0]!=undefined){
+                isc.warn("<spring:message code='main.contractsDuplicate'/>");
+               }else{
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contract",
+                httpMethod: "POST",
+                data: JSON.stringify(dataSaveAndUpdateContractConc),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        Window_ContactConc.close();
+                        ListGrid_Conc.invalidateCache();
+                        saveCotractConcDetails(dataSaveAndUpdateContractConcDetail,(JSON.parse(resp.data)).id);
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }))
+            }
+            })
+        }
+});
+
 var contactFormButtonSaveLayout = isc.HStack.create({
         width: "100%",
         height: "3%",
         align: "center",
-        showEdges: true,
-        backgroundColor: "#CCFFFF",
+        //showEdges: true,
+        //backgroundColor: "#CCFFFF",
         membersMargin: 5,
         layoutMargin: 10,
         members: [
-            IButton_Contact_Save
+            IButton_ContactConc_Save,
+            isc.IButtonCancel.create({
+                title: "<spring:message code='global.cancel'/>",
+                width: 100,
+                icon: "pieces/16/icon_delete.png",
+                orientation: "vertical",
+                click: function () {
+                Window_ContactConc.close();
+                }
+                })
         ]
     });
 
 VLayout_contactMain=isc.VLayout.create({
             width: "100%",
             height: "100%",
-            align: "center" +
-"",
+            align: "center",
             overflow: "scroll",
             autoCenter: true,
             isModal: true,
@@ -213,7 +366,123 @@ VLayout_contactMain=isc.VLayout.create({
             this.Super("closeClick", arguments);
             },
             members: [
-                contactTabs,
+                contactConcTabs,
                 contactFormButtonSaveLayout
             ]
             })
+
+function saveCotractConcDetails(data, contractID) {
+        data.contract_id = contractID;
+        data.feild_all_defintitons_save = "";
+        data.string_Currency="";
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: "${contextPath}/api/contractDetail",
+            httpMethod: "POST",
+            data: JSON.stringify(data),
+            callback: function (resp) {
+                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    saveListGrid_ContractConcItemShipment(contractID);
+                    saveValueAllArticlesConc(contractID);
+                } else
+                    isc.say(RpcResponse_o.data);
+            }
+        }))
+    }
+
+function saveListGrid_ContractConcItemShipment(contractID) {
+        ListGrid_ContractConcItemShipment.selectAllRecords();
+        ListGrid_ContractConcItemShipment.getSelectedRecords().forEach(function(element) {
+            var dataEditMain=ListGrid_ContractConcItemShipment.getSelectedRecord(element)
+            dataEditMain.contractId=contractID;
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contractShipment/",
+                httpMethod: "POST",
+                data: JSON.stringify(dataEditMain),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }))
+            });
+        ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
+            var dataEdit=ListGrid_ContractConcItemShipment.getEditedRecord(element);
+            dataEdit.contractId=contractID;
+            dataEdit.sendDate=(ListGrid_ContractConcItemShipment.getEditedRecord(element).sendDate).toNormalDate("toUSShortDate")
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contractShipment/",
+                httpMethod: "POST",
+                data: JSON.stringify(dataEdit),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>");
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }))
+        })
+ListGrid_ContractConcItemShipment.deselectAllRecords();
+};
+
+var dataALLArticleConc = {};
+    function saveValueAllArticlesConc(contractID) {
+        dataALLArticleConc.Article01 = nvlConc(dynamicForm_fullArticle01.getValue());
+        dataALLArticleConc.Article02 = nvlConc(dynamicForm_fullArticle02.getValue());
+        dataALLArticleConc.Article03 = nvlConc(dynamicForm_fullArticleConc03.getValue());
+        dataALLArticleConc.Article04 = nvlConc(dynamicForm_fullArticleConc04.getValue());
+        dataALLArticleConc.Article05 = nvlConc(dynamicForm_fullArticleConc05.getValue());
+        dataALLArticleConc.Article06 = nvlConc(dynamicForm_fullArticleConc06.getValue());
+        dataALLArticleConc.Article07 = nvlConc(dynamicForm_fullArticleConc07.getValue());
+        dataALLArticleConc.Article08 = nvlConc(dynamicForm_fullArticleConc08.getValue());
+        dataALLArticleConc.Article09 = nvlConc(dynamicForm_fullArticleConc09.getValue());
+        dataALLArticleConc.Article10 = nvlConc(dynamicForm_fullArticleConc10.getValue());
+        dataALLArticleConc.Article11 = nvlConc(dynamicForm_fullArticleConc11.getValue());
+        dataALLArticleConc.Article12 = nvlConc(dynamicForm_fullArticleConc12.getValue());
+        dataALLArticleConc.contractNo =contactHeaderConc.getValue("contractNo")+"_Conc";
+        dataALLArticleConc.contractId = contractID;
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: "${contextPath}/api/contract/writeWord",
+            httpMethod: "POST",
+            data: JSON.stringify(dataALLArticleConc),
+            callback: function (resp) {
+                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    isc.say("<spring:message code='global.form.request.successful'/>");
+                } else
+                    isc.say(RpcResponse_o.data);
+            }
+        }))
+}
+
+function nvlConc(articleIsNotNull){
+        if(articleIsNotNull == undefined){
+            return "";
+        }else{
+            return articleIsNotNull;
+        }
+    }
+
+
+
+
+
+function clearAdd(){
+        contactConcTabs.selectTab(0);
+        contactHeaderConc.clearValues();
+        contactHeaderConcAgent.clearValues();
+        valuesManagerConcArticle1.clearValues();
+        dynamicForm_fullArticle01.clearValues();
+        dynamicForm_fullArticle02.clearValues();
+        dynamicForm_fullArticleConc03.clearValues();
+        dynamicForm_fullArticleConc04.clearValues();
+        dynamicForm_fullArticleConc05.clearValues();
+        dynamicForm_fullArticleConc06.clearValues();
+        dynamicForm_fullArticleConc07.clearValues();
+        dynamicForm_fullArticleConc08.clearValues();
+        dynamicForm_fullArticleConc09.clearValues();
+        dynamicForm_fullArticleConc10.clearValues();
+        dynamicForm_fullArticleConc11.clearValues();
+        dynamicForm_fullArticleConc12.clearValues();
+        valuesManagerArticle2Conc.clearValues();
+        valuesManagerArticle3_conc.clearValues();
+        valuesManagerfullArticle.clearValues();
+}

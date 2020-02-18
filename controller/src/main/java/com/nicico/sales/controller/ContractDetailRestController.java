@@ -3,9 +3,10 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContractDetailDTO;
 import com.nicico.sales.iservice.IContractDetailService;
+import com.nicico.sales.model.entities.base.ContractDetail;
+import com.nicico.sales.service.ContractDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,6 @@ import java.util.List;
 public class ContractDetailRestController {
 
     private final IContractDetailService contractDetailService;
-
-    // ------------------------------s
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -48,7 +47,8 @@ public class ContractDetailRestController {
     @Loggable
     @PutMapping
     public ResponseEntity<ContractDetailDTO.Info> update(@RequestBody ContractDetailDTO.Update request) {
-        return new ResponseEntity<>(contractDetailService.update(request.getId(), request), HttpStatus.OK);
+        ContractDetailDTO.Info info = contractDetailService.findByContractID(request.getContract_id());
+        return new ResponseEntity<>(contractDetailService.update(info.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
@@ -61,7 +61,7 @@ public class ContractDetailRestController {
     @Loggable
     @DeleteMapping(value = "/deleteByContractId/{id}")
     public ResponseEntity deleteByContractId(@PathVariable Long id) {
-        long contractID=contractDetailService.FindByContractID(id).getId();
+        long contractID = contractDetailService.FindByContractID(id).getId();
         contractDetailService.delete(contractID);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -78,13 +78,5 @@ public class ContractDetailRestController {
     public ResponseEntity<TotalResponse<ContractDetailDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailService.search(nicicoCriteria), HttpStatus.OK);
-    }
-
-    // ------------------------------
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<ContractDetailDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(contractDetailService.search(request), HttpStatus.OK);
     }
 }

@@ -18,7 +18,7 @@ public class PaymentOption extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PAYMENT_OPTION")
-	@SequenceGenerator(name = "SEQ_PAYMENT_OPTION", sequenceName = "SEQ_PAYMENT_OPTION")
+	@SequenceGenerator(name = "SEQ_PAYMENT_OPTION", sequenceName = "SEQ_PAYMENT_OPTION", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 

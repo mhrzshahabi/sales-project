@@ -23,22 +23,23 @@ public class CurrencyRate extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CURRENCY_RATE")
-	@SequenceGenerator(name = "SEQ_CURRENCY_RATE", sequenceName = "SEQ_CURRENCY_RATE")
+	@SequenceGenerator(name = "SEQ_CURRENCY_RATE", sequenceName = "SEQ_CURRENCY_RATE", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
-	@Column(name = "C_DATE")
+	@Column(name = "C_DATE",length = 100)
 	private String curDate;
 
-	@Column(name = "c_IRR_USD")
+	@Column(name = "c_IRR_USD",length = 100)
 	private String irrUsd;
 
-	@Column(name = "c_EUR_USD")
+	@Column(name = "c_EUR_USD",length = 100)
 	private String eurUsd;
 
-	@Column(name = "c_AED_USD")
+	@Column(name = "c_AED_USD",length = 100)
 	private String aedUsd;
 
-	@Column(name = "c_RMB_USD")
+	@Column(name = "c_RMB_USD",length = 100)
 	private String rmbUsd;
+
 }

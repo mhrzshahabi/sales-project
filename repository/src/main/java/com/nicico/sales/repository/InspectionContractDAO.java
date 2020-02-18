@@ -16,5 +16,4 @@ public interface InspectionContractDAO extends JpaRepository<InspectionContract,
     @Query(value = "select EMAIL , EMAIL1 , EMAIL2  from TBL_PERSON INNER JOIN TBL_CONTACT TC on TBL_PERSON.CONTACT_ID = TC.ID where TBL_PERSON.CONTACT_ID =:id", nativeQuery = true)
     List<String> email(@Param("id") Long id);
 
-
 }

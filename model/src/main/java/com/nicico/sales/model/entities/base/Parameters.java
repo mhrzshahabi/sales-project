@@ -18,15 +18,12 @@ public class Parameters extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PARAMETER")
-	@SequenceGenerator(name = "SEQ_PARAMETER", sequenceName = "SEQ_PARAMETER")
+	@SequenceGenerator(name = "SEQ_PARAMETER", sequenceName = "SEQ_PARAMETER", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
 	@Column(name = "PARAM_NAME", nullable = false)
 	private String paramName;
-
-	@Column(name = "PARAM_TYPE", nullable = false)
-	private String paramType;
 
 	@Column(name = "PARAM_Value", nullable = false)
 	private String paramValue;

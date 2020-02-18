@@ -3,7 +3,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.WarehouseYardDTO;
 import com.nicico.sales.iservice.IWarehouseYardService;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +25,12 @@ public class WarehouseYardRestController {
 
     private final IWarehouseYardService warehouseYardService;
 
-    // ------------------------------s
-
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<WarehouseYardDTO.Info> get(@PathVariable Long id) {
         return new ResponseEntity<>(warehouseYardService.get(id), HttpStatus.OK);
     }
+
 
     @Loggable
     @GetMapping(value = "/list")
@@ -71,13 +69,5 @@ public class WarehouseYardRestController {
     public ResponseEntity<TotalResponse<WarehouseYardDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(warehouseYardService.search(nicicoCriteria), HttpStatus.OK);
-    }
-
-    // ------------------------------
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<WarehouseYardDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(warehouseYardService.search(request), HttpStatus.OK);
     }
 }

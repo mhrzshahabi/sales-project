@@ -22,53 +22,45 @@ import java.util.List;
 @RequestMapping(value = "/api/contractPerson")
 public class ContractPersonRestController {
 
-	private final IContractPersonService contractPersonService;
+    private final IContractPersonService contractPersonService;
 
-	// ------------------------------s
+    @Loggable
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ContractPersonDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(contractPersonService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/{id}")
-	// @PreAuthorize("hasAuthority('r_contractPerson')")
-	public ResponseEntity<ContractPersonDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(contractPersonService.get(id), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<ContractPersonDTO.Info>> list() {
+        return new ResponseEntity<>(contractPersonService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
-	// @PreAuthorize("hasAuthority('r_contractPerson')")
-	public ResponseEntity<List<ContractPersonDTO.Info>> list() {
-		return new ResponseEntity<>(contractPersonService.list(), HttpStatus.OK);
-	}
+    @Loggable
+    @PostMapping
+    public ResponseEntity<ContractPersonDTO.Info> create(@Validated @RequestBody ContractPersonDTO.Create request) {
+        return new ResponseEntity<>(contractPersonService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PostMapping
-	// @PreAuthorize("hasAuthority('c_contractPerson')")
-	public ResponseEntity<ContractPersonDTO.Info> create(@Validated @RequestBody ContractPersonDTO.Create request) {
-		return new ResponseEntity<>(contractPersonService.create(request), HttpStatus.CREATED);
-	}
+    @Loggable
+    @PutMapping
+    public ResponseEntity<ContractPersonDTO.Info> update(@RequestBody ContractPersonDTO.Update request) {
+        return new ResponseEntity<>(contractPersonService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PutMapping
-	// @PreAuthorize("hasAuthority('u_contractPerson')")
-	public ResponseEntity<ContractPersonDTO.Info> update(@RequestBody ContractPersonDTO.Update request) {
-		return new ResponseEntity<>(contractPersonService.update(request.getId(), request), HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        contractPersonService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
-	// @PreAuthorize("hasAuthority('d_contractPerson')")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		contractPersonService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
-
-	@Loggable
-	@DeleteMapping(value = "/list")
-	// @PreAuthorize("hasAuthority('d_contractPerson')")
-	public ResponseEntity<Void> delete(@Validated @RequestBody ContractPersonDTO.Delete request) {
-		contractPersonService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/list")
+    public ResponseEntity<Void> delete(@Validated @RequestBody ContractPersonDTO.Delete request) {
+        contractPersonService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @Loggable
     @GetMapping(value = "/spec-list")
@@ -76,5 +68,4 @@ public class ContractPersonRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractPersonService.search(nicicoCriteria), HttpStatus.OK);
     }
-
 }

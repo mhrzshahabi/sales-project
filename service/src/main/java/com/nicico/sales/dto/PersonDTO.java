@@ -16,99 +16,75 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonDTO {
-	@NotNull
-	@ApiModelProperty(required = true)
-	private Long contactId;
-	private String fullName;
-	private String jobTitle;
-	private String title;
-	private String email;
-	private String email1;
-	private String email2;
-	private String webAddress;
-	private String phoneNo;
-	private String faxNo;
-	private String mobileNo;
-	private String mobileNo1;
-	private String mobileNo2;
-	private String whatsApp;
-	private String weChat;
-	private String address;
-	// ------------------------------
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("PersonInfo")
-	public static class Info extends PersonDTO {
-		private Long id;
-		private Date createdDate;
-		private String createdBy;
-		private Date lastModifiedDate;
-		private String lastModifiedBy;
-		private Integer version;
-		private ContactDTO contact;
+    private Long contactId;
+    private String fullName;
+    private String jobTitle;
+    private String title;
+    private String email;
+    private String email1;
+    private String email2;
+    private String webAddress;
+    private String phoneNo;
+    private String faxNo;
+    private String mobileNo;
+    private String mobileNo1;
+    private String mobileNo2;
+    private String whatsApp;
+    private String weChat;
+    private String address;
 
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("PersonInfo")
+    public static class Info extends PersonDTO {
+        private Long id;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+        private ContactDTO contact;
 
-	// ------------------------------
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("PersonCreateRq")
-	public static class Create extends PersonDTO {
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("PersonCreateRq")
+    public static class Create extends PersonDTO {
+    }
 
-	// ------------------------------
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("PersonUpdateRq")
+    public static class Update extends PersonDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long id;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("PersonUpdateRq")
-	public static class Update extends PersonDTO {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Long id;
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Integer version;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("PersonDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
+    }
 
-	// ------------------------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("PersonDeleteRq")
-	public static class Delete {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private List<Long> ids;
-	}
-
-	// ------------------------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("PersonSpecRs")
-	public static class PersonSpecRs {
-		private SpecRs response;
-	}
-
-	// ---------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public static class SpecRs {
-		private List<PersonDTO.Info> data;
-		private Integer status;
-		private Integer startRow;
-		private Integer endRow;
-		private Integer totalRows;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class SpecRs {
+        private List<PersonDTO.Info> data;
+        private Integer status;
+        private Integer startRow;
+        private Integer endRow;
+        private Integer totalRows;
+    }
 }

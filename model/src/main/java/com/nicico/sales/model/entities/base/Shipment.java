@@ -1,9 +1,5 @@
 package com.nicico.sales.model.entities.base;
 
-/**
- * EMAMI
- */
-
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -22,13 +18,13 @@ public class Shipment extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT")
-	@SequenceGenerator(name = "SEQ_SHIPMENT", sequenceName = "SEQ_SHIPMENT")
+	@SequenceGenerator(name = "SEQ_SHIPMENT", sequenceName = "SEQ_SHIPMENT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_SHIPMENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "CONTRACT_SHIPMENT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmnt2contractShipment"))
 	private ContractShipment contractShipment;
 
 	@Column(name = "CONTRACT_SHIPMENT_ID")
@@ -36,7 +32,7 @@ public class Shipment extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmnt2Contactbybuyer"))
 	private Contact contact;
 
 	@Column(name = "CONTACT_ID")
@@ -44,15 +40,7 @@ public class Shipment extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_HEADER_ID", insertable = false, updatable = false)
-	private ShipmentHeader shipmentHeader;
-
-	@Column(name = "SHIPMENT_HEADER_ID")
-	private Long shipmentHeaderId;
-
-	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "CONTRACT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmnt2contract"))
 	private Contract contract;
 
 	@Column(name = "CONTRACT_ID")
@@ -60,7 +48,7 @@ public class Shipment extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmnt2material"))
 	private Material material;
 
 	@Column(name = "MATERIAL_ID")
@@ -77,7 +65,7 @@ public class Shipment extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "LOADING", insertable = false, updatable = false)
+	@JoinColumn(name = "LOADING", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmnt2portByLoading"))
 	private Port portByLoading;
 
 	@Column(name = "LOADING")
@@ -85,7 +73,7 @@ public class Shipment extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DISCHARGE", insertable = false, updatable = false)
+	@JoinColumn(name = "DISCHARGE", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmnt2portBydisch"))
 	private Port portByDischarge;
 
 	@Column(name = "DISCHARGE")
@@ -126,7 +114,7 @@ public class Shipment extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SWITCH_PORT", insertable = false, updatable = false)
+	@JoinColumn(name = "SWITCH_PORT", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmnt2portBysw"))
 	private Port switchPort;
 
 	@Column(name = "SWITCH_PORT")
@@ -155,7 +143,7 @@ public class Shipment extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "AGENT", insertable = false, updatable = false)
+	@JoinColumn(name = "AGENT", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmnt2contactAgent"))
 	private Contact contactByAgent;
 
 	@Column(name = "AGENT")
@@ -200,7 +188,6 @@ public class Shipment extends Auditable {
 
 	@Column(name = "DETENSION")
 	private Double detention;
-
 
 	@Column(name = "BOOKING_NO_cat")
 	private String bookingCat;

@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -48,10 +49,10 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({
+                buttons: [isc.IButtonSave.create({
                     title: "<spring:message
 		code='global.yes'/>"
-                }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
+                }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
@@ -62,7 +63,7 @@
                                 callback: function (RpcResponse_o) {
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_LME_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -73,7 +74,8 @@
                 }
             });
         }
-    };
+    }
+
     var Menu_ListGrid_LME = isc.Menu.create({
         width: 150,
         data: [
@@ -83,6 +85,7 @@
                     ListGrid_LME_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_LME')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -90,140 +93,178 @@
                     Window_LME.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_LME')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_LME_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_LME')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_LME_remove();
                 }
             },
+            </sec:authorize>
             {isSeparator: true}
 
         ]
     });
 
-    var DynamicForm_LME = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: 100,
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 1,
-        fields:
-            [
-                {name: "id", hidden: true,},
-                {type: "RowSpacerItem"},
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+    var DynamicForm_LME = isc.DynamicForm.create(
+        {
+            width: "100%",
+            height: "100%",
+            setMethod: 'POST',
+            align: "center",
+            canSubmit: true,
+            showInlineErrors: true,
+            showErrorText: true,
+            showErrorStyle: true,
+            errorOrientation: "right",
+            titleWidth: 200,
+            titleAlign: "right",
+            requiredMessage: "<spring:message code='validator.field.is.required'/>",
+            numCols: 2,
+            fields: [
+                {
+                    name: "id",
+                    hidden: true,
+                },
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
                 {
                     name: "cuUsdMt",
                     title: "<spring:message code='LME.cuUsdMt'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "goldUsdOunce",
                     title: "<spring:message code='LME.goldUsdOunce'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            required: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "silverUsdOunce",
                     title: "<spring:message code='LME.silverUsdOunce'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            required: true,
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "seleniumUsdLb",
                     title: "<spring:message code='LME.seleniumUsdLb'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    required: true,
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnChange: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "platinumUsdOunce",
                     title: "<spring:message code='LME.platinumUsdOunce'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "palladiumUsdOunce",
                     title: "<spring:message code='LME.palladiumUsdOunce'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
                 {
                     name: "molybdenumUsdLb",
                     title: "<spring:message code='LME.molybdenumUsdLb'/>",
-                    width: 480,
+                    width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                    validators: [
+                        {
+                            type: "isFloat",
+                            validateOnExit: true,
+                            stopOnError: true,
+                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                        }]
                 },
-                {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: 480, type: "date" , required: true,},
-                {type: "RowSpacerItem"}
-            ]
-    });
+                {
+                    name: "lmeDate",
+                    title: "<spring:message code='LME.LMEDate'/>",
+                    width: 430,
+                    type: "date",
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+                }]
+        });
 
-
-    var ToolStripButton_LME_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_LME_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -231,7 +272,8 @@
         }
     });
 
-    var ToolStripButton_LME_Add = isc.ToolStripButton.create({
+    <sec:authorize access="hasAuthority('C_LME')">
+    var ToolStripButton_LME_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -239,8 +281,10 @@
             Window_LME.show();
         }
     });
+    </sec:authorize>
 
-    var ToolStripButton_LME_Edit = isc.ToolStripButton.create({
+    <sec:authorize access="hasAuthority('U_LME')">
+    var ToolStripButton_LME_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -248,33 +292,42 @@
             ListGrid_LME_edit();
         }
     });
+    </sec:authorize>
 
-    var ToolStripButton_LME_Remove = isc.ToolStripButton.create({
+    <sec:authorize access="hasAuthority('D_LME')">
+    var ToolStripButton_LME_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             ListGrid_LME_remove();
         }
     });
-
-    <%--var ToolStripButton_LME_Print = isc.ToolStripButton.create({--%>
-    <%--icon: "[SKIN]/RichTextEditor/print.png",--%>
-    <%--title: "<spring:message code='global.form.print'/>",--%>
-    <%--click: function()--%>
-    <%--{--%>
-    <%--window.open( "/LME/print/pdf");--%>
-    <%--}--%>
-    <%--});--%>
+    </sec:authorize>
 
     var ToolStrip_Actions_LME = isc.ToolStrip.create({
         width: "100%",
         members:
             [
-                ToolStripButton_LME_Refresh,
+                <sec:authorize access="hasAuthority('C_LME')">
                 ToolStripButton_LME_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_LME')">
                 ToolStripButton_LME_Edit,
-                ToolStripButton_LME_Remove
-                <%--ToolStripButton_LME_Print--%>
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_LME')">
+                ToolStripButton_LME_Remove,
+                </sec:authorize>
+
+                isc.ToolStrip.create({
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_LME_Refresh,
+                    ]
+                })
             ]
     });
 
@@ -285,22 +338,61 @@
                 ToolStrip_Actions_LME
             ]
     });
-    var RestDataSource_LME = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "cuUsdMt", title: "<spring:message code='LME.cuUsdMt'/>", width: 200},
-                {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: 200},
-                {name: "goldUsdOunce", title: "<spring:message code='LME.goldUsdOunce'/>", width: 200},
-                {name: "silverUsdOunce", title: "<spring:message code='LME.silverUsdOunce'/>", width: 200},
-                {name: "seleniumUsdLb", title: "<spring:message code='LME.seleniumUsdLb'/>", width: 200},
-                {name: "platinumUsdOunce", title: "<spring:message code='LME.platinumUsdOunce'/>", width: 200},
-                {name: "palladiumUsdOunce", title: "<spring:message code='LME.palladiumUsdOunce'/>", width: 200},
-                {name: "molybdenumUsdLb", title: "<spring:message code='LME.molybdenumUsdLb'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/LME/spec-list"
-    });
-    var IButton_LME_Save = isc.IButton.create({
+
+    var RestDataSource_LME = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "cuUsdMt",
+                    title: "<spring:message code='LME.cuUsdMt'/>",
+                    width: 200
+                },
+                {
+                    name: "lmeDate",
+                    title: "<spring:message code='LME.LMEDate'/>",
+                    width: 200
+                },
+                {
+                    name: "goldUsdOunce",
+                    title: "<spring:message code='LME.goldUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "silverUsdOunce",
+                    title: "<spring:message code='LME.silverUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "seleniumUsdLb",
+                    title: "<spring:message code='LME.seleniumUsdLb'/>",
+                    width: 200
+                },
+                {
+                    name: "platinumUsdOunce",
+                    title: "<spring:message code='LME.platinumUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "palladiumUsdOunce",
+                    title: "<spring:message code='LME.palladiumUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "molybdenumUsdLb",
+                    title: "<spring:message code='LME.molybdenumUsdLb'/>",
+                    width: 200
+                }],
+            fetchDataURL: "${contextPath}/api/LME/spec-list"
+        });
+
+    var IButton_LME_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -322,7 +414,7 @@
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
                         if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>.");
+                            isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_LME_refresh();
                             Window_LME.close();
                         } else
@@ -332,10 +424,10 @@
             );
         }
     });
+
     var Window_LME = isc.Window.create({
         title: "<spring:message code='LME.title'/> ",
-        width: 580,
-        // height: 450,
+        width: 700,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -357,7 +449,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "LMEEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -371,16 +463,33 @@
                 })
             ]
     });
-    var ListGrid_LME = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_LME,
-        contextMenu: Menu_ListGrid_LME,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "lmeDate", title: "<spring:message code='LME.LMEDate'/>", width: "10%", align: "center"},
-                {name: "cuUsdMt", title: "<spring:message code='LME.cuUsdMt'/>", width: "10%", align: "center"},
+
+    var ListGrid_LME = isc.ListGrid.create(
+        {
+            width: "100%",
+            height: "100%",
+            dataSource: RestDataSource_LME,
+            contextMenu: Menu_ListGrid_LME,
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "lmeDate",
+                    title: "<spring:message code='LME.LMEDate'/>",
+                    width: "10%",
+                    align: "center"
+                },
+                {
+                    name: "cuUsdMt",
+                    title: "<spring:message code='LME.cuUsdMt'/>",
+                    width: "10%",
+                    align: "center"
+                },
                 {
                     name: "goldUsdOunce",
                     title: "<spring:message code='LME.goldUsdOunce'/>",
@@ -416,23 +525,26 @@
                     title: "<spring:message code='LME.molybdenumUsdLb'/>",
                     width: "15%",
                     align: "center"
-                }
-            ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            var record = this.getSelectedRecord();
-            ListGrid_LMEFeature.fetchData({"lME.id": record.id}, function (dsResponse, data, dsRequest) {
-                ListGrid_LMEFeature.setData(data);
-            }, {operationId: "00"});
-        },
-        dataArrived: function (startRow, endRow) {
-        }
+                }],
+            sortField: 0,
+            autoFetchData: true,
+            showFilterEditor: true,
+            filterOnKeypress: true,
+            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
+            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
+                var record = this.getSelectedRecord();
+                ListGrid_LMEFeature.fetchData(
+                    {
+                        "lME.id": record.id
+                    }, function (dsResponse, data, dsRequest) {
+                        ListGrid_LMEFeature.setData(data);
+                    },
+                    {
+                        operationId: "00"
+                    });
+            }
+        });
 
-    });
     var HLayout_LME_Grid = isc.HLayout.create({
         width: "100%",
         height: "100%",
@@ -448,5 +560,3 @@
             HLayout_LME_Actions, HLayout_LME_Grid
         ]
     });
-
-

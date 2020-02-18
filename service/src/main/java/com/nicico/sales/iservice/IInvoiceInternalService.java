@@ -9,21 +9,13 @@ import java.util.List;
 
 public interface IInvoiceInternalService {
 
-	InvoiceInternalDTO.Info get(Long id);
+    InvoiceInternalDTO.Info get(String id);
 
-	List<InvoiceInternalDTO.Info> list();
+    List<InvoiceInternalDTO.Info> getIds(List<String> id);
 
-	InvoiceInternalDTO.Info create(InvoiceInternalDTO.Create request);
+    List<InvoiceInternalDTO.Info> list();
 
-	InvoiceInternalDTO.Info update(Long id, InvoiceInternalDTO.Update request);
+    TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria);
 
-	void delete(Long id);
-
-	void delete(InvoiceInternalDTO.Delete request);
-
-	TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria);
-
-	SearchDTO.SearchRs<InvoiceInternalDTO.Info> search(SearchDTO.SearchRq request);
-
-	InvoiceInternalDTO.Info sendInternalForm2accounting(Long id,String data) ;
+    InvoiceInternalDTO.Info sendInternalForm2accounting(String id, String data);
 }

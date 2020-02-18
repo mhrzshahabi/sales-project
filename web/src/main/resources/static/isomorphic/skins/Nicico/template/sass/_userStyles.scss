@@ -1,0 +1,1123 @@
+
+.tabBarTop {
+  background-color: #fe9d2a;
+}
+
+.header{
+  display: block;
+  height: 100%;
+}
+//.header-logo{
+//  background-color: #fe9d2a;
+//}
+.header-logo-title{
+  background-color: #dcdeea;
+  color: #374b71;
+  height: 100%;
+}
+.header-exit{
+ // background: url("../../../static/img/top-back.svg");
+}
+.header-filter span{
+  color:#374b71;
+  font-weight: bold;
+}
+.formTitleRTL{
+  color:#374b71;
+}
+.formTitleFocusedRTL{
+  font-size: 12.5px;
+  font-weight: bold;
+}
+.header-change-lng span{
+  color:#374b71 ;
+}
+//.header-label-username{
+//  color:#374b71 ;
+//  font-size: 14px;
+//  font-weight: bold;
+//}
+.toolStripButton{
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.16);
+}
+.toolStripButtonOver{
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.16);
+}
+.toolStripButtonFocusedDown{
+  border-radius: 3px;
+}
+
+.toolStripButtonAdd{
+
+  border-radius: 3px;
+  background-color: #e8f0e6;
+  border: solid 1px #05a74a;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #05a74a;
+    font-weight: bold;
+  }
+}
+
+.operation-toolstrip-edit{
+
+  border-radius: 3px;
+  background-color: #f0ece6;
+  border: solid 1px #f5a623;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #f5a623;
+    font-weight: bold;
+  }
+}
+.operation-toolstrip-remove{
+  border-radius: 3px;
+  background-color: #f0e6ec;
+  border: solid 1px #ff0000;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #ff0000;
+    font-weight: bold;
+  }
+}
+.operation-toolstrip-refresh{
+  border-radius: 3px;
+  background-color: #fe9d2a;
+  border: solid 1px #fe9d2a;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: white;
+    font-weight: bold;
+  }
+}
+
+.cellDark, .cellOverDark, .cellSelectedDark, .cellSelectedOverDark
+{
+  border-bottom: 3px solid #e6e6e6;
+  padding: 5px !important;
+  //font-weight: bold;
+  position: relative;
+  &:after{
+      content : "";
+      position: absolute;
+      left    : 0;
+      z-index: 100;
+      top  : 5px;
+      width  : 1px;
+      height: 18px;
+      background: #d9d9d9;
+  }
+}
+.specialCol, .specialColOver, .specialColSelected, .specialColSelectedOver
+{
+  border-bottom: 3px solid #e6e6e6;
+  //font-weight: bold;
+  position: relative;
+}
+.cell, .cellOver, .cellSelected, .cellSelectedOver
+{
+  border-bottom: 3px solid #e6e6e6;
+  padding: 5px !important;
+  //font-weight: bold;
+  position: relative;
+  &:after{
+    content : "";
+    position: absolute;
+    left    : 0;
+    z-index: 100;
+    top  : 5px;
+    width  : 1px;
+    height: 18px;
+    background: #d9d9d9;
+  }
+}
+.cellDarkAltCol, .cellOverDarkAltCol, .cellSelectedDarkAltCol, .cellSelectedOverDarkAltCol{
+  border-bottom: 3px solid #e6e6e6;
+  padding: 5px !important;
+  //font-weight: bold;
+  position: relative;
+  &:after{
+    content : "";
+    position: absolute;
+    left    : 0;
+    z-index: 100;
+    top  : 5px;
+    width  : 1px;
+    height: 18px;
+    background: #d9d9d9;
+  }
+}
+.cellAltCol, .cellOverAltCol, .cellSelectedAltCol, .cellSelectedOverAltCol  {
+  border-bottom: 3px solid #e6e6e6;
+  padding: 5px !important;
+  //font-weight: bold;
+  position: relative;
+  &:after{
+    content : "";
+    position: absolute;
+    left    : 0;
+    z-index: 100;
+    top  : 5px;
+    width  : 1px;
+    height: 18px;
+    background: #d9d9d9;
+  }
+}
+
+.listTable tbody tr td:first-child{
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 6px;
+}
+.listTable tbody tr td:last-child{
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 6px;
+}
+
+.sectionHeaderopened,
+.sectionHeaderclosed {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px -4px 6px 0px, rgba(0, 0, 0, 0.16) 0px -3px 2px 0px;
+}
+.tabButtonTopDown, .tabButtonTopSelectedFocused, .tabButtonTopSelectedFocusedOver, .tabButtonTopSelectedFocusedDown, .tabButtonTopSelectedOver, .tabButtonTopSelectedDown, .tabButtonTopSelected {
+  font-weight: bold;
+}
+hr {
+  border-top: 1px solid #e8e8e8 !important;
+}
+.headerButton, .headerButtonOver{
+  padding-right: 10px;
+}
+.main-menu div {
+  background-color: #324458;
+  border-color: #324458;
+  .toolStripButton,
+  .toolStripButtonFocused,
+  .toolStripButtonFocusedOver,
+  .toolStripButtonDown,
+  .toolStripButtonFocusedDown,
+  .toolStripButtonSelected,
+  .toolStripButtonSelectedFocused,
+  .toolStripButtonSelectedDown,
+  .toolStripButtonSelectedFocusedDown,
+  .toolStripButtonSelectedOver,
+  .toolStripButtonSelectedFocusedOver,
+  .toolStripButtonDisabled,
+  .toolStripButtonSelectedDisabled,
+  .toolStripButtonOpened,
+  .toolStripButtonOverOpened,
+  .toolStripButtonDownOpened,
+  .toolStripButtonFocusedOpened,
+  .toolStripButtonFocusedDownOpened,
+  .toolStripButtonFocusedOverOpened,
+  .toolStripButtonSelectedOpened,
+  .toolStripButtonSelectedDownOpened,
+  .toolStripButtonSelectedOverOpened {
+    color: white;
+    border: none;
+    box-shadow: none;
+    font-weight: bold;
+    font-size: 13px;
+    background: none !important;
+
+  }
+  .toolStripButtonOver{
+    color: #fe9d2a;
+    border: none;
+    box-shadow: none;
+    font-weight: bold;
+    font-size: 13px;
+    background: none !important;
+  }
+}
+.toolStripButton,
+.toolStripButtonOver,
+.toolStripButtonFocused,
+.toolStripButtonFocusedOver,
+.toolStripButtonDown,
+.toolStripButtonFocusedDown,
+.toolStripButtonSelected,
+.toolStripButtonSelectedFocused,
+.toolStripButtonSelectedDown,
+.toolStripButtonSelectedFocusedDown,
+.toolStripButtonSelectedOver,
+.toolStripButtonSelectedFocusedOver,
+.toolStripButtonDisabled,
+.toolStripButtonSelectedDisabled,
+.toolStripButtonOpened,
+.toolStripButtonOverOpened,
+.toolStripButtonDownOpened,
+.toolStripButtonFocusedOpened,
+.toolStripButtonFocusedDownOpened,
+.toolStripButtonFocusedOverOpened,
+.toolStripButtonSelectedOpened,
+.toolStripButtonSelectedDownOpened,
+.toolStripButtonSelectedOverOpened {
+  border-radius: 3px;
+  background-color: #f3f3f3;
+  border: solid 1px #3f3f3f;
+  color: $standard_black;
+}
+
+.menuTable td {
+   font-weight: bold;
+ }
+
+.toolStripButtonDisabled,
+.toolStripButtonSelectedDisabled{
+  background-color: #f3f3f3;
+  border: solid 1px $primary_grey_dark;
+  color: #3f3f3f;
+}
+$standard_border_width: 1px !default;
+$standard_black: #000000 !default;
+$standard_font_size: 12px !default;
+
+$standard_color: $standard_black !default;
+$button_font_size: $standard_font_size !default;
+$window_header_bgColor: #fe9d2a !default;
+
+
+.buttonSave,
+.buttonSaveOver,
+.buttonSaveFocused,
+.buttonSaveFocusedOver,
+.buttonSaveDown,
+.buttonSaveFocusedDown,
+.buttonSaveSelected,
+.buttonSaveSelectedFocused,
+.buttonSaveSelectedDown,
+.buttonSaveSelectedFocusedDown,
+.buttonSaveSelectedOver,
+.buttonSaveSelectedFocusedOver,
+.buttonSaveDisabled,
+.buttonSaveSelectedDisabled,
+.buttonSavePending,
+.buttonSavePendingOver,
+.buttonSavePendingFocused,
+.buttonSavePendingFocusedOver,
+.buttonSavePendingDown,
+.buttonSavePendingFocusedDown,
+.buttonSavePendingSelected,
+.buttonSavePendingSelectedFocused,
+.buttonSavePendingSelectedDown,
+.buttonSavePendingSelectedFocusedDown,
+.buttonSavePendingSelectedOver,
+.buttonSavePendingSelectedFocusedOver,
+.buttonSavePendingDisabled,
+.buttonSavePendingSelectedDisabled {
+  font-size: $button_font_size;
+  padding: 3px 4px 3px 4px;
+  background-color: #e8f0e6;
+  border: solid 1px #05a74a;
+  border-radius: 3px;
+  border: solid 1px #05a74a;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  div{
+    color: #05a74a;
+    font-weight: bold;
+  }
+}
+.buttonSaveOver{
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.16);
+}
+
+.buttonCancel,
+.buttonCancelOver,
+.buttonCancelFocused,
+.buttonCancelFocusedOver,
+.buttonCancelDown,
+.buttonCancelFocusedDown,
+.buttonCancelSelected,
+.buttonCancelSelectedFocused,
+.buttonCancelSelectedDown,
+.buttonCancelSelectedFocusedDown,
+.buttonCancelSelectedOver,
+.buttonCancelSelectedFocusedOver,
+.buttonCancelDisabled,
+.buttonCancelSelectedDisabled,
+.buttonCancelPending,
+.buttonCancelPendingOver,
+.buttonCancelPendingFocused,
+.buttonCancelPendingFocusedOver,
+.buttonCancelPendingDown,
+.buttonCancelPendingFocusedDown,
+.buttonCancelPendingSelected,
+.buttonCancelPendingSelectedFocused,
+.buttonCancelPendingSelectedDown,
+.buttonCancelPendingSelectedFocusedDown,
+.buttonCancelPendingSelectedOver,
+.buttonCancelPendingSelectedFocusedOver,
+.buttonCancelPendingDisabled,
+.buttonCancelPendingSelectedDisabled {
+  font-size: $button_font_size;
+  padding: 3px 4px 3px 4px;
+  border-radius: 3px;
+  background-color: #f0e6ec;
+  border: solid 1px #ff0000;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  div{
+    color: #ff0000;
+    font-weight: bold;
+  }
+}
+.buttonCancelOver{
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.16);
+}
+/* tool strip button */
+.toolStripButtonPrint,
+.toolStripButtonPrintOver,
+.toolStripButtonPrintFocused,
+.toolStripButtonPrintFocusedOver,
+.toolStripButtonPrintDown,
+.toolStripButtonPrintFocusedDown,
+.toolStripButtonPrintSelected,
+.toolStripButtonPrintSelectedFocused,
+.toolStripButtonPrintSelectedDown,
+.toolStripButtonPrintSelectedFocusedDown,
+.toolStripButtonPrintSelectedOver,
+.toolStripButtonPrintSelectedFocusedOver,
+.toolStripButtonPrintDisabled,
+.toolStripButtonPrintSelectedDisabled,
+.toolStripButtonPrintOpened,
+.toolStripButtonPrintOverOpened,
+.toolStripButtonPrintDownOpened,
+.toolStripButtonPrintFocusedOpened,
+.toolStripButtonPrintFocusedDownOpened,
+.toolStripButtonPrintFocusedOverOpened,
+.toolStripButtonPrintSelectedOpened,
+.toolStripButtonPrintSelectedDownOpened,
+.toolStripButtonPrintSelectedOverOpened {
+  border: $standard_border_width solid transparent;
+  @include border-radius(0px);
+  color: $standard_color;
+  font-size: $button_font_size;
+  padding: 3px 4px 3px 4px;
+  border-radius: 3px;
+  background-color: #e6e6e6;
+  border: solid 1px #3f3f3f;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #3f3f3f;
+    font-weight: bold;
+  }
+}
+
+/* tool strip button */
+.toolStripButtonAddLarge,
+.toolStripButtonAddLargeOver,
+.toolStripButtonAddLargeFocused,
+.toolStripButtonAddLargeFocusedOver,
+.toolStripButtonAddLargeDown,
+.toolStripButtonAddLargeFocusedDown,
+.toolStripButtonAddLargeSelected,
+.toolStripButtonAddLargeSelectedFocused,
+.toolStripButtonAddLargeSelectedDown,
+.toolStripButtonAddLargeSelectedFocusedDown,
+.toolStripButtonAddLargeSelectedOver,
+.toolStripButtonAddLargeSelectedFocusedOver,
+.toolStripButtonAddLargeDisabled,
+.toolStripButtonAddLargeSelectedDisabled,
+.toolStripButtonAddLargeOpened,
+.toolStripButtonAddLargeOverOpened,
+.toolStripButtonAddLargeDownOpened,
+.toolStripButtonAddLargeFocusedOpened,
+.toolStripButtonAddLargeFocusedDownOpened,
+.toolStripButtonAddLargeFocusedOverOpened,
+.toolStripButtonAddLargeSelectedOpened,
+.toolStripButtonAddLargeSelectedDownOpened,
+.toolStripButtonAddLargeSelectedOverOpened {
+  border: $standard_border_width solid transparent;
+  @include border-radius(0px);
+  color: $standard_color;
+  font-size: 13px;
+  padding: 3px 4px 3px 4px;
+  border-radius: 3px;
+  background-color: #e8f0e6;
+  border: solid 1px #05a74a;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #05a74a;
+    font-weight: bold;
+  }
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  height: 20px;
+}
+
+
+/* tool strip button */
+.toolStripButtonAdd,
+.toolStripButtonAddOver,
+.toolStripButtonAddFocused,
+.toolStripButtonAddFocusedOver,
+.toolStripButtonAddDown,
+.toolStripButtonAddFocusedDown,
+.toolStripButtonAddSelected,
+.toolStripButtonAddSelectedFocused,
+.toolStripButtonAddSelectedDown,
+.toolStripButtonAddSelectedFocusedDown,
+.toolStripButtonAddSelectedOver,
+.toolStripButtonAddSelectedFocusedOver,
+.toolStripButtonAddDisabled,
+.toolStripButtonAddSelectedDisabled,
+.toolStripButtonAddOpened,
+.toolStripButtonAddOverOpened,
+.toolStripButtonAddDownOpened,
+.toolStripButtonAddFocusedOpened,
+.toolStripButtonAddFocusedDownOpened,
+.toolStripButtonAddFocusedOverOpened,
+.toolStripButtonAddSelectedOpened,
+.toolStripButtonAddSelectedDownOpened,
+.toolStripButtonAddSelectedOverOpened {
+  border: $standard_border_width solid transparent;
+  @include border-radius(0px);
+  color: $standard_color;
+  font-size: $button_font_size;
+  padding: 3px 4px 3px 4px;
+  border-radius: 3px;
+  background-color: #e8f0e6;
+  border: solid 1px #05a74a;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #05a74a;
+    font-weight: bold;
+  }
+}
+
+
+/* tool strip button */
+.toolStripButtonRefresh,
+.toolStripButtonRefreshOver,
+.toolStripButtonRefreshFocused,
+.toolStripButtonRefreshFocusedOver,
+.toolStripButtonRefreshDown,
+.toolStripButtonRefreshFocusedDown,
+.toolStripButtonRefreshSelected,
+.toolStripButtonRefreshSelectedFocused,
+.toolStripButtonRefreshSelectedDown,
+.toolStripButtonRefreshSelectedFocusedDown,
+.toolStripButtonRefreshSelectedOver,
+.toolStripButtonRefreshSelectedFocusedOver,
+.toolStripButtonRefreshDisabled,
+.toolStripButtonRefreshSelectedDisabled,
+.toolStripButtonRefreshOpened,
+.toolStripButtonRefreshOverOpened,
+.toolStripButtonRefreshDownOpened,
+.toolStripButtonRefreshFocusedOpened,
+.toolStripButtonRefreshFocusedDownOpened,
+.toolStripButtonRefreshFocusedOverOpened,
+.toolStripButtonRefreshSelectedOpened,
+.toolStripButtonRefreshSelectedDownOpened,
+.toolStripButtonRefreshSelectedOverOpened {
+  border: $standard_border_width solid transparent;
+  @include border-radius(0px);
+  color: $standard_color;
+  font-size: $button_font_size;
+  padding: 3px 4px 3px 4px;
+  border-radius: 3px;
+  background-color: #fe9d2a;
+  border: solid 1px #fe9d2a;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: white;
+    font-weight: bold;
+  }
+}
+
+/* tool strip button */
+.toolStripButtonEdit,
+.toolStripButtonEditOver,
+.toolStripButtonEditFocused,
+.toolStripButtonEditFocusedOver,
+.toolStripButtonEditDown,
+.toolStripButtonEditFocusedDown,
+.toolStripButtonEditSelected,
+.toolStripButtonEditSelectedFocused,
+.toolStripButtonEditSelectedDown,
+.toolStripButtonEditSelectedFocusedDown,
+.toolStripButtonEditSelectedOver,
+.toolStripButtonEditSelectedFocusedOver,
+.toolStripButtonEditDisabled,
+.toolStripButtonEditSelectedDisabled,
+.toolStripButtonEditOpened,
+.toolStripButtonEditOverOpened,
+.toolStripButtonEditDownOpened,
+.toolStripButtonEditFocusedOpened,
+.toolStripButtonEditFocusedDownOpened,
+.toolStripButtonEditFocusedOverOpened,
+.toolStripButtonEditSelectedOpened,
+.toolStripButtonEditSelectedDownOpened,
+.toolStripButtonEditSelectedOverOpened {
+  border: $standard_border_width solid transparent;
+  @include border-radius(0px);
+  color: $standard_color;
+  font-size: $button_font_size;
+  padding: 3px 4px 3px 4px;
+  border-radius: 3px;
+  background-color: #f0ece6;
+  border: solid 1px #f5a623;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #f5a623;
+    font-weight: bold;
+  }
+}
+/* tool strip button */
+.toolStripButtonExcel,
+.toolStripButtonExcelOver,
+.toolStripButtonExcelFocused,
+.toolStripButtonExcelFocusedOver,
+.toolStripButtonExcelDown,
+.toolStripButtonExcelFocusedDown,
+.toolStripButtonExcelSelected,
+.toolStripButtonExcelSelectedFocused,
+.toolStripButtonExcelSelectedDown,
+.toolStripButtonExcelSelectedFocusedDown,
+.toolStripButtonExcelSelectedOver,
+.toolStripButtonExcelSelectedFocusedOver,
+.toolStripButtonExcelDisabled,
+.toolStripButtonExcelSelectedDisabled,
+.toolStripButtonExcelOpened,
+.toolStripButtonExcelOverOpened,
+.toolStripButtonExcelDownOpened,
+.toolStripButtonExcelFocusedOpened,
+.toolStripButtonExcelFocusedDownOpened,
+.toolStripButtonExcelFocusedOverOpened,
+.toolStripButtonExcelSelectedOpened,
+.toolStripButtonExcelSelectedDownOpened,
+.toolStripButtonExcelSelectedOverOpened {
+  border: $standard_border_width solid transparent;
+  @include border-radius(0px);
+  color: $standard_color;
+  font-size: $button_font_size;
+  padding: 3px 4px 3px 4px;
+  border-radius: 3px;
+  background-color: #374b71;
+  border: solid 1px #374b71;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #374b71;
+    font-weight: bold;
+  }
+}
+/* tool strip button */
+.toolStripButtonRemove,
+.toolStripButtonRemoveOver,
+.toolStripButtonRemoveFocused,
+.toolStripButtonRemoveFocusedOver,
+.toolStripButtonRemoveDown,
+.toolStripButtonRemoveFocusedDown,
+.toolStripButtonRemoveSelected,
+.toolStripButtonRemoveSelectedFocused,
+.toolStripButtonRemoveSelectedDown,
+.toolStripButtonRemoveSelectedFocusedDown,
+.toolStripButtonRemoveSelectedOver,
+.toolStripButtonRemoveSelectedFocusedOver,
+.toolStripButtonRemoveDisabled,
+.toolStripButtonRemoveSelectedDisabled,
+.toolStripButtonRemoveOpened,
+.toolStripButtonRemoveOverOpened,
+.toolStripButtonRemoveDownOpened,
+.toolStripButtonRemoveFocusedOpened,
+.toolStripButtonRemoveFocusedDownOpened,
+.toolStripButtonRemoveFocusedOverOpened,
+.toolStripButtonRemoveSelectedOpened,
+.toolStripButtonRemoveSelectedDownOpened,
+.toolStripButtonRemoveSelectedOverOpened {
+  border: $standard_border_width solid transparent;
+  @include border-radius(0px);
+  color: $standard_color;
+  font-size: $button_font_size;
+  padding: 3px 4px 3px 4px;
+  border-radius: 3px;
+  background-color: #f0e6ec;
+  border: solid 1px #ff0000;
+  &:hover{
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  td{
+    color: #ff0000;
+    font-weight: bold;
+  }
+}
+
+.menuTable{
+  background-color: white;
+  td{
+   // font-weight: bold;
+  }
+  .menuTitleField, .menuTitleFieldOver{
+      text-align: center;
+  }
+  tr {
+    text-align: center;
+    .menuIconField, .menuIconFieldOver, .menuIconFieldSelected, .menuIconFieldSelectedOver {
+      img{
+        display: none;
+      }
+    }
+  }
+}
+
+.menuTable tr[role="menuitemcheckable"] .menuIconField img {
+  display: block !important;
+}
+
+.selectItemPickerIcon,
+.selectItemPickerIconOver,
+.selectItemPickerIconRTL,
+.selectItemPickerIconOverRTL,
+.selectItemPickerIconFocused,
+.selectItemPickerIconFocusedRTL,
+.selectItemPickerIconDisabled,
+.selectItemPickerIconDisabledRTL,
+.selectItemPickerIconError,
+.selectItemPickerIconErrorOver,
+.selectItemPickerIconErrorRTL,
+.selectItemPickerIconErrorOverRTL,
+.selectItemPickerIconErrorFocused,
+.selectItemPickerIconErrorFocusedRTL,
+.selectItemPickerIconErrorFocusedOver,
+.selectItemPickerIconErrorFocusedOverRTL {
+  padding-left: 2px;
+  padding-right: 2px;
+  position: relative;
+}
+
+
+/* sprited ComboBoxItem picker */
+.comboBoxItemPicker,
+.comboBoxItemPickerOver,
+.comboBoxItemPickerFocused,
+.comboBoxItemPickerFocusedOver,
+.comboBoxItemPickerDisabledrtl,
+.comboBoxItemPickerrtl,
+.comboBoxItemPickerOverrtl,
+.comboBoxItemPickerFocusedrtl,
+.comboBoxItemPickerFocusedOverrtl {
+  display: inline-block;
+  background-position: 0px 0px;
+  background: $combobox_item_picker_icon no-repeat;
+  position: absolute;
+  left: 10;
+}
+
+.toolStrip {
+  border: none;
+}
+.headerButton,
+.headerButtonSelected,
+.headerButtonSelectedOver,
+.headerButtonSelectedDown,
+.headerButtonSelectedDisabled,
+.headerButtonOver,
+.headerButtonDown,
+.headerButtonDisabled {
+  text-align: center !important;
+}
+.listTable tbody tr td {
+  text-align: center;
+}
+.listTable tbody tr  {
+  .groupNode{
+    text-align: right !important;
+  }
+}
+.listTable tbody tr {
+  .treeCell,
+  .treeCellDark,
+  .treeCellOver,
+  .treeCellOverDark,
+  .treeCellSelected,
+  .treeCellSelectedDark,
+  .treeCellSelectedOver,
+  .treeCellSelectedOverDark,
+  .treeCellDisabled,
+  .treeCellDisabledDark,
+  .treeTallCell,
+  .treeTallCellDark,
+  .treeTallCellOver,
+  .treeTallCellOverDark,
+  .treeTallCellSelected,
+  .treeTallCellSelectedDark,
+  .treeTallCellSelectedOver,
+  .treeTallCellSelectedOverDark,
+  .treeTallCellDisabled,
+  .treeTallCellDisabledDark {
+    text-align: right !important;
+  }
+}
+.buttonClose,
+.buttonCloseSelected,
+.buttonCloseSelectedOver,
+.buttonCloseSelectedDown,
+.buttonCloseSelectedDisabled,
+.buttonCloseOver,
+.buttonCloseDown,
+.buttonCloseDisabled,
+.buttonCloseFocused,
+.buttonCloseFocusedDown,
+.buttonCloseFocusedOver{
+  font-size: 12px;
+  background-color: #fe9d2a;
+  color: white;
+  font-weight: bold;
+}
+
+.tabset-layout{
+  padding-top: 3px !important;
+  background-color: #fe9d2a;
+}
+
+
+.checkboxTrueDisabled,
+.checkboxTrue,
+.checkboxTrueOver,
+.checkboxTrueDown,
+.checkboxFalseDisabled,
+.checkboxFalse,
+.checkboxFalseOver,
+.checkboxFalseDown,
+.checkboxPartialDisabled,
+.checkboxPartial,
+.checkboxPartialOver,
+.checkboxPartialDown,
+.checkboxUnsetDisabled,
+.checkboxUnset,
+.checkboxUnsetOver,
+.checkboxUnsetDown {
+  max-width: 100%;
+}
+
+/* Actual minimalist text */
+.textItemLite,
+.textItemLiteRTL,
+.textItemLiteOver,
+.textItemLiteOverRTL,
+.textItemLiteFocused,
+.textItemLiteFocusedRTL,
+.textItemLiteFocusedOver,
+.textItemLiteFocusedOverRTL,
+.textItemLiteDisabled,
+.textItemLiteDisabledRTL,
+.textItemLiteError,
+.textItemLiteErrorRTL,
+.textItemLiteErrorOver,
+.textItemLiteErrorOverRTL,
+.textItemLiteErrorFocused,
+.textItemLiteErrorFocusedRTL,
+.textItemLiteErrorFocusedOver,
+.textItemLiteErrorFocusedOverRTL,
+.textItemLitePending,
+.textItemLitePendingRTL,
+.textItemLitePendingOver,
+.textItemLitePendingOverRTL,
+.textItemLitePendingFocused,
+.textItemLitePendingFocusedRTL,
+.textItemLitePendingFocusedOver,
+.textItemLitePendingFocusedOverRTL,
+.textItemLitePendingDisabled,
+.textItemLitePendingDisabledRTL,
+.textItemLitePendingError,
+.textItemLitePendingErrorRTL,
+.textItemLiteHint,
+.textItemLiteHintRTL,
+.textItemLiteDisabledHint,
+.textItemLiteDisabledHintRTL{
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  background-color: #fff;
+}
+
+.windowHeader,
+.windowHeaderHilite,
+.dialogHeader,
+.dialogHeaderHilite {
+  padding-right: 10px;
+  background: $window_header_bgColor;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.windowBackground,
+.dialogBackground {
+  box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0,0,0,.2) !important;
+  border-radius: 6px;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.windowBody,
+.dialogBody {
+  background: #fafafa;
+  border-top: 1px solid #d0d0d0;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.tabButtonRightDown,
+.tabButtonRightSelectedFocused,
+.tabButtonRightSelectedFocusedOver,
+.tabButtonRightSelectedFocusedDown,
+.tabButtonRightSelectedOver,
+.tabButtonRightSelectedDown,
+.tabButtonRightSelected {
+  border: 2px solid #fe9d2a;
+  background: #fe9d2a;
+}
+.toolStrip {
+  border: 1px solid #d9d9d9 ;
+}
+.toolStripButtonAddDisabled,
+.toolStripButtonAddSelectedDisabled,
+.toolStripButtonRefreshDisabled,
+.toolStripButtonRefreshSelectedDisabled,
+.toolStripButtonEditDisabled,
+.toolStripButtonEditSelectedDisabled,
+.toolStripButtonRemoveDisabled,
+.toolStripButtonRemoveSelectedDisabled,
+.toolStripButtonPrintDisabled,
+.toolStripButtonPrintSelectedDisabled,
+.toolStripButtonRefreshDisabled ,
+.toolStripButtonRefreshSelectedDisabled
+{
+  background-color: #f3f3f3;
+  border: solid 1px $primary_grey_dark;
+  td{
+    color: #8e8e8e;
+  }
+}
+
+
+
+
+
+.menu-tabs{
+  top:0 !important;
+  background-color: #fff;
+}
+
+
+
+.expandList  .cellSelected,
+.expandList  .cellSelectedDark,
+.expandList  .cellSelectedOver,
+.expandList  .cellSelectedOverDark,
+.expandList  .cellPendingSelected,
+.expandList  .cellPendingSelectedDark,
+.expandList  .specialColSelected,
+.expandList  .recordSummaryCellSelected,
+.expandList  .recordSummaryCellSelectedDark,
+.expandList .cellSelectedAltCol,
+.expandList .cellSelectedDarkAltCol,
+.expandList .cellPendingSelectedAltCol,
+.expandList .cellPendingSelectedDarkAltCol,
+.expandList .cellPendingSelectedOverDarkAltCol,
+.expandList .cellSelectedOverAltCol,
+.expandList .cellSelectedOverDarkAltCol,
+.expandList .cellPendingSelectedOverAltCol {
+  background: rgba(255,182,99,1);
+  background: -moz-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,182,99,1)), color-stop(100%, rgba(255,215,173,1)));
+  background: -webkit-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  background: -o-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  background: -ms-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  background: linear-gradient(to bottom, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb663', endColorstr='#ffd7ad', GradientType=0 );
+  color: #464646;
+  font-weight: bold;
+}
+
+.expandList-ButtonAdd td{
+  width: 150px;
+}
+
+.selectItemLiteControl,
+.selectItemLiteControlRTL,
+.selectItemLiteControlOver,
+.selectItemLiteControlOverRTL,
+.selectItemLiteControlFocused,
+.selectItemLiteControlFocusedRTL,
+.selectItemLiteControlFocusedOver,
+.selectItemLiteControlFocusedOverRTL,
+.selectItemLiteControlDisabled,
+.selectItemLiteControlDisabledRTL,
+.selectItemLiteControlError,
+.selectItemLiteControlErrorRTL,
+.selectItemLiteControlErrorOver,
+.selectItemLiteControlErrorOverRTL,
+.selectItemLiteControlErrorFocused,
+.selectItemLiteControlErrorFocusedRTL,
+.selectItemLiteControlErrorFocusedOver,
+.selectItemLiteControlErrorFocusedOverRTL,
+.selectItemLiteControlPending,
+.selectItemLiteControlPendingRTL,
+.selectItemLiteControlPendingOver,
+.selectItemLiteControlPendingOverRTL,
+.selectItemLiteControlPendingFocused,
+.selectItemLiteControlPendingFocusedRTL,
+.selectItemLiteControlPendingFocusedOver,
+.selectItemLiteControlPendingFocusedOverRTL,
+.selectItemLiteControlPendingDisabled,
+.selectItemLiteControlPendingDisabledRTL,
+.selectItemLiteControlPendingError,
+.selectItemLiteControlPendingErrorRTL,
+.selectItemLiteControlHint,
+.selectItemLiteControlHintRTL,
+.selectItemLiteControlDisabledHint,
+.selectItemLiteControlDisabledHintRTL{
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  background-color: #fff;
+}
+.textAreaItemLite,
+.textAreaItemLiteRTL,
+.textAreaItemLiteOver,
+.textAreaItemLiteOverRTL,
+.textAreaItemLiteFocused,
+.textAreaItemLiteFocusedRTL,
+.textAreaItemLiteFocusedOver,
+.textAreaItemLiteFocusedOverRTL,
+.textAreaItemLiteDisabled,
+.textAreaItemLiteDisabledRTL,
+.textAreaItemLiteError,
+.textAreaItemLiteErrorRTL,
+.textAreaItemLitePending,
+.textAreaItemLitePendingRTL,
+.textAreaItemLitePendingOver,
+.textAreaItemLitePendingOverRTL,
+.textAreaItemLitePendingFocused,
+.textAreaItemLitePendingFocusedRTL,
+.textAreaItemLitePendingFocusedOver,
+.textAreaItemLitePendingFocusedOverRTL,
+.textAreaItemLitePendingDisabled,
+.textAreaItemLitePendingDisabledRTL,
+.textAreaItemLitePendingError,
+.textAreaItemLitePendingErrorRTL,
+.textAreaItemLiteHint,
+.textAreaItemLiteHintRTL,
+.textAreaItemLiteDisabledHint,
+.textAreaItemLiteDisabledHintRTL {
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  background-color: #fff;
+}
+
+.invoice-form .formTitleRTL{
+  padding-left: 7px;
+}
+.invoice-form table tbody tr {
+  padding: 5px;
+}
+.invoice-form table tbody tr td {
+  padding-bottom: 3px;
+}
+
+
+.expand-layout {
+  width: 99% !important;
+  position: absolute !important;
+  right: 0 !important;
+  left: 0 !important;
+}
+
+.expand-layout .tabBarTop {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.expand-layout .tabSetContainer{
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+
+input[type="text"].selectItemLiteText,
+input[type="text"].selectItemLiteTextRTL,
+input[type="text"].selectItemLiteTextFocused,
+input[type="text"].selectItemLiteTextFocusedRTL,
+input[type="text"].selectItemLiteTextDisabled,
+input[type="text"].selectItemLiteTextDisabledRTL,
+input[type="text"].selectItemLiteTextError,
+input[type="text"].selectItemLiteTextErrorRTL,
+input[type="text"].selectItemLiteTextErrorFocused,
+input[type="text"].selectItemLiteTextErrorFocusedRTL,
+input[type="text"].selectItemLiteTextPending,
+input[type="text"].selectItemLiteTextPendingRTL,
+input[type="text"].selectItemLiteTextPendingFocused,
+input[type="text"].selectItemLiteTextPendingFocusedRTL,
+input[type="text"].selectItemLiteTextPendingDisabled,
+input[type="text"].selectItemLiteTextPendingDisabledRTL,
+input[type="text"].selectItemLiteTextPendingError,
+input[type="text"].selectItemLiteTextPendingErrorRTL,
+input[type="text"].selectItemLiteTextHint,
+input[type="text"].selectItemLiteTextHintRTL,
+input[type="text"].selectItemLiteTextDisabledHint,
+input[type="text"].selectItemLiteTextDisabledHintRTL {
+
+  padding: 13px 0px;
+}
+.listgrid-child{
+  border: solid 0px #e8e8e8;
+  -moz-box-shadow: 0 0 3px #ccc;
+  -webkit-box-shadow: 0 0 3px #0e0e0e;
+  box-shadow: 1px 0px 3px #000000;
+}
+
+ .cellSelectedAltCol,
+ .cellSelectedDarkAltCol,
+ .cellSelectedOverAltCol,
+ .cellSelectedOverDarkAltCol,
+ .cellPendingSelectedAltCol,
+ .cellPendingSelectedDarkAltCol,
+ .cellPendingSelectedOverAltCol,
+ .cellPendingSelectedOverDarkAltCol,
+ .cellSelected,
+ .cellSelectedDark,
+ .cellPendingSelected,
+ .cellPendingSelectedDark,
+ .specialColSelected,
+ .recordSummaryCellSelected,
+ .recordSummaryCellSelectedDark,
+ .cellSelectedOver,
+ .cellSelectedOverDark{
+   background: rgba(255,182,99,1);
+   background: -moz-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,182,99,1)), color-stop(100%, rgba(255,215,173,1)));
+   background: -webkit-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   background: -o-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   background: -ms-linear-gradient(top, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   background: linear-gradient(to bottom, rgba(255,182,99,1) 0%, rgba(255,215,173,1) 100%);
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb663', endColorstr='#ffd7ad', GradientType=0 );
+   color: #464646;
+   font-weight: bold;
+}
+
+.formTitle, .formTitleRTL, .formTitleFocused, .formTitleFocusedRTL, .formTitleDisabled, .formTitleDisabledRTL, .formTitleError, .formTitleErrorRTL, .formTitleErrorFocused, .formTitleErrorFocusedRTL, .formTitleErrorFocusedOver, .formTitleErrorFocusedOverRTL, .formTitlePending, .formTitlePendingRTL, .formTitlePendingFocused, .formTitlePendingFocusedRTL, .formTitlePendingDisabled, .formTitlePendingDisabledRTL, .formTitlePendingError, .formTitlePendingErrorRTL, .formCell, .formCellRTL, .formCellFocused, .formCellFocusedRTL, .formCellDisabled, .formCellDisabledRTL, .formCellError, .formCellErrorRTL, .formCellPending, .formCellPendingRTL, .formCellPendingFocused, .formCellPendingFocusedRTL, .formCellPendingDisabled, .formCellPendingDisabledRTL, .formCellPendingError, .formCellPendingErrorRTL, .formHint, .formHintRTL, .formHintOver, .formHintOverRTL, .formHintDisabled, .formHintDisabledRTL, .headerItem, .headerItemRTL, .headerItemOver, .headerItemOverRTL, .headerItemDisabled, .headerItemDisabledRTL, .headerItemError, .headerItemErrorRTL, .nativeSelectItem, .nativeSelectItemRTL, .nativeSelectItemOver, .nativeSelectItemOverRTL, .nativeSelectItemFocused, .nativeSelectItemFocusedRTL, .nativeSelectItemFocusedOver, .nativeSelectItemFocusedOverRTL, .nativeSelectItemDisabled, .nativeSelectItemDisabledRTL, .nativeSelectItemError, .nativeSelectItemErrorRTL, .nativeSelectItemErrorOver, .nativeSelectItemErrorOverRTL, .nativeSelectItemErrorFocused, .nativeSelectItemErrorFocusedRTL, .nativeSelectItemErrorFocusedOver, .nativeSelectItemErrorFocusedOverRTL, .nativeSelectItemPending, .nativeSelectItemPendingRTL, .nativeSelectItemPendingFocused, .nativeSelectItemPendingFocusedRTL, .nativeSelectItemPendingDisabled, .nativeSelectItemPendingDisabledRTL, .nativeSelectItemPendingError, .nativeSelectItemPendingErrorRTL, .staticTextItem, .staticTextItemRTL, .staticTextItemFocused, .staticTextItemFocusedRTL, .staticTextItemDisabled, .staticTextItemDisabledRTL, .staticTextItemError, .staticTextItemErrorRTL, .staticTextItemPending, .staticTextItemPendingRTL, .staticTextItemPendingFocused, .staticTextItemPendingFocusedRTL, .staticTextItemPendingDisabled, .staticTextItemPendingDisabledRTL, .staticTextItemPendingError, .staticTextItemPendingErrorRTL, .textItem, .textItemRTL, .textItemFocused, .textItemFocusedRTL, .textItemDisabled, .textItemDisabledRTL, .textItemError, .textItemErrorRTL, .textItemPending, .textItemPendingRTL, .textItemPendingFocused, .textItemPendingFocusedRTL, .textItemPendingDisabled, .textItemPendingDisabledRTL, .textItemPendingError, .textItemPendingErrorRTL, .textItemHint, .textItemHintRTL, .textItemDisabledHint, .textItemDisabledHintRTL, .uploadItem, .uploadItemRTL, .uploadItemFocused, .uploadItemFocusedRTL, .uploadItemDisabled, .uploadItemDisabledRTL, .uploadItemError, .uploadItemErrorRTL, .uploadItemPending, .uploadItemPendingRTL, .uploadItemPendingFocused, .uploadItemPendingFocusedRTL, .uploadItemPendingDisabled, .uploadItemPendingDisabledRTL, .uploadItemPendingError, .uploadItemPendingErrorRTL, .uploadItemHint, .uploadItemHintRTL, .uploadItemDisabledHint, .uploadItemDisabledHintRTL, .selectItemControl, .selectItemControlRTL, .selectItemControlFocused, .selectItemControlFocusedRTL, .selectItemControlDisabled, .selectItemControlDisabledRTL, .selectItemControlError, .selectItemControlErrorRTL, .selectItemControlPending, .selectItemControlPendingRTL, .selectItemControlPendingFocused, .selectItemControlPendingFocusedRTL, .selectItemControlPendingDisabled, .selectItemControlPendingDisabledRTL, .selectItemControlPendingError, .selectItemControlPendingErrorRTL, .selectItemText, .selectItemTextRTL, .selectItemTextFocused, .selectItemTextFocusedRTL, .selectItemTextDisabled, .selectItemTextDisabledRTL, .selectItemTextError, .selectItemTextErrorRTL, .selectItemTextPending, .selectItemTextPendingRTL, .selectItemTextPendingFocused, .selectItemTextPendingFocusedRTL, .selectItemTextPendingDisabled, .selectItemTextPendingDisabledRTL, .selectItemTextPendingError, .selectItemTextPendingErrorRTL, .selectItemTextHint, .selectItemTextHintRTL, .selectItemTextDisabledHint, .selectItemTextDisabledHintRTL, .comboBoxItemPendingText, .comboBoxItemPendingTextRTL, .pickerSearchBox, .pickerSearchBoxRTL, .pickerSearchBoxOver, .pickerSearchBoxOverRTL, .pickerSearchBoxFocused, .pickerSearchBoxFocusedRTL, .pickerSearchBoxFocusedOver, .pickerSearchBoxFocusedOverRTL, .pickerSearchBoxDisabled, .pickerSearchBoxDisabledRTL, .pickerSearchBoxError, .pickerSearchBoxErrorRTL, .pickerSearchBoxPending, .pickerSearchBoxPendingRTL, .pickerSearchBoxPendingFocused, .pickerSearchBoxPendingFocusedRTL, .pickerSearchBoxPendingDisabled, .pickerSearchBoxPendingDisabledRTL, .pickerSearchBoxPendingError, .pickerSearchBoxPendingErrorRTL, .pickerSearchBoxHint, .pickerSearchBoxHintRTL, .pickerSearchBoxDisabledHint, .pickerSearchBoxDisabledHintRTL, .pickListCell, .pickListCellRTL, .pickListCellOver, .pickListCellOverRTL, .pickListCellSelected, .pickListCellSelectedRTL, .pickListCellSelectedOver, .pickListCellSelectedOverRTL, .pickListCellDisabled, .pickListCellDisabledRTL, .pickListCellDark, .pickListCellDarkRTL, .pickListCellOverDark, .pickListCellOverDarkRTL, .pickListCellSelectedDark, .pickListCellSelectedDarkRTL, .pickListCellSelectedOverDark, .pickListCellSelectedOverDarkRTL, .pickListCellDisabledDark, .pickListCellDisabledDarkRTL, .pickListCellPending, .pickListCellPendingRTL, .pickListCellPendingOver, .pickListCellPendingOverRTL, .pickListCellPendingSelected, .pickListCellPendingSelectedRTL, .pickListCellPendingSelectedOver, .pickListCellPendingSelectedOverRTL, .pickListCellPendingDisabled, .pickListCellPendingDisabledRTL, .pickListCellPendingDark, .pickListCellPendingDarkRTL, .pickListCellPendingOverDark, .pickListCellPendingOverDarkRTL, .pickListCellPendingSelectedDark, .pickListCellPendingSelectedDarkRTL, .pickListCellPendingSelectedOverDark, .pickListCellPendingSelectedOverDarkRTL, .pickListCellPendingDisabledDark, .pickListCellPendingDisabledDarkRTL, .pickListCellDeselected, .pickListCellDeselectedRTL, .pickListCellDeselectedOver, .pickListCellDeselectedOverRTL, .pickListCellDeselectedSelected, .pickListCellDeselectedSelectedRTL, .pickListCellDeselectedSelectedOver, .pickListCellDeselectedSelectedOverRTL, .pickListCellDeselectedDisabled, .pickListCellDeselectedDisabledRTL, .pickListCellDeselectedDark, .pickListCellDeselectedDarkRTL, .pickListCellDeselectedOverDark, .pickListCellDeselectedOverDarkRTL, .pickListCellDeselectedSelectedDark, .pickListCellDeselectedSelectedDarkRTL, .pickListCellDeselectedSelectedOverDark, .pickListCellDeselectedSelectedOverDarkRTL, .pickListCellDeselectedDisabledDark, .pickListCellDeselectedDisabledDarkRTL, .tallPickListCell, .tallPickListCellRTL, .tallPickListCellOver, .tallPickListCellOverRTL, .tallPickListCellSelected, .tallPickListCellSelectedRTL, .tallPickListCellSelectedOver, .tallPickListCellSelectedOverRTL, .tallPickListCellDisabled, .tallPickListCellDisabledRTL, .tallPickListCellDark, .tallPickListCellDarkRTL, .tallPickListCellOverDark, .tallPickListCellOverDarkRTL, .tallPickListCellSelectedDark, .tallPickListCellSelectedDarkRTL, .tallPickListCellSelectedOverDark, .tallPickListCellSelectedOverDarkRTL, .tallPickListCellDisabledDark, .tallPickListCellDisabledDarkRTL, .tallPickListCellPending, .tallPickListCellPendingRTL, .tallPickListCellPendingOver, .tallPickListCellPendingOverRTL, .tallPickListCellPendingSelected, .tallPickListCellPendingSelectedRTL, .tallPickListCellPendingSelectedOver, .tallPickListCellPendingSelectedOverRTL, .tallPickListCellPendingDisabled, .tallPickListCellPendingDisabledRTL, .tallPickListCellPendingDark, .tallPickListCellPendingDarkRTL, .tallPickListCellPendingOverDark, .tallPickListCellPendingOverDarkRTL, .tallPickListCellPendingSelectedDark, .tallPickListCellPendingSelectedDarkRTL, .tallPickListCellPendingSelectedOverDark, .tallPickListCellPendingSelectedOverDarkRTL, .tallPickListCellPendingDisabledDark, .tallPickListCellPendingDisabledDarkRTL, .tallPickListCellDeselected, .tallPickListCellDeselectedRTL, .tallPickListCellDeselectedOver, .tallPickListCellDeselectedOverRTL, .tallPickListCellDeselectedSelected, .tallPickListCellDeselectedSelectedRTL, .tallPickListCellDeselectedSelectedOver, .tallPickListCellDeselectedSelectedOverRTL, .tallPickListCellDeselectedDisabled, .tallPickListCellDeselectedDisabledRTL, .tallPickListCellDeselectedDark, .tallPickListCellDeselectedDarkRTL, .tallPickListCellDeselectedOverDark, .tallPickListCellDeselectedOverDarkRTL, .tallPickListCellDeselectedSelectedDark, .tallPickListCellDeselectedSelectedDarkRTL, .tallPickListCellDeselectedSelectedOverDark, .tallPickListCellDeselectedSelectedOverDarkRTL, .tallPickListCellDeselectedDisabledDark, .tallPickListCellDeselectedDisabledDarkRTL, .labelAnchor, .labelAnchorRTL, .labelAnchorDisabled, .labelAnchorDisabledRTL, .labelAnchorError, .labelAnchorErrorRTL, .labelAnchorFocused, .labelAnchorFocusedRTL {
+  color: #333333;
+}

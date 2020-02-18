@@ -108,19 +108,19 @@ public class ContractDetailDTO {
     private String PrefixPb;
     private String PrefixP;
     private String PrefixSi;
-    private Integer typical_c;
-    private Integer typical_s;
-    private Integer typical_pb;
-    private Integer typical_p;
-    private Integer typical_Si;
-    private Integer typical_size_min;
-    private Integer toleranceMO;
-    private Integer toleranceCU;
-    private Integer toleranceC;
-    private Integer toleranceS;
-    private Integer tolerancePb;
-    private Integer toleranceP;
-    private Integer toleranceSi;
+    private Double typical_c;
+    private Double typical_s;
+    private Double typical_pb;
+    private Double typical_p;
+    private Double typical_Si;
+    private Double typical_size_min;
+    private Double toleranceMO;
+    private Double toleranceCU;
+    private Double toleranceC;
+    private Double toleranceS;
+    private Double tolerancePb;
+    private Double toleranceP;
+    private Double toleranceSi;
     private String typical_unitMO;
     private String typical_unitCU;
     private String typical_unitC;
@@ -128,41 +128,41 @@ public class ContractDetailDTO {
     private String typical_unitPb;
     private String typical_unitP;
     private String typical_unitSi;
-////
-     private Integer discountValueOne;
-     private Integer discountValueOne_1;
-     private Integer discountValueOne_2;
-     private Integer discountValueTwo;
-     private Integer discountValueTwo_1;
-     private Integer discountValueTwo_2;
-     private Integer discountValueThree;
-     private Integer discountValueThree_1;
-     private Integer discountValueThree_2;
-     private Integer discountValueFour;
-     private Integer discountValueFour_1;
-     private Integer discountValueFour_2;
-     private Integer discountValueFive;
-     private Integer discountValueFive_1;
-     private Integer discountValueFive_2;
-     private Integer discountValueSix;
-     private Integer discountValueSix_1;
-     private Integer discountValueSix_2;
-     private Integer discountValueSeven;
-     private Integer discountValueSeven_1;
-     private Integer discountValueSeven_2;
-     private Integer discountValueEight;
-     private Integer discountValueEight_1;
-     private Integer discountValueEight_2;
-     private Integer discountValueNine;
-     private Integer discountValueNine_1;
-     private Integer discountValueNine_2;
-     private Integer discountValueTen;
-     private Integer discountValueTen_1;
-     private Integer discountValueTen_2;
-     private Integer discountValueEleven;
-     private Integer discountValueEleven_1;
-     private Integer discountValueEleven_2;
-    // ------------------------------
+    ////
+    private Double discountValueOne;
+    private Double discountValueOne_1;
+    private Double discountValueOne_2;
+    private Double discountValueTwo;
+    private Double discountValueTwo_1;
+    private Double discountValueTwo_2;
+    private Double discountValueThree;
+    private Double discountValueThree_1;
+    private Double discountValueThree_2;
+    private Double discountValueFour;
+    private Double discountValueFour_1;
+    private Double discountValueFour_2;
+    private Double discountValueFive;
+    private Double discountValueFive_1;
+    private Double discountValueFive_2;
+    private Double discountValueSix;
+    private Double discountValueSix_1;
+    private Double discountValueSix_2;
+    private Double discountValueSeven;
+    private Double discountValueSeven_1;
+    private Double discountValueSeven_2;
+    private Double discountValueEight;
+    private Double discountValueEight_1;
+    private Double discountValueEight_2;
+    private Double discountValueNine;
+    private Double discountValueNine_1;
+    private Double discountValueNine_2;
+    private Double discountValueTen;
+    private Double discountValueTen_1;
+    private Double discountValueTen_2;
+    private Double discountValueEleven;
+    private Double discountValueEleven_1;
+    private Double discountValueEleven_2;
+
     private String discountFor;
     private String discountPerfixOne;
     private String discountUnitOne;
@@ -209,16 +209,12 @@ public class ContractDetailDTO {
         private Integer version;
     }
 
-    // ------------------------------
-
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("ContractDetailCreateRq")
     public static class Create extends ContractDetailDTO {
     }
-
-    // ------------------------------
 
     @Getter
     @Setter
@@ -230,8 +226,6 @@ public class ContractDetailDTO {
         private Long id;
     }
 
-    // ------------------------------
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -241,19 +235,6 @@ public class ContractDetailDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
-
-    // ------------------------------
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @ApiModel("ContractDetailSpecRs")
-    public static class ContractDetailSpecRs {
-        private SpecRs response;
-    }
-
-    // ---------------
 
     @Getter
     @Setter

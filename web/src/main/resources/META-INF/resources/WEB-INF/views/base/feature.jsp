@@ -1,9 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
 
-    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     var Menu_ListGrid_Feature = isc.Menu.create({
         width: 150,
@@ -54,18 +54,24 @@
         numCols: 2,
 
         fields: [
-            {name: "id", hidden: true,},
-            {type: "RowSpacerItem"},
+            {name: "id", hidden: true, showIf: "false",},
             {
-                name: "code", title: "<spring:message code='feature.code'/>", type: 'text', required: true, width: 500,
-                keyPressFilter: "[0-9]", length: "100",
+                name: "code",
+                title: "<spring:message code='feature.code'/>",
+                type: 'text',
+                required: true,
+                width: 500,
+                showIf: "false",
+                keyPressFilter: "[0-9]",
+                length: "100",
             },
             {
                 name: "nameFA",
                 title: "<spring:message code='feature.nameFa'/>",
                 required: true,
                 readonly: true,
-                width: 500
+                width: 500,
+                length: "100"
             },
             {
                 name: "nameEN",
@@ -73,14 +79,15 @@
                 type: 'text',
                 width: 500,
                 required: true,
+                length: "100"
             },
             {name: "symbol", title: "<spring:message code='feature.symbol'/>", type: 'text', width: 500},
 
             {
                 name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", width: 500,
-                keyPressFilter: "[0-4]", length: "1",
+                keyPressFilter: "[0-4]", length: "4",
                 /*Add Hint */
-                hint: "دقت اعشار بین 0 تا 4 است",
+                hint: "<spring:message code='deghat.ashar'/>",
                 showHintInField: true,
                 /*End Hint*/
                 validators: [{
@@ -90,12 +97,11 @@
                     errorMessage: "<spring:message code='global.form.correctType'/>"
 
                 }]
-            },
-            {type: "RowSpacerItem"},
+            }
         ]
     });
 
-    var IButton_Feature_Save = isc.IButton.create({
+    var IButton_Feature_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -152,7 +158,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 ID: "featureEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
@@ -169,7 +175,7 @@
 
     function ListGrid_Feature_refresh() {
         ListGrid_Feature.invalidateCache();
-    };
+    }
 
     function ListGrid_Feature_remove() {
 
@@ -180,7 +186,7 @@
                 message: "<spring:message code='global.grid.record.not.selected'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.message'/>.",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>."})],
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                 buttonClick: function () {
                     this.hide();
                 }
@@ -190,26 +196,22 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.yes'/>"}), isc.Button.create({
-                    title: "<spring:message
-		code='global.no'/>"
+                buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
+                    title: "<spring:message  code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
 
                         var featureId = record.id;
-// ######@@@@###&&@@###
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-// ######@@@@###&&@@### pls correct callback
                                 actionURL: "${contextPath}/api/feature/" + featureId,
                                 httpMethod: "DELETE",
                                 serverOutputAsString: false,
                                 callback: function (RpcResponse_o) {
-// ######@@@@###&&@@###
                                     if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Feature.invalidateCache();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>.");
+                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
                                         isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                     }
@@ -220,7 +222,7 @@
                 }
             });
         }
-    };
+    }
 
     function ListGrid_Feature_edit() {
 
@@ -240,10 +242,9 @@
             DynamicForm_Feature.editRecord(record);
             Window_Feature.show();
         }
-    };
+    }
 
-
-    var ToolStripButton_Feature_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_Feature_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -251,7 +252,7 @@
         }
     });
 
-    var ToolStripButton_Feature_Add = isc.ToolStripButton.create({
+    var ToolStripButton_Feature_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -260,7 +261,7 @@
         }
     });
 
-    var ToolStripButton_Feature_Edit = isc.ToolStripButton.create({
+    var ToolStripButton_Feature_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -269,21 +270,28 @@
         }
     });
 
-
-    var ToolStripButton_Feature_Remove = isc.ToolStripButton.create({
+    var ToolStripButton_Feature_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             ListGrid_Feature_remove();
         }
-    })
+    });
     var ToolStrip_Actions_Feature = isc.ToolStrip.create({
         width: "100%",
         members: [
-            ToolStripButton_Feature_Refresh,
             ToolStripButton_Feature_Add,
             ToolStripButton_Feature_Edit,
-            ToolStripButton_Feature_Remove
+            ToolStripButton_Feature_Remove,
+            isc.ToolStrip.create({
+                width: "100%",
+                align: "left",
+                border: '0px',
+                members: [
+                    ToolStripButton_Feature_Refresh,
+                ]
+            })
+
         ]
     });
 
@@ -294,52 +302,98 @@
         ]
     });
 
-    var RestDataSource_Feature = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='feature.code'/> "},
-            {name: "nameFA", title: "<spring:message code='feature.nameFa'/> "},
-            {name: "nameEN", title: "<spring:message code='feature.nameEN'/> "},
-            {name: "symbol", title: "<spring:message code='feature.symbol'/>"},
-            {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
-        ],
-        fetchDataURL: "${contextPath}/api/feature/spec-list"
-    });
+    var RestDataSource_Feature = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "code",
+                    title: "<spring:message code='feature.code'/> "
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='feature.nameFa'/> "
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='feature.nameEN'/> "
+                },
+                {
+                    name: "symbol",
+                    title: "<spring:message code='feature.symbol'/>"
+                },
+                {
+                    name: "decimalDigit",
+                    title: "<spring:message code='rate.decimalDigit'/>"
+                }],
+            fetchDataURL: "${contextPath}/api/feature/spec-list"
+        });
 
-    var ListGrid_Feature = isc.ListGrid.create({
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_Feature,
-        contextMenu: Menu_ListGrid_Feature,
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='feature.code'/> ", align: "center"},
-            {name: "nameFA", title: "<spring:message code='feature.nameFa'/> ", align: "center"},
-            {name: "nameEN", title: "<spring:message code='feature.nameEN'/> ", align: "center"},
-            {name: "symbol", title: "<spring:message code='feature.symbol'/>", align: "center"},
-            {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>", align: "center"}
-        ],
-        sortField: 0,
-        dataPageSize: 50,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        startsWithTitle: "tt"
-    });
+    var ListGrid_Feature = isc.ListGrid.create(
+        {
+            width: "100%",
+            height: "100%",
+            dataSource: RestDataSource_Feature,
+            contextMenu: Menu_ListGrid_Feature,
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "code",
+                    title: "<spring:message code='feature.code'/> ",
+                    align: "center", showIf: "false",
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='feature.nameFa'/> ",
+                    align: "center"
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='feature.nameEN'/> ",
+                    align: "center"
+                },
+                {
+                    name: "symbol",
+                    title: "<spring:message code='feature.symbol'/>",
+                    align: "center"
+                },
+                {
+                    name: "decimalDigit",
+                    title: "<spring:message code='rate.decimalDigit'/>",
+                    align: "center"
+                }],
+            sortField: 0,
+            autoFetchData: true,
+            showFilterEditor: true,
+            filterOnKeypress: true
+        });
 
+    var HLayout_Grid_Feature = isc.HLayout.create(
+        {
+            width: "100%",
+            height: "100%",
+            members: [
+                ListGrid_Feature
+            ]
+        });
 
-    var HLayout_Grid_Feature = isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ListGrid_Feature
-        ]
-    });
-
-    var VLayout_Body_Feature = isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            HLayout_Actions_Feature, HLayout_Grid_Feature
-        ]
-    });
+    isc.VLayout.create(
+        {
+            width: "100%",
+            height: "100%",
+            members: [
+                HLayout_Actions_Feature, HLayout_Grid_Feature
+            ]
+        });

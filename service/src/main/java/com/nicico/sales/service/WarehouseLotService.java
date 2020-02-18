@@ -11,6 +11,7 @@ import com.nicico.sales.repository.WarehouseLotDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,73 +22,76 @@ import java.util.Optional;
 @Service
 public class WarehouseLotService implements IWarehouseLotService {
 
-	private final WarehouseLotDAO warehouseLotDAO;
-	private final ModelMapper modelMapper;
+    private final WarehouseLotDAO warehouseLotDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public WarehouseLotDTO.Info get(Long id) {
-		final Optional<WarehouseLot> slById = warehouseLotDAO.findById(id);
-		final WarehouseLot warehouseLot = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseLotNotFound));
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_LOT')")
+    public WarehouseLotDTO.Info get(Long id) {
+        final Optional<WarehouseLot> slById = warehouseLotDAO.findById(id);
+        final WarehouseLot warehouseLot = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseLotNotFound));
 
-		return modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class);
-	}
+        return modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<WarehouseLotDTO.Info> list() {
-		final List<WarehouseLot> slAll = warehouseLotDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_LOT')")
+    public List<WarehouseLotDTO.Info> list() {
+        final List<WarehouseLot> slAll = warehouseLotDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<WarehouseLotDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<WarehouseLotDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public WarehouseLotDTO.Info create(WarehouseLotDTO.Create request) {
-		final WarehouseLot warehouseLot = modelMapper.map(request, WarehouseLot.class);
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('C_WAREHOUSE_LOT')")
+    public WarehouseLotDTO.Info create(WarehouseLotDTO.Create request) {
+        final WarehouseLot warehouseLot = modelMapper.map(request, WarehouseLot.class);
 
-		return save(warehouseLot);
-	}
+        return save(warehouseLot);
+    }
 
-	@Transactional
-	@Override
-	public WarehouseLotDTO.Info update(Long id, WarehouseLotDTO.Update request) {
-		final Optional<WarehouseLot> slById = warehouseLotDAO.findById(id);
-		final WarehouseLot warehouseLot = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseLotNotFound));
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('U_WAREHOUSE_LOT')")
+    public WarehouseLotDTO.Info update(Long id, WarehouseLotDTO.Update request) {
+        final Optional<WarehouseLot> slById = warehouseLotDAO.findById(id);
+        final WarehouseLot warehouseLot = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseLotNotFound));
 
-		WarehouseLot updating = new WarehouseLot();
-		modelMapper.map(warehouseLot, updating);
-		modelMapper.map(request, updating);
+        WarehouseLot updating = new WarehouseLot();
+        modelMapper.map(warehouseLot, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		warehouseLotDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_LOT')")
+    public void delete(Long id) {
+        warehouseLotDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(WarehouseLotDTO.Delete request) {
-		final List<WarehouseLot> warehouseLots = warehouseLotDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_LOT')")
+    public void delete(WarehouseLotDTO.Delete request) {
+        final List<WarehouseLot> warehouseLots = warehouseLotDAO.findAllById(request.getIds());
 
-		warehouseLotDAO.deleteAll(warehouseLots);
-	}
+        warehouseLotDAO.deleteAll(warehouseLots);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public TotalResponse<WarehouseLotDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(warehouseLotDAO, criteria, warehouseLot -> modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_LOT')")
+    public TotalResponse<WarehouseLotDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(warehouseLotDAO, criteria, warehouseLot -> modelMapper.map(warehouseLot, WarehouseLotDTO.Info.class));
+    }
 
-	// ------------------------------
-
-	private WarehouseLotDTO.Info save(WarehouseLot warehouseLot) {
-		final WarehouseLot saved = warehouseLotDAO.saveAndFlush(warehouseLot);
-		return modelMapper.map(saved, WarehouseLotDTO.Info.class);
-	}
-
-
+    private WarehouseLotDTO.Info save(WarehouseLot warehouseLot) {
+        final WarehouseLot saved = warehouseLotDAO.saveAndFlush(warehouseLot);
+        return modelMapper.map(saved, WarehouseLotDTO.Info.class);
+    }
 }

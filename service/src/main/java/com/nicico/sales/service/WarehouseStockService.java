@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseStockDTO;
 import com.nicico.sales.iservice.IWarehouseStockService;
@@ -12,6 +11,7 @@ import com.nicico.sales.repository.WarehouseStockDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +26,7 @@ public class WarehouseStockService implements IWarehouseStockService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_WAREHOUSESTOCK')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_STOCK')")
     public WarehouseStockDTO.Info get(Long id) {
         final Optional<WarehouseStock> slById = warehouseStockDAO.findById(id);
         final WarehouseStock warehouseStock = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseStockNotFound));
@@ -36,7 +36,7 @@ public class WarehouseStockService implements IWarehouseStockService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSESTOCK')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_STOCK')")
     public List<WarehouseStockDTO.Info> list() {
         final List<WarehouseStock> slAll = warehouseStockDAO.findAll();
 
@@ -46,7 +46,7 @@ public class WarehouseStockService implements IWarehouseStockService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_WAREHOUSESTOCK')")
+    @PreAuthorize("hasAuthority('C_WAREHOUSE_STOCK')")
     public WarehouseStockDTO.Info create(WarehouseStockDTO.Create request) {
         final WarehouseStock warehouseStock = modelMapper.map(request, WarehouseStock.class);
 
@@ -55,7 +55,7 @@ public class WarehouseStockService implements IWarehouseStockService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_WAREHOUSESTOCK')")
+    @PreAuthorize("hasAuthority('U_WAREHOUSE_STOCK')")
     public WarehouseStockDTO.Info update(Long id, WarehouseStockDTO.Update request) {
         final Optional<WarehouseStock> slById = warehouseStockDAO.findById(id);
         final WarehouseStock warehouseStock = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseStockNotFound));
@@ -69,14 +69,14 @@ public class WarehouseStockService implements IWarehouseStockService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSESTOCK')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_STOCK')")
     public void delete(Long id) {
         warehouseStockDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_WAREHOUSESTOCK')")
+    @PreAuthorize("hasAuthority('D_WAREHOUSE_STOCK')")
     public void delete(WarehouseStockDTO.Delete request) {
         final List<WarehouseStock> warehouseStocks = warehouseStockDAO.findAllById(request.getIds());
 
@@ -85,16 +85,9 @@ public class WarehouseStockService implements IWarehouseStockService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSESTOCK')")
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_STOCK')")
     public TotalResponse<WarehouseStockDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(warehouseStockDAO, criteria, warehouseStock -> modelMapper.map(warehouseStock, WarehouseStockDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-//    @PreAuthorize("hasAuthority('R_WAREHOUSESTOCK')")
-    public SearchDTO.SearchRs<WarehouseStockDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseStockDAO, request, entity -> modelMapper.map(entity, WarehouseStockDTO.Info.class));
     }
 
     private WarehouseStockDTO.Info save(WarehouseStock warehouseStock) {
@@ -102,7 +95,8 @@ public class WarehouseStockService implements IWarehouseStockService {
         return modelMapper.map(saved, WarehouseStockDTO.Info.class);
     }
 
-    public  List<Object[]>  warehouseStockConc() {
-        return warehouseStockDAO.  warehouseStockConc();
-    };
+    @PreAuthorize("hasAuthority('R_WAREHOUSE_STOCK')")
+    public List<Object[]> warehouseStockConc() {
+        return warehouseStockDAO.warehouseStockConc();
+    }
 }

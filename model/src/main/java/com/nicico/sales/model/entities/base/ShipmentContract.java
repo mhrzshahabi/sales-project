@@ -13,12 +13,12 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_SHIPMENT_CONTRACT")
+@Table(name = "TBL_SHIPMENT_CONTRACT", uniqueConstraints = @UniqueConstraint(name = "SHIPMENTCONTRACT_NO_UNIQUE" , columnNames = {"NO"}))
 public class ShipmentContract extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SHIPMENT_CONTRACT")
-	@SequenceGenerator(name = "SEQ_SHIPMENT_CONTRACT", sequenceName = "SEQ_SHIPMENT_CONTRACT")
+	@SequenceGenerator(name = "SEQ_SHIPMENT_CONTRACT", sequenceName = "SEQ_SHIPMENT_CONTRACT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
@@ -45,24 +45,10 @@ public class ShipmentContract extends Auditable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FLAG", nullable = false, insertable = false, updatable = false)
-	private Country tblCountryFlag;
+	private Country tblCountryFlag;  //ok
 
 	@Column(name = "FLAG")
 	private Long countryFlagId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_HEADER_ID", nullable = false, insertable = false, updatable = false)
-	private ShipmentHeader shipmentHeader;
-
-	@Column(name = "SHIPMENT_HEADER_ID")
-	private Long shipmentHeaderId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_PRICE_ID", nullable = false, insertable = false, updatable = false)
-	private ShipmentPrice shipmentPrice;
-
-	@Column(name = "SHIPMENT_PRICE_ID")
-	private Long shipmentPriceId;
 
 	@Column(name = "SHIPMENT_CONTRACT_DATE", length = 20)
 	private String shipmentContractDate;
@@ -72,7 +58,6 @@ public class ShipmentContract extends Auditable {
 
 	@Column(name = "CAPACITY")
 	private Double capacity;
-
 
 	@Column(name = "LAYCAN_START", length = 20)
 	private String laycanStart;
@@ -114,7 +99,7 @@ public class ShipmentContract extends Auditable {
 	private String imoNo;
 
 	@Column(name = "OFFICIAL_NO", length = 100)
-	private String officialNo;
+	private Integer officialNo;
 
 	@Column(name = "LOA", length = 100)
 	private String loa;
@@ -136,4 +121,11 @@ public class ShipmentContract extends Auditable {
 
 	@Column(name = "WEIGHING_METHODES", length = 100)
 	private String weighingMethodes;
+
+	@Column(name = "SHIP_FLAG", length = 100)
+	private String shipFlag;
+
+	@Column(name = "CREATE_DATE", length = 100)
+	private String createDate;
+
 }

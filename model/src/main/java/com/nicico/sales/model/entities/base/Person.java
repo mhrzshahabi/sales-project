@@ -18,13 +18,13 @@ public class Person extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PERSON")
-	@SequenceGenerator(name = "SEQ_PERSON", sequenceName = "SEQ_PERSON")
+	@SequenceGenerator(name = "SEQ_PERSON", sequenceName = "SEQ_PERSON", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "person2contact"))
 	private Contact contact;
 
 	@Column(name = "CONTACT_ID")
@@ -74,4 +74,5 @@ public class Person extends Auditable {
 
 	@Column(name = "ADDRESS", length = 1000)
 	private String address;
+
 }

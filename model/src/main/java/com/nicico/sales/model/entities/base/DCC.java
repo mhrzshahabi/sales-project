@@ -23,7 +23,7 @@ public class DCC extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DCC")
-	@SequenceGenerator(name = "SEQ_DCC", sequenceName = "SEQ_DCC")
+	@SequenceGenerator(name = "SEQ_DCC", sequenceName = "SEQ_DCC", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
@@ -50,4 +50,5 @@ public class DCC extends Auditable {
 
 	@Column(name = "c_DOCUMENT_TYPE", length = 60)
 	private String documentType;
+
 }

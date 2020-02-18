@@ -3,7 +3,7 @@
 <%@ page import="com.nicico.sales.dto.InvoiceItemDTO" %>
 <%@ page import="com.nicico.sales.dto.InvoiceMolybdenumDTO" %>
 <%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -62,7 +62,7 @@
        DynamicForm_Invoice_Molybdenum_setValue('commercialInvoceValue',am)	; // calling to compute invoice
 	}
 	function precise_round(num, dec){
-        if ((typeof num !== 'number') || (typeof dec !== 'number'))
+        if ((typeof num != 'number') || (typeof dec != 'number'))
             return false;
         var num_sign = num >= 0 ? 1 : -1;
         return (Math.round((num*Math.pow(10,dec))+(num_sign*0.0001))/Math.pow(10,dec)).toFixed(dec);
@@ -126,7 +126,6 @@
 		}
 
 	}
-//-----------------------------------------------------------------------------------------------------------------------------------
    var RestDataSource_ContactBySellerMolybdenum = isc.MyRestDataSource.create({
         fields:
             [
@@ -136,7 +135,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list1"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_ContactByBuyerMolybdenum = isc.MyRestDataSource.create({
         fields:
@@ -147,7 +146,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list2"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_Contact_optionCriteria_seller_Molybdenum  = {
         _constructor: "AdvancedCriteria",
@@ -159,7 +158,7 @@
         operator: "or",
         criteria: [{fieldName: "buyer", operator: "equals", value: true},{fieldName: "agentBuyer", operator: "equals", value: true}]
     };
-//-----------------------------------------------------------------------------------------------------------------------------------
+
      var DynamicForm_Invoice_Molybdenum = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -173,7 +172,7 @@
         titleWidth: "100", margin: '0px', wrapTitle: true,
         titleAlign: "center",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 12, backgroundImage: "backgrounds/leaves.jpg",
+        numCols: 12,
         fields:
             [
                 {name: "id", hidden: true},
@@ -196,21 +195,33 @@
                     type: 'text',
                     width: "100%",
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"}
                 },
                 {
                     name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>",
                     required: true,
                     width: "100%",
-                    wrapTitle: false,colSpan:2,titleColSpan:2
+                    wrapTitle: false,colSpan:2,titleColSpan:2,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                 },
                 {
-                    name: "invoiceDateDumy",
+                    name: "invoiceDate",
                     title: "<spring:message code='invoice.invoiceDate'/>",
                     defaultValue: "<%=dateUtil.todayDate()%>",
                     type: 'date',// useTextField:true,
                     format: 'YYYY-MM-DD',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:3,titleColSpan:1
                 },
                  {
@@ -254,6 +265,10 @@
                     title: "<spring:message code='invoice.priceBase'/>",titleOrientation:'top',
                     type: 'text',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:4,titleColSpan:1,
                 },
                 {name: "priceReference",title:"Reference", titleOrientation:'top',type: 'text', required: false, width: "100%",colSpan:1 ,valueMap: {"LME":"LME","PLATTS":"PLATTS","SHFG":"SHFG"} },
@@ -263,7 +278,8 @@
                  {name: "priceToDate",title:"To Date", titleOrientation:'top',type: 'text', useTextField:true, required: false, width: "100%",colSpan:2,mask:"####/##/##",
                        hint: "yyyy/mm/dd", showHintInField: true, blur: function(form, item){value=item.getValue();if (value==null || typeof (value)=='undefined' || value=="" )	return; validatedate(value);}  },
                 {name: "molybdJenumUnitPrice", title: "MO/Oz USD", titleOrientation:'top',type: 'currencyFloat3', required: true, width: "100%",keyPressFilter: "[0-9.]",colSpan:2,
-                    validators: [{type: "isFloat",validateOnExit: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" }],
+                    validators: [{type: "isFloat",validateOnChange: true,stopOnError: true,errorMessage: "<spring:message code='global.form.correctType'/>" },
+                                 { type:"required", validateOnChange: true }],
                     changed	: function(form, item, value){ sumMolybdenumAndSet(value,"molybdJenumUnitPrice","none",-1,3);	} },
               // {
               //       type: "Header",
@@ -314,7 +330,7 @@
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
@@ -323,6 +339,10 @@
                             min: 10,
                             max: 120,
                             errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }
                     ],
                     changed	: function(form, item, value){
@@ -339,9 +359,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
    <%		for (int i=0;i<(loopUp==0 ? 3 : loopUp+2 );i++){ %>
@@ -370,9 +394,13 @@
                     type: 'currencyFloat2Sign', required: true, width: "100%",colSpan:2,titleColSpan:10,titleAlign:"right",canEdit:false,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                {
@@ -385,6 +413,10 @@
                     type: 'text',
                     required: true,
                     width: "100%",colSpan:4,titleColSpan:1,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                 },
                  {
                     name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",keyPressFilter: "[0-9.]",
@@ -392,10 +424,14 @@
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }
                     ],
                     changed	: function(form, item, value){
 		   			  	multiplyMolybdenumAndSet("rate2dollar",'invoiceValueD',"invoiceValueUp");
@@ -420,9 +456,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
    <%		for (int i=0;i<(loopDown==0 ? 3 : loopDown+2 );i++){ %>
@@ -454,9 +494,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
             ],
@@ -470,7 +514,7 @@
  <% } %>
 
     if (!(record == null || record.id == null))
-       DynamicForm_Invoice_Molybdenum.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+       DynamicForm_Invoice_Molybdenum.setValue("invoiceDate", new Date(record.invoiceDate));
 
    var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
    DynamicForm_Invoice_Molybdenum.setValue("shipmentId", record.id);
@@ -562,7 +606,7 @@
                 loopDown++;
             }
      %>
-     var IButton_Invoice_Molybdenum_Save = isc.IButton.create({
+     var IButton_Invoice_Molybdenum_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -571,7 +615,7 @@
             DynamicForm_Invoice_Molybdenum.validate();
             if (DynamicForm_Invoice_Molybdenum.hasErrors())
                 return;
-            var drs = DynamicForm_Invoice_Molybdenum.getValue("invoiceDateDumy");
+            var drs = DynamicForm_Invoice_Molybdenum.getValue("invoiceDate");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Invoice_Molybdenum.setValue("invoiceDate", datestringRs);
             DynamicForm_Invoice_Molybdenum.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
@@ -719,7 +763,7 @@
                 data: dataOut,
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Invoice_refresh();
                         Window_Molybdenum.close();
                     } else
@@ -744,7 +788,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",

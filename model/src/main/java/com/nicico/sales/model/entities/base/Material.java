@@ -1,9 +1,5 @@
 package com.nicico.sales.model.entities.base;
 
-/**
- * EMAMI
- */
-
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -22,7 +18,7 @@ public class Material extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_MATERIAL")
-	@SequenceGenerator(name = "SEQ_MATERIAL", sequenceName = "SEQ_MATERIAL")
+	@SequenceGenerator(name = "SEQ_MATERIAL", sequenceName = "SEQ_MATERIAL", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
@@ -37,9 +33,10 @@ public class Material extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UNIT_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "UNIT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "material2unit"))
 	private Unit unit;
 
 	@Column(name = "UNIT_ID")
 	private Long unitId;
+
 }

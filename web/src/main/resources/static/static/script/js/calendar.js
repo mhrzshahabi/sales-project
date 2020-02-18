@@ -147,17 +147,17 @@ function refreshDatePicker(dateFieldID, year, month, day) {
 	// start generating the code for the calendar table
 	var html = TABLE;
 
-	// this is the title bar, which displays the month and the buttons to
-	// go back to a previous month or forward to the next month
-	html += "<tr class='dpTitleTR'><td colspan='7' valign='top'><table width='100%' cellspacing='0px' cellpadding='0px'>"
-	html += TR_title;
-	html += TD_buttons + getButtonCodeYear(dateFieldID, thisDay, -1, "&lt;&lt;") + xTD;// << //
-	html += TD_buttons + getButtonCode(dateFieldID, thisDay, -1, "&lt;") + xTD;// < //
-	html += TD_title + DIV_title + monthArrayLong[thisDay[1] - 1] + thisDay[0] + xDIV + xTD;
-	html += TD_buttons + getButtonCode(dateFieldID, thisDay, 1, "&gt;") + xTD;// > //
-	html += TD_buttons + getButtonCodeYear(dateFieldID, thisDay, 1, "&gt;&gt;") + xTD;// >> //
-	html += xTR;
-	html += "</table></td></tr>"
+    // this is the title bar, which displays the month and the buttons to
+    // go back to a previous month or forward to the next month
+    html += "<tr class='dpTitleTR'><td colspan='7' valign='center'><table width='100%' cellspacing='0px' cellpadding='0px'>"
+    html += TR_title;
+    html += TD_buttons + getButtonCodeYear(dateFieldID, thisDay, -1, "datepicker_button__next-year") + xTD;// << //
+    html += TD_buttons + getButtonCode(dateFieldID, thisDay, -1, "datepicker_button__next-month") + xTD;// < //
+    html += TD_title + DIV_title + monthArrayLong[thisDay[1] - 1] + thisDay[0] + xDIV + xTD;
+    html += TD_buttons + getButtonCode(dateFieldID, thisDay, 1, "datepicker_button__prev-month") + xTD;// > //
+    html += TD_buttons + getButtonCodeYear(dateFieldID, thisDay, 1, "datepicker_button__prev-year") + xTD;// >> //
+    html += xTR;
+    html += "</table></td></tr>"
 
 	// this is the row that indicates which day of the week we're on
 	html += TR_days;
@@ -206,14 +206,14 @@ function refreshDatePicker(dateFieldID, year, month, day) {
 	}
 	html += xTR;
 
-	// add a button to allow the user to easily return to today, or close the calendar
-	html += TR_todaybutton + TD_todaybutton;
-	var today = getTodayPersian();
-	html += "<button class='dpTodayButton' onClick='refreshDatePicker(\"" + dateFieldID + "\", "
-		+ today[0] + ", " + today[1] + ", " + today[2] + ");'>&#1575;&#1605;&#1585;&#1608;&#1586;</button> ";
+    // add a button to allow the user to easily return to today, or close the calendar
+    html += TR_todaybutton + TD_todaybutton;
+    var today = getTodayPersian();
+    html += "<button class='dpTodayButton' onClick='refreshDatePicker(\"" + dateFieldID + "\", "
+        + today[0] + ", " + today[1] + ", " + today[2] + ");'>&#1575;&#1605;&#1585;&#1608;&#1586;</button> ";
 //  html += "<button class='dpTodayButton' onClick='refreshDatePicker(\"" + dateFieldID + "\");'>&#1575;&#1605;&#1585;&#1608;&#1586;</button> ";
-	html += "<button class='dpTodayButton' onClick='updateDateField(\"" + dateFieldID + "\");'>&#1576;&#1587;&#1578;&#1606;</button>";
-	html += xTD + xTR;
+    html += "<button class='dpCloseButton' onClick='updateDateField(\"" + dateFieldID + "\");'>&#1576;&#1587;&#1578;&#1606;</button>";
+    html += xTD + xTR;
 
 	// and finally, close the table
 	html += xTABLE;
@@ -228,24 +228,24 @@ function refreshDatePicker(dateFieldID, year, month, day) {
  Convenience function for writing the code for the buttons that bring us back or forward
  a month.
  */
-function getButtonCode(dateFieldID, dateVal, adjust, label) {
-	var newMonth = (dateVal[1] + adjust) % 12;
-	var newYear = dateVal[0] + parseInt((dateVal[1] + adjust) / 12);
-	if (newMonth < 1) {
-		newMonth += 12;
-		newYear += -1;
-	}
+function getButtonCode(dateFieldID, dateVal, adjust, className) {
+    var newMonth = (dateVal[1] + adjust) % 12;
+    var newYear = dateVal[0] + parseInt((dateVal[1] + adjust) / 12);
+    if (newMonth < 1) {
+        newMonth += 12;
+        newYear += -1;
+    }
 
-	return "<button class='dpButton' onClick='refreshDatePicker(\"" + dateFieldID + "\", "
-		+ newYear + ", " + newMonth + ");'>" + label + "</button>";
+    return "<button class='datepicker_button "+className+"'  onClick='refreshDatePicker(\"" + dateFieldID + "\", "
+        + newYear + ", " + newMonth + ");'></button>";
 }
 
-function getButtonCodeYear(dateFieldID, dateVal, adjust, label) {
-	var newMonth = dateVal[1];
-	var newYear = (dateVal[0] + adjust);
+function getButtonCodeYear(dateFieldID, dateVal, adjust, className) {
+    var newMonth = dateVal[1];
+    var newYear = (dateVal[0] + adjust);
 
-	return "<button class='dpButton' onClick='refreshDatePicker(\"" + dateFieldID + "\", "
-		+ newYear + ", " + newMonth + ");'>" + label + "</button>";
+    return "<button class='datepicker_button "+className+"'  onClick='refreshDatePicker(\"" + dateFieldID + "\", "
+        + newYear + ", " + newMonth + ");'></button>";
 }
 
 /**

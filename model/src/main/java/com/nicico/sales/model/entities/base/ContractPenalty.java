@@ -17,17 +17,10 @@ import javax.persistence.*;
 public class ContractPenalty extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "CONTRACT_PENALTY")
-	@SequenceGenerator(name = "CONTRACT_PENALTY", sequenceName = "CONTRACT_PENALTY")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_PENALTY")
+	@SequenceGenerator(name = "SEQ_CONTRACT_PENALTY", sequenceName = "SEQ_CONTRACT_PENALTY", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ITEM_FEATURE_ID", nullable = false, insertable = false, updatable = false)
-	private ContractItemFeature contractItemFeature;
-
-	@Column(name = "CONTRACT_ITEM_FEATURE_ID")
-	private Long contractItemFeatureId;
 
 	@Column(name = "DEDUCTION", length = 4)
 	private Double deduction;
@@ -37,4 +30,5 @@ public class ContractPenalty extends Auditable {
 
 	@Column(name = "OPERATION", length = 4)
 	private String operation;
+
 }

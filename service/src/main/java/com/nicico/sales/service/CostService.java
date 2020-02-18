@@ -1,7 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CostDTO;
 import com.nicico.sales.iservice.ICostService;
@@ -25,7 +26,7 @@ public class CostService implements ICostService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_COST')")
+    @PreAuthorize("hasAuthority('R_COST')")
     public CostDTO.Info get(Long id) {
         final Optional<Cost> slById = costDAO.findById(id);
         final Cost cost = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CostNotFound));
@@ -35,7 +36,7 @@ public class CostService implements ICostService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_COST')")
+    @PreAuthorize("hasAuthority('R_COST')")
     public List<CostDTO.Info> list() {
         final List<Cost> slAll = costDAO.findAll();
 
@@ -45,7 +46,7 @@ public class CostService implements ICostService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_COST')")
+    @PreAuthorize("hasAuthority('C_COST')")
     public CostDTO.Info create(CostDTO.Create request) {
         final Cost cost = modelMapper.map(request, Cost.class);
 
@@ -54,7 +55,7 @@ public class CostService implements ICostService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_COST')")
+    @PreAuthorize("hasAuthority('U_COST')")
     public CostDTO.Info update(Long id, CostDTO.Update request) {
         final Optional<Cost> slById = costDAO.findById(id);
         final Cost cost = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CostNotFound));
@@ -68,14 +69,14 @@ public class CostService implements ICostService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_COST')")
+    @PreAuthorize("hasAuthority('D_COST')")
     public void delete(Long id) {
         costDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_COST')")
+    @PreAuthorize("hasAuthority('D_COST')")
     public void delete(CostDTO.Delete request) {
         final List<Cost> costs = costDAO.findAllById(request.getIds());
 
@@ -84,9 +85,9 @@ public class CostService implements ICostService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_COST')")
-    public SearchDTO.SearchRs<CostDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(costDAO, request, cost -> modelMapper.map(cost, CostDTO.Info.class));
+    @PreAuthorize("hasAuthority('R_COST')")
+    public TotalResponse<CostDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(costDAO, criteria, cost -> modelMapper.map(cost, CostDTO.Info.class));
     }
 
     private CostDTO.Info save(Cost cost) {

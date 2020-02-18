@@ -26,8 +26,6 @@ public class WarehouseCadItemRestController {
 
     private final IWarehouseCadItemService warehouseCadItemService;
 
-    // ------------------------------s
-
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<WarehouseCadItemDTO.Info> get(@PathVariable Long id) {
@@ -75,33 +73,25 @@ public class WarehouseCadItemRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list-issue-cad")
-    public ResponseEntity<TotalResponse<WarehouseCadItemDTO.InfoCombo2>> list1(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+    public ResponseEntity<TotalResponse<WarehouseCadItemDTO.InfoCombo2>> list1(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(warehouseCadItemService.search1(nicicoCriteria), HttpStatus.OK);
     }
 
-   @Loggable
-   @GetMapping(value = "/spec-list-ids/{ids}")
-    public ResponseEntity<List<WarehouseCadItemDTO.Info>> listIds( @PathVariable  String ids) throws IOException {
-	    List<Long> i= new ArrayList<>();
+    @Loggable
+    @GetMapping(value = "/spec-list-ids/{ids}")
+    public ResponseEntity<List<WarehouseCadItemDTO.Info>> listIds(@PathVariable String ids) {
+        List<Long> i = new ArrayList<>();
 
-	    String [] sIds=ids.split(",");
-	    for (int j =0 ; j<sIds.length;j++)
-	        i.add(new Long(sIds[j]));
+        String[] sIds = ids.split(",");
+        for (int j = 0; j < sIds.length; j++)
+            i.add(new Long(sIds[j]));
 
-	    WarehouseCadItemDTO.Delete request= new WarehouseCadItemDTO.Delete();
-	    request.setIds(i);
+        WarehouseCadItemDTO.Delete request = new WarehouseCadItemDTO.Delete();
+        request.setIds(i);
 
         final NICICOCriteria nicicoCriteria = new NICICOCriteria().set_startRow(0).set_endRow(1000).setOperator("and");
-        SearchDTO.SearchRs<WarehouseCadItemDTO.Info> aa=warehouseCadItemService.search(request);
+        SearchDTO.SearchRs<WarehouseCadItemDTO.Info> aa = warehouseCadItemService.search(request);
         return new ResponseEntity<>(aa.getList(), HttpStatus.OK);
-    }
-
-    // ------------------------------
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<WarehouseCadItemDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(warehouseCadItemService.search(request), HttpStatus.OK);
     }
 }

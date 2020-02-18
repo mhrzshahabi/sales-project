@@ -14,7 +14,7 @@ import java.util.List;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_WAREHOUSE_CAD", uniqueConstraints = @UniqueConstraint(columnNames = {"BIJACK_NO"}))
+@Table(name = "TBL_WAREHOUSE_CAD", uniqueConstraints = @UniqueConstraint(name = "BIJACK_NO_UNIQUE", columnNames = {"BIJACK_NO"}))
 public class WarehouseCad extends Auditable {
 
     @Id
@@ -28,7 +28,7 @@ public class WarehouseCad extends Auditable {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MATERIAL_ITEM_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "MATERIAL_ITEM_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseCad2material_itm"))
     private MaterialItem materialItem;
 
     @Column(name = "MATERIAL_ITEM_ID", nullable = false)
@@ -51,7 +51,7 @@ public class WarehouseCad extends Auditable {
 
     @Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseCad2yard"))
 	private WarehouseYard warehouseYard;
 
 	@Column(name = "YARD_ID")
@@ -95,4 +95,18 @@ public class WarehouseCad extends Auditable {
 
     @Column(name = "DESTINATION_WEIGHT")
     private Double destinationWeight;
+
+    @Column(name = "SOURCE_SHEET_SUM_DELIVERY")
+    private Integer sourceSheetSumDelivery;
+
+    @Column(name = "DESTINATION_SHEET_SUM_DELIVERY")
+    private Integer destinationSheetSumDelivery;
+
+    @Column(name = "BIJAK_FIRST_DESCRIPTION")
+    private String bijakFirstDescription;
+
+    @Column(name = "BIJAK_SECOND_DESCRIPTION")
+    private String bijakSecondDescription;
+
+
 }

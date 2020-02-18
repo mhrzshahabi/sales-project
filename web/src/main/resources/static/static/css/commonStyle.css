@@ -1,0 +1,716 @@
+.mainHeaderStyleOnline {
+    font-family: BYekan;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    line-height: 16px;
+    padding: 4px;
+    border: 0px dotted black;
+}
+.mainHeaderStyleOnline {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.header-top {
+    display: block;
+    height: auto; opacity: 1;
+    transition: height 0ms 0ms, opacity 600ms 0ms;
+    background: rgba(199,195,195,1);
+    background: -moz-linear-gradient(top, rgba(199,195,195,1) 0%, rgba(225,225,225,1) 24%, rgba(242,242,242,1) 50%, rgba(238,238,238,1) 77%, rgba(223,223,223,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(199,195,195,1)), color-stop(24%, rgba(225,225,225,1)), color-stop(50%, rgba(242,242,242,1)), color-stop(77%, rgba(238,238,238,1)), color-stop(100%, rgba(223,223,223,1)));
+    background: -webkit-linear-gradient(top, rgba(199,195,195,1) 0%, rgba(225,225,225,1) 24%, rgba(242,242,242,1) 50%, rgba(238,238,238,1) 77%, rgba(223,223,223,1) 100%);
+    background: -o-linear-gradient(top, rgba(199,195,195,1) 0%, rgba(225,225,225,1) 24%, rgba(242,242,242,1) 50%, rgba(238,238,238,1) 77%, rgba(223,223,223,1) 100%);
+    background: -ms-linear-gradient(top, rgba(199,195,195,1) 0%, rgba(225,225,225,1) 24%, rgba(242,242,242,1) 50%, rgba(238,238,238,1) 77%, rgba(223,223,223,1) 100%);
+    background: linear-gradient(to bottom, rgba(199,195,195,1) 0%, rgba(225,225,225,1) 24%, rgba(242,242,242,1) 50%, rgba(238,238,238,1) 77%, rgba(223,223,223,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c7c3c3', endColorstr='#dfdfdf', GradientType=0 );
+    -webkit-box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.85);
+    -moz-box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.85);
+    box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.85);
+}
+
+.header-logo {
+    background-color: #fe9d2a;
+    border-top-left-radius: 100%;
+}
+.header-logo:before{
+    bottom: -39px;
+    left: -32px;
+    content: " ";
+    position: absolute;
+    width: 356px;
+    height: 115px;
+    background-color: #fb9b29;
+    border: solid #324458 0px;
+    border-top-left-radius: 100%;
+    -moz-box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.85);
+    box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.85);
+    -webkit-box-shadow: 10px 0px 5px rgba(0, 0, 0, 0.3) inset, 35px -24px 13px rgba(0,0,0,0.1) inset
+}
+.header-logo img {
+    right: 16px;
+    position: absolute;
+}
+
+.header-logo:after{
+    content: '';
+    background: url("../img/layer-top-left.svg");
+    position: absolute;
+    top: 0;
+    right: -139px;
+    width: 100%;
+    height: 75px;
+}
+
+.header-logo-title {
+    background-color: #dcdeea;
+    color: #374b71;
+    height: 100%;
+}
+.header-title-right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.header-title-version {
+    display: flex;
+    //height: 57px;
+    margin-right: 60px;
+    margin-top: auto;
+}
+.header-title-version h4{
+    color: white;
+    margin-top: auto;
+    margin-bottom: 7px;
+    position: absolute;
+    bottom: 2px;
+    left: 30px;
+    right: auto;
+}
+.header-logout-Vlayout{
+    padding-left: 10px;
+}
+.header-title-top{
+    display: flex;
+    flex-direction:column ;
+    justify-content: right;
+    align-items: flex-start;
+    margin-right: 11px;
+}
+.header-title-top h3{
+    color: white;
+}
+
+.header-title-top h3, .header-title-top h4 {
+    padding: 0px;
+    margin: 4px;
+  //  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+}
+.header-title-top h4 {
+    color: #374b71;
+    font-size: 14px;
+    font-weight: 200;
+}
+.header-exit {
+    background-image: url("../img/header-mask.png");
+    background-size: 40% !important;
+    /* background-attachment: fixed; */
+    background-repeat: no-repeat;
+    object-fit: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: left ;
+}
+
+@media only screen and (max-width: 1024px) {
+    .header-exit {
+        background-size: 100% !important;
+    }
+}
+.header-left-side{
+    background-image: url("../img/layer-top.svg");
+}
+
+
+.header-filter span {
+    color: #374b71;
+    font-weight: bold;
+}
+
+.formTitleRTL {
+    color: #374b71;
+}
+
+.header-change-lng span {
+    color: #374b71;
+}
+
+.header-label-username {
+    color: #374b71;
+    font-size: 14px;
+    font-weight: bold;
+}
+.header-label-username-span {
+    color: #374b71;
+    font-size: 14px;
+}
+.header-logout, .header-logoutOver, .header-logoutFocused, .header-logoutFocusedOver, .header-logoutFocusedDown{
+    background: none;
+    direction: ltr;
+}
+.header-logout span, .header-logoutOver span, .header-logoutFocused span, .header-logoutFocused span, .header-logoutFocusedOver span, .header-logoutFocusedDown span {
+    padding-left: 6px;
+}
+.header-logo-title span {
+    padding-right: 32px;
+}
+
+/* tool strip button */
+.toolStripButtonRefresh,
+.toolStripButtonRefreshOver,
+.toolStripButtonRefreshFocused,
+.toolStripButtonRefreshFocusedOver,
+.toolStripButtonRefreshDown,
+.toolStripButtonRefreshFocusedDown,
+.toolStripButtonRefreshSelected,
+.toolStripButtonRefreshSelectedFocused,
+.toolStripButtonRefreshSelectedDown,
+.toolStripButtonRefreshSelectedFocusedDown,
+.toolStripButtonRefreshSelectedOver,
+.toolStripButtonRefreshSelectedFocusedOver,
+.toolStripButtonRefreshDisabled,
+.toolStripButtonRefreshSelectedDisabled,
+.toolStripButtonRefreshOpened,
+.toolStripButtonRefreshOverOpened,
+.toolStripButtonRefreshDownOpened,
+.toolStripButtonRefreshFocusedOpened,
+.toolStripButtonRefreshFocusedDownOpened,
+.toolStripButtonRefreshFocusedOverOpened,
+.toolStripButtonRefreshSelectedOpened,
+.toolStripButtonRefreshSelectedDownOpened,
+.toolStripButtonRefreshSelectedOverOpened {
+    border: 1px solid transparent;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    color: #000000;
+    font-size: 11px;
+    padding: 3px 4px 3px 4px;
+    border-radius: 3px;
+    background-color: #fe9d2a;
+    border: solid 1px #fe9d2a;
+}
+.toolStripButtonRefresh:hover,
+.toolStripButtonRefreshOver:hover,
+.toolStripButtonRefreshFocused:hover,
+.toolStripButtonRefreshFocusedOver:hover,
+.toolStripButtonRefreshDown:hover,
+.toolStripButtonRefreshFocusedDown:hover,
+.toolStripButtonRefreshSelected:hover,
+.toolStripButtonRefreshSelectedFocused:hover,
+.toolStripButtonRefreshSelectedDown:hover,
+.toolStripButtonRefreshSelectedFocusedDown:hover,
+.toolStripButtonRefreshSelectedOver:hover,
+.toolStripButtonRefreshSelectedFocusedOver:hover,
+.toolStripButtonRefreshDisabled:hover,
+.toolStripButtonRefreshSelectedDisabled:hover,
+.toolStripButtonRefreshOpened:hover,
+.toolStripButtonRefreshOverOpened:hover,
+.toolStripButtonRefreshDownOpened:hover,
+.toolStripButtonRefreshFocusedOpened:hover,
+.toolStripButtonRefreshFocusedDownOpened:hover,
+.toolStripButtonRefreshFocusedOverOpened:hover,
+.toolStripButtonRefreshSelectedOpened:hover,
+.toolStripButtonRefreshSelectedDownOpened:hover,
+.toolStripButtonRefreshSelectedOverOpened:hover {
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+.toolStripButtonRefresh td,
+.toolStripButtonRefreshOver td,
+.toolStripButtonRefreshFocused td,
+.toolStripButtonRefreshFocusedOver td,
+.toolStripButtonRefreshDown td,
+.toolStripButtonRefreshFocusedDown td,
+.toolStripButtonRefreshSelected td,
+.toolStripButtonRefreshSelectedFocused td,
+.toolStripButtonRefreshSelectedDown td,
+.toolStripButtonRefreshSelectedFocusedDown td,
+.toolStripButtonRefreshSelectedOver td,
+.toolStripButtonRefreshSelectedFocusedOver td,
+.toolStripButtonRefreshDisabled td,
+.toolStripButtonRefreshSelectedDisabled td,
+.toolStripButtonRefreshOpened td,
+.toolStripButtonRefreshOverOpened td,
+.toolStripButtonRefreshDownOpened td,
+.toolStripButtonRefreshFocusedOpened td,
+.toolStripButtonRefreshFocusedDownOpened td,
+.toolStripButtonRefreshFocusedOverOpened td,
+.toolStripButtonRefreshSelectedOpened td,
+.toolStripButtonRefreshSelectedDownOpened td,
+.toolStripButtonRefreshSelectedOverOpened td {
+    color: white;
+    font-weight: bold;
+}
+
+/* tool strip button */
+.toolStripButtonAdd,
+.toolStripButtonAddOver,
+.toolStripButtonAddFocused,
+.toolStripButtonAddFocusedOver,
+.toolStripButtonAddDown,
+.toolStripButtonAddFocusedDown,
+.toolStripButtonAddSelected,
+.toolStripButtonAddSelectedFocused,
+.toolStripButtonAddSelectedDown,
+.toolStripButtonAddSelectedFocusedDown,
+.toolStripButtonAddSelectedOver,
+.toolStripButtonAddSelectedFocusedOver,
+.toolStripButtonAddDisabled,
+.toolStripButtonAddSelectedDisabled,
+.toolStripButtonAddOpened,
+.toolStripButtonAddOverOpened,
+.toolStripButtonAddDownOpened,
+.toolStripButtonAddFocusedOpened,
+.toolStripButtonAddFocusedDownOpened,
+.toolStripButtonAddFocusedOverOpened,
+.toolStripButtonAddSelectedOpened,
+.toolStripButtonAddSelectedDownOpened,
+.toolStripButtonAddSelectedOverOpened {
+    border: 1px solid transparent;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    color: #000000;
+    font-size: 11px;
+    padding: 3px 4px 3px 4px;
+    border-radius: 3px;
+    background-color: #e8f0e6;
+    border: solid 1px #05a74a;
+}
+.toolStripButtonAdd:hover,
+.toolStripButtonAddOver:hover,
+.toolStripButtonAddFocused:hover,
+.toolStripButtonAddFocusedOver:hover,
+.toolStripButtonAddDown:hover,
+.toolStripButtonAddFocusedDown:hover,
+.toolStripButtonAddSelected:hover,
+.toolStripButtonAddSelectedFocused:hover,
+.toolStripButtonAddSelectedDown:hover,
+.toolStripButtonAddSelectedFocusedDown:hover,
+.toolStripButtonAddSelectedOver:hover,
+.toolStripButtonAddSelectedFocusedOver:hover,
+.toolStripButtonAddDisabled:hover,
+.toolStripButtonAddSelectedDisabled:hover,
+.toolStripButtonAddOpened:hover,
+.toolStripButtonAddOverOpened:hover,
+.toolStripButtonAddDownOpened:hover,
+.toolStripButtonAddFocusedOpened:hover,
+.toolStripButtonAddFocusedDownOpened:hover,
+.toolStripButtonAddFocusedOverOpened:hover,
+.toolStripButtonAddSelectedOpened:hover,
+.toolStripButtonAddSelectedDownOpened:hover,
+.toolStripButtonAddSelectedOverOpened:hover {
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+.toolStripButtonAdd td,
+.toolStripButtonAddOver td,
+.toolStripButtonAddFocused td,
+.toolStripButtonAddFocusedOver td,
+.toolStripButtonAddDown td,
+.toolStripButtonAddFocusedDown td,
+.toolStripButtonAddSelected td,
+.toolStripButtonAddSelectedFocused td,
+.toolStripButtonAddSelectedDown td,
+.toolStripButtonAddSelectedFocusedDown td,
+.toolStripButtonAddSelectedOver td,
+.toolStripButtonAddSelectedFocusedOver td,
+.toolStripButtonAddDisabled td,
+.toolStripButtonAddSelectedDisabled td,
+.toolStripButtonAddOpened td,
+.toolStripButtonAddOverOpened td,
+.toolStripButtonAddDownOpened td,
+.toolStripButtonAddFocusedOpened td,
+.toolStripButtonAddFocusedDownOpened td,
+.toolStripButtonAddFocusedOverOpened td,
+.toolStripButtonAddSelectedOpened td,
+.toolStripButtonAddSelectedDownOpened td,
+.toolStripButtonAddSelectedOverOpened td {
+    color: #05a74a;
+    font-weight: bold;
+}
+
+
+/* tool strip button */
+.toolStripButtonEdit,
+.toolStripButtonEditOver,
+.toolStripButtonEditFocused,
+.toolStripButtonEditFocusedOver,
+.toolStripButtonEditDown,
+.toolStripButtonEditFocusedDown,
+.toolStripButtonEditSelected,
+.toolStripButtonEditSelectedFocused,
+.toolStripButtonEditSelectedDown,
+.toolStripButtonEditSelectedFocusedDown,
+.toolStripButtonEditSelectedOver,
+.toolStripButtonEditSelectedFocusedOver,
+.toolStripButtonEditDisabled,
+.toolStripButtonEditSelectedDisabled,
+.toolStripButtonEditOpened,
+.toolStripButtonEditOverOpened,
+.toolStripButtonEditDownOpened,
+.toolStripButtonEditFocusedOpened,
+.toolStripButtonEditFocusedDownOpened,
+.toolStripButtonEditFocusedOverOpened,
+.toolStripButtonEditSelectedOpened,
+.toolStripButtonEditSelectedDownOpened,
+.toolStripButtonEditSelectedOverOpened {
+    border: 1px solid transparent;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    color: #000000;
+    font-size: 11px;
+    padding: 3px 4px 3px 4px;
+    border-radius: 3px;
+    background-color: #f0ece6;
+    border: solid 1px #f5a623;
+}
+.toolStripButtonEdit:hover,
+.toolStripButtonEditOver:hover,
+.toolStripButtonEditFocused:hover,
+.toolStripButtonEditFocusedOver:hover,
+.toolStripButtonEditDown:hover,
+.toolStripButtonEditFocusedDown:hover,
+.toolStripButtonEditSelected:hover,
+.toolStripButtonEditSelectedFocused:hover,
+.toolStripButtonEditSelectedDown:hover,
+.toolStripButtonEditSelectedFocusedDown:hover,
+.toolStripButtonEditSelectedOver:hover,
+.toolStripButtonEditSelectedFocusedOver:hover,
+.toolStripButtonEditDisabled:hover,
+.toolStripButtonEditSelectedDisabled:hover,
+.toolStripButtonEditOpened:hover,
+.toolStripButtonEditOverOpened:hover,
+.toolStripButtonEditDownOpened:hover,
+.toolStripButtonEditFocusedOpened:hover,
+.toolStripButtonEditFocusedDownOpened:hover,
+.toolStripButtonEditFocusedOverOpened:hover,
+.toolStripButtonEditSelectedOpened:hover,
+.toolStripButtonEditSelectedDownOpened:hover,
+.toolStripButtonEditSelectedOverOpened:hover {
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+.toolStripButtonEdit td,
+.toolStripButtonEditOver td,
+.toolStripButtonEditFocused td,
+.toolStripButtonEditFocusedOver td,
+.toolStripButtonEditDown td,
+.toolStripButtonEditFocusedDown td,
+.toolStripButtonEditSelected td,
+.toolStripButtonEditSelectedFocused td,
+.toolStripButtonEditSelectedDown td,
+.toolStripButtonEditSelectedFocusedDown td,
+.toolStripButtonEditSelectedOver td,
+.toolStripButtonEditSelectedFocusedOver td,
+.toolStripButtonEditDisabled td,
+.toolStripButtonEditSelectedDisabled td,
+.toolStripButtonEditOpened td,
+.toolStripButtonEditOverOpened td,
+.toolStripButtonEditDownOpened td,
+.toolStripButtonEditFocusedOpened td,
+.toolStripButtonEditFocusedDownOpened td,
+.toolStripButtonEditFocusedOverOpened td,
+.toolStripButtonEditSelectedOpened td,
+.toolStripButtonEditSelectedDownOpened td,
+.toolStripButtonEditSelectedOverOpened td {
+    color: #f5a623;
+    font-weight: bold;
+}
+
+/* tool strip button */
+.toolStripButtonExcel,
+.toolStripButtonExcelOver,
+.toolStripButtonExcelFocused,
+.toolStripButtonExcelFocusedOver,
+.toolStripButtonExcelDown,
+.toolStripButtonExcelFocusedDown,
+.toolStripButtonExcelSelected,
+.toolStripButtonExcelSelectedFocused,
+.toolStripButtonExcelSelectedDown,
+.toolStripButtonExcelSelectedFocusedDown,
+.toolStripButtonExcelSelectedOver,
+.toolStripButtonExcelSelectedFocusedOver,
+.toolStripButtonExcelDisabled,
+.toolStripButtonExcelSelectedDisabled,
+.toolStripButtonExcelOpened,
+.toolStripButtonExcelOverOpened,
+.toolStripButtonExcelDownOpened,
+.toolStripButtonExcelFocusedOpened,
+.toolStripButtonExcelFocusedDownOpened,
+.toolStripButtonExcelFocusedOverOpened,
+.toolStripButtonExcelSelectedOpened,
+.toolStripButtonExcelSelectedDownOpened,
+.toolStripButtonExcelSelectedOverOpened {
+    border: 1px solid transparent;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    color: #000000;
+    font-size: 11px;
+    padding: 3px 4px 3px 4px;
+    border-radius: 3px;
+    background-color: #374b71;
+    border: solid 1px #374b71;
+}
+.toolStripButtonExcel:hover,
+.toolStripButtonExcelOver:hover,
+.toolStripButtonExcelFocused:hover,
+.toolStripButtonExcelFocusedOver:hover,
+.toolStripButtonExcelDown:hover,
+.toolStripButtonExcelFocusedDown:hover,
+.toolStripButtonExcelSelected:hover,
+.toolStripButtonExcelSelectedFocused:hover,
+.toolStripButtonExcelSelectedDown:hover,
+.toolStripButtonExcelSelectedFocusedDown:hover,
+.toolStripButtonExcelSelectedOver:hover,
+.toolStripButtonExcelSelectedFocusedOver:hover,
+.toolStripButtonExcelDisabled:hover,
+.toolStripButtonExcelSelectedDisabled:hover,
+.toolStripButtonExcelOpened:hover,
+.toolStripButtonExcelOverOpened:hover,
+.toolStripButtonExcelDownOpened:hover,
+.toolStripButtonExcelFocusedOpened:hover,
+.toolStripButtonExcelFocusedDownOpened:hover,
+.toolStripButtonExcelFocusedOverOpened:hover,
+.toolStripButtonExcelSelectedOpened:hover,
+.toolStripButtonExcelSelectedDownOpened:hover,
+.toolStripButtonExcelSelectedOverOpened:hover {
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+.toolStripButtonExcel td,
+.toolStripButtonExcelOver td,
+.toolStripButtonExcelFocused td,
+.toolStripButtonExcelFocusedOver td,
+.toolStripButtonExcelDown td,
+.toolStripButtonExcelFocusedDown td,
+.toolStripButtonExcelSelected td,
+.toolStripButtonExcelSelectedFocused td,
+.toolStripButtonExcelSelectedDown td,
+.toolStripButtonExcelSelectedFocusedDown td,
+.toolStripButtonExcelSelectedOver td,
+.toolStripButtonExcelSelectedFocusedOver td,
+.toolStripButtonExcelDisabled td,
+.toolStripButtonExcelSelectedDisabled td,
+.toolStripButtonExcelOpened td,
+.toolStripButtonExcelOverOpened td,
+.toolStripButtonExcelDownOpened td,
+.toolStripButtonExcelFocusedOpened td,
+.toolStripButtonExcelFocusedDownOpened td,
+.toolStripButtonExcelFocusedOverOpened td,
+.toolStripButtonExcelSelectedOpened td,
+.toolStripButtonExcelSelectedDownOpened td,
+.toolStripButtonExcelSelectedOverOpened td {
+    color: #374b71;
+    font-weight: bold;
+}
+
+/* tool strip button */
+.toolStripButtonRemove,
+.toolStripButtonRemoveOver,
+.toolStripButtonRemoveFocused,
+.toolStripButtonRemoveFocusedOver,
+.toolStripButtonRemoveDown,
+.toolStripButtonRemoveFocusedDown,
+.toolStripButtonRemoveSelected,
+.toolStripButtonRemoveSelectedFocused,
+.toolStripButtonRemoveSelectedDown,
+.toolStripButtonRemoveSelectedFocusedDown,
+.toolStripButtonRemoveSelectedOver,
+.toolStripButtonRemoveSelectedFocusedOver,
+.toolStripButtonRemoveDisabled,
+.toolStripButtonRemoveSelectedDisabled,
+.toolStripButtonRemoveOpened,
+.toolStripButtonRemoveOverOpened,
+.toolStripButtonRemoveDownOpened,
+.toolStripButtonRemoveFocusedOpened,
+.toolStripButtonRemoveFocusedDownOpened,
+.toolStripButtonRemoveFocusedOverOpened,
+.toolStripButtonRemoveSelectedOpened,
+.toolStripButtonRemoveSelectedDownOpened,
+.toolStripButtonRemoveSelectedOverOpened {
+    border: 1px solid transparent;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    color: #000000;
+    font-size: 11px;
+    padding: 3px 4px 3px 4px;
+    border-radius: 3px;
+    background-color: #f0e6ec;
+    border: solid 1px #ff0000;
+}
+.toolStripButtonRemove:hover,
+.toolStripButtonRemoveOver:hover,
+.toolStripButtonRemoveFocused:hover,
+.toolStripButtonRemoveFocusedOver:hover,
+.toolStripButtonRemoveDown:hover,
+.toolStripButtonRemoveFocusedDown:hover,
+.toolStripButtonRemoveSelected:hover,
+.toolStripButtonRemoveSelectedFocused:hover,
+.toolStripButtonRemoveSelectedDown:hover,
+.toolStripButtonRemoveSelectedFocusedDown:hover,
+.toolStripButtonRemoveSelectedOver:hover,
+.toolStripButtonRemoveSelectedFocusedOver:hover,
+.toolStripButtonRemoveDisabled:hover,
+.toolStripButtonRemoveSelectedDisabled:hover,
+.toolStripButtonRemoveOpened:hover,
+.toolStripButtonRemoveOverOpened:hover,
+.toolStripButtonRemoveDownOpened:hover,
+.toolStripButtonRemoveFocusedOpened:hover,
+.toolStripButtonRemoveFocusedDownOpened:hover,
+.toolStripButtonRemoveFocusedOverOpened:hover,
+.toolStripButtonRemoveSelectedOpened:hover,
+.toolStripButtonRemoveSelectedDownOpened:hover,
+.toolStripButtonRemoveSelectedOverOpened:hover {
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+.toolStripButtonRemove td,
+.toolStripButtonRemoveOver td,
+.toolStripButtonRemoveFocused td,
+.toolStripButtonRemoveFocusedOver td,
+.toolStripButtonRemoveDown td,
+.toolStripButtonRemoveFocusedDown td,
+.toolStripButtonRemoveSelected td,
+.toolStripButtonRemoveSelectedFocused td,
+.toolStripButtonRemoveSelectedDown td,
+.toolStripButtonRemoveSelectedFocusedDown td,
+.toolStripButtonRemoveSelectedOver td,
+.toolStripButtonRemoveSelectedFocusedOver td,
+.toolStripButtonRemoveDisabled td,
+.toolStripButtonRemoveSelectedDisabled td,
+.toolStripButtonRemoveOpened td,
+.toolStripButtonRemoveOverOpened td,
+.toolStripButtonRemoveDownOpened td,
+.toolStripButtonRemoveFocusedOpened td,
+.toolStripButtonRemoveFocusedDownOpened td,
+.toolStripButtonRemoveFocusedOverOpened td,
+.toolStripButtonRemoveSelectedOpened td,
+.toolStripButtonRemoveSelectedDownOpened td,
+.toolStripButtonRemoveSelectedOverOpened td {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.contract-menu{
+    background-color: #374b71;
+    padding-left: 5px !important;
+    margin-left: 5px !important;
+    color: #ffffff;
+    border-radius: 5px;
+    border: solid 1px #374b71;
+    font-size: 15px;
+}
+.contract-menuOver{
+    background-color: #374b71;
+    padding-left: 5px !important;
+    margin-left: 5px !important;
+    color: #ffffff;
+    border-radius: 5px;
+    border: solid 1px #374b71;
+    font-size: 15px;
+}
+
+.cad-page1-form .formTitleDisabled,.cad-page1-form  .formTitleDisabledRTL, .cad-page1-form .formTitlePendingDisabled,.cad-page1-form  .formTitlePendingDisabledRTL {
+    color: #272727;
+}
+.mol-page1-form .formTitleDisabled,.mol-page1-form  .formTitleDisabledRTL, .mol-page1-form .formTitlePendingDisabled,.mol-page1-form  .formTitlePendingDisabledRTL {
+    color: #272727;
+}
+.conc-page1-form .formTitleDisabled,.conc-page1-form  .formTitleDisabledRTL, .conc-page1-form .formTitlePendingDisabled,.conc-page1-form  .formTitlePendingDisabledRTL {
+    color: #272727;
+}
+
+/************************ switch Button **************************/
+.switch-btn {
+    position: relative;
+    display: inline-block;
+    width: 17px;
+    height: 29px;
+}
+
+.switch-btn input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-btn .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border: solid 1px #ced4da;
+}
+
+.switch-btn .slider:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 17px;
+    left: -1px;
+    bottom: 0px;
+    background-color: #c16161;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.switch-btn input:checked +  .slider:before  {
+    background-color: #73af00;
+}
+
+.switch-btn input:focus + .slider:before{
+    box-shadow: 0 0 1px #73af00;
+}
+
+.switch-btn input:checked + .slider:before {
+    -webkit-transform: translateY(-12px);
+    -ms-transform: translateY(-12px);
+    transform: translateY(-12px);
+}
+
+/* Rounded sliders */
+.switch-btn .slider.round {
+    border-radius: 34px;
+}
+
+.switch-btn .slider.round:before {
+    border-radius: 50%;
+}
+.toggle-switch{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.toggle-show{
+    height: auto; opacity: 1;
+    transition: height 0ms 0ms, opacity 600ms 0ms;
+}
+.toggle-hide{
+    overflow: hidden;
+    height: 0; opacity: 0;
+    transition: height 0ms 400ms, opacity 400ms 0ms;
+}
+/*********************** switch Button **************************/

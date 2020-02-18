@@ -8,17 +8,17 @@ import java.util.List;
 
 public interface IShipmentAssayHeaderService {
 
-	ShipmentAssayHeaderDTO.Info get(Long id);
+    ShipmentAssayHeaderDTO.Info get(Long id);
 
-	List<ShipmentAssayHeaderDTO.Info> list();
+    List<ShipmentAssayHeaderDTO.Info> list();
 
-	ShipmentAssayHeaderDTO.Info create(ShipmentAssayHeaderDTO.Create request);
+    ShipmentAssayHeaderDTO.Info create(ShipmentAssayHeaderDTO.Create request);
 
-	ShipmentAssayHeaderDTO.Info update(Long id, ShipmentAssayHeaderDTO.Update request);
+    ShipmentAssayHeaderDTO.Info update(Long id, ShipmentAssayHeaderDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ShipmentAssayHeaderDTO.Delete request);
+    void delete(ShipmentAssayHeaderDTO.Delete request);
 
-	public TotalResponse<ShipmentAssayHeaderDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ShipmentAssayHeaderDTO.Info> search(NICICOCriteria criteria);
 }

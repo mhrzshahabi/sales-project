@@ -18,13 +18,13 @@ public class Cost extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_COST")
-	@SequenceGenerator(name = "SEQ_COST", sequenceName = "SEQ_COST")
+	@SequenceGenerator(name = "SEQ_COST", sequenceName = "SEQ_COST", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
 	@Setter(AccessLevel.NONE)
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Cost2shipment"))
 	private Shipment Shipment;
 
 	@Column(name = "SHIPMENT_ID")
@@ -32,7 +32,7 @@ public class Cost extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SOURCE_INSPECTOR_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SOURCE_INSPECTOR_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Cost2contactinspector_S"))
 	private Contact sourceInspector;
 
 	@Column(name = "SOURCE_INSPECTOR_ID")
@@ -46,7 +46,7 @@ public class Cost extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DEST_INSPECTOR_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "DEST_INSPECTOR_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Cost2contactinspector_d"))
 	private Contact destinationInspector;
 
 	@Column(name = "DEST_INSPECTOR_ID")
@@ -102,7 +102,7 @@ public class Cost extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INSURANCE_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "INSURANCE_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Cost2contactinsurance"))
 	private Contact insurance;
 
 	@Column(name = "INSURANCE_ID")
@@ -146,6 +146,5 @@ public class Cost extends Auditable {
 
 	@Column(name = "PORT_COST")
 	private Double portCost;
-
 
 }

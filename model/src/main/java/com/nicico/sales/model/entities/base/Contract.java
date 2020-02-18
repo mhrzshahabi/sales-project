@@ -3,6 +3,9 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -11,6 +14,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@Audited
+@AuditOverride(forClass = Auditable.class, isAudited = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTRACT")
@@ -18,7 +23,7 @@ public class Contract extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT")
-	@SequenceGenerator(name = "SEQ_CONTRACT", sequenceName = "SEQ_CONTRACT")
+	@SequenceGenerator(name = "SEQ_CONTRACT", sequenceName = "SEQ_CONTRACT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
@@ -28,22 +33,22 @@ public class Contract extends Auditable {
 	@Column(name = "C_ADDENDUM_DESC", length = 1000)
 	private String addendumDesc;
 
-	@Column(name = "C_ADDENDUM_DATE", length = 20)
+	@Column(name = "C_ADDENDUM_DATE", length = 50)
 	private String addendumDate;
 
 	@Column(name = "C_CONTRACT_NO", nullable = false, length = 200)
 	private String contractNo;
 
-	@Column(name = "C_CONTRACT_DATE", length = 20)
+	@Column(name = "C_CONTRACT_DATE", length = 50)
 	private String contractDate;
 
 	@Column(name = "C_SIDE_CONTRACT_NO", length = 200)
 	private String sideContractNo;
 
-	@Column(name = "C_SIDE_CONTRACT_DATE", length = 20)
+	@Column(name = "C_SIDE_CONTRACT_DATE", length = 50)
 	private String sideContractDate;
 
-	@Column(name = "C_IS_COMPLETE", length = 2)
+	@Column(name = "C_IS_COMPLETE", length = 3)
 	private String isComplete;
 
 	@Column(name = "C_DESCL", length = 4000)
@@ -51,6 +56,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactByBuyer"))
 	private Contact contact; // contactByBuyer
 
@@ -59,6 +65,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "SELLER_AGENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactBySellerAgent"))
 	private Contact contactBySellerAgent;
 
@@ -67,7 +74,8 @@ public class Contract extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTACT_INSPECTION_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactInspection"))
+	@NotAudited
+    @JoinColumn(name = "CONTACT_INSPECTION_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT))
     private Contact contactInspection;
 
     @Column(name = "CONTACT_INSPECTION_ID")
@@ -75,6 +83,7 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "BUYER_AGENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactByBuyerAgent"))
 	private Contact contactByBuyerAgent;
 
@@ -83,23 +92,17 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotAudited
 	@JoinColumn(name = "SELLER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2contactBySeller"))
 	private Contact contactBySeller;
 
 	@Column(name = "SELLER_ID")
 	private Long contactBySellerId;
 
-//	@Setter(AccessLevel.NONE)
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "BUYER_ID", insertable = false, updatable = false)
-//	private Contact contactByBuyer;
-//
-//	@Column(name = "BUYER_ID")
-//	private Long contactByBuyerId;
-//
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DEFINITION_ID", insertable = false, updatable = false)
+	@NotAudited
+	@JoinColumn(name = "DEFINITION_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contract2parmtrByDefinitin"))
 	private Parameters parameterByDefinition;
 
 	@Column(name = "DEFINITION_ID")
@@ -107,10 +110,11 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INCOTERMS_ID", insertable = false, updatable = false)
+	@NotAudited
+	@JoinColumn(name = "INCOTERMS_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Contract2incoterm"))
 	private Incoterms incoterms;
 
-	@Column(name = "INCOTERMS_ID")
+	@Column(name = "INCOTERMS_ID", nullable = false)
 	private Long incotermsId;
 
 	@Column(name = "INSPECTION_COST_SRC", length = 4)
@@ -247,26 +251,29 @@ public class Contract extends Auditable {
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PORT_SOURCE_ID", insertable = false, updatable = false)
-	private Contact portByPortSource;
+	@NotAudited
+	@JoinColumn(name = "PORT_SOURCE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2PortBySourcePortId"))
+	private Port portByPortSource;
 
 	@Column(name = "PORT_SOURCE_ID")
 	private Long portByPortSourceId;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false)
+	@NotAudited
+	@JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2materialByMaterialId"))
 	private Material material;
 
-	@Column(name = "MATERIAL_ID")
+	@Column(name = "MATERIAL_ID", nullable = false)
 	private Long materialId;
 
-	@Column(name = "AMOUNT", nullable = false, length = 20)
+	@Column(name = "AMOUNT")
 	private Double amount;
 
 	@Setter(AccessLevel.NONE)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UNIT_ID", insertable = false, updatable = false)
+	@NotAudited
+	@JoinColumn(name = "UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2unitByUnitId"))
 	private Unit unit;
 
 	@Column(name = "UNIT_ID")
@@ -307,6 +314,5 @@ public class Contract extends Auditable {
 
 	@Column(name = "MOLYBDENUM_TOLORANCE")
 	private Double molybdenumTolorance;
-
 
 }

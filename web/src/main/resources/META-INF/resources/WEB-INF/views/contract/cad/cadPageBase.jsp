@@ -1,10 +1,8 @@
-<%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    <% DateUtil dateUtil = new DateUtil();%>
 
     function factoryLableHedear(id, contents, width, height, padding) {
         isc.Label.create({
@@ -13,13 +11,12 @@
             height: height,
             styleName: "helloWorldText",
             padding: padding,
-            backgroundColor: "#84c1ed",
+            //backgroundColor: "#84c1ed",
             align: "center",
             valign: "center",
             wrap: false,
-            showEdges: true,
+            //showEdges: true,
             showShadow: true,
-            icon: "icons/16/world.png",
             contents: contents
         });
     }
@@ -77,19 +74,28 @@ var contactCadTabs = isc.TabSet.create({
     });
 
 
-    isc.IButton.create({
+    isc.IButtonSave.create({
         ID: "IButton_ContactCad_Save",
         title: "save",
-        icon: "icons/16/world.png",
+        icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
-            contactCadHeader.validate();
-            DynamicForm_ContactParameter_ValueNumber8.setValue("feild_all_defintitons_save", JSON.stringify(DynamicForm_ContactParameter_ValueNumber8.getValues()));
-            var drs = contactCadHeader.getValues().createDateDumy;
-            var contractTrueDate = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            contactCadHeader.setValue("contractDate", contractTrueDate);
             var dataSaveAndUpdateContractCad = {};
-            dataSaveAndUpdateContractCad.contractDate = contactCadHeader.getValue("createDateDumy");
+            if(methodHtpp=="PUT"){
+                   dataSaveAndUpdateContractCad.id=ListGrid_Cad.getSelectedRecord().id;
+            }
+            contactCadHeader.validate();
+            dynamicFormCath.validate();
+            valuesManagerArticle6_quality.validate();
+            if (contactCadHeader.hasErrors()|| dynamicFormCath.hasErrors()){
+                return;
+            }
+            if (valuesManagerArticle6_quality.hasErrors()){
+                contactCadTabs.selectTab(1);
+                return;
+            }
+            contactCadHeader.setValue("contractDate",contactCadHeader.getValues().createDate.toNormalDate("toUSShortDate"));
+            dataSaveAndUpdateContractCad.contractDate = contactCadHeader.getValue("contractDate");
             dataSaveAndUpdateContractCad.contractNo = contactCadHeader.getValue("contractNo");
             dataSaveAndUpdateContractCad.contactId = contactCadHeader.getValue("contactId");
             dataSaveAndUpdateContractCad.contactByBuyerAgentId = contactCadHeader.getValue("contactByBuyerAgentId");
@@ -111,8 +117,8 @@ var contactCadTabs = isc.TabSet.create({
             dataSaveAndUpdateContractCad.runStartDate = "";
             dataSaveAndUpdateContractCad.runTill = "";
             dataSaveAndUpdateContractCad.runEndtDate = "";
-            dataSaveAndUpdateContractCad.incotermsId = 1952;
-            dataSaveAndUpdateContractCad.portByPortSourceId = 1;
+            dataSaveAndUpdateContractCad.incotermsId = valuesManagerArticle6_quality.getValue("incotermsId");
+            dataSaveAndUpdateContractCad.portByPortSourceId = valuesManagerArticle6_quality.getValue("portByPortSourceId");
             dataSaveAndUpdateContractCad.incotermsText = valuesManagerArticle6_quality.getValue("incotermsText");
             dataSaveAndUpdateContractCad.officeSource = "TEHRAN";
             dataSaveAndUpdateContractCad.priceCalPeriod = "any";
@@ -125,7 +131,7 @@ var contactCadTabs = isc.TabSet.create({
             dataSaveAndUpdateContractCad.pricePeriod = "any";
             dataSaveAndUpdateContractCad.eventPayment = "any";
             dataSaveAndUpdateContractCad.contentType = "any";
-            dataSaveAndUpdateContractCad.materialId = 952;
+            dataSaveAndUpdateContractCad.materialId = dynamicFormCath.getValue("materialId");
 ////////
         var dataSaveAndUpdateContractCadDetail = {};
         dataSaveAndUpdateContractCadDetail.name_ContactAgentSeller = contactCadHeaderCadAgent.getValue("name_ContactAgentSeller")
@@ -206,7 +212,7 @@ var contactCadTabs = isc.TabSet.create({
         dataSaveAndUpdateContractCadDetail.article6_Containerized_5 = "";
         dataSaveAndUpdateContractCadDetail.article7_number41 = "";
         dataSaveAndUpdateContractCadDetail.article7_number3 = "";
-        dataSaveAndUpdateContractCadDetail.article7_number37 = valuesManagerArticle7_quality.getValue("article7_quality1");
+        dataSaveAndUpdateContractCadDetail.article7_number37 = "";
         dataSaveAndUpdateContractCadDetail.article7_number3_1 = "";
         dataSaveAndUpdateContractCadDetail.article7_number39_1 = "";
         dataSaveAndUpdateContractCadDetail.article7_number40_2 = "";
@@ -301,11 +307,9 @@ var contactCadTabs = isc.TabSet.create({
         dataSaveAndUpdateContractCadDetail.article10_number60 =valuesManagerArticle10_quality.getValue("article10_number60");
         dataSaveAndUpdateContractCadDetail.article10_number61 =valuesManagerArticle10_quality.getValue("article10_number61");
         recordContractNo=contactCadHeader.getValue("contractNo");
-        var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:952},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
+
+        var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "material.descl", operator: "contains", value: "Cath"},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
         RestDataSource_Contract.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
-        if(data[0]!=undefined){
-                isc.warn("shomare contractNO tekrari ast");
-               }else{
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
                 httpMethod: methodHtpp,
@@ -315,27 +319,32 @@ var contactCadTabs = isc.TabSet.create({
                         Window_ContactCad.close();
                         ListGrid_Cad.invalidateCache();
                         saveCotractCadDetails(dataSaveAndUpdateContractCadDetail,(JSON.parse(resp.data)).id);
-                        saveValueAllArticles();
                     } else
                         isc.say(RpcResponse_o.data);
                 }
             }))
-            }
             })
-
-
         }
     })
     var contactCadFormButtonSaveLayout = isc.HStack.create({
         width: "100%",
         height: "3%",
         align: "center",
-        showEdges: true,
-        backgroundColor: "#CCFFFF",
+       // showEdges: true,
+        //backgroundColor: "#CCFFFF",
         membersMargin: 5,
         layoutMargin: 10,
         members: [
-            IButton_ContactCad_Save
+            IButton_ContactCad_Save,
+            isc.IButtonCancel.create({
+                title: "<spring:message code='global.cancel'/>",
+                width: 100,
+                icon: "pieces/16/icon_delete.png",
+                orientation: "vertical",
+                click: function () {
+                Window_ContactCad.close();
+                }
+                })
         ]
     });
 
@@ -361,54 +370,81 @@ var VLayout_contactCadMain = isc.VLayout.create({
 
 function saveListGrid_ContractCadItemShipment(contractID) {
         ListGrid_ContractItemShipment.selectAllRecords();
-        ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            var data_ContractItemShipment = ListGrid_ContractItemShipment.getEditedRecord(element);
-            data_ContractItemShipment.contractId = contractID;
-            data_ContractItemShipment.sendDate=sendDateSet;
-            data_ContractItemShipment.dischargeId = 11022;
+        var data_ContractItemShipment = {};
+        var ListGrid_ShipmentItems = [];
+        ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
+            var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
+            dataEditMain.contractId=contractID;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contractShipment/",
                 httpMethod: "POST",
-                data: JSON.stringify(data_ContractItemShipment),
+                data: JSON.stringify(dataEditMain),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            }))
+            });
+        ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
+            var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
+            dataEdit.contractId=contractID;
+            dataEdit.sendDate=(ListGrid_ContractItemShipment.getEditedRecord(element).sendDate).toNormalDate("toUSShortDate")
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contractShipment/",
+                httpMethod: "POST",
+                data: JSON.stringify(dataEdit),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>");
                     } else
                         isc.say(RpcResponse_o.data);
                 }
             }))
         })
-    };
+        ListGrid_ContractItemShipment.deselectAllRecords();
+};
 
     var dataALLArticle = {};
-    function saveValueAllArticles() {
-        dataALLArticle.Article03 = article3_quality.getValue("fullArticle3");
-        dataALLArticle.Article04 = article4_quality.getValue("fullArticle4");
-        dataALLArticle.Article05 = article5_quality.getValue("fullArticle5");
-        dataALLArticle.Article06 = article6_quality.getValue("fullArticle6");
-        dataALLArticle.Article07 = article7_quality.getValue("fullArticle7");
-        dataALLArticle.Article08 = article8_quality.getValue("fullArticle8");
-        dataALLArticle.Article09 = article9_quality.getValue("fullArticle9");
-        dataALLArticle.Article10 = article10_quality.getValue("fullArticle10");
-        dataALLArticle.Article11 = article11_quality.getValue("fullArticle11");
-        dataALLArticle.Article12 = article12_quality.getValue("fullArticle12");
+    function saveValueAllArticles(contractID) {
+        dataALLArticle.Article01 = nvlCad(dynamicFormCad_fullArticle01.getValue());
+        dataALLArticle.Article02 = nvlCad(dynamicForm_fullArticle02Cad.getValue());
+        dataALLArticle.Article03 = nvlCad(fullArticle3.getValue());
+        dataALLArticle.Article04 = nvlCad(fullArticle4.getValue());
+        dataALLArticle.Article05 = nvlCad(article5_quality.getValue());
+        dataALLArticle.Article06 = nvlCad(fullArticle6.getValue());
+        dataALLArticle.Article07 = nvlCad(fullArticle7.getValue());
+        dataALLArticle.Article08 = nvlCad(fullArticle8.getValue());
+        dataALLArticle.Article09 = nvlCad(fullArticle9.getValue());
+        dataALLArticle.Article10 = nvlCad(fullArticle10.getValue());
+        dataALLArticle.Article11 = nvlCad(article11_quality.getValue());
+        dataALLArticle.Article12 = nvlCad(fullArticle12.getValue());
         dataALLArticle.contractNo = contactCadHeader.getValue("contractNo");
+        dataALLArticle.contractId = contractID;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contract/writeWord",
             httpMethod: "POST",
             data: JSON.stringify(dataALLArticle),
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    isc.say("<spring:message code='global.form.request.successful'/>.");
+                    isc.say("<spring:message code='global.form.request.successful'/>");
                 } else
                     isc.say(RpcResponse_o.data);
             }
         }))
     }
 
+function nvlCad(articleIsNotNull){
+        if(articleIsNotNull == undefined){
+            return "";
+        }else{
+            return articleIsNotNull;
+        }
+    }
+
 function saveCotractCadDetails(data, contractID) {
         data.contract_id = contractID;
-        var allData = Object.assign(data,valuesManagerArticle1.getValues())
+        var allData = data
         allData.string_Currency="null";
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contractDetail",
@@ -417,26 +453,10 @@ function saveCotractCadDetails(data, contractID) {
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     saveListGrid_ContractCadItemShipment(contractID);
+                    saveValueAllArticles(contractID);
                 } else
                     isc.say(RpcResponse_o.data);
             }
         }))
     }
 
-function clearAdd(){
-        contactCadTabs.selectTab(0);
-        contactCadHeader.clearValues();
-        contactCadHeaderCadAgent.clearValues();
-        valuesManagerArticle1.clearValues();
-        valuesManagerArticle2Cad.clearValues();
-        valuesManagerArticle3_quality.clearValues();
-        valuesManagerArticle4_quality.clearValues();
-        valuesManagerArticle5_quality.clearValues();
-        valuesManagerArticle6_quality.clearValues();
-        valuesManagerArticle7_quality.clearValues();
-        valuesManagerArticle8_quality.clearValues();
-        valuesManagerArticle9_quality.clearValues();
-        valuesManagerArticle10_quality.clearValues();
-        valuesManagerArticle11_quality.clearValues();
-        valuesManagerArticle12_quality.clearValues();
-}

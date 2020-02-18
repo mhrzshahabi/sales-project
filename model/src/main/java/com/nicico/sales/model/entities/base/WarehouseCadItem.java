@@ -47,7 +47,7 @@ public class WarehouseCadItem extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "WAREHOUSE_CAD_ID", insertable = false,updatable = false ,foreignKey = @ForeignKey(name = "WAREHOUSECADITEM_father"))
+    @JoinColumn(name = "WAREHOUSE_CAD_ID", insertable = false,updatable = false ,foreignKey = @ForeignKey(name = "WAREHOUSECADITEM2w_c_header"))
     private WarehouseCad warehouseCad;
 
     @Column(name = "WAREHOUSE_CAD_ID")

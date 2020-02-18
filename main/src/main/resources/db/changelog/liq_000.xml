@@ -1,0 +1,256 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Admin" id="1">
+        <createTable tableName="TBL_TOZIN_MATERIAL">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_TOZIN_MATERIALPK"/>
+            </column>
+            <column name="GDSCODE" type="NUMBER(19, 0)"/>
+            <column name="GDSNAME" type="VARCHAR2(255 CHAR)"/>
+        </createTable>
+
+        <createTable tableName="TBL_TOZIN_PLANT">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_TOZIN_PLANTPK"/>
+            </column>
+            <column name="NAMEEN" type="VARCHAR2(255 CHAR)"/>
+            <column name="NAMEFA" type="VARCHAR2(255 CHAR)"/>
+        </createTable>
+
+        <createTable tableName="TBL_TOZIN_TARGET">
+            <column name="TARGETID" type="NUMBER(20, 0)"/>
+            <column name="PLANT_ID" type="NUMBER(10, 0)"/>
+            <column name="TARGET" type="VARCHAR2(200 BYTE)"/>
+        </createTable>
+
+        <createTable tableName="TBL_CATOD_LIST">
+            <column name="ID" type="NUMBER"/>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="GDSCODE" type="NUMBER(20, 0)"/>
+            <column name="PACKINGTYPEID" type="NUMBER(10, 0)"/>
+            <column name="SHEETNUMBER" type="NUMBER(10, 0)"/>
+            <column name="WAZN" type="NUMBER(10, 0)"/>
+            <column name="PRODUCTID" type="VARCHAR2(60 BYTE)"/>
+            <column name="PRODUCTLABEL" type="VARCHAR2(60 BYTE)"/>
+            <column name="STOREID" type="VARCHAR2(60 BYTE)"/>
+            <column name="TOZINEID" type="VARCHAR2(30 BYTE)"/>
+        </createTable>
+
+        <createTable tableName="V_TOZINE_CONTENT_B">
+            <column name="CARD_ID" type="VARCHAR2(100 BYTE)"/>
+            <column name="CARNO1" type="VARCHAR2(100 BYTE)"/>
+            <column name="CARNO3" type="VARCHAR2(100 BYTE)"/>
+            <column name="CARPELAK" type="VARCHAR2(200 BYTE)"/>
+            <column name="CARNAME" type="VARCHAR2(400 BYTE)"/>
+            <column name="TOZINE_ID" type="VARCHAR2(100 BYTE)"/>
+            <column name="WAZN1" type="NUMBER(20, 0)"/>
+            <column name="WAZN2" type="NUMBER(20, 0)"/>
+            <column name="CONDITION" type="VARCHAR2(100 BYTE)"/>
+            <column name="WAZN" type="NUMBER"/>
+            <column name="TEDAD" type="NUMBER(20, 0)"/>
+            <column name="UNIT_KALA" type="NUMBER(20, 0)"/>
+            <column name="PACKNAME" type="VARCHAR2(400 BYTE)"/>
+            <column name="HAVCODE" type="VARCHAR2(100 BYTE)"/>
+            <column name="CUSTOMERID" type="VARCHAR2(100 BYTE)"/>
+            <column name="CUSTOMER" type="VARCHAR2(400 BYTE)"/>
+            <column name="SELLERID" type="VARCHAR2(100 BYTE)"/>
+            <column name="SELLER" type="VARCHAR2(400 BYTE)"/>
+            <column name="DAT" type="VARCHAR2(20 BYTE)"/>
+            <column name="TZN_DATE" type="VARCHAR2(100 BYTE)"/>
+            <column name="TZN_TIME" type="VARCHAR2(100 BYTE)"/>
+            <column name="ISOKY" type="NUMBER(1, 0)"/>
+            <column name="GDSCODE" type="NUMBER(20, 0)"/>
+            <column name="GDSNAME" type="VARCHAR2(400 BYTE)"/>
+            <column name="SOURCEID" type="NUMBER(20, 0)"/>
+            <column name="SOURCEE" type="VARCHAR2(400 BYTE)"/>
+            <column name="TARGETID" type="NUMBER(20, 0)"/>
+            <column name="TARGET" type="VARCHAR2(400 BYTE)"/>
+            <column name="ID" type="NUMBER"/>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+        </createTable>
+
+        <createTable tableName="V_TOZINE_CONTENT_M">
+            <column name="CARD_ID" type="VARCHAR2(100 BYTE)"/>
+            <column name="CARNO1" type="VARCHAR2(100 BYTE)"/>
+            <column name="CARNO3" type="VARCHAR2(100 BYTE)"/>
+            <column name="PLAK" type="VARCHAR2(100 BYTE)"/>
+            <column name="CARNAME" type="VARCHAR2(400 BYTE)"/>
+            <column name="CONTENER_ID" type="VARCHAR2(100 BYTE)"/>
+            <column name="CONTENER_NO1" type="VARCHAR2(100 BYTE)"/>
+            <column name="CONTENER_NO3" type="VARCHAR2(100 BYTE)"/>
+            <column name="CONTENER_NAME" type="VARCHAR2(400 BYTE)"/>
+            <column name="TOZINE_ID" type="VARCHAR2(100 BYTE)"/>
+            <column name="WAZN1" type="NUMBER(20, 0)"/>
+            <column name="WAZN2" type="NUMBER(20, 0)"/>
+            <column name="CONDITION" type="VARCHAR2(100 BYTE)"/>
+            <column name="WAZN" type="NUMBER"/>
+            <column name="TEDAD" type="NUMBER(20, 0)"/>
+            <column name="UNIT_KALA" type="NUMBER(20, 0)"/>
+            <column name="PACKNAME" type="VARCHAR2(400 BYTE)"/>
+            <column name="HAVCODE" type="VARCHAR2(100 BYTE)"/>
+            <column name="DAT" type="VARCHAR2(20 BYTE)"/>
+            <column name="TZN_DATE" type="VARCHAR2(100 BYTE)"/>
+            <column name="TZN_TIME" type="VARCHAR2(100 BYTE)"/>
+            <column name="GDSCODE" type="NUMBER(20, 0)"/>
+            <column name="GDSNAME" type="VARCHAR2(400 BYTE)"/>
+            <column name="SOURCEID" type="NUMBER(20, 0)"/>
+            <column name="SOURCEE" type="VARCHAR2(400 BYTE)"/>
+            <column name="TARGETID" type="NUMBER(20, 0)"/>
+            <column name="TARGET" type="VARCHAR2(400 BYTE)"/>
+            <column name="HAV_NAME" type="VARCHAR2(400 BYTE)"/>
+            <column name="HAV_FROM" type="VARCHAR2(100 BYTE)"/>
+            <column name="HAV_TO" type="VARCHAR2(100 BYTE)"/>
+            <column name="HAV_DATE" type="VARCHAR2(100 BYTE)"/>
+            <column name="HAV_ISFINAL" type="CHAR(20 BYTE)"/>
+            <column name="ID" type="NUMBER"/>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Admin" id="2">
+        <createView viewName="VIEW_TOZIN">
+            <![CDATA[
+                select  m.id material_id,card_id,
+                carno1,
+                carno3,
+                plak,
+                carname,
+                contener_id,
+                contener_no1,
+                contener_no3,
+                contener_name,
+                to_char(p.id)||p.NAMEfa tozine_id,
+                tozine_id tozin_plant_id,
+                wazn1,
+                wazn2,
+                case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
+                wazn,
+                greatest (nvl(tedad,1),1) tedad,
+                nvl(unit_kala,6) unit_kala,
+                nvl(packname,'فله') packname,
+                havcode,
+                dat,
+                tzn_date,
+                tzn_time,
+                v.gdscode,
+                v.gdsname,
+                v.sourceid,
+                sourcee,
+                v.targetid,
+                v.target,
+                hav_name,
+                hav_from,
+                hav_to,
+                hav_date,
+                hav_isfinal,
+                v.id,
+                p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id,
+                "C_CREATED_BY"  ,
+                "D_CREATED_DATE" ,
+                "C_LAST_MODIFIED_BY",
+                "D_LAST_MODIFIED_DATE" ,
+                "N_VERSION"
+
+                from v_tozine_content_m v
+                join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
+                join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
+                left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
+                left join TBL_TOZIN_TARGET t on t.targetid=v.targetid
+                --where p.id=3
+                order by v.PLAK,v.CONTENER_ID,v.TZN_DATE,v.TZN_TIME
+            ]]>
+        </createView>
+
+        <createView viewName="VIEW_TOZIN_M">
+            <![CDATA[
+                select k.material_id,k.gdscode, tzn_date,p.id,p.namefa plant, s.namefa snamefa,t.namefa,gdsname, case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,nvl(sum(wazn),0) wazn,nvl(sum(tedad),0) tedad
+                from view_tozin k
+                left join tbl_tozin_plant s on s.id=substr(SOURCE_PLANT_ID,1,1)
+                left join tbl_tozin_plant t on t.id=target_plant_id
+                left join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
+                where  source_plant_id is not null and target_plant_id is not null
+                and substr(source_plant_id,1,1)<>'-'
+                group by tzn_date, p.id,p.namefa,SOURCE_PLANT_ID,target_plant_id,s.namefa,t.namefa,k.gdscode,gdsname,case when instr(carname ,'انتينر')>0  then 'ريلی' else 'جاده اي' end  ,k.material_id
+                order by tzn_date,p.id,SOURCE_PLANT_ID,gdscode
+            ]]>
+        </createView>
+
+        <createView viewName="VIEW_TOZIN_S">
+            <![CDATA[
+              SELECT card_id,carno1,carno3,carpelak plak,carname,customerid,customer,sellerid,seller,
+              wazn1,wazn2,wazn,
+
+                greatest (nvl(tedad,1),1) tedad,
+                nvl(unit_kala,6) unit_kala,
+                nvl(packname,'فله') packname
+
+              ,havcode,dat,tzn_date,tzn_time,v.gdscode,v.gdsname,
+                v.sourceid,v.sourcee,v.targetid,v.target,
+                to_char(p.id)||p.NAMEfa tozine_id,cast('    ' as varchar2(300))    HAV_NAME,cast('    ' as varchar2(20))  HAV_DATE,
+                tozine_id tozin_plant_id,
+                case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
+                p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id,
+                v.id, isoky hav_isfinal,
+                "C_CREATED_BY"  ,
+                "D_CREATED_DATE" ,
+                "C_LAST_MODIFIED_BY",
+                "D_LAST_MODIFIED_DATE" ,
+                "N_VERSION"
+
+                FROM v_tozine_content_b v
+                join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
+                join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
+                left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
+                left join TBL_TOZIN_TARGET t on t.targetid=v.targetid
+
+                order by carpelak ,carname,v.TZN_DATE,v.TZN_TIME,customerid,customer,sellerid
+            ]]>
+        </createView>
+
+        <createSequence sequenceName="SEQ_IMAGE_NUMBER"/>
+
+        <createView viewName="VIEW_FROSH">
+            <![CDATA[
+				 select tzn_date,p.id,p.namefa plant,m.gdscode,m.gdsname
+				 , case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,
+				 nvl(sum(wazn),0) wazn,sum(case when tedad is null then 1 when tedad=0 then 1 else tedad end) tedad
+				 from v_tozine_content_m m
+				join tbl_tozin_target s on s.targetid=sourceid
+				join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
+				join tbl_tozin_material mt on mt.gdscode=m.gdscode
+				where  m.targetid not in (select targetid from tbl_tozin_target)
+				group by tzn_date,p.id,p.namefa ,m.gdscode,m.gdsname
+				 , (case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end)
+				 order by tzn_date,p.id,m.gdscode
+			]]>
+        </createView>
+
+        <createView viewName="VIEW_KHARID"><![CDATA[
+				 select tzn_date,p.id,p.namefa plant,sellerid, seller,gdsname
+				 , case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,
+				 nvl(sum(wazn),0) wazn,nvl(sum(tedad),0) tedad  , gdscode
+					from view_tozin_s t
+					join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
+					where  substr(condition,1,1)=2
+					group by tzn_date, p.id,p.namefa,sellerid,seller,gdscode,gdsname,
+					    case when instr(carname ,'انتينر')>0  then 'ريلی' else 'جاده اي' end
+				]]>
+        </createView>
+    </changeSet>
+
+</databaseChangeLog>

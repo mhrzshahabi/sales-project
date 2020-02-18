@@ -18,12 +18,9 @@ public class Unit extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_UNIT")
-	@SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT")
+	@SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
-
-	@Column(name = "c_CODE", nullable = false, length = 100)
-	private String code;
 
 	@Column(name = "c_NAME_FA", nullable = false, length = 200)
 	private String nameFA;
@@ -36,4 +33,5 @@ public class Unit extends Auditable {
 
 	@Column(name = "n_DECIMAL_DIGITS")
 	private Long decimalDigit;
+
 }

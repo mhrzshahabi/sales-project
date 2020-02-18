@@ -11,26 +11,25 @@ import java.util.List;
 
 public interface IWarehouseCadItemService {
 
-	WarehouseCadItemDTO.Info get(Long id);
+    WarehouseCadItemDTO.Info get(Long id);
 
-	List<WarehouseCadItemDTO.Info> list();
+    List<WarehouseCadItemDTO.Info> list();
 
-	WarehouseCadItemDTO.Info create(WarehouseCadItemDTO.Create request);
+    WarehouseCadItemDTO.Info create(WarehouseCadItemDTO.Create request);
 
-	WarehouseCadItemDTO.Info update(Long id, WarehouseCadItemDTO.Update request);
+    WarehouseCadItemDTO.Info update(Long id, WarehouseCadItemDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(WarehouseCadItemDTO.Delete request);
+    void delete(WarehouseCadItemDTO.Delete request);
 
-	TotalResponse<WarehouseCadItemDTO.Info> search(MultiValueMap<String, String> criteria);
+    TotalResponse<WarehouseCadItemDTO.Info> search(MultiValueMap<String, String> criteria);
 
-	TotalResponse< WarehouseCadItemDTO.InfoCombo2> search1(NICICOCriteria criteria);
+    TotalResponse<WarehouseCadItemDTO.InfoCombo2> search1(NICICOCriteria criteria);
 
-	SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(WarehouseCadItemDTO.Delete request);
 
-	SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(WarehouseCadItemDTO.Delete request);
+    WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem, WarehouseCadItem oldCadItem);
 
-	WarehouseCadItemDTO.Info save(WarehouseCadItem warehouseCadItem, WarehouseCadItem oldCadItem) ;
-	 WarehouseCadItemDTO.Info saveIssue(WarehouseCadItem warehouseCadItem, Long issueId);
+    WarehouseCadItemDTO.Info saveIssue(WarehouseCadItem warehouseCadItem, Long issueId);
 }

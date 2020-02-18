@@ -16,80 +16,59 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseYardDTO {
+
     private String warehouseNo;
-	private String nameFA;
-	private String nameEN;
+    private String nameFA;
 
-	// ------------------------------
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseYardInfo")
+    public static class Info extends WarehouseYardDTO {
+        private Long id;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("WarehouseYardInfo")
-	public static class Info extends WarehouseYardDTO {
-		private Long id;
-		private Date createdDate;
-		private String createdBy;
-		private Date lastModifiedDate;
-		private String lastModifiedBy;
-		private Integer version;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseYardCreateRq")
+    public static class Create extends WarehouseYardDTO {
+    }
 
-	// ------------------------------
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseYardUpdateRq")
+    public static class Update extends WarehouseYardDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long id;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("WarehouseYardCreateRq")
-	public static class Create extends WarehouseYardDTO {
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WarehouseYardDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
+    }
 
-	// ------------------------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("WarehouseYardUpdateRq")
-	public static class Update extends WarehouseYardDTO {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Long id;
-	}
-
-	// ------------------------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("WarehouseYardDeleteRq")
-	public static class Delete {
-		@NotNull
-		@ApiModelProperty(required = true)
-		private List<Long> ids;
-	}
-
-	// ------------------------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@ApiModel("WarehouseYardSpecRs")
-	public static class WarehouseYardSpecRs {
-		private SpecRs response;
-	}
-
-	// ---------------
-
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public static class SpecRs {
-		private List<WarehouseYardDTO.Info> data;
-		private Integer status;
-		private Integer startRow;
-		private Integer endRow;
-		private Integer totalRows;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class SpecRs {
+        private List<WarehouseYardDTO.Info> data;
+        private Integer status;
+        private Integer startRow;
+        private Integer endRow;
+        private Integer totalRows;
+    }
 }

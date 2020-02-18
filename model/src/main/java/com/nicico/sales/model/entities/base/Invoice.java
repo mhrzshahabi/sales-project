@@ -18,7 +18,7 @@ public class Invoice extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INVOICE")
-	@SequenceGenerator(name = "SEQ_INVOICE", sequenceName = "SEQ_INVOICE")
+	@SequenceGenerator(name = "SEQ_INVOICE", sequenceName = "SEQ_INVOICE", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
@@ -33,7 +33,7 @@ public class Invoice extends Auditable {
 	@Column(name = "INVOICE_NO", length = 100)
 	private String invoiceNo;
 
-	@Column(name = "INVOIC_DATE", length = 20)
+	@Column(name = "INVOIC_DATE", length = 24)
 	private String invoiceDate;
 
 	@Column(name = "INVOICE_TYPE", length = 20)
@@ -93,15 +93,7 @@ public class Invoice extends Auditable {
 	@Column(name = "GOLD_UNIT_PRICE")
 	private Double goldUnitPrice;
 
-	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BOL_HEADER_ID", insertable = false, updatable = false)
-	private BolHeader bolHeader;
-
-	@Column(name = "BOL_HEADER_ID")
-	private Long bolHeaderId;
-
-	@Column(name = "PRICE_BASE", length = 255)
+	@Column(name = "PRICE_BASE")
 	private String priceBase;
 
 	@Column(name = "MOLYBDENUM_CONTENT")
@@ -116,7 +108,7 @@ public class Invoice extends Auditable {
 	@Column(name = "INVOIVE_VALUE_D")
 	private Double invoiceValueD;
 
-	@Column(name = "RATE_BASE", length = 255)
+	@Column(name = "RATE_BASE")
 	private String rateBase;
 
 	@Column(name = "RATE2DOLLAR")
@@ -197,16 +189,16 @@ public class Invoice extends Auditable {
 	@Column(name = "SUB_TOTAL_DEDUCTION")
 	private Double subTotalDeduction;
 
-	@Column(name = "PRICE_REFERENCE", length = 255)
+	@Column(name = "PRICE_REFERENCE")
 	private String priceReference;
 
-	@Column(name = "PRICE_FUNCTION", length = 255)
+	@Column(name = "PRICE_FUNCTION")
 	private String priceFunction;
 
-	@Column(name = "PRICE_FROM_DATE", length = 255)
+	@Column(name = "PRICE_FROM_DATE")
 	private String priceFromDate;
 
-	@Column(name = "PRICE_TO_DATE", length = 255)
+	@Column(name = "PRICE_TO_DATE")
 	private String priceToDate;
 
 	@Column(name = "SELLERID")

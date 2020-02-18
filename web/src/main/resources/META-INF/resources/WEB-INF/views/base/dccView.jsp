@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -61,7 +61,7 @@
                 },
                 {
                     name: "tblId1",
-                    title:  "<spring:message code='dcc.dccViewer.Id'/>",
+                    title: "<spring:message code='dcc.dccViewer.Id'/>",
                     type: 'long',
                     required: true,
                     width: 200,
@@ -83,26 +83,14 @@
                     width: "20%",
                     align: "center"
                 }
-            ],
-        cellClick: function (record, rowNum, colNum) {
-            if (colNum == 0) {
-                if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "contract\\" + record.fileNewName);
-                else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "contact\\" + record.fileNewName);
-                else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "instruction\\" + record.fileNewName);
-                else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
-                    window.open("/dcc/downloadFile?data=" + "\\" + "shipment\\" + record.fileNewName);
-            }
-        }
+            ]
     });
 
     function ListGrid_DccView_refresh() {
         listGrid_DccView.invalidateCache();
     }
 
-    var ToolStripButton_DccView_Refresh = isc.ToolStripButton.create({
+    var ToolStripButton_DccView_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
@@ -114,7 +102,15 @@
         width: "100%",
         members:
             [
-                ToolStripButton_DccView_Refresh
+                isc.ToolStrip.create({
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_DccView_Refresh
+                    ]
+                })
+
             ]
     });
 

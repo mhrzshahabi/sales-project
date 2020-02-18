@@ -1,7 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.GroupsPersonDTO;
 import com.nicico.sales.iservice.IGroupsPersonService;
@@ -10,6 +11,7 @@ import com.nicico.sales.repository.GroupsPersonDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,71 +22,76 @@ import java.util.Optional;
 @Service
 public class GroupsPersonService implements IGroupsPersonService {
 
-	private final GroupsPersonDAO groupsPersonDAO;
-	private final ModelMapper modelMapper;
+    private final GroupsPersonDAO groupsPersonDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public GroupsPersonDTO.Info get(Long id) {
-		final Optional<GroupsPerson> slById = groupsPersonDAO.findById(id);
-		final GroupsPerson groupsPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsPersonNotFound));
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_GROUPS_PERSON')")
+    public GroupsPersonDTO.Info get(Long id) {
+        final Optional<GroupsPerson> slById = groupsPersonDAO.findById(id);
+        final GroupsPerson groupsPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsPersonNotFound));
 
-		return modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class);
-	}
+        return modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<GroupsPersonDTO.Info> list() {
-		final List<GroupsPerson> slAll = groupsPersonDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    @PreAuthorize("hasAuthority('R_GROUPS_PERSON')")
+    public List<GroupsPersonDTO.Info> list() {
+        final List<GroupsPerson> slAll = groupsPersonDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<GroupsPersonDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<GroupsPersonDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public GroupsPersonDTO.Info create(GroupsPersonDTO.Create request) {
-		final GroupsPerson groupsPerson = modelMapper.map(request, GroupsPerson.class);
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('C_GROUPS_PERSON')")
+    public GroupsPersonDTO.Info create(GroupsPersonDTO.Create request) {
+        final GroupsPerson groupsPerson = modelMapper.map(request, GroupsPerson.class);
 
-		return save(groupsPerson);
-	}
+        return save(groupsPerson);
+    }
 
-	@Transactional
-	@Override
-	public GroupsPersonDTO.Info update(Long id, GroupsPersonDTO.Update request) {
-		final Optional<GroupsPerson> slById = groupsPersonDAO.findById(id);
-		final GroupsPerson groupsPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsPersonNotFound));
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('U_GROUPS_PERSON')")
+    public GroupsPersonDTO.Info update(Long id, GroupsPersonDTO.Update request) {
+        final Optional<GroupsPerson> slById = groupsPersonDAO.findById(id);
+        final GroupsPerson groupsPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsPersonNotFound));
 
-		GroupsPerson updating = new GroupsPerson();
-		modelMapper.map(groupsPerson, updating);
-		modelMapper.map(request, updating);
+        GroupsPerson updating = new GroupsPerson();
+        modelMapper.map(groupsPerson, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		groupsPersonDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('D_GROUPS_PERSON')")
+    public void delete(Long id) {
+        groupsPersonDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(GroupsPersonDTO.Delete request) {
-		final List<GroupsPerson> groupsPersons = groupsPersonDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('D_GROUPS_PERSON')")
+    public void delete(GroupsPersonDTO.Delete request) {
+        final List<GroupsPerson> groupsPersons = groupsPersonDAO.findAllById(request.getIds());
 
-		groupsPersonDAO.deleteAll(groupsPersons);
-	}
+        groupsPersonDAO.deleteAll(groupsPersons);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public SearchDTO.SearchRs<GroupsPersonDTO.Info> search(SearchDTO.SearchRq request) {
-		return SearchUtil.search(groupsPersonDAO, request, groupsPerson -> modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    @PreAuthorize("hasAuthority('R_GROUPS_PERSON')")
+    public TotalResponse<GroupsPersonDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(groupsPersonDAO, criteria, groupsPerson -> modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class));
+    }
 
-	// ------------------------------
-
-	private GroupsPersonDTO.Info save(GroupsPerson groupsPerson) {
-		final GroupsPerson saved = groupsPersonDAO.saveAndFlush(groupsPerson);
-		return modelMapper.map(saved, GroupsPersonDTO.Info.class);
-	}
+    private GroupsPersonDTO.Info save(GroupsPerson groupsPerson) {
+        final GroupsPerson saved = groupsPersonDAO.saveAndFlush(groupsPerson);
+        return modelMapper.map(saved, GroupsPersonDTO.Info.class);
+    }
 }

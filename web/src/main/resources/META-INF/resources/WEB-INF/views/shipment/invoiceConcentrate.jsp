@@ -2,7 +2,7 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ page import="com.nicico.sales.dto.InvoiceItemDTO" %>
 <%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -70,14 +70,12 @@
 	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
 	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
 	  m=multiply(val1,val2)/((name1=="paidPercent" || name2=="paidPercent" || name1=="copper" || name2=="copper") ? 100 : 1);
-	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
 	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
 	}
 	function multiplyAndSet3 (name1,name2,setName0,number1) {
 	  val1=DynamicForm_Invoice_Concentrate.getValue(name1);
 	  val2=DynamicForm_Invoice_Concentrate.getValue(name2);
 	  m=multiply(val1,val2)*number1;
-	  // console.log('name1= '+name1+' name2= '+name2+ ' setname= '+setName0+' mult='+m);
 	  DynamicForm_Invoice_Concentrate_setValue(setName0,m);
 	}
 	function DynamicForm_Invoice_Concentrate_getValue(fld){
@@ -127,7 +125,7 @@
             sumdownConcentrateAndSet() ;
 		}
 	}
-//-----------------------------------------------------------------------------------------------------------------------------------
+
    var RestDataSource_ContactBySellerConcentrate = isc.MyRestDataSource.create({
         fields:
             [
@@ -137,7 +135,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list1"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_ContactByBuyerConcentrate = isc.MyRestDataSource.create({
         fields:
@@ -148,7 +146,7 @@
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
                 {name: "commertialRole"},
             ],
-        fetchDataURL: "${contextPath}/api/contact/spec-list2"
+        fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_Contact_optionCriteria_seller_Concentrate  = {
         _constructor: "AdvancedCriteria",
@@ -160,7 +158,7 @@
         operator: "or",
         criteria: [{fieldName: "buyer", operator: "equals", value: true},{fieldName: "agentBuyer", operator: "equals", value: true}]
     };
-//-----------------------------------------------------------------------------------------------------------------------------------
+
     var DynamicForm_Invoice_Concentrate = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -174,7 +172,7 @@
         titleWidth: "100", margin: '0px', wrapTitle: true,
         titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 12, backgroundImage: "backgrounds/leaves.jpg",
+        numCols: 12,
         fields:
             [
                 {name: "id", hidden: true},
@@ -193,21 +191,33 @@
                     type: 'text',
                     width: "100%",
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"}
                 },
                 {
                     name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>",
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",
                     wrapTitle: true,colSpan:2,titleColSpan:2
                 },
                 {
-                    name: "invoiceDateDumy",
+                    name: "invoiceDate",
                     title: "<spring:message code='invoice.invoiceDate'/>",
                     defaultValue: "<%=dateUtil.todayDate()%>",
                     type: 'date',
                     format: 'DD-MM-YYYY',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:3,titleColSpan:1
                 },
                  {
@@ -229,6 +239,8 @@
                     ]
                 },
                  {
+                    required:true,
+                    autoFetchData:false,
                     name: "buyerId",
                     title: "Buyer",
                     type: 'long',
@@ -244,11 +256,16 @@
                     pickListFields: [{name: "nameFA", align: "center"}, {
                         name: "nameEN",
                         align: "center"
+                    }],
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Assay calculation in one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Assay calculation in one DMT- - - - - - - - - - - - - - - - - - - - - - - - -",
+                    align: "center"
                 },
                 {
                     name: "copperIns",
@@ -549,6 +566,10 @@
                     title: "<spring:message code='invoice.priceBase'/>",titleOrientation:'top',
                     type: 'text',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:4,titleColSpan:1,
                 },
                 {name: "priceReference",title:"Reference", titleOrientation:'top',type: 'text', required: false, width: "100%",colSpan:1 ,valueMap: {"LME":"LME","PLATTS":"PLATTS","SHFG":"SHFG"} },
@@ -573,7 +594,8 @@
                 },
                 {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - DEDUCTION  per one DMT- - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - DEDUCTION  per one DMT- - - - - - - - - - - - - - - - - - - - - - - - -",
+                    align: "center"
                 },
                 {
                     name: "treatCost",
@@ -584,9 +606,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -599,9 +625,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }],
                     changed	: function(form, item, value){
 		   			  	DynamicForm_Invoice_Concentrate_setValue("refinaryCostCU",value);
@@ -758,7 +788,8 @@
                 },
                {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INVOICE - - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - INVOICE - - - - - - - - - - - - - - - - - - - - - - - - -",
+align: "center"
                 },
                 {
                     name: "unitPrice",
@@ -783,9 +814,13 @@
                     keyPressFilter: "[0-9.]",colSpan:1,titleColSpan:2,titleAlign:"left",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -797,9 +832,13 @@
                     keyPressFilter: "[0-9.]",colSpan:2,titleColSpan:2,titleAlign:"center",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("net","unitPrice","commercialInvoceValue");
@@ -828,7 +867,7 @@
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
@@ -836,7 +875,12 @@
                             type: "integerRange",
                             min: 10,
                             max: 120,
-                            errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
+                            errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>",
+                            colSpan: 2
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }
                     ],
                     changed	: function(form, item, value){
@@ -891,25 +935,34 @@
                 },
                {
                     type: "Header",
-                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+                    defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - Currency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
+align: "center"
                 },
                {
                     name: "rateBase",
                     title: "<spring:message code='invoice.rateBase'/>",
                     type: 'text',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:4,titleColSpan:1,
                 },
                  {
                     name: "rate2dollar", title: "<spring:message code='invoice.rate2dollar'/>",keyPressFilter: "[0-9.]",
-                    type: 'currencyFloat2', required: true, width: "100%",colSpan:1,titleColSpan:1,titleAlign:"right",
+                    type: 'currencyFloat2', required: true, width: "100%",colSpan:2, titleColSpan:1, titleAlign:"right",
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }
                     ],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("rate2dollar","invoiceValueD","invoiceValueUp");
@@ -966,9 +1019,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
             ],
@@ -1008,7 +1065,7 @@
  <% } %>
 
     if (!(record == null || record.id == null))
-       DynamicForm_Invoice_Concentrate.setValue("invoiceDateDumy", new Date(record.invoiceDate));
+       DynamicForm_Invoice_Concentrate.setValue("invoiceDate", new Date(record.invoiceDate));
    DynamicForm_Invoice_Concentrate.setValue("refinaryCostCUCal",2204.62);
    var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
    DynamicForm_Invoice_Concentrate.setValue("shipmentId", record.id);
@@ -1065,7 +1122,7 @@
                 loopDown++;
             }
      %>
-     var IButton_Invoice_Concentrate_Save = isc.IButton.create({
+     var IButton_Invoice_Concentrate_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1074,7 +1131,7 @@
             DynamicForm_Invoice_Concentrate.validate();
             if (DynamicForm_Invoice_Concentrate.hasErrors())
                 return;
-            var drs = DynamicForm_Invoice_Concentrate.getValue("invoiceDateDumy");
+            var drs = DynamicForm_Invoice_Concentrate.getValue("invoiceDate");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Invoice_Concentrate.setValue("invoiceDate", datestringRs);
             DynamicForm_Invoice_Concentrate.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
@@ -1197,7 +1254,7 @@
                 data: dataOut,
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
+                        isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Invoice_refresh();
                         Window_Invoice_Concentrate.close();
                     } else
@@ -1223,7 +1280,7 @@
                             isc.Label.create({
                                 width: 5,
                             }),
-                            isc.IButton.create({
+                            isc.IButtonCancel.create({
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",

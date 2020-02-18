@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContactDAO extends JpaRepository<Contact, Long>, JpaSpecificationExecutor<Contact> {
 
-    Contact findByNameFA(String s);
 }

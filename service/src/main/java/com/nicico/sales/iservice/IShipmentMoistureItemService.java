@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface IShipmentMoistureItemService {
 
-	ShipmentMoistureItemDTO.Info get(Long id);
+    ShipmentMoistureItemDTO.Info get(Long id);
 
-	List<ShipmentMoistureItemDTO.Info> list();
+    List<ShipmentMoistureItemDTO.Info> list();
 
-	ShipmentMoistureItemDTO.Info create(ShipmentMoistureItemDTO.Create request);
+    ShipmentMoistureItemDTO.Info create(ShipmentMoistureItemDTO.Create request);
 
-	ShipmentMoistureItemDTO.Info update(Long id, ShipmentMoistureItemDTO.Update request);
+    ShipmentMoistureItemDTO.Info update(Long id, ShipmentMoistureItemDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ShipmentMoistureItemDTO.Delete request);
+    void delete(ShipmentMoistureItemDTO.Delete request);
 
-	public TotalResponse<ShipmentMoistureItemDTO.Info> search(NICICOCriteria criteria) ;
+    TotalResponse<ShipmentMoistureItemDTO.Info> search(NICICOCriteria criteria);
 
-	String createAddMoisturePaste( String data) ;
+    String createAddMoisturePaste(String data);
 }

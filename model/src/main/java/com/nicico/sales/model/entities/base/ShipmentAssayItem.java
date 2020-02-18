@@ -18,12 +18,12 @@ public class ShipmentAssayItem extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SHIPMENT_ASSAY_ITEM")
-	@SequenceGenerator(name = "SEQ_SHIPMENT_ASSAY_ITEM", sequenceName = "SEQ_SHIPMENT_ASSAY_ITEM")
+	@SequenceGenerator(name = "SEQ_SHIPMENT_ASSAY_ITEM", sequenceName = "SEQ_SHIPMENT_ASSAY_ITEM", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ASSAY_HEADER_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "ASSAY_HEADER_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmntassay_i2shipassayH"))
 	private ShipmentAssayHeader shipmentAssayHeader;
 
 	@Column(name = "ASSAY_HEADER_ID")

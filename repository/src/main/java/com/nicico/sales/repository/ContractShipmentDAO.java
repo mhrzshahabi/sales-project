@@ -10,8 +10,5 @@ import java.util.List;
 
 @Repository
 public interface ContractShipmentDAO extends JpaRepository<ContractShipment, Long>, JpaSpecificationExecutor<ContractShipment> {
-
-    boolean existsByContractId(Long id);
-
-    List<ContractShipment> findBySendDateAndAmountIsNotNull(String s);
+    List<ContractShipment> findByContractId(long id);
 }

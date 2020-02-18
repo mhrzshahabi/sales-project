@@ -8,17 +8,17 @@ import java.util.List;
 
 public interface IShipmentMoistureHeaderService {
 
-	ShipmentMoistureHeaderDTO.Info get(Long id);
+    ShipmentMoistureHeaderDTO.Info get(Long id);
 
-	List<ShipmentMoistureHeaderDTO.Info> list();
+    List<ShipmentMoistureHeaderDTO.Info> list();
 
-	ShipmentMoistureHeaderDTO.Info create(ShipmentMoistureHeaderDTO.Create request);
+    ShipmentMoistureHeaderDTO.Info create(ShipmentMoistureHeaderDTO.Create request);
 
-	ShipmentMoistureHeaderDTO.Info update(Long id, ShipmentMoistureHeaderDTO.Update request);
+    ShipmentMoistureHeaderDTO.Info update(Long id, ShipmentMoistureHeaderDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ShipmentMoistureHeaderDTO.Delete request);
+    void delete(ShipmentMoistureHeaderDTO.Delete request);
 
-	public TotalResponse<ShipmentMoistureHeaderDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ShipmentMoistureHeaderDTO.Info> search(NICICOCriteria criteria);
 }

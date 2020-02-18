@@ -1,7 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CurrencyDTO;
 import com.nicico.sales.iservice.ICurrencyService;
@@ -25,7 +26,7 @@ public class CurrencyService implements ICurrencyService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-//    @PreAuthorize("hasAuthority('R_CURRENCY')")
+    @PreAuthorize("hasAuthority('R_CURRENCY')")
     public CurrencyDTO.Info get(Long id) {
         final Optional<Currency> slById = currencyDAO.findById(id);
         final Currency currency = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CurrencyNotFound));
@@ -35,7 +36,7 @@ public class CurrencyService implements ICurrencyService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CURRENCY')")
+    @PreAuthorize("hasAuthority('R_CURRENCY')")
     public List<CurrencyDTO.Info> list() {
         final List<Currency> slAll = currencyDAO.findAll();
 
@@ -45,7 +46,7 @@ public class CurrencyService implements ICurrencyService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('C_CURRENCY')")
+    @PreAuthorize("hasAuthority('C_CURRENCY')")
     public CurrencyDTO.Info create(CurrencyDTO.Create request) {
         final Currency currency = modelMapper.map(request, Currency.class);
 
@@ -54,7 +55,7 @@ public class CurrencyService implements ICurrencyService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('U_CURRENCY')")
+    @PreAuthorize("hasAuthority('U_CURRENCY')")
     public CurrencyDTO.Info update(Long id, CurrencyDTO.Update request) {
         final Optional<Currency> slById = currencyDAO.findById(id);
         final Currency currency = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CurrencyNotFound));
@@ -68,14 +69,14 @@ public class CurrencyService implements ICurrencyService {
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CURRENCY')")
+    @PreAuthorize("hasAuthority('D_CURRENCY')")
     public void delete(Long id) {
         currencyDAO.deleteById(id);
     }
 
     @Transactional
     @Override
-//    @PreAuthorize("hasAuthority('D_CURRENCY')")
+    @PreAuthorize("hasAuthority('D_CURRENCY')")
     public void delete(CurrencyDTO.Delete request) {
         final List<Currency> currencys = currencyDAO.findAllById(request.getIds());
 
@@ -84,9 +85,9 @@ public class CurrencyService implements ICurrencyService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_CURRENCY')")
-    public SearchDTO.SearchRs<CurrencyDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(currencyDAO, request, currency -> modelMapper.map(currency, CurrencyDTO.Info.class));
+    @PreAuthorize("hasAuthority('R_CURRENCY')")
+    public TotalResponse<CurrencyDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(currencyDAO, criteria, currency -> modelMapper.map(currency, CurrencyDTO.Info.class));
     }
 
     private CurrencyDTO.Info save(Currency currency) {

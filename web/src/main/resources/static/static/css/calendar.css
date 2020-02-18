@@ -2,37 +2,47 @@
 
 .dpDiv {
 }
-
+@font-face {
+    font-family: 'BYekan';
+    src: url("fonts/BYekan.ttf");
+    src: url("fonts/BYekan.eot");
+    src: url("fonts/BYekan.woff");
+    src: local("☺"), url("fonts/BYekan.woff") format("woff"), url("fonts/BYekan.otf") format("opentype"), url("fonts/BYekan.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+/*
 @font-face {
 	font-family: 'IRANSans';
-	src: url("../font/IRANSans-web.woff") format('woff');
+	src: url("../fonts/IRANSans-web.woff") format('woff');
 	font-weight: normal;
 }
 
 @font-face {
 	font-family: 'IRANSans';
-	src: url("../font/IRANSans-Bold-web.woff") format('woff');
+	src: url("../fonts/IRANSans-Bold-web.woff") format('woff');
 	font-weight: bold;
 }
 
 @font-face {
 	font-family: 'IRANSans';
-	src: url("../font/IRANSans-Medium-web.woff") format('woff');
+	src: url("../fonts/IRANSans-Medium-web.woff") format('woff');
 	font-weight: 500;
-}
+}*/
 
 /* the table (within the div) that holds the date picker calendar */
 
 .dpTable {
-	/*font-family: IRANSans, Tahoma, Arial, Helvetica, sans-serif;*/
-	font-family: IRANSans, tahoma;
-	font-size: 12px;
-	text-align: center;
-
-	color: #505050;
-	background-color: #ece9d8;
-
-	border: 1px solid #AAAAAA;
+    font-family: BYekan, Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    text-align: center;
+    color: #505050;
+    background-color: #fff;
+    box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.1);
+    margin-top: 0.25rem;
+    border-radius: 0.5rem;
+    width: 190px;
+    height: 240px;
 }
 
 /* a table row that holds date numbers (either blank or 1-31) */
@@ -43,11 +53,13 @@
 /* the top table row that holds the month, year, and forward/backward buttons */
 
 .dpTitleTR {
+    background-color: #364354;
 }
 
 /* the second table row, that holds the names of days of the week (Mo, Tu, We, etc.) */
 
 .dpDayTR {
+    background: #fe9d2a;
 }
 
 /* the bottom table row, that has the "This Month" and "Close" buttons */
@@ -58,24 +70,22 @@
 /* a table cell that holds a date number (either blank or 1-31) */
 
 .dpTD {
-	border: 1px solid #ece9d8;
+    border: 1px solid #ece9d8;
 }
 
 /* a table cell that holds a highlighted day (usually either today's date or the current date field value) */
 
 .dpDayHighlightTD {
-	background-color: #CCCCCC;
-
-	border: 1px solid #AAAAAA;
+    background-color: #374b71;
 }
 
 /* the date number table cell that the mouse pointer is currently over (you can use contrasting colors to make it apparent which cell is being hovered over) */
 
 .dpTDHover {
-	background-color: #aca998;
-	border: 1px solid #888888;
-	cursor: pointer;
-	color: red;
+    background-color: #aac0de;
+    border: 1px solid #888888;
+    cursor: pointer;
+    color: #777777;
 }
 
 /* the table cell that holds the name of the month and the year */
@@ -91,56 +101,148 @@
 /* the table cell that holds the "This Month" or "Close" button at the bottom */
 
 .dpTodayButtonTD {
+    text-align: center;
+    height: 28px;
 }
 
 /* a table cell that holds the names of days of the week (Mo, Tu, We, etc.) */
 
 .dpDayTD {
-	background-color: #DDDDDD;
-
-	border: 1px solid #AAAAAA;
-	color: black;
+    color: white;
+    font-weight: bold;
 }
 
 /* additional style information for the text that indicates the month and year */
 
 .dpTitleText {
-	font-size: 12px;
-
-	color: gray;
-	font-weight: bold;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
 }
 
 /* additional style information for the cell that holds a highlighted day (usually either today's date or the current date field value) */
 
 .dpDayHighlight {
-	color: #f9523e;
-	font-weight: bold;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 /* the forward/backward buttons at the top */
 
 .dpButton {
-	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
 
-	font-size: 10px;
-	color: gray;
+    font-size: 10px;
+    color: gray;
 
-	background: #d8e8ff;
-	font-weight: bold;
+    background: #d8e8ff;
+    font-weight: bold;
 
-	padding: 0px;
+    padding: 0px;
 }
 
 /* the "This Month" and "Close" buttons at the bottom */
 
 .dpTodayButton {
-	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #05a74a;
+    background: none;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 6px 4px 3px 4px;
+    border: none;
+    cursor: pointer;
+}
+.dpCloseButton {
+    font-size: 10px;
+    color: #636363;
+    background: none;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 6px 4px 3px 4px;
+    border: none;
+    cursor: pointer;
+}
 
-	font-size: 10px;
-	color: gray;
+.datepicker_button {
+    margin-right: 3px;
+    display: inline-block;
+    border: none;
+    width: 26px;
+    height: 26px;
+    position: relative;
+    cursor: pointer;
+    background: rgba(255, 255, 255, .2);
+    border-radius: 100%;
+    transition: 150ms background;
+}
 
-	background: #d8e8ff;
-	font-weight: bold;
+.datepicker_button:before,
+.datepicker_button:after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    left: calc(50% - 3px);
+    top: calc(50% - 3px);
+    border-top: 2px solid white;
+    border-right: 2px solid white;
+    transition: 150ms border-color;
+}
 
+.datepicker_button:first-child:not(:last-child) {
+    margin-right: .25rem;
+}
+
+.datepicker_button:hover,
+.datepicker_button:active {
+    background: rgba(255, 255, 255, .85)
+}
+
+.datepicker_button:focus {
+    outline: 0 none;
+}
+
+.datepicker_button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+.datepicker_button:hover:before,
+.datepicker_button:hover:after {
+    border-color: #3bcbb7;
+}
+
+.datepicker_button:active:before,
+.datepicker_button:active:after {
+    border-color: #3bcbb7;
+}
+
+.datepicker_button__prev-year:before {
+    transform: translateX(-30%) rotate(-135deg);
+}
+
+.datepicker_button__prev-year:after {
+    transform: translate(50%) rotate(-135deg);
+}
+
+.datepicker_button__prev-month:before {
+    transform: translate(10%) rotate(-135deg);
+}
+
+.datepicker_button__next-year:before {
+    transform: translateX(-70%) rotate(45deg);
+}
+
+.datepicker_button__next-year:after {
+    transform: translate(10%) rotate(45deg);
+}
+
+.datepicker_button__next-month:before {
+    transform: translate(-30%) rotate(45deg);
+}
+
+.datepicker_button__prev-month:after,
+.datepicker_button__next-month:after {
+    display: none;
 }

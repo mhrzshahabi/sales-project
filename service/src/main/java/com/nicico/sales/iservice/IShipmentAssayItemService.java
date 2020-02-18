@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface IShipmentAssayItemService {
 
-	ShipmentAssayItemDTO.Info get(Long id);
+    ShipmentAssayItemDTO.Info get(Long id);
 
-	List<ShipmentAssayItemDTO.Info> list();
+    List<ShipmentAssayItemDTO.Info> list();
 
-	ShipmentAssayItemDTO.Info create(ShipmentAssayItemDTO.Create request);
+    ShipmentAssayItemDTO.Info create(ShipmentAssayItemDTO.Create request);
 
-	ShipmentAssayItemDTO.Info update(Long id, ShipmentAssayItemDTO.Update request);
+    ShipmentAssayItemDTO.Info update(Long id, ShipmentAssayItemDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(ShipmentAssayItemDTO.Delete request);
+    void delete(ShipmentAssayItemDTO.Delete request);
 
-	public TotalResponse<ShipmentAssayItemDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<ShipmentAssayItemDTO.Info> search(NICICOCriteria criteria);
 
-	String createAddAssayPaste( String data) ;
+    String createAddAssayPaste(String data);
 }

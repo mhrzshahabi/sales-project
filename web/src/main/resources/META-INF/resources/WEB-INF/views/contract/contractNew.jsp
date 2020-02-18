@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
@@ -128,7 +128,6 @@ var DynamicForm_ContactParameter_ValueNumber8;
 
                             var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
                                         RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
-                                    console.log();
                                     var feild_all_defintitons_save =   JSON.parse(data[0].feild_all_defintitons_save)
                                     contactHeaderAgent.editRecord(data[0]);
                                     valuesManagerArticle1.editRecord(data[0]);
@@ -180,14 +179,12 @@ var DynamicForm_ContactParameter_ValueNumber8;
                 {name: "refinaryCost", ID: "refinaryCost"},
                 {name: "treatCost", ID: "treatCost"},
                 ],
-                // ######@@@@###&&@@###
                 fetchDataURL: "${contextPath}/api/contract/spec-list"
             });
             var ListGrid_Tozin = isc.ListGrid.create({
                         width: "100%",
                         height: "100%",
                         dataSource: RestDataSource_Contract,
-                        dataPageSize: 50,
                         showFilterEditor: true,
                         autoFetchData: true,
                         fields:
@@ -211,7 +208,6 @@ var DynamicForm_ContactParameter_ValueNumber8;
 
 
 function itemsEditDefinitions(key,value) {
-        alert(value);
        DynamicForm_ContactParameter_ValueNumber8.addFields([
                 {
                     name: key,

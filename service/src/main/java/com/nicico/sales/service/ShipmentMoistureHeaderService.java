@@ -11,6 +11,7 @@ import com.nicico.sales.repository.ShipmentMoistureHeaderDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,71 +22,76 @@ import java.util.Optional;
 @Service
 public class ShipmentMoistureHeaderService implements IShipmentMoistureHeaderService {
 
-	private final ShipmentMoistureHeaderDAO shipmentMoistureHeaderDAO;
-	private final ModelMapper modelMapper;
+    private final ShipmentMoistureHeaderDAO shipmentMoistureHeaderDAO;
+    private final ModelMapper modelMapper;
 
-	@Transactional(readOnly = true)
-	public ShipmentMoistureHeaderDTO.Info get(Long id) {
-		final Optional<ShipmentMoistureHeader> slById = shipmentMoistureHeaderDAO.findById(id);
-		final ShipmentMoistureHeader shipmentMoistureHeader = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureHeaderNotFound));
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('R_SHIPMENT_MOISTURE_HEADER')")
+    public ShipmentMoistureHeaderDTO.Info get(Long id) {
+        final Optional<ShipmentMoistureHeader> slById = shipmentMoistureHeaderDAO.findById(id);
+        final ShipmentMoistureHeader shipmentMoistureHeader = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureHeaderNotFound));
 
-		return modelMapper.map(shipmentMoistureHeader, ShipmentMoistureHeaderDTO.Info.class);
-	}
+        return modelMapper.map(shipmentMoistureHeader, ShipmentMoistureHeaderDTO.Info.class);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<ShipmentMoistureHeaderDTO.Info> list() {
-		final List<ShipmentMoistureHeader> slAll = shipmentMoistureHeaderDAO.findAll();
+    @Transactional(readOnly = true)
+    @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_MOISTURE_HEADER')")
+    public List<ShipmentMoistureHeaderDTO.Info> list() {
+        final List<ShipmentMoistureHeader> slAll = shipmentMoistureHeaderDAO.findAll();
 
-		return modelMapper.map(slAll, new TypeToken<List<ShipmentMoistureHeaderDTO.Info>>() {
-		}.getType());
-	}
+        return modelMapper.map(slAll, new TypeToken<List<ShipmentMoistureHeaderDTO.Info>>() {
+        }.getType());
+    }
 
-	@Transactional
-	@Override
-	public ShipmentMoistureHeaderDTO.Info create(ShipmentMoistureHeaderDTO.Create request) {
-		final ShipmentMoistureHeader shipmentMoistureHeader = modelMapper.map(request, ShipmentMoistureHeader.class);
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('C_SHIPMENT_MOISTURE_HEADER')")
+    public ShipmentMoistureHeaderDTO.Info create(ShipmentMoistureHeaderDTO.Create request) {
+        final ShipmentMoistureHeader shipmentMoistureHeader = modelMapper.map(request, ShipmentMoistureHeader.class);
 
-		return save(shipmentMoistureHeader);
-	}
+        return save(shipmentMoistureHeader);
+    }
 
-	@Transactional
-	@Override
-	public ShipmentMoistureHeaderDTO.Info update(Long id, ShipmentMoistureHeaderDTO.Update request) {
-		final Optional<ShipmentMoistureHeader> slById = shipmentMoistureHeaderDAO.findById(id);
-		final ShipmentMoistureHeader shipmentMoistureHeader = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureHeaderNotFound));
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('U_SHIPMENT_MOISTURE_HEADER')")
+    public ShipmentMoistureHeaderDTO.Info update(Long id, ShipmentMoistureHeaderDTO.Update request) {
+        final Optional<ShipmentMoistureHeader> slById = shipmentMoistureHeaderDAO.findById(id);
+        final ShipmentMoistureHeader shipmentMoistureHeader = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentMoistureHeaderNotFound));
 
-		ShipmentMoistureHeader updating = new ShipmentMoistureHeader();
-		modelMapper.map(shipmentMoistureHeader, updating);
-		modelMapper.map(request, updating);
+        ShipmentMoistureHeader updating = new ShipmentMoistureHeader();
+        modelMapper.map(shipmentMoistureHeader, updating);
+        modelMapper.map(request, updating);
 
-		return save(updating);
-	}
+        return save(updating);
+    }
 
-	@Transactional
-	@Override
-	public void delete(Long id) {
-		shipmentMoistureHeaderDAO.deleteById(id);
-	}
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_MOISTURE_HEADER')")
+    public void delete(Long id) {
+        shipmentMoistureHeaderDAO.deleteById(id);
+    }
 
-	@Transactional
-	@Override
-	public void delete(ShipmentMoistureHeaderDTO.Delete request) {
-		final List<ShipmentMoistureHeader> shipmentMoistureHeaders = shipmentMoistureHeaderDAO.findAllById(request.getIds());
+    @Transactional
+    @Override
+    @PreAuthorize("hasAuthority('D_SHIPMENT_MOISTURE_HEADER')")
+    public void delete(ShipmentMoistureHeaderDTO.Delete request) {
+        final List<ShipmentMoistureHeader> shipmentMoistureHeaders = shipmentMoistureHeaderDAO.findAllById(request.getIds());
 
-		shipmentMoistureHeaderDAO.deleteAll(shipmentMoistureHeaders);
-	}
+        shipmentMoistureHeaderDAO.deleteAll(shipmentMoistureHeaders);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public TotalResponse<ShipmentMoistureHeaderDTO.Info> search(NICICOCriteria criteria) {
-		return SearchUtil.search(shipmentMoistureHeaderDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentMoistureHeaderDTO.Info.class));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    @PreAuthorize("hasAuthority('R_SHIPMENT_MOISTURE_HEADER')")
+    public TotalResponse<ShipmentMoistureHeaderDTO.Info> search(NICICOCriteria criteria) {
+        return SearchUtil.search(shipmentMoistureHeaderDAO, criteria, instruction -> modelMapper.map(instruction, ShipmentMoistureHeaderDTO.Info.class));
+    }
 
-	// ------------------------------
-
-	private ShipmentMoistureHeaderDTO.Info save(ShipmentMoistureHeader shipmentMoistureHeader) {
-		final ShipmentMoistureHeader saved = shipmentMoistureHeaderDAO.saveAndFlush(shipmentMoistureHeader);
-		return modelMapper.map(saved, ShipmentMoistureHeaderDTO.Info.class);
-	}
+    private ShipmentMoistureHeaderDTO.Info save(ShipmentMoistureHeader shipmentMoistureHeader) {
+        final ShipmentMoistureHeader saved = shipmentMoistureHeaderDAO.saveAndFlush(shipmentMoistureHeader);
+        return modelMapper.map(saved, ShipmentMoistureHeaderDTO.Info.class);
+    }
 }

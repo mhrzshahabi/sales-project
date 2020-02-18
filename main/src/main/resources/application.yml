@@ -25,11 +25,6 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-  activiti:
-    rest-api-enabled: true
-    history-level: full
-    database-schema-update: true
-    db-history-used: true
   redis:
     port: 6379
   servlet:
@@ -60,8 +55,8 @@ nicico:
   mail:
     domain: nicico.com
     url: https://mail.nicico.com/ews/exchange.asmx
-    username: abaspour
-    password: Visual2013
+    username:
+    password:
   upload:
     dir: /var/nicico/${spring.application.name}/
   workflow:
@@ -107,8 +102,8 @@ spring:
   profiles: Development
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: saleslocal
-    password: saleslocal
+    username: sales
+    password: sales
   redis:
     host: devapp01.icico.net.ir
     password: nicico
@@ -138,8 +133,8 @@ spring:
   profiles: Local
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: sales
-    password: sales
+    username: saleslocal
+    password: saleslocal
   redis:
     host: devapp01.icico.net.ir
     password: nicico

@@ -18,7 +18,7 @@ public class ContactAccount extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTACT_ACCOUNT")
-	@SequenceGenerator(name = "SEQ_CONTACT_ACCOUNT", sequenceName = "SEQ_CONTACT_ACCOUNT")
+	@SequenceGenerator(name = "SEQ_CONTACT_ACCOUNT", sequenceName = "SEQ_CONTACT_ACCOUNT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
@@ -26,30 +26,25 @@ public class ContactAccount extends Auditable {
 	private Long contactId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BANK_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "BANK_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "ContactAccount2bank"))
 	private Bank bank;
 
 	@Column(name = "BANK_ID")
 	private Long bankId;
 
-	//c_BANKCODE
-	@Column(name = "C_BANKCODE", nullable = false)
+	@Column(name = "C_BANKCODE", nullable = false,length = 100)
 	private String code;
 
-	//c_BANKACCOUNT
-	@Column(name = "C_BANKACCOUNT")
+	@Column(name = "C_BANKACCOUNT",length = 200)
 	private String bankAccount;
 
-	//c_BANK_SHABA
-	@Column(name = "C_BANK_SHABA")
+	@Column(name = "C_BANK_SHABA",length = 100)
 	private String bankShaba;
 
-	//c_DEFAULT_BANK_SWIFT
-	@Column(name = "C_DEFAULT_BANK_SWIFT")
+	@Column(name = "C_DEFAULT_BANK_SWIFT",length = 100)
 	private String bankSwift;
 
-	//c_ACCOUNT_OWNER
-	@Column(name = "C_ACCOUNT_OWNER")
+	@Column(name = "C_ACCOUNT_OWNER",length = 200)
 	private String accountOwner;
 
 	@Column(name = "b_STATUS")
@@ -57,4 +52,5 @@ public class ContactAccount extends Auditable {
 
 	@Column(name = "b_ISDEFAULT")
 	private Boolean isDefault;
+
 }

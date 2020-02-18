@@ -23,7 +23,7 @@ public class ShipmentMoistureItem extends Auditable {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MOISTURE_HEADER_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "MOISTURE_HEADER_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "shipmntmoist_i2shipmntmoist_H"))
 	private ShipmentMoistureHeader shipmentMoistureHeader;
 
 	@Column(name = "MOISTURE_HEADER_ID")
@@ -43,6 +43,7 @@ public class ShipmentMoistureItem extends Auditable {
 
 	@Column(name = "H2O_WEIGHT")
 	private Double totalH2oWeight;
+
 }
 
 

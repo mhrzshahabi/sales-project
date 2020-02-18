@@ -22,12 +22,12 @@ public class Port extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PORT")
-	@SequenceGenerator(name = "SEQ_PORT", sequenceName = "SEQ_PORT")
+	@SequenceGenerator(name = "SEQ_PORT", sequenceName = "SEQ_PORT", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "port2country"))
 	private Country country;
 
 	@Column(name = "COUNTRY_ID")

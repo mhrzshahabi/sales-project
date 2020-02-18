@@ -18,13 +18,13 @@ public class WarehouseIssueCathode extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ISSUE")
-	@SequenceGenerator(name = "SEQ_ISSUE", sequenceName = "SEQ_ISSUE")
+	@SequenceGenerator(name = "SEQ_ISSUE", sequenceName = "SEQ_ISSUE", allocationSize = 1)
 	@Column(name = "ID")
 	private Long id;
 
 	@Setter(AccessLevel.NONE)
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseissueCad2shipment"))
 	private Shipment Shipment;
 
 	@Column(name = "SHIPMENT_ID")

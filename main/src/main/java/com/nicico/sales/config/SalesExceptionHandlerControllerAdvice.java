@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,9 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
     protected Map<String, ErrorResponseDTO.ErrorFieldDTO> getUniqueConstraintErrors() {
         Map<String, ErrorResponseDTO.ErrorFieldDTO> errorCodeMap = new HashMap<>();
         errorCodeMap.put("fk", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_FK"));
+        errorCodeMap.put("2", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_FK"));
         errorCodeMap.put("uk", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_Unique"));
+        errorCodeMap.put("unique", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_Unique"));
         return errorCodeMap;
     }
 
@@ -48,5 +51,12 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
     public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
         this.printLog(ex, true, true);
         return this.createGeneralResponseEntity(ex, IErrorCode.Unknown); // 400 Bad Request is better
+    }
+
+    @ExceptionHandler({AccessDeniedException.class})
+    public final ResponseEntity<Object> accessDeniedHandler(AccessDeniedException ex)
+    {
+        this.printLog(ex, true, true);
+        return this.createGeneralResponseEntity(ex, IErrorCode.Forbidden);
     }
 }

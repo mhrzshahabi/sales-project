@@ -1,10 +1,11 @@
 package com.nicico.sales.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.ContractAuditDTO;
 import com.nicico.sales.dto.ContractDTO;
+import com.nicico.sales.iservice.IContractAuditService;
 import com.nicico.sales.iservice.IContractService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ import java.util.List;
 public class ContractRestController {
 
     private final IContractService contractService;
-    private final ObjectMapper objectMapper;
+    private final IContractAuditService contractAuditService;
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -65,6 +66,13 @@ public class ContractRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/spec-list-audit")
+    public ResponseEntity<TotalResponse<ContractAuditDTO.Info>> listAudit(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contractAuditService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ContractDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
@@ -73,10 +81,11 @@ public class ContractRestController {
 
     @Loggable
     @PostMapping(value = "/writeWord")
-    public ResponseEntity<ContractDTO.Info> saveValueAllArticles(@RequestBody String request) {
+    public ResponseEntity<ContractDTO.Info> saveValueAllArticles(@RequestBody String request) throws Exception {
         contractService.writeToWord(request);
         return new ResponseEntity(HttpStatus.OK);
     }
+
     @Loggable
     @PutMapping(value = "/readWord")
     public ResponseEntity<List<String>> updateValueAllArticles(@RequestBody String contractNo) {
