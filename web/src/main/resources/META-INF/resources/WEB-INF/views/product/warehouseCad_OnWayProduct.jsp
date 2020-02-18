@@ -654,8 +654,7 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-                alert(DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined)
-            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined || DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined || DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == "") {
+            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
                 DynamicForm_warehouseCAD.validate()
                 return;
