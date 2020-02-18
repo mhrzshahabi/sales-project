@@ -13,7 +13,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@Audited
 @Entity
 @Table(name = "TBL_COUNTRY")
 public class Country extends Auditable {
