@@ -818,7 +818,14 @@
                     click: function () {
                         createTab("<spring:message code='issuedInternalInvoices.title'/>", "<spring:url value="/invoiceInternal/showForm" />")
                     }
-                }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='invoiceSales.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
+                    }
+                },
             ]
         })
     });

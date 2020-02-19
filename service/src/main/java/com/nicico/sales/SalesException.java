@@ -80,6 +80,7 @@ public class SalesException extends NICICOException {
         InvoiceItemNotFound(404),
         InvoiceInternalNotFound(404),
         BankNotFound(404),
+        InvoiceSalesNotFound(404),
         AccessDenied(403);
 
         private final Integer httpStatusCode;
