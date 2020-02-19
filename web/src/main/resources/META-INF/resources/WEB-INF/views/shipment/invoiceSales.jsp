@@ -155,9 +155,9 @@
                 });
         }
         else {
-            DynamicForm_InvoiceSales.clearValues();
-            DynamicForm_InvoiceSales.editRecord(record);
-            Window_InvoiceSales.show();
+            DynamicForm_invoiceSales.clearValues();
+            DynamicForm_invoiceSales.editRecord(record);
+            Window_invoiceSales.show();
         }
     }
 
@@ -206,7 +206,7 @@
                                     httpMethod: "DELETE",
                                     callback: function (resp) {
                                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                            ListGrid_InvoiceSales_refresh;
+                                            ListGrid_InvoiceSales_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
                                         else {
@@ -237,8 +237,8 @@
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
                     click: function () {
-                        DynamicForm_InvoiceSales.clearValues();
-                        Window_InvoiceSales.show();
+                        DynamicForm_invoiceSales.clearValues();
+                        Window_invoiceSales.show();
                     }
                 },
                 <%--</sec:authorize>--%>
@@ -267,7 +267,7 @@
 
     var DynamicForm_invoiceSales = isc.DynamicForm.create(
         {
-            width: 650,
+            width: 700,
             height: 100,
             setMethod: 'POST',
             align: "center",
@@ -279,23 +279,26 @@
             titleWidth: "100",
             titleAlign: "right",
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
-            numCols: 2,
+            numCols: 4,
             fields: [
                 {
                     name: "id",
                     hidden: true
                 },
                 {
+                   type: "RowSpacerItem"
+                },
+                {
                     name: "serial",
                     title: "<spring:message code='invoiceSales.serial'/>",
                     // width: 500,
-                    // colSpan: 1,
+                    // colSpan: 3
                 },
                 {
                     name: "invoiceNo",
                     title: "<spring:message code='invoiceSales.invoiceNo'/>",
                     // width: 500,
-                    // colSpan: 1,
+                    // colSpan: 3
                 },
                 {
                     name: "invoiceDate",
@@ -315,6 +318,7 @@
                 {
                     name: "customerName",
                     title: "<spring:message code='invoiceSales.customerName'/>",
+                    // showTitle: false
                 },
                 {
                     name: "salesTypeId",
@@ -327,6 +331,7 @@
                 {
                     name: "currency",
                     title: "<spring:message code='invoiceSales.currency'/>",
+                    colSpan: 4
                 },
                 {
                     name: "contaminationTaxesId",
@@ -396,6 +401,8 @@
                 {
                     name: "otherDescription",
                     title: "<spring:message code='invoiceSales.otherDescription'/>",
+                    width: 570,
+                    colSpan: 4
                 },
                 {
                     name: "firstContractNo",
@@ -525,7 +532,7 @@
     var Window_invoiceSales = isc.Window.create(
         {
             title: "<spring:message code='invoiceSales.title'/> ",
-            width: 650,
+            width: 700,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -604,6 +611,7 @@
                     title: "<spring:message code='invoiceSales.invoiceDate'/>",
                     width: "10%",
                     align: "center",
+                    dateFormatter: true
                 },
                 {
                     name: "district",
