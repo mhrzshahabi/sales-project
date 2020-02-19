@@ -801,17 +801,9 @@
 
     var DynamicForm_InspectionContract = isc.DynamicForm.create({
         height: "400",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        errorOrientation: "bottom",
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
         titleWidth: "100",
         titleAlign: "center",
         autoFocus: "true",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
 
             {

@@ -131,16 +131,7 @@
     var DynamicForm_PaymentOption = isc.DynamicForm.create({
         width: 650,
         height: 100,
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "50",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -151,7 +142,7 @@
                     title: "<spring:message code='paymentOption.payName'/>",
                     type: 'text',
                     width: 500,
-                    required: true, errorOrientation: "bottom",
+                    required: true,
                     length: "255",
                     validators: [
                     {

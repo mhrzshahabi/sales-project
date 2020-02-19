@@ -178,18 +178,9 @@
     var DynamicForm_Groups = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
-
         fields: [
             {name: "id", hidden: true,},
             {type: "RowSpacerItem"},
@@ -766,23 +757,13 @@
     var DynamicForm_GroupsPerson = isc.DynamicForm.create({
         width: 700,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
                 {name: "id", hidden: true,},
-// {type: "RowSpacerItem"},
             {name: "groupsId", type: "long", hidden: true},
-// {type: "RowSpacerItem"},
             {
                 name: "personId",
                 title: "<spring:message code='person.fullName'/>",
@@ -879,11 +860,9 @@
 
 
     var GroupPersonHeaderForm = isc.DynamicForm.create({
-        align: "center",
         width: 800,
         height: "100%",
         titleWidth: "100%",
-        titleAlign: "right",
         numCols: 1,
         fields: [
             {name: "id", type: "hidden", title: ""},

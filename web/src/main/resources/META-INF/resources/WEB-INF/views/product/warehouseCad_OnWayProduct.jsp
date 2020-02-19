@@ -311,15 +311,7 @@
     });
 
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "150",
-        titleAlign: "right",
         itemKeyPress (item, keyName, characterValue){
                if(keyName=="Enter" && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") !== undefined){
                     var RestDataSource_TozinStatic_BandarAbbas_optionCriteria = {
@@ -353,7 +345,6 @@
                     })
                 }
             },
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "id",
@@ -613,16 +604,7 @@
     });
 
     var DynamicForm_warehouseCAD_Desc = isc.DynamicForm.create({
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {
                 name: "bijakFirstDescription",

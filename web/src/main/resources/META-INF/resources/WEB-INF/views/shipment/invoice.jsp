@@ -823,15 +823,9 @@
     var DynamicForm_Invoice = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100", margin: '10px', wrapTitle: false,
-        titleAlign: "right",
+        titleWidth: "100",
+        margin: '10px',
+        wrapTitle: false,
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields:

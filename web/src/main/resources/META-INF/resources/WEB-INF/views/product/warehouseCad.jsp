@@ -304,7 +304,7 @@
     var excel = isc.DynamicForm.create({
         method: "POST",
         action: "${contextPath}/warehouseCad/print/",
-        canSubmit: true,
+
         autoDraw: true,
         visibility: "hidden",
         target: "_Blank",
@@ -363,7 +363,7 @@
                 });
             } else {
                 filterEditorCriteria.criteria.forEach(function (key, index) {
-                        criterias.add(key);
+                    criterias.add(key);
                 });
                 filterEditorCriteria.criteria = criterias;
                 const criteria = JSON.stringify(filterEditorCriteria);
@@ -381,17 +381,8 @@
 
     var DynamicForm_Material_WarehouseCad = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "materialId",
@@ -418,16 +409,7 @@
 
     var DynamicForm_Plant_WarehouseCad = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "type",
@@ -444,17 +426,8 @@
 
     var DynamicForm_MovementType_WarehouseCad = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "type",

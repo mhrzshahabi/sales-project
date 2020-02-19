@@ -20,18 +20,9 @@
     var dynamicForm_ContactCadHeader = isc.DynamicForm.create({
         valuesManager: "contactCadHeader",
         wrapItemTitles: false,
-        setMethod: 'POST',
         width: "100%",
         height: "100%",
-        align: "left",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "80",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields: [
@@ -251,20 +242,11 @@
     dynamicForm4Cad.addMember("Contact_ContactAgentSellerCad", 4);
 
     var dynamicForm_ContactCadCustomer = isc.DynamicForm.create({
-        setMethod: 'POST',
         valuesManager: "contactCadHeader",
         width: "100%",
         height: "100%",
         numCols: 4,
         wrapItemTitles: false,
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
@@ -368,16 +350,6 @@
         width: "100%",
         height: "100%",
         numCols: 4,
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        wrapItemTitles: false,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {

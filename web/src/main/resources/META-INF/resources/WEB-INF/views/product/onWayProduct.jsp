@@ -268,16 +268,7 @@
 
     var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "fromDay",
@@ -294,24 +285,15 @@
                     displayDatePicker('fromDayDate', this, 'ymd', '/');
                 }
             }],
-            defaultValue: "1398/01/6",
+            defaultValue: "1398/06/01"
         }]
     });
 
     var DynamicForm_DailyReport_Tozin1 = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         action: "report/printDailyReportBandarAbbas",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "toDay",
@@ -328,23 +310,14 @@
                     displayDatePicker('toDayDate', this, 'ymd', '/');
                 }
             }],
-            defaultValue: "1398/03/26",
+            defaultValue: "1398/12/01"
         }]
     });
 
     var DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "materialId",
@@ -371,16 +344,7 @@
 
     var DynamicForm_DailyReport_Tozin3 = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "type",
@@ -397,17 +361,8 @@
 
     var DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "type",
@@ -483,7 +438,7 @@
     var excel = isc.DynamicForm.create({
         method: "POST",
         action: "${contextPath}/tozin/print/",
-        canSubmit: true,
+
         autoDraw: true,
         visibility: "hidden",
         target: "_Blank",

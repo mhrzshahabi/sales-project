@@ -361,18 +361,9 @@
         wrapItemTitles: false,
         autoDraw: false,
         autoFocus: "true",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
         titleWidth: "100",
-        titleAlign: "right",
         numCols: 7,
         membersMargin: '5px',
-        errorOrientation: "bottom",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>", //فیلد اجباری است.
         fields: [{
             name: "id",
             title: "id",
@@ -380,8 +371,6 @@
             canEdit: false,
             hidden: true
         },
-
-
             {
                 colSpan: 2,
                 name: "createDate",

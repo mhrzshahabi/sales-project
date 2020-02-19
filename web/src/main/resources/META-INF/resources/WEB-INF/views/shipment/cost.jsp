@@ -637,17 +637,8 @@
     var DynamicForm_Cost = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "120",
-        titleAlign: "right",
         margin: 10,
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 6,
         fields:
             [
