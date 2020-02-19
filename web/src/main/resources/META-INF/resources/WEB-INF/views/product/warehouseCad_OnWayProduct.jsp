@@ -334,14 +334,14 @@
                 };
                 RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT.fetchData(RestDataSource_TozinStatic_BandarAbbas_optionCriteria, function (dsResponse, data, dsRequest) {
                     if (data.length == 0) {
-                        isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsNotValid'/>")
-                        DynamicForm_warehouseCAD.clearValue("destinationTozinPlantStaticId")
+                        isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsNotValid'/>");
+                        DynamicForm_warehouseCAD.clearValue("destinationTozinPlantStaticId");
                         DynamicForm_warehouseCAD.getField('destinationTozinPlantId').setDisabled(false);
                     } else {
                         DynamicForm_warehouseCAD.setValue("destinationUnloadDate", data[0].tozinDate);
                         DynamicForm_warehouseCAD.setValue("destinationBundleSum", data[0].tedad);
                         DynamicForm_warehouseCAD.setValue("destinationWeight", data[0].vazn);
-                        isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
+                        isc.say("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
                     }
                 })
             }
@@ -420,6 +420,7 @@
                 name: "destinationTozinPlantId",
                 colSpan: 3,
                 titleColSpan: 1,
+                width: "100%",
                 showHover: true,
                 autoFetchData: false,
                 title: "<spring:message code='warehouseCad.tozinBandarAbbas'/>",

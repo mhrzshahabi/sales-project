@@ -596,7 +596,7 @@
                             }else{
                                 DynamicForm_warehouseCAD.setValue("destinationTozinPlantId",DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId"));
                                 DynamicForm_warehouseCAD.setValue("destinationUnloadDate", data[0].tozinDate);
-                                isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
+                                isc.say("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
                             }
                     })
                 }
