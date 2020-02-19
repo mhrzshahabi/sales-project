@@ -232,7 +232,7 @@
                         ListGrid_InvoiceSales_refresh();
                     }
                 },
-                <%--<sec:authorize access="hasAuthority('C_BANK')">--%>
+                <%--<sec:authorize access="hasAuthority('C_INVOICE_SALES')">--%>
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -243,7 +243,7 @@
                 },
                 <%--</sec:authorize>--%>
 
-                <%--<sec:authorize access="hasAuthority('U_BANK')">--%>
+                <%--<sec:authorize access="hasAuthority('U_INVOICE_SALES')">--%>
                 {
                     title: "<spring:message code='global.form.edit'/>",
                     icon: "pieces/16/icon_edit.png",
@@ -253,7 +253,7 @@
                 },
                 <%--</sec:authorize>--%>
 
-                <%--<sec:authorize access="hasAuthority('D_BANK')">--%>
+                <%--<sec:authorize access="hasAuthority('D_INVOICE_SALES')">--%>
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
@@ -428,7 +428,7 @@
         }
     });
 
-    <%--<sec:authorize access="hasAuthority('C_BANK')">--%>
+    <%--<sec:authorize access="hasAuthority('C_INVOICE_SALES')">--%>
     var ToolStripButton_InvoiceSales_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -439,7 +439,7 @@
     });
     <%--</sec:authorize>--%>
 
-    <%--<sec:authorize access="hasAuthority('U_BANK')">--%>
+    <%--<sec:authorize access="hasAuthority('U_INVOICE_SALES')">--%>
     var ToolStripButton_InvoiceSales_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -449,7 +449,7 @@
     });
     <%--</sec:authorize>--%>
 
-    <%--<sec:authorize access="hasAuthority('D_BANK')">--%>
+    <%--<sec:authorize access="hasAuthority('D_INVOICE_SALES')">--%>
     var ToolStripButton_InvoiceSales_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -463,15 +463,15 @@
         {
             width: "100%",
             members: [
-                <%--<sec:authorize access="hasAuthority('C_BANK')">--%>
+                <%--<sec:authorize access="hasAuthority('C_INVOICE_SALES')">--%>
                 ToolStripButton_InvoiceSales_Add,
                 <%--</sec:authorize>--%>
 
-                <%--<sec:authorize access="hasAuthority('U_BANK')">--%>
+                <%--<sec:authorize access="hasAuthority('U_INVOICE_SALES')">--%>
                 ToolStripButton_InvoiceSales_Edit,
                 <%--</sec:authorize>--%>
 
-                <%--<sec:authorize access="hasAuthority('D_BANK')">--%>
+                <%--<sec:authorize access="hasAuthority('D_INVOICE_SALES')">--%>
                 ToolStripButton_InvoiceSales_Remove,
                 <%--</sec:authorize>--%>
 
