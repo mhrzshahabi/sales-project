@@ -43,7 +43,7 @@
             },
             {
                 name: "tozinId",
-                title: "<spring:message code='Tozin.tozinId'/>",
+                title: "<spring:message code='Tozin.tozinPlantId'/>",
                 align: "center"
             },
             {
@@ -320,7 +320,7 @@
                                 DynamicForm_warehouseCAD.getField('destinationTozinPlantId').setDisabled(false);
                             }else{
                                 DynamicForm_warehouseCAD.setValue("destinationUnloadDate", data[0].tozinDate);
-                                isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
+                                isc.say("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
                             }
                     })
                 }

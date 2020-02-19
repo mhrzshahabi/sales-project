@@ -20,7 +20,7 @@
             },
             {
                 name: "tozinId",
-                title: "<spring:message code='Tozin.tozinId'/>",
+                title: "<spring:message code='Tozin.tozinPlantId'/>",
                 align: "center"
             },
             {
@@ -268,7 +268,7 @@
             },
             {
                 name: "tozinId",
-                title: "<spring:message code='Tozin.tozinId'/>",
+                title: "<spring:message code='Tozin.tozinPlantId'/>",
                 align: "center"
             },
             {
@@ -603,7 +603,7 @@
                                 DynamicForm_warehouseCAD.setValue("destinationUnloadDate", data[0].tozinDate);
                                 DynamicForm_warehouseCAD.setValue("destinationBundleSum", data[0].tedad);
                                 DynamicForm_warehouseCAD.setValue("destinationWeight", data[0].vazn);
-                                isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
+                                isc.say("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
                             }
                     })
                 }
