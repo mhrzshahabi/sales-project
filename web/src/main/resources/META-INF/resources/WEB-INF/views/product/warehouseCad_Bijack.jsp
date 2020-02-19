@@ -608,9 +608,9 @@
                                 DynamicForm_warehouseCAD.getField('destinationTozinPlantId').setDisabled(false);
                             }else{
                                 DynamicForm_warehouseCAD.setValue("destinationTozinPlantId",DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId"));
-                                DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
-                                DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
-                                DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
+                                DynamicForm_warehouseCAD.setValue("destinationUnloadDate", data[0].tozinDate);
+                                DynamicForm_warehouseCAD.setValue("destinationBundleSum", data[0].tedad);
+                                DynamicForm_warehouseCAD.setValue("destinationWeight", data[0].vazn);
                                 isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
                             }
                     })

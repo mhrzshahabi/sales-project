@@ -110,6 +110,7 @@ import java.util.TimeZone;
 public class ContractAudit {
 
     @Getter
+    @EqualsAndHashCode(callSuper = false)
     @Embeddable
     public static class ContractAuditId implements Serializable {
         @Column(name = "ID")

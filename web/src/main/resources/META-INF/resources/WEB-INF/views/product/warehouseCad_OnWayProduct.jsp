@@ -310,7 +310,6 @@
         click: "ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.startEditingNew()"
     });
 
-
     var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         setMethod: 'POST',
         align: "center",
@@ -346,9 +345,9 @@
                                 DynamicForm_warehouseCAD.clearValue("destinationTozinPlantStaticId")
                                 DynamicForm_warehouseCAD.getField('destinationTozinPlantId').setDisabled(false);
                             }else{
-                                DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
-                                DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
-                                DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
+                                DynamicForm_warehouseCAD.setValue("destinationUnloadDate", data[0].tozinDate);
+                                DynamicForm_warehouseCAD.setValue("destinationBundleSum", data[0].tedad);
+                                DynamicForm_warehouseCAD.setValue("destinationWeight", data[0].vazn);
                                 isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
                             }
                     })
@@ -695,7 +694,6 @@
                 return;
             }
 
-            console.log(warehouseCadItems);
             if (warehouseCadItems.length == 0) {
                 isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
