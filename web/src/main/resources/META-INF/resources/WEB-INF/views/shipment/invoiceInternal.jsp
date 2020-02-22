@@ -160,33 +160,6 @@
         ]
     });
 
-    var DynamicForm_InvoiceInternal = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        titleWidth: "100",
-        numCols: 2,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "invDate", title: "<spring:message code='invoice.invDate'/>"},
-                {name: "havalehId", title: "<spring:message code='invoice.havalehId'/>"},
-                {name: "customerName", title: "<spring:message code='invoice.customerName'/>"},
-                {name: "shomarehSoratHesab", title: "<spring:message code='invoice.shomarehSoratHesab'/>"},
-                {name: "gdsName", title: "<spring:message code='invoice.gdsName'/>"},
-                {
-                    type: 'integer',
-                    name: "typeForosh",
-                    valueMap: {"2": "اعتباری", "1": "نقدی"},
-                    title: "<spring:message code='invoice.typeForosh'/>"
-                },
-                {type: 'float', name: "ghematUnit", title: "<spring:message code='invoice.ghematUnit'/>"},
-                {type: 'float', name: "weightReal", title: "<spring:message code='invoice.weightReal'/>"},
-                {type: 'float', name: "mablaghKol", title: "<spring:message code='invoice.mablaghKol'/>"},
-                {type: 'float', name: "totalKosorat", title: "<spring:message code='invoice.totalKosorat'/>"},
-                {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
-            ]
-    });
-
     var ToolStrip_Actions_InvoiceInternal = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
@@ -217,74 +190,6 @@
         members:
             [
                 ToolStrip_Actions_InvoiceInternal
-            ]
-    });
-
-    var IButton_InvoiceInternal_Save = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
-            DynamicForm_InvoiceInternal.validate();
-            if (DynamicForm_InvoiceInternal.hasErrors())
-                return;
-            return;
-            var data = DynamicForm_InvoiceInternal.getValues();
-            var method = "PUT";
-            if (data.id == null)
-                method = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/invoiceInternal00000/",
-                    httpMethod: method,
-                    data: JSON.stringify(data),
-                    callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>");
-                            ListGrid_InvoiceInternal_refresh();
-                            Window_InvoiceInternal.close();
-                        } else
-                            isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
-        }
-    });
-
-    var Window_InvoiceInternal = isc.Window.create({
-        title: "<spring:message code='bank.title'/> ",
-        width: 580,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                DynamicForm_InvoiceInternal,
-                isc.HLayout.create({
-                    width: "100%",
-                    members:
-                        [
-                            IButton_InvoiceInternal_Save,
-                            isc.Label.create({
-                                width: 5,
-                            }),
-                            isc.IButtonCancel.create({
-                                title: "<spring:message code='global.cancel'/>",
-                                width: 100,
-                                icon: "pieces/16/icon_delete.png",
-                                orientation: "vertical",
-                                click: function () {
-                                    Window_InvoiceInternal.close();
-                                }
-                            })
-                        ]
-                })
             ]
     });
 
