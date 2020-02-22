@@ -4,9 +4,11 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
+import com.nicico.sales.dto.ContractDetailAuditDTO;
 import com.nicico.sales.dto.ContractDetailDTO;
 import com.nicico.sales.iservice.IContractDetailService;
 import com.nicico.sales.model.entities.base.ContractDetail;
+import com.nicico.sales.repository.ContractDetailAuditDAO;
 import com.nicico.sales.repository.ContractDetailDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class ContractDetailService implements IContractDetailService {
 
     private final ContractDetailDAO contractDetailDAO;
+    private final ContractDetailAuditDAO contractDetailAuditDAO;
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
@@ -103,8 +106,18 @@ public class ContractDetailService implements IContractDetailService {
         return SearchUtil.search(contractDetailDAO, criteria, contractDetail -> modelMapper.map(contractDetail, ContractDetailDTO.Info.class));
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")
+    public TotalResponse<ContractDetailAuditDTO.Info> searchAudit(NICICOCriteria criteria) {
+        return SearchUtil.search(contractDetailAuditDAO, criteria, contractDetailAudit -> modelMapper.map(contractDetailAudit, ContractDetailAuditDTO.Info.class));
+    }
+
     private ContractDetailDTO.Info save(ContractDetail contractDetail) {
         final ContractDetail saved = contractDetailDAO.saveAndFlush(contractDetail);
         return modelMapper.map(saved, ContractDetailDTO.Info.class);
     }
+
+
+
 }

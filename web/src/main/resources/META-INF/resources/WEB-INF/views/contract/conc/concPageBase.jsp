@@ -84,6 +84,7 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
              var dataSaveAndUpdateContractConc = {};
              if(methodHtpp=="PUT"){
                 dataSaveAndUpdateContractConc.id=ListGrid_Conc.getSelectedRecord().id;
+                ListGrid_Conc.invalidateCache();
             }
             contactHeaderConc.validate();
             dynamicFormConc.validate();

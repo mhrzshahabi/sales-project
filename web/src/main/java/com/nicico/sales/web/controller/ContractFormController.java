@@ -99,14 +99,4 @@ public class ContractFormController {
         inputStream.close();
         fileUtil.download(docName, response);
     }
-
-
-    private Integer findMax(List<Integer> list) {
-        if (list == null || list.size() == 0) {
-            return Integer.MIN_VALUE;
-        }
-        List<Integer> sortedlist = new ArrayList<>(list);
-        Collections.sort(sortedlist);
-        return sortedlist.get(sortedlist.size() - 1);
-    }
 }

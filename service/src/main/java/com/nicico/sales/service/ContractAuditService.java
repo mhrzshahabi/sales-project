@@ -24,7 +24,7 @@ public class ContractAuditService implements IContractAuditService {
     private final ModelMapper modelMapper;
 
     @Override
-    public ContractAuditDTO.Info get(Long id) {
+    public ContractAuditDTO.Info get(ContractAudit.ContractAuditId id) {
         final Optional<ContractAudit> slById = contractAuditDAO.findById(id);
         final ContractAudit contractAudit = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractAuditNotFound));
 

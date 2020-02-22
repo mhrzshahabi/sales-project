@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-    public interface ContractAuditDAO extends JpaRepository<ContractAudit, Long>, JpaSpecificationExecutor<ContractAudit> {
+public interface ContractAuditDAO extends JpaRepository<ContractAudit, ContractAudit.ContractAuditId>, JpaSpecificationExecutor<ContractAudit> {
 }

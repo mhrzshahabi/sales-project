@@ -57,7 +57,6 @@ public class ContractService implements IContractService {
     private final ShipmentContractService shipmentContractService;
     private final ShipmentContractDAO shipmentContractDAO;
     private final EntityManager entityManager;
-
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private MyXWPFHtmlDocument myXWPFHtmlDocument;
 
@@ -299,7 +298,7 @@ public class ContractService implements IContractService {
         if (!directory.exists()) {
             directory.mkdir();
         }
-        OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc");
+        OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + "_" + maxRef + ".doc");
         OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".doc");
         XWPFParagraph paragraph = doc.createParagraph();
         XWPFRun run = paragraph.createRun();
@@ -309,20 +308,34 @@ public class ContractService implements IContractService {
         printdoc.write(printOs);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
-    public List<String> readFromWord(String contractNo) {
+    public List<String> readFromWord(String contractNo, Long contractId, int draftId) {
+        AuditReader reader = AuditReaderFactory.get(entityManager);
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         List<String> allArticle = new ArrayList<>();
+        int maxRef = 0;
+        if (draftId != 0) {
+            maxRef = draftId;
+        } else {
+            reader.createQuery().forRevisionsOfEntity(Contract.class, true, false).getResultList();
+            List<Number> oldContract = reader.getRevisions(Contract.class, Long.valueOf(contractId));
+            List<Integer> intList = new ArrayList<Integer>(oldContract.size());
+            for (Number i : oldContract) {
+                intList.add((Integer) i);
+            }
+            maxRef = findMax(intList);
+        }
         try {
             InputStream inputstream;
-            if (contractNo.contains("_Conc")) {
-                String contractConc = contractNo.replace("_Conc", "");
-                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc.substring(1, contractConc.length() - 1) + ".doc");
+            if (contractNo.contains("Conc")) {
+                String contractConc = contractNo.replace("Conc", "");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc+"_"+maxRef+ ".doc");
             } else if (contractNo.contains("?Mo")) {
                 String contractMo = contractNo.replace("?Mo", "");
-                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_MO_OX" + contractMo.substring(1, contractMo.length() - 1) + ".doc");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_MO_OX" + contractMo.substring(1, contractMo.length() - 1)+"_"+maxRef + ".doc");
             } else {
-                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo.substring(1, contractNo.length() - 1) + ".doc");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo.substring(1, contractNo.length() - 1)+"_"+maxRef + ".doc");
             }
             allArticle = extractText(inputstream);
         } catch (Exception e) {

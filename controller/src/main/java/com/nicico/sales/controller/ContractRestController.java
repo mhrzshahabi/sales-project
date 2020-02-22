@@ -66,7 +66,7 @@ public class ContractRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/spec-list-audit")
+    @GetMapping(value = "/audit/spec-list")
     public ResponseEntity<TotalResponse<ContractAuditDTO.Info>> listAudit(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractAuditService.search(nicicoCriteria), HttpStatus.OK);
@@ -88,7 +88,14 @@ public class ContractRestController {
 
     @Loggable
     @PutMapping(value = "/readWord")
-    public ResponseEntity<List<String>> updateValueAllArticles(@RequestBody String contractNo) {
-        return new ResponseEntity<>(contractService.readFromWord(contractNo), HttpStatus.OK);
+    public ResponseEntity<List<String>> updateValueAllArticles(@RequestBody String contract) {
+        String[] detailContract= contract.split("_");
+        String contractNo=detailContract[0]+detailContract[1];
+        long contractId = Long.parseLong(detailContract[2]);
+        int draftId = 0;
+        if(detailContract.length>3){
+             draftId = Integer.parseInt(detailContract[3]);
+        }
+        return new ResponseEntity<>(contractService.readFromWord(contractNo,contractId,draftId), HttpStatus.OK);
     }
 }

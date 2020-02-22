@@ -2,14 +2,24 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-//<script>
+//<script>e
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     var criteriaContractConcItemShipment;
     var flagEdit = 0;
 
+
+
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
+    });
+
+    var RestDataSource_contractDetailAudit_list = isc.MyRestDataSource.create({
+        fetchDataURL: "${contextPath}/api/contractDetail/audit/spec-list"
+    });
+
+    var RestDataSource_contractAudit_list = isc.MyRestDataSource.create({
+        fetchDataURL: "${contextPath}/api/contract/audit/spec-list"
     });
 
 
@@ -338,7 +348,7 @@
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/contract/readWord",
                     httpMethod: "PUT",
-                    data: JSON.stringify(record.contractNo + "_Conc"),
+                    data: (record.contractNo + "_Conc_"+record.id),
                     callback: function (resp) {
                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             contactConcTabs.selectTab(0);
@@ -432,6 +442,223 @@
         }
     });
 
+    var ToolStripButton_Contract_DraftList = isc.ToolStripButtonDraft.create({
+        title: "Draft",
+        click: function () {
+             var recordContract = ListGrid_Conc.getSelectedRecord();
+                 if (recordContract == null || recordContract.id == null) {
+                                    isc.Dialog.create({
+                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }});
+                 } else {
+                   var  criteriaContractAudit = {
+                            _constructor: "AdvancedCriteria",
+                            operator: "and",
+                            criteria: [{fieldName: "id.id", operator: "equals", value: recordContract.id}]
+                        };
+                   var ListGrid_ContractDraft = isc.ListGrid.create({
+                                                        width: "100%",
+                                                        height: "93%",
+                                                        dataSource: RestDataSource_ContractAudit,
+                                                        initialCriteria: criteriaContractAudit,
+                                                        showFilterEditor: true,
+                                                        autoFetchData: true,
+                                                        fields:
+                                                            [
+                                                                {name: "id.id",hidden: true},
+                                                                {name: "id.rev",hidden: true},
+                                                                {name: "revType",width: "10%",valueMap:{"0": "create","1": "update","2": "delete" }},
+                                                                {name: "contractDate",width: "10%",format: "MMMM yyyy",type:"date"},
+                                                                {name: "createdBy",width: "10%", title: "createdBy"},
+                                                                {name: "createdDate",width: "10%", title: "createdDate"},
+                                                                {name: "lastModifiedBy",width: "10%", title: "lastModifiedBy"},
+                                                                {name: "lastModifiedDate",width: "10%", title: "lastModifiedDate"}
+                                                            ]
+                                                    })
+                var windowsConcDraft = isc.Window.create({
+                            title: "<spring:message code='global.menu.contract.type.contract.DRAFT'/>" +" FOR CONTRACT NO : "+ ListGrid_Conc.getSelectedRecord().contractNo,
+                            width: "50%",
+                            height: "52%",
+                            autoCenter: true,
+                            isModal: true,
+                            showModalMask: true,
+                            align: "center",
+                            autoDraw: true,
+                            closeClick: function () {
+                                this.Super("closeClick", arguments)
+                            },
+                            items: [
+                                 isc.VStack.create({
+                                    autoCenter: true,
+                                    members: [
+                                            ListGrid_ContractDraft,
+                                            isc.HStack.create({
+                                                backgroundColor: "#fe9d2a",
+                                                width: "100%",
+                                                height: "7%",
+                                                autoCenter: true,
+                                                members: [
+                                                        isc.Label.create({
+                                                                    width: "47%",
+                                                            }),
+                                                        isc.ToolStripButtonPrint.create({
+                                                            icon: "[SKIN]/actions/print.png",
+                                                            margin:"5",
+                                                            title: "<spring:message code='global.form.print'/>",
+                                                            autoCenter: true,
+                                                            click: function () {
+                                                                var printSelectID = ListGrid_Conc.getSelectedRecord();
+                                                                var printSelectIDdraft = ListGrid_ContractDraft.getSelectedRecord();
+                                                                if (printSelectIDdraft == null || printSelectIDdraft.id == null) {
+                                                                    isc.Dialog.create({
+                                                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                                                        icon: "[SKIN]ask.png",
+                                                                        title: "<spring:message code='global.message'/>",
+                                                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                                                        buttonClick: function () {
+                                                                            this.hide();
+                                                                        }
+                                                                    });
+                                                                }
+                                                                else {
+                                                                    "<spring:url value="/contract/print" var="printUrl"/>";
+                                                                    var recordIdPrint = ListGrid_Contract.getSelectedRecord();
+                                                                    window.open('${printUrl}' + "/" + printSelectID.id+ "/" +((printSelectIDdraft.id).rev));
+                                                                }
+                                                            }
+                                                        }),
+                                                        isc.ToolStripButtonPrint.create({
+                                                            icon: "[SKIN]/actions/active.png",
+                                                            margin:"5",
+                                                            title: "Active",
+                                                            autoCenter: true,
+                                                            click: function () {
+                                                                    var activeSelectID = ListGrid_Conc.getSelectedRecord();
+                                                                    var activeSelectIDdraft = ListGrid_ContractDraft.getSelectedRecord();
+                                                                    if (activeSelectID == null || activeSelectIDdraft == null) {
+                                                                    isc.Dialog.create({
+                                                                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                                                                        icon: "[SKIN]ask.png",
+                                                                        title: "<spring:message code='global.message'/>",
+                                                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                                                        buttonClick: function () {
+                                                                            this.hide();
+                                                                        }
+                                                                    })
+                                                                } else {
+                                                                        Window_ContactConc.show();
+                                                                        methodHtpp="PUT";
+                                                                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                                                                            actionURL: "${contextPath}/api/contract/readWord",
+                                                                            httpMethod: "PUT",
+                                                                            data: (activeSelectID.contractNo + "_Conc_"+(activeSelectIDdraft.id).id+"_"+(activeSelectIDdraft.id).rev),
+                                                                            callback: function (resp) {
+                                                                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                                                                    contactConcTabs.selectTab(0);
+                                                                                    var text = resp.httpResponseText;
+                                                                                    var text2 = text.replaceAll('","', '","').replaceAll('&?', '":"')
+                                                                                    textMain = JSON.parse(text2.replaceAt(0, '{"').replaceAt(text2.length - 1, '}'));
+                                                                                    dynamicForm_fullArticle01.setValue(textMain.Article01)
+                                                                                    dynamicForm_fullArticle02.setValue(textMain.Article02)
+                                                                                    dynamicForm_fullArticleConc03.setValue(textMain.Article03)
+                                                                                    dynamicForm_fullArticleConc04.setValue(textMain.Article04)
+                                                                                    dynamicForm_fullArticleConc05.setValue(textMain.Article05)
+                                                                                    dynamicForm_fullArticleConc06.setValue(textMain.Article06)
+                                                                                    dynamicForm_fullArticleConc07.setValue(textMain.Article07)
+                                                                                    dynamicForm_fullArticleConc08.setValue(textMain.Article08)
+                                                                                    dynamicForm_fullArticleConc09.setValue(textMain.Article09)
+                                                                                    dynamicForm_fullArticleConc10.setValue(textMain.Article10)
+                                                                                    dynamicForm_fullArticleConc11.setValue(textMain.Article11)
+                                                                                    dynamicForm_fullArticleConc12.setValue(textMain.Article12)
+                                                                                    ListGrid_ContractConcItemShipment.fetchData(criteriaContractConcItemShipment)
+                                                                                }
+                                                                                else {
+                                                                                    isc.say(RpcResponse_o.data);
+                                                                                }
+                                                                            }
+                                                                        }))
+                                                                        var criteriaContractAudit = {
+                                                                            _constructor: "AdvancedCriteria",
+                                                                            operator: "and",
+                                                                            criteria: [{fieldName: "id.id", operator: "equals", value: activeSelectID.id},
+                                                                                       {fieldName: "id.rev", operator: "equals", value: ListGrid_ContractDraft.getSelectedRecord().id.rev}]
+                                                                        };
+                                                                        setTimeout(function () {
+                                                                            RestDataSource_contractAudit_list.fetchData(criteriaContractAudit, function (dsResponse, data, dsRequest) {
+                                                                                contactHeaderConc.setValue("createDate", data[0].contractDate)
+                                                                                contactHeaderConc.setValue("contractNo", data[0].contractNo)
+                                                                                contactHeaderConc.setValue("contactId", data[0].contactId)
+                                                                                dynamicFormConc.setValue("materialId", data[0].materialId)
+                                                                                contactHeaderConc.setValue("contactByBuyerAgentId", data[0].contactByBuyerAgentId) //***** to do
+                                                                                contactHeaderConc.setValue("contactBySellerId", data[0].contactBySellerId)
+                                                                                contactHeaderConc.setValue("contactBySellerAgentId", data[0].contactBySellerAgentId)
+                                                                                valuesManagerArticle2Conc.setValue("amount", data[0].amount);
+                                                                                valuesManagerArticle2Conc.setValue("amount_en", data[0].amount_en);
+                                                                                valuesManagerArticle2Conc.setValue("unitId", data[0].unitId);
+                                                                                valuesManagerArticle2Conc.setValue("cathodesTolorance", data[0].molybdenumTolorance);
+                                                                                valuesManagerArticle2Conc.setValue("optional", data[0].optional);
+                                                                                valuesManagerArticle2Conc.setValue("plant", data[0].plant);
+                                                                                valuesManagerArticle3_conc.setValue("CU", data[0].copper);
+                                                                                valuesManagerArticle3_conc.setValue("MO", data[0].molybdenum);
+                                                                                valuesManagerArticle3_conc.setValue("unitCu", data[0].timeIssuance);
+                                                                                valuesManagerArticle3_conc.setValue("unitMo", data[0].prefixPayment);
+                                                                                valuesManagerArticle9_conc.setValue("TC", data[0].treatCost);
+                                                                                valuesManagerArticle9_conc.setValue("RC", data[0].refinaryCost);
+                                                                                article5_ConcDeliveryTerms.setValue("incotermsId", data[0].incotermsId);
+                                                                                article5_ConcDeliveryTerms.setValue("portByPortSourceId", data[0].portByPortSourceId);
+                                                                                article5_ConcDeliveryTerms.setValue("incotermsText", data[0].incotermsText);
+                                                                            });
+                                                                            var criteriaContractDetailAudit = {
+                                                                            _constructor: "AdvancedCriteria",
+                                                                            operator: "and",
+                                                                            criteria: [{fieldName: "contract_id", operator: "equals", value: activeSelectID.id},
+                                                                                       {fieldName: "id.rev", operator: "equals", value: ListGrid_ContractDraft.getSelectedRecord().id.rev+1}]
+                                                                            };
+                                                                            RestDataSource_contractDetailAudit_list.fetchData(criteriaContractDetailAudit, function (dsResponse, data, dsRequest) {
+                                                                                contactHeaderConcAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
+                                                                                contactHeaderConcAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
+                                                                                contactHeaderConcAgent.setValue("mobile_ContactAgentSeller", data[0].mobile_ContactAgentSeller)
+                                                                                contactHeaderConcAgent.setValue("address_ContactAgentSeller", data[0].address_ContactAgentSeller)
+                                                                                contactHeaderConcAgent.setValue("address_ContactSeller", data[0].address_ContactSeller)
+                                                                                contactHeaderConcAgent.setValue("mobile_ContactSeller", data[0].mobile_ContactSeller)
+                                                                                contactHeaderConcAgent.setValue("phone_ContactSeller", data[0].phone_ContactSeller)
+                                                                                contactHeaderConcAgent.setValue("name_ContactSeller", data[0].name_ContactSeller)
+                                                                                contactHeaderConcAgent.setValue("name_ContactAgentBuyer", data[0].name_ContactAgentBuyer)
+                                                                                contactHeaderConcAgent.setValue("phone_ContactAgentBuyer", data[0].phone_ContactAgentBuyer)
+                                                                                contactHeaderConcAgent.setValue("mobile_ContactAgentBuyer", data[0].mobile_ContactAgentBuyer)
+                                                                                contactHeaderConcAgent.setValue("address_ContactAgentBuyer", data[0].address_ContactAgentBuyer)
+                                                                                contactHeaderConcAgent.setValue("name_ContactBuyer", data[0].name_ContactBuyer)
+                                                                                contactHeaderConcAgent.setValue("phone_ContactBuyer", data[0].phone_ContactBuyer)
+                                                                                contactHeaderConcAgent.setValue("mobile_ContactBuyer", data[0].mobile_ContactBuyer)
+                                                                                contactHeaderConcAgent.setValue("address_ContactBuyer", data[0].address_ContactBuyer)
+                                                                                valuesManagerArticle12_quality.setValue("article12_number56", data[0].article10_number56)
+                                                                                valuesManagerArticle12_quality.setValue("article12_number57", data[0].article10_number57)
+                                                                                valuesManagerArticle12_quality.setValue("article12_number58", data[0].article10_number58)
+                                                                                valuesManagerArticle12_quality.setValue("article12_number59", data[0].article10_number59)
+                                                                                valuesManagerArticle12_quality.setValue("article12_number60", data[0].article10_number60)
+                                                                                valuesManagerArticle12_quality.setValue("article12_number61", data[0].article10_number61)
+                                                                                valuesManagerArticle10_quality.setValue("article10_quality1", data[0].article9_ImportantNote)
+                                                                            })
+                                                                        windowsConcDraft.close();
+                                                                        }, 300)
+                                                                        }
+                                                                        }
+                                                        })
+                                                ]
+                                            })
+                                            ]
+                                })
+                            ]
+                        })
+             }
+        }
+    });
+
     var ToolStrip_Actions_ContactConc = isc.ToolStrip.create({
         membersMargin: 5,
         members: [
@@ -442,6 +669,14 @@
             <sec:authorize access="hasAuthority('U_CONTRACT')">
             ToolStripButton_ContactConc_Edit,
             </sec:authorize>
+
+                 isc.ToolStrip.create({
+                    align: "left",
+                    border: '0px',
+                    members: [
+                    ToolStripButton_Contract_DraftList
+                    ]
+                }),
 
                 isc.ToolStrip.create({
                 width: "100%",
@@ -454,6 +689,7 @@
 
         ]
     });
+
 
 
     isc.VStack.create({
