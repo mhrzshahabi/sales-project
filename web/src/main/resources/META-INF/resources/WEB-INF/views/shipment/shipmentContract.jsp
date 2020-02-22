@@ -760,9 +760,7 @@
                 },
             ],
         sortField: "id",
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
 

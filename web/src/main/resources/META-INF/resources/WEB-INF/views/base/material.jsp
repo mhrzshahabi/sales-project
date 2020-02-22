@@ -1436,10 +1436,7 @@
                     width: 40,
                     showTitle: false
                 },],
-            sortField: 0,
             autoFetchData: false,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             createRecordComponent: function (record, colNum) {
                 var fieldName = this.getFieldName(colNum);
                 var recordCanvas = isc.HLayout.create(
@@ -1962,7 +1959,6 @@
                     showTitle: false
                 }
             ],
-            sortField: 0,
             autoFetchData: false,
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 loadWindowFeatureList(record.materialId)

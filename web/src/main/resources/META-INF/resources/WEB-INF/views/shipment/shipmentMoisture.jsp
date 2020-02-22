@@ -1063,10 +1063,7 @@
         ],
         getExpansionComponent: function (record) {
         return getExpandedComponent_ShipmentByMoistureHeader(record)
-        },
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        }
     });
 
 
@@ -1563,9 +1560,6 @@
             showTitle: false
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {
@@ -2034,10 +2028,7 @@
                 }],
                 align: "center"
             },
-        ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        ]
     });
     var HLayout_Grid_ShipmentMoistureItem = isc.HLayout.create({
         width: "100%",

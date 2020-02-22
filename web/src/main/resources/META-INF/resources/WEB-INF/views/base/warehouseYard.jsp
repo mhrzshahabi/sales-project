@@ -352,10 +352,7 @@
                 },
                 {name: "nameFA", title: "<spring:message code='warehouseCad.yard'/>", width: "10%", align: "center"},
             ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
     var HLayout_WarehouseYard_Grid = isc.HLayout.create({

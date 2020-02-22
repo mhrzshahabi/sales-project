@@ -351,10 +351,7 @@
                     align: "center"
                 }
             ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
     var HLayout_PaymentOption_Grid = isc.HLayout.create({
         width: "100%",

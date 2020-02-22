@@ -320,9 +320,6 @@
             },
 
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         getExpansionComponent: function (record) {
             return getExpandedComponent_Shipment_CostHeader(record)
         }
@@ -1370,7 +1367,6 @@
                     align: "center",
                 }
             ],
-        sortField: 0,
         autoFetchData: false,
         filterOnKeypress: true,
         createRecordComponent: function (record, colNum) {

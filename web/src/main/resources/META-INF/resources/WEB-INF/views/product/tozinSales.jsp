@@ -479,11 +479,7 @@
                     title: "<spring:message code='Tozin.tozinDate'/>"
                 }
             ],
-        allowAdvancedCriteria: true,
-        allowFilterExpressions: true,
         autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             TozinSales_labels_NavigationAz.setContents(this.getFocusRow() + 1);

@@ -314,10 +314,7 @@
                 {type: 'float', name: "totalKosorat", title: "<spring:message code='invoice.totalKosorat'/>"},
                 {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
             ],
-        sortField: 0,
         autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         allowFilterOperators: true
     });
 

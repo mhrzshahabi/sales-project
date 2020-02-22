@@ -562,10 +562,7 @@
                     width: "20%",
                     align: "center"
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
+            autoFetchData: true
         });
 
     var HLayout_Bank_Grid = isc.HLayout.create({

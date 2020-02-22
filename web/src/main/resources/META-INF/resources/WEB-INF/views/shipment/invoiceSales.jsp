@@ -575,10 +575,7 @@
             height: "100%",
             dataSource: RestDataSource_invoiceSales,
             contextMenu: Menu_ListGrid_InvoiceSales,
-            sortField: 0,
             autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             fields: [
                 {
                     name: "id",

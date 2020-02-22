@@ -2,33 +2,40 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-//<script>
+<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var RestDataSource_Material_IN_WAREHOUSELOT = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        }, {
-            name: "code",
-            title: "<spring:message code='material.code'/> "
-        }, {
-            name: "descl",
-            title: "<spring:message code='material.descl'/> "
-        }, {
-            name: "descp",
-            title: "<spring:message code='material.descp'/> "
-        }, {
-            name: "unitId",
-            title: "<spring:message code='MaterialFeature.unit'/>"
-        }, {
-            name: "unit.nameEN",
-            title: "<spring:message code='MaterialFeature.unit'/> "
-        },],
+        fields: [
+            {
+                name: "id",
+                title: "id",
+                primaryKey: true,
+                canEdit: false,
+                hidden: true
+            },
+            {
+                name: "code",
+                title: "<spring:message code='material.code'/> "
+            },
+            {
+                name: "descl",
+                title: "<spring:message code='material.descl'/> "
+            },
+            {
+                name: "descp",
+                title: "<spring:message code='material.descp'/> "
+            },
+            {
+                name: "unitId",
+                title: "<spring:message code='MaterialFeature.unit'/>"
+            },
+            {
+                name: "unit.nameEN",
+                title: "<spring:message code='MaterialFeature.unit'/> "
+            }
+        ],
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
@@ -37,101 +44,116 @@
     }
 
     var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        }, {
-            name: "warehouseNo",
-            title: "<spring:message code='dailyWarehouse.warehouse'/>",
-            align: "center"
-        }, {
-            name: "plant",
-            title: "<spring:message code='dailyWarehouse.plant'/>",
-            align: "center"
-        }, {
-            name: "material.descl",
-            title: "<spring:message code='goods.nameLatin'/> "
-        }, {
-            name: "lotName",
-            title: "<spring:message code='warehouseLot.lotName'/>",
-            align: "center"
-        }, {
-            name: "mo",
-            title: "<spring:message code='warehouseLot.mo'/>",
-            align: "center"
-        }, {
-            name: "cu",
-            title: "<spring:message code='warehouseLot.cu'/>",
-            align: "center"
-        }, {
-            name: "si",
-            title: "<spring:message code='warehouseLot.si'/>",
-            align: "center"
-        }, {
-            name: "pb",
-            title: "<spring:message code='warehouseLot.pb'/>",
-            align: "center"
-        }, {
-            name: "s",
-            title: "<spring:message code='warehouseLot.s'/>",
-            align: "center"
-        }, {
-            name: "c",
-            title: "<spring:message code='warehouseLot.c'/>",
-            align: "center"
-        }, {
-            name: "p",
-            title: "<spring:message code='warehouseLot.p'/>",
-            align: "center"
-        }, {
-            name: "size1",
-            title: "<spring:message code='warehouseLot.size1'/>",
-            align: "center"
-        }, {
-            name: "size1Value",
-            title: "<spring:message code='warehouseLot.size1Value'/>",
-            align: "center"
-        }, {
-            name: "size2",
-            title: "<spring:message code='warehouseLot.size2'/>",
-            align: "center"
-        }, {
-            name: "size2Value",
-            title: "<spring:message code='warehouseLot.size2Value'/>",
-            align: "center"
-        }, {
-            name: "weightKg",
-            title: "<spring:message code='warehouseLot.weightKg'/>",
-            align: "center"
-        }, {
-            name: "grossWeight",
-            title: "<spring:message code='grossWeight.weightKg'/>",
-            align: "center"
-        }, {
-            name: "contractId",
-            title: "<spring:message code='contract.id'/>",
-            align: "center"
-        }, {
-            name: "used",
-            title: "<spring:message code='contract.used'/>",
-            align: "center"
-        }, {
-            name: "bookingNo",
-            title: "bookingNo",
-            align: "center"
-        }
-
+        fields: [
+            {
+                name: "id",
+                title: "id",
+                primaryKey: true,
+                canEdit: false,
+                hidden: true
+            },
+            {
+                name: "warehouseNo",
+                title: "<spring:message code='dailyWarehouse.warehouse'/>",
+                align: "center"
+            },
+            {
+                name: "plant",
+                title: "<spring:message code='dailyWarehouse.plant'/>",
+                align: "center"
+            },
+            {
+                name: "material.descl",
+                title: "<spring:message code='goods.nameLatin'/> "
+            },
+            {
+                name: "lotName",
+                title: "<spring:message code='warehouseLot.lotName'/>",
+                align: "center"
+            },
+            {
+                name: "mo",
+                title: "<spring:message code='warehouseLot.mo'/>",
+                align: "center"
+            },
+            {
+                name: "cu",
+                title: "<spring:message code='warehouseLot.cu'/>",
+                align: "center"
+            },
+            {
+                name: "si",
+                title: "<spring:message code='warehouseLot.si'/>",
+                align: "center"
+            },
+            {
+                name: "pb",
+                title: "<spring:message code='warehouseLot.pb'/>",
+                align: "center"
+            },
+            {
+                name: "s",
+                title: "<spring:message code='warehouseLot.s'/>",
+                align: "center"
+            },
+            {
+                name: "c",
+                title: "<spring:message code='warehouseLot.c'/>",
+                align: "center"
+            },
+            {
+                name: "p",
+                title: "<spring:message code='warehouseLot.p'/>",
+                align: "center"
+            },
+            {
+                name: "size1",
+                title: "<spring:message code='warehouseLot.size1'/>",
+                align: "center"
+            },
+            {
+                name: "size1Value",
+                title: "<spring:message code='warehouseLot.size1Value'/>",
+                align: "center"
+            },
+            {
+                name: "size2",
+                title: "<spring:message code='warehouseLot.size2'/>",
+                align: "center"
+            },
+            {
+                name: "size2Value",
+                title: "<spring:message code='warehouseLot.size2Value'/>",
+                align: "center"
+            },
+            {
+                name: "weightKg",
+                title: "<spring:message code='warehouseLot.weightKg'/>",
+                align: "center"
+            },
+            {
+                name: "grossWeight",
+                title: "<spring:message code='grossWeight.weightKg'/>",
+                align: "center"
+            },
+            {
+                name: "contractId",
+                title: "<spring:message code='contract.id'/>",
+                align: "center"
+            },
+            {
+                name: "used",
+                title: "<spring:message code='contract.used'/>",
+                align: "center"
+            },
+            {
+                name: "bookingNo",
+                title: "bookingNo",
+                align: "center"
+            }
         ],
         fetchDataURL: "${contextPath}/api/warehouseLot/spec-list"
     });
-
-    var WarehouseLotData = [];
-    for (i = 0; i < 100; i++) {
-        WarehouseLotData.add({id: i});
-    }
 
     function ListGrid_WarehouseLot_edit() {
         var record = ListGrid_WarehouseLot.getSelectedRecord();
@@ -296,15 +318,12 @@
                 align: "center",
                 width: 400
             },
-
-
             {
                 name: "bookingNo",
                 title: "<spring:message code='warehouseLot.bookingNo'/>",
                 align: "center",
                 width: 400
             },
-
             {
                 name: "contractId",
                 title: "<spring:message code='contract.id'/>",
@@ -379,7 +398,7 @@
             if (data.id == null)
                 method = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${warehouseLotSaveUrl}", ///to do abouzar
+                    actionURL: "${warehouseLotSaveUrl}",
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
@@ -387,7 +406,6 @@
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             Window_WarehouseLot.close();
                             ListGrid_WarehouseLot.invalidateCache();
-                            //to do save
                         } else
                             isc.say(RpcResponse_o.data);
                     }
@@ -462,50 +480,6 @@
             title: "<spring:message code='warehouseLot.lotName'/>",
             align: "center"
         }, {
-            name: "mo",
-            title: "<spring:message code='warehouseLot.mo'/>",
-            align: "center"
-        }, {
-            name: "cu",
-            title: "<spring:message code='warehouseLot.cu'/>",
-            align: "center"
-        }, {
-            name: "si",
-            title: "<spring:message code='warehouseLot.si'/>",
-            align: "center"
-        }, {
-            name: "pb",
-            title: "<spring:message code='warehouseLot.pb'/>",
-            align: "center"
-        }, {
-            name: "s",
-            title: "<spring:message code='warehouseLot.s'/>",
-            align: "center"
-        }, {
-            name: "c",
-            title: "<spring:message code='warehouseLot.c'/>",
-            align: "center"
-        }, {
-            name: "p",
-            title: "<spring:message code='warehouseLot.p'/>",
-            align: "center"
-        }, {
-            name: "size1",
-            title: "<spring:message code='warehouseLot.size1'/>",
-            align: "center"
-        }, {
-            name: "size1Value",
-            title: "<spring:message code='warehouseLot.size1Value'/>",
-            align: "center"
-        }, {
-            name: "size2",
-            title: "<spring:message code='warehouseLot.size2'/>",
-            align: "center"
-        }, {
-            name: "size2Value",
-            title: "<spring:message code='warehouseLot.size2Value'/>",
-            align: "center"
-        }, {
             name: "weightKg",
             title: "<spring:message code='warehouseLot.weightKg'/>",
             align: "center"
@@ -539,10 +513,7 @@
             align: "center"
         },
         ],
-        sortField: 0,
         autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         canEdit: false,
         autoSaveEdits: false
     });

@@ -488,10 +488,7 @@
                     width: "50%",
                     align: "center"
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
 
     var HLayout_Port_Grid = isc.HLayout.create({

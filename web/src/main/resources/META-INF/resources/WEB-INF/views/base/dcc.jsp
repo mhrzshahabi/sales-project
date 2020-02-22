@@ -365,7 +365,6 @@
         styleName: "listgrid-child",
         dataSource: RestDataSource_Dcc,
         contextMenu: dccMenu,
-        sortField: 0,
         autoFetchData: true,
         initialCriteria: criteria,
         showFilterEditor: false,

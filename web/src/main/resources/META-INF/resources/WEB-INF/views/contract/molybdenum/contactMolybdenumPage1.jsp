@@ -319,7 +319,6 @@
                         height: "100%",
                         dataSource: RestDataSource_Contract,
                         initialCriteria: criteriaMo,
-                        showFilterEditor: true,
                         autoFetchData: true,
                         fields:
                         [

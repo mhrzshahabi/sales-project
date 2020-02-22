@@ -421,7 +421,6 @@
                 colSpan: 3,
                 titleColSpan: 1,
                 width: "100%",
-                showHover: true,
                 autoFetchData: false,
                 title: "<spring:message code='warehouseCad.tozinBandarAbbas'/>",
                 editorType: "ComboBoxItem",

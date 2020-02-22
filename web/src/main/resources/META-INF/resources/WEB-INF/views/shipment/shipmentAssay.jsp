@@ -1030,10 +1030,7 @@
         ],
         getExpansionComponent: function (record) {
         return getExpandedComponent_ShipmentByAssayHeader(record)
-        },
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        }
     });
     var HLayout_Grid_ShipmentByAssayHeader = isc.HLayout.create({
         width: "100%",
@@ -1559,9 +1556,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             showTitle: false
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {
@@ -2006,7 +2000,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                 }]
             }
         ],
-        sortField: 0,
         filterOnKeypress: true
     });
     var HLayout_Grid_ShipmentAssayItem = isc.HLayout.create({

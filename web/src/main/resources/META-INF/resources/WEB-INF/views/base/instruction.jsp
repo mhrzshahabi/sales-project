@@ -449,11 +449,7 @@ return;
                     width: "20%",
                     align: "center"
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
-
+            autoFetchData: true
         });
 
 

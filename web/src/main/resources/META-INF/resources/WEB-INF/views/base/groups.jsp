@@ -467,11 +467,7 @@
                         validateOnChange: true
                     }]
                 },],
-            sortField: 0,
             autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
             updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
@@ -655,10 +651,7 @@
                     type: 'text',
                     width: "10%"
                 }],
-            sortField: 0,
             autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
             updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
@@ -1423,9 +1416,7 @@
             }
         ],
         sortField: 2,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
+        autoFetchData: true
     });
     var HLayout_Grid_GroupsPerson = isc.HLayout.create({
         width: "100%",

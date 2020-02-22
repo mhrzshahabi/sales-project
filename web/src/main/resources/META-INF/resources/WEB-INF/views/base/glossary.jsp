@@ -317,10 +317,7 @@
                     width: "50%",
                     align: "center"
                 },],
-            sortField: 0,
             autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
             updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();

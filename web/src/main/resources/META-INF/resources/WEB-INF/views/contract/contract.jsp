@@ -465,8 +465,6 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         virtualScrolling: true,
         loadOnExpand: true,
         loaded: false,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         fields:
             [
                 {name: "id", hidden: true},

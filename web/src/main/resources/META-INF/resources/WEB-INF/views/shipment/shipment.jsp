@@ -1493,10 +1493,7 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        filterOnKeypress: true,
         autoFetchData: true,
-        showFilterEditor: true,
         getExpansionComponent: function (record) {
             if (record == null || record.id == null) {
                 isc.Dialog.create({
@@ -1720,10 +1717,7 @@
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 150},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 150}
         ],
-        sortField: 0,
         autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         selectionAppearance: "checkbox"
     });
 
@@ -2010,10 +2004,7 @@
                     width: "10%"
                 },
             ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
     var HLayout_ShipmentEmail_Grid = isc.HLayout.create({

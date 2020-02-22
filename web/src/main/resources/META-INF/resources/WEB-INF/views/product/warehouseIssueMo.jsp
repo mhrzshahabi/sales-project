@@ -544,9 +544,6 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         getExpansionComponent: function (record) {
             return getExpandedComponent_ShipmentByWarehouseIssueMo(record)
         }
@@ -1186,9 +1183,7 @@
                 showTitle: false
             }
         ],
-        sortField: 0,
         autoFetchData: false,
-        //showFilterEditor: true,
         filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,

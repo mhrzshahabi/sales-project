@@ -455,9 +455,7 @@
                 width: "10%"
             }
         ],
-        sortField: 0,
         autoFetchData: true,
-        showFilterEditor: true,
         filterOnKeypress: true,
         selectionAppearance: "checkbox"
     });
@@ -1041,7 +1039,6 @@
 
 
         ],
-        sortField: 0,
        filterOnKeypress: true,
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
@@ -1328,8 +1325,6 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
         filterOnKeypress: false,
         getExpansionComponent: function (record) {
             return getExpandedComponent_Inspection(record)

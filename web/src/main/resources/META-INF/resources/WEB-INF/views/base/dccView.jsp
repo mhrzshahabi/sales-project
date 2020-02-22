@@ -36,7 +36,6 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_DccView,
-        sortField: 0,
         autoFetchData: true,
         showFilterEditor: false,
         filterOnKeypress: true,

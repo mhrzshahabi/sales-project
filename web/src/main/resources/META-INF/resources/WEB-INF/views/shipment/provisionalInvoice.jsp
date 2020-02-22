@@ -282,7 +282,6 @@
                                     httpMethod: "POST",
                                     useSimpleHttp: true,
                                     contentType: "application/json; charset=utf-8",
-                                    showPrompt: true,
                                     serverOutputAsString: false,
                                     callback: function (RpcResponse_o) {
                                         if (RpcResponse_o.data == 'success') {
@@ -941,11 +940,7 @@
                     align: "center"
 
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
-
+            autoFetchData: true
         });
 
 

@@ -841,9 +841,7 @@
             ],
             sortField: 2,
             sortDirection: "descending",
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
+            autoFetchData: true
         });
 
     var HLayout_Grid_Person = isc.HLayout.create(

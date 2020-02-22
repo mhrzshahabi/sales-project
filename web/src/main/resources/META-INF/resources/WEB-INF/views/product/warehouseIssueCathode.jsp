@@ -531,9 +531,6 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         getExpansionComponent: function (record) {
             return getExpandedComponent_ShipmentByWarehouseIssueCathode(record)
         }
@@ -721,13 +718,10 @@
                 width: "100%",
                 height: "100%",
                 dataSource: RestDataSource_WarehouseCadITEMByWarehouseIssueCathode,
-                sortField: 0,
                 canDragRecordsOut: true,
                 dragDataAction: "copy",
                 canReorderRecords: true,
                 autoFetchData: false,
-                showFilterEditor: true,
-                filterOnKeypress: true,
                 fields: [
                     {
                         name: "warehouseCad.bijackNo",
@@ -745,13 +739,10 @@
                 height: "100%",
                 dataSource: ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode,
                 data: ClientData_WarehouseCadITEMByWarehouseIssueCathode,
-                sortField: 0,
                 canReorderRecords: true,
                 canRemoveRecords: true,
                 canAcceptDroppedRecords: true,
-                autoFetchData: false,
-                showFilterEditor: true,
-                filterOnKeypress: true
+                autoFetchData: false
             });
 
             var Window_warehouseIssueCathode_bijak = isc.Window.create({
@@ -1348,9 +1339,7 @@
                     showTitle: false
                 },
             ],
-        sortField: 0,
         autoFetchData: false,
-        // showFilterEditor: true,
         filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,

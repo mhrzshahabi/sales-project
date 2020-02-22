@@ -971,8 +971,6 @@
                 }],
             sortField: 2,
             autoFetchData: false,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             getCellCSSText: function (record, rowNum, colNum) {
                 if (this.getFieldName(colNum) == "bankAccount") {
                     if (record.isDefault == 1) {
@@ -1856,8 +1854,6 @@
                 }
 
             ],
-            sortField: 0,
-            showFilterEditor: true,
             getExpansionComponent: function (record) {
                 if (record == null || record.id == null) {
                     isc.Dialog.create({

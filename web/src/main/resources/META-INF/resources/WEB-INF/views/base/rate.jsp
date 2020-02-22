@@ -443,10 +443,7 @@
                 }
 
             ],
-            sortField: 0,
             autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             startsWithTitle: "tt"
         });
 

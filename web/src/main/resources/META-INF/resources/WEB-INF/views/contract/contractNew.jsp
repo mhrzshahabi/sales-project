@@ -185,7 +185,6 @@ var DynamicForm_ContactParameter_ValueNumber8;
                         width: "100%",
                         height: "100%",
                         dataSource: RestDataSource_Contract,
-                        showFilterEditor: true,
                         autoFetchData: true,
                         fields:
                         [

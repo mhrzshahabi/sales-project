@@ -56,10 +56,7 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ContractPerson,
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
+        autoFetchData: true
     });
 
     var HLayout_Grid_ContractPerson = isc.HLayout.create({

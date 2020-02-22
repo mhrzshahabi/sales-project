@@ -425,10 +425,7 @@
                     width: "10%",
                     align: "center"
                 },],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
 
     var HLayout_Country_Grid = isc.HLayout.create(

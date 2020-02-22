@@ -781,9 +781,6 @@
             }
         ],
         autoFetchData: true,
-        showFilterEditor: true,
-        allowFilterExpressions: true,
-        allowAdvancedCriteria: true,
         recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
         updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
             Tozin_labels_NavigationAz.setContents(this.getFocusRow() + 1);

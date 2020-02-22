@@ -160,6 +160,7 @@
         showPrompt: true,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
+        sortField: 0
     });
 
     isc.ToolStripButton.addProperties({

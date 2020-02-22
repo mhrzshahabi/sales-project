@@ -222,10 +222,7 @@
             }, {
                 name: "materialItem.gdsName",
             }],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
     var HLayout_WarehouseStock_Grid = isc.HLayout.create({

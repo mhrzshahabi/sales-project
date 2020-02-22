@@ -365,10 +365,7 @@
                     title: "<spring:message code='rate.decimalDigit'/>",
                     align: "center"
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
 
     var HLayout_Grid_Feature = isc.HLayout.create(

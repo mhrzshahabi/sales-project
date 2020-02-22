@@ -582,7 +582,6 @@
                     name: "destinationUnloadDate",
                     width: "16.66%"
                 }],
-            sortField: 0,
             getExpansionComponent: function (record) {
                 if (record == null || record.id == null) {
                     isc.Dialog.create({
