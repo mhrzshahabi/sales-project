@@ -443,8 +443,7 @@
                 }
 
             ],
-            autoFetchData: true,
-            startsWithTitle: "tt"
+            autoFetchData: true
         });
 
 

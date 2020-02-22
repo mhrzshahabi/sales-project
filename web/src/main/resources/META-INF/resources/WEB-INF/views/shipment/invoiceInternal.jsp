@@ -68,7 +68,6 @@
 
 
     function ToolStripButton_InvoiceInternal_Html_F() {
-
         var record = ListGrid_InvoiceInternal.getSelectedRecord();
         if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
@@ -119,7 +118,6 @@
     }
 
     function Menu_ListGrid_InvoiceInternal_Html_F() {
-
         var record = ListGrid_InvoiceInternal.getSelectedRecord();
         if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
@@ -289,6 +287,7 @@
                 })
             ]
     });
+
     var ListGrid_InvoiceInternal = isc.ListGrid.create({
         width: "100%",
         height: "100%",
