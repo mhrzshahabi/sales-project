@@ -43,13 +43,6 @@
     var RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
             {
-                name: "id",
-                title: "id",
-                primaryKey: true,
-                canEdit: false,
-                hidden: true
-            },
-            {
                 name: "source",
                 title: "<spring:message code='Tozin.source'/>",
                 align: "center"
@@ -706,7 +699,7 @@
                     callback: function (resp) {
                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
-                            ListGrid_Tozin_refresh();
+                            ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
                             Window_Bijack.close();
                         } else
                             isc.say(RpcResponse_o.data);

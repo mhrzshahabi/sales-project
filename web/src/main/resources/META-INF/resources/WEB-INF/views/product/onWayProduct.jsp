@@ -5,8 +5,8 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    function ListGrid_Tozin_refresh() {
-        ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache(RestDataSource_TozinInitialCriteria);
+    function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
+        ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
     }
 
     var RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
@@ -190,7 +190,7 @@
                 align: "center"
             }
         ],
-        fetchDataURL: "${contextPath}/api/tozin/spec-list"
+        fetchDataURL: "${contextPath}/api/tozin/on-way-product/spec-list"
     });
 
     var RestDataSource_MaterialItem_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
@@ -424,7 +424,7 @@
         icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
-            ListGrid_Tozin_refresh();
+            ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
         }
     });
 
@@ -486,7 +486,7 @@
             const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getCriteria();
             const criterias = [];
             filterEditorCriteria.criteria.forEach(function (key, index) {
-                if (key.fieldName.toString() != 'onWayProduct') criterias.add(key);
+                criterias.add(key);
             });
             filterEditorCriteria.criteria = criterias;
             const criteria = JSON.stringify(filterEditorCriteria);
@@ -511,11 +511,6 @@
                     _constructor: "AdvancedCriteria",
                     operator: "and",
                     criteria: [
-                        {
-                            fieldName: "onWayProduct",
-                            operator: "contains",
-                            value: ''
-                        },
                         {
                             fieldName: "tozinDate",
                             operator: "greaterOrEqual",
@@ -555,11 +550,6 @@
                     _constructor: "AdvancedCriteria",
                     operator: "and",
                     criteria: [
-                        {
-                            fieldName: "onWayProduct",
-                            operator: "contains",
-                            value: ''
-                        },
                         {
                             fieldName: "tozinDate",
                             operator: "greaterOrEqual",
@@ -643,11 +633,6 @@
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {
-                fieldName: "onWayProduct",
-                operator: "contains",
-                value: ''
-            },
             {
                 fieldName: "tozinDate",
                 operator: "greaterOrEqual",
