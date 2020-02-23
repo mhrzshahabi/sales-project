@@ -28,7 +28,6 @@ public class CathodeListDTO {
     @Accessors(chain = true)
     @ApiModel("CatodListInfo")
     public static class Info extends CathodeListDTO {
-        private Long id;
     }
 
     @Getter

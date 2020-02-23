@@ -30,18 +30,11 @@
     });
 
     function ListGrid_Tozin_refresh() {
-        ListGrid_Tozin.invalidateCache();
+        ListGrid_Tozin_IN_TOZIN.invalidateCache();
     }
 
     var RestDataSource_Tozin = isc.MyRestDataSource.create({
         fields: [
-            {
-                name: "id",
-                title: "id",
-                primaryKey: true,
-                canEdit: false,
-                hidden: true
-            },
             {
                 name: "source",
                 title: "<spring:message code='Tozin.source'/>",
@@ -372,18 +365,11 @@
             ]
     });
 
-    var ListGrid_Tozin = isc.ListGrid.create({
+    var ListGrid_Tozin_IN_TOZIN = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Tozin,
         fields: [
-            {
-                name: "id",
-                title: "id",
-                primaryKey: true,
-                canEdit: false,
-                hidden: true
-            },
             {
                 name: "plak",
                 title: "<spring:message code='Tozin.plak'/>",
@@ -438,8 +424,8 @@
             Tozin_labels_NavigationAz.setContents(this.getFocusRow() + 1);
         },
         dataArrived: function (startRow, endRow) {
-            Tozin_labels_NavigationTa.setContents(ListGrid_Tozin.getData().getLength());
-            if (ListGrid_Tozin.getRecord(0) != null) {
+            Tozin_labels_NavigationTa.setContents(ListGrid_Tozin_IN_TOZIN.getData().getLength());
+            if (ListGrid_Tozin_IN_TOZIN.getRecord(0) != null) {
                 Tozin_labels_NavigationAz.setContents(startRow + 1);
             } else
                 Tozin_labels_NavigationAz.setContents("0");
@@ -452,7 +438,7 @@
         height: "100%",
         members: [
             HLayout_Tozin_labels,
-            ListGrid_Tozin
+            ListGrid_Tozin_IN_TOZIN
         ]
     });
 

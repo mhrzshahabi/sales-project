@@ -16,47 +16,47 @@ import javax.persistence.*;
 @Table(name = "TBL_WAREHOUSE_STOCK")
 public class WarehouseStock extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WAREHOUSE_STOCK")
-	@SequenceGenerator(name = "SEQ_WAREHOUSE_STOCK", sequenceName = "SEQ_WAREHOUSE_STOCK", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WAREHOUSE_STOCK")
+    @SequenceGenerator(name = "SEQ_WAREHOUSE_STOCK", sequenceName = "SEQ_WAREHOUSE_STOCK", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "WAREHOUSE_NO")
-	private String warehouseNo;
+    @Column(name = "WAREHOUSE_NO")
+    private String warehouseNo;
 
-	@Column(name = "PLANT")
-	private String plant;
+    @Column(name = "PLANT")
+    private String plant;
 
-	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseStock2yard"))
-	private WarehouseYard warehouseYard;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "WarehouseStock2yard"))
+    private WarehouseYard warehouseYard;
 
-	@Column(name = "YARD_ID")
-	private Long warehouseYardId;
+    @Column(name = "YARD_ID")
+    private Long warehouseYardId;
 
-	@Column(name = "SHEET")
-	private Long sheet;
+    @Column(name = "SHEET")
+    private Long sheet;
 
-	@Column(name = "BUNDLE")
-	private Long bundle;
+    @Column(name = "BUNDLE")
+    private Long bundle;
 
-	@Column(name = "AMOUNT")
-	private Double amount;
+    @Column(name = "AMOUNT")
+    private Double amount;
 
-	@Column(name = "BARREL")
-	private Long barrel;
+    @Column(name = "BARREL")
+    private Long barrel;
 
-	@Column(name = "LOT")
-	private Long lot;
+    @Column(name = "LOT")
+    private Long lot;
 
-	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ITEM_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseStock2matherialitem"))
-	private MaterialItem materialItem;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MATERIAL_ITEM_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "WarehouseStock2matherialitem"))
+    private MaterialItem materialItem;
 
-	@Column(name = "MATERIAL_ITEM_ID")
-	private Long materialItemId;
+    @Column(name = "MATERIAL_ITEM_ID")
+    private Long materialItemId;
 
 }

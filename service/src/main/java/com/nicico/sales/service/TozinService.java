@@ -6,11 +6,9 @@ import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinDTO;
 import com.nicico.sales.iservice.ITozinService;
 import com.nicico.sales.model.entities.base.MaterialItem;
-import com.nicico.sales.model.entities.base.Tozin;
 import com.nicico.sales.model.entities.base.WarehouseCad;
 import com.nicico.sales.repository.MaterialItemDAO;
 import com.nicico.sales.repository.TozinDAO;
@@ -18,7 +16,6 @@ import com.nicico.sales.repository.WarehouseCadDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +64,7 @@ public class TozinService implements ITozinService {
                 log.error("searchTozinOnTheWay error: {}", e.getMessage());
             }
         });
-        MaterialItem materialItem = materialItemDAO.findByGdsCode(new Long(fetchedData.get("codeKala").toString()) );
+        MaterialItem materialItem = materialItemDAO.findByGdsCode(new Long(fetchedData.get("codeKala").toString()));
 
         Set<WarehouseCad> bijacks = warehouseCadDAO.getAllByMaterialItemId(materialItem.getId());
 

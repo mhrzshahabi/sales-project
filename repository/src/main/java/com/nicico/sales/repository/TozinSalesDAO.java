@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TozinSalesDAO extends JpaRepository<TozinSales, Long>, JpaSpecificationExecutor<TozinSales> {
+public interface TozinSalesDAO extends JpaRepository<TozinSales, TozinSales.TozinSalesId>, JpaSpecificationExecutor<TozinSales> {
 
 }

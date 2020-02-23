@@ -1,7 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.TozinSalesId;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
@@ -18,7 +19,7 @@ import javax.persistence.IdClass;
 @Entity
 @Immutable
 @Subselect("select * from n_master.v_tozine_content_b")
-@IdClass(TozinSalesId.class)
+@IdClass(TozinSales.TozinSalesId.class)
 public class TozinSales {
 
     @Id
@@ -88,5 +89,20 @@ public class TozinSales {
     private String carNo3;
     @Column(name = "HAVCODE")
     private String haveCode;
+
+    @EqualsAndHashCode(callSuper = false)
+    public static class TozinSalesId implements Serializable {
+        private String customer;
+        private String source;
+        private String tozinId;
+        private String nameKala;
+        private Long codeKala;
+        private String cardId;
+        private String target;
+        private String carName;
+        private String carNo1;
+        private String seller;
+        private String isFinal;
+    }
 
 }

@@ -57,7 +57,7 @@ import javax.persistence.Id;
                 "cust_codenosa" +
                 " FROM" +
                 " n_master.view_innersalesforsalse vi" +
-                " INNER JOIN n_master.customer1tbl mc ON mc.cust_id = vi.customerid"+
+                " INNER JOIN n_master.customer1tbl mc ON mc.cust_id = vi.customerid" +
                 " WHERE vi.inv_id NOT IN (select ti.INV_ID from TBL_INVOICEINTERNALDOCUMENT ti)"
 )
 public class InvoiceInternal {

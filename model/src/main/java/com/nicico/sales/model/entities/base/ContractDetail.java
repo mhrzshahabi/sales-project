@@ -28,10 +28,10 @@ public class ContractDetail extends Auditable {
     private Long ID;
 
     @Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotAudited
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "contractDetail2contract"))
-	private Contract contract;
+    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contractDetail2contract"))
+    private Contract contract;
 
     @Column(name = "CONTRACT_ID")
     private Long contract_id;

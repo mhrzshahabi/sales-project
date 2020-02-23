@@ -53,7 +53,6 @@ public class TozinSalesDTO {
     @Accessors(chain = true)
     @ApiModel("TozinSalesInfo")
     public static class Info extends TozinSalesDTO {
-        private Long id;
     }
 
     @Getter

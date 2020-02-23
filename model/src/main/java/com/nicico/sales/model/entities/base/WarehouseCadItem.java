@@ -13,9 +13,9 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_WAREHOUSE_CAD_ITEM" , indexes = {
-    @Index(columnList = "ISSUE_ID", name = "WAREHOUSECADITEM_IDX_ISSUEID")
-    })
+@Table(name = "TBL_WAREHOUSE_CAD_ITEM", indexes = {
+        @Index(columnList = "ISSUE_ID", name = "WAREHOUSECADITEM_IDX_ISSUEID")
+})
 public class WarehouseCadItem extends Auditable {
 
     @Id
@@ -47,7 +47,7 @@ public class WarehouseCadItem extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "WAREHOUSE_CAD_ID", insertable = false,updatable = false ,foreignKey = @ForeignKey(name = "WAREHOUSECADITEM2w_c_header"))
+    @JoinColumn(name = "WAREHOUSE_CAD_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "WAREHOUSECADITEM2w_c_header"))
     private WarehouseCad warehouseCad;
 
     @Column(name = "WAREHOUSE_CAD_ID")

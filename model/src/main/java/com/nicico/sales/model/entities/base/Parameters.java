@@ -16,22 +16,22 @@ import javax.persistence.*;
 @Table(name = "TBL_PARAMETER")
 public class Parameters extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PARAMETER")
-	@SequenceGenerator(name = "SEQ_PARAMETER", sequenceName = "SEQ_PARAMETER", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PARAMETER")
+    @SequenceGenerator(name = "SEQ_PARAMETER", sequenceName = "SEQ_PARAMETER", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "PARAM_NAME", nullable = false)
-	private String paramName;
+    @Column(name = "PARAM_NAME", nullable = false)
+    private String paramName;
 
-	@Column(name = "PARAM_Value", nullable = false)
-	private String paramValue;
+    @Column(name = "PARAM_Value", nullable = false)
+    private String paramValue;
 
-	@Column(name = "CONTRACT_ID", nullable = false)
-	private Integer contractId;
+    @Column(name = "CONTRACT_ID", nullable = false)
+    private Integer contractId;
 
-	@Column(name = "CATEGORY_VALUE", nullable = false)
-	private Integer categoryValue;
+    @Column(name = "CATEGORY_VALUE", nullable = false)
+    private Integer categoryValue;
 
 }

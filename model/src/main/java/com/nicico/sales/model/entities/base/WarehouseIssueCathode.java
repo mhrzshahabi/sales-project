@@ -16,43 +16,43 @@ import javax.persistence.*;
 @Table(name = "TBL_WAREHOUSE_ISSUE_CATHODE")
 public class WarehouseIssueCathode extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ISSUE")
-	@SequenceGenerator(name = "SEQ_ISSUE", sequenceName = "SEQ_ISSUE", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ISSUE")
+    @SequenceGenerator(name = "SEQ_ISSUE", sequenceName = "SEQ_ISSUE", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@Setter(AccessLevel.NONE)
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseissueCad2shipment"))
-	private Shipment Shipment;
+    @Setter(AccessLevel.NONE)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "WarehouseissueCad2shipment"))
+    private Shipment Shipment;
 
-	@Column(name = "SHIPMENT_ID")
-	private Long shipmentId;
+    @Column(name = "SHIPMENT_ID")
+    private Long shipmentId;
 
-	@Column(name = "BIJAK",length=300)
-	private String bijak;
+    @Column(name = "BIJAK", length = 300)
+    private String bijak;
 
-	@Column(name = "BIJAK_IDS",length = 4000)
-	private String bijakIds;
+    @Column(name = "BIJAK_IDS", length = 4000)
+    private String bijakIds;
 
-	@Column(name = "CONTAINER_NO",length = 50)
-	private String containerNo;
+    @Column(name = "CONTAINER_NO", length = 50)
+    private String containerNo;
 
-	@Column(name = "AMOUNT_CUSTOM")
-	private Double amountCustom;
+    @Column(name = "AMOUNT_CUSTOM")
+    private Double amountCustom;
 
-	@Column(name = "AMOUNT_PMS")
-	private Double amountPms;
+    @Column(name = "AMOUNT_PMS")
+    private Double amountPms;
 
-	@Column(name = "SEALED_CUSTOM",length = 50)
-	private String sealedCustom;
+    @Column(name = "SEALED_CUSTOM", length = 50)
+    private String sealedCustom;
 
-	@Column(name = "SEALED_SHIP",length = 50)
-	private String sealedShip;
+    @Column(name = "SEALED_SHIP", length = 50)
+    private String sealedShip;
 
-	@Column(name = "EMPTY_WEIGHT")
-	private Double emptyWeight;
+    @Column(name = "EMPTY_WEIGHT")
+    private Double emptyWeight;
 
     @Column(name = "BUNDLE")
     private String bundle;
@@ -60,7 +60,7 @@ public class WarehouseIssueCathode extends Auditable {
     @Column(name = "SHEET")
     private String sheet;
 
-	@Column(name = "TOTAL_AMOUNT")
-	private Double totalAmount;
+    @Column(name = "TOTAL_AMOUNT")
+    private Double totalAmount;
 
 }

@@ -16,13 +16,13 @@ import javax.persistence.*;
 @Table(name = "TBL_GROUPS")
 public class Groups extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_GROUPS")
-	@SequenceGenerator(name = "SEQ_GROUPS", sequenceName = "SEQ_GROUPS", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_GROUPS")
+    @SequenceGenerator(name = "SEQ_GROUPS", sequenceName = "SEQ_GROUPS", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "GROUPS_NAME", nullable = false, length = 200)
-	private String groupsName;
+    @Column(name = "GROUPS_NAME", nullable = false, length = 200)
+    private String groupsName;
 
 }

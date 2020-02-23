@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import java.util.List;
 
 @Getter
@@ -58,7 +56,19 @@ public class TozinDTO {
     @Accessors(chain = true)
     @ApiModel("TozinInfo")
     public static class Info extends TozinDTO {
-        private Long id;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class TozinIdDTO {
+        private String source;
+        private String tozinId;
+        private String nameKala;
+        private Long codeKala;
+        private String target;
+        private String cardId;
     }
 
     @Getter

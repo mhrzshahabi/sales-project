@@ -245,7 +245,7 @@
         }, {
             fieldName: "codeKala",
             operator: "equals",
-            value: ListGrid_Tozin.getSelectedRecord().codeKala
+            value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala
         }]
     };
 
@@ -325,7 +325,7 @@
                     }, {
                         fieldName: "codeKala",
                         operator: "equals",
-                        value: ListGrid_Tozin.getSelectedRecord().codeKala
+                        value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala
                     }, {
                         fieldName: "tozinId",
                         operator: "equals",
@@ -644,7 +644,7 @@
             DynamicForm_warehouseCAD.validate();
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
-            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
+            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
             if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") != undefined)
                 data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")
@@ -719,7 +719,7 @@
     ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
     var criteria_catod = {
         _constructor: "AdvancedCriteria", operator: "and",
-        criteria: [{fieldName: "tozinId", operator: "equals", value: ListGrid_Tozin.getSelectedRecord().tozinId}]
+        criteria: [{fieldName: "tozinId", operator: "equals", value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId}]
     };
 
     RestDataSource_CatodList.fetchData(criteria_catod,
@@ -736,18 +736,18 @@
 
     DynamicForm_warehouseCAD.clearValues();
 
-    DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().nameKala);
-    DynamicForm_warehouseCAD.setValue("plant", ListGrid_Tozin.getSelectedRecord().source);
+    DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().nameKala);
+    DynamicForm_warehouseCAD.setValue("plant", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().source);
     DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
     DynamicForm_warehouseCAD.setValue("movementType", DynamicForm_DailyReport_Tozin4.getValues().type);
-    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_Tozin.getSelectedRecord().tozinId);
-    DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin.getSelectedRecord().tozinDate);
-    DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin.getSelectedRecord().containerId);
-    DynamicForm_warehouseCAD.setValue("sourceBundleSum", ListGrid_Tozin.getSelectedRecord().tedad);
-    DynamicForm_warehouseCAD.setValue("sourceWeight", ListGrid_Tozin.getSelectedRecord().vazn);
+    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId);
+    DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinDate);
+    DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);
+    DynamicForm_warehouseCAD.setValue("sourceBundleSum", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tedad);
+    DynamicForm_warehouseCAD.setValue("sourceWeight", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().vazn);
 
-    DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_Tozin.getSelectedRecord().strSharh2);
-    DynamicForm_warehouseCAD_Desc.setValue("bijakSecondDescription", ListGrid_Tozin.getSelectedRecord().ctrlDescOut);
+    DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().strSharh2);
+    DynamicForm_warehouseCAD_Desc.setValue("bijakSecondDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().ctrlDescOut);
 
     isc.VLayout.create({
         width: 830,

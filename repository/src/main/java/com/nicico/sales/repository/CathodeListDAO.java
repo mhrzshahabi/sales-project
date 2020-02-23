@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CathodeListDAO extends JpaRepository<CathodeList, Long>, JpaSpecificationExecutor<CathodeList> {
+public interface CathodeListDAO extends JpaRepository<CathodeList, CathodeList.CathodeListId>, JpaSpecificationExecutor<CathodeList> {
 
 }

@@ -1,13 +1,17 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.CathodeListId;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
@@ -15,7 +19,7 @@ import javax.persistence.*;
 @Entity
 @Immutable
 @Subselect("select * from N_MASTER.V_CATODLISTFOREXPORT")
-@IdClass(CathodeListId.class)
+@IdClass(CathodeList.CathodeListId.class)
 public class CathodeList {
 
     @Id
@@ -49,5 +53,17 @@ public class CathodeList {
     @Id
     @Column(name = "GDSCODE")
     private Long gdsCode;
+
+    @EqualsAndHashCode(callSuper = false)
+    public static class CathodeListId implements Serializable {
+        private String storeId;
+        private String tozinId;
+        private String productId;
+        private String productLabel;
+        private Long wazn;
+        private Long sheetNumber;
+        private Long packingTypeId;
+        private Long gdsCode;
+    }
 
 }

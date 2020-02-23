@@ -231,7 +231,7 @@
         }, {
             fieldName: "codeKala",
             operator: "equals",
-            value: ListGrid_Tozin.getSelectedRecord().codeKala
+            value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala
         }]
     };
 
@@ -311,7 +311,7 @@
                             },{
                                 fieldName: "codeKala",
                                 operator: "equals",
-                                value: ListGrid_Tozin.getSelectedRecord().codeKala
+                                value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala
                             },{
                                 fieldName: "tozinId",
                                 operator: "equals",
@@ -566,7 +566,7 @@
             if (DynamicForm_warehouseCAD.hasErrors())
                 return;
 
-            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().codeKala);
+            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala);
             var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
                  if(DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") != undefined)
                         data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")
@@ -633,14 +633,14 @@
 
     ListGrid_WarehouseCadItem.setData([]);
     DynamicForm_warehouseCAD.clearValues();
-    DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin.getSelectedRecord().nameKala);
-    DynamicForm_warehouseCAD.setValue("plant", ListGrid_Tozin.getSelectedRecord().source);
+    DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().nameKala);
+    DynamicForm_warehouseCAD.setValue("plant", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().source);
     DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
     DynamicForm_warehouseCAD.setValue("movementType", DynamicForm_DailyReport_Tozin4.getValues().type);
-    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_Tozin.getSelectedRecord().tozinId);
-    DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin.getSelectedRecord().tozinDate);
-    DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin.getSelectedRecord().containerId);
-    DynamicForm_warehouseCAD.setValue("sourceWeight", ListGrid_Tozin.getSelectedRecord().vazn);
+    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId);
+    DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinDate);
+    DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);
+    DynamicForm_warehouseCAD.setValue("sourceWeight", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().vazn);
 
 
     isc.VLayout.create({
@@ -653,7 +653,7 @@
             add_bundle_button,
             ListGrid_WarehouseCadItem,
             isc.HLayout.create({
-                     width: "100%",
+                width: "100%",
                 align: "center",
                 margin: 10,
                 padding: 20,

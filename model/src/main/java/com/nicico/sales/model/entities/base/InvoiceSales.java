@@ -19,7 +19,7 @@ public class InvoiceSales extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INVOICE_SALES")
-	@SequenceGenerator(name = "SEQ_INVOICE_SALES", sequenceName = "SEQ_INVOICE_SALES", allocationSize = 1)
+    @SequenceGenerator(name = "SEQ_INVOICE_SALES", sequenceName = "SEQ_INVOICE_SALES", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 

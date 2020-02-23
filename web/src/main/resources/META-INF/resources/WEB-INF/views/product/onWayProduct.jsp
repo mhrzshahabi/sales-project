@@ -6,18 +6,11 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     function ListGrid_Tozin_refresh() {
-        ListGrid_Tozin.invalidateCache();
+        ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache(RestDataSource_TozinInitialCriteria);
     }
 
     var RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
-            {
-                name: "id",
-                title: "id",
-                primaryKey: true,
-                canEdit: false,
-                hidden: true
-            },
             {
                 name: "source",
                 title: "<spring:message code='Tozin.source'/>",
@@ -382,7 +375,7 @@
             title: "<spring:message code='bijack'/>",
             icon: "product/warehouses.png",
             click: function () {
-                var record = ListGrid_Tozin.getSelectedRecord();
+                var record = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord();
                 if (record.codeKala == 9 || record.codeKala == 10 || record.codeKala == 11 ||
                     record.codeKala == 114 || record.codeKala == 129 || record.codeKala == 86 ||
                     record.codeKala == 90 || record.codeKala == 95) {
@@ -455,7 +448,7 @@
         icon: "[SKIN]/actions/excel-512.png",
         title: "<spring:message code='global.form.export'/>",
         click: function () {
-            const fieldsGrid = ListGrid_Tozin.getFields().filter(
+            const fieldsGrid = ListGrid_Tozin_IN_ONWAYPRODUCT.getFields().filter(
                 function (q) {
                     return q.name.toString().toLowerCase() != 'grouptitle'
                 });
@@ -490,7 +483,7 @@
                 "------ واحد تولیدی: " + vahed_tolidi +
                 "------ نوع حمل: " + movementType;
 
-            const filterEditorCriteria = ListGrid_Tozin.getCriteria();
+            const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getCriteria();
             const criterias = [];
             filterEditorCriteria.criteria.forEach(function (key, index) {
                 if (key.fieldName.toString() != 'onWayProduct') criterias.add(key);
@@ -600,7 +593,7 @@
                     ]
                 };
             }
-            ListGrid_Tozin.fetchData(criteria);
+            ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteria);
         }
     });
 
@@ -688,8 +681,7 @@
         ]
     };
 
-    var ListGrid_Tozin = isc.ListGrid.create({
-        ID: "export_Tozin",
+    var ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
         alternateRecordStyles: true,
         width: "100%",
         height: "100%",
@@ -697,13 +689,6 @@
         initialCriteria: RestDataSource_TozinInitialCriteria,
         contextMenu: Menu_ListGrid_Tozin,
         fields: [
-            {
-                name: "id",
-                title: "id",
-                primaryKey: true,
-                canEdit: false,
-                hidden: true
-            },
             {
                 name: "plak",
                 title: "<spring:message code='Tozin.plak'/>",
@@ -786,8 +771,8 @@
             Tozin_labels_NavigationAz.setContents(this.getFocusRow() + 1);
         },
         dataArrived: function (startRow, endRow) {
-            Tozin_labels_NavigationTa.setContents(ListGrid_Tozin.getData().getLength());
-            if (ListGrid_Tozin.getRecord(0) != null) {
+            Tozin_labels_NavigationTa.setContents(ListGrid_Tozin_IN_ONWAYPRODUCT.getData().getLength());
+            if (ListGrid_Tozin_IN_ONWAYPRODUCT.getRecord(0) != null) {
                 Tozin_labels_NavigationAz.setContents(startRow + 1);
             } else
                 Tozin_labels_NavigationAz.setContents("0");
@@ -800,7 +785,7 @@
         height: "100%",
         members: [
             HLayout_Tozin_labels,
-            ListGrid_Tozin
+            ListGrid_Tozin_IN_ONWAYPRODUCT
         ]
     });
     isc.VLayout.create({

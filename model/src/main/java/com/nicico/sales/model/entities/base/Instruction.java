@@ -16,19 +16,19 @@ import javax.persistence.*;
 @Table(name = "TBL_INSTRUCTION")
 public class Instruction extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INSTRUCTION")
-	@SequenceGenerator(name = "SEQ_INSTRUCTION", sequenceName = "SEQ_INSTRUCTION", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INSTRUCTION")
+    @SequenceGenerator(name = "SEQ_INSTRUCTION", sequenceName = "SEQ_INSTRUCTION", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "TITLE_Instruction", nullable = false, length = 4000)
-	private String titleInstruction;
+    @Column(name = "TITLE_Instruction", nullable = false, length = 4000)
+    private String titleInstruction;
 
-	@Column(name = "DISABLE_DATE", nullable = false, length = 200)
-	private String disableDate;
+    @Column(name = "DISABLE_DATE", nullable = false, length = 200)
+    private String disableDate;
 
-	@Column(name = "RUN_DATE", nullable = false, length = 200)
-	private String runDate;
+    @Column(name = "RUN_DATE", nullable = false, length = 200)
+    private String runDate;
 
 }
