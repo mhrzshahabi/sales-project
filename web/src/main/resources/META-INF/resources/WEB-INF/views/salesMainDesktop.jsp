@@ -167,10 +167,14 @@
             canDragResize: true,
             autoFitWidth: true,
             headerTitle: "<spring:message code='contractItem.itemRow'/>"
-        },
+        }
     });
 
     isc.Menu.addProperties({
+        showRowNumbers: false
+    });
+
+    isc.PickListMenu.addProperties({
         showRowNumbers: false
     });
 
@@ -182,6 +186,7 @@
         disabledCursor: "not-allowed",
         border: "1px solid lightblue"
     });
+
     isc.ToolStripMenuButton.addProperties({
         showDownIcon: false,
         showSelectedIcon: false,
@@ -241,7 +246,6 @@
     });
 
     logoutButton = isc.IButton.create({
-
         width: "80",
         baseStyle: "header-logout",
         title: "<span><spring:message code='global.exit'/><span>",
