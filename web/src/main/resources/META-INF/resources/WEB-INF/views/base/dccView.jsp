@@ -38,7 +38,6 @@
         dataSource: RestDataSource_DccView,
         autoFetchData: true,
         showFilterEditor: false,
-        filterOnKeypress: true,
         fields:
             [
                 {name: "id", hidden: true},

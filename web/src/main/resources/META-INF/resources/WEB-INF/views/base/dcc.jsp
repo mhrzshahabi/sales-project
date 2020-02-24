@@ -368,7 +368,6 @@
         autoFetchData: true,
         initialCriteria: criteria,
         showFilterEditor: false,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         fields:

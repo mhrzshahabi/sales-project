@@ -217,50 +217,6 @@
         fetchDataURL: "${contextPath}/api/tozin/spec-list"
     });
 
-    var HLayout_Tozin_labels = isc.HLayout.create({
-        width: "100%",
-        layoutMargin: 5,
-        height: 22,
-        showEdges: false,
-        members: [
-            isc.Label.create({
-                width: 10
-            }),
-            isc.Label.create({
-                width: "100%"
-            }),
-            isc.Label.create({
-                contents: "<spring:message code='global.record'/>",
-                align: "center",
-                width: 50,
-                height: 22
-            }),
-            isc.Label.create({
-                ID: "Tozin_labels_NavigationAz",
-                contents: "0",
-                border: "1px blue solid",
-                align: "center",
-                width: 40,
-                height: 22
-            }),
-            isc.Label.create({
-                contents: "از",
-                align: "center",
-                width: 50,
-                height: 22
-            }),
-
-            isc.Label.create({
-                ID: "Tozin_labels_NavigationTa",
-                border: "1px blue solid",
-                align: "center",
-                contents: "0",
-                width: 40,
-                height: 22
-            })
-        ]
-    });
-
     var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
         width: "200",
         wrapItemTitles: false,
@@ -284,7 +240,7 @@
                     displayDatePicker('toDayDate', this, 'ymd', '/');
                 }
             }],
-            defaultValue: "1398/01/26",
+            defaultValue: "1398/10/26",
         },]
     });
 
@@ -414,30 +370,16 @@
             {
                 name: "tozinDate",
                 title: "<spring:message code='Tozin.tozinDate'/>",
-                width: "10%",
+                width: "10%"
             }
         ],
-        autoFetchData: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            Tozin_labels_NavigationAz.setContents(this.getFocusRow() + 1);
-        },
-        dataArrived: function (startRow, endRow) {
-            Tozin_labels_NavigationTa.setContents(ListGrid_Tozin_IN_TOZIN.getData().getLength());
-            if (ListGrid_Tozin_IN_TOZIN.getRecord(0) != null) {
-                Tozin_labels_NavigationAz.setContents(startRow + 1);
-            } else
-                Tozin_labels_NavigationAz.setContents("0");
-        }
-
+        autoFetchData: true
     });
 
     var VLayout_conc = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Tozin_labels,
             ListGrid_Tozin_IN_TOZIN
         ]
     });

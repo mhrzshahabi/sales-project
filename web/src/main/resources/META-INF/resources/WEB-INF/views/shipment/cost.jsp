@@ -1368,7 +1368,6 @@
                 }
             ],
         autoFetchData: false,
-        filterOnKeypress: true,
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "editIcon") {

@@ -1184,7 +1184,6 @@
             }
         ],
         autoFetchData: false,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {

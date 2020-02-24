@@ -441,20 +441,7 @@
                     width: "50%",
                     align: "center"
                 }],
-            autoFetchData: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                var record = this.getSelectedRecord();
-                ListGrid_ParametersFeature.fetchData(
-                    {
-                        "tblParameters.id": record.id
-                    }, function (dsResponse, data, dsRequest) {
-                        ListGrid_ParametersFeature.setData(data);
-                    },
-                    {
-                        operationId: "00"
-                    });
-            }
+            autoFetchData: true
         });
 
     var HLayout_Parameters_Grid = isc.HLayout.create(

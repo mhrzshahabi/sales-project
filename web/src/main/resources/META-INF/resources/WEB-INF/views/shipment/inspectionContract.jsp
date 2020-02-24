@@ -456,7 +456,6 @@
             }
         ],
         autoFetchData: true,
-        filterOnKeypress: true,
         selectionAppearance: "checkbox"
     });
 
@@ -589,7 +588,6 @@
         height: "100%",
         layoutMargin: 30,
         membersMargin: 5,
-        ``
         align: "center",
         members: [
             IButton_InspectionContract_Save,
@@ -1039,7 +1037,6 @@
 
 
         ],
-       filterOnKeypress: true,
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "removeIcon") {
@@ -1325,7 +1322,6 @@
                 showHover: true
             }
         ],
-        filterOnKeypress: false,
         getExpansionComponent: function (record) {
             return getExpandedComponent_Inspection(record)
         }

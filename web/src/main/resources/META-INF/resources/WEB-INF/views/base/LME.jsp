@@ -523,20 +523,7 @@
                     width: "15%",
                     align: "center"
                 }],
-            autoFetchData: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                var record = this.getSelectedRecord();
-                ListGrid_LMEFeature.fetchData(
-                    {
-                        "lME.id": record.id
-                    }, function (dsResponse, data, dsRequest) {
-                        ListGrid_LMEFeature.setData(data);
-                    },
-                    {
-                        operationId: "00"
-                    });
-            }
+            autoFetchData: true
         });
 
     var HLayout_LME_Grid = isc.HLayout.create({

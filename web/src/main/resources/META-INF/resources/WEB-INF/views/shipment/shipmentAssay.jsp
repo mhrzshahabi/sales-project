@@ -1999,8 +1999,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             }
-        ],
-        filterOnKeypress: true
+        ]
     });
     var HLayout_Grid_ShipmentAssayItem = isc.HLayout.create({
         width: "100%",
