@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.InvoiceNosa;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;

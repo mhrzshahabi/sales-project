@@ -161,25 +161,6 @@
 
     function ListGrid_InvoiceSales_edit() {
 
-        ///////////////////////////////////////////////////////////
-
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
-                                {
-                                    actionURL: "${contextPath}/api/invoiceSales/invoiceSales-Params",
-                                    httpMethod: "GET",
-                                    callback: function (resp) {
-                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                            console.log("Done!!!!!")
-                                            isc.say("OK :)))");
-                                        }
-                                        else {
-                                            isc.say("Not OK :(((");
-                                        }
-                                    }
-                                }));
-
-        ///////////////////////////////////////////////////////////
-
         var record = ListGrid_invoiceSales.getSelectedRecord();
 
         if (record == null || record.id == null) {
@@ -307,7 +288,7 @@
                 <%--</sec:authorize>--%>
             ]
         });
-alert("@@")
+
     var DynamicForm_invoiceSales = isc.DynamicForm.create(
         {
             width: 700,
@@ -360,27 +341,30 @@ alert("@@")
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
-                    pickListProperties: {
-                        showFilterEditor: true
-                    },
-                    pickListFields: [
+                    valueField: "id",
+                    <%--cachePickListResults: false,--%>
+                    <%--pickListProperties: {--%>
+                        <%--showFilterEditor: true--%>
+                    <%--},--%>
+                    <%--pickListFields: [--%>
                     <%--{--%>
-                        <%--name: "id",--%>
+                        <%--name: "detailName",--%>
                         <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
                     <%--},--%>
-                    {
-                        name: "detailName",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
-                    },
                     <%--{--%>
-                        <%--name: "childrenDigitCount",--%>
+                        <%--name: "code",--%>
                         <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    {
-                        name: "code",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    <%--}--%>
+                    <%--],--%>
+                    changed: function (form, item, value) {
+
+                    if (value != null && value != 'undefined') {
+                        var detName =(form.getItem("customerId")).getSelectedRecord().detailName;
+                        (form.getItem("customerName")).setValue(detName);
                     }
-                    ],
+                    else
+                        (form.getItem("customerName")).setValue("");
+                    },
                 },
                 {
                     name: "customerName",
@@ -392,16 +376,32 @@ alert("@@")
                     name: "salesTypeId",
                     title: "<spring:message code='invoiceSales.salesTypeId'/>",
                     editorType: "SelectItem",
-                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
-                    // pickListProperties: {
-                    //     showFilterEditor: true
-                    // },
-                    // pickListFields: [
-                    //     {
-                    //         name: "id",
-                    //         align: "center"
-                    //     },
-                    // ],
+                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    displayField: "code",
+                    valueField: "id",
+                    <%--cachePickListResults: false,--%>
+                    <%--pickListProperties: {--%>
+                        <%--showFilterEditor: true--%>
+                    <%--},--%>
+                    <%--pickListFields: [--%>
+                    <%--{--%>
+                        <%--name: "detailName",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--},--%>
+                    <%--{--%>
+                        <%--name: "code",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--}--%>
+                    <%--],--%>
+                    changed: function (form, item, value) {
+
+                    if (value != null && value != 'undefined') {
+                        var detName =(form.getItem("salesTypeId")).getSelectedRecord().detailName;
+                        (form.getItem("salesTypeName")).setValue(detName);
+                    }
+                    else
+                        (form.getItem("salesTypeName")).setValue("");
+                    },
                 },
                 {
                     name: "salesTypeName",
@@ -418,16 +418,32 @@ alert("@@")
                     name: "contaminationTaxesId",
                     title: "<spring:message code='invoiceSales.contaminationTaxesId'/>",
                     editorType: "SelectItem",
-                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
-                    // pickListProperties: {
-                    //     showFilterEditor: true
-                    // },
-                    // pickListFields: [
-                    //     {
-                    //         name: "id",
-                    //         align: "center"
-                    //     },
-                    // ],
+                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    displayField: "code",
+                    valueField: "id",
+                    <%--cachePickListResults: false,--%>
+                    <%--pickListProperties: {--%>
+                        <%--showFilterEditor: true--%>
+                    <%--},--%>
+                    <%--pickListFields: [--%>
+                    <%--{--%>
+                        <%--name: "detailName",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--},--%>
+                    <%--{--%>
+                        <%--name: "code",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--}--%>
+                    <%--],--%>
+                    changed: function (form, item, value) {
+
+                    if (value != null && value != 'undefined') {
+                        var detName =(form.getItem("contaminationTaxesId")).getSelectedRecord().detailName;
+                        (form.getItem("contaminationTaxesName")).setValue(detName);
+                    }
+                    else
+                        (form.getItem("contaminationTaxesName")).setValue("");
+                    },
                 },
                 {
                     name: "contaminationTaxesName",
@@ -439,16 +455,32 @@ alert("@@")
                     name: "paymentTypeId",
                     title: "<spring:message code='invoiceSales.paymentTypeId'/>",
                     editorType: "SelectItem",
-                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
-                    // pickListProperties: {
-                    //     showFilterEditor: true
-                    // },
-                    // pickListFields: [
-                    //     {
-                    //         name: "id",
-                    //         align: "center"
-                    //     },
-                    // ],
+                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    displayField: "code",
+                    valueField: "id",
+                    <%--cachePickListResults: false,--%>
+                    <%--pickListProperties: {--%>
+                        <%--showFilterEditor: true--%>
+                    <%--},--%>
+                    <%--pickListFields: [--%>
+                    <%--{--%>
+                        <%--name: "detailName",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--},--%>
+                    <%--{--%>
+                        <%--name: "code",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--}--%>
+                    <%--],--%>
+                    changed: function (form, item, value) {
+
+                    if (value != null && value != 'undefined') {
+                        var detName =(form.getItem("paymentTypeId")).getSelectedRecord().detailName;
+                        (form.getItem("paymentTypeName")).setValue(detName);
+                    }
+                    else
+                        (form.getItem("paymentTypeName")).setValue("");
+                    },
                 },
                 {
                     name: "paymentTypeName",
@@ -460,16 +492,32 @@ alert("@@")
                     name: "lcNoId",
                     title: "<spring:message code='invoiceSales.lcNoId'/>",
                     editorType: "SelectItem",
-                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
-                    // pickListProperties: {
-                    //     showFilterEditor: true
-                    // },
-                    // pickListFields: [
-                    //     {
-                    //         name: "id",
-                    //         align: "center"
-                    //     },
-                    // ],
+                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    displayField: "code",
+                    valueField: "id",
+                    <%--cachePickListResults: false,--%>
+                    <%--pickListProperties: {--%>
+                        <%--showFilterEditor: true--%>
+                    <%--},--%>
+                    <%--pickListFields: [--%>
+                    <%--{--%>
+                        <%--name: "detailName",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--},--%>
+                    <%--{--%>
+                        <%--name: "code",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--}--%>
+                    <%--],--%>
+                    changed: function (form, item, value) {
+
+                    if (value != null && value != 'undefined') {
+                        var detName =(form.getItem("lcNoId")).getSelectedRecord().detailName;
+                        (form.getItem("lcNoName")).setValue(detName);
+                    }
+                    else
+                        (form.getItem("lcNoName")).setValue("");
+                    },
                 },
                 {
                     name: "lcNoName",
@@ -503,16 +551,23 @@ alert("@@")
                     name: "openingBankId",
                     title: "<spring:message code='invoiceSales.openingBankId'/>",
                     editorType: "SelectItem",
-                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
-                    // pickListProperties: {
-                    //     showFilterEditor: true
-                    // },
-                    // pickListFields: [
-                    //     {
-                    //         name: "id",
-                    //         align: "center"
-                    //     },
-                    // ],
+                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    displayField: "code",
+                    valueField: "id",
+                    <%--cachePickListResults: false,--%>
+                    <%--pickListProperties: {--%>
+                        <%--showFilterEditor: true--%>
+                    <%--},--%>
+                    <%--pickListFields: [--%>
+                    <%--{--%>
+                        <%--name: "detailName",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--},--%>
+                    <%--{--%>
+                        <%--name: "code",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--}--%>
+                    <%--],--%>
                 },
                 {
                     name: "openingDate",
@@ -525,16 +580,32 @@ alert("@@")
                     name: "dealerBankId",
                     title: "<spring:message code='invoiceSales.dealerBankId'/>",
                     editorType: "SelectItem",
-                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
-                    // pickListProperties: {
-                    //     showFilterEditor: true
-                    // },
-                    // pickListFields: [
-                    //     {
-                    //         name: "id",
-                    //         align: "center"
-                    //     },
-                    // ],
+                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    displayField: "code",
+                    valueField: "id",
+                    <%--cachePickListResults: false,--%>
+                    <%--pickListProperties: {--%>
+                        <%--showFilterEditor: true--%>
+                    <%--},--%>
+                    <%--pickListFields: [--%>
+                    <%--{--%>
+                        <%--name: "detailName",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--},--%>
+                    <%--{--%>
+                        <%--name: "code",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--}--%>
+                    <%--],--%>
+                    changed: function (form, item, value) {
+
+                    if (value != null && value != 'undefined') {
+                        var detName =(form.getItem("dealerBankId")).getSelectedRecord().detailName;
+                        (form.getItem("dealerBankName")).setValue(detName);
+                    }
+                    else
+                        (form.getItem("dealerBankName")).setValue("");
+                    },
                 },
                 {
                     name: "dealerBankName",
@@ -557,16 +628,32 @@ alert("@@")
                     name: "secondContractNo",
                     title: "<spring:message code='invoiceSales.secondContractNo'/>",
                     editorType: "SelectItem",
-                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
-                    // pickListProperties: {
-                    //     showFilterEditor: true
-                    // },
-                    // pickListFields: [
-                    //     {
-                    //         name: "id",
-                    //         align: "center"
-                    //     },
-                    // ],
+                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    displayField: "code",
+                    valueField: "id",
+                    <%--cachePickListResults: false,--%>
+                    <%--pickListProperties: {--%>
+                        <%--showFilterEditor: true--%>
+                    <%--},--%>
+                    <%--pickListFields: [--%>
+                    <%--{--%>
+                        <%--name: "detailName",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--},--%>
+                    <%--{--%>
+                        <%--name: "code",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--}--%>
+                    <%--],--%>
+                    changed: function (form, item, value) {
+
+                    if (value != null && value != 'undefined') {
+                        var detName =(form.getItem("secondContractNo")).getSelectedRecord().detailName;
+                        (form.getItem("secondContractName")).setValue(detName);
+                    }
+                    else
+                        (form.getItem("secondContractName")).setValue("");
+                    },
                 },
                 {
                     name: "secondContractName",
