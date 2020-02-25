@@ -1242,7 +1242,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "costEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -1429,7 +1428,6 @@
 
 
     isc.SectionStack.create({
-        ID: "Shipment_CostHeader_Section_Stack",
         sections:
             [
                 {

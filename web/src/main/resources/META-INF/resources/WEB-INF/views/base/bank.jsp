@@ -170,7 +170,6 @@
         }
     }
 
-
     var Menu_ListGrid_Bank = isc.Menu.create(
         {
             width: 150,
@@ -214,7 +213,6 @@
             ]
         });
 
-
     var DynamicForm_Bank = isc.DynamicForm.create(
         {
             width: 650,
@@ -239,10 +237,10 @@
                     keyPressFilter: "[0-9]",
                     length: "15", showIf: "false",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "bankName",
@@ -252,10 +250,10 @@
                     required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "enBankName",
@@ -265,10 +263,10 @@
                     required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "address",
@@ -278,10 +276,10 @@
                     required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "coreBranch",
@@ -296,10 +294,10 @@
                             "branch": "<spring:message code='bank.coreBranch.branch'/>"
                         },
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "countryId",
@@ -343,17 +341,16 @@
                             titleColSpan: 1
                         }],
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     type: "RowSpacerItem"
                 },
             ]
         });
-
 
     var ToolStripButton_Bank_Refresh = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/refresh.png",
@@ -394,41 +391,38 @@
     });
     </sec:authorize>
 
-    var ToolStrip_Actions_Bank = isc.ToolStrip.create(
-        {
-            width: "100%",
-            members: [
-                <sec:authorize access="hasAuthority('C_BANK')">
-                ToolStripButton_Bank_Add,
-                </sec:authorize>
-
-                <sec:authorize access="hasAuthority('U_BANK')">
-                ToolStripButton_Bank_Edit,
-                </sec:authorize>
-
-                <sec:authorize access="hasAuthority('D_BANK')">
-                ToolStripButton_Bank_Remove,
-                </sec:authorize>
-
-                isc.ToolStrip.create(
-                    {
-                        width: "100%",
-                        align: "left",
-                        border: '0px',
-                        members: [
-                            ToolStripButton_Bank_Refresh,
-                        ]
-                    })
-
-            ]
-        });
-
-
     var HLayout_Bank_Actions = isc.HLayout.create({
         width: "100%",
         members:
             [
-                ToolStrip_Actions_Bank
+                isc.ToolStrip.create(
+                    {
+                        width: "100%",
+                        members: [
+                            <sec:authorize access="hasAuthority('C_BANK')">
+                            ToolStripButton_Bank_Add,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('U_BANK')">
+                            ToolStripButton_Bank_Edit,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('D_BANK')">
+                            ToolStripButton_Bank_Remove,
+                            </sec:authorize>
+
+                            isc.ToolStrip.create(
+                                {
+                                    width: "100%",
+                                    align: "left",
+                                    border: '0px',
+                                    members: [
+                                        ToolStripButton_Bank_Refresh,
+                                    ]
+                                })
+
+                        ]
+                    })
             ]
     });
 
@@ -483,12 +477,12 @@
                 DynamicForm_Bank,
                 isc.HLayout.create(
                     {
-                      margin: '10px',
-                      padding: 10,
-                    layoutMargin: 10,
-                    membersMargin: 5,
-                    align: "center",
-                     width: "100%",
+                        margin: '10px',
+                        padding: 10,
+                        layoutMargin: 10,
+                        membersMargin: 5,
+                        align: "center",
+                        width: "100%",
                         members: [
                             IButton_Bank_Save,
                             isc.Label.create(
@@ -497,7 +491,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "bankEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -510,7 +503,6 @@
                     })
             ]
         });
-
 
     var ListGrid_Bank = isc.ListGrid.create(
         {

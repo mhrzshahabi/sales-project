@@ -1435,7 +1435,6 @@
     });
 
     isc.SectionStack.create({
-        ID: "Groups_Section_Stack",
         sections:
             [
                 {

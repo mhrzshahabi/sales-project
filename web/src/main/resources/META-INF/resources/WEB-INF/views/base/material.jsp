@@ -597,7 +597,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "materialExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -2030,7 +2029,6 @@
 
     isc.SectionStack.create(
         {
-            ID: "Material_Section_Stack",
             sections: [
                 {
                     title: "<spring:message code='ProductGroup'/>",

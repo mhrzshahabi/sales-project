@@ -91,7 +91,7 @@
             fetchDataURL: "${contextPath}/api/contactAccount/spec-list"
         });
 
-    var RestDataSource_Bank = isc.MyRestDataSource.create(
+    var RestDataSource_Bank_IN_CONTACT = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -1094,7 +1094,7 @@
                     type: 'long',
                     width: 300,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Bank,
+                    optionDataSource: RestDataSource_Bank_IN_CONTACT,
                     displayField: "bankName",
                     valueField: "id",
                     pickListWidth: "300",
@@ -1237,7 +1237,7 @@
                     type: 'long',
                     width: 300,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Bank,
+                    optionDataSource: RestDataSource_Bank_IN_CONTACT,
                     displayField: "bankName",
                     valueField: "id",
                     pickListWidth: 300,
@@ -1884,7 +1884,6 @@
         });
 
     isc.VLayout.create({
-        ID: "VLayout_Parameters_Body",
         width: "100%",
         height: "100%",
         members: [

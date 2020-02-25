@@ -54,7 +54,6 @@
 </form>
 
 <script type="application/javascript">
-
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.DynamicForm.addProperties({
@@ -96,7 +95,6 @@
             this.pickList.invalidateCache();
         }
     });
-
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -161,14 +159,6 @@
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true
-    });
-
-    isc.Menu.addProperties({
-        showRowNumbers: false
-    });
-
-    isc.PickListMenu.addProperties({
-        showRowNumbers: false
     });
 
     isc.ToolStripButton.addProperties({

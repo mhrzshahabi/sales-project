@@ -189,7 +189,7 @@
         numCols: 4,
         fields: [{
             name: "toDay",
-            ID: "toDayDate",
+            ID: "toDayDateTozinSales",
             title: "<spring:message code='dailyWarehouse.toDay'/>",
             type: 'text',
             align: "center",
@@ -199,7 +199,7 @@
             icons: [{
                 src: "pieces/pcal.png",
                 click: function () {
-                    displayDatePicker('toDayDate', this, 'ymd', '/');
+                    displayDatePicker('toDayDateTozinSales', this, 'ymd', '/');
                 }
             }],
             defaultValue: "1398/10/26",
@@ -300,7 +300,6 @@
 
     <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var MenuButton_Forosh_Bargiri = isc.MenuButton.create({
-        ID: "MenuButton_Forosh_Bargiri",
         autoDraw: false,
         title: "<spring:message code='tozin.report.salesUpload'/>",
         prompt: "<spring:message code='tozin.report.salesUpload.byDate'/>",
@@ -311,7 +310,6 @@
 
     <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var MenuButton_Kharid_Konstantere = isc.MenuButton.create({
-        ID: "MenuButton_Kharid_Konstantere",
         autoDraw: false,
         title: "<spring:message code='tozin.report.cons.buy'/>",
         prompt: "<spring:message code='tozin.report.cons.buy.byDate'/>",
@@ -322,7 +320,6 @@
 
     <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var MenuButton_Kharid_Zaieat = isc.MenuButton.create({
-        ID: "MenuButton_Kharid_Zaieat",
         autoDraw: false,
         title: "<spring:message code='tozin.report.waste'/>",
         prompt: "<spring:message code='tozin.report.waste.byDate'/>",

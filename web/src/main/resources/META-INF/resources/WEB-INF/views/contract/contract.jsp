@@ -16,9 +16,9 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
                 {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
-                {name: "sideContractDate", ID: "sideContractDate"},
-                {name: "refinaryCost", ID: "refinaryCost"},
-                {name: "treatCost", ID: "treatCost"},
+                {name: "sideContractDate"},
+                {name: "refinaryCost"},
+                {name: "treatCost"},
                 {name: "material.descl", title: "materialId"}
             ],
         fetchDataURL: "${contextPath}/api/contract/spec-list"

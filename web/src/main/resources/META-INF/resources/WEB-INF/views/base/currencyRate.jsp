@@ -395,7 +395,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "currencyRateEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",

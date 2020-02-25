@@ -68,7 +68,6 @@
         numCols: 4,
         fields: [{
             name: "toDay",
-            ID: "toDayDate",
             title: "",
             type: 'date',
             align: "center",

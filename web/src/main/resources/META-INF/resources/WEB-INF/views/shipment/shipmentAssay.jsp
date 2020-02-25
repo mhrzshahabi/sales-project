@@ -2019,7 +2019,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     });
 
     isc.SectionStack.create({
-        ID: "ShipmentAssayHeader_Section_Stack",
         sections:
             [
                 {

@@ -1547,7 +1547,6 @@
     });
 
     isc.SectionStack.create({
-        ID: "Shipment_InvoiceHeader_Section_Stack",
         sections:
             [
                 {

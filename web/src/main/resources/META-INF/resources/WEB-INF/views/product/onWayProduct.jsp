@@ -246,7 +246,7 @@
         numCols: 4,
         fields: [{
             name: "toDay",
-            ID: "toDayDate",
+            ID: "toDayDateOnWayProduct",
             title: "<spring:message code='dailyWarehouse.toDay'/>",
             type: 'text',
             align: "center",
@@ -256,7 +256,7 @@
             icons: [{
                 src: "pieces/pcal.png",
                 click: function () {
-                    displayDatePicker('toDayDate', this, 'ymd', '/');
+                    displayDatePicker('toDayDateOnWayProduct', this, 'ymd', '/');
                 }
             }],
             defaultValue: "1398/12/01"
@@ -335,15 +335,15 @@
                 if (record.codeKala == 9 || record.codeKala == 10 || record.codeKala == 11 ||
                     record.codeKala == 114 || record.codeKala == 129 || record.codeKala == 86 ||
                     record.codeKala == 90 || record.codeKala == 95) {
-                    BijackViewLoader.setViewURL("tozin/showWarehouseCadForm");
+                    OnWayProductViewLoader.setViewURL("tozin/showWarehouseCadForm");
                     Window_Bijack.show();
                 }
                 if (record.codeKala == 97 || record.codeKala == 100) {
-                    BijackViewLoader.setViewURL("tozin/showWarehouseMoForm");
+                    OnWayProductViewLoader.setViewURL("tozin/showWarehouseMoForm");
                     Window_Bijack.show();
                 }
                 if (record.codeKala == 8) {
-                    BijackViewLoader.setViewURL("tozin/showWarehouseConcForm");
+                    OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
                     Window_Bijack.show();
                 }
             }
@@ -351,7 +351,7 @@
     });
 
     isc.ViewLoader.create({
-        ID: "BijackViewLoader",
+        ID: "OnWayProductViewLoader",
         width: 830,
         height: 830,
         autoDraw: false,
@@ -372,7 +372,7 @@
             this.Super("closeClick", arguments)
         },
         items: [
-            BijackViewLoader
+            OnWayProductViewLoader
         ]
     });
 
@@ -400,7 +400,6 @@
     });
 
     ToolStripButton_Tozin_Report = isc.ToolStripButtonRefresh.create({
-        ID: "exportButton",
         icon: "[SKIN]/actions/excel-512.png",
         title: "<spring:message code='global.form.export'/>",
         click: function () {

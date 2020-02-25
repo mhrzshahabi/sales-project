@@ -227,7 +227,7 @@
         numCols: 4,
         fields: [{
             name: "toDay",
-            ID: "toDayDate",
+            ID: "toDayDateTozin",
             title: "<spring:message code='dailyWarehouse.toDay'/>",
             type: 'text',
             align: "center",
@@ -237,7 +237,7 @@
             icons: [{
                 src: "pieces/pcal.png",
                 click: function () {
-                    displayDatePicker('toDayDate', this, 'ymd', '/');
+                    displayDatePicker('toDayDateTozin', this, 'ymd', '/');
                 }
             }],
             defaultValue: "1398/10/26",
@@ -273,7 +273,6 @@
 
     <sec:authorize access="hasAuthority('O_TOZIN')">
     var MenuButton_Tozin = isc.MenuButton.create({
-        ID: "MenuButton_Tozin",
         autoDraw: false,
         title: "<spring:message code='tozin.report.betweenComplexes'/>",
         prompt: "<spring:message code='tozin.report.betweenComplexes.date'/>",
