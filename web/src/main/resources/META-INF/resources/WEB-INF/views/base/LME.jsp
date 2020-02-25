@@ -257,7 +257,6 @@
         });
 
     var ToolStripButton_LME_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_LME_refresh();
@@ -533,7 +532,7 @@
         ]
     });
 
-    var VLayout_LME_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

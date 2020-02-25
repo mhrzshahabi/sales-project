@@ -446,12 +446,11 @@ function deleteFromContractShipment(id){
 
 
     var ToolStripButton_ContactCad_Refresh = isc.ToolStripButtonRefresh.create({
-                                icon: "[SKIN]/actions/refresh.png",
-                                title: "<spring:message code='global.form.refresh'/>",
-                                click: function () {
-                                    ListGrid_Cad.invalidateCache(criteriaCad);
-                                }
-                            });
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+            ListGrid_Cad.invalidateCache(criteriaCad);
+        }
+    });
 
     var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
             membersMargin: 5,

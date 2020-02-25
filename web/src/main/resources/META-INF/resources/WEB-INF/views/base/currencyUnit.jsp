@@ -271,7 +271,6 @@
     }
 
     var ToolStripButton_CurrencyUnit_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_CurrencyUnit_refresh();
@@ -366,7 +365,7 @@
         ]
     });
 
-    var VLayout_Body_CurrencyUnit = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

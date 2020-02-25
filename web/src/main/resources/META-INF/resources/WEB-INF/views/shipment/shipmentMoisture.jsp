@@ -1076,13 +1076,13 @@
     });
 
         var ToolStripButton_ListGrid_ShipmentByMoistureHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-        ListGrid_ShipmentByMoistureHeader.invalidateCache();
-        ListGrid_ShipmentMoistureHeader.setData([]);
-        }
+            title: "<spring:message code='global.form.refresh'/>",
+            click: function () {
+            ListGrid_ShipmentByMoistureHeader.invalidateCache();
+            ListGrid_ShipmentMoistureHeader.setData([]);
+            }
         });
+
         var ToolStrip_Actions_ListGrid_ShipmentByMoistureHeader = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
@@ -1394,7 +1394,6 @@
     }
 
     var ToolStripButton_ShipmentMoistureHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentMoistureHeader_refresh();
@@ -1879,7 +1878,6 @@
         }
     }
     var ToolStripButton_ShipmentMoistureItem_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentMoistureItem_refresh();

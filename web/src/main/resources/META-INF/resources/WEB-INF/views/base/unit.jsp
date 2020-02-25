@@ -270,7 +270,6 @@
     }
 
     var ToolStripButton_Unit_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Unit_refresh();

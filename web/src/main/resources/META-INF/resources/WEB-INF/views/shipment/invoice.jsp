@@ -239,7 +239,6 @@
     });
 
     var ToolStripButton_Shipment_InvoiceHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_InvoiceHeader.invalidateCache();

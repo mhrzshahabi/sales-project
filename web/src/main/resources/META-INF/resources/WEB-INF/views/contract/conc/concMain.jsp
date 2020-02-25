@@ -435,7 +435,6 @@
 
 
     var ToolStripButton_ContactConc_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Conc.invalidateCache(criteriaConc);

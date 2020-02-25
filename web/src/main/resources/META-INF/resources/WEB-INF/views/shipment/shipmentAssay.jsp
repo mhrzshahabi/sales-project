@@ -1040,7 +1040,6 @@
         ]
     });
         var ToolStripButton_ListGrid_ShipmentByAssayHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
         ListGrid_ShipmentByAssayHeader.invalidateCache();
@@ -1368,7 +1367,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     }
 
     var ToolStripButton_ShipmentAssayHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentAssayHeader_refresh();
@@ -1866,7 +1864,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     }
 
     var ToolStripButton_ShipmentAssayItem_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentAssayItem_refresh();

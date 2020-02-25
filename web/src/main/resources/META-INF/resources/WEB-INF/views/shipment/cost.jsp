@@ -113,7 +113,6 @@
     });
 
     var ToolStripButton_Shipment_CostHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_CostHeader.invalidateCache();
@@ -1066,7 +1065,6 @@
 
 
     var ToolStripButton_Cost_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Cost_refresh();

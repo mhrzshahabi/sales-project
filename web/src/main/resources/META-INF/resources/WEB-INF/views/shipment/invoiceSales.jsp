@@ -666,7 +666,6 @@
         });
 
      var ToolStripButton_InvoiceSales_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_InvoiceSales_refresh();
@@ -675,7 +674,6 @@
 
     <%--<sec:authorize access="hasAuthority('C_INVOICE_SALES')">--%>
     var ToolStripButton_InvoiceSales_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_invoiceSales.clearValues();

@@ -159,7 +159,6 @@
         });
 
     var ToolStripButton_PaymentOption_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_PaymentOption_refresh();
@@ -167,7 +166,6 @@
     });
 
     var ToolStripButton_PaymentOption_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_PaymentOption.clearValues();

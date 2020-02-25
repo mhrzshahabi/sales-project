@@ -81,11 +81,9 @@
             fetchDataURL: "${contextPath}/api/country/spec-list"
         });
 
-
     function ListGrid_Bank_refresh() {
         ListGrid_Bank.invalidateCache();
     }
-
 
     function ListGrid_Bank_edit() {
         var record = ListGrid_Bank.getSelectedRecord();
@@ -353,7 +351,6 @@
         });
 
     var ToolStripButton_Bank_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Bank_refresh();

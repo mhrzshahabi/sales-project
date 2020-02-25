@@ -329,7 +329,6 @@
     </sec:authorize>
 
     var ToolStripButton_TozinSales_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_TozinSales_refresh();

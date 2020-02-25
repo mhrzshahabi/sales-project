@@ -347,7 +347,6 @@
     }
 
     var ToolStripButton_Groups_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Groups_refresh();
@@ -525,7 +524,6 @@
     }
 
     var ToolStripButton_Person_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Person_GroupEmail_refresh();
@@ -979,7 +977,6 @@
     }
 
     var ToolStripButton_GroupsPerson_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_GroupsPerson_refresh();

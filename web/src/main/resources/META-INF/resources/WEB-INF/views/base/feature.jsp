@@ -38,6 +38,7 @@
     });
 
     var ValuesManager_Feature = isc.ValuesManager.create({});
+
     var DynamicForm_Feature = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -235,7 +236,6 @@
     }
 
     var ToolStripButton_Feature_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Feature_refresh();
@@ -267,6 +267,7 @@
             ListGrid_Feature_remove();
         }
     });
+
     var ToolStrip_Actions_Feature = isc.ToolStrip.create({
         width: "100%",
         members: [

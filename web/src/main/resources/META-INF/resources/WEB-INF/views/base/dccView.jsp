@@ -89,7 +89,6 @@
     }
 
     var ToolStripButton_DccView_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_DccView_refresh();
