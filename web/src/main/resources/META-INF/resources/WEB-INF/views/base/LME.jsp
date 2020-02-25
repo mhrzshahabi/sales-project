@@ -265,7 +265,6 @@
 
     <sec:authorize access="hasAuthority('C_LME')">
     var ToolStripButton_LME_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_LME.clearValues();

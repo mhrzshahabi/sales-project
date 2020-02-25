@@ -157,7 +157,6 @@
     });
 
     var ToolStripButton_Glossary_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Glossary.clearValues();

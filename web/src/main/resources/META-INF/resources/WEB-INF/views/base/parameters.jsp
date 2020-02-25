@@ -256,7 +256,6 @@
 
     <sec:authorize access="hasAuthority('C_PARAMETERS')">
     var ToolStripButton_Parameters_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Parameters.clearValues();

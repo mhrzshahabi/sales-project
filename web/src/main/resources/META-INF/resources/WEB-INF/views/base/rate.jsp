@@ -302,7 +302,6 @@
 
     <sec:authorize access="hasAuthority('C_RATE')">
     var ToolStripButton_Rate_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Rate.clearValues();

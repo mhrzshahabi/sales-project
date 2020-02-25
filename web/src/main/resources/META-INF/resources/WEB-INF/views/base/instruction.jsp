@@ -202,7 +202,6 @@
     <sec:authorize access="hasAuthority('C_INSTRUCTION')">
     var ToolStripButton_Instruction_Add = isc.ToolStripButtonAdd.create(
         {
-            icon: "[SKIN]/actions/add.png",
             title: "<spring:message code='global.form.new'/>",
             click: function () {
                 DynamicForm_Instruction.clearValues();

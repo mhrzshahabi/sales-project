@@ -229,7 +229,6 @@
 
     <sec:authorize access="hasAuthority('C_COUNTRY')">
     var ToolStripButton_Country_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Country.clearValues();

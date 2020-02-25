@@ -291,7 +291,6 @@
 
     <sec:authorize access="hasAuthority('C_PORT')">
     var ToolStripButton_Port_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Port.clearValues();

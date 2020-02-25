@@ -1142,7 +1142,6 @@
 
     <sec:authorize access="hasAuthority('C_INVOICE')">
     var ToolStripButton_Invoice_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
