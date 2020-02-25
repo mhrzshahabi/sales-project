@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -28,17 +26,5 @@ public class CathodeListDTO {
     @Accessors(chain = true)
     @ApiModel("CathodListInfo")
     public static class Info extends CathodeListDTO {
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<CathodeListDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }
