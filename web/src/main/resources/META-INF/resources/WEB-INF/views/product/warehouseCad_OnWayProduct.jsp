@@ -5,13 +5,19 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_CatodList = isc.MyRestDataSource.create({
+    /*var RestDataSource_CathodList = isc.MyRestDataSource.create({
         fields: [
-            {name: "productLabel"},
-            {name: "sheetNumber"},
-            {name: "wazn"}],
-        fetchDataURL: "${contextPath}/api/catodList/spec-list"
-    });
+                {name: "storeId"},
+                {name: "tozinId"},
+                {name: "productId"},
+                {name: "productLabel"},
+                {name: "wazn"},
+                {name: "sheetNumber"},
+                {name: "packingTypeId"},
+                {name: "gdsCode"}
+            ],
+        fetchDataURL: "${contextPath}/api/cathodList/spec-list"
+    });*/
 
     var RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
@@ -295,7 +301,6 @@
             });
         }
     });
-
 
     var add_bundle_button = isc.IButton.create({
         title: "<spring:message code='warehouseCad.addBundle'/>",
@@ -710,12 +715,12 @@
     });
 
     ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
-    var criteria_catod = {
+    var criteria_cathod = {
         _constructor: "AdvancedCriteria", operator: "and",
         criteria: [{fieldName: "tozinId", operator: "equals", value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId}]
     };
 
-    RestDataSource_CatodList.fetchData(criteria_catod,
+    /*RestDataSource_CathodList.fetchData(criteria_cathod,
         function (dsResponse, data, dsRequest) {
             data.forEach(function (item) {
                 delete item.storeId;
@@ -725,7 +730,7 @@
                 delete item.gdsCode;
             });
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(data);
-        });
+        });*/
 
     DynamicForm_warehouseCAD.clearValues();
 

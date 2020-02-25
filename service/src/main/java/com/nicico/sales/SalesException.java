@@ -24,7 +24,7 @@ public class SalesException extends NICICOException {
     @Getter
     @RequiredArgsConstructor
     public enum ErrorType implements IErrorCode {
-        CatodListNotFound(404),
+        CathodListNotFound(404),
         WarehouseIssueConsNotFound(404),
         WarehouseIssueMoNotFound(404),
         WarehouseIssueCathodeNotFound(404),

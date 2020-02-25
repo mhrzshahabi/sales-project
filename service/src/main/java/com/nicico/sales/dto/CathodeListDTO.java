@@ -26,7 +26,7 @@ public class CathodeListDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("CatodListInfo")
+    @ApiModel("CathodListInfo")
     public static class Info extends CathodeListDTO {
     }
 

@@ -323,7 +323,7 @@
         click: function () {
             const fieldsGrid = ListGrid_warehouseCAD.getFields().filter(
                 function (q) {
-                    return q.name.toString().toLowerCase() != 'grouptitle'
+                    return q.name.toString().toLowerCase() != '$74y'
                 });
 
             const fields = fieldsGrid.map(function (f) {

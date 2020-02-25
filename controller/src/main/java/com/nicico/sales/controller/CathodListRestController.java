@@ -21,15 +21,15 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/catodList")
-public class CatodListRestController {
+@RequestMapping(value = "/api/cathodList")
+public class CathodListRestController {
 
-    private final ICathodeListService catodListService;
+    private final ICathodeListService cathodListService;
 
     @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<CathodeListDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(catodListService.search(nicicoCriteria), HttpStatus.OK);
+        return new ResponseEntity<>(cathodListService.search(nicicoCriteria), HttpStatus.OK);
     }
 }
