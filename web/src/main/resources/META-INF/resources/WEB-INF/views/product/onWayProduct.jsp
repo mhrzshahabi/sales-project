@@ -215,7 +215,7 @@
         fetchDataURL: "${contextPath}/api/materialItem/spec-list"
     });
 
-    var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
+    var DynamicForm_DailyReport_OnWayProduct = isc.DynamicForm.create({
         wrapItemTitles: false,
         target: "_Blank",
         numCols: 4,
@@ -325,7 +325,7 @@
         },]
     });
 
-    var Menu_ListGrid_Tozin = isc.Menu.create({
+    var Menu_ListGrid_OnWayProduct = isc.Menu.create({
         width: 150,
         data: [{
             title: "<spring:message code='bijack'/>",
@@ -406,7 +406,7 @@
         click: function () {
             const fieldsGrid = ListGrid_Tozin_IN_ONWAYPRODUCT.getFields().filter(
                 function (q) {
-                    return q.name.toString().toLowerCase() != 'grouptitle'
+                    return q.name.toString().toLowerCase() != '$74y'
                 });
             const fields = fieldsGrid.map(function (f) {
                 return f.name
@@ -415,7 +415,7 @@
                 return f.title
             });
 
-            var fromDay_Value = DynamicForm_DailyReport_Tozin.getValue("fromDay");
+            var fromDay_Value = DynamicForm_DailyReport_OnWayProduct.getValue("fromDay");
 
             var toDay_Value = DynamicForm_DailyReport_Tozin1.getValue("toDay");
 
@@ -470,7 +470,7 @@
                         {
                             fieldName: "tozinDate",
                             operator: "greaterOrEqual",
-                            value: DynamicForm_DailyReport_Tozin.getValues().fromDay
+                            value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
                         },
                         {
                             fieldName: "tozinDate",
@@ -509,7 +509,7 @@
                         {
                             fieldName: "tozinDate",
                             operator: "greaterOrEqual",
-                            value: DynamicForm_DailyReport_Tozin.getValues().fromDay
+                            value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
                         },
                         {
                             fieldName: "tozinDate",
@@ -557,7 +557,7 @@
         membersMargin: 10,
         align: "center",
         members: [
-            DynamicForm_DailyReport_Tozin,
+            DynamicForm_DailyReport_OnWayProduct,
             DynamicForm_DailyReport_Tozin1,
             DynamicForm_DailyReport_Tozin2,
             DynamicForm_DailyReport_Tozin3,
@@ -592,7 +592,7 @@
             {
                 fieldName: "tozinDate",
                 operator: "greaterOrEqual",
-                value: DynamicForm_DailyReport_Tozin.getValues().fromDay
+                value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
             },
             {
                 fieldName: "tozinDate",
@@ -628,7 +628,7 @@
         height: "100%",
         dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
         initialCriteria: RestDataSource_TozinInitialCriteria,
-        contextMenu: Menu_ListGrid_Tozin,
+        contextMenu: Menu_ListGrid_OnWayProduct,
         fields: [
             {
                 name: "plak",

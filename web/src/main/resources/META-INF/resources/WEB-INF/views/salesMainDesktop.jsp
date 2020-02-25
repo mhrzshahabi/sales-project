@@ -160,14 +160,7 @@
         showPrompt: true,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
-        filterOnKeypress: true,
-        showRowNumbers: true,
-        rowNumberFieldProperties: {
-            autoFitWidthApproach: "both",
-            canDragResize: true,
-            autoFitWidth: true,
-            headerTitle: "<spring:message code='contractItem.itemRow'/>"
-        }
+        filterOnKeypress: true
     });
 
     isc.Menu.addProperties({

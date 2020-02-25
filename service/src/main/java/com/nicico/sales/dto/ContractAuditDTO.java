@@ -11,7 +11,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -85,18 +84,5 @@ public class ContractAuditDTO {
     @Accessors(chain = true)
     @ApiModel("ContractAuditInfo")
     public static class Info extends ContractAuditDTO {
-    }
-
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<ContractAuditDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }

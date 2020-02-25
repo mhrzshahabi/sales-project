@@ -250,25 +250,22 @@
             {
                 title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
                 click: function () {
-                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
                     "<spring:url value="/tozin/print/pdf" var="printUrl"/>"
-                    window.open('${printUrl}' + '/' + toDay);
+                    window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
                 }
             },
             {
                 title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
                 click: function () {
-                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
                     "<spring:url value="/tozin/print/excel" var="printUrl"/>"
-                    window.open('${printUrl}' + '/' + toDay);
+                    window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
                 }
             },
             {
                 title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
                 click: function () {
-                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
                     "<spring:url value="/tozin/print/html" var="printUrl"/>"
-                    window.open('${printUrl}' + '/' + toDay);
+                    window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
                 }
             }
         ]

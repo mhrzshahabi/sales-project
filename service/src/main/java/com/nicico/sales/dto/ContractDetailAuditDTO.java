@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -207,18 +206,5 @@ public class ContractDetailAuditDTO {
     @Accessors(chain = true)
     @ApiModel("ContractDetailInfo")
     public static class Info extends ContractDetailAuditDTO {
-    }
-
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<ContractDetailAuditDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }
