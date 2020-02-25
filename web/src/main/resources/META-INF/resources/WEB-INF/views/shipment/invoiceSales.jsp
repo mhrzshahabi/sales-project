@@ -131,12 +131,55 @@
             fetchDataURL: "${contextPath}/api/invoiceSales/spec-list"
         });
 
+ var RestDataSource_nosa_IN_invoiceSales = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                },
+                {
+                    name: "detailName",
+                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                },
+                {
+                    name: "childrenDigitCount",
+                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                },
+                {
+                    name: "code",
+                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                }
+            ],
+            fetchDataURL: "${contextPath}/api/invoiceNosaSales/list"
+        });
+
 
     function ListGrid_InvoiceSales_refresh() {
         ListGrid_invoiceSales.invalidateCache();
     }
 
     function ListGrid_InvoiceSales_edit() {
+
+        ///////////////////////////////////////////////////////////
+
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
+                                {
+                                    actionURL: "${contextPath}/api/invoiceSales/invoiceSales-Params",
+                                    httpMethod: "GET",
+                                    callback: function (resp) {
+                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                            console.log("Done!!!!!")
+                                            isc.say("OK :)))");
+                                        }
+                                        else {
+                                            isc.say("Not OK :(((");
+                                        }
+                                    }
+                                }));
+
+        ///////////////////////////////////////////////////////////
+
         var record = ListGrid_invoiceSales.getSelectedRecord();
 
         if (record == null || record.id == null) {
@@ -264,7 +307,7 @@
                 <%--</sec:authorize>--%>
             ]
         });
-
+alert("@@")
     var DynamicForm_invoiceSales = isc.DynamicForm.create(
         {
             width: 700,
@@ -314,19 +357,57 @@
                 {
                     name: "customerId",
                     title: "<spring:message code='invoiceSales.customerId'/>",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    displayField: "code",
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    <%--{--%>
+                        <%--name: "id",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--},--%>
+                    {
+                        name: "detailName",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    },
+                    <%--{--%>
+                        <%--name: "childrenDigitCount",--%>
+                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
+                    <%--},--%>
+                    {
+                        name: "code",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    }
+                    ],
                 },
                 {
                     name: "customerName",
                     title: "<spring:message code='invoiceSales.customerName'/>",
-                    // showTitle: false
+                    type: "staticText",
+                    Value : ""
                 },
                 {
                     name: "salesTypeId",
                     title: "<spring:message code='invoiceSales.salesTypeId'/>",
+                    editorType: "SelectItem",
+                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
+                    // pickListProperties: {
+                    //     showFilterEditor: true
+                    // },
+                    // pickListFields: [
+                    //     {
+                    //         name: "id",
+                    //         align: "center"
+                    //     },
+                    // ],
                 },
                 {
                     name: "salesTypeName",
                     title: "<spring:message code='invoiceSales.salesTypeName'/>",
+                    type: "staticText",
+                    Value : ""
                 },
                 {
                     name: "currency",
@@ -336,26 +417,65 @@
                 {
                     name: "contaminationTaxesId",
                     title: "<spring:message code='invoiceSales.contaminationTaxesId'/>",
+                    editorType: "SelectItem",
+                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
+                    // pickListProperties: {
+                    //     showFilterEditor: true
+                    // },
+                    // pickListFields: [
+                    //     {
+                    //         name: "id",
+                    //         align: "center"
+                    //     },
+                    // ],
                 },
                 {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
+                    type: "staticText",
+                    Value : ""
                 },
                 {
                     name: "paymentTypeId",
                     title: "<spring:message code='invoiceSales.paymentTypeId'/>",
+                    editorType: "SelectItem",
+                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
+                    // pickListProperties: {
+                    //     showFilterEditor: true
+                    // },
+                    // pickListFields: [
+                    //     {
+                    //         name: "id",
+                    //         align: "center"
+                    //     },
+                    // ],
                 },
                 {
                     name: "paymentTypeName",
                     title: "<spring:message code='invoiceSales.paymentTypeName'/>",
+                    type: "staticText",
+                    Value : ""
                 },
                 {
                     name: "lcNoId",
                     title: "<spring:message code='invoiceSales.lcNoId'/>",
+                    editorType: "SelectItem",
+                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
+                    // pickListProperties: {
+                    //     showFilterEditor: true
+                    // },
+                    // pickListFields: [
+                    //     {
+                    //         name: "id",
+                    //         align: "center"
+                    //     },
+                    // ],
                 },
                 {
                     name: "lcNoName",
                     title: "<spring:message code='invoiceSales.lcNoName'/>",
+                    type: "staticText",
+                    Value : ""
                 },
                 {
                     name: "preInvoiceId",
@@ -382,6 +502,17 @@
                 {
                     name: "openingBankId",
                     title: "<spring:message code='invoiceSales.openingBankId'/>",
+                    editorType: "SelectItem",
+                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
+                    // pickListProperties: {
+                    //     showFilterEditor: true
+                    // },
+                    // pickListFields: [
+                    //     {
+                    //         name: "id",
+                    //         align: "center"
+                    //     },
+                    // ],
                 },
                 {
                     name: "openingDate",
@@ -393,10 +524,23 @@
                 {
                     name: "dealerBankId",
                     title: "<spring:message code='invoiceSales.dealerBankId'/>",
+                    editorType: "SelectItem",
+                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
+                    // pickListProperties: {
+                    //     showFilterEditor: true
+                    // },
+                    // pickListFields: [
+                    //     {
+                    //         name: "id",
+                    //         align: "center"
+                    //     },
+                    // ],
                 },
                 {
                     name: "dealerBankName",
                     title: "<spring:message code='invoiceSales.dealerBankName'/>",
+                    type: "staticText",
+                    Value : ""
                 },
                 {
                     name: "otherDescription",
@@ -407,14 +551,28 @@
                 {
                     name: "firstContractNo",
                     title: "<spring:message code='invoiceSales.firstContractNo'/>",
+                    colSpan: 4
                 },
                 {
                     name: "secondContractNo",
                     title: "<spring:message code='invoiceSales.secondContractNo'/>",
+                    editorType: "SelectItem",
+                    // optionDataSource: RestDataSource_nosaId_IN_invoiceSales,
+                    // pickListProperties: {
+                    //     showFilterEditor: true
+                    // },
+                    // pickListFields: [
+                    //     {
+                    //         name: "id",
+                    //         align: "center"
+                    //     },
+                    // ],
                 },
                 {
                     name: "secondContractName",
                     title: "<spring:message code='invoiceSales.secondContractName'/>",
+                    type: "staticText",
+                    Value : ""
                 },
 
             ]
