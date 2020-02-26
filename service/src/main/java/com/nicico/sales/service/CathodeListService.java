@@ -12,22 +12,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-
 @RequiredArgsConstructor
 @Service
 public class CathodeListService implements ICathodeListService {
 
     private final CathodeListDAO cathodeListDAO;
     private final ModelMapper modelMapper;
-    private final EntityManager entityManager;
 
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_CATODLIST')")
     public TotalResponse<CathodeListDTO.Info> search(NICICOCriteria criteria) {
-        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
-        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         return SearchUtil.search(cathodeListDAO, criteria, entity -> modelMapper.map(entity, CathodeListDTO.Info.class));
     }
 
