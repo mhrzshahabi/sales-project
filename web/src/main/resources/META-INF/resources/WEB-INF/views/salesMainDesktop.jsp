@@ -890,8 +890,8 @@
             //switchBtn.classList.remove("fade-in");
             //switchBtn.classList.remove("fade-out");
             if(toggle) {
-                switchBtn.firstChild.src = "static/img/unpinSvg.svg";
-                headerAndMenu.setStyleName('header-and-menu toggle-hide')
+                 switchBtn.firstChild.src = "static/img/unpinSvg.svg";
+                 headerAndMenu.setStyleName('header-and-menu toggle-hide')
                 setTimeout(function () {
                     headerLayout.setVisibility(false);
                     MainDesktopMenuH.setVisibility(false);
