@@ -14,9 +14,9 @@
 
     <link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
-    <link rel="stylesheet" href="<spring:url value='/static/css/smartStylebutton.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
     <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
+    <link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
@@ -204,7 +204,7 @@
         if (mainTabSet.tabs != null) {
             for (i = 0; i < mainTabSet.tabs.length; i++) {
 
-                if (title == mainTabSet.getTab(i).title) {
+                if (title == mainTabSet.getTab(i).title || (url.includes("oauth") && mainTabSet.getTab(i).pane.viewURL.includes("oauth"))) {
                     mainTabSet.selectTab(i);
                     flagTabExist = true;
                     break;
@@ -343,13 +343,6 @@
         styleName: "header-logo",
         contents: "<div class='header-title-right'><div class='header-title-top'><h3><spring:message code='main.salesCompany'/></h3><h4><spring:message code='main.salesName'/></h4></div><div class='header-title-version'><h4><spring:message code='main.salesVersion'/></h4></div><img width='50' height='50' src='static/img/logo-white.svg'/></div>"
     });
-
-    <%--var headerFlow = isc.HTMLFlow.create({--%>
-    <%--width: "10%",--%>
-    <%--height: "100%",--%>
-    <%--styleName: "mainHeaderStyleOnline header-logo-title",--%>
-    <%--contents: "<span><spring:message code='main.salesName'/></span>"--%>
-    <%--});--%>
 
     var headerLayout = isc.HLayout.create({
 
@@ -574,31 +567,9 @@
     /*----------------------settingTab------------------------*/
     settingTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.settingTab'/>",
-        menu: isc.Menu.create({
-            placement: "none",
-            data: [
-                {
-                    title: "<spring:message code='setting.appRoles'/>",
-                    click: function () {
-                        createTab("<spring:message code='setting.appRoles'/>", "<spring:url value="web/oauth/app-roles/show-form" />", false);
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='setting.groupPermission'/>",
-                    click: function () {
-                        createTab("<spring:message code='setting.groupPermission'/>", "<spring:url value="web/oauth/groups/show-form" />", false);
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='setting.roleUser'/>",
-                    click: function () {
-                        createTab("<spring:message code='setting.roleUser'/>", "<spring:url value="web/oauth/users/show-form" />", false);
-                    }
-                }
-            ]
-        })
+        click: function () {
+            createTab("مدیریت کاربران", "<spring:url value="web/oauth/landing/show-form" />", false);
+        }
     });
 
     /*----------------------contractsTab------------------------*/
