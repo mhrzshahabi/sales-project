@@ -1,0 +1,587 @@
+/*********************** OAuth **************************/
+.container-oauth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 85vh;
+    font-family: BYekan, IRANSansNum, IRANSans;
+    overflow: auto;
+}
+
+.item-oauth {
+    flex: 0 0 300px;
+    max-width: 300px;
+    height: 20%;
+    min-height: 480px;
+    position: relative;
+    border: 2px solid #fe9d2a;
+    border-radius: 8px;
+    box-shadow: 0 -1px 8px 0 rgba(0, 0, 0, 0.71);
+    margin-left: 75px;
+}
+
+.item-oauth .bg-img img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
+    opacity: 0.8;
+/ / transition: 0.3 s;
+}
+
+.item-oauth:hover > .bg-img img {
+    filter: blur(0px);
+    opacity: 1;
+    -webkit-filter: blur(0px);
+}
+
+.item-title-oauth {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 68px;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+/ / height: 100 %;
+}
+
+.item-title-1, .item-title-4 {
+    padding-bottom: 109px;
+}
+
+.item-title-oauth strong {
+    font-size: 22px;
+    color: #374b71;
+    padding-bottom: 25px;
+}
+
+.OA-btn-link {
+    font-weight: bold;
+    color: #fe9d2a;
+    text-decoration: underline;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-oauth-parent > .disabled {
+    color: #cccccc;
+    text-decoration: none;
+    cursor: default;
+}
+
+.OA-btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+/ / transition: color .15 s ease-in-out, background-color .15 s ease-in-out, border-color .15 s ease-in-out, box-shadow .15 s ease-in-out;
+    font-family: BYekan, IRANSansNum, IRANSans;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: pointer;
+}
+
+.just-first {
+    justify-content: flex-start;
+}
+
+.OA-btn:focus {
+    outline: none;
+}
+
+.OA-btn-oauth {
+    font-size: .71rem;
+    font-weight: 700;
+    color: #fff;
+    background-color: #fe9d2a;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .16);
+    padding: 6px 15px;
+    min-width: 180px;
+}
+
+.OA-btn-oauth img {
+    padding-left: 5px;
+    width: 16px;
+}
+
+.OA-btn-oauth:hover {
+    background-color: white;
+    color: #fe9d2a;
+    border: 1px solid #fe9d2a;
+}
+
+.OA-btn-oauth-outline img {
+/ / padding-left: 5 px;
+    width: 15px;
+}
+
+.OA-btn-oauth-outline {
+    font-size: .8rem;
+    font-weight: 700;
+    color: #fe9d2a;
+    background-color: #fff;
+    border: 1px solid #fe9d2a;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .16);
+    padding: 5px 15px;
+    min-width: 180px;
+}
+
+.OA-btn-oauth-outline:hover {
+    background-color: #fe9d2a;
+    color: white;
+    border: 1px solid #fe9d2a;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.close-orange {
+    transform: rotate(45deg) scale(.8);
+    margin-left: 3px;
+}
+
+.eye-white {
+    transform: scale(1);
+    margin-left: 5px;
+}
+
+.bottom-desc {
+    position: absolute;
+    width: 100%;
+    min-height: 40px;
+    background-color: white;
+    top: 100%;
+    left: -2px;
+    z-index: -1;
+    border: 2px dashed #fe9d2a;
+    box-shadow: 0 3px 6px 0 rgba(38, 38, 38, 0.16);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top: none;
+}
+
+.bottom-desc .arrow-line {
+    position: absolute;
+    height: 2px;
+    width: 31%;
+    background-color: #FE9D2A;
+    left: -31%;
+}
+
+.bottom-desc span {
+    font-weight: bold;
+    color: #fe9d2a;
+    font-size: 13px;
+}
+
+.bottom-desc .arrow {
+    position: absolute;
+    transform: rotate(-90deg) translate(0px, -80px);
+    left: 0;
+}
+
+/*------oauth-user-----*/
+.back-home-container {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+}
+
+.users-search-container {
+    position: relative !important;;
+}
+
+.back-home {
+    position: absolute;
+    left: -90px;
+    top: 5px;
+    width: 150px;
+    height: 40px;
+    border: 2px solid #0a5185;
+    background-color: #c4e3f7;
+/ / transition: 0.3 s;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #0a5185;
+}
+
+.back-home span {
+    padding: 0px 0px 0px 26px;
+}
+
+.home-trans-front {
+    left: -20px;
+    top: 5px;
+}
+
+.btn-oauth-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.OA-btn-show-oauth {
+    background-color: #fe9d2a;
+    color: white;
+    padding: 4px 15px 5px 24px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.OA-btn-show-oauth:focus {
+    outline: 0;
+}
+
+.oa-show-user-role-window, oa-edit-user-role-window, .oa-app-window {
+    border-radius: 5px;
+}
+
+.oa-show-user-role-window .windowHeader, .oa-show-user-role-window .windowHeaderHilite, .oa-show-user-role-window .windowBody {
+    border-radius: 1px;
+}
+
+.oa-app-window .windowHeader, .oa-app-window .windowHeaderHilite, .oa-app-window .windowBody {
+    border-radius: 1px;
+}
+
+.oa-app-window .formTitle,
+.oa-app-window .formTitleRTL,
+.oa-app-window .formTitleFocused,
+.oa-app-window .formTitleFocusedRTL,
+.oa-app-window .formTitleDisabled,
+.oa-app-window .formTitleDisabledRTL,
+.oa-app-window .formTitleError,
+.oa-app-window .formTitleErrorRTL,
+.oa-app-window .formTitleErrorFocused,
+.oa-app-window .formCellErrorRTL,
+.oa-app-window .formTitleErrorFocusedRTL,
+.oa-app-window .formTitleErrorFocusedOver,
+.oa-app-window .formTitleErrorFocusedOverRTL,
+.oa-app-window .formTitlePending,
+.oa-app-window .formTitlePendingRTL,
+.oa-app-window .formTitlePendingFocused,
+.oa-app-window .formTitlePendingFocusedRTL,
+.oa-app-window .formTitlePendingDisabled,
+.oa-app-window .formTitlePendingDisabledRTL,
+.oa-app-window .formTitlePendingError,
+.oa-app-window .formTitlePendingErrorRTL,
+.oa-app-window .formCell,
+.oa-app-window .formCellRTL,
+.oa-app-window .formCellFocused,
+.oa-app-window .formCellFocusedRTL,
+.oa-app-window .formCellErrorFocusedRTL,
+.oa-app-window .formCellDisabled,
+.oa-app-window .formCellDisabledRTL,
+.oa-app-window .formCellError,
+.oa-app-window .formCellErrorRTL,
+.oa-app-window .formCellPending,
+.oa-app-window .formCellPendingRTL,
+.oa-app-window .formCellPendingFocused,
+.oa-app-window .formCellPendingFocusedRTL,
+.oa-app-window .formCellPendingDisabled,
+.oa-app-window .formCellPendingDisabledRTL,
+.oa-app-window .formCellPendingError,
+.oa-app-window .formCellPendingErrorRTL,
+.oa-app-window .formHint,
+.oa-app-window .formHintRTL,
+.oa-app-window .formHintOver,
+.oa-app-window .formHintOverRTL,
+.oa-app-window .formHintDisabled,
+.oa-app-window .formHintDisabledRTL {
+    font-weight: bold;
+    color: #374b71;
+    display: block;
+     //padding-bottom: 7px;
+}
+
+.oa-app-window .formTitle ,
+.oa-app-window .formTitleRTL  ,
+.oa-app-window .formTitleFocused ,
+.oa-app-window .formTitleFocusedRTL ,
+.oa-app-window .formTitleDisabled ,
+.oa-app-window .formTitleDisabledRTL ,
+.oa-app-window .formTitleError ,
+.oa-app-window .formTitleErrorRTL ,
+.oa-app-window .formTitleErrorFocused ,
+.oa-app-window .formTitleErrorFocusedRTL ,
+.oa-app-window .formTitleErrorFocusedOver ,
+.oa-app-window .formTitleErrorFocusedOverRTL ,
+.oa-app-window .textItemLiteErrorFocusedRTL ,
+.oa-app-window .formTitlePending ,
+.oa-app-window .formTitlePendingRTL ,
+.oa-app-window .formTitlePendingFocused ,
+.oa-app-window .formTitlePendingFocusedRTL ,
+.oa-app-window .formTitlePendingDisabled ,
+.oa-app-window .formTitlePendingDisabledRTL ,
+.oa-app-window .formTitlePendingError ,
+.oa-app-window .formTitlePendingErrorRTL
+{
+    padding-top: 12px;
+    padding-bottom: 3px;
+}
+
+.oa-app-window .windowHeaderText {
+    padding-right: 210px;
+}
+
+.oa-user-tool-strip-button-backHome,
+.oa-user-tool-strip-button-backHomeOver,
+.oa-user-tool-strip-button-backHomeFocused,
+.oa-user-tool-strip-button-backHomeFocusedOver,
+.oa-user-tool-strip-button-backHomeDown,
+.oa-user-tool-strip-button-backHomeFocusedDown,
+.oa-user-tool-strip-button-backHomeSelected,
+.oa-user-tool-strip-button-backHomeSelectedFocused,
+.oa-user-tool-strip-button-backHomeSelectedDown,
+.oa-user-tool-strip-button-backHomeSelectedFocusedDown,
+.oa-user-tool-strip-button-backHomeSelectedOver,
+.oa-user-tool-strip-button-backHomeSelectedFocusedOver,
+.oa-user-tool-strip-button-backHomeDisabled,
+.oa-user-tool-strip-button-backHomeSelectedDisabled,
+.oa-user-tool-strip-button-backHomeOpened,
+.oa-user-tool-strip-button-backHomeOverOpened,
+.oa-user-tool-strip-button-backHomeDownOpened,
+.oa-user-tool-strip-button-backHomeFocusedOpened,
+.oa-user-tool-strip-button-backHomeFocusedDownOpened,
+.oa-user-tool-strip-button-backHomeFocusedOverOpened,
+.oa-user-tool-strip-button-backHomeSelectedOpened,
+.oa-user-tool-strip-button-backHomeSelectedDownOpened,
+.oa-user-tool-strip-button-backHomeSelectedOverOpened {
+    border: solid 1px #0a5185;
+    background-color: #c4e3f7;
+    font-weight: bold;
+    color: #3c80aa;
+    padding: 3px 10px 3px 3px;
+    border-radius: 3px;
+    font-size: 14px;
+    direction: ltr;
+}
+
+.oa-user-tool-strip-button-backHome:hover,
+.oa-user-tool-strip-button-backHomeOver:hover,
+.oa-user-tool-strip-button-backHomeFocused:hover,
+.oa-user-tool-strip-button-backHomeFocusedOver:hover,
+.oa-user-tool-strip-button-backHomeDown:hover,
+.oa-user-tool-strip-button-backHomeFocusedDown:hover,
+.oa-user-tool-strip-button-backHomeSelected:hover,
+.oa-user-tool-strip-button-backHomeSelectedFocused:hover,
+.oa-user-tool-strip-button-backHomeSelectedDown:hover,
+.oa-user-tool-strip-button-backHomeSelectedFocusedDown:hover,
+.oa-user-tool-strip-button-backHomeSelectedOver:hover,
+.oa-user-tool-strip-button-backHomeSelectedFocusedOver:hover,
+.oa-user-tool-strip-button-backHomeDisabled:hover,
+.oa-user-tool-strip-button-backHomeSelectedDisabled:hover,
+.oa-user-tool-strip-button-backHomeOpened:hover,
+.oa-user-tool-strip-button-backHomeOverOpened:hover,
+.oa-user-tool-strip-button-backHomeDownOpened:hover,
+.oa-user-tool-strip-button-backHomeFocusedOpened:hover,
+.oa-user-tool-strip-button-backHomeFocusedDownOpened:hover,
+.oa-user-tool-strip-button-backHomeFocusedOverOpened:hover,
+.oa-user-tool-strip-button-backHomeSelectedOpened:hover,
+.oa-user-tool-strip-button-backHomeSelectedDownOpened:hover,
+.oa-user-tool-strip-button-backHomeSelectedOverOpened:hover {
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+oa-user-tool-strip-button-backHome > tbody > tr {
+    padding-right: 5px;
+}
+.OA-add-btn {
+    padding-right: 22px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .item-oauth {
+        flex: 0 0 200px;
+        min-height: 360px;
+        margin-left: 41px;
+    }
+
+    .item-title-oauth {
+        padding-bottom: 58px;
+    }
+
+    .item-title-oauth strong {
+        font-size: 16px;
+        padding-bottom: 18px;
+    }
+
+    .OA-btn-oauth {
+        font-size: 0.7rem;
+        padding: 5px 6px;
+        min-width: 140px;
+    }
+
+    .OA-btn-oauth-outline {
+        font-size: .7rem;
+        padding: 5px 6px;
+        min-width: 140px;
+    }
+
+    .bottom-desc span {
+        font-size: 12px;
+        padding-top: 5px;
+    }
+
+    .item-title-1, .item-title-4 {
+        padding-bottom: 98px;
+    }
+
+}
+
+
+.oa-user-list-grid .cellDark:after, .oa-user-list-grid .cellOverDark:after, oa-user-list-grid .cellSelectedDark:after, .oa-user-list-grid .cellSelectedOverDark:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    z-index: 100;
+    top: 11px;
+    width: 1px;
+    height: 18px;
+    background: #d9d9d9;
+}
+
+.oa-user-list-grid .cell:after, .oa-user-list-grid .cellOver:after, .oa-user-list-grid .cellSelected:after, .oa-user-list-grid .cellSelectedOver:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    z-index: 100;
+    top: 11px;
+    width: 1px;
+    height: 18px;
+    background: #d9d9d9;
+}
+
+.oa-user-list-grid .cellDarkAltCol:after, .oa-user-list-grid .cellOverDarkAltCol:after, .oa-user-list-grid .cellSelectedDarkAltCol:after, .oa-user-list-grid .cellSelectedOverDarkAltCol:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    z-index: 100;
+    top: 11px;
+    width: 1px;
+    height: 18px;
+    background: #d9d9d9;
+}
+
+.oa-user-list-grid .cellAltCol:after, .oa-user-list-grid .cellOverAltCol:after, .oa-user-list-grid .cellSelectedAltCol:after, .oa-user-list-grid .cellSelectedOverAltCol:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    z-index: 100;
+    top: 11px;
+    width: 1px;
+    height: 18px;
+    background: #d9d9d9;
+}
+
+.OA-edit-btn {
+    padding-left: 5px;
+}
+.oa-show-user-dynamic-form .buttonDisabled,
+.oa-show-app-role-dynamic-form .buttonDisabled,
+.oa-show-group-dynamic-form .buttonDisabled{
+ color: #2B2F37;
+}
+.oa-show-user-dynamic-form .selectItemLiteControlDisabledRTL,
+.oa-show-app-role-dynamic-form .selectItemLiteControlDisabledRTL,
+.oa-show-group-dynamic-form .selectItemLiteControlDisabledRTL{
+    display: none !important;
+}
+
+/*.oa-user-dynamic-form  .selectItemLiteControl,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlRTL,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlOver,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlOverRTL,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlFocused,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlFocusedRTL,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlFocusedOver,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlFocusedOverRTL,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlDisabled,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlDisabledRTL,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlError,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlErrorRTL,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlErrorOver,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlErrorOverRTL,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlErrorFocused,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlErrorFocusedRTL,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlErrorFocusedOver,*/
+/*.oa-user-dynamic-form  .selectItemLiteControlErrorFocusedOverRTL,*/
+/*.oa-user-dynamic-form input[type="text"].selectItemLiteTextRTL,*/
+/*.oa-user-dynamic-form input[type="text"].selectItemLiteTextFocused,*/
+/*.oa-user-dynamic-form input[type="text"].selectItemLiteTextFocusedRTL{*/
+    /*//width: 465px !important;*/
+/*}*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControl,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlRTL,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlOver,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlOverRTL,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlFocused,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlFocusedRTL,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlFocusedOver,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlFocusedOverRTL,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlDisabled,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlDisabledRTL,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlError,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlErrorRTL,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlErrorOver,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlErrorOverRTL,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlErrorFocused,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlErrorFocusedRTL,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlErrorFocusedOver,*/
+/*.oa-app-role-dynamic-form  .selectItemLiteControlErrorFocusedOverRTL,*/
+/*.oa-app-role-dynamic-form input[type="text"].selectItemLiteTextRTL,*/
+/*.oa-app-role-dynamic-form input[type="text"].selectItemLiteTextFocused,*/
+/*.oa-app-role-dynamic-form input[type="text"].selectItemLiteTextFocusedRTL{*/
+    /*//width: 465px !important;*/
+/*}*/
+/*.oa-group-dynamic-form  .selectItemLiteControl,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlRTL,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlOver,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlOverRTL,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlFocused,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlFocusedRTL,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlFocusedOver,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlFocusedOverRTL,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlDisabled,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlDisabledRTL,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlError,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlErrorRTL,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlErrorOver,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlErrorOverRTL,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlErrorFocused,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlErrorFocusedRTL,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlErrorFocusedOver,*/
+/*.oa-group-dynamic-form  .selectItemLiteControlErrorFocusedOverRTL,*/
+/*.oa-group-dynamic-form input[type="text"].selectItemLiteTextRTL,*/
+/*.oa-group-dynamic-form input[type="text"].selectItemLiteTextFocused,*/
+/*.oa-group-dynamic-form input[type="text"].selectItemLiteTextFocusedRTL{*/
+    /*//width: 465px !important;*/
+/*}*/
+
