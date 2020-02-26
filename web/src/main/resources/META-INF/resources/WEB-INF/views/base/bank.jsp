@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -50,6 +51,7 @@
                 }],
             fetchDataURL: "${contextPath}/api/bank/spec-list"
         });
+
 
     var RestDataSource_Country_IN_BANK = isc.MyRestDataSource.create(
         {
@@ -144,14 +146,14 @@
                     ],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var BankId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/bank/" + BankId,
                                     httpMethod: "DELETE",
                                     callback: function (resp) {
-                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                             ListGrid_Bank_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -177,6 +179,7 @@
                         ListGrid_Bank_refresh();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_BANK')">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -185,6 +188,9 @@
                         Window_Bank.show();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_BANK')">
                 {
                     title: "<spring:message code='global.form.edit'/>",
                     icon: "pieces/16/icon_edit.png",
@@ -192,29 +198,24 @@
                         ListGrid_Bank_edit();
                     }
                 },
-                {
+                </sec:authorize>
+
+                    <sec:authorize access="hasAuthority('D_BANK')">{
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
                     click: function () {
                         ListGrid_Bank_remove();
                     }
-                }]
+                }
+                </sec:authorize>
+            ]
         });
 
     var DynamicForm_Bank = isc.DynamicForm.create(
         {
             width: 650,
-            height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
+            height: 100,
             titleWidth: "100",
-            titleAlign: "right",
-            requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             fields: [
                 {
@@ -222,66 +223,94 @@
                     hidden: true
                 },
                 {
+                    type: "RowSpacerItem"
+                },
+                {
                     name: "bankCode",
                     title: "<spring:message code='bank.bankCode'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     keyPressFilter: "[0-9]",
                     length: "15", showIf: "false",
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "bankName",
                     title: "<spring:message code='bank.nameFa'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
-                    titleColSpan: 1
+                    required: true, errorOrientation: "bottom",
+                    titleColSpan: 1,
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "enBankName",
                     title: "<spring:message code='bank.nameEn'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
-                    titleColSpan: 1
+                    required: true, errorOrientation: "bottom",
+                    titleColSpan: 1,
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "address",
                     title: "<spring:message code='bank.address'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
-                    titleColSpan: 1
+                    required: true, errorOrientation: "bottom",
+                    titleColSpan: 1,
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "coreBranch",
                     title: "<spring:message code='bank.coreBranch'/>",
                     width: 500,
                     colSpan: 1,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     valueMap:
                         {
                             "core": "<spring:message code='bank.coreBranch.centralOffice'/>",
                             "branch": "<spring:message code='bank.coreBranch.branch'/>"
-                        }
+                        },
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "countryId",
                     title: "<spring:message code='country.nameFa'/>",
                     type: 'long',
                     width: 500,
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Country_IN_BANK,
                     displayField: "nameFa",
                     colSpan: 1,
                     titleColSpan: 1,
                     valueField: "id",
-                    pickListWidth: "500",
-                    pickListHeight: "500",
+                    pickListWidth: 500,
+                    pickListHeight: 300,
                     pickListProperties:
                         {
                             showFilterEditor: true
@@ -308,28 +337,37 @@
                             align: "center",
                             colSpan: 1,
                             titleColSpan: 1
+                        }],
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
                         }]
-                }
+                },
+                {
+                    type: "RowSpacerItem"
+                },
             ]
         });
 
     var ToolStripButton_Bank_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Bank_refresh();
         }
     });
 
+    <sec:authorize access="hasAuthority('C_BANK')">
     var ToolStripButton_Bank_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Bank.clearValues();
             Window_Bank.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_BANK')">
     var ToolStripButton_Bank_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -337,7 +375,9 @@
             ListGrid_Bank_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_BANK')">
     var ToolStripButton_Bank_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -345,32 +385,40 @@
             ListGrid_Bank_remove();
         }
     });
-
-    var ToolStrip_Actions_Bank = isc.ToolStrip.create(
-        {
-            width: "100%",
-            members: [
-                ToolStripButton_Bank_Add,
-                ToolStripButton_Bank_Edit,
-                ToolStripButton_Bank_Remove,
-                isc.ToolStrip.create(
-                    {
-                        width: "100%",
-                        align: "left",
-                        border: '0px',
-                        members: [
-                            ToolStripButton_Bank_Refresh,
-                        ]
-                    })
-
-            ]
-        });
+    </sec:authorize>
 
     var HLayout_Bank_Actions = isc.HLayout.create({
         width: "100%",
         members:
             [
-                ToolStrip_Actions_Bank
+                isc.ToolStrip.create(
+                    {
+                        width: "100%",
+                        members: [
+                            <sec:authorize access="hasAuthority('C_BANK')">
+                            ToolStripButton_Bank_Add,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('U_BANK')">
+                            ToolStripButton_Bank_Edit,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('D_BANK')">
+                            ToolStripButton_Bank_Remove,
+                            </sec:authorize>
+
+                            isc.ToolStrip.create(
+                                {
+                                    width: "100%",
+                                    align: "left",
+                                    border: '0px',
+                                    members: [
+                                        ToolStripButton_Bank_Refresh,
+                                    ]
+                                })
+
+                        ]
+                    })
             ]
     });
 
@@ -395,7 +443,7 @@
                         httpMethod: method,
                         data: JSON.stringify(data),
                         callback: function (resp) {
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Bank_refresh();
                                 Window_Bank.close();
@@ -410,7 +458,7 @@
     var Window_Bank = isc.Window.create(
         {
             title: "<spring:message code='bank.title'/> ",
-            width: 580,
+            width: 650,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -425,6 +473,11 @@
                 DynamicForm_Bank,
                 isc.HLayout.create(
                     {
+                        margin: '10px',
+                        padding: 10,
+                        layoutMargin: 10,
+                        membersMargin: 5,
+                        align: "center",
                         width: "100%",
                         members: [
                             IButton_Bank_Save,
@@ -434,7 +487,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "bankEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -498,10 +550,7 @@
                     width: "20%",
                     align: "center"
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
+            autoFetchData: true
         });
 
     var HLayout_Bank_Grid = isc.HLayout.create({

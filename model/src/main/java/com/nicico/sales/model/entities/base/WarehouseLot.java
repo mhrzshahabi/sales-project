@@ -16,82 +16,82 @@ import javax.persistence.*;
 @Table(name = "TBL_WAREHOUSE_LOT")
 public class WarehouseLot extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_WAREHOUSE_LOT")
-	@SequenceGenerator(name = "SEQ_WAREHOUSE_LOT", sequenceName = "SEQ_WAREHOUSE_LOT", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WAREHOUSE_LOT")
+    @SequenceGenerator(name = "SEQ_WAREHOUSE_LOT", sequenceName = "SEQ_WAREHOUSE_LOT", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "c_WAREHOUSE_NO", nullable = false, length = 20)
-	private String warehouseNo;
+    @Column(name = "c_WAREHOUSE_NO", nullable = false, length = 20)
+    private String warehouseNo;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "Warehouselot2material"))
-	private Material material;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MATERIAL_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Warehouselot2material"))
+    private Material material;
 
-	@Column(name = "MATERIAL_ID")
-	private Long materialId;
+    @Column(name = "MATERIAL_ID")
+    private Long materialId;
 
-	@Column(name = "PLANT", nullable = false, length = 100)
-	private String plant;
+    @Column(name = "PLANT", nullable = false, length = 100)
+    private String plant;
 
-	@Column(name = "LOT_NAME", nullable = false, length = 20)
-	private String lotName;
+    @Column(name = "LOT_NAME", nullable = false, length = 20)
+    private String lotName;
 
-	@Column(name = "CU")
-	private Double cu;
+    @Column(name = "CU")
+    private Double cu;
 
-	@Column(name = "AG")
-	private Double ag;
+    @Column(name = "AG")
+    private Double ag;
 
-	@Column(name = "AU")
-	private Double au;
+    @Column(name = "AU")
+    private Double au;
 
-	@Column(name = "DMT")
-	private Double dmt;
+    @Column(name = "DMT")
+    private Double dmt;
 
-	@Column(name = "MO")
-	private Double mo;
+    @Column(name = "MO")
+    private Double mo;
 
-	@Column(name = "SI")
-	private Double si;
+    @Column(name = "SI")
+    private Double si;
 
-	@Column(name = "PB")
-	private Double pb;
+    @Column(name = "PB")
+    private Double pb;
 
-	@Column(name = "S")
-	private Double s;
+    @Column(name = "S")
+    private Double s;
 
-	@Column(name = "C")
-	private Double c;
+    @Column(name = "C")
+    private Double c;
 
-	@Column(name = "P")
-	private String p;
+    @Column(name = "P")
+    private String p;
 
-	@Column(name = "SIZE1", length = 20)
-	private String size1;
+    @Column(name = "SIZE1", length = 20)
+    private String size1;
 
-	@Column(name = "SIZE1_VALUE")
-	private Double size1Value;
+    @Column(name = "SIZE1_VALUE")
+    private Double size1Value;
 
-	@Column(name = "SIZE2", length = 20)
-	private String size2;
+    @Column(name = "SIZE2", length = 20)
+    private String size2;
 
-	@Column(name = "SIZE2_VALUE")
-	private Double size2Value;
+    @Column(name = "SIZE2_VALUE")
+    private Double size2Value;
 
-	@Column(name = "WEIGHT_KG")
-	private Double weightKg;
+    @Column(name = "WEIGHT_KG")
+    private Double weightKg;
 
-	@Column(name = "GROSS_WEIGHT")
-	private Double grossWeight;
+    @Column(name = "GROSS_WEIGHT")
+    private Double grossWeight;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLot2Contract"))
-	private Contract contract;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "WarehouseLot2Contract"))
+    private Contract contract;
 
-	@Column(name = "CONTRACT_ID")
-	private Long contractId;
+    @Column(name = "CONTRACT_ID")
+    private Long contractId;
 
     @Column(name = "USED")
     private Boolean used;
@@ -99,14 +99,14 @@ public class WarehouseLot extends Auditable {
     @Column(name = "BOOKING_NO")
     private String bookingNo;
 
-    @Column(name = "TYPICAL",length = 20)
-	private String typical;
+    @Column(name = "TYPICAL", length = 20)
+    private String typical;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "WAREHOUSECADITEM_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "WarehouseLot2CadItem"))
-	private WarehouseCadItem warehouseCadItem;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WAREHOUSECADITEM_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "WarehouseLot2CadItem"))
+    private WarehouseCadItem warehouseCadItem;
 
     @Column(name = "WAREHOUSECADITEM_ID")
-	private Long warehouseCadItemId;
+    private Long warehouseCadItemId;
 
 }

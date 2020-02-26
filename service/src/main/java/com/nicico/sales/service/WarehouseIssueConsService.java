@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseIssueConsDTO;
 import com.nicico.sales.iservice.IWarehouseIssueConsService;
@@ -92,13 +91,6 @@ public class WarehouseIssueConsService implements IWarehouseIssueConsService {
     @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CONS')")
     public TotalResponse<WarehouseIssueConsDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(warehouseIssueConsDAO, criteria, warehouseIssueCons -> modelMapper.map(warehouseIssueCons, WarehouseIssueConsDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_ISSUE_CONS')")
-    public SearchDTO.SearchRs<WarehouseIssueConsDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseIssueConsDAO, request, entity -> modelMapper.map(entity, WarehouseIssueConsDTO.Info.class));
     }
 
     private WarehouseIssueConsDTO.Info save(WarehouseIssueCons warehouseIssueCons, WarehouseIssueCons oldIssueCons) {

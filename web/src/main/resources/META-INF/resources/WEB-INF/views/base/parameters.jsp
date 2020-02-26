@@ -97,14 +97,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var parametersId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/parameters/" + parametersId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 
                                             ListGrid_Parameters.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
@@ -160,16 +160,8 @@
 
     var DynamicForm_Parameters = isc.DynamicForm.create({
         width: 650,
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
+        height: 100,
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
@@ -180,7 +172,12 @@
                     title: "<spring:message code='parameters.paramName'/>",
                     width: 500,
                     required: true,
-                    type: "text"
+                    type: "text",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "contractId",
@@ -188,7 +185,12 @@
                     width: 500,
                     type: "select",
                     required: true,
-                    valueMap: {"1": "MOLYBDENUM OXIDE", "2": "CONCENTRATE", "3": "CATHOD"}
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "2": "CONCENTRATE", "3": "CATHOD"},
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "categoryValue",
@@ -226,17 +228,26 @@
                         "27": "article27",
                         "-1": "Another",
                         "-2": "BANK REFERENCE"
-                    }
+                    },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "paramValue", title: "<spring:message	code='parameters.paramValue.c'/>",
-                    width: 500, type: "textArea", required: true
+                    width: 500, type: "textArea", required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }
             ]
     });
 
     var ToolStripButton_Parameters_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Parameters_refresh();
@@ -245,7 +256,6 @@
 
     <sec:authorize access="hasAuthority('C_PARAMETERS')">
     var ToolStripButton_Parameters_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Parameters.clearValues();
@@ -332,7 +342,7 @@
                         httpMethod: method,
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
 
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Parameters_refresh();
@@ -358,14 +368,29 @@
     });
 
     var HLayout_Parameters_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
-        width: "100%",
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_Parameters_Save,
             ParametersCancelBtn
         ]
     });
+
+
+       var VLayout_saveButton_parameter = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_Parameters_IButton
+        ]
+    });
+
+
 
     var Window_Parameters = isc.Window.create(
         {
@@ -383,7 +408,7 @@
             },
             items: [
                 DynamicForm_Parameters,
-                HLayout_Parameters_IButton
+                VLayout_saveButton_parameter
             ]
         });
 
@@ -414,23 +439,7 @@
                     width: "50%",
                     align: "center"
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                var record = this.getSelectedRecord();
-                ListGrid_ParametersFeature.fetchData(
-                    {
-                        "tblParameters.id": record.id
-                    }, function (dsResponse, data, dsRequest) {
-                        ListGrid_ParametersFeature.setData(data);
-                    },
-                    {
-                        operationId: "00"
-                    });
-            }
+            autoFetchData: true
         });
 
     var HLayout_Parameters_Grid = isc.HLayout.create(

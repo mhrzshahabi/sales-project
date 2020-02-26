@@ -278,7 +278,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Material_refresh();
                             Window_Material.close();
@@ -338,18 +338,17 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
-                    title: "<spring:message
-		code='global.no'/>"
+                    title: "<spring:message code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var materialId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/material/" + materialId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Material_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -408,15 +407,7 @@
     var DynamicForm_Material = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
@@ -432,11 +423,14 @@
                     keyPressFilter: "[0-9]",
                     validators: [{
                         type: "number",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }],
-
                     hint: "<spring:message code='global.didit'/>",
                     showHintInField: true,
                 },
@@ -445,10 +439,14 @@
                     title: "<spring:message code='material.descl'/>",
                     type: 'text',
                     width: 400, required: true,
-                    textAlign: "left",
                     length: 200,
                     requiredTitlePrefix: "<span style='color:#ff0842;font-size:22px; padding-left: 2px;'>*</span>",
-
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "descp",
@@ -456,7 +454,12 @@
                     type: 'text',
                     width: 400,
                     required: true,
-                    length: 200
+                    length: 200,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "unitId",
@@ -475,13 +478,20 @@
                         {name: "id", align: "center", hidden: true},
                         {name: "nameFA", width: 195, align: "center"},
                         {name: "nameEN", width: 195, align: "center"},
-                    ]
+                    ],
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+                },
+                {
+                    type: "RowSpacerItem"
                 }
             ]
     });
 
     var ToolStripButton_Material_Refresh = isc.ToolStripButtonRefresh.create({
-        //icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Material_refresh();
@@ -490,7 +500,6 @@
 
     <sec:authorize access="hasAuthority('C_MATERIAL')">
     var ToolStripButton_Material_Add = isc.ToolStripButtonAdd.create({
-        //icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Material.clearValues();
@@ -572,8 +581,12 @@
             [
                 DynamicForm_Material,
                 isc.HLayout.create({
-                    width: "100%",
+                    margin: '10px',
+                    padding: 10,
+                    layoutMargin: 10,
+                    membersMargin: 5,
                     align: "center",
+                    width: "100%",
                     members:
                         [
                             IButton_Material_Save,
@@ -581,7 +594,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "materialExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -657,7 +669,7 @@
             }, {operationId: "00"});
 
             ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                if (data.length === 0) {
+                if (data.length == 0) {
                     recordNotFound.show();
                     ListGrid_MaterialItem.hide()
                 } else {
@@ -674,7 +686,9 @@
                 align: "center", padding: 5,
                 membersMargin: 20,
                 members: [
+                    <sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">
                     ToolStripButton_MaterialItem_Add
+                    </sec:authorize>
                 ]
             });
 
@@ -797,14 +811,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var MaterialFeatureId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/materialFeature/" + MaterialFeatureId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_MaterialFeature_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -829,24 +843,32 @@
                     ListGrid_MaterialFeature_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_FEATURE')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
                     ListGrid_MaterialFeature_add();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_FEATURE')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_MaterialFeature_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_FEATURE')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_MaterialFeature_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -854,15 +876,7 @@
         {
             width: 750,
             height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             fields: [
@@ -886,7 +900,11 @@
                     width: 300,
                     hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true,
-
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "featureId",
@@ -927,7 +945,12 @@
                             align: "center",
                             width: "10%",
                             showIf: "true",
-                        }]
+                        }],
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "minValue",
@@ -1125,6 +1148,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_FEATURE')">
     var ToolStripButton_MaterialFeature_Add = isc.ToolStripButtonAddLarge.create({
 
         title: "<spring:message code='global.form.new'/>",
@@ -1132,7 +1156,9 @@
             ListGrid_MaterialFeature_add();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_FEATURE')">
     var ToolStripButton_MaterialFeature_Edit = isc.ToolStripButtonEdit.create({
 
         title: "<spring:message code='global.form.edit'/>",
@@ -1141,7 +1167,9 @@
             ListGrid_MaterialFeature_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_FEATURE')">
     var ToolStripButton_MaterialFeature_Remove = isc.ToolStripButtonRemove.create({
 
         title: "<spring:message code='global.form.remove'/>",
@@ -1149,14 +1177,24 @@
             ListGrid_MaterialFeature_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_MaterialFeature = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('C_FEATURE')">
                 ToolStripButton_MaterialFeature_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_FEATURE')">
                 ToolStripButton_MaterialFeature_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_FEATURE')">
                 ToolStripButton_MaterialFeature_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -1201,7 +1239,7 @@
                         httpMethod: methodXXXX,
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_MaterialFeature_refresh();
                                 Window_MaterialFeature.close();
@@ -1216,8 +1254,8 @@
 
     var MaterialFeatureCancelBtn = isc.IButtonCancel.create({
         top: 260,
-        layoutMargin: 5,
-        membersMargin: 5,
+        layoutMargin: 20,
+        membersMargin:20,
         width: 120,
         title: "<spring:message code='global.cancel'/>",
         icon: "pieces/16/icon_delete.png",
@@ -1227,14 +1265,31 @@
     });
 
     var HLayout_MaterialFeature_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
-        width: "100%",
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_MaterialFeature_Save,
             MaterialFeatureCancelBtn
         ]
     });
+
+
+        var VLayout_saveButton_MaterialFeature = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_MaterialFeature_IButton
+        ]
+    });
+
+
+
+
 
     var Window_MaterialFeature = isc.Window.create(
         {
@@ -1252,7 +1307,7 @@
             },
             items: [
                 DynamicForm_MaterialFeature,
-                HLayout_MaterialFeature_IButton
+                VLayout_saveButton_MaterialFeature
             ]
         });
 
@@ -1377,10 +1432,7 @@
                     width: 40,
                     showTitle: false
                 },],
-            sortField: 0,
             autoFetchData: false,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             createRecordComponent: function (record, colNum) {
                 var fieldName = this.getFieldName(colNum);
                 var recordCanvas = isc.HLayout.create(
@@ -1436,7 +1488,9 @@
         align: "center", padding: 5,
         membersMargin: 10,
         members: [
+            <sec:authorize access="hasAuthority('C_FEATURE')">
             ToolStripButton_MaterialFeature_Add
+            </sec:authorize>
         ]
     });
 
@@ -1571,14 +1625,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var MaterialItemId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/materialItem/" + MaterialItemId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_MaterialItem_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -1603,6 +1657,7 @@
                     ListGrid_MaterialItem_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -1610,33 +1665,32 @@
                     Window_MaterialItem.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_MATERIAL_ITEM')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_MaterialItem_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_MATERIAL_ITEM')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_MaterialItem_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
     var DynamicForm_MaterialItem = isc.DynamicForm.create({
         width: 500,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
@@ -1649,14 +1703,25 @@
                     title: "<spring:message code='MaterialItem.gdsCode'/> ",
                     required: true,
                     keyPressFilter: "[0-9]",
-                    length: "15"
+                    length: "15",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    textAlign: "left"
                 },
                 {
                     name: "gdsName",
                     width: "300",
                     title: "<spring:message code='MaterialItem.gdsName'/> ",
                     required: true,
-                    length: "200"
+                    length: "200",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
             ]
     });
@@ -1668,6 +1733,7 @@
         }
     });
 
+    <sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">
     var ToolStripButton_MaterialItem_Add = isc.ToolStripButtonAddLarge.create({
         title: "<spring:message code='global.form.new.sub'/>",
         click: function () {
@@ -1690,7 +1756,9 @@
             }
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_MATERIAL_ITEM')">
     var ToolStripButton_MaterialItem_Edit = isc.ToolStripButtonEdit.create({
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -1698,21 +1766,33 @@
             ListGrid_MaterialItem_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_MATERIAL_ITEM')">
     var ToolStripButton_MaterialItem_Remove = isc.ToolStripButtonRemove.create({
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
             ListGrid_MaterialItem_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_MaterialItem = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">
                 ToolStripButton_MaterialItem_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_MATERIAL_ITEM')">
                 ToolStripButton_MaterialItem_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_MATERIAL_ITEM')">
                 ToolStripButton_MaterialItem_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -1749,6 +1829,8 @@
     var IButton_MaterialItem_Save = isc.IButtonSave.create(
         {
             top: 260,
+            layoutMargin: 5,
+            membersMargin: 5,
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
             click: function () {
@@ -1770,7 +1852,7 @@
                         httpMethod: methodXXXX,
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_MaterialItem.invalidateCache();
                                 setCriteria_ListGrid(data.materialId)
@@ -1873,7 +1955,6 @@
                     showTitle: false
                 }
             ],
-            sortField: 0,
             autoFetchData: false,
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 loadWindowFeatureList(record.materialId)
@@ -1945,7 +2026,6 @@
 
     isc.SectionStack.create(
         {
-            ID: "Material_Section_Stack",
             sections: [
                 {
                     title: "<spring:message code='ProductGroup'/>",

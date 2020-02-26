@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -34,31 +35,40 @@
     }
 
     var RestDataSource_TozinSales = isc.MyRestDataSource.create({
-        fields: [{
-            name: "id",
-            title: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        },
+        fields: [
+            {
+                name: "customer",
+                title: "<spring:message code='Tozin.customer'/>",
+                align: "center"
+            },
+            {
+                name: "source",
+                title: "<spring:message code='Tozin.source'/>",
+                align: "center"
+            },
+            {
+                name: "tozinId",
+                title: "<spring:message code='Tozin.tozinPlantId'/>",
+                align: "center"
+            },
+            {
+                name: "nameKala",
+                title: "<spring:message code='Tozin.nameKala'/>",
+                align: "center"
+            },
+            {
+                name: "codeKala",
+                title: "<spring:message code='Tozin.codeKala'/>",
+                align: "center"
+            },
             {
                 name: "cardId",
                 title: "<spring:message code='Tozin.cardId'/>",
                 align: "center"
             },
             {
-                name: "carNo1",
-                title: "<spring:message code='Tozin.carNo1'/>",
-                align: "center"
-            },
-            {
-                name: "carNo3",
-                title: "<spring:message code='Tozin.carNo3'/>",
-                align: "center"
-            },
-            {
-                name: "plak",
-                title: "<spring:message code='Tozin.plak'/>",
+                name: "target",
+                title: "<spring:message code='Tozin.target'/>",
                 align: "center"
             },
             {
@@ -67,8 +77,8 @@
                 align: "center"
             },
             {
-                name: "customer",
-                title: "<spring:message code='Tozin.customer'/>",
+                name: "carNo1",
+                title: "<spring:message code='Tozin.carNo1'/>",
                 align: "center"
             },
             {
@@ -77,53 +87,13 @@
                 align: "center"
             },
             {
-                name: "vazn1",
-                title: "<spring:message code='Tozin.vazn1'/>",
-                align: "center"
-            },
-            {
-                name: "vazn2",
-                title: "<spring:message code='Tozin.vazn2'/>",
-                align: "center"
-            },
-            {
-                name: "condition",
-                title: "<spring:message code='Tozin.condition'/>",
-                align: "center"
-            },
-            {
-                name: "vazn",
-                title: "<spring:message code='Tozin.vazn'/>",
-                align: "center"
-            },
-            {
-                name: "tedad",
-                title: "<spring:message code='Tozin.tedad'/>",
-                align: "center"
-            },
-            {
-                name: "unitKala",
-                title: "<spring:message code='Tozin.unitKala'/>",
-                align: "center"
-            },
-            {
-                name: "packName",
-                title: "<spring:message code='Tozin.packName'/>",
-                align: "center"
-            },
-            {
-                name: "haveCode",
-                title: "<spring:message code='Tozin.haveCode'/>",
+                name: "isFinal",
+                title: "<spring:message code='Tozin.isFinal'/>",
                 align: "center"
             },
             {
                 name: "date",
                 title: "<spring:message code='Tozin.date'/>",
-                align: "center"
-            },
-            {
-                name: "tozinId",
-                title: "<spring:message code='Tozin.tozinId'/>",
                 align: "center"
             },
             {
@@ -137,23 +107,8 @@
                 align: "center"
             },
             {
-                name: "codeKala",
-                title: "<spring:message code='Tozin.codeKala'/>",
-                align: "center"
-            },
-            {
-                name: "nameKala",
-                title: "<spring:message code='Tozin.nameKala'/>",
-                align: "center"
-            },
-            {
                 name: "sourceId",
                 title: "<spring:message code='Tozin.sourceId'/>",
-                align: "center"
-            },
-            {
-                name: "source",
-                title: "<spring:message code='Tozin.source'/>",
                 align: "center"
             },
             {
@@ -162,101 +117,79 @@
                 align: "center"
             },
             {
-                name: "target",
-                title: "<spring:message code='Tozin.target'/>",
+                name: "sellerId",
                 align: "center"
             },
             {
-                name: "havalehName",
-                title: "<spring:message code='Tozin.havalehName'/>",
+                name: "customerId",
                 align: "center"
             },
             {
-                name: "havalehDate",
-                title: "<spring:message code='Tozin.havalehDate'/>",
+                name: "packName",
+                title: "<spring:message code='Tozin.packName'/>",
                 align: "center"
             },
             {
-                name: "isFinal",
-                title: "<spring:message code='Tozin.isFinal'/>",
+                name: "unitKala",
+                title: "<spring:message code='Tozin.unitKala'/>",
                 align: "center"
             },
             {
-                name: "targetPlantId",
-                title: "<spring:message code='Tozin.targetPlantId'/>"
+                name: "tedad",
+                title: "<spring:message code='Tozin.tedad'/>",
+                align: "center"
             },
             {
-                name: "sourcePlantId",
-                title: "<spring:message code='Tozin.sourcePlantId'/>"
+                name: "vazn",
+                title: "<spring:message code='Tozin.vazn'/>",
+                align: "center"
+            },
+            {
+                name: "condition",
+                title: "<spring:message code='Tozin.condition'/>",
+                align: "center"
+            },
+            {
+                name: "vazn2",
+                title: "<spring:message code='Tozin.vazn2'/>",
+                align: "center"
+            },
+            {
+                name: "vazn1",
+                title: "<spring:message code='Tozin.vazn1'/>",
+                align: "center"
+            },
+            {
+                name: "plak",
+                title: "<spring:message code='Tozin.plak'/>",
+                align: "center"
+            },
+            {
+                name: "carNo3",
+                title: "<spring:message code='Tozin.carNo3'/>",
+                align: "center"
+            },
+            {
+                name: "haveCode",
+                title: "<spring:message code='Tozin.haveCode'/>",
+                align: "center"
             }
         ],
         fetchDataURL: "${contextPath}/api/tozinSales/spec-list"
     });
 
-    var HLayout_TozinSales_labels = isc.HLayout.create({
-        width: "100%",
-        layoutMargin: 5,
-        height: 22,
-        showEdges: false,
-        members: [
-            isc.Label.create({
-                width: 10
-            }),
-            isc.Label.create({
-                width: "100%"
-            }),
-            isc.Label.create({
-                contents: "<spring:message code='global.record'/>",
-                align: "center",
-                width: 50,
-                height: 22
-            }),
-            isc.Label.create({
-                ID: "TozinSales_labels_NavigationAz",
-                contents: "0",
-                border: "1px blue solid",
-                align: "center",
-                width: 40,
-                height: 22
-            }),
-            isc.Label.create({
-                contents: "<spring:message code='global.from'/>",
-                align: "center",
-                width: 50,
-                height: 22
-            }),
-
-            isc.Label.create({
-                ID: "TozinSales_labels_NavigationTa",
-                border: "1px blue solid",
-                align: "center",
-                contents: "0",
-                width: 40,
-                height: 22
-            })
-        ]
-    });
 
     var DynamicForm_DailyReport_TozinSales = isc.DynamicForm.create({
         width: "200",
         wrapItemTitles: false,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
         action: "report/printDailyReportBandarAbbas",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "toDay",
-            ID: "toDayDate",
+            ID: "toDayDateTozinSales",
             title: "<spring:message code='dailyWarehouse.toDay'/>",
             type: 'text',
             align: "center",
@@ -266,10 +199,10 @@
             icons: [{
                 src: "pieces/pcal.png",
                 click: function () {
-                    displayDatePicker('toDayDate', this, 'ymd', '/');
+                    displayDatePicker('toDayDateTozinSales', this, 'ymd', '/');
                 }
             }],
-            defaultValue: "1398/01/26",
+            defaultValue: "1398/10/26",
         },]
     });
 
@@ -303,6 +236,7 @@
         ]
     });
 
+    <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var Menu_ListGrid_Kharid_Konstantere = isc.Menu.create({
         width: 200,
         data: [
@@ -332,6 +266,7 @@
             }
         ]
     });
+    </sec:authorize>
 
     var Menu_ListGrid_Kharid_Zaieat = isc.Menu.create({
         width: 250,
@@ -363,35 +298,37 @@
         ]
     });
 
+    <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var MenuButton_Forosh_Bargiri = isc.MenuButton.create({
-        ID: "MenuButton_Forosh_Bargiri",
         autoDraw: false,
         title: "<spring:message code='tozin.report.salesUpload'/>",
         prompt: "<spring:message code='tozin.report.salesUpload.byDate'/>",
         width: 200,
         menu: Menu_ListGrid_Forosh_Bargiri
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var MenuButton_Kharid_Konstantere = isc.MenuButton.create({
-        ID: "MenuButton_Kharid_Konstantere",
         autoDraw: false,
         title: "<spring:message code='tozin.report.cons.buy'/>",
         prompt: "<spring:message code='tozin.report.cons.buy.byDate'/>",
         width: 200,
         menu: Menu_ListGrid_Kharid_Konstantere
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
     var MenuButton_Kharid_Zaieat = isc.MenuButton.create({
-        ID: "MenuButton_Kharid_Zaieat",
         autoDraw: false,
         title: "<spring:message code='tozin.report.waste'/>",
         prompt: "<spring:message code='tozin.report.waste.byDate'/>",
         width: 250,
         menu: Menu_ListGrid_Kharid_Zaieat
     });
+    </sec:authorize>
 
     var ToolStripButton_TozinSales_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_TozinSales_refresh();
@@ -402,9 +339,18 @@
         width: "100%",
         membersMargin: 10,
         members: [
+            <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
             MenuButton_Forosh_Bargiri,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
             MenuButton_Kharid_Konstantere,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('O_TOZIN_SALES')">
             MenuButton_Kharid_Zaieat,
+            </sec:authorize>
+
             DynamicForm_DailyReport_TozinSales,
             isc.ToolStrip.create({
                 width: "100%",
@@ -431,15 +377,6 @@
         dataSource: RestDataSource_TozinSales,
         fields:
             [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {
-                    name: "plak",
-                    title: "<spring:message code='Tozin.plak'/>",
-                    align: "center",
-                    showHover: true,
-                    width: "10%",
-                    operator: "equals"
-                },
                 {
                     name: "vazn",
                     title: "<spring:message code='Tozin.vazn'/>",
@@ -483,7 +420,7 @@
                     width: "10%"
                 },
                 {
-                    name: "tozinPlantId",
+                    name: "tozinId",
                     showHover: true,
                     width: "10%",
                     title: "<spring:message code='Tozin.tozinPlantId'/>"
@@ -495,29 +432,13 @@
                     title: "<spring:message code='Tozin.tozinDate'/>"
                 }
             ],
-        allowAdvancedCriteria: true,
-        allowFilterExpressions: true,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
-        recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-        updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-            TozinSales_labels_NavigationAz.setContents(this.getFocusRow() + 1);
-        },
-        dataArrived: function (startRow, endRow) {
-            TozinSales_labels_NavigationTa.setContents(ListGrid_TozinSales.getData().getLength());
-            if (ListGrid_TozinSales.getRecord(0) != null) {
-                TozinSales_labels_NavigationAz.setContents(startRow + 1);
-            } else
-                TozinSales_labels_NavigationAz.setContents("0");
-        }
+        autoFetchData: true
     });
 
     var VLayout_TozinSales_Grid = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_TozinSales_labels,
             ListGrid_TozinSales
         ]
     });

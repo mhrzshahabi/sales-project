@@ -11,37 +11,36 @@
 	<queryString language="SQL">
 		<![CDATA[SELECT
     nvl(invoice_internal."INV_DATE",'') AS inv_date,
-    nvl(invoice_internal_customer2."CUST_NAME",'') AS customer_cust_name,
-    nvl(invoice_internal_customer2."CUST_POSTCODE",'') AS customer_cust_postcode,
-    nvl(invoice_internal_customer2."CUST_EGHTESADNUMBER",'') AS customer_cust_eghtesadnumber,
-    nvl(invoice_internal_customer2."CUST_ADDRESS",'') AS customer_cust_address,
-    nvl(invoice_internal_customer2."CUST_TEL",'') AS customer_cust_tel,
-    nvl(invoice_internal_customer2."CUST_SABTNUMBER",'') AS customer_cust_sabtnumber,
-    nvl(invoice_internal_customer1."CUST_NAME",'') AS buyer_cust_name,
-    nvl(invoice_internal_customer1."CUST_POSTCODE",'') AS buyer_cust_postcode,
-    nvl(invoice_internal_customer1."CUST_EGHTESADNUMBER",'') AS buyer_cust_eghtesadnumber,
-    nvl(invoice_internal_customer1."CUST_ADDRESS",'') AS buyer_cust_address,
-    nvl(invoice_internal_customer1."CUST_TEL",'') AS buyer_cust_tel,
-    nvl(invoice_internal_customer1."CUST_TELEX",'') AS buyer_cust_telex,
-    nvl(invoice_internal_customer1."CUST_FAX",'') AS buyer_cust_fax,
-    nvl(invoice_internal_customer1."CUST_SABTNUMBER",'') AS buyer_cust_sabtnumber,
-    nvl(invoice_internal."HAVALEHID",0) AS havalehid,
-    nvl(invoice_internal."GOODSID",0) AS goodsid,
-    nvl(invoice_internal."GDSNAME",'') AS gdsname,
-    nvl(invoice_internal."WEIGHTREAL",0) AS weightreal,
-    nvl(invoice_internal."GHEMATUNIT",0) AS ghematunit,
-    nvl(invoice_internal."MABLAGHKOL",0) AS mablaghkol,
-    nvl(invoice_internal."PAYFORAVAREZMALEYATE",0) AS payforavarezmaleyate,
-    nvl(invoice_internal."BANKGROUPDESC",'') AS bankgroupdesc,
-    nvl(invoice_internal."LCID",'') AS lcid,
-    nvl(invoice_internal_lc."LC_NUMBER",'') AS lc_number
+    nvl(mc.CUST_NAME,'') AS customer_cust_name,
+    nvl(mc.CUST_POSTCODE,'') AS customer_cust_postcode,
+    nvl(mc.CUST_EGHTESADNUMBER,'') AS customer_cust_eghtesadnumber,
+    nvl(mc.CUST_ADDRESS,'') AS customer_cust_address,
+    nvl(mc.CUST_TEL,'') AS customer_cust_tel,
+    nvl(mc.CUST_SABTNUMBER,'') AS customer_cust_sabtnumber,
+    nvl(mc.CUST_NAME,'') AS buyer_cust_name,
+    nvl(mc.CUST_POSTCODE,'') AS buyer_cust_postcode,
+    nvl(mc.CUST_EGHTESADNUMBER,'') AS buyer_cust_eghtesadnumber,
+    nvl(mc.CUST_ADDRESS,'') AS buyer_cust_address,
+    nvl(mc.CUST_TEL,'') AS buyer_cust_tel,
+    nvl(mc.CUST_TELEX,'') AS buyer_cust_telex,
+    nvl(mc.CUST_FAX,'') AS buyer_cust_fax,
+    nvl(mc.CUST_SABTNUMBER,'') AS buyer_cust_sabtnumber,
+    nvl(invoice_internal.HAVALEHID,0) AS havalehid,
+    nvl(invoice_internal.GOODSID,0) AS goodsid,
+    nvl(invoice_internal.GDSNAME,'') AS gdsname,
+    nvl(invoice_internal.WEIGHTREAL,0) AS weightreal,
+    nvl(invoice_internal.GHEMATUNIT,0) AS ghematunit,
+    nvl(invoice_internal.MABLAGHKOL,0) AS mablaghkol,
+    nvl(invoice_internal.PAYFORAVAREZMALEYATE,0) AS payforavarezmaleyate,
+    nvl(invoice_internal.BANKGROUPDESC,'') AS bankgroupdesc,
+    nvl(invoice_internal.LCID,'') AS lcid,
+    nvl(lct.LC_NUMBER,'') AS lc_number
 FROM
-    "TBL_INVOICE_INTERNAL" invoice_internal
-    JOIN "TBL_INVOICE_INTERNAL_CUSTOMER" invoice_internal_customer1 ON invoice_internal_customer1."CUST_ID" = invoice_internal."BUYERID"
-    JOIN "TBL_INVOICE_INTERNAL_CUSTOMER" invoice_internal_customer2 ON invoice_internal_customer2."CUST_ID" = invoice_internal."CUSTOMERID"
-    LEFT JOIN "TBL_INVOICE_INTERNAL_LC" invoice_internal_lc ON invoice_internal_lc."LCID" = invoice_internal."LCID"
+    n_master.view_innersalesforsalse invoice_internal
+    JOIN n_master.customer1tbl mc ON mc.cust_id = invoice_internal.customerid
+    LEFT JOIN n_master.LC_T lct ON lct.LCID = invoice_internal.LCID
 WHERE
-    invoice_internal."ID" = $P{ID}]]>
+    invoice_internal."INV_ID" = $P{ID}]]>
 	</queryString>
 	<field name="INV_DATE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="INV_DATE"/>
@@ -283,7 +282,7 @@ WHERE
 					</textElement>
 					<text><![CDATA[نمابر : ]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="15" y="67" width="105" height="16" uuid="5738e796-d7f2-42a7-94b8-4b4ced40f8e9"/>
 					<textElement textAlignment="Left">
 						<font fontName="Shabnam-FD" size="9" isItalic="false"/>
@@ -311,7 +310,7 @@ WHERE
 					</textElement>
 					<text><![CDATA[تلکس:]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="170" y="66" width="164" height="15" uuid="d3ce4dc7-693f-488f-8a71-4182b5f5edd0"/>
 					<textElement textAlignment="Center">
 						<font fontName="Shabnam-FD" size="9"/>

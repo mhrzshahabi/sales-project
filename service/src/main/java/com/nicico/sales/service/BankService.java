@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.BankDTO;
 import com.nicico.sales.iservice.IBankService;
@@ -89,13 +88,6 @@ public class BankService implements IBankService {
     @PreAuthorize("hasAuthority('R_BANK')")
     public TotalResponse<BankDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(bankDAO, criteria, bank -> modelMapper.map(bank, BankDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_BANK')")
-    public SearchDTO.SearchRs<BankDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(bankDAO, request, entity -> modelMapper.map(entity, BankDTO.Info.class));
     }
 
     private BankDTO.Info save(Bank bank) {

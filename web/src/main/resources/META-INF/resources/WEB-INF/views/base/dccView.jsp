@@ -36,10 +36,8 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_DccView,
-        sortField: 0,
         autoFetchData: true,
         showFilterEditor: false,
-        filterOnKeypress: true,
         fields:
             [
                 {name: "id", hidden: true},
@@ -91,7 +89,6 @@
     }
 
     var ToolStripButton_DccView_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_DccView_refresh();

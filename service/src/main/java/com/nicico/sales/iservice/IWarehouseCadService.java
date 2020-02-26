@@ -2,7 +2,6 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.WarehouseCadDTO;
 
 import java.util.List;
@@ -24,6 +23,4 @@ public interface IWarehouseCadService {
     TotalResponse<WarehouseCadDTO.Info> search(NICICOCriteria nicicoCriteria);
 
     TotalResponse<WarehouseCadDTO.InfoCombo> search1(NICICOCriteria nicicoCriteria);
-
-    SearchDTO.SearchRs<WarehouseCadDTO.Info> search(SearchDTO.SearchRq request);
 }

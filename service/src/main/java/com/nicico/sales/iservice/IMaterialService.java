@@ -2,26 +2,23 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.MaterialDTO;
 
 import java.util.List;
 
 public interface IMaterialService {
 
-	MaterialDTO.Info get(Long id);
+    MaterialDTO.Info get(Long id);
 
-	List<MaterialDTO.Info> list();
+    List<MaterialDTO.Info> list();
 
-	MaterialDTO.Info create(MaterialDTO.Create request);
+    MaterialDTO.Info create(MaterialDTO.Create request);
 
-	MaterialDTO.Info update(Long id, MaterialDTO.Update request);
+    MaterialDTO.Info update(Long id, MaterialDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(MaterialDTO.Delete request);
+    void delete(MaterialDTO.Delete request);
 
-	SearchDTO.SearchRs<MaterialDTO.Info> search(SearchDTO.SearchRq request);
-
-	TotalResponse<MaterialDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<MaterialDTO.Info> search(NICICOCriteria criteria);
 }

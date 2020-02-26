@@ -1,7 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-
 //<script>
+
+    <%@ page contentType="text/html;charset=UTF-8" %>
+    <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+    <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
@@ -174,6 +175,7 @@
         fetchDataURL: "${contextPath}/api/shipmentContract/spec-list"
     });
 
+
     var IButton_ShipmentContract_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
@@ -192,7 +194,7 @@
                 data: JSON.stringify(data),
                 callback: function (resp) {
 
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_ShipmentContract_refresh();
                         Window_ShipmentContract.hide();
@@ -220,6 +222,7 @@
         ListGrid_ShipmentContract.invalidateCache();
     }
 
+
     function ListGrid_ShipmentContract_edit() {
         var record = ListGrid_ShipmentContract.getSelectedRecord();
         if (record == null || record.id == null) {
@@ -241,6 +244,7 @@
             Window_ShipmentContract.animateShow();
         }
     }
+
 
     function ListGrid_ShipmentContract_remove() {
 
@@ -280,14 +284,14 @@
 
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var shipmentContractId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/shipmentContract/" + shipmentContractId,
                                     httpMethod: "DELETE",
                                     callback: function (resp) {
-                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                             ListGrid_ShipmentContract_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -302,6 +306,7 @@
         }
     }
 
+
     var Menu_ListGrid_ShipmentContract_In_ShipmentContract = isc.Menu.create({
         width: 150,
         data: [{
@@ -312,6 +317,7 @@
                 ListGrid_ShipmentContract.invalidateCache();
             }
         },
+            <sec:authorize access="hasAuthority('C_SHIPMENT_CONTRACT')">
             {
                 title: "<spring:message code='global.form.new'/>",
                 icon: "pieces/16/icon_add.png",
@@ -320,6 +326,9 @@
                     Window_ShipmentContract.animateShow();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_SHIPMENT_CONTRACT')">
             {
                 title: "<spring:message code='global.form.edit'/>",
                 icon: "pieces/16/icon_edit.png",
@@ -328,6 +337,9 @@
                     ListGrid_ShipmentContract_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_SHIPMENT_CONTRACT')">
             {
                 title: "<spring:message code='global.form.remove'/>",
                 icon: "pieces/16/icon_delete.png",
@@ -336,6 +348,7 @@
                     ListGrid_ShipmentContract_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -348,19 +361,9 @@
         wrapItemTitles: false,
         autoDraw: false,
         autoFocus: "true",
-        dataPageSize: 50,
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
         titleWidth: "100",
-        titleAlign: "right",
         numCols: 7,
         membersMargin: '5px',
-        errorOrientation: "bottom",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>", //فیلد اجباری است.
         fields: [{
             name: "id",
             title: "id",
@@ -368,8 +371,6 @@
             canEdit: false,
             hidden: true
         },
-
-
             {
                 colSpan: 2,
                 name: "createDate",
@@ -377,6 +378,10 @@
                 width: 430,
                 type: "date",
                 required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
 
@@ -388,7 +393,11 @@
                 width: "200",
                 required: true,
                 length: "30",
-                keyPressFilter: "[0-9]"
+                keyPressFilter: "[0-9]",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -463,7 +472,11 @@
                 title: "<spring:message code='shipmentContract.vesselName'/>", //نام کشتی
                 align: "right",
                 width: "200",
-                length: "30", required: true
+                length: "30", required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 colSpan: 2,
@@ -492,8 +505,10 @@
                 length: "30",
                 keyPressFilter: "[0-9]",
                 type: "isInteger",
-
-
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 colSpan: 2,
@@ -569,7 +584,11 @@
                     " draft survey ": "<spring:message code='shipmentContract.draftSurvey'/>" //بازرسي درافت كشتي
                     ,
                     " weighbridge ": "<spring:message code='shipmentContract.weighbridge'/>" //باسكول
-                }
+                },
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -580,6 +599,10 @@
                 width: "200",
                 required: true,
                 length: "30",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -592,13 +615,13 @@
     });
 
     var ToolStripButton_ShipmentContract_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentContract_refresh();
         }
     });
 
+    <sec:authorize access="hasAuthority('C_SHIPMENT_CONTRACT')">
     var ToolStripButton_ShipmentContract_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -608,7 +631,9 @@
             Window_ShipmentContract.animateShow();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_SHIPMENT_CONTRACT')">
     var ToolStripButton_ShipmentContract_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -616,7 +641,9 @@
             ListGrid_ShipmentContract_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_SHIPMENT_CONTRACT')">
     var ToolStripButton_ShipmentContract_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -624,15 +651,26 @@
             ListGrid_ShipmentContract_remove();
         }
     });
+    </sec:authorize>
+
 
     var ToolStrip_Actions_ShipmentContract = isc.ToolStrip.create(
         {
             width: "100%",
             membersMargin: 5,
             members: [
+                <sec:authorize access="hasAuthority('C_SHIPMENT_CONTRACT')">
                 ToolStripButton_ShipmentContract_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_SHIPMENT_CONTRACT')">
                 ToolStripButton_ShipmentContract_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_SHIPMENT_CONTRACT')">
                 ToolStripButton_ShipmentContract_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create(
                     {
                         width: "100%",
@@ -721,10 +759,9 @@
                 },
             ],
         sortField: "id",
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
+
 
     var HLayout_ShipmentContract_Grid = isc.HLayout.create({
         width: "100%",

@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractCurrencyDTO;
 import com.nicico.sales.iservice.IContractCurrencyService;
@@ -82,13 +81,6 @@ public class ContractCurrencyService implements IContractCurrencyService {
         final List<ContractCurrency> contractCurrencys = contractCurrencyDAO.findAllById(request.getIds());
 
         contractCurrencyDAO.deleteAll(contractCurrencys);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTRACT_CURRENCY')")
-    public SearchDTO.SearchRs<ContractCurrencyDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(contractCurrencyDAO, request, contractCurrency -> modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

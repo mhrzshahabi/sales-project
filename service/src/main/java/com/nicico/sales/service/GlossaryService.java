@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.GlossaryDTO;
 import com.nicico.sales.iservice.IGlossaryService;
@@ -12,7 +11,6 @@ import com.nicico.sales.repository.GlossaryDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,13 +80,6 @@ public class GlossaryService implements IGlossaryService {
         final List<Glossary> glossarys = glossaryDAO.findAllById(request.getIds());
 
         glossaryDAO.deleteAll(glossarys);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-//    @PreAuthorize("hasAuthority('R_GLOSSARY')")
-    public SearchDTO.SearchRs<GlossaryDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(glossaryDAO, request, glossary -> modelMapper.map(glossary, GlossaryDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

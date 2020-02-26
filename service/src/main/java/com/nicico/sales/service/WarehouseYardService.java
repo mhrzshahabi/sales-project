@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseYardDTO;
 import com.nicico.sales.iservice.IWarehouseYardService;
@@ -89,13 +88,6 @@ public class WarehouseYardService implements IWarehouseYardService {
     @PreAuthorize("hasAuthority('R_WAREHOUSE_YARD')")
     public TotalResponse<WarehouseYardDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(warehouseYardDAO, criteria, warehouseYard -> modelMapper.map(warehouseYard, WarehouseYardDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_YARD')")
-    public SearchDTO.SearchRs<WarehouseYardDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseYardDAO, request, entity -> modelMapper.map(entity, WarehouseYardDTO.Info.class));
     }
 
     private WarehouseYardDTO.Info save(WarehouseYard warehouseYard) {

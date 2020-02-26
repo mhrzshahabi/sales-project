@@ -16,21 +16,21 @@ import javax.persistence.*;
 @Table(name = "TBL_RATE")
 public class Rate extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_RATE")
-	@SequenceGenerator(name = "SEQ_RATE", sequenceName = "SEQ_RATE", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_RATE")
+    @SequenceGenerator(name = "SEQ_RATE", sequenceName = "SEQ_RATE", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "NAME_FA", nullable = false, length = 200)
-	private String nameFA;
+    @Column(name = "NAME_FA", nullable = false, length = 200)
+    private String nameFA;
 
-	@Column(name = "NAME_EN", nullable = false, length = 200)
-	private String nameEN;
+    @Column(name = "NAME_EN", nullable = false, length = 200)
+    private String nameEN;
 
-	@Column(name = "SYMBOL")
-	private String symbol;
+    @Column(name = "SYMBOL")
+    private String symbol;
 
-	@Column(name = "DECIMAL_DIGITS")
-	private Long decimalDigit;
+    @Column(name = "DECIMAL_DIGITS")
+    private Long decimalDigit;
 }

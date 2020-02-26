@@ -94,10 +94,4 @@ public class WarehouseCadItemRestController {
         SearchDTO.SearchRs<WarehouseCadItemDTO.Info> aa = warehouseCadItemService.search(request);
         return new ResponseEntity<>(aa.getList(), HttpStatus.OK);
     }
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<WarehouseCadItemDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(warehouseCadItemService.search(request), HttpStatus.OK);
-    }
 }

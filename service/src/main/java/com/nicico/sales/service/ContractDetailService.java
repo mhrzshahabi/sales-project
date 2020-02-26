@@ -3,11 +3,12 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
+import com.nicico.sales.dto.ContractDetailAuditDTO;
 import com.nicico.sales.dto.ContractDetailDTO;
 import com.nicico.sales.iservice.IContractDetailService;
 import com.nicico.sales.model.entities.base.ContractDetail;
+import com.nicico.sales.repository.ContractDetailAuditDAO;
 import com.nicico.sales.repository.ContractDetailDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,12 +25,20 @@ import java.util.Optional;
 public class ContractDetailService implements IContractDetailService {
 
     private final ContractDetailDAO contractDetailDAO;
+    private final ContractDetailAuditDAO contractDetailAuditDAO;
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")
     public ContractDetailDTO.Info get(Long id) {
         final Optional<ContractDetail> slById = contractDetailDAO.findById(id);
+        final ContractDetail contractDetail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractDetailNotFound));
+
+        return modelMapper.map(contractDetail, ContractDetailDTO.Info.class);
+    }
+
+    public ContractDetailDTO.Info findByContractID(Long id) {
+        final Optional<ContractDetail> slById = contractDetailDAO.findByContractId(id);
         final ContractDetail contractDetail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractDetailNotFound));
 
         return modelMapper.map(contractDetail, ContractDetailDTO.Info.class);
@@ -100,12 +109,15 @@ public class ContractDetailService implements IContractDetailService {
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")
-    public SearchDTO.SearchRs<ContractDetailDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(contractDetailDAO, request, entity -> modelMapper.map(entity, ContractDetailDTO.Info.class));
+    public TotalResponse<ContractDetailAuditDTO.Info> searchAudit(NICICOCriteria criteria) {
+        return SearchUtil.search(contractDetailAuditDAO, criteria, contractDetailAudit -> modelMapper.map(contractDetailAudit, ContractDetailAuditDTO.Info.class));
     }
 
     private ContractDetailDTO.Info save(ContractDetail contractDetail) {
         final ContractDetail saved = contractDetailDAO.saveAndFlush(contractDetail);
         return modelMapper.map(saved, ContractDetailDTO.Info.class);
     }
+
+
+
 }

@@ -3,7 +3,7 @@
 
     {
       "code": "R_BANK",
-      "title": "نمایش اطلاعات بانک"
+      "title": "نمایش بانک"
     },
     {
       "code": "C_BANK",
@@ -19,7 +19,7 @@
     },
     {
       "code": "R_CATODLIST",
-      "title": "نمایش اطلاعات لیست کاتد"
+      "title": "نمایش لیست کاتد"
     },
     {
       "code": "C_CATODLIST",
@@ -35,7 +35,7 @@
     },
     {
       "code": "R_CONTACT_ACCOUNT",
-      "title": "نمایش اطلاعات حساب"
+      "title": "نمایش حساب"
     },
     {
       "code": "C_CONTACT_ACCOUNT",
@@ -51,7 +51,7 @@
     },
     {
       "code": "R_CONTACT",
-      "title": "نمایش اطلاعات طرف حساب تجاری"
+      "title": "نمایش طرف حساب تجاری"
     },
     {
       "code": "C_CONTACT",
@@ -199,7 +199,7 @@
     },
     {
       "code": "R_CURRENCY",
-      "title": "نمایش نرخ تبدیل ارز"
+      "title": "نمایش ارز"
     },
     {
       "code": "C_CURRENCY",
@@ -346,6 +346,42 @@
       "title": "حذف آیتم های صورتحساب"
     },
     {
+      "code": "R_INVOICE_SALES",
+      "title": "نمایش فاکتور فروش"
+    },
+    {
+      "code": "C_INVOICE_SALES",
+      "title": "ایجاد فاکتور فروش"
+    },
+    {
+      "code": "U_INVOICE_SALES",
+      "title": "به روز رسانی فاکتور فروش"
+    },
+    {
+      "code": "D_INVOICE_SALES",
+      "title": "حذف فاکتور فروش"
+    },
+    {
+      "code": "R_INVOICE_INTERNAL",
+      "title": "نمایش صورتحساب فروش داخلی"
+    },
+    {
+      "code": "C_INVOICE_INTERNAL",
+      "title": "ایجاد صورتحساب فروش داخلی"
+    },
+    {
+      "code": "U_INVOICE_INTERNAL",
+      "title": "به روز رسانی صورتحساب فروش داخلی"
+    },
+    {
+      "code": "D_INVOICE_INTERNAL",
+      "title": "حذف صورتحساب فروش داخلی"
+    },
+    {
+      "code": "O_INVOICE_INTERNAL",
+      "title": "خروجی صورتحساب فروش داخلی"
+    },
+    {
       "code": "R_INVOICE_MOLYBDENUM",
       "title": "نمایش صورتحساب مولیبدن"
     },
@@ -376,6 +412,10 @@
     {
       "code": "D_INVOICE",
       "title": "حذف صورتحساب"
+    },
+    {
+      "code": "O_INVOICE",
+      "title": "خروجی صورتحساب"
     },
     {
       "code": "R_LME",
@@ -654,6 +694,10 @@
       "title": "حذف توزین فروش"
     },
     {
+      "code": "O_TOZIN_SALES",
+      "title": "خروجی توزین فروش"
+    },
+    {
       "code": "R_TOZIN",
       "title": "نمایش توزین"
     },
@@ -668,6 +712,10 @@
     {
       "code": "D_TOZIN",
       "title": "حذف توزین"
+    },
+    {
+      "code": "O_TOZIN",
+      "title": "خروجی توزین"
     },
     {
       "code": "R_UNIT",
@@ -796,6 +844,10 @@
     {
       "code": "D_WAREHOUSE_STOCK",
       "title": "حذف موجودی انبار"
+    },
+    {
+      "code": "O_WAREHOUSE_STOCK",
+      "title": "خروجی موجودی انبار"
     },
     {
       "code": "R_WAREHOUSE_YARD",

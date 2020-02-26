@@ -28,16 +28,7 @@
     var dccDynamicForm = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -51,25 +42,40 @@
                     valueMap: {
                         "letter": "<spring:message code='dcc.letter'/>",
                         "contract": "<spring:message code='contract.title'/>"
-                    }
+                    },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "description",
                     title: "<spring:message code='global.description'/>",
                     type: 'textArea',
-                    required: "true",
+                    required: true,
                     width: 400,
-                    height: "100"
+                    height: "100",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     ID: "fileDcc",
                     name: "fileDcc",
                     title: "<spring:message code='global.Attachment'/> ",
                     type: "file",
-                    required: "true",
+                    required: true,
                     accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
                     multiple: "",
                     width: "90%",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }
             ]
     });
@@ -106,13 +112,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var dccId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/dcc/" + dccId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Dcc_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -197,7 +203,12 @@
                 ,
                 valueMap: {
                     "letter": "<spring:message code='dcc.letter'/>"
-                }
+                },
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "description",
@@ -210,7 +221,12 @@
                 title: "<spring:message code='global.fileName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {name: "fileNewName", title: "<spring:message code='global.fileNewName'/>", type: 'text', width: 400}
         ],
@@ -235,39 +251,39 @@
                 dccDynamicForm.setValue("tblName1", dccTableName);
                 dccDynamicForm.setValue("tblId1", dccTableId);
 
-                if (dccTableName != null && dccTableName === 'TBL_CONTACT') {
+                if (dccTableName != null && dccTableName == 'TBL_CONTACT') {
                     folder = "contact";
                     dccDynamicForm.setValue("folder", "contact");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_CONTRACT') {
+                else if (dccTableName != null && dccTableName == 'TBL_CONTRACT') {
                     folder = "contract";
                     dccDynamicForm.setValue("folder", "contract");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_INSTRUCTION') {
+                else if (dccTableName != null && dccTableName == 'TBL_INSTRUCTION') {
                     folder = "instruction";
                     dccDynamicForm.setValue("folder", "instruction");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_SHIPMENT') {
+                else if (dccTableName != null && dccTableName == 'TBL_SHIPMENT') {
                     folder = "shipment";
                     dccDynamicForm.setValue("folder", "shipment");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_INVOICE') {
+                else if (dccTableName != null && dccTableName == 'TBL_INVOICE') {
                     folder = "invoice";
                     dccDynamicForm.setValue("folder", "invoice");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_CAD') {
+                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_CAD') {
                     folder = "warehouse_cad";
                     dccDynamicForm.setValue("folder", "warehouse_cad");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CATHODE') {
+                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_ISSUE_CATHODE') {
                     folder = "warehouse_issue_cathode";
                     dccDynamicForm.setValue("folder", "warehouse_issue_cathode");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_CONS') {
+                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_ISSUE_CONS') {
                     folder = "warehouse_issue_cons";
                     dccDynamicForm.setValue("folder", "warehouse_issue_cons");
                 }
-                else if (dccTableName != null && dccTableName === 'TBL_WAREHOUSE_ISSUE_MO') {
+                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_ISSUE_MO') {
                     folder = "warehouse_issue_mo";
                     dccDynamicForm.setValue("folder", "warehouse_issue_mo");
                 }
@@ -288,15 +304,15 @@
                     isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
                 }
                 request.onreadystatechange = function () {
-                    if (request.readyState === XMLHttpRequest.DONE) {
-                        if (request.status === 500)
+                    if (request.readyState == XMLHttpRequest.DONE) {
+                        if (request.status == 500)
                             isc.warn("<spring:message code='dcc.upload.error.message'/>");
-                        if (request.status === 200 || request.status == 201) {
+                        if (request.status == 200 || request.status == 201) {
                             isc.say("<spring:message code='dcc.upload.success.message'/>");
                             ListGrid_Dcc_refresh();
                             dccCreateWindow.close();
                         }
-                        else if (request.responseText !== "" && JSON.parse(request.responseText).exceptionClass.includes("MaxUploadSizeExceededException"))
+                        else if (request.responseText != "" && JSON.parse(request.responseText).exceptionClass.includes("MaxUploadSizeExceededException"))
                             isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
                     }
                 }
@@ -329,7 +345,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "rateEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -349,11 +364,9 @@
         styleName: "listgrid-child",
         dataSource: RestDataSource_Dcc,
         contextMenu: dccMenu,
-        sortField: 0,
         autoFetchData: true,
         initialCriteria: criteria,
         showFilterEditor: false,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         fields:
@@ -376,7 +389,12 @@
                     valueMap: {
                         "letter": "<spring:message code='dcc.letter'/>",
                         "contract": "<spring:message code='contract.title'/>"
-                    }
+                    },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "description",
@@ -431,6 +449,7 @@
             ListGrid_Dcc
         ]
     });
+
     isc.VLayout.create({
         width: "100%",
         height: "100%",

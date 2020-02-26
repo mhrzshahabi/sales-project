@@ -3,11 +3,12 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.ContractAuditDTO;
 import com.nicico.sales.dto.ContractDTO;
+import com.nicico.sales.iservice.IContractAuditService;
 import com.nicico.sales.iservice.IContractService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -15,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 @Slf4j
@@ -25,6 +25,7 @@ import java.util.List;
 public class ContractRestController {
 
     private final IContractService contractService;
+    private final IContractAuditService contractAuditService;
 
     @Loggable
     @GetMapping(value = "/{id}")
@@ -65,6 +66,13 @@ public class ContractRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/audit/spec-list")
+    public ResponseEntity<TotalResponse<ContractAuditDTO.Info>> listAudit(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contractAuditService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ContractDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
@@ -80,7 +88,14 @@ public class ContractRestController {
 
     @Loggable
     @PutMapping(value = "/readWord")
-    public ResponseEntity<List<String>> updateValueAllArticles(@RequestBody String contractNo) {
-        return new ResponseEntity<>(contractService.readFromWord(contractNo), HttpStatus.OK);
+    public ResponseEntity<List<String>> updateValueAllArticles(@RequestBody String contract) {
+        String[] detailContract= contract.split("_");
+        String contractNo=detailContract[0]+detailContract[1];
+        long contractId = Long.parseLong(detailContract[2]);
+        int draftId = 0;
+        if(detailContract.length>3){
+             draftId = Integer.parseInt(detailContract[3]);
+        }
+        return new ResponseEntity<>(contractService.readFromWord(contractNo,contractId,draftId), HttpStatus.OK);
     }
 }

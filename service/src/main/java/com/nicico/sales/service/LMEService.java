@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.LMEDTO;
 import com.nicico.sales.iservice.ILMEService;
@@ -82,13 +81,6 @@ public class LMEService implements ILMEService {
         final List<LME> lMEs = lMEDAO.findAllById(request.getIds());
 
         lMEDAO.deleteAll(lMEs);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_LME')")
-    public SearchDTO.SearchRs<LMEDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(lMEDAO, request, lME -> modelMapper.map(lME, LMEDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

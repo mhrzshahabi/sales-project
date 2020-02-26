@@ -28,7 +28,12 @@
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
                     required: true,
-                    width: 400
+                    width: 400,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "jobTitle",
@@ -53,7 +58,12 @@
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
                     required: true,
-                    width: 400
+                    width: 400,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "email1",
@@ -168,18 +178,9 @@
     var DynamicForm_Groups = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
-
         fields: [
             {name: "id", hidden: true,},
             {type: "RowSpacerItem"},
@@ -188,7 +189,12 @@
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 type: "RowSpacerItem"
@@ -214,7 +220,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Groups_refresh();
                             Window_Groups.close();
@@ -299,14 +305,14 @@
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
 
                         var groupsId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/groups/" + groupsId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Groups.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -341,7 +347,6 @@
     }
 
     var ToolStripButton_Groups_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Groups_refresh();
@@ -350,7 +355,6 @@
 
     <sec:authorize access="hasAuthority('C_GROUPS')">
     var ToolStripButton_Groups_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Groups.clearValues();
@@ -422,7 +426,12 @@
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
         ],
 
@@ -449,13 +458,14 @@
                     title: "<spring:message code='groups.groupsName'/>",
                     type: 'text',
                     required: true,
-                    width: "100%"
+                    width: "100%",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },],
-            sortField: 0,
             autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
             updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
@@ -513,7 +523,6 @@
     }
 
     var ToolStripButton_Person_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Person_GroupEmail_refresh();
@@ -572,7 +581,12 @@
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
                     required: true,
-                    width: "10%"
+                    width: "10%",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "jobTitle",
@@ -597,7 +611,12 @@
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
                     required: true,
-                    width: "10%"
+                    width: "10%",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "email1",
@@ -629,10 +648,7 @@
                     type: 'text',
                     width: "10%"
                 }],
-            sortField: 0,
             autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
             updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
@@ -731,23 +747,13 @@
     var DynamicForm_GroupsPerson = isc.DynamicForm.create({
         width: 700,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
                 {name: "id", hidden: true,},
-// {type: "RowSpacerItem"},
             {name: "groupsId", type: "long", hidden: true},
-// {type: "RowSpacerItem"},
             {
                 name: "personId",
                 title: "<spring:message code='person.fullName'/>",
@@ -779,6 +785,11 @@
                         name: "email",
                         width: 150,
                         align: "center"
+                    }],
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
             }
         ]
@@ -802,7 +813,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_GroupsPerson_refresh();
                             Window_GroupsPerson.close();
@@ -839,11 +850,9 @@
 
 
     var GroupPersonHeaderForm = isc.DynamicForm.create({
-        align: "center",
         width: 800,
         height: "100%",
         titleWidth: "100%",
-        titleAlign: "right",
         numCols: 1,
         fields: [
             {name: "id", type: "hidden", title: ""},
@@ -925,13 +934,13 @@
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var groupsPersonId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/groupsPerson/" + groupsPersonId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_GroupsPerson.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -967,7 +976,6 @@
     }
 
     var ToolStripButton_GroupsPerson_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_GroupsPerson_refresh();
@@ -975,7 +983,6 @@
     });
 
     var ToolStripButton_GroupsPerson_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_Groups.getSelectedRecord();
@@ -1049,14 +1056,24 @@
                 type: 'text',
                 required: true,
                 width: 400,
-                hidden: true
+                hidden: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "person.id",
@@ -1064,14 +1081,24 @@
                 type: 'text',
                 required: true,
                 width: 400,
-                hidden: true
+                hidden: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "person.fullName",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "person.jobTitle",
@@ -1096,7 +1123,12 @@
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: true,
-                width: 150
+                width: 150,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "person.email1",
@@ -1186,7 +1218,7 @@
         canAcceptDroppedRecords: true,
         addDropValues: true,
         recordDrop: function (dropRecords, targetRecord, index, sourceWidget) {
-            if (this === sourceWidget)
+            if (this == sourceWidget)
                 return;
             if (dropRecords.length > 1)
                 return;
@@ -1212,7 +1244,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_GroupsPerson_refresh();
                         } else
@@ -1235,7 +1267,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                hidden: true
+                hidden: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "groups.groupsName",
@@ -1245,7 +1282,12 @@
                 width: "10%",
                 sortNormalizer: function (recordObject) {
                     return recordObject.groups.groupsName;
-                }
+                },
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "person.id",
@@ -1253,7 +1295,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                hidden: true
+                hidden: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "person.fullName",
@@ -1263,7 +1310,12 @@
                 width: "10%",
                 sortNormalizer: function (recordObject) {
                     return recordObject.person.fullName;
-                }
+                },
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "person.jobTitle",
@@ -1296,7 +1348,12 @@
                 width: "10%",
                 sortNormalizer: function (recordObject) {
                     return recordObject.person.email;
-                }
+                },
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "person.email1",
@@ -1354,9 +1411,7 @@
             }
         ],
         sortField: 2,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
+        autoFetchData: true
     });
     var HLayout_Grid_GroupsPerson = isc.HLayout.create({
         width: "100%",
@@ -1375,7 +1430,6 @@
     });
 
     isc.SectionStack.create({
-        ID: "Groups_Section_Stack",
         sections:
             [
                 {

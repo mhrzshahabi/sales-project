@@ -6,7 +6,7 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_WarehouseYard__BANK = isc.MyRestDataSource.create({
+    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
         fields: [{
             name: "id",
             title: "id",
@@ -75,13 +75,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var WarehouseYardId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/warehouseYard/" + WarehouseYardId,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_WarehouseYard_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -140,16 +140,7 @@
     var DynamicForm_WarehouseYard = isc.DynamicForm.create({
         width: 650,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -165,20 +156,32 @@
                             "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",
                             "Sarcheshmeh": "<spring:message code='global.Sarcheshmeh'/>",
                             "Sungun": "<spring:message code='global.Sungun'/>"
-                        }
+                        },
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFA",
                     title: "<spring:message code='warehouseCad.yard'/>",
                     width: 500,
                     colSpan: 1, required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+                },
+                {
+                    type: "RowSpacerItem"
                 }
             ]
     });
 
     var ToolStripButton_WarehouseYard_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_WarehouseYard_refresh();
@@ -187,7 +190,6 @@
 
     <sec:authorize access="hasAuthority('C_WAREHOUSE_YARD')">
     var ToolStripButton_WarehouseYard_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_WarehouseYard.clearValues();
@@ -270,7 +272,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_WarehouseYard_refresh();
                             Window_WarehouseYard.close();
@@ -284,7 +286,7 @@
 
     var Window_WarehouseYard = isc.Window.create({
         title: "<spring:message code='warehouseCad.warehouseNo'/> ",
-        width: 580,
+        width: 650,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -299,6 +301,9 @@
             [
                 DynamicForm_WarehouseYard,
                 isc.HLayout.create({
+                    layoutMargin: 10,
+                    membersMargin: 5,
+                    align: "center",
                     width: "100%",
                     members:
                         [
@@ -307,7 +312,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "warehouseYardEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -324,7 +328,7 @@
     var ListGrid_WarehouseYard = isc.ListGrid.create({
         width: "100%",
         height: "100%",
-        dataSource: RestDataSource_WarehouseYard__BANK,
+        dataSource: RestDataSource_WarehouseYard,
         contextMenu: Menu_ListGrid_WarehouseYard,
         fields:
             [
@@ -345,10 +349,7 @@
                 },
                 {name: "nameFA", title: "<spring:message code='warehouseCad.yard'/>", width: "10%", align: "center"},
             ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
     var HLayout_WarehouseYard_Grid = isc.HLayout.create({

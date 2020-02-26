@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
@@ -223,8 +224,6 @@ var Window_ContactCad = isc.Window.create({
 
 var ListGrid_Cad = isc.ListGrid.create({
         dataSource: RestDataSource_Contract,
-        dataPageSize: 50,
-        showFilterEditor: true,
         autoFetchData: true,
         initialCriteria: criteriaCad,
         fields:
@@ -253,6 +252,7 @@ var ListGrid_Cad = isc.ListGrid.create({
             ]
     });
 
+    <sec:authorize access="hasAuthority('C_CONTRACT')">
     var ToolStripButton_ContactCad_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -264,7 +264,9 @@ var ListGrid_Cad = isc.ListGrid.create({
             },250)
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_CONTRACT')">
     var ToolStripButton_ContactCad_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -280,7 +282,8 @@ var ListGrid_Cad = isc.ListGrid.create({
                                         buttonClick: function () {
                                             this.hide();
                                         }});
-        } else {
+            } else {
+            methodHtpp="PUT";
             criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
             Window_ContactCad.show();
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -288,25 +291,25 @@ var ListGrid_Cad = isc.ListGrid.create({
                 httpMethod: "PUT",
                 data: JSON.stringify(record.contractNo),
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         var text = resp.httpResponseText;
                         var text2 = text.replaceAll('","', '","').replaceAll('&?','":"')
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
                         setTimeout(function(){
                                 recordContractNo=contactCadHeader.getValue("contractNo");
                                 contactCadTabs.selectTab(0);
-                                valuesManagerfullArticle.setValue("fullArticle01",textMain.Article01);
-                                valuesManagerfullArticle.setValue("fullArticle02",textMain.Article02);
-                                article3_quality.setValue("fullArticle3",textMain.Article03);
-                                article4_quality.setValue("fullArticle4",textMain.Article04);
-                                article5_quality.setValue("fullArticle5",textMain.Article05);
-                                article6_quality.setValue("fullArticle6",textMain.Article06);
-                                article7_quality.setValue("fullArticle7",textMain.Article07);
-                                article8_quality.setValue("fullArticle8",textMain.Article08);
-                                article9_quality.setValue("fullArticle9",textMain.Article09);
-                                article10_quality.setValue("fullArticle10",textMain.Article10);
-                                article11_quality.setValue("fullArticle11",textMain.Article11);
-                                article12_quality.setValue("fullArticle12",textMain.Article12);
+                                dynamicFormCad_fullArticle01.setValue(textMain.Article01);
+                                dynamicForm_fullArticle02Cad.setValue(textMain.Article02);
+                                fullArticle3.setValue(textMain.Article03);
+                                fullArticle4.setValue(textMain.Article04);
+                                article5_quality.setValue(textMain.Article05);
+                                fullArticle6.setValue(textMain.Article06);
+                                fullArticle7.setValue(textMain.Article07);
+                                fullArticle8.setValue(textMain.Article08);
+                                fullArticle9.setValue(textMain.Article09);
+                                fullArticle10.setValue(textMain.Article10);
+                                article11_quality.setValue(textMain.Article11);
+                                fullArticle12.setValue(textMain.Article12);
                                 contactCadHeader.setValue("createDate", record.contractDate)
                                 contactCadHeader.setValue("contractNo", record.contractNo)
                                 contactCadHeader.setValue("contactId", record.contactId)
@@ -364,14 +367,7 @@ var ListGrid_Cad = isc.ListGrid.create({
             })},300)
         }
     }});
-
-
-
-
-
-
-
-
+    </sec:authorize>
 
 
 function Contract_Cathod_remove() {
@@ -397,13 +393,13 @@ function Contract_Cathod_remove() {
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var ContractIDDelete = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/contract/" + ContractIDDelete,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_Cad.invalidateCache();
                                         deleteFromContractDetail(ContractIDDelete);
                                     } else {
@@ -423,7 +419,7 @@ function deleteFromContractDetail(id){
                                 actionURL: "${contextPath}/api/contractDetail/deleteByContractId/" + id,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_Cad.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -438,7 +434,7 @@ function deleteFromContractShipment(id){
                                 actionURL: "${contextPath}/api/contractDetail/deleteByContractId/" + id,
                                 httpMethod: "DELETE",
                                 callback: function (resp) {
-                                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                         ListGrid_Cad.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -450,18 +446,23 @@ function deleteFromContractShipment(id){
 
 
     var ToolStripButton_ContactCad_Refresh = isc.ToolStripButtonRefresh.create({
-                                icon: "[SKIN]/actions/refresh.png",
-                                title: "<spring:message code='global.form.refresh'/>",
-                                click: function () {
-                                    ListGrid_Cad.invalidateCache(criteriaCad);
-                                }
-                            });
+        title: "<spring:message code='global.form.refresh'/>",
+        click: function () {
+            ListGrid_Cad.invalidateCache(criteriaCad);
+        }
+    });
 
     var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
             membersMargin: 5,
             members: [
+
+                <sec:authorize access="hasAuthority('C_CONTRACT')">
                 ToolStripButton_ContactCad_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CONTRACT')">
                 ToolStripButton_ContactCad_Edit,
+                </sec:authorize>
 
                 isc.ToolStrip.create({
                 width: "100%",

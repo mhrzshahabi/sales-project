@@ -62,7 +62,7 @@ function change_fontFace(){
         newStyle.appendChild(document.createTextNode("\
 @font-face {\
     font-family: BYekan ;\
-    src: local('☺'), url('./static/font/RobotoLight.woff2') format('woff2'), url('./static/font/RobotoLight.woff') format('woff'), url('./static/font/RobotoLight.otf') format('opentype'), url('./static/font/RobotoLight.ttf') format('truetype');\
+    src: local('☺'), url('./static/font/TimesNewRoman.woff2') format('woff2'), url('./static/font/TimesNewRoman.woff') format('woff'), url('./static/font/TimesNewRoman.otf') format('opentype'), url('./static/font/TimesNewRoman.ttf') format('truetype');\
 }\
 "));
         var head  = document.getElementsByTagName('head')[0];

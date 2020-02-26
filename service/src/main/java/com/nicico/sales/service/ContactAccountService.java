@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContactAccountDTO;
 import com.nicico.sales.iservice.IContactAccountService;
@@ -104,13 +103,6 @@ public class ContactAccountService implements IContactAccountService {
         final List<ContactAccount> contactAccounts = contactAccountDAO.findAllById(request.getIds());
 
         contactAccountDAO.deleteAll(contactAccounts);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
-    public SearchDTO.SearchRs<ContactAccountDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(contactAccountDAO, request, contactAccount -> modelMapper.map(contactAccount, ContactAccountDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

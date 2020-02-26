@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_Country = isc.MyRestDataSource.create(
+    var RestDataSource_Country_IN_CONTACT = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -90,7 +91,7 @@
             fetchDataURL: "${contextPath}/api/contactAccount/spec-list"
         });
 
-    var RestDataSource_Bank = isc.MyRestDataSource.create(
+    var RestDataSource_Bank_IN_CONTACT = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -261,6 +262,7 @@
                         ListGrid_Contact_refresh();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_CONTACT')">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -269,6 +271,9 @@
                         Window_Contact.animateShow();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CONTACT')">
                 {
                     title: "<spring:message code='global.form.edit'/>",
                     icon: "pieces/16/icon_edit.png",
@@ -276,13 +281,18 @@
                         ListGrid_Contact_edit();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_CONTACT')">
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
                     click: function () {
                         ListGrid_Contact_remove();
                     }
-                }]
+                }
+                </sec:authorize>
+            ]
         });
 
     var ValuesManager_Contact = isc.ValuesManager.create({});
@@ -292,15 +302,7 @@
             valuesManager: ValuesManager_Contact,
             width: "100%",
             height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             cellPadding: 2,
             numCols: 4,
@@ -355,7 +357,11 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     wrapTitle: false,
-                    hint: "Persian/فارسی"
+                    hint: "Persian/فارسی",
+                    validators: [{
+                        type: "required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     required: true,
@@ -366,7 +372,12 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     hint: "Latin",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "tradeMark",
@@ -516,7 +527,8 @@
                     title: "<spring:message code='contact.nationalCode'/>",
                     width: 200,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false
+                    wrapTitle: false,
+                    textAlign: "left"
                 },
                 {
                     name: "economicalCode",
@@ -549,16 +561,7 @@
         valuesManager: ValuesManager_Contact,
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields: [
             {
@@ -567,12 +570,17 @@
                 title: "<spring:message code='contact.phone'/>",
                 width: 500,
                 wrapTitle: false,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "mobile",
                 title: "<spring:message code='contact.mobile'/>",
                 width: 500,
-                wrapTitle: false,
+                wrapTitle: false
             },
 
             {
@@ -581,6 +589,7 @@
                 title: "<spring:message code='contact.fax'/>",
                 width: 500,
                 wrapTitle: false,
+                textAlign: "left"
             },
 
             {
@@ -590,7 +599,7 @@
                 type: 'long',
                 width: 500,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Country,
+                optionDataSource: RestDataSource_Country_IN_CONTACT,
                 displayField: "nameFa",
                 valueField: "id",
                 pickListWidth: 500,
@@ -599,7 +608,12 @@
                 pickListFields: [
                     {name: "id", width: 480, align: "center", hidden: true},
                     {name: "nameFa", width: 480, align: "center"},
-                ]
+                ],
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
 
@@ -614,7 +628,7 @@
                         expression: "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
                         validateOnChange: true,
                     }
-                ],
+                ]
             },
 
             {
@@ -622,14 +636,13 @@
                 title: "<spring:message code='contact.email'/>",
                 width: 500,
                 wrapTitle: false,
-                validateOnExit: true,
                 validators: [
                     {
                         type: "regexp",
                         expression: ".+\\@.+\\..+",
                         validateOnChange: true,
                     }
-                ],
+                ]
             }
         ],
 
@@ -661,7 +674,7 @@
         let Val_inspector = DynamicForm_Contact_GeneralInfo.getValue("inspector");
         let Val_insurancer = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
         let Val_all = [Val_seller, Val_buyer, Val_agentSeller, Val_agentBuyer, Val_transporter, Val_shipper, Val_inspector, Val_insurancer].values();
-        if (ValuesManager_Contact !== null) {
+        if (ValuesManager_Contact != null) {
             ValuesManager_Contact.validate();
             if (DynamicForm_Contact_GeneralInfo.hasErrors())
                 contactTabs.selectTab(0);
@@ -669,7 +682,7 @@
                 contactTabs.selectTab(1);
             else {
                 for (let chap of Val_all) {
-                    if (chap === true) {
+                    if (chap == true) {
                         var contactData = Object.assign(ValuesManager_Contact.getValues());
                         var httpMethod = "PUT";
                         if (contactData.id == null)
@@ -679,7 +692,7 @@
                             httpMethod: httpMethod,
                             data: JSON.stringify(contactData),
                             callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_Contact.invalidateCache();
                                     isc.say("<spring:message code='global.form.request.successful'/>");
                                     Window_Contact.close();
@@ -792,14 +805,14 @@
                     ],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var contactId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/contact/" + contactId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_Contact.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -842,22 +855,23 @@
     }
 
     var ToolStripButton_Contact_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Contact_refresh();
         }
     });
 
+    <sec:authorize access="hasAuthority('C_CONTACT')">
     var ToolStripButton_Contact_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             clearContactForms();
             Window_Contact.animateShow();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_CONTACT')">
     var ToolStripButton_Contact_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -865,7 +879,9 @@
             ListGrid_Contact_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_CONTACT')">
     var ToolStripButton_Contact_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -873,6 +889,7 @@
             ListGrid_Contact_remove();
         }
     });
+    </sec:authorize>
 
     var ListGrid_ContactAccount = isc.ListGrid.create(
         {
@@ -882,7 +899,6 @@
             autoDraw: false,
             warnOnRemoval: "true",
             warnOnRemovalMessage: "<spring:message code='global.grid.record.remove.ask'/> ",
-            recordClick: "ContactAccount_EditDynamicForm.editRecord(record)",
             fields: [
                 {
                     name: "id",
@@ -952,10 +968,7 @@
                     defaultValue: false
                 }],
             sortField: 2,
-            dataPageSize: 50,
             autoFetchData: false,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             getCellCSSText: function (record, rowNum, colNum) {
                 if (this.getFieldName(colNum) == "bankAccount") {
                     if (record.isDefault == 1) {
@@ -966,6 +979,12 @@
                     if (record.isDefault == 1) {
                         return "font-weight:bold; color:#0fed30;";
                     }
+                }
+            },
+            recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                if (record != null) {
+                    contactAccountTabs.enableTab("edit");
+                    ContactAccount_EditDynamicForm.editRecord(record);
                 }
             },
         });
@@ -1033,16 +1052,8 @@
         {
             width: "100%",
             numCols: 2,
-            setMethod: 'POST',
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
             autoDraw: false,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
-            requiredMessage: "<spring:message code='validator.field.is.required'/>",
             fields: [
                 {
                     type: "header",
@@ -1066,9 +1077,13 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
-                            errorMessage: "<spring:message code='global.form.correctType'/>"
+                            errorMessage: "<spring:message code='global.form.correctType'/>",
+                        },
+                        {
+                            type: "required",
+                            validateOnChange: true
                         }]
                 },
                 {
@@ -1077,7 +1092,7 @@
                     type: 'long',
                     width: 300,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Bank,
+                    optionDataSource: RestDataSource_Bank_IN_CONTACT,
                     displayField: "bankName",
                     valueField: "id",
                     pickListWidth: "300",
@@ -1109,11 +1124,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
-                            width: 300,
+                            validateOnChange: true,
                             stopOnError: true,
-                            errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                            errorMessage: "<spring:message code='global.form.correctType'/>",
+                        },
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankShaba",
@@ -1122,7 +1141,12 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
-                    format: ""
+                    format: "",
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "bankSwift",
@@ -1131,7 +1155,12 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
-                    format: ""
+                    format: "",
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "accountOwner",
@@ -1166,16 +1195,8 @@
         {
             width: "100%",
             numCols: 2,
-            setMethod: 'POST',
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
             autoDraw: false,
-            titleAlign: "right",
-            requiredMessage: "<spring:message code='validator.field.is.required'/>",
             fields: [
                 {
                     type: "header",
@@ -1199,9 +1220,13 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
+                        },
+                        {
+                            type: "required",
+                            validateOnChange: true
                         }]
                 },
                 {
@@ -1210,7 +1235,7 @@
                     type: 'long',
                     width: 300,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Bank,
+                    optionDataSource: RestDataSource_Bank_IN_CONTACT,
                     displayField: "bankName",
                     valueField: "id",
                     pickListWidth: 300,
@@ -1242,10 +1267,15 @@
                     validators: [
                         {
                             type: "isInteger",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
-                        }]
+                        },
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    textAlign: "left"
                 },
                 {
                     name: "bankShaba",
@@ -1253,7 +1283,12 @@
                     type: 'text',
                     required: true,
                     width: 300,
-                    colSpan: "2"
+                    colSpan: "2",
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "bankSwift",
@@ -1261,7 +1296,12 @@
                     type: 'text',
                     required: true,
                     width: 300,
-                    colSpan: "2"
+                    colSpan: "2",
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "accountOwner",
@@ -1314,7 +1354,7 @@
                                 parentId: data["contactId"]
                             },
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 ContactAccount_CreateDynamicForm.clearValues();
                                 ListGrid_ContactAccount.invalidateCache();
                                 ListGrid_Contact.invalidateCache();
@@ -1345,7 +1385,7 @@
                         httpMethod: "PUT",
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 ListGrid_ContactAccount.invalidateCache();
                                 ListGrid_Contact.invalidateCache();
                                 isc.say("<spring:message code='global.form.request.successful'/>");
@@ -1407,15 +1447,19 @@
             autoDraw: true,
             tabs: [
                 {
-                    title: "<spring:message code='global.form.edit'/>",
-                    icon: "pieces/16/icon_edit.png",
-                    pane: editPane
-                },
-                {
+                    name: "create",
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
                     pane: createPane
-                }]
+                },
+                {
+                    name: "edit",
+                    title: "<spring:message code='global.form.edit'/>",
+                    icon: "pieces/16/icon_edit.png",
+                    pane: editPane,
+                    disabled: true
+                }
+            ]
         });
 
     var Button_Delete_Account = isc.IButton.create(
@@ -1460,7 +1504,7 @@
                                 ],
                                 buttonClick: function (button, index) {
                                     this.hide();
-                                    if (index === 0) {
+                                    if (index == 0) {
                                         if (record.isDefault) {
                                             isc.warn("<spring:message code='exception.DeleteDefaultAccount'/>");
                                             return;
@@ -1471,7 +1515,7 @@
                                                 actionURL: "${contextPath}/api/contactAccount/" + contactAccountId,
                                                 httpMethod: "DELETE",
                                                 callback: function (RpcResponse_o) {
-                                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                                         ListGrid_ContactAccount.invalidateCache();
                                                         ListGrid_Contact.invalidateCache();
                                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
@@ -1580,9 +1624,19 @@
     var ToolStrip_Actions_Contact = isc.ToolStrip.create({
         width: "100%",
         members: [
+
+            <sec:authorize access="hasAuthority('C_CONTACT')">
             ToolStripButton_Contact_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_CONTACT')">
             ToolStripButton_Contact_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_CONTACT')">
             ToolStripButton_Contact_Remove,
+            </sec:authorize>
+
             ToolStripButton_Contact_Accounts,
             isc.ToolStrip.create({
                 width: "100%",
@@ -1798,9 +1852,6 @@
                 }
 
             ],
-            sortField: 0,
-            dataPageSize: 50,
-            showFilterEditor: true,
             getExpansionComponent: function (record) {
                 if (record == null || record.id == null) {
                     isc.Dialog.create({
@@ -1831,7 +1882,6 @@
         });
 
     isc.VLayout.create({
-        ID: "VLayout_Parameters_Body",
         width: "100%",
         height: "100%",
         members: [

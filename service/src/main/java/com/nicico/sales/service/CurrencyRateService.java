@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CurrencyRateDTO;
 import com.nicico.sales.iservice.ICurrencyRateService;
@@ -82,13 +81,6 @@ public class CurrencyRateService implements ICurrencyRateService {
         final List<CurrencyRate> currencyRates = currencyRateDAO.findAllById(request.getIds());
 
         currencyRateDAO.deleteAll(currencyRates);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CURRENCY_RATE')")
-    public SearchDTO.SearchRs<CurrencyRateDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(currencyRateDAO, request, currencyRate -> modelMapper.map(currencyRate, CurrencyRateDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

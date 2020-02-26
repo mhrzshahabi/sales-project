@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InstructionDTO;
 import com.nicico.sales.iservice.IInstructionService;
@@ -82,13 +81,6 @@ public class InstructionService implements IInstructionService {
         final List<Instruction> instructions = instructionDAO.findAllById(request.getIds());
 
         instructionDAO.deleteAll(instructions);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_INSTRUCTION')")
-    public SearchDTO.SearchRs<InstructionDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(instructionDAO, request, instruction -> modelMapper.map(instruction, InstructionDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

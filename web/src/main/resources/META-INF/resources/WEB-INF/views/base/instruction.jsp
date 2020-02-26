@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -71,14 +72,14 @@
                     ],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var InstructionId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/instruction/" + InstructionId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_Instruction_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -104,6 +105,7 @@
                         ListGrid_Instruction_refresh();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_INSTRUCTION')">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -112,6 +114,9 @@
                         Window_Instruction.show();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_INSTRUCTION')">
                 {
                     title: "<spring:message code='global.form.edit'/>",
                     icon: "pieces/16/icon_edit.png",
@@ -119,34 +124,33 @@
                         ListGrid_Instruction_edit();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_INSTRUCTION')">
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
                     click: function () {
                         ListGrid_Instruction_remove();
                     }
-                }]
+                }
+                </sec:authorize>
+            ]
         });
 
     var DynamicForm_Instruction = isc.DynamicForm.create(
         {
-            width: "100%",
-            height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
+            width: 650,
+            height: 100,
             titleWidth: "100",
-            titleAlign: "right",
-            requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             fields: [
                 {
                     name: "id",
                     hidden: true
+                },
+                {
+                    type: "RowSpacerItem"
                 },
                 {
                     name: "id",
@@ -160,8 +164,13 @@
                     title: "<spring:message code='instruction.titleInstruction'/>",
                     width: 400,
                     align: "center",
-                    required: true,
-                    length: "4000"
+                    required: true, errorOrientation: "bottom",
+                    length: "4000",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "disableDate",
@@ -176,28 +185,32 @@
                     width: 400,
                     align: "center",
                     type: "date"
+                },
+                {
+                    type: "RowSpacerItem"
                 }]
         });
 
     var ToolStripButton_Instruction_Refresh = isc.ToolStripButtonRefresh.create(
         {
-            icon: "[SKIN]/actions/refresh.png",
             title: "<spring:message code='global.form.refresh'/>",
             click: function () {
                 ListGrid_Instruction_refresh();
             }
         });
 
+    <sec:authorize access="hasAuthority('C_INSTRUCTION')">
     var ToolStripButton_Instruction_Add = isc.ToolStripButtonAdd.create(
         {
-            icon: "[SKIN]/actions/add.png",
             title: "<spring:message code='global.form.new'/>",
             click: function () {
                 DynamicForm_Instruction.clearValues();
                 Window_Instruction.show();
             }
         });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_INSTRUCTION')">
     var ToolStripButton_Instruction_Edit = isc.ToolStripButtonEdit.create(
         {
             icon: "[SKIN]/actions/edit.png",
@@ -207,7 +220,9 @@
                 ListGrid_Instruction_edit();
             }
         });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_INSTRUCTION')">
     var ToolStripButton_Instruction_Remove = isc.ToolStripButtonRemove.create(
         {
             icon: "[SKIN]/actions/remove.png",
@@ -216,14 +231,24 @@
                 ListGrid_Instruction_remove();
             }
         });
+    </sec:authorize>
 
     var ToolStrip_Actions_Instruction = isc.ToolStrip.create(
         {
             width: "100%",
             members: [
+                <sec:authorize access="hasAuthority('C_INSTRUCTION')">
                 ToolStripButton_Instruction_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_INSTRUCTION')">
                 ToolStripButton_Instruction_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_INSTRUCTION')">
                 ToolStripButton_Instruction_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create(
                     {
                         width: "100%",
@@ -244,7 +269,6 @@
                 ToolStrip_Actions_Instruction
             ]
         });
-
 
     var RestDataSource_Instruction = isc.MyRestDataSource.create(
         {
@@ -274,6 +298,7 @@
             fetchDataURL: "${contextPath}/api/instruction/spec-list"
         });
 
+
     var IButton_Instruction_Save = isc.IButtonSave.create(
         {
             top: 260,
@@ -298,7 +323,7 @@
                         httpMethod: methodXXXX,
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Instruction_refresh();
                                 Window_Instruction.close();
@@ -325,14 +350,26 @@
 
     var HLayout_Instruction_IButton = isc.HLayout.create(
         {
-            layoutMargin: 5,
+            width: 650,
+            height: "100%",
+            layoutMargin: 10,
             membersMargin: 5,
-            width: "100%",
+            textAlign: "center",
+            align: "center",
             members: [
                 IButton_Instruction_Save,
                 InstructionCancelBtn
             ]
         });
+
+        var VLayout_saveButton_instruction = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_Instruction_IButton
+        ]
+    });
 
     var Window_Instruction = isc.Window.create({
         title: "<spring:message code='instruction.title'/> ",
@@ -350,7 +387,7 @@
         items:
             [
                 DynamicForm_Instruction,
-                HLayout_Instruction_IButton
+                VLayout_saveButton_instruction
             ]
     });
 
@@ -386,11 +423,7 @@
                     width: "20%",
                     align: "center"
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
-
+            autoFetchData: true
         });
 
     var HLayout_Instruction_Grid = isc.HLayout.create(
@@ -417,7 +450,6 @@
             autoDraw: false,
             loadingMessage: ""
         });
-
 
     isc.HLayout.create(
         {

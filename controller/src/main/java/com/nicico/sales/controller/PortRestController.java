@@ -3,7 +3,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.iservice.IPortService;
 import lombok.RequiredArgsConstructor;
@@ -68,11 +67,5 @@ public class PortRestController {
     public ResponseEntity<TotalResponse<PortDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(portService.search(nicicoCriteria), HttpStatus.OK);
-    }
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<PortDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(portService.search(request), HttpStatus.OK);
     }
 }

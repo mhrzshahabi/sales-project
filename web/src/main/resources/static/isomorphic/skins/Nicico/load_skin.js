@@ -12,7 +12,8 @@ isc.loadSkin = function (theWindow) {
             print: 'چاپ',
             closeAll: 'بستن همه',
             cancel: 'لغو',
-            save: 'ذخیره'
+            save: 'ذخیره',
+            Draft: 'تاریخچه'
         }
         isc.Page.setSkinDir("[ISOMORPHIC]/skins/Nicico/");
         var cssLoaded = isc.Page.loadStyleSheet("[SKIN]/skin_styles.css", theWindow, "isc.FontLoader.loadCustomFonts()");
@@ -214,6 +215,20 @@ isc.loadSkin = function (theWindow) {
             baseStyle: "toolStripButtonRefresh",
             icon: "[SKIN]/actions/refresh.png",
             title: actions_btn.refresh,
+            autoFit: true,
+            iconSize: 15,
+            height: 17,
+            labelVPad: 0,
+            showTitle: false,
+            showRollOver: true,
+            showDown: true,
+            showDownIcon: true,
+            showSelectedIcon: true,
+        });
+        isc.ClassFactory.defineClass("ToolStripButtonDraft", "Button").addProperties({
+            baseStyle: "toolStripButtonEdit",
+            icon: "[SKIN]/actions/dr.png",
+            title: actions_btn.Draft,
             autoFit: true,
             iconSize: 15,
             height: 17,
@@ -750,7 +765,13 @@ isc.loadSkin = function (theWindow) {
         }
         if (isc.FormItem) {
             isc.FormItem.addClassProperties({defaultPickerIconSpace: 4});
-            isc.FormItem.addProperties({showRTL: true, showOver: true, showFocusedErrorState: true})
+
+            isc.FormItem.addProperties({showRTL: true, showOver: true, showFocusedErrorState: true,
+                focus: function (form, item){
+                    if(item.$14x)
+                        item.$14x.dir ="auto";
+            }
+            })
         }
         if (isc.CheckboxItem) {
             isc.CheckboxItem.addProperties({
@@ -891,6 +912,10 @@ isc.loadSkin = function (theWindow) {
                 showOver: true,
                 src: "[SKIN]/DynamicForm/date_control.png"
             })
+            isc.RelativeDateItem.addProperties({
+                startDate:isc.Date.createLogicalDate(new Date().getFullYear() - 21, 1, 1),
+                endDate:isc.Date.createLogicalDate(new Date().getFullYear() + 20, 12, 31)
+            });
         }
         if (isc.RichTextEditor) {
             isc.RichTextEditor.addProperties({
@@ -1020,6 +1045,10 @@ isc.loadSkin = function (theWindow) {
             if (isc.NativeDatetimeItem) {
                 isc.NativeDatetimeItem.addProperties({textBoxStyle: "textItemLite"})
             }
+            isc.DateItem.addProperties({
+                startDate:isc.Date.createLogicalDate(new Date().getFullYear() - 21, 1, 1),
+                endDate:isc.Date.createLogicalDate(new Date().getFullYear() + 20, 12, 31)
+            });
         }
         if (isc.MiniDateRangeItem) {
             isc.MiniDateRangeItem.addProperties({

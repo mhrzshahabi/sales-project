@@ -3824,7 +3824,7 @@ option:checked {
 .selectItemLiteTextDisabledHintRTL {
   outline: none;
   border: 0px;
-  padding-right: 0px;
+  padding-right: 8px;
   background-color: transparent;
 }
 
@@ -9903,9 +9903,6 @@ hr {
 .menuTable {
   background-color: white;
 }
-.menuTable td {
-  font-weight: bold;
-}
 .menuTable .menuTitleField, .menuTable .menuTitleFieldOver {
   text-align: center;
 }
@@ -9914,6 +9911,10 @@ hr {
 }
 .menuTable tr .menuIconField img, .menuTable tr .menuIconFieldOver img, .menuTable tr .menuIconFieldSelected img, .menuTable tr .menuIconFieldSelectedOver img {
   display: none;
+}
+
+.menuTable tr[role="menuitemcheckable"] .menuIconField img {
+  display: block !important;
 }
 
 .selectItemPickerIcon,

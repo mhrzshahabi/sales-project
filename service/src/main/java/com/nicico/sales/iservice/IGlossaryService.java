@@ -2,26 +2,23 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.GlossaryDTO;
 
 import java.util.List;
 
 public interface IGlossaryService {
 
-	GlossaryDTO.Info get(Long id);
+    GlossaryDTO.Info get(Long id);
 
-	List<GlossaryDTO.Info> list();
+    List<GlossaryDTO.Info> list();
 
-	GlossaryDTO.Info create(GlossaryDTO.Create request);
+    GlossaryDTO.Info create(GlossaryDTO.Create request);
 
-	GlossaryDTO.Info update(Long id, GlossaryDTO.Update request);
+    GlossaryDTO.Info update(Long id, GlossaryDTO.Update request);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	void delete(GlossaryDTO.Delete request);
+    void delete(GlossaryDTO.Delete request);
 
-	SearchDTO.SearchRs<GlossaryDTO.Info> search(SearchDTO.SearchRq request);
-
-	TotalResponse<GlossaryDTO.Info> search(NICICOCriteria criteria);
+    TotalResponse<GlossaryDTO.Info> search(NICICOCriteria criteria);
 }

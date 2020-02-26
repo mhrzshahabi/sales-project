@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CostDTO;
 import com.nicico.sales.iservice.ICostService;
@@ -89,13 +88,6 @@ public class CostService implements ICostService {
     @PreAuthorize("hasAuthority('R_COST')")
     public TotalResponse<CostDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(costDAO, criteria, cost -> modelMapper.map(cost, CostDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_COST')")
-    public SearchDTO.SearchRs<CostDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(costDAO, request, cost -> modelMapper.map(cost, CostDTO.Info.class));
     }
 
     private CostDTO.Info save(Cost cost) {

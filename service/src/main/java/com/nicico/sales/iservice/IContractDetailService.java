@@ -2,7 +2,7 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.sales.dto.ContractDetailAuditDTO;
 import com.nicico.sales.dto.ContractDetailDTO;
 
 import java.util.List;
@@ -10,6 +10,8 @@ import java.util.List;
 public interface IContractDetailService {
 
     ContractDetailDTO.Info get(Long id);
+
+    ContractDetailDTO.Info findByContractID(Long id);
 
     List<ContractDetailDTO.Info> list();
 
@@ -25,5 +27,6 @@ public interface IContractDetailService {
 
     TotalResponse<ContractDetailDTO.Info> search(NICICOCriteria criteria);
 
-    SearchDTO.SearchRs<ContractDetailDTO.Info> search(SearchDTO.SearchRq request);
+    TotalResponse<ContractDetailAuditDTO.Info> searchAudit(NICICOCriteria criteria);
+
 }

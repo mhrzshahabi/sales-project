@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CurrencyDTO;
 import com.nicico.sales.iservice.ICurrencyService;
@@ -89,13 +88,6 @@ public class CurrencyService implements ICurrencyService {
     @PreAuthorize("hasAuthority('R_CURRENCY')")
     public TotalResponse<CurrencyDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(currencyDAO, criteria, currency -> modelMapper.map(currency, CurrencyDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CURRENCY')")
-    public SearchDTO.SearchRs<CurrencyDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(currencyDAO, request, currency -> modelMapper.map(currency, CurrencyDTO.Info.class));
     }
 
     private CurrencyDTO.Info save(Currency currency) {

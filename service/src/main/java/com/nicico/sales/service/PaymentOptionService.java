@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.PaymentOptionDTO;
 import com.nicico.sales.iservice.IPaymentOptionService;
@@ -82,13 +81,6 @@ public class PaymentOptionService implements IPaymentOptionService {
         final List<PaymentOption> paymentOptions = paymentOptionDAO.findAllById(request.getIds());
 
         paymentOptionDAO.deleteAll(paymentOptions);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_PAYMENT_OPTION')")
-    public SearchDTO.SearchRs<PaymentOptionDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(paymentOptionDAO, request, paymentOption -> modelMapper.map(paymentOption, PaymentOptionDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

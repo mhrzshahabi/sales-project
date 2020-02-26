@@ -9,6 +9,6 @@ public class ProvisionalInvoiceFormController {
 
     @RequestMapping("/showForm")
     public String showProvisionalInvoice() {
-        return "base/provisionalInvoice";
+        return "product/provisionalInvoice";
     }
 }

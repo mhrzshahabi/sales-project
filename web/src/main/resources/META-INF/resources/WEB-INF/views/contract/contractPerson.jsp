@@ -56,10 +56,7 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ContractPerson,
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
+        autoFetchData: true
     });
 
     var HLayout_Grid_ContractPerson = isc.HLayout.create({
@@ -71,7 +68,6 @@
     });
 
     var ToolStripButton_ContractPerson_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ContractPerson_refresh();
@@ -131,13 +127,13 @@
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var contractPersonId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/contractPerson/" + contractPersonId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_ContractPerson.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -172,17 +168,9 @@
     }
 
     var DynamicForm_ContractPerson = isc.DynamicForm.create({
-        width:"500",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "bottom",
+        width:600,
+        height: 100,
         titleWidth: "300",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields: [
             {name: "id", hidden: true},
@@ -203,7 +191,11 @@
                         width: "10%",
                         align: "center"
                     }
-                ]
+                ],
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "personId",
@@ -227,7 +219,14 @@
                         width: "10%",
                         align: "center"
                     }
-                ]
+                ],
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
+            {
+               type: "RowSpacerItem"
             }
         ]
     });
@@ -261,7 +260,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ContractPerson_refresh();
                             Window_ContractPerson.close();
@@ -275,17 +274,32 @@
     });
 
     var HLayout_ContractPerson_IButton = isc.HLayout.create({
-        width: "100%",
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_ContractPerson_Save,
             ContractPersonCancelBtn
         ]
     });
 
+
+        var VLayout_saveButton_ContractPerson = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_ContractPerson_IButton
+        ]
+    });
+
+
+
     var Window_ContractPerson = isc.Window.create({
-        width:"200",
+        width:580,
         title: "<spring:message code='contractPerson.title'/>",
         autoSize: true,
         autoCenter: true,
@@ -299,7 +313,7 @@
         },
         items: [
             DynamicForm_ContractPerson,
-            HLayout_ContractPerson_IButton
+            VLayout_saveButton_ContractPerson
         ]
     });
 

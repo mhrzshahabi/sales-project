@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.MaterialFeatureDTO;
 import com.nicico.sales.iservice.IMaterialFeatureService;
@@ -82,13 +81,6 @@ public class MaterialFeatureService implements IMaterialFeatureService {
         final List<MaterialFeature> materialFeatures = materialFeatureDAO.findAllById(request.getIds());
 
         materialFeatureDAO.deleteAll(materialFeatures);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_MATERIAL_FEATURE')")
-    public SearchDTO.SearchRs<MaterialFeatureDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(materialFeatureDAO, request, materialFeature -> modelMapper.map(materialFeature, MaterialFeatureDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

@@ -157,11 +157,7 @@ public class WarehouseCadItemService implements IWarehouseCadItemService {
         return mapSearchRs(nicicoCriteria, response);
     }
 
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD_ITEM')")
-    public SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(SearchDTO.SearchRq request) {
+    private SearchDTO.SearchRs<WarehouseCadItemDTO.Info> search(SearchDTO.SearchRq request) {
         return SearchUtil.search(warehouseCadItemDAO, request, entity -> modelMapper.map(entity, WarehouseCadItemDTO.Info.class));
     }
 

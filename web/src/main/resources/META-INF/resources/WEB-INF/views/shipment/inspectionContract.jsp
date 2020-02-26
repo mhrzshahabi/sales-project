@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -24,7 +25,11 @@
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: 400,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "jobTitle",
@@ -49,7 +54,11 @@
                 type: 'text',
                 required: true,
                 width: 400,
-                regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"
+                regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "email1",
@@ -247,7 +256,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -269,12 +282,18 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
 
+
+    <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
     var ToolStripButton_InspectionContract_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -303,8 +322,9 @@
             }
         }
     });
+    </sec:authorize>
 
-
+    <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
     var ToolStripButton_InspectionContract_PrintWord = isc.ToolStripButtonPrint.create({
         icon: "pieces/512/word.png",
         title: "<spring:message code='global.form.print.inspection'/>",
@@ -312,6 +332,7 @@
             check_Insp_Print();
         }
     });
+    </sec:authorize>
 
     var recordNotFound = isc.Label.create({
         height: 30,
@@ -337,7 +358,7 @@
 
         ListGrid_InspectionContract.fetchData(criteria1, function (dsResponse, data, dsRequest) {
 
-            if (data.length === 0) {
+            if (data.length == 0) {
                 recordNotFound.show();
                 ListGrid_InspectionContract.hide()
             } else {
@@ -357,13 +378,21 @@
             align: "center", padding: 5,
             membersMargin: 20,
             members: [
-                ToolStripButton_InspectionContract_Add, ToolStripButton_InspectionContract_PrintWord
+                <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
+                ToolStripButton_InspectionContract_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
+                ToolStripButton_InspectionContract_PrintWord
+                </sec:authorize>
             ]
         });
 
         HLayout_InspectionContract_Grid.show();
+
         ToolStripButton_InspectionContract_Add.show();
         ToolStripButton_InspectionContract_PrintWord.show();
+
         var layoutInspectionContract = isc.VLayout.create({
             styleName: "expand-layout",
             padding: 5,
@@ -384,6 +413,10 @@
             title: "<spring:message code='contact.name'/>",
             type: 'text',
             required: true,
+            validators: [{
+                type:"required",
+                validateOnChange: true
+            }],
             width: "10%"
         },
             {
@@ -403,7 +436,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"
+                regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "email1",
@@ -418,11 +455,7 @@
                 width: "10%"
             }
         ],
-        sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         selectionAppearance: "checkbox"
     });
 
@@ -525,7 +558,7 @@
                     httpMethod: method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             Window_InspectionContract.hide();
                             ListGrid_InspectionContract.invalidateCache();
@@ -555,7 +588,6 @@
         height: "100%",
         layoutMargin: 30,
         membersMargin: 5,
-        textAlign: "center",
         align: "center",
         members: [
             IButton_InspectionContract_Save,
@@ -608,7 +640,7 @@
                     buttonClick: function (button, index) {
                         this.hide();
 
-                        if (index === 0) {
+                        if (index == 0) {
                             var inspectionContractId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
@@ -616,7 +648,7 @@
                                     httpMethod: "DELETE",
                                     serverOutputAsString: false,
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_InspectionContract.invalidateCache();
                                             setCriteria_ListGrid_InsperctionContract(record.shipmentId)
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
@@ -634,7 +666,7 @@
     function check_Insp_Print() {
         var record = ListGrid_InspectionContract.getSelectedRecord();
 
-        if (record === null) {
+        if (record == null) {
             isc.say("<spring:message code='global.grid.print.inspection'/>");
         } else {
             "<spring:url value="/inspectionContract/print/" var="printUrl"/>";
@@ -655,6 +687,7 @@
                         Window_InspectionContract.show();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_INSPECTION_CONTRACT')">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -664,6 +697,7 @@
                         Window_InspectionContract.show();
                     }
                 },
+                </sec:authorize>
                 <%--{--%>
                 <%--	title: "<spring:message code='global.form.edit'/>",--%>
                 <%--	icon: "pieces/16/icon_edit.png",--%>
@@ -673,6 +707,8 @@
                 <%--		ListGrid_InspectionContract_edit();--%>
                 <%--	}--%>
                 <%--},--%>
+
+                <sec:authorize access="hasAuthority('D_INSPECTION_CONTRACT')">
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
@@ -680,12 +716,17 @@
                         ListGrid_InspectionContract_remove();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('O_INSPECTION_CONTRACT')">
                 {
                     title: "<spring:message code='global.form.print.inspection'/>",
                     click: function () {
                         check_Insp_Print();
                     }
-                }]
+                }
+                </sec:authorize>
+                ]
         });
 
     var Window_InspectionContractEmailCC = isc.Window.create({
@@ -722,7 +763,7 @@
                                 title: "<spring:message code='global.ok'/>",
                                 click: function () {
                                     var selectedPerson = ListGrid_PersonByInspectionContract_EmailCC.getSelection();
-                                    if (selectedPerson.length === 0) {
+                                    if (selectedPerson.length == 0) {
 
                                         Window_InspectionContractEmailCC.close();
                                         return;
@@ -738,7 +779,7 @@
                                     for (i = 0; i < selectedPerson.length; i++) {
                                         notIn = true;
                                         if (notIn)
-                                            persons = (persons === "" ? persons : persons + ",") + selectedPerson[i].email;
+                                            persons = (persons == "" ? persons : persons + ",") + selectedPerson[i].email;
                                     }
                                     DynamicForm_InspectionContract.setValue("emailCC", persons);
                                     Window_InspectionContractEmailCC.close();
@@ -756,18 +797,9 @@
 
     var DynamicForm_InspectionContract = isc.DynamicForm.create({
         height: "400",
-        setMethod: 'POST',
-        align: "center",
-        textAlign: "left",
-        canSubmit: true,
-        errorOrientation: "bottom",
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
         titleWidth: "100",
         titleAlign: "center",
         autoFocus: "true",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
 
             {
@@ -781,8 +813,7 @@
                 name: "shipment.id",
                 title: "<spring:message code='contact.name'/>",
                 align: "right",
-                hidden: true,
-                textAlign: "left"
+                hidden: true
             },
             {
                 autoCenter: true,
@@ -818,12 +849,20 @@
                 title: "<spring:message code='shipment.emailType'/>",
                 required: true,
                 width: "650",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "emailSubject",
                 title: "<spring:message code='global.emailSubject'/>",
                 width: "650",
-                required: true
+                required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -832,11 +871,15 @@
                 type: 'text',
                 width: "650",
                 align: "left",
-                textAlign: "left",
                 required: true,
                 validators: [{
                     type: "regexp",
                     expression: ".+\\@.+\\..+",
+                    validateOnChange: true
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }],
 
             },
@@ -849,6 +892,10 @@
                 align: "left",
                 textAlign: "left",
                 required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }],
                 icons: [{
                     src: "icon/loupe.png",
                     click: function (form, item) {
@@ -865,14 +912,22 @@
                 width: "650",
                 type: "textArea",
                 height: 200,
-                required: true
+                required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "emailRespond",
                 title: "<spring:message code='global.emailRespond'/>",
                 align: "left",
                 width: "500",
-                required: true
+                required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -882,6 +937,10 @@
                 width: "650",
                 required: true,
                 align: "left",
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
         ]
     });
@@ -978,9 +1037,6 @@
 
 
         ],
-        sortField: 0,
-        dataPageSize: 50,
-       filterOnKeypress: true,
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "removeIcon") {
@@ -1138,7 +1194,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -1146,7 +1206,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -1156,7 +1220,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -1165,7 +1233,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -1174,7 +1246,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "month",
@@ -1183,7 +1259,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -1199,7 +1279,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swb",
@@ -1207,7 +1291,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "switchPort.port",
@@ -1215,7 +1303,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "status",
@@ -1230,10 +1322,6 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        dataPageSize: 50,
-        showFilterEditor: true,
-        filterOnKeypress: false,
         getExpansionComponent: function (record) {
             return getExpandedComponent_Inspection(record)
         }
@@ -1271,7 +1359,6 @@
     });
 
     var ToolStripButton_ListGrid_Inspection_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Inspection.invalidateCache();
@@ -1301,5 +1388,6 @@
             HLayout_Inspection_Grid
         ]
     });
+
     ToolStripButton_InspectionContract_Add.hide();
     ToolStripButton_InspectionContract_PrintWord.hide();

@@ -9,6 +9,6 @@ public class WarehouseLotFormController {
 
     @RequestMapping("/showForm")
     public String showWarehouseLot() {
-        return "base/warehouseLot";
+        return "product/warehouseLot";
     }
 }

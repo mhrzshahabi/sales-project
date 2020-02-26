@@ -3,9 +3,11 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.sales.dto.ContractDetailAuditDTO;
 import com.nicico.sales.dto.ContractDetailDTO;
 import com.nicico.sales.iservice.IContractDetailService;
+import com.nicico.sales.model.entities.base.ContractDetail;
+import com.nicico.sales.service.ContractDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -46,7 +48,9 @@ public class ContractDetailRestController {
     @Loggable
     @PutMapping
     public ResponseEntity<ContractDetailDTO.Info> update(@RequestBody ContractDetailDTO.Update request) {
-        return new ResponseEntity<>(contractDetailService.update(request.getId(), request), HttpStatus.OK);
+        ContractDetailDTO.Info info = contractDetailService.findByContractID(request.getContract_id());
+        request.setId(info.getId());
+        return new ResponseEntity<>(contractDetailService.update(info.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
@@ -77,10 +81,10 @@ public class ContractDetailRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailService.search(nicicoCriteria), HttpStatus.OK);
     }
-
     @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<ContractDetailDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(contractDetailService.search(request), HttpStatus.OK);
+    @GetMapping(value = "/audit/spec-list")
+    public ResponseEntity<TotalResponse<ContractDetailAuditDTO.Info>> listAudit(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contractDetailService.searchAudit(nicicoCriteria), HttpStatus.OK);
     }
 }

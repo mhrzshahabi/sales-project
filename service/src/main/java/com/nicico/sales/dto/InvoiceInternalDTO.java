@@ -2,14 +2,9 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,8 +12,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InvoiceInternalDTO {
 
-    private Long id;
-    private String invId;
+    private String id;
     private String lcId;
     private String havalehId;
     private String invDate;
@@ -55,67 +49,11 @@ public class InvoiceInternalDTO {
     private String groupGoodsNosa;
     private String groupGoodName;
     private String lcDateSarReceid;
-    private String processId;
     private String codeTafsiliNosa;
 
     @Getter
-    @Setter
     @Accessors(chain = true)
     @ApiModel("InvoiceInternalInfo")
     public static class Info extends InvoiceInternalDTO {
-        private Long id;
-        private Date createdDate;
-        private String createdBy;
-        private Date lastModifiedDate;
-        private String lastModifiedBy;
-        private Integer version;
-        private InvoiceInternalLcDTO.Info lc;
-        private InvoiceInternalCustomerDTO.Info lcBank;
-        private InvoiceInternalCustomerDTO.Info seller;
-        private InvoiceInternalCustomerDTO.Info buyer;
-        private String buyerTafsili;
-        private String sellerTafsili;
-        private String sellerName;
-        private String buyerName;
-        private String codeTafsiliNosa;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("InvoiceInternalCreateRq")
-    public static class Create extends InvoiceInternalDTO {
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("InvoiceInternalUpdateRq")
-    public static class Update extends InvoiceInternalDTO {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Long id;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("InvoiceInternalDeleteRq")
-    public static class Delete {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<InvoiceInternalDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }

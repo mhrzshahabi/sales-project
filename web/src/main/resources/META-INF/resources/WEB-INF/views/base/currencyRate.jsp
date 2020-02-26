@@ -69,14 +69,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var currencyRateId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/currencyRate/" + currencyRateId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_CurrencyRate_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -133,26 +133,28 @@
     var DynamicForm_CurrencyRate = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "105",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
-                {name: "id", hidden: true,},
+                {
+                    name: "id",
+                    hidden: true
+                },
+                {
+                    type: "RowSpacerItem"
+                },
                 {
                     name: "curDate",
                     title: "<spring:message code='currencyRate.curDate'/>",
                     type: "date",
                     width: "400",
                     required: true,
+                    validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "irrUsd",
@@ -163,7 +165,11 @@
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
                     showHintInField: true, required: true,
-
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "eurUsd",
@@ -193,13 +199,16 @@
                     keyPressFilter: "[0-9.]",
                     length: "8",
                     hint: " <spring:message code='currencyRate.digit'/>",
-                    showHintInField: true
+                    showHintInField: true,
+                    textAlign: "left"
+                },
+                {
+                   type: "RowSpacerItem"
                 }
             ]
     });
 
     var ToolStripButton_CurrencyRate_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_CurrencyRate_refresh();
@@ -342,7 +351,7 @@
                         httpMethod: methodXXXX,
                         data: JSON.stringify(data),
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_CurrencyRate_refresh();
                                 Window_CurrencyRate.close();
@@ -358,7 +367,7 @@
         {
             title: "<spring:message code='exchangeRate.title'/> ",
             width: 580,
-            height: 310,
+            // height: 310,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -373,7 +382,10 @@
                 DynamicForm_CurrencyRate,
                 isc.HLayout.create(
                     {
-                        width: "100%",
+                    layoutMargin: 10,
+                    membersMargin: 5,
+                    align: "center",
+                    width: "100%",
                         members: [
                             IButton_CurrencyRate_Save,
                             isc.Label.create(
@@ -382,7 +394,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "currencyRateEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -445,23 +456,7 @@
                     align: "center",
                     type: 'text'
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                var record = this.getSelectedRecord();
-                ListGrid_CurrencyRateFeature.fetchData(
-                    {
-                        "currencyRate.id": record.id
-                    }, function (dsResponse, data, dsRequest) {
-                        ListGrid_CurrencyRateFeature.setData(data);
-                    },
-                    {
-                        operationId: "00"
-                    });
-            }
+            autoFetchData: true
         });
 
     var HLayout_CurrencyRate_Grid = isc.HLayout.create(

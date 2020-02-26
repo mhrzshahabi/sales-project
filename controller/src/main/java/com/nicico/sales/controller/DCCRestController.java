@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.copper.core.util.file.FileInfo;
 import com.nicico.sales.dto.DCCDTO;
 import com.nicico.sales.iservice.IDCCService;
@@ -125,12 +124,5 @@ public class DCCRestController {
     public ResponseEntity<TotalResponse<DCCDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(dCCService.search(nicicoCriteria), HttpStatus.OK);
-    }
-
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<DCCDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(dCCService.search(request), HttpStatus.OK);
     }
 }

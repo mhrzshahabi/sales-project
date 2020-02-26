@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InspectionContractDTO;
 import com.nicico.sales.iservice.IInspectionContractService;
@@ -87,13 +86,6 @@ public class InspectionContractService implements IInspectionContractService {
         final List<InspectionContract> inspectionContracts = inspectionContractDAO.findAllById(request.getIds());
 
         inspectionContractDAO.deleteAll(inspectionContracts);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_INSPECTION_CONTRACT')")
-    public SearchDTO.SearchRs<InspectionContractDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(inspectionContractDAO, request, inspectionContract -> modelMapper.map(inspectionContract, InspectionContractDTO.Info.class));
     }
 
     @Override

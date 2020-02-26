@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.MaterialItemDTO;
 import com.nicico.sales.iservice.IMaterialItemService;
@@ -89,13 +88,6 @@ public class MaterialItemService implements IMaterialItemService {
     @PreAuthorize("hasAuthority('R_MATERIAL_ITEM')")
     public TotalResponse<MaterialItemDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(materialItemDAO, criteria, materialItem -> modelMapper.map(materialItem, MaterialItemDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_MATERIAL_ITEM')")
-    public SearchDTO.SearchRs<MaterialItemDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(materialItemDAO, request, entity -> modelMapper.map(entity, MaterialItemDTO.Info.class));
     }
 
     private MaterialItemDTO.Info save(MaterialItem materialItem) {

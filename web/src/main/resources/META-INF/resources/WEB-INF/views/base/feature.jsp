@@ -38,19 +38,11 @@
     });
 
     var ValuesManager_Feature = isc.ValuesManager.create({});
+
     var DynamicForm_Feature = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
 
         fields: [
@@ -119,7 +111,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Feature_refresh();
                             Window_Feature.close();
@@ -159,7 +151,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "featureEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -201,7 +192,7 @@
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
 
                         var featureId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -209,7 +200,7 @@
                                 httpMethod: "DELETE",
                                 serverOutputAsString: false,
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Feature.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -245,7 +236,6 @@
     }
 
     var ToolStripButton_Feature_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Feature_refresh();
@@ -277,6 +267,7 @@
             ListGrid_Feature_remove();
         }
     });
+
     var ToolStrip_Actions_Feature = isc.ToolStrip.create({
         width: "100%",
         members: [
@@ -374,11 +365,7 @@
                     title: "<spring:message code='rate.decimalDigit'/>",
                     align: "center"
                 }],
-            sortField: 0,
-            dataPageSize: 50,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
 
     var HLayout_Grid_Feature = isc.HLayout.create(

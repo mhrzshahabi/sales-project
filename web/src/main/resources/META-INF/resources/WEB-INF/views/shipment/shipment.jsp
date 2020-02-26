@@ -1,6 +1,7 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -179,7 +180,12 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
             {
@@ -196,7 +202,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
@@ -212,7 +223,12 @@
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: 400
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 400},
             {
@@ -221,7 +237,8 @@
                     "MIS": "<spring:message code='global.MIS'/>", "MRS": "<spring:message code='global.MRS'/>",
                 }
             },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 400},
+            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true,
+                validators: [{ type:"required", validateOnChange: true }], width: 400},
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400}
         ],
@@ -230,7 +247,7 @@
 
     function check_Shipment_Print() {
         record = ListGrid_Shipment.getSelectedRecord();
-        if (record === null) {
+        if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
             "<spring:url value="/shipment/print/" var="printUrl"/>";
@@ -247,6 +264,7 @@
                     ListGrid_Shipment_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_SHIPMENT')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -258,18 +276,26 @@
                     Window_Shipment.animateShow();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_SHIPMENT')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Shipment_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_SHIPMENT')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Shipment_remove();
                 }
-            }, {isSeparator: true},
+            },
+            </sec:authorize>
+            {isSeparator: true},
             {
                 title: "<spring:message code='global.form.print.word'/>",
                 click: function () {
@@ -281,20 +307,12 @@
     });
 
     var dash = "\n";
+
     var DynamicForm_Shipment = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "105",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [
             {name: "id", hidden: true,},
@@ -308,13 +326,17 @@
                 type: 'long',
                 width: "100%",
                 editorType: "SelectItem",
-                errorOrientation: "bottom",
                 optionDataSource: RestDataSource_pickShipmentItem,
                 displayField: "contractNo",
                 valueField: "cisId",
                 pickListWidth: 680,
                 pickListHeight: "500",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true
+                }],
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "contractNo", width: "10%", align: "center"},
@@ -347,7 +369,7 @@
                     DynamicForm_Shipment.setValue("contractShipmentId", record.cisId);
                     DynamicForm_Shipment1.setValue("portByDischargeId", record.dischargeID);
                     DynamicForm_Shipment1.setValue("dischargeAddress", record.dischargeAddress);
-                    if (record.code === 'FOB') {
+                    if (record.code == 'FOB') {
                         DynamicForm_Shipment2.getItem("freight").setRequired(false);
                         DynamicForm_Shipment2.getItem("totalFreight").setRequired(false);
                     } else {
@@ -382,7 +404,12 @@
                 type: 'date',
                 format: 'DD-MM-YYYY',
                 required: true,
-                width: "100%"
+                width: "100%",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "loadingLetter",
@@ -391,7 +418,12 @@
                 type: 'text',
                 required: true,
                 length: "100",
-                width: "100%"
+                width: "100%",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "amount", colSpan: 4,
@@ -402,14 +434,19 @@
                 keyPressFilter: "[0-9.]",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                type:"required",
+                validateOnChange: true
                 }]
             },
             {
                 name: "shipmentType", colSpan: 4, title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required: true
+                type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required: true,
+                validators: [{ type:"required", validateOnChange: true }]
             },
 
             {
@@ -499,17 +536,8 @@
     var DynamicForm_Shipment1 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [
             {name: "id", hidden: true,},
@@ -524,9 +552,13 @@
                 width: "100%",
                 validators: [{
                     type: "isInteger",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
@@ -536,6 +568,11 @@
                 type: 'text',
                 width: "100%",
                 required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
 
             },
             {
@@ -603,10 +640,13 @@
                 title: "<spring:message code='shipment.consignee'/>",
                 type: 'text',
                 required: true,
-                width: "100%", startRow: true
+                width: "100%", startRow: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
-
-
             {
                 name: "swBlDate",
                 title: "<spring:message code='shipment.swBlDate'/>",
@@ -615,6 +655,11 @@
                 format: 'DD-MM-YYYY',
                 required: true,
                 width: 400 ,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
                 {
                 name: "blDate", colSpan: 4,
@@ -623,7 +668,12 @@
                 type: 'date',
                 format: 'DD-MM-YYYY',
                 required: true,
-                width: "100%"
+                width: "100%",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
 
@@ -638,17 +688,8 @@
     var DynamicForm_Shipment2 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 6,
         fields: [
             {name: "id", hidden: true},
@@ -674,7 +715,12 @@
                         name: "nameEN",
                         align: "center"
                     },
-                    {name: "country.nameFa", align: "center"}]
+                    {name: "country.nameFa", align: "center"}],
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
 
@@ -692,13 +738,16 @@
                 title: "<spring:message code='shipment.freight'/>",
                 type: 'float',
                 required: true,
-                errorOrientation: "bottom",
                 width: "100%",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
@@ -718,9 +767,13 @@
                 width: "100%",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
@@ -728,20 +781,24 @@
                 title: "<spring:message code='shipment.preFreight'/>",
                 type: 'float',
                 required: true,
-                errorOrientation: "bottom",
                 width: "100%",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
                 name: "preFreightCurrency", colSpan: 1,
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
-                defaultValue: "USD", valueMap: dollar,
+                defaultValue: "USD",
+                valueMap: dollar,
                 width: "100%",
             },
             {
@@ -753,9 +810,13 @@
                 width: "100%",
                 validators: [{
                     type: "isFloat",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
                 }]
             },
             {
@@ -886,13 +947,13 @@
 
             var dataShipment = Object.assign(DynamicForm_Shipment.getValues());
             var methodXXXX = "PUT";
-            if ((dataShipment.id == null) || (dataShipment.id === 'undefiend')) methodXXXX = "POST";
+            if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/shipment/",
                     httpMethod: methodXXXX,
                     data: JSON.stringify(dataShipment),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Shipment_refresh();
                             Window_Shipment.close();
@@ -904,6 +965,38 @@
             );
         }
     });
+
+
+
+    var fillScreenWindow_letter = isc.Window.create({
+        placement: "fillScreen",
+        autoDraw: false,
+        title: "<spring:message code='global.form.help'/>",
+        items: [
+            isc.HLayout.create({
+                width: "100%",
+                layoutMargin:5,
+                membersMargin: 10,
+                members: [
+                    isc.HTMLPane.create({
+                        ID:"myPane",
+                        showEdges:true,
+                        contentsURL:"/sales/help/LoadingLetter.html",
+                        contentsType:"page"
+                    })
+                    ]
+                })
+        ]
+    });
+
+        var ShipmentCancelBtn_Help_shipment = isc.ToolStripButtonPrint.create({
+        icon: "[SKIN]/actions/help.png",
+        title: "<spring:message code='global.form.help'/>",
+        click:function()
+        {
+            fillScreenWindow_letter.show();
+        }
+   });
 
     var ShipmentCancelBtn = isc.IButtonCancel.create({
         top: 260,
@@ -1014,13 +1107,13 @@
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var shipmentId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                 actionURL: "${contextPath}/api/shipment/" + shipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_Shipment.invalidateCache();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -1055,7 +1148,7 @@
             DynamicForm_Shipment.setValue("createDate", new Date(record.createDate));
             DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
             DynamicForm_Shipment1.setValue("blDate", new Date(record.blDate));
-            if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA === 'undefiend'))
+            if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA == 'undefiend'))
                 Shipment_contact_name.setContents(record.contract.contact.nameFA);
             abal.hide();
             Window_Shipment.animateShow();
@@ -1063,12 +1156,13 @@
     }
 
     var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_refresh();
         }
     });
+
+    <sec:authorize access="hasAuthority('C_SHIPMENT')">
     var ToolStripButton_Shipment_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
@@ -1081,7 +1175,9 @@
             Window_Shipment.animateShow();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_SHIPMENT')">
     var ToolStripButton_Shipment_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -1092,7 +1188,9 @@
             ListGrid_Shipment_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_SHIPMENT')">
     var ToolStripButton_Shipment_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -1100,13 +1198,25 @@
             ListGrid_Shipment_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Shipment = isc.ToolStrip.create({
         width: "100%",
         members: [
+            <sec:authorize access="hasAuthority('C_SHIPMENT')">
             ToolStripButton_Shipment_Add,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_SHIPMENT')">
             ToolStripButton_Shipment_Edit,
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_SHIPMENT')">
             ToolStripButton_Shipment_Remove,
+            </sec:authorize>
+
+        ShipmentCancelBtn_Help_shipment,
+
             isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
@@ -1221,7 +1331,12 @@
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required: true
+                required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
 
             {
@@ -1239,7 +1354,12 @@
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required: true
+                required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "noContainer",
@@ -1255,7 +1375,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -1263,7 +1388,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -1272,7 +1402,12 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -1281,7 +1416,12 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "month",
@@ -1290,7 +1430,12 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -1306,7 +1451,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swb",
@@ -1322,7 +1472,12 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "status",
@@ -1337,11 +1492,7 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        dataPageSize: 50,
-        filterOnKeypress: true,
         autoFetchData: true,
-        showFilterEditor: true,
         getExpansionComponent: function (record) {
             if (record == null || record.id == null) {
                 isc.Dialog.create({
@@ -1461,7 +1612,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ShipmentEmail_refresh();
                             Window_ShipmentEmail.close();
@@ -1545,7 +1696,12 @@
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text',
                 required: true,
-                width: 150
+                width: 150,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "title", title: "<spring:message code='person.title'/>", type: 'text', width: 150,
@@ -1555,15 +1711,12 @@
                     "MRS": "<spring:message code='global.MRS'/>"
                 }
             },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true, width: 150},
+            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true,
+                validators: [{ type:"required", validateOnChange: true }], width: 150},
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 150},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 150}
         ],
-        sortField: 0,
-        dataPageSize: 50,
         autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         selectionAppearance: "checkbox"
     });
 
@@ -1593,7 +1746,7 @@
                                 title: "<spring:message code='global.ok'/>",
                                 click: function () {
                                     var selectedPerson = ListGrid_Person_EmailCC.getSelection();
-                                    if (selectedPerson.length === 0) {
+                                    if (selectedPerson.length == 0) {
                                         Window_ShipmentEmailCC.close();
                                         return;
                                     }
@@ -1612,7 +1765,7 @@
                                                 if (oldPersons[j] == selectedPerson[i].email)
                                                     notIn = false;
                                         if (notIn)
-                                            persons = (persons === "" ? persons : persons + ",") + selectedPerson[i].email;
+                                            persons = (persons == "" ? persons : persons + ",") + selectedPerson[i].email;
                                     }
                                     DynamicForm_ShipmentEmail.setValue("emailCC", persons);
                                     Window_ShipmentEmailCC.close();
@@ -1628,16 +1781,7 @@
         {
             width: "100%",
             height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
-            requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 1,
             fields: [
                 {
@@ -1689,7 +1833,6 @@
                     name: "emailBody",
                     title: "<spring:message code='global.emailBody'/>",
                     align: "center",
-                    textAlign: "left",
                     width: "700",
                     type: "textArea",
                     height: 200
@@ -1698,7 +1841,6 @@
                     name: "emailRespond",
                     title: "<spring:message code='global.emailRespond'/>",
                     align: "center",
-                    textAlign: "left",
                     width: "700",
                     type: "textArea",
                     height: 200
@@ -1706,7 +1848,6 @@
         });
 
     var ToolStripButton_ShipmentEmail_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentEmail_refresh();
@@ -1861,11 +2002,7 @@
                     width: "10%"
                 },
             ],
-        sortField: 0,
-        dataPageSize: 50,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
     var HLayout_ShipmentEmail_Grid = isc.HLayout.create({
@@ -1889,7 +2026,6 @@
         {
             width: "100%",
             height: "100%",
-            border: "1px solid black",
             layoutTopMargin: 5,
             members: [
                 isc.SectionStack.create({

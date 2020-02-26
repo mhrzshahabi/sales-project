@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ShipmentContractDTO;
 import com.nicico.sales.iservice.IShipmentContractService;
@@ -82,13 +81,6 @@ public class ShipmentContractService implements IShipmentContractService {
         final List<ShipmentContract> shipmentContracts = shipmentContractDAO.findAllById(request.getIds());
 
         shipmentContractDAO.deleteAll(shipmentContracts);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_SHIPMENT_CONTRACT')")
-    public SearchDTO.SearchRs<ShipmentContractDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(shipmentContractDAO, request, shipmentContract -> modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

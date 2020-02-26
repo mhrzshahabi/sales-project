@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -34,9 +35,11 @@
             fetchDataURL: "${contextPath}/api/country/spec-list"
         });
 
+
     function ListGrid_Country_refresh() {
         ListGrid_Country.invalidateCache();
     }
+
 
     function ListGrid_Country_edit() {
         var record = ListGrid_Country.getSelectedRecord();
@@ -56,6 +59,7 @@
             Window_Country.show();
         }
     }
+
 
     function ListGrid_Country_remove() {
         var record = ListGrid_Country.getSelectedRecord();
@@ -90,14 +94,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var CountryId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/country/" + record.id,
                                     httpMethod: "DELETE",
                                     callback: function (resp) {
-                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                             ListGrid_Country_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -121,6 +125,7 @@
                     ListGrid_Country_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_COUNTRY')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -128,18 +133,25 @@
                     Window_Country.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_COUNTRY')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Country_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_COUNTRY')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Country_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
@@ -147,21 +159,16 @@
         {
             width: 650,
             height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             fields: [
                 {
                     name: "id",
                     hidden: true,
+                },
+                {
+                    type: "RowSpacerItem"
                 },
                 {
                     name: "code",
@@ -174,6 +181,11 @@
                     titleColSpan: 1,
                     hint: "<spring:message code='Material.digit'/>",
                     showHintInField: true, showIf: "false",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFa",
@@ -181,7 +193,12 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameEn",
@@ -190,28 +207,37 @@
                     colSpan: 1,
                     required: true,
                     keyPressFilter: "[a-z|A-Z|0-9.]",
-                    titleColSpan: 1
-                }
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+                },
+                {
+                    type: "RowSpacerItem"
+                },
             ]
         });
 
     var ToolStripButton_Country_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Country_refresh();
         }
     });
 
+    <sec:authorize access="hasAuthority('C_COUNTRY')">
     var ToolStripButton_Country_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Country.clearValues();
             Window_Country.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_COUNTRY')">
     var ToolStripButton_Country_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -220,7 +246,9 @@
             ListGrid_Country_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_COUNTRY')">
     var ToolStripButton_Country_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -228,14 +256,24 @@
             ListGrid_Country_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Country = isc.ToolStrip.create(
         {
             width: "100%",
             members: [
+                <sec:authorize access="hasAuthority('C_COUNTRY')">
                 ToolStripButton_Country_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_COUNTRY')">
                 ToolStripButton_Country_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_COUNTRY')">
                 ToolStripButton_Country_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create(
                     {
                         width: "100%",
@@ -260,6 +298,9 @@
     var IButton_Country_Save = isc.IButtonSave.create(
         {
             top: 260,
+            layoutMargin: 5,
+            membersMargin: 5,
+            width: 120,
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
             click: function () {
@@ -276,9 +317,8 @@
                         httpMethod: method,
                         data: JSON.stringify(data),
                         callback: function (resp) {
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
-                                //resp.setHeader('Cache-Control', 'no-cache');
                                 ListGrid_Country_refresh();
                                 Window_Country.close();
                             }
@@ -302,12 +342,24 @@
     });
 
     var HLayout_Country_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
-        width: "100%",
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_Country_Save,
             CountryCancelBtn
+        ]
+    });
+
+    var VLayout_saveButton_country = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+            HLayout_Country_IButton
         ]
     });
 
@@ -327,7 +379,7 @@
             },
             items: [
                 DynamicForm_Country,
-                HLayout_Country_IButton
+                VLayout_saveButton_country
             ]
         });
 
@@ -363,10 +415,7 @@
                     width: "10%",
                     align: "center"
                 },],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
 
     var HLayout_Country_Grid = isc.HLayout.create(

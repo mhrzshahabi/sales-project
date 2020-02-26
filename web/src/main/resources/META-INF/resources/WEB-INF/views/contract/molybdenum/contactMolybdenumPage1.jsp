@@ -1,6 +1,7 @@
 <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
@@ -232,6 +233,10 @@
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
                     required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: 400
                 },
                 {
@@ -239,6 +244,10 @@
                     title: "<spring:message code='port.port'/>",
                     type: 'text',
                     required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: 400
                 },
                 {name: "discharge.port", title: "<spring:message code='port.port'/>", align: "center"},
@@ -247,6 +256,10 @@
                     title: "<spring:message code='global.address'/>",
                     type: 'text',
                     required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: 400
                 },
                 {
@@ -254,6 +267,10 @@
                     title: "<spring:message code='global.amount'/>",
                     type: 'float',
                     required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: 400
                 },
                 {
@@ -302,8 +319,6 @@
                         height: "100%",
                         dataSource: RestDataSource_Contract,
                         initialCriteria: criteriaMo,
-                        dataPageSize: 50,
-                        showFilterEditor: true,
                         autoFetchData: true,
                         fields:
                         [
@@ -319,6 +334,8 @@
                             {name: "contact.nameFA",showTitle:"true",width: "85%", title: "<spring:message code='contact.name'/>", align: "center"}
                         ]
                         });
+
+    <sec:authorize access="hasAuthority('C_CONTRACT')">
     var ToolStripButton_ContactMo_Add = isc.ToolStripButtonAdd.create({
                             icon: "[SKIN]/actions/add.png",
                             title: "<spring:message code='global.form.new'/>",
@@ -340,7 +357,10 @@
                                     lotList.fetchData(RestDataSource_ShipmentContractUsed);
                             }
                     });
-                    var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
+    </sec:authorize>
+
+    <sec:authorize access="hasAuthority('U_CONTRACT')">
+    var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
                             icon: "[SKIN]/actions/edit.png",
                             title: "<spring:message code='global.form.edit'/>",
                             click: function () {
@@ -369,7 +389,6 @@
                                                         var textMo = resp.httpResponseText;
                                                         var text2Mo = textMo.replaceAll('","', '","').replaceAll('&?','":"')
                                                         var textMainMo= JSON.parse(text2Mo.replaceAt(0,'{"').replaceAt(text2Mo.length-1,'}'));
-                                                        console.log(textMainMo);
                                                         setTimeout(function(){
                                                                // contactTabs.selectTab(0);
                                                                 valuesManagerfullArticleMo.setValue("fullArticle01",textMainMo.Article01);
@@ -615,6 +634,7 @@
                                 lotList.fetchData(criterialotList);
                             }
                             }});
+    </sec:authorize>
 
                     var ToolStripButton_Contact_Remove= isc.ToolStripButtonRemove.create({
                             icon: "[SKIN]/actions/remove.png",
@@ -691,19 +711,26 @@
                                     }}
                             });
                      var ToolStripButton_ContactMO_Refresh = isc.ToolStripButtonRefresh.create({
-                                icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
                                        ListGrid_contractMo.invalidateCache(criteriaMo);
                                 }
                             });
+
                     var ToolStrip_Actions_ContactMO = isc.ToolStrip.create({
                         width: "100%",
                         height: "100%",
                         membersMargin: 5,
                         members: [
+
+                            <sec:authorize access="hasAuthority('C_CONTRACT')">
                             ToolStripButton_ContactMo_Add,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('U_CONTRACT')">
                             ToolStripButton_ContactMo_Edit,
+                            </sec:authorize>
+
                             isc.ToolStrip.create({
                             width: "100%",
                             align: "left",
@@ -837,18 +864,9 @@ Window_ContactMo = isc.Window.create({
     var DynamicForm_ContactHeader = isc.DynamicForm.create({
         valuesManager: "contactHeader",
         wrapItemTitles: false,
-        setMethod: 'POST',
         width: "100%",
         height: "100%",
-        align: "left",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "80",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields: [
@@ -861,6 +879,10 @@ Window_ContactMo = isc.Window.create({
                 type: "date",
                 format: 'DD-MM-YYYY',
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 width: "90%",
                 wrapTitle: false
             },
@@ -869,6 +891,11 @@ Window_ContactMo = isc.Window.create({
                 title: "<spring:message code='contact.no'/>",
                 requiredMessage: "<spring:message code='validator.field.is.required'/>",
                 required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
                 readonly: true,
                 width: "90%",
                 wrapTitle: false
@@ -880,26 +907,21 @@ Window_ContactMo = isc.Window.create({
     var dynamicForm3Mo = isc.HLayout.create({align: "center", members: []});
     var dynamicForm4Mo = isc.HLayout.create({align: "center", members: []});
 var DynamicForm_ContactCustomer = isc.DynamicForm.create({
-        setMethod: 'POST',
         valuesManager: "contactHeader",
         width: "100%",
         height: "100%",
         numCols: 4,
         wrapItemTitles: false,
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
                 name: "contactId",
                 showHover: true,
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 autoFetchData: false,
                 title: "<spring:message code='contact.commercialRole.buyer'/>",
                 width: "600",
@@ -1079,16 +1101,7 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         numCols: 4,
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
         wrapItemTitles: false,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
@@ -1099,6 +1112,10 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
                 title: "<spring:message code='contact.commercialRole.seller'/>",
                 width: "600",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 optionCriteria: RestDataSource_Contact_optionCriteria,
@@ -1360,7 +1377,8 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 keyPressFilter: "[0-9.]", ///article2_number10
                 changed: function (form, item, value) {
                     article2Mo.setValue("amount_en", numberToEnglish(value))
-                    }
+                    },
+                textAlign: "left"
             },
             {
                 type: "text", styleName: "textToLable", width: "200",
@@ -1436,7 +1454,8 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 name: "article2_13_1",
                 width: "50",
                 startRow: false, keyPressFilter: "[0-9.]",
-                title: '<b><font size=2px>THE TOLERENCE OF +/-%</font><b>'
+                title: '<b><font size=2px>THE TOLERENCE OF +/-%</font><b>',
+                textAlign: "left"
             },
             {
                 type: "text",
@@ -1475,7 +1494,6 @@ lotList = isc.ListGrid.create({
         width: "100%",
         height: "180",
         dataSource: RestDataSource_WarehouseLot,
-        dataPageSize: 50,
         autoSaveEdits: false,
         autoFetchData: false,
         fields:
@@ -1519,6 +1537,10 @@ var vlayoutBodyMo = isc.VLayout.create({
             isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormMaterial",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: "400",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,
@@ -1690,7 +1712,8 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 showTitle: true,
                 width: "50",
                 startRow: false, keyPressFilter: "[0-9.]",
-                title: '+/-'
+                title: '+/-',
+                textAlign: "left"
             }, {
                 type: "text",
                 name: "article3_number17_10",
@@ -1977,6 +2000,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 width: "70",
                 defaultValue: "220",
                 keyPressFilter: "[0-9.]",
+                textAlign: "left",
                 showHintInField: true,
                 startRow: false,
                 title: '',changed: function (form, item, value) {
@@ -2213,7 +2237,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 },
             ],saveEdits: function () {
                 var ContractItemShipmentRecord = ListGrid_ContractItemShipment.getEditedRecord(ListGrid_ContractItemShipment.getEditRow());
-                if(ListGrid_ContractItemShipment.getSelectedRecord() === null){
+                if(ListGrid_ContractItemShipment.getSelectedRecord() == null){
                         return;
                 }else{
                      var dateSendMol= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
@@ -2246,7 +2270,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 ],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
                             httpMethod: "DELETE",
@@ -2421,6 +2445,10 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 showHintInField: true,
                 hint: "FOB",
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 title: "<spring:message code='incoterms.name'/>",
                 type: 'long',
                 numCols: 4,
@@ -2767,7 +2795,6 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         height: "100%",
         align: "center",
         overflow: "scroll",
-// backgroundImage: "backgrounds/leaves.jpg",
         members: [
             LablePageTwo,
             vlayoutArticle3_1,
@@ -2777,6 +2804,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     });
     //END PAGE TWO
+
     //START PAGE THREE
     var dynamicForm_article7_number41 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle7",
@@ -3785,7 +3813,6 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContractDetail.article10_number59=valuesManagerArticle10.getValue("article10_number59");
                     dataSaveAndUpdateContractDetail.article10_number60=valuesManagerArticle10.getValue("article10_number60");
                     dataSaveAndUpdateContractDetail.article10_number61=valuesManagerArticle10.getValue("article10_number61");
-             console.log(dataSaveAndUpdateContract);
             if(methodUrl=="PUT"){
                         dataSaveAndUpdateContractDetail.contractNo=contactHeader.getValue("contractNo");
             }

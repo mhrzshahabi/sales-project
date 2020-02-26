@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -67,6 +68,7 @@
         }
     }
 
+
     function ListGrid_Currency_remove() {
 
         var record = ListGrid_Currency.getSelectedRecord();
@@ -102,14 +104,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var CurrencyId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/currency/" + record.id,
                                     httpMethod: "DELETE",
                                     callback: function (resp) {
-                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                             ListGrid_Currency_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -135,6 +137,7 @@
                         ListGrid_Currency_refresh();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_CURRENCY')">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -143,6 +146,9 @@
                         Window_Currency.show();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CURRENCY')">
                 {
                     title: "<spring:message code='global.form.edit'/>",
                     icon: "pieces/16/icon_edit.png",
@@ -150,32 +156,29 @@
                         ListGrid_Currency_edit();
                     }
                 },
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_CURRENCY')">
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
                     click: function () {
                         ListGrid_Currency_remove();
                     }
-                },]
+                }
+                </sec:authorize>
+            ]
         });
 
     var DynamicForm_Currency = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
                 {name: "id", hidden: true,},
+                {type: "RowSpacerItem"},
                 {
                     name: "code",
                     title: "<spring:message code='currency.code'/>",
@@ -184,6 +187,11 @@
                     titleColSpan: 1,
                     required: true,
                     keyPressFilter: "[0-9]", length: "15", showIf: "false",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFa",
@@ -191,7 +199,12 @@
                     width: 400,
                     colSpan: 1,
                     required: true,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameEn",
@@ -200,7 +213,12 @@
                     colSpan: 1,
                     required: true,
                     wrapTitle: false,
-                    titleColSpan: 1
+                    titleColSpan: 1,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "symbol",
@@ -208,27 +226,31 @@
                     width: 400,
                     colSpan: 1,
                     titleColSpan: 1
-                }
+                },
+                {
+                    type: "RowSpacerItem"
+                },
             ]
     });
 
     var ToolStripButton_Currency_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Currency_refresh();
         }
     });
 
+    <sec:authorize access="hasAuthority('C_CURRENCY')">
     var ToolStripButton_Currency_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Currency.clearValues();
             Window_Currency.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_CURRENCY')">
     var ToolStripButton_Currency_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -237,7 +259,9 @@
             ListGrid_Currency_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_CURRENCY')">
     var ToolStripButton_Currency_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -245,14 +269,24 @@
             ListGrid_Currency_remove();
         }
     });
+    </sec:authorize>
 
     var ToolStrip_Actions_Currency = isc.ToolStrip.create({
         width: "100%",
         members:
             [
+                <sec:authorize access="hasAuthority('C_CURRENCY')">
                 ToolStripButton_Currency_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CURRENCY')">
                 ToolStripButton_Currency_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_CURRENCY')">
                 ToolStripButton_Currency_Remove,
+                </sec:authorize>
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -293,7 +327,7 @@
                         httpMethod: method,
                         data: JSON.stringify(data),
                         callback: function (resp) {
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Currency_refresh();
                                 Window_Currency.close();
@@ -323,7 +357,10 @@
                 DynamicForm_Currency,
                 isc.HLayout.create(
                     {
-                        width: "100%",
+                   layoutMargin: 10,
+                    membersMargin: 5,
+                    align: "center",
+                    width: "100%",
                         members: [
                             IButton_Currency_Save,
                             isc.Label.create(
@@ -332,7 +369,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "CurrencyEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -383,10 +419,7 @@
                     width: "10%",
                     align: "center"
                 },],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
 
     var HLayout_Currency_Grid = isc.HLayout.create(

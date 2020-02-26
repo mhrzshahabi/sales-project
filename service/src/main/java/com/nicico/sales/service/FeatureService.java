@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.FeatureDTO;
 import com.nicico.sales.iservice.IFeatureService;
@@ -82,13 +81,6 @@ public class FeatureService implements IFeatureService {
         final List<Feature> features = featureDAO.findAllById(request.getIds());
 
         featureDAO.deleteAll(features);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_FEATURE')")
-    public SearchDTO.SearchRs<FeatureDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(featureDAO, request, feature -> modelMapper.map(feature, FeatureDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

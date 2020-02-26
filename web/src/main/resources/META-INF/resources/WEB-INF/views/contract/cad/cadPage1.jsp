@@ -20,18 +20,9 @@
     var dynamicForm_ContactCadHeader = isc.DynamicForm.create({
         valuesManager: "contactCadHeader",
         wrapItemTitles: false,
-        setMethod: 'POST',
         width: "100%",
         height: "100%",
-        align: "left",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "80",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields: [
@@ -44,6 +35,10 @@
                 type: "date",
                 format: 'DD-MM-YYYY',
                 required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true }],
                 width: "90%",
                 wrapTitle: false
             },
@@ -52,6 +47,12 @@
                 title: "<spring:message code='contact.no'/>",
                 requiredMessage: "<spring:message code='validator.field.is.required'/>",
                 required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                textAlign: "left",
                 readonly: true,
                 width: "90%",
                 wrapTitle: false
@@ -241,26 +242,22 @@
     dynamicForm4Cad.addMember("Contact_ContactAgentSellerCad", 4);
 
     var dynamicForm_ContactCadCustomer = isc.DynamicForm.create({
-        setMethod: 'POST',
         valuesManager: "contactCadHeader",
         width: "100%",
         height: "100%",
         numCols: 4,
         wrapItemTitles: false,
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
                 name: "contactId",
                 showHover: true,
                 required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
                 autoFetchData: false,
                 title: "<spring:message code='contact.commercialRole.buyer'/>",
                 width: "600",
@@ -353,16 +350,6 @@
         width: "100%",
         height: "100%",
         numCols: 4,
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        wrapItemTitles: false,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
@@ -373,6 +360,11 @@
                 title: "<spring:message code='contact.commercialRole.seller'/>",
                 width: "600",
                 required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 displayField: "nameFA",
@@ -490,7 +482,7 @@ var DynamicForm_ContactParameter_ValueNumber8Cad=isc.DynamicForm.create({
                 title: "NAME",
                 changed: function (form, item, value) {
                     DynamicForm_ContactParameter_ValueNumber8Cad.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue);
-                    dynamicFormCad_fullArticle01.setValue("fullArticle01",dynamicFormCad_fullArticle01.getValue("fullArticle01")+"\n"+"-"+DynamicForm_ContactParameter_ValueNumber8Cad.getValue("definitionsOne"))
+                    dynamicFormCad_fullArticle01.setValue(dynamicFormCad_fullArticle01.getValue("fullArticle01")+"<br>"+"-"+DynamicForm_ContactParameter_ValueNumber8Cad.getValue("definitionsOne"))
                     DynamicForm_ContactParameter_ValueNumber8Cad.clearValue("definitionsOne");
                     }
             }
@@ -504,30 +496,20 @@ var VLayout_ContactParameter_ValueNumber8Cad = isc.VLayout.create({
         members: [DynamicForm_ContactParameter_ValueNumber8Cad]
     })
 
-var dynamicFormCad_fullArticle01 = isc.DynamicForm.create({
+var dynamicFormCad_fullArticle01 = isc.RichTextEditor.create({
         valuesManager: "valuesManagerfullArticle",
-        height: "50",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle01",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "",
-                title: "fullArticle01",
-                width: "*",changed: function (form, item, value) {
+        autoDraw:true,
+        height:155,
+        overflow:"auto",
+        canDragResize:true,
+        controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+        value:"",changed: function (form, item, value) {
                     if(value==undefined)
-                      dynamicFormCad_fullArticle01.setValue("fullArticle01","")
+                      dynamicFormCad_fullArticle01.setValue("")
                     else
-                      dynamicFormCad_fullArticle01.setValue("fullArticle01",value)
+                      dynamicFormCad_fullArticle01.setValue(dynamicFormCad_fullArticle01.getValue())
                     }
-            }
-        ]
-    })
+            })
 
 var vlayoutBodyCad = isc.VLayout.create({
         width: "100%",
@@ -539,6 +521,10 @@ var vlayoutBodyCad = isc.VLayout.create({
             isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormCath",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
+                    validators: [
+                    {
+                    type:"required",
+                    validateOnChange: true }],
                     width: "400",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,
@@ -627,29 +613,19 @@ var vlayoutBodyCad = isc.VLayout.create({
                 },
                 changed: function (form, item, value) {
                     article5_quality.setValue("article5optional",value);
-                    valuesManagerfullArticle.setValue("fullArticle02",article2Cad.getValue("amount")+" "+article2Cad.getValue("amount_en")+" "+article2Cad.getItem("unitId").getDisplayValue(article2Cad.getValue("unitId"))+" "+article2Cad.getValue("cathodesTolorance")+" "+article2Cad.getItem("optional").getDisplayValue(article2Cad.getValue("optional")));
+                    dynamicForm_fullArticle02Cad.setValue(article2Cad.getValue("amount")+" "+article2Cad.getValue("amount_en")+" "+article2Cad.getItem("unitId").getDisplayValue(article2Cad.getValue("unitId"))+" "+article2Cad.getValue("cathodesTolorance")+" "+article2Cad.getItem("optional").getDisplayValue(article2Cad.getValue("optional")));
                 }
             }
         ]
     });
-var dynamicForm_fullArticle02Cad = isc.DynamicForm.create({
+var dynamicForm_fullArticle02Cad = isc.RichTextEditor.create({
         valuesManager: "valuesManagerfullArticle",
-        height: "50",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle02",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "",
-                title: "fullArticle02",
-                width: "*"
-            }
-        ]
+        autoDraw:true,
+        height:155,
+        overflow:"scroll",
+        canDragResize:true,
+        controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+        value:""
     })
 
 isc.VLayout.create({

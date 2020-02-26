@@ -3,7 +3,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.iservice.IContractShipmentService;
 import lombok.RequiredArgsConstructor;
@@ -69,12 +68,4 @@ public class ContractShipmentRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractShipmentService.search(nicicoCriteria), HttpStatus.OK);
     }
-
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<ContractShipmentDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(contractShipmentService.search(request), HttpStatus.OK);
-    }
-
 }

@@ -3,7 +3,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.ContractCurrencyDTO;
 import com.nicico.sales.iservice.IContractCurrencyService;
 import lombok.RequiredArgsConstructor;
@@ -68,11 +67,5 @@ public class ContractCurrencyRestController {
     public ResponseEntity<TotalResponse<ContractCurrencyDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractCurrencyService.search(nicicoCriteria), HttpStatus.OK);
-    }
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<ContractCurrencyDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(contractCurrencyService.search(request), HttpStatus.OK);
     }
 }

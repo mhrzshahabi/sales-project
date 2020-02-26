@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.iservice.IPortService;
@@ -89,13 +88,6 @@ public class PortService implements IPortService {
     @PreAuthorize("hasAuthority('R_PORT')")
     public TotalResponse<PortDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(portDAO, criteria, port -> modelMapper.map(port, PortDTO.Info.class));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_PORT')")
-    public SearchDTO.SearchRs<PortDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(portDAO, request, port -> modelMapper.map(port, PortDTO.Info.class));
     }
 
     private PortDTO.Info save(Port port) {

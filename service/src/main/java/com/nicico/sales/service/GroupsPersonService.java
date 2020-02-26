@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.GroupsPersonDTO;
 import com.nicico.sales.iservice.IGroupsPersonService;
@@ -82,13 +81,6 @@ public class GroupsPersonService implements IGroupsPersonService {
         final List<GroupsPerson> groupsPersons = groupsPersonDAO.findAllById(request.getIds());
 
         groupsPersonDAO.deleteAll(groupsPersons);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_GROUPS_PERSON')")
-    public SearchDTO.SearchRs<GroupsPersonDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(groupsPersonDAO, request, groupsPerson -> modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

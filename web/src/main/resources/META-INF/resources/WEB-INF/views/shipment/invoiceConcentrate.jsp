@@ -162,18 +162,10 @@
     var DynamicForm_Invoice_Concentrate = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100", margin: '0px', wrapTitle: true,
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        titleWidth: "100",
+        margin: '0px',
+        wrapTitle: true,
         numCols: 12,
-        //backgroundImage: "backgrounds/leaves.jpg",
         fields:
             [
                 {name: "id", hidden: true},
@@ -192,11 +184,19 @@
                     type: 'text',
                     width: "100%",
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"}
                 },
                 {
                     name: "invoiceNo", title: "<spring:message code='invoice.invoiceNo'/>",
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",
                     wrapTitle: true,colSpan:2,titleColSpan:2
                 },
@@ -207,6 +207,10 @@
                     type: 'date',
                     format: 'DD-MM-YYYY',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:3,titleColSpan:1
                 },
                  {
@@ -245,6 +249,10 @@
                     pickListFields: [{name: "nameFA", align: "center"}, {
                         name: "nameEN",
                         align: "center"
+                    }],
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -551,6 +559,10 @@
                     title: "<spring:message code='invoice.priceBase'/>",titleOrientation:'top',
                     type: 'text',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:4,titleColSpan:1,
                 },
                 {name: "priceReference",title:"Reference", titleOrientation:'top',type: 'text', required: false, width: "100%",colSpan:1 ,valueMap: {"LME":"LME","PLATTS":"PLATTS","SHFG":"SHFG"} },
@@ -587,9 +599,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -602,9 +618,13 @@
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }],
                     changed	: function(form, item, value){
 		   			  	DynamicForm_Invoice_Concentrate_setValue("refinaryCostCU",value);
@@ -787,9 +807,13 @@ align: "center"
                     keyPressFilter: "[0-9.]",colSpan:1,titleColSpan:2,titleAlign:"left",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -801,9 +825,13 @@ align: "center"
                     keyPressFilter: "[0-9.]",colSpan:2,titleColSpan:2,titleAlign:"center",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("net","unitPrice","commercialInvoceValue");
@@ -832,7 +860,7 @@ align: "center"
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
@@ -842,6 +870,10 @@ align: "center"
                             max: 120,
                             errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>",
                             colSpan: 2
+                        },
+                        {
+                            type:"required",
+                            validateOnChange: true
                         }
                     ],
                     changed	: function(form, item, value){
@@ -904,6 +936,10 @@ align: "center"
                     title: "<spring:message code='invoice.rateBase'/>",
                     type: 'text',
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     width: "100%",colSpan:4,titleColSpan:1,
                 },
                  {
@@ -912,10 +948,14 @@ align: "center"
                     validators: [
                         {
                             type: "isFloat",
-                            validateOnExit: true,
+                            validateOnChange: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
+                        {
+                            type:"required",
+                            validateOnChange: true
+                        }
                     ],
                     changed	: function(form, item, value){
 		   			  	multiplyAndSet("rate2dollar","invoiceValueD","invoiceValueUp");
@@ -972,9 +1012,13 @@ align: "center"
                     keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
             ],
@@ -1202,7 +1246,7 @@ align: "center"
                 httpMethod: method,
                 data: dataOut,
                 callback: function (resp) {
-                    if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Invoice_refresh();
                         Window_Invoice_Concentrate.close();

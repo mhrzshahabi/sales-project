@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.DCCDTO;
 import com.nicico.sales.iservice.IDCCService;
@@ -82,13 +81,6 @@ public class DCCService implements IDCCService {
         final List<DCC> dCCs = dCCDAO.findAllById(request.getIds());
 
         dCCDAO.deleteAll(dCCs);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_DCC')")
-    public SearchDTO.SearchRs<DCCDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(dCCDAO, request, dCC -> modelMapper.map(dCC, DCCDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -228,7 +229,6 @@
         });
 
 
-
     var MyRestDataSource_ShipmentByMoistureHeader = isc.MyRestDataSource.create(
         {
             fields: [
@@ -406,7 +406,11 @@
                     required: true,
                     width: "10%",
                     align: "center",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "createDate",
@@ -425,7 +429,11 @@
                     type: 'text',
                     required: true,
                     width: "10%",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }],
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
@@ -508,6 +516,7 @@
             testData: ShipmentMoistureItemData,
             clientOnly: true
         });
+
 
     function pasteText(text) {
         var fieldNames = [];
@@ -740,7 +749,7 @@
                                                     data: JSON.stringify(data),
                                                     callback: function(resp)
                                                     {
-                                                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)
+                                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201)
                                                         {
                                                             isc.say("<spring:message code='global.form.request.successful'/>");
                                                             ListGrid_ShipmentMoistureItem_refresh();
@@ -788,7 +797,7 @@
             };
 
         ListGrid_ShipmentMoistureHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-        if (data.length === 0) {
+        if (data.length == 0) {
         recordNotFound.show();
         ListGrid_ShipmentMoistureHeader.hide()
         } else {
@@ -805,7 +814,9 @@
         align: "center", padding: 5,
         membersMargin: 20,
         members: [
+        <sec:authorize access="hasAuthority('C_SHIPMENT_MOISTURE_HEADER')">
         ToolStripButton_ShipmentMoistureHeader_Add
+        </sec:authorize>
         ]
         });
 
@@ -818,6 +829,7 @@
 
         return layoutShipmentMoisture;
         }
+
 
     var ListGrid_ShipmentByMoistureHeader = isc.ListGrid.create({
         width: "100%",
@@ -922,7 +934,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -930,7 +946,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "description",
@@ -939,7 +959,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -948,7 +972,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -957,7 +985,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "month",
@@ -966,7 +998,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -982,7 +1018,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swb",
@@ -990,7 +1030,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "switchPort.port",
@@ -998,7 +1042,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "status",
@@ -1015,12 +1063,9 @@
         ],
         getExpansionComponent: function (record) {
         return getExpandedComponent_ShipmentByMoistureHeader(record)
-        },
-        sortField: 0,
-        dataPageSize: 50,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        }
     });
+
 
     var HLayout_Grid_ShipmentByMoistureHeader = isc.HLayout.create({
         width: "100%",
@@ -1031,13 +1076,13 @@
     });
 
         var ToolStripButton_ListGrid_ShipmentByMoistureHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-        ListGrid_ShipmentByMoistureHeader.invalidateCache();
-        ListGrid_ShipmentMoistureHeader.setData([]);
-        }
+            title: "<spring:message code='global.form.refresh'/>",
+            click: function () {
+            ListGrid_ShipmentByMoistureHeader.invalidateCache();
+            ListGrid_ShipmentMoistureHeader.setData([]);
+            }
         });
+
         var ToolStrip_Actions_ListGrid_ShipmentByMoistureHeader = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
@@ -1071,14 +1116,6 @@
     var DynamicForm_ShipmentMoistureHeader = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields:
@@ -1094,8 +1131,11 @@
                     editorType: "SelectItem",
                     colSpan: 1,
                     titleColSpan: 1,
-                    required: true
-                    ,
+                    required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     optionDataSource: MyRestDataSource_Contact_IN_SHIPMENT_MOISTURE,
                     displayField: "nameEN",
                     wrapTitle: false,
@@ -1118,6 +1158,10 @@
                     type: 'text',
                     wrapTitle: false,
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     valueMap: {"source": "source", "destination": "destination"}
                 },
                 {
@@ -1141,9 +1185,13 @@
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1168,9 +1216,13 @@
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1222,7 +1274,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ShipmentMoistureHeader_refresh();
                             Window_ShipmentMoistureHeader.close();
@@ -1297,7 +1349,7 @@
                 buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
 
                         var shipmentId = record.id;
 
@@ -1305,7 +1357,7 @@
                                 actionURL: "${contextPath}/api/shipmentMoistureHeader/" + shipmentId,
                                 httpMethod: "DELETE",
                                 callback: function (RpcResponse_o) {
-                                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                         ListGrid_ShipmentMoistureHeader_refresh();
                                         isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                     } else {
@@ -1342,7 +1394,6 @@
     }
 
     var ToolStripButton_ShipmentMoistureHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentMoistureHeader_refresh();
@@ -1508,10 +1559,6 @@
             showTitle: false
             }
         ],
-        sortField: 0,
-        dataPageSize: 50,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {
@@ -1610,14 +1657,6 @@
     var DynamicForm_ShipmentMoistureItem = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields:
@@ -1635,14 +1674,17 @@
                     name: "wetWeight",
                     title: "<spring:message code='shipment.Moisture.wetWeight'/>",
                     wrapTitle: false,
-                    required: true
-                    ,
+                    required: true,
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1667,9 +1709,13 @@
                     type: 'float',
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1712,7 +1758,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (resp) {
-                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_ShipmentMoistureItem_refresh();
                             Window_ShipmentMoistureItem.close();
@@ -1768,7 +1814,7 @@
 
     function ListGrid_ShipmentMoistureItem_remove() {
         var selected = ListGrid_ShipmentMoistureItem.getSelection();
-        if (selected == null || selected.length === 0) {
+        if (selected == null || selected.length == 0) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
                 icon: "[SKIN]ask.png",
@@ -1793,12 +1839,12 @@
             ],
             buttonClick: function (button, index) {
                 this.hide();
-                if (index === 0) {
+                if (index == 0) {
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/shipmentMoistureItem/list/" + ids,
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_ShipmentMoistureItem_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -1832,7 +1878,6 @@
         }
     }
     var ToolStripButton_ShipmentMoistureItem_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentMoistureItem_refresh();
@@ -1981,11 +2026,7 @@
                 }],
                 align: "center"
             },
-        ],
-        sortField: 0,
-        dataPageSize: 50,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        ]
     });
     var HLayout_Grid_ShipmentMoistureItem = isc.HLayout.create({
         width: "100%",

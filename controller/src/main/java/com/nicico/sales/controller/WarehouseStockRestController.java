@@ -3,7 +3,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.WarehouseStockDTO;
 import com.nicico.sales.iservice.IWarehouseStockService;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +43,7 @@ public class WarehouseStockRestController {
         String out = "";
         for (Object[] r : ll)
             out += ", { \"plant\" : \"" + r[0].toString() + "\" , \"amount\" : \"" + r[1].toString() + "\" } ";
-        if(out.length() != 0)
+        if (out.length() != 0)
             out = " { \"data\" : [ " + out.substring(1) + " ] }";
         else
             out = " { \"data\" : [ " + out + " ] }";
@@ -62,11 +61,5 @@ public class WarehouseStockRestController {
     public ResponseEntity<TotalResponse<WarehouseStockDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(warehouseStockService.search(nicicoCriteria), HttpStatus.OK);
-    }
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<WarehouseStockDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(warehouseStockService.search(request), HttpStatus.OK);
     }
 }

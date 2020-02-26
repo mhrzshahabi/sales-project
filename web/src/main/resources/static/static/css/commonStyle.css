@@ -16,7 +16,8 @@
 
 .header-top {
     display: block;
-    height: 100%;
+    height: auto; opacity: 1;
+    transition: height 0ms 0ms, opacity 600ms 0ms;
     background: rgba(199,195,195,1);
     background: -moz-linear-gradient(top, rgba(199,195,195,1) 0%, rgba(225,225,225,1) 24%, rgba(242,242,242,1) 50%, rgba(238,238,238,1) 77%, rgba(223,223,223,1) 100%);
     background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(199,195,195,1)), color-stop(24%, rgba(225,225,225,1)), color-stop(50%, rgba(242,242,242,1)), color-stop(77%, rgba(238,238,238,1)), color-stop(100%, rgba(223,223,223,1)));
@@ -85,13 +86,20 @@
     color: white;
     margin-top: auto;
     margin-bottom: 7px;
+    position: absolute;
+    bottom: 2px;
+    left: 30px;
+    right: auto;
+}
+.header-logout-Vlayout{
+    padding-left: 10px;
 }
 .header-title-top{
     display: flex;
     flex-direction:column ;
     justify-content: right;
     align-items: flex-start;
-    margin-right: 43px;
+    margin-right: 11px;
 }
 .header-title-top h3{
     color: white;
@@ -112,7 +120,6 @@
     background-size: 40% !important;
     /* background-attachment: fixed; */
     background-repeat: no-repeat;
-    background-position: left -1px bottom 333px;
     object-fit: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -121,7 +128,11 @@
     background-position: left ;
 }
 
-
+@media only screen and (max-width: 1024px) {
+    .header-exit {
+        background-size: 100% !important;
+    }
+}
 .header-left-side{
     background-image: url("../img/layer-top.svg");
 }
@@ -624,3 +635,82 @@
 .conc-page1-form .formTitleDisabled,.conc-page1-form  .formTitleDisabledRTL, .conc-page1-form .formTitlePendingDisabled,.conc-page1-form  .formTitlePendingDisabledRTL {
     color: #272727;
 }
+
+/************************ switch Button **************************/
+.switch-btn {
+    position: relative;
+    display: inline-block;
+    width: 17px;
+    height: 29px;
+}
+
+.switch-btn input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-btn .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border: solid 1px #ced4da;
+}
+
+.switch-btn .slider:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 17px;
+    left: -1px;
+    bottom: 0px;
+    background-color: #c16161;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.switch-btn input:checked +  .slider:before  {
+    background-color: #73af00;
+}
+
+.switch-btn input:focus + .slider:before{
+    box-shadow: 0 0 1px #73af00;
+}
+
+.switch-btn input:checked + .slider:before {
+    -webkit-transform: translateY(-12px);
+    -ms-transform: translateY(-12px);
+    transform: translateY(-12px);
+}
+
+/* Rounded sliders */
+.switch-btn .slider.round {
+    border-radius: 34px;
+}
+
+.switch-btn .slider.round:before {
+    border-radius: 50%;
+}
+.toggle-switch{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.toggle-show{
+    height: auto; opacity: 1;
+    transition: height 0ms 0ms, opacity 600ms 0ms;
+}
+.toggle-hide{
+    overflow: hidden;
+    height: 0; opacity: 0;
+    transition: height 0ms 400ms, opacity 400ms 0ms;
+}
+/*********************** switch Button **************************/

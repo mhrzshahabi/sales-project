@@ -79,7 +79,8 @@ public class ShipmentAssayItemRestController {
     }
 
     @RequestMapping(value = {"/addAssayPaste"}, method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<String> createAddAssayPaste(@RequestBody String data) {
+    public @ResponseBody
+    ResponseEntity<String> createAddAssayPaste(@RequestBody String data) {
         return new ResponseEntity<>(shipmentAssayItemService.createAddAssayPaste(data), HttpStatus.OK);
     }
 }

@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.iservice.IUnitService;
@@ -82,13 +81,6 @@ public class UnitService implements IUnitService {
         final List<Unit> units = unitDAO.findAllById(request.getIds());
 
         unitDAO.deleteAll(units);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_UNIT')")
-    public SearchDTO.SearchRs<UnitDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(unitDAO, request, unit -> modelMapper.map(unit, UnitDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

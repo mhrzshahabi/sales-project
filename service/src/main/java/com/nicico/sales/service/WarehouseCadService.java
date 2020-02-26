@@ -4,7 +4,6 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.GridResponse;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseCadDTO;
 import com.nicico.sales.iservice.IWarehouseCadItemService;
@@ -57,7 +56,7 @@ public class WarehouseCadService implements IWarehouseCadService {
     @PreAuthorize("hasAuthority('C_WAREHOUSE_CAD')")
     public WarehouseCadDTO.Info create(WarehouseCadDTO.Create request) {
         final WarehouseCad warehouseCad = modelMapper.map(request, WarehouseCad.class);
-        MaterialItem materialItem = materialItemDAO.findByGdsCode(String.valueOf(request.getMaterialItemId()));
+        MaterialItem materialItem = materialItemDAO.findByGdsCode(request.getMaterialItemId());
         warehouseCad.setMaterialItem(materialItem);
         warehouseCad.setMaterialItemId(materialItem.getId());
         WarehouseCadDTO.Info saved = save(warehouseCad);
@@ -120,13 +119,6 @@ public class WarehouseCadService implements IWarehouseCadService {
         gridResponse.setTotalRows(data.size());
         gridResponse.setData(data);
         return new TotalResponse<>(gridResponse);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_WAREHOUSE_CAD')")
-    public SearchDTO.SearchRs<WarehouseCadDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseCadDAO, request, entity -> modelMapper.map(entity, WarehouseCadDTO.Info.class));
     }
 
     private WarehouseCadDTO.Info save(WarehouseCad warehouseCad) {

@@ -168,33 +168,22 @@
     var ValuesManager_Person = isc.ValuesManager.create({});
     var DynamicForm_Person = isc.DynamicForm.create({
         valuesManager: ValuesManager_Person,
-        width: 700,
+        width: 500,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
-
         fields: [
             {name: "id", hidden: true,},
             {
                 name: "contactId",
                 title: "<spring:message code='commercialParty.title'/>",
-                width: 500, wrapTitle: false, required: true,
+                width: 500, wrapTitle: false, required: true, errorOrientation: "bottom",
                 editorType: "SelectItem",
                 type: 'text',
-                sortField: 1
-                ,
+                sortField: 1,
                 optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA"
-                ,
+                displayField: "nameFA",
                 valueField: "id",
                 pickListWidth: 500,
                 pickListHeight: 400,
@@ -205,14 +194,25 @@
                     name: "nameFA",
                     width: "10%",
                     align: "center"
-                }, {name: "nameEN", width: "10%", align: "center"},]
+                }, {name: "nameEN", width: "10%", align: "center"},
+                ],
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "fullName",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text', wrapTitle: false,
-                required: true, length: "200",
+                required: true, length: "200", errorOrientation: "bottom",
                 width: 500,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "jobTitle",
@@ -237,7 +237,7 @@
                 name: "email",
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
-                required: true,
+                required: true, errorOrientation: "bottom",
                 width: 500,
                 wrapTitle: false,
                 validateOnExit: true,
@@ -246,8 +246,13 @@
                     {
                         type: "regexp",
                         expression: ".+\\@.+\\..+",
+                        validateOnChange: true
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }
-                ],
+                ]
             },
             {
                 name: "email1",
@@ -261,8 +266,7 @@
                         type: "regexp",
                         expression: ".+\\@.+\\..+",
                     }
-                ],
-
+                ]
             },
             {
                 name: "email2",
@@ -276,7 +280,7 @@
                         type: "regexp",
                         expression: ".+\\@.+\\..+",
                     }
-                ],
+                ]
             },
             {
                 name: "webAddress",
@@ -285,8 +289,8 @@
                 width: 500,
                 length: 20,
                 wrapTitle: false,
-                id: "emailtest"
-
+                id: "emailtest",
+                textAlign: "left"
             },
             {
                 name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 500,
@@ -302,7 +306,7 @@
             },
             {
                 name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text',
-                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
+                width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
             },
             {
                 name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text',
@@ -357,7 +361,7 @@
                 httpMethod: method,
                 data: JSON.stringify(data),
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Person_refresh();
                         Window_Person.close();
@@ -382,19 +386,33 @@
     });
 
     var HLayout_Person_IButton = isc.HLayout.create({
+        width: 650,
+        height: "100%",
         layoutMargin: 10,
-        membersMargin: 10,
-        width: "100%",
+        membersMargin: 5,
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_Person_Save,
             PersonCancelBtn
         ]
     });
 
+
+    var VLayout_saveButton_person = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_Person_IButton
+
+        ]
+    });
+
+
+
     var Window_Person = isc.Window.create({
         title: "<spring:message code='person.title'/>",
-        width: 580,
-        height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -408,7 +426,7 @@
         },
         items: [
             DynamicForm_Person,
-            HLayout_Person_IButton
+            VLayout_saveButton_person
         ]
     });
 
@@ -441,14 +459,14 @@
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
 
                         var personId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/person/" + personId,
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_Person.invalidateCache();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -484,7 +502,6 @@
 
 
     var ToolStripButton_Person_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Person_refresh();
@@ -493,7 +510,6 @@
 
     <sec:authorize access="hasAuthority('C_PERSON')">
     var ToolStripButton_Person_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Person.clearValues();
@@ -578,8 +594,13 @@
                     name: "fullName",
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
-                    required: true,
-                    width: 400
+                    required: true, errorOrientation: "bottom",
+                    width: 400,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "jobTitle",
@@ -603,9 +624,14 @@
                     name: "email",
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     width: 400,
-                    regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$"
+                    regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "email1",
@@ -705,8 +731,13 @@
                     name: "fullName",
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
-                    required: true,
-                    width: 150
+                    required: true, errorOrientation: "bottom",
+                    width: 150,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "jobTitle",
@@ -730,8 +761,13 @@
                     name: "email",
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
-                    required: true,
-                    width: 150
+                    required: true, errorOrientation: "bottom",
+                    width: 150,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "email1",
@@ -803,10 +839,7 @@
             ],
             sortField: 2,
             sortDirection: "descending",
-            dataPageSize: 50,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
+            autoFetchData: true
         });
 
     var HLayout_Grid_Person = isc.HLayout.create(

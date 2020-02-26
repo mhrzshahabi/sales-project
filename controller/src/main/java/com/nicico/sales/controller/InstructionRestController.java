@@ -3,7 +3,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.InstructionDTO;
 import com.nicico.sales.iservice.IInstructionService;
 import lombok.RequiredArgsConstructor;
@@ -23,56 +22,50 @@ import java.util.List;
 @RequestMapping(value = "/api/instruction")
 public class InstructionRestController {
 
-	private final IInstructionService instructionService;
+    private final IInstructionService instructionService;
 
-	@Loggable
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<InstructionDTO.Info> get(@PathVariable Long id) {
-		return new ResponseEntity<>(instructionService.get(id), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<InstructionDTO.Info> get(@PathVariable Long id) {
+        return new ResponseEntity<>(instructionService.get(id), HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/list")
-	public ResponseEntity<List<InstructionDTO.Info>> list() {
-		return new ResponseEntity<>(instructionService.list(), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<InstructionDTO.Info>> list() {
+        return new ResponseEntity<>(instructionService.list(), HttpStatus.OK);
+    }
 
-	@Loggable
-	@PostMapping
-	public ResponseEntity<InstructionDTO.Info> create(@Validated @RequestBody InstructionDTO.Create request) {
-		return new ResponseEntity<>(instructionService.create(request), HttpStatus.CREATED);
-	}
+    @Loggable
+    @PostMapping
+    public ResponseEntity<InstructionDTO.Info> create(@Validated @RequestBody InstructionDTO.Create request) {
+        return new ResponseEntity<>(instructionService.create(request), HttpStatus.CREATED);
+    }
 
-	@Loggable
-	@PutMapping
-	public ResponseEntity<InstructionDTO.Info> update(@RequestBody InstructionDTO.Update request) {
-		return new ResponseEntity<>(instructionService.update(request.getId(), request), HttpStatus.OK);
-	}
+    @Loggable
+    @PutMapping
+    public ResponseEntity<InstructionDTO.Info> update(@RequestBody InstructionDTO.Update request) {
+        return new ResponseEntity<>(instructionService.update(request.getId(), request), HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		instructionService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        instructionService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@DeleteMapping(value = "/list")
-	public ResponseEntity<Void> delete(@Validated @RequestBody InstructionDTO.Delete request) {
-		instructionService.delete(request);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @Loggable
+    @DeleteMapping(value = "/list")
+    public ResponseEntity<Void> delete(@Validated @RequestBody InstructionDTO.Delete request) {
+        instructionService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@Loggable
-	@GetMapping(value = "/spec-list")
-	public ResponseEntity<TotalResponse<InstructionDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-		final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-		return new ResponseEntity<>(instructionService.search(nicicoCriteria), HttpStatus.OK);
-	}
-
-	@Loggable
-	@GetMapping(value = "/search")
-	public ResponseEntity<SearchDTO.SearchRs<InstructionDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-		return new ResponseEntity<>(instructionService.search(request), HttpStatus.OK);
-	}
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<InstructionDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(instructionService.search(nicicoCriteria), HttpStatus.OK);
+    }
 }

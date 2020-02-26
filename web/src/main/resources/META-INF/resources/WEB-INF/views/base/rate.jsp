@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
 
@@ -15,6 +16,7 @@
                     ListGrid_Rate_refresh();
                 }
             },
+            <sec:authorize access="hasAuthority('C_RATE')">
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
@@ -22,36 +24,37 @@
                     Window_Rate.show();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('U_RATE')">
             {
                 title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                 click: function () {
                     ListGrid_Rate_edit();
                 }
             },
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('D_RATE')">
             {
                 title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                 click: function () {
                     ListGrid_Rate_remove();
                 }
             }
+            </sec:authorize>
         ]
     });
 
     var ValuesManager_Rate = isc.ValuesManager.create({});
 
+
     var DynamicForm_Rate = isc.DynamicForm.create(
         {
             width: "100%",
             height: "100%",
-            setMethod: 'POST',
             align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
 
@@ -61,6 +64,9 @@
                     hidden: true, showIf: "false",
                 },
                 {
+                    type: "RowSpacerItem"
+                },
+                {
                     name: "code",
                     title: "<spring:message code='rate.code'/>",
                     type: 'text',
@@ -68,13 +74,23 @@
                     width: 300,
                     keyPressFilter: "[0-9]",
                     length: "15", showIf: "false",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameFA",
                     title: "<spring:message code='rate.nameFa'/>",
                     required: true,
                     readonly: true,
-                    width: 300
+                    width: 300,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "nameEN",
@@ -82,7 +98,12 @@
                     type: 'text',
                     width: 300,
                     required: true,
-                    keyPressFilter: "[a-z|A-Z|0-9.]"
+                    keyPressFilter: "[a-z|A-Z|0-9.]",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "symbol",
@@ -105,9 +126,13 @@
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         }]
-                }
+                },
+                {
+                    type: "RowSpacerItem"
+                },
             ]
         });
+
 
     var IButton_Rate_Save = isc.IButtonSave.create({
         top: 260,
@@ -127,7 +152,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Rate_refresh();
                             Window_Rate.close();
@@ -139,6 +164,7 @@
             );
         }
     });
+
 
     var Window_Rate = isc.Window.create({
         title: "<spring:message code='rate.title'/> ",
@@ -159,7 +185,12 @@
             DynamicForm_Rate,
 
             isc.HLayout.create({
-                width: "100%",
+               margin: '10px',
+                padding: 10,
+               layoutMargin: 10,
+               membersMargin: 5,
+               align: "center",
+               width: "100%",
                 members:
                     [
                         IButton_Rate_Save,
@@ -167,7 +198,6 @@
                             width: 5,
                         }),
                         isc.IButtonCancel.create({
-                            ID: "rateEditExitIButton",
                             title: "<spring:message code='global.cancel'/>",
                             width: 100,
                             icon: "pieces/16/icon_delete.png",
@@ -220,7 +250,7 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
 
                             var rateId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
@@ -228,7 +258,7 @@
                                     actionURL: "${contextPath}/api/rate/" + rateId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_Rate.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -262,23 +292,25 @@
         }
     }
 
+
     var ToolStripButton_Rate_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Rate_refresh();
         }
     });
 
+    <sec:authorize access="hasAuthority('C_RATE')">
     var ToolStripButton_Rate_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Rate.clearValues();
             Window_Rate.show();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('U_RATE')">
     var ToolStripButton_Rate_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
@@ -287,7 +319,9 @@
             ListGrid_Rate_edit();
         }
     });
+    </sec:authorize>
 
+    <sec:authorize access="hasAuthority('D_RATE')">
     var ToolStripButton_Rate_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
@@ -295,22 +329,34 @@
             ListGrid_Rate_remove();
         }
     });
+    </sec:authorize>
+
 
     var ToolStrip_Actions_Rate = isc.ToolStrip.create({
         width: "100%",
-        members: [
-            ToolStripButton_Rate_Add,
-            ToolStripButton_Rate_Edit,
-            ToolStripButton_Rate_Remove,
-            isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Rate_Refresh,
-                ]
-            })
-        ]
+        members:
+            [
+                <sec:authorize access="hasAuthority('C_RATE')">
+                ToolStripButton_Rate_Add,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_RATE')">
+                ToolStripButton_Rate_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('D_RATE')">
+                ToolStripButton_Rate_Remove,
+                </sec:authorize>
+
+                isc.ToolStrip.create({
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    members: [
+                        ToolStripButton_Rate_Refresh,
+                    ]
+                })
+            ]
     });
 
     var HLayout_Actions_Rate = isc.HLayout.create({
@@ -394,12 +440,9 @@
                 }
 
             ],
-            sortField: 0,
-            dataPageSize: 50,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
+
 
     var HLayout_Grid_Rate = isc.HLayout.create({
         width: "100%",

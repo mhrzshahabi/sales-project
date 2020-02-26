@@ -252,7 +252,6 @@
         });
 
 
-
     var MyRestDataSource_ShipmentByAssayHeader = isc.MyRestDataSource.create(
         {
             fields: [
@@ -430,7 +429,11 @@
                     required: true,
                     width: "10%",
                     align: "center",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "createDate",
@@ -449,7 +452,11 @@
                     type: 'text',
                     required: true,
                     width: "10%",
-                    showHover: true
+                    showHover: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 }],
             fetchDataURL: "${contextPath}/api/shipment/spec-list"
         });
@@ -714,7 +721,7 @@
                                         httpMethod: methodXXXX,
                                         data: JSON.stringify(data),
                                         callback: function (RpcResponse_o) {
-                                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                                 ListGrid_ShipmentAssayItem_refresh();
                                                 PasteDialogShipmentAssayItem_windows.close();
@@ -758,7 +765,7 @@
         };
 
         ListGrid_ShipmentAssayHeader.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-        if (data.length === 0) {
+        if (data.length == 0) {
         recordNotFound.show();
         ListGrid_ShipmentAssayHeader.hide()
         } else {
@@ -775,7 +782,9 @@
             align: "center", padding: 5,
             membersMargin: 20,
             members: [
+            <sec:authorize access="hasAuthority('C_SHIPMENT_ASSAY_HEADER')">
             ToolStripButton_ShipmentAssayHeader_Add
+            </sec:authorize>
             ]
         });
 
@@ -892,7 +901,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "portByDischarge.port",
@@ -900,7 +913,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "description",
@@ -909,7 +926,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -918,7 +939,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "createDate",
@@ -927,7 +952,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "month",
@@ -936,7 +965,11 @@
                 required: true,
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -952,7 +985,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "swb",
@@ -960,7 +997,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "switchPort.port",
@@ -968,7 +1009,11 @@
                 type: 'text',
                 required: true,
                 width: "10%",
-                showHover: true
+                showHover: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "status",
@@ -985,11 +1030,7 @@
         ],
         getExpansionComponent: function (record) {
         return getExpandedComponent_ShipmentByAssayHeader(record)
-        },
-        sortField: 0,
-        dataPageSize: 50,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        }
     });
     var HLayout_Grid_ShipmentByAssayHeader = isc.HLayout.create({
         width: "100%",
@@ -999,7 +1040,6 @@
         ]
     });
         var ToolStripButton_ListGrid_ShipmentByAssayHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
         ListGrid_ShipmentByAssayHeader.invalidateCache();
@@ -1038,14 +1078,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     var DynamicForm_ShipmentAssayHeader = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center", wrapTitle: false,
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        wrapItemTitles: false,
         cellPadding: 2,
         numCols: 4,
         fields:
@@ -1060,6 +1093,10 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     colSpan: 1,
                     titleColSpan: 1,
                     required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     optionDataSource: MyRestDataSource_Contact_IN_SHIPMENT_ASSAY,
                     displayField: "nameEN",
                     wrapTitle: false,
@@ -1078,7 +1115,11 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                 {
                     name: "location", title: "<spring:message code='shipment.Assay.location'/>", type: 'text',
                     valueMap: {"source": "source", "destination": "destination"},
-                    required: true
+                    required: true,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "inspectionDate",
@@ -1092,7 +1133,11 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     type: 'date',
                     format: 'DD-MM-YYYY',
                     required: true,
-                    width: "100%", colSpan: 3, titleColSpan: 1
+                    width: "100%", colSpan: 3, titleColSpan: 1,
+                    validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "averageCuPercent",
@@ -1101,9 +1146,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1113,9 +1162,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1125,9 +1178,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1176,7 +1233,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                 httpMethod: methodXXXX,
                 data: JSON.stringify(data),
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_ShipmentAssayHeader_refresh();
                         Window_ShipmentAssayHeader.close();
@@ -1269,13 +1326,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                 }), isc.Button.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
-                    if (index === 0) {
+                    if (index == 0) {
                         var shipmentId = record.id;
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             actionURL: "${contextPath}/api/shipmentAssayHeader/" + shipmentId,
                             httpMethod: "DELETE",
                             callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                     ListGrid_ShipmentAssayHeader_refresh();
                                     isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                 } else {
@@ -1310,7 +1367,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     }
 
     var ToolStripButton_ShipmentAssayHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentAssayHeader_refresh();
@@ -1498,10 +1554,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             showTitle: false
             }
         ],
-        sortField: 0,
-        dataPageSize: 50,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {
@@ -1601,14 +1653,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     var DynamicForm_ShipmentAssayItem = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields:
@@ -1621,9 +1665,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isInteger",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1633,9 +1681,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1645,9 +1697,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
                 {
@@ -1657,9 +1713,13 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     required: true,
                     validators: [{
                         type: "isFloat",
-                        validateOnExit: true,
+                        validateOnChange: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
                     }]
                 },
             ]
@@ -1686,7 +1746,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                 httpMethod: methodXXXX,
                 data: JSON.stringify(data),
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_ShipmentAssayItem_refresh();
                         Window_ShipmentAssayItem.close();
@@ -1740,7 +1800,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
 
     function ListGrid_ShipmentAssayItem_remove() {
         var selected = ListGrid_ShipmentAssayItem.getSelection();
-        if (selected == null || selected.length === 0) {
+        if (selected == null || selected.length == 0) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
                 icon: "[SKIN]ask.png",
@@ -1765,12 +1825,12 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             ],
             buttonClick: function (button, index) {
                 this.hide();
-                if (index === 0) {
+                if (index == 0) {
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         actionURL: "${contextPath}/api/shipmentAssayItem/list/" + ids,
                         httpMethod: "DELETE",
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 ListGrid_ShipmentAssayItem_refresh();
                                 isc.say("<spring:message code='global.grid.record.remove.success'/>");
                             } else {
@@ -1804,7 +1864,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     }
 
     var ToolStripButton_ShipmentAssayItem_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentAssayItem_refresh();
@@ -1937,11 +1996,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             }
-        ],
-        sortField: 0,
-        dataPageSize: 50,
-       // showFilterEditor: true,
-        filterOnKeypress: true
+        ]
     });
     var HLayout_Grid_ShipmentAssayItem = isc.HLayout.create({
         width: "100%",
@@ -1961,7 +2016,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     });
 
     isc.SectionStack.create({
-        ID: "ShipmentAssayHeader_Section_Stack",
         sections:
             [
                 {

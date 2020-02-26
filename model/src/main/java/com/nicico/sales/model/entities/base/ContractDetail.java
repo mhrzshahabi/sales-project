@@ -3,6 +3,9 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -12,6 +15,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"ID"}, callSuper = false)
+@Audited
+@AuditOverride(forClass = Auditable.class)
 @Entity
 @Table(name = "TBL_CONTRACT_DETAIL")
 public class ContractDetail extends Auditable {
@@ -23,9 +28,10 @@ public class ContractDetail extends Auditable {
     private Long ID;
 
     @Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "contractDetail2contract"))
-	private Contract contract;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotAudited
+    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contractDetail2contract"))
+    private Contract contract;
 
     @Column(name = "CONTRACT_ID")
     private Long contract_id;

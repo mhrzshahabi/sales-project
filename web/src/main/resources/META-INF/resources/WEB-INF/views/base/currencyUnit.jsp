@@ -60,18 +60,8 @@
         {
             width: "100%",
             height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
-            requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 1,
-
             fields: [
                 {
                     name: "id",
@@ -141,7 +131,7 @@
                         data: JSON.stringify(data),
                         serverOutputAsString: false,
                         callback: function (RpcResponse_o) {
-                            if (RpcResponse_o.data === 'success') {
+                            if (RpcResponse_o.data == 'success') {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_CurrencyUnit_refresh();
                                 Window_CurrencyUnit.close();
@@ -182,7 +172,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "courseEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -233,7 +222,7 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var currencyUnitId = record.id;
                             isc.RPCManager.sendRequest(
                                 {
@@ -241,10 +230,9 @@
                                     httpMethod: "POST",
                                     useSimpleHttp: true,
                                     contentType: "application/json; charset=utf-8",
-                                    showPrompt: true,
                                     serverOutputAsString: false,
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.data === 'success') {
+                                        if (RpcResponse_o.data == 'success') {
                                             ListGrid_CurrencyUnit.invalidateCache();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         } else {
@@ -283,7 +271,6 @@
     }
 
     var ToolStripButton_CurrencyUnit_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_CurrencyUnit_refresh();
@@ -367,11 +354,7 @@
             {name: "decimalDigit", title: "<spring:message code='currency.decimalDigit'/>", align: "center"},
 
         ],
-        sortField: 0,
-        dataPageSize: 50,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
     var HLayout_Grid_CurrencyUnit = isc.HLayout.create({
@@ -382,7 +365,7 @@
         ]
     });
 
-    var VLayout_Body_CurrencyUnit = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

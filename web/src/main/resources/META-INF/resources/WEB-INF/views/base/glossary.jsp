@@ -68,14 +68,14 @@
                         })],
                     buttonClick: function (button, index) {
                         this.hide();
-                        if (index === 0) {
+                        if (index == 0) {
                             var glossaryId = record.id;
                             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
                                 {
                                     actionURL: "${contextPath}/api/glossary/" + glossaryId,
                                     httpMethod: "DELETE",
                                     callback: function (RpcResponse_o) {
-                                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                             ListGrid_Glossary_refresh();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
                                         }
@@ -124,15 +124,7 @@
     var DynamicForm_Glossary = isc.DynamicForm.create({
         width: 700,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
@@ -158,7 +150,6 @@
     });
 
     var ToolStripButton_Glossary_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Glossary_refresh();
@@ -166,7 +157,6 @@
     });
 
     var ToolStripButton_Glossary_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Glossary.clearValues();
@@ -246,7 +236,7 @@
                     httpMethod: methodXXXX,
                     data: JSON.stringify(data),
                     callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                             isc.say("<spring:message code='global.form.request.successful'/>");
                             ListGrid_Glossary_refresh();
                             Window_Glossary.close();
@@ -285,7 +275,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "glossaryEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -325,23 +314,7 @@
                     width: "50%",
                     align: "center"
                 },],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                var record = this.getSelectedRecord();
-                ListGrid_GlossaryFeature.fetchData(
-                    {
-                        "glossary.id": record.id
-                    }, function (dsResponse, data, dsRequest) {
-                        ListGrid_GlossaryFeature.setData(data);
-                    },
-                    {
-                        operationId: "00"
-                    });
-            }
+            autoFetchData: true
         });
 
     var HLayout_Glossary_Grid = isc.HLayout.create({

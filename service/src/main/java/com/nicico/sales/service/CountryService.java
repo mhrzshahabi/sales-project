@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CountryDTO;
 import com.nicico.sales.iservice.ICountryService;
@@ -82,13 +81,6 @@ public class CountryService implements ICountryService {
         final List<Country> countrys = countryDAO.findAllById(request.getIds());
 
         countryDAO.deleteAll(countrys);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_COUNTRY')")
-    public SearchDTO.SearchRs<CountryDTO.Info> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(countryDAO, request, country -> modelMapper.map(country, CountryDTO.Info.class));
     }
 
     @Transactional(readOnly = true)

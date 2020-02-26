@@ -2,7 +2,6 @@ package com.nicico.sales.controller;
 
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.InspectionContractDTO;
 import com.nicico.sales.iservice.IInspectionContractService;
 import lombok.RequiredArgsConstructor;
@@ -66,11 +65,5 @@ public class InspectionContractRestController {
     public ResponseEntity<TotalResponse<InspectionContractDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         TotalResponse<InspectionContractDTO.Info> search = inspectionContractService.search(criteria);
         return new ResponseEntity<TotalResponse<InspectionContractDTO.Info>>(search, HttpStatus.OK);
-    }
-
-    @Loggable
-    @GetMapping(value = "/search")
-    public ResponseEntity<SearchDTO.SearchRs<InspectionContractDTO.Info>> search(@RequestBody SearchDTO.SearchRq request) {
-        return new ResponseEntity<>(inspectionContractService.search(request), HttpStatus.OK);
     }
 }

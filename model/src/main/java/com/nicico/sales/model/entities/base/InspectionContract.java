@@ -16,79 +16,79 @@ import javax.persistence.*;
 @Table(name = "TBL_INSPECTION_CONTRACT")
 public class InspectionContract extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INSPECTION_CONTRACT")
-	@SequenceGenerator(name = "SEQ_INSPECTION_CONTRACT", sequenceName = "SEQ_INSPECTION_CONTRACT", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INSPECTION_CONTRACT")
+    @SequenceGenerator(name = "SEQ_INSPECTION_CONTRACT", sequenceName = "SEQ_INSPECTION_CONTRACT", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "insp_cont2shipment"))
-	private Shipment shipment;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "SHIPMENT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "insp_cont2shipment"))
+    private Shipment shipment;
 
-	@Column(name = "SHIPMENT_ID")
-	private Long shipmentId;
+    @Column(name = "SHIPMENT_ID")
+    private Long shipmentId;
 
-	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INSPECTION_CONTACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "insp_cont2inspectorcontact"))
-	private Contact contactByInspection;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "INSPECTION_CONTACT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "insp_cont2inspectorcontact"))
+    private Contact contactByInspection;
 
-	@Column(name = "INSPECTION_CONTACT_ID")
-	private Long contactByInspectionId;
+    @Column(name = "INSPECTION_CONTACT_ID")
+    private Long contactByInspectionId;
 
-	@Setter(AccessLevel.NONE)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIPMENT_CONTRACT_ID", nullable = false, insertable = false, updatable = false,foreignKey = @ForeignKey(name = "insp_cont2shipcontract"))
-	private ShipmentContract shipmentContract;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SHIPMENT_CONTRACT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "insp_cont2shipcontract"))
+    private ShipmentContract shipmentContract;
 
-	@Column(name = "SHIPMENT_CONTRACT_ID")
-	private Long shipmentContractId;
+    @Column(name = "SHIPMENT_CONTRACT_ID")
+    private Long shipmentContractId;
 
-	@Column(name = "DESCRIPTION", length = 1000)
-	private String description;
+    @Column(name = "DESCRIPTION", length = 1000)
+    private String description;
 
-	@Column(name = "CLOSE_DATE", length = 20)
-	private String closeDate;
+    @Column(name = "CLOSE_DATE", length = 20)
+    private String closeDate;
 
-	@Column(name = "CREATE_DATE", length = 50)
-	private String createDate;
+    @Column(name = "CREATE_DATE", length = 50)
+    private String createDate;
 
-	@Column(name = "CREATE_USER", length = 5)
-	private Long createUser;
+    @Column(name = "CREATE_USER", length = 5)
+    private Long createUser;
 
-	@Column(name = "EMAIL_TYPE", length = 20)
-	private String emailType;
+    @Column(name = "EMAIL_TYPE", length = 20)
+    private String emailType;
 
-	@Column(name = "STATUS", length = 20)
-	private String status;
+    @Column(name = "STATUS", length = 20)
+    private String status;
 
-	@Column(name = "EMAIL_SUBJECT", length = 1000)
-	private String emailSubject;
+    @Column(name = "EMAIL_SUBJECT", length = 1000)
+    private String emailSubject;
 
-	@Column(name = "EMAIL_TO", length = 1000)
-	private String emailTo;
+    @Column(name = "EMAIL_TO", length = 1000)
+    private String emailTo;
 
-	@Column(name = "EMAIL_CC", length = 1000)
-	private String emailCC;
+    @Column(name = "EMAIL_CC", length = 1000)
+    private String emailCC;
 
-	@Column(name = "EMAIL_BODY", length = 4000)
-	private String emailBody;
+    @Column(name = "EMAIL_BODY", length = 4000)
+    private String emailBody;
 
-	@Column(name = "EMAIL_RESPOND", length = 4000)
-	private String emailRespond;
+    @Column(name = "EMAIL_RESPOND", length = 4000)
+    private String emailRespond;
 
-	@Column(name = "VESSEL_NAME", length = 1000)
-	private String vesselName;
+    @Column(name = "VESSEL_NAME", length = 1000)
+    private String vesselName;
 
-	@Column(name = "SUPERVISER_WEIGHING", length = 20)
-	private Boolean superviseWeighing;
+    @Column(name = "SUPERVISER_WEIGHING", length = 20)
+    private Boolean superviseWeighing;
 
-	@Column(name = "SAMPLING", length = 20)
-	private Boolean sampling;
+    @Column(name = "SAMPLING", length = 20)
+    private Boolean sampling;
 
-	@Column(name = "MOISTURE_DETERMINATION", length = 20)
-	private Boolean moistureDetermination;
+    @Column(name = "MOISTURE_DETERMINATION", length = 20)
+    private Boolean moistureDetermination;
 
 }

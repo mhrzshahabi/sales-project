@@ -23,7 +23,7 @@ public class WarehouseCadItemDTO {
     private Long barrelNo;
     private Double weightKg;
     private Double issueId;
-    private Double description;
+    private String description;
 
     @Getter
     @Setter
@@ -100,17 +100,5 @@ public class WarehouseCadItemDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<WarehouseCadItemDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }
