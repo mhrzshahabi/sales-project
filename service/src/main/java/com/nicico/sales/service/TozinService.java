@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,14 +38,11 @@ public class TozinService implements ITozinService {
     private final MaterialItemDAO materialItemDAO;
     private final ModelMapper modelMapper;
     private final ObjectMapper objectMapper;
-    private final EntityManager entityManager;
 
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_TOZIN')")
     public TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria) {
-        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
-        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         return SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
     }
 
@@ -97,11 +93,8 @@ public class TozinService implements ITozinService {
 
         request.setCriteria(requestCriteriaRq);
 
-        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
-        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final SearchDTO.SearchRs<TozinDTO.Info> response = SearchUtil.search(tozinDAO, request, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
 
         return mapSearchRs(criteria, response);
     }
-
 }
