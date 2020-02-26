@@ -304,10 +304,7 @@
         height: "100%",
         align: "center",
         styleName: "toggle-switch",
-        contents: "<label class=\"switch-btn\">\n" +
-        "  <input type=\"checkbox\" onchange='onToggleClick(event)'>\n" +
-        "  <span class=\"slider round\"></span>\n" +
-        "</label>"
+        contents: "<div id='switch-btn'><img src='static/img/pinSvg.svg'> </div>"
     });
 
     var languageAndToggleHLayout = isc.HLayout.create({
@@ -357,7 +354,7 @@
     var headerLayout = isc.HLayout.create({
 
         width: "100%",
-        height: 50,
+        height: 55,
         styleName: "header-top",
         members: [headerLogo,
             //  headerFlow,
@@ -743,27 +740,27 @@
     });
 
     /*----------------------inspectionTab------------------------*/
-    inspectionTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.inspectionTab'/>",
-        menu: isc.Menu.create({
-            placement: "none",
-            data: [
-                {
-                    title: "<spring:message code='inspectionMoistureResults.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='inspectionAssayResults.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")
-                    }
-                }
-            ]
-        })
-    });
+    <%--inspectionTab = isc.ToolStripMenuButton.create({--%>
+        <%--title: "&nbsp; <spring:message code='main.inspectionTab'/>",--%>
+        <%--menu: isc.Menu.create({--%>
+            <%--placement: "none",--%>
+            <%--data: [--%>
+                <%--{--%>
+                    <%--title: "<spring:message code='inspectionMoistureResults.title'/>",--%>
+                    <%--click: function () {--%>
+                        <%--createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")--%>
+                    <%--}--%>
+                <%--},--%>
+                <%--{isSeparator: true},--%>
+                <%--{--%>
+                    <%--title: "<spring:message code='inspectionAssayResults.title'/>",--%>
+                    <%--click: function () {--%>
+                        <%--createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")--%>
+                    <%--}--%>
+                <%--}--%>
+            <%--]--%>
+        <%--})--%>
+    <%--});--%>
 
 
     /*----------------------financialTab------------------------*/
@@ -818,6 +815,8 @@
     var mainTabSet = isc.TabSet.create({
         tabBarPosition: "top",
         width: "100%",
+        height: "100%",
+        autoDraw: false,
         tabs: [],
         tabBarControls: [
             isc.IButtonClose.create({
@@ -870,55 +869,101 @@
         ]
     });
 
+    var headerAndMenu = isc.VLayout.create({
+        styleName: "header-and-menu",
+        members: [headerLayout, MainDesktopMenuH]
+    })
+
     isc.VLayout.create({
         width: "100%",
         height: "100%",
         backgroundColor: "",
-        members: [headerLayout, MainDesktopMenuH, mainTabSet]
+        members: [headerAndMenu, mainTabSet]
     });
 
-    var checked = null;
 
-    function onToggleClick(e) {
-        checked = e.target.checked;
-        if (checked) {
+    var toggle = true;
+    headerAndMenu.setStyleName('header-and-menu toggle-show');
+    var switchBtn = document.getElementById('switch-btn');
+    switchBtn.addEventListener('click',	function onToggleClick (e){
+        setTimeout(function() {
+            //switchBtn.classList.remove("fade-in");
+            //switchBtn.classList.remove("fade-out");
+            if(toggle) {
+                switchBtn.firstChild.src = "static/img/unpinSvg.svg";
+                headerAndMenu.setStyleName('header-and-menu toggle-hide')
+                setTimeout(function () {
+                    headerLayout.setVisibility(false);
+                    MainDesktopMenuH.setVisibility(false);
+                }, 300)
 
-            headerLayout.setStyleName('header-top toggle-hide');
-            MainDesktopMenuH.setStyleName('main-menu toggle-hide');
-            headerLayout.setVisibility(false);
-            MainDesktopMenuH.setVisibility(false);
+            }else{
+                switchBtn.firstChild.src = "static/img/pinSvg.svg";
+                headerAndMenu.setStyleName('header-and-menu toggle-show')
+                setTimeout(function () {
+                    headerLayout.setVisibility(true);
+                    MainDesktopMenuH.setVisibility(true);
+                }, 300)
+
+            }
+            toggle = !toggle;
+        },100)
 
 
-        } else {
-            headerLayout.setStyleName('header-top toggle-show');
-            MainDesktopMenuH.setStyleName('main-menu toggle-show');
-            headerLayout.setVisibility(true);
-            MainDesktopMenuH.setVisibility(true);
-        }
-    }
+        // checked = e.target.checked;
+        // if(checked)
+        // {
+        //
+        // 	headerLayout.setStyleName('header-top toggle-hide')
+        // 	ribbonHLayout.setStyleName('main-menu toggle-hide')
+        // 	headerLayout.setVisibility(false);
+        // 	ribbonHLayout.setVisibility(false);
+        //
+        //
+        // }else {
+        // 	headerLayout.setStyleName('header-top toggle-show')
+        // 	ribbonHLayout.setStyleName('main-menu toggle-show')
+        // 	headerLayout.setVisibility(true);
+        // 	ribbonHLayout.setVisibility(true);
+        // }
+    })
 
-    document.addEventListener("mousemove", function (event) {
-        if (event.clientY <= 2) {
-            headerLayout.setStyleName('header-top toggle-show');
-            MainDesktopMenuH.setStyleName('main-menu toggle-show');
-            headerLayout.setVisibility(true);
-            MainDesktopMenuH.setVisibility(true);
-
-        } else if (event.clientY > 100) {
-            if (checked) {
-                headerLayout.setStyleName('header-top toggle-hide');
-                MainDesktopMenuH.setStyleName('main-menu toggle-hide');
-                headerLayout.setVisibility(false);
-                MainDesktopMenuH.setVisibility(false);
-            } else {
-                headerLayout.setStyleName('header-top toggle-show');
-                MainDesktopMenuH.setStyleName('main-menu toggle-show');
+    document.addEventListener("mouseout", function(event){
+        if(event.clientY <= 10 || event.pageY<= 10)
+        {
+            headerAndMenu.setStyleName('header-and-menu toggle-show')
+            //headerLayout.setStyleName('header-top')
+            //ribbonHLayout.setStyleName('main-menu')
+            setTimeout(function () {
                 headerLayout.setVisibility(true);
                 MainDesktopMenuH.setVisibility(true);
+            }, 100)
+
+        }else  if(event.clientY > 100){
+            if(!toggle){
+                headerAndMenu.setStyleName('header-and-menu toggle-hide')
+                //headerLayout.setStyleName('header-top')
+                //ribbonHLayout.setStyleName('main-menu')
+                setTimeout(function () {
+                    headerLayout.setVisibility(false);
+                    MainDesktopMenuH.setVisibility(false);
+                }, 300)
+
+            }else{
+                headerAndMenu.setStyleName('header-and-menu toggle-show')
+                //	headerLayout.setStyleName('header-top')
+                //	ribbonHLayout.setStyleName('main-menu')
+                setTimeout(function () {
+                    headerLayout.setVisibility(true);
+                    MainDesktopMenuH.setVisibility(true);
+                }, 100)
+
             }
 
         }
-    });
+    })
+
+
 
     <sec:authorize access="hasAuthority('R_CURRENCY')">
     {

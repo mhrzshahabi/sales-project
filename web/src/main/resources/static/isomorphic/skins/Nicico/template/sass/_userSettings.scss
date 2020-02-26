@@ -113,6 +113,25 @@ $button_deselected_disabled_color: hsl(0, 0%, 66%);
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'IRANSansNum';
+  font-style: normal;
+  font-weight: 500;
+  src: url("fonts/IRANSansWeb(FaNum)_Light.ttf");
+  src: url("fonts/IRANSansWeb(FaNum)_Light.eot");
+  src: url("fonts/IRANSansWeb(FaNum)_Light.woff");
+  src: local("☺"), url("fonts/IRANSansWeb(FaNum)_Light.woff") format("woff"), url("fonts/IRANSansWeb(FaNum)_Light.otf") format("opentype"), url("fonts/IRANSansWeb(FaNum)_Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'IRANSans';
+  font-style: normal;
+  font-weight: 500;
+  src: url("fonts/IRANSansWeb_Light.ttf");
+  src: url("fonts/IRANSansWeb_Light.eot");
+  src: url("fonts/IRANSansWeb_Light.woff");
+  src: local("☺"), url("fonts/IRANSansWeb_Light.woff") format("woff"), url("fonts/IRANSansWeb_Light.otf") format("opentype"), url("fonts/IRANSansWeb_Light.ttf") format("truetype");
+}
 
 @font-face {
   font-family: 'corbel';
@@ -174,10 +193,10 @@ $invert_menu_icons_on_rollover: true;
 
 // ==== Fonts - Variables for fonts
 // Font
-$primary_font: BYekan;
-$secondary_font: BYekan;
-$secondary_font_bold: BYekan;
-$tertiary_font: BYekan;
+$primary_font:  IRANSansNum,IRANSans;
+$secondary_font: IRANSansNum,IRANSans;
+$secondary_font_bold: IRANSansNum,IRANSans;
+$tertiary_font: IRANSansNum,IRANSans;
 $standard_body_font: $tertiary_font;
 $standard_tab_font: $secondary_font;
 $standard_menu_font: $secondary_font;

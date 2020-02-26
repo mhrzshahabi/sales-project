@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="44" height="44" viewBox="0 0 44 44">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#035a0f"/>
+      <stop offset="0.707" stop-color="#10781e"/>
+      <stop offset="1" stop-color="#57af62"/>
+    </radialGradient>
+    <filter id="Ellipse_68" x="0" y="0" width="44" height="44" filterUnits="userSpaceOnUse">
+      <feOffset dx="1" dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="0.5" result="blur"/>
+      <feFlood flood-opacity="0.349"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_4207" data-name="Group 4207" transform="translate(-314.5 -26.5)">
+    <g transform="matrix(1, 0, 0, 1, 314.5, 26.5)" filter="url(#Ellipse_68)">
+      <circle id="Ellipse_68-2" data-name="Ellipse 68" cx="20.5" cy="20.5" r="20.5" transform="translate(0.5 0.5)" fill="url(#radial-gradient)"/>
+    </g>
+    <g id="_9c4812d3673a2b49271425ce36b6eabe" data-name="9c4812d3673a2b49271425ce36b6eabe" transform="translate(317 28.876)">
+      <g id="Group_4224" data-name="Group 4224" transform="translate(10 10.125)">
+        <path id="Path_12143" data-name="Path 12143" d="M432.892-500.835a1.266,1.266,0,0,0-.588.585,1.982,1.982,0,0,0-.218,1v.381l-1.406,1.406-1.41,1.409.265.262.262.265,1.326-1.326,1.326-1.326,1.7,1.7,1.7,1.7-1.326,1.326-1.326,1.326.254.254.254.254,1.4-1.4,1.4-1.4h.371a1.985,1.985,0,0,0,1.013-.2.968.968,0,0,0,.61-1.235c-.054-.164-.272-.392-2.427-2.543s-2.379-2.372-2.543-2.427A1.1,1.1,0,0,0,432.892-500.835Zm2.652,2.961c1.231,1.228,2.249,2.267,2.256,2.3.029.1-.1.229-.309.32a1.484,1.484,0,0,1-.574.1l-.381.018-1.867-1.871-1.867-1.871.018-.374a1.4,1.4,0,0,1,.1-.559c.105-.24.214-.352.309-.323C433.27-500.123,434.312-499.105,435.544-497.874Z" transform="translate(-422.332 500.875)" fill="#fff" stroke="#fff" stroke-width="1"/>
+        <path id="Path_12144" data-name="Path 12144" d="M79.393-496.613a1.61,1.61,0,0,0-.243.28c0,.047,14.429,14.476,14.476,14.476a1.374,1.374,0,0,0,.283-.247l.243-.243-7.258-7.258L79.64-496.86Z" transform="translate(-78.006 496.926)" fill="#fff" stroke="#fff" stroke-width="1"/>
+        <path id="Path_12145" data-name="Path 12145" d="M12.463-198.071a2.226,2.226,0,0,0-1.148.744l-.465.454,2.143,2.143,2.147,2.143-2.568,2.568L10-187.446l.265.262.262.265,2.572-2.572,2.568-2.568,2.125,2.125c1.17,1.17,2.143,2.125,2.165,2.125a5.851,5.851,0,0,0,1.024-1.119c.233-.436.24-.559.116-1.976l-.113-1.246-.4-.4c-.389-.389-.4-.4-.4-.283,0,.062.058.767.127,1.562s.127,1.511.127,1.591a1.212,1.212,0,0,1-.33.69l-.156.167-4.025-4.025-4.025-4.025.138-.138a1.254,1.254,0,0,1,.719-.352c.084,0,.814.058,1.62.127s1.5.127,1.547.12c.069-.011.029-.065-.309-.4l-.392-.389-1.242-.113c-.683-.058-1.257-.109-1.271-.105S12.586-198.1,12.463-198.071Z" transform="translate(-10 203.133)" fill="#fff" stroke="#fff" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>
