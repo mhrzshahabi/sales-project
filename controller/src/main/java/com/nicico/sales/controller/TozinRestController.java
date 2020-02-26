@@ -24,13 +24,6 @@ public class TozinRestController {
     private final ITozinService tozinService;
 
     @Loggable
-    @GetMapping(value = {"/spec-list"})
-    public ResponseEntity<TotalResponse<TozinDTO.Info>> searchTozin(@RequestParam MultiValueMap<String, String> criteria) {
-        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(tozinService.searchTozin(nicicoCriteria), HttpStatus.OK);
-    }
-
-    @Loggable
     @GetMapping(value = {"/on-way-product/spec-list"})
     public ResponseEntity<TotalResponse<TozinDTO.Info>> searchOnWayProduct(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);

@@ -687,25 +687,11 @@
             placement: "none",
             data: [
                 {
-                    title: "<spring:message code='tozin.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='tozin.title'/>", "<spring:url value="/tozin/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
                     title: "<spring:message code='tozin.onWay'/>",
                     click: function () {
                         createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
                     }
 
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='tozinSales.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='tozinSales.title'/>", "<spring:url value="/tozinSales/showForm" />")
-                    }
                 },
                 {isSeparator: true},
                 {

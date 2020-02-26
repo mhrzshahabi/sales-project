@@ -39,7 +39,6 @@ public class SalesException extends NICICOException {
         InvoiceNotFound(404),
         ContractShipmentNotFound(404),
         TozinNotFound(404),
-        TozinSalesNotFound(404),
         ContactNotFound(404),
         ContactAccountNotFound(404),
         ContractNotFound(404),
