@@ -348,13 +348,6 @@
                 ToolStripButton_WarehouseStock_export_Print,
                 </sec:authorize>
 
-                MenuButton_Tozin,
-                MenuButton_Forosh_Bargiri,
-                MenuButton_Kharid_Konstantere,
-                MenuButton_Kharid_Zaieat,
-
-                DynamicForm_DailyReport_Tozin,
-
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -366,11 +359,32 @@
             ]
     });
 
+    var ToolStrip_Reports_WarehouseStock = isc.ToolStrip.create({
+        width: "100%",
+        membersMargin: 5,
+        members:
+            [
+                MenuButton_Tozin,
+                MenuButton_Forosh_Bargiri,
+                MenuButton_Kharid_Konstantere,
+                MenuButton_Kharid_Zaieat,
+                DynamicForm_DailyReport_Tozin,
+            ]
+    });
+
     var HLayout_WarehouseStock_Actions = isc.HLayout.create({
         width: "100%",
         members:
             [
                 ToolStrip_Actions_WarehouseStock
+            ]
+    });
+
+    var HLayout_WarehouseStock_Reports = isc.HLayout.create({
+        width: "100%",
+        members:
+            [
+                ToolStrip_Reports_WarehouseStock
             ]
     });
 
@@ -417,6 +431,6 @@
         width: "100%",
         height: "100%",
         members: [
-            HLayout_WarehouseStock_Actions, HLayout_WarehouseStock_Grid
+            HLayout_WarehouseStock_Actions, HLayout_WarehouseStock_Reports, HLayout_WarehouseStock_Grid
         ]
     });
