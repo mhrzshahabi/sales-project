@@ -93,7 +93,7 @@
                 hav_isfinal,
                 p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id
 
-                from n_master.v_tozine_content_m v
+                from n_mdms.v_tozine_content_m v
                 join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
                 join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
                 left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
@@ -118,7 +118,7 @@
                 p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id,
                 isoky hav_isfinal
 
-                FROM n_master.v_tozine_content_b v
+                FROM n_msms.v_tozine_content_b v
                 join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
                 join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
                 left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
@@ -132,7 +132,7 @@
                  select tzn_date,p.id,p.namefa plant,m.gdscode,m.gdsname
 				 , case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,
 				 nvl(sum(wazn),0) wazn,sum(case when tedad is null then 1 when tedad=0 then 1 else tedad end) tedad
-				 from n_master.v_tozine_content_m m
+				 from n_mdms.v_tozine_content_m m
 				join tbl_tozin_target s on s.targetid=sourceid
 				join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
 				join tbl_tozin_material mt on mt.gdscode=m.gdscode
