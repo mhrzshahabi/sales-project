@@ -960,6 +960,7 @@
     isc.HTMLFlow.create({
         textAlign: "center",
         top: 100,
+        left:20,
         contents: "<div id=\"mybutton\">\n" +
         "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
         "</div>",
