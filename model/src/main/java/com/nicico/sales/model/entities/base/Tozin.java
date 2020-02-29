@@ -18,7 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Entity
 @Immutable
-@Subselect("select * from n_master.V_TOZINE_CONTENT_M")
+@Subselect("select * from N_MDMS.V_TOZINE_CONTENT_M")
 @IdClass(Tozin.TozinId.class)
 public class Tozin {
 
