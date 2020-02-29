@@ -19,16 +19,28 @@
     <changeSet author="RMazloom" id="1578893517121-241">
         <createSequence sequenceName="seq_invoice_internal_document"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-242">
+    <changeSet author="RMazloom" id="1578893517121-242-1">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="TBL_CATOD_LIST"/>
-            <tableExists tableName="TBL_INVOICE_INTERNAL"/>
-            <tableExists tableName="TBL_INVOICE_INTERNAL_CUSTOMER"/>
-            <tableExists tableName="TBL_INVOICE_INTERNAL_LC"/>
         </preConditions>
         <dropTable tableName="TBL_CATOD_LIST"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-242-2">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="TBL_INVOICE_INTERNAL"/>
+        </preConditions>
         <dropTable tableName="TBL_INVOICE_INTERNAL"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-242-3">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="TBL_INVOICE_INTERNAL_CUSTOMER"/>
+        </preConditions>
         <dropTable tableName="TBL_INVOICE_INTERNAL_CUSTOMER"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-242-4">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="TBL_INVOICE_INTERNAL_LC"/>
+        </preConditions>
         <dropTable tableName="TBL_INVOICE_INTERNAL_LC"/>
     </changeSet>
     <changeSet author="RMazloom" id="1578893517121-243">
@@ -37,28 +49,52 @@
                 newDataType="varchar2(255 CHAR)"
                 tableName="TBL_INVOICEINTERNALDOCUMENT"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-244">
+    <changeSet author="RMazloom" id="1578893517121-244-1">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="V_TOZINE_CONTENT_B"/>
-            <tableExists tableName="V_TOZINE_CONTENT_M"/>
         </preConditions>
         <dropTable tableName="V_TOZINE_CONTENT_B"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-244-2">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="V_TOZINE_CONTENT_M"/>
+        </preConditions>
         <dropTable tableName="V_TOZINE_CONTENT_M"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-245">
+    <changeSet author="RMazloom" id="1578893517121-245-1">
         <preConditions onFail="MARK_RAN">
             <viewExists viewName="VIEW_TOZIN"/>
-            <viewExists viewName="VIEW_TOZIN_S"/>
-            <viewExists viewName="VIEW_FROSH"/>
-            <viewExists viewName="VIEW_TOZIN_M"/>
-            <viewExists viewName="VIEW_KHARID"/>
-            <viewExists viewName="VIEW_ZAYEAT"/>
         </preConditions>
         <dropView viewName="VIEW_TOZIN"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-245-2">
+        <preConditions onFail="MARK_RAN">
+            <viewExists viewName="VIEW_TOZIN_S"/>
+        </preConditions>
         <dropView viewName="VIEW_TOZIN_S"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-245-3">
+        <preConditions onFail="MARK_RAN">
+            <viewExists viewName="VIEW_FROSH"/>
+        </preConditions>
         <dropView viewName="VIEW_FROSH"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-245-4">
+        <preConditions onFail="MARK_RAN">
+            <viewExists viewName="VIEW_TOZIN_M"/>
+        </preConditions>
         <dropView viewName="VIEW_TOZIN_M"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-245-5">
+        <preConditions onFail="MARK_RAN">
+            <viewExists viewName="VIEW_KHARID"/>
+        </preConditions>
         <dropView viewName="VIEW_KHARID"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-245-6">
+        <preConditions onFail="MARK_RAN">
+            <viewExists viewName="VIEW_ZAYEAT"/>
+        </preConditions>
         <dropView viewName="VIEW_ZAYEAT"/>
     </changeSet>
     <changeSet author="RMazloom" id="1578893517121-247">
@@ -184,24 +220,40 @@
             select a."TZN_DATE",a."ID",a."PLANT",a."SELLERID",a."SELLER",a."GDSNAME",a."TARGET",a."CAR",a."WAZN",a."TEDAD" , a."GDSCODE"  from a right join TBL_TOZIN_PLANT  on A.plant = TBL_TOZIN_PLANT.NAMEFA
         </createView>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-248">
+    <changeSet author="RMazloom" id="1578893517121-248-1">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="TBL_TOZIN"/>
-            <sequenceExists sequenceName="SEQ_TOZIN"/>
         </preConditions>
         <dropTable tableName="TBL_TOZIN"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-248-2">
+        <preConditions onFail="MARK_RAN">
+            <sequenceExists sequenceName="SEQ_TOZIN"/>
+        </preConditions>
         <dropSequence sequenceName="SEQ_TOZIN"/>
     </changeSet>
-    <changeSet author="RMazloom" id="1578893517121-249">
+    <changeSet author="RMazloom" id="1578893517121-249-1">
         <preConditions onFail="MARK_RAN">
             <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL"/>
-            <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL_CUSTOMER"/>
-            <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL_LC"/>
-            <sequenceExists sequenceName="SEQ_TOZIN_SALES"/>
         </preConditions>
         <dropSequence sequenceName="SEQ_INVOICE_INTERNAL"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-249-2">
+        <preConditions onFail="MARK_RAN">
+            <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL_CUSTOMER"/>
+        </preConditions>
         <dropSequence sequenceName="SEQ_INVOICE_INTERNAL_CUSTOMER"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-249-3">
+        <preConditions onFail="MARK_RAN">
+            <sequenceExists sequenceName="SEQ_INVOICE_INTERNAL_LC"/>
+        </preConditions>
         <dropSequence sequenceName="SEQ_INVOICE_INTERNAL_LC"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1578893517121-249-4">
+        <preConditions onFail="MARK_RAN">
+            <sequenceExists sequenceName="SEQ_TOZIN_SALES"/>
+        </preConditions>
         <dropSequence sequenceName="SEQ_TOZIN_SALES"/>
     </changeSet>
     <changeSet author="RMazloom" id="1582016166374-250">
@@ -506,5 +558,11 @@
     </changeSet>
     <changeSet author="RMazloom" id="1582016166374-255">
         <createSequence sequenceName="HIBERNATE_SEQUENCE"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1582016166374-256">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="TBL_OA_USER_DETAIL"/>
+        </preConditions>
+        <dropTable tableName="TBL_OA_USER_DETAIL"/>
     </changeSet>
 </databaseChangeLog>
