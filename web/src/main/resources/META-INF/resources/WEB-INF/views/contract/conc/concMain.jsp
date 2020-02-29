@@ -22,6 +22,13 @@
         fetchDataURL: "${contextPath}/api/contract/audit/spec-list"
     });
 
+    var RestDataSource_contractShipmentAudit_list = isc.MyRestDataSource.create({
+        fetchDataURL: "${contextPath}/api/contractShipment/audit/list"
+    });
+    var RestDataSource_contractShipmentAudit_Speclist = isc.MyRestDataSource.create({
+        fetchDataURL: "${contextPath}/api/contractShipment/audit/spec-list"
+    });
+
 
     var RestDataSource_Material = isc.MyRestDataSource.create({
         fields:
@@ -70,7 +77,6 @@
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false,},
-                {name: "contractItemId", type: "long", hidden: true},
                 {
                     name: "shipmentRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
@@ -273,6 +279,7 @@
     var ListGrid_Conc = isc.ListGrid.create({
         dataSource: RestDataSource_Contract,
         initialCriteria: criteriaConc,
+        showFilterEditor: true,
         autoFetchData: true,
         fields:
             [
@@ -342,7 +349,7 @@
                 criteriaContractConcItemShipment = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",
-                    criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
+                    criteria: [{fieldName: "contract.id", operator: "equals", value: record.id}]
                 };
                 Window_ContactConc.show();
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -377,14 +384,15 @@
                 var criteriaConc1 = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",
-                    criteria: [{fieldName: "contract_id", operator: "equals", value: record.id}]
+                    criteria: [{fieldName: "contract.id", operator: "equals", value: record.id}]
                 };
                 setTimeout(function () {
                     RestDataSource_contractDetail_list.fetchData(criteriaConc1, function (dsResponse, data, dsRequest) {
+
                         contactHeaderConc.setValue("createDate", record.contractDate)
                         contactHeaderConc.setValue("contractNo", record.contractNo)
                         contactHeaderConc.setValue("contactId", record.contactId)
-                        dynamicFormConc.setValue("materialId", record.materialId)
+                        //dynamicFormConc.setValue("materialId", record.materialId)
                         contactHeaderConc.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId) //***** to do
                         contactHeaderConc.setValue("contactBySellerId", record.contactBySellerId)
                         contactHeaderConc.setValue("contactBySellerAgentId", record.contactBySellerAgentId)
@@ -574,7 +582,16 @@
                                                                                     dynamicForm_fullArticleConc10.setValue(textMain.Article10)
                                                                                     dynamicForm_fullArticleConc11.setValue(textMain.Article11)
                                                                                     dynamicForm_fullArticleConc12.setValue(textMain.Article12)
-                                                                                    ListGrid_ContractConcItemShipment.fetchData(criteriaContractConcItemShipment)
+                                                                                    var criteriaContractConcItemShipmentAudit = {
+                                                                                            _constructor: "AdvancedCriteria",
+                                                                                            operator: "and",
+                                                                                            criteria: [{fieldName: "contractId", operator: "equals", value: activeSelectID.id},
+                                                                                                       {fieldName: "id.rev", operator: "equals", value: ListGrid_ContractDraft.getSelectedRecord().id.rev}]
+                                                                                            };
+                                                                                    RestDataSource_contractShipmentAudit_Speclist.fetchData(criteriaContractConcItemShipmentAudit, function (dsResponse, data, dsRequest) {
+                                                                                           ListGrid_ContractConcItemShipment.setData(data);
+                                                                                    })
+
                                                                                 }
                                                                                 else {
                                                                                     isc.say(RpcResponse_o.data);
@@ -592,7 +609,7 @@
                                                                                 contactHeaderConc.setValue("createDate", data[0].contractDate)
                                                                                 contactHeaderConc.setValue("contractNo", data[0].contractNo)
                                                                                 contactHeaderConc.setValue("contactId", data[0].contactId)
-                                                                                dynamicFormConc.setValue("materialId", data[0].materialId)
+                                                                                //dynamicFormConc.setValue("materialId", data[0].materialId)
                                                                                 contactHeaderConc.setValue("contactByBuyerAgentId", data[0].contactByBuyerAgentId) //***** to do
                                                                                 contactHeaderConc.setValue("contactBySellerId", data[0].contactBySellerId)
                                                                                 contactHeaderConc.setValue("contactBySellerAgentId", data[0].contactBySellerAgentId)

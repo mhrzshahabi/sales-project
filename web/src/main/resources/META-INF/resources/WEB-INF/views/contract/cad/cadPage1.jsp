@@ -518,7 +518,7 @@ var vlayoutBodyCad = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactCad]}),
-            isc.HLayout.create({height: "50", align: "left", members: [
+           /* isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormCath",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
                     validators: [
@@ -541,7 +541,7 @@ var vlayoutBodyCad = isc.VLayout.create({
                         {fieldName: "descl", operator: "contains", value: "Cath"}]
                     },
                     }]})
-            ]}),
+            ]}),*/
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2Cad", align: "center", members: [dynamicForm1Cad, dynamicForm2Cad]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),

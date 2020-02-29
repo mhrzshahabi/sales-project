@@ -28,13 +28,12 @@ public class ContractDetail extends Auditable {
     private Long ID;
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotAudited
-    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contractDetail2contract"))
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CONTRACT_ID",insertable = false,updatable = false)
     private Contract contract;
 
     @Column(name = "CONTRACT_ID")
-    private Long contract_id;
+    private Long contractId;
 
     @Column(name = "NAME_CONTACTAGENTSELLER", length = 4000)
     private String name_ContactAgentSeller;

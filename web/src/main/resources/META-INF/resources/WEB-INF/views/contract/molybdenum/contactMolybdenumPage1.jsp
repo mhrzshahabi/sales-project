@@ -408,7 +408,7 @@
                                                 }
                                             }))
                                     RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
-                                    dynamicFormMaterial.setValue("materialId",record.materialId)
+                                    //dynamicFormMaterial.setValue("materialId",record.materialId)
                                     contactHeader.setValue("createDate", record.contractDate)
                                     contactHeader.setValue("contractNo", record.contractNo)
                                     contactHeader.setValue("contactId", record.contactId)
@@ -1534,7 +1534,7 @@ var vlayoutBodyMo = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactMo]}),
-            isc.HLayout.create({height: "50", align: "left", members: [
+            /*isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormMaterial",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
                     validators: [
@@ -1557,7 +1557,7 @@ var vlayoutBodyMo = isc.VLayout.create({
                         {fieldName: "descl", operator: "contains", value: "Mol"}]
                     },
                     }]})
-            ]}),
+            ]}),*/
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2Mo", align: "center", members: [dynamicForm1Mo, dynamicForm2Mo]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
@@ -3587,13 +3587,13 @@ var IButton_Contact_Save = isc.IButtonSave.create({
         click: function () {
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
-            dynamicFormMaterial.validate();
+            //dynamicFormMaterial.validate();
             contactHeader.validate();
             dynamicForm_article6_number32_33_34_35.validate();
 
-            if (DynamicForm_ContactHeader.hasErrors()|| DynamicForm_ContactCustomer.hasErrors()||dynamicFormMaterial.hasErrors()||contactHeader.hasErrors()){
+           /* if (DynamicForm_ContactHeader.hasErrors()|| DynamicForm_ContactCustomer.hasErrors()||dynamicFormMaterial.hasErrors()||contactHeader.hasErrors()){
             return;
-            }
+            }*/
             if (dynamicForm_article6_number32_33_34_35.hasErrors()){
             contactTabs.selectTab(1);
             return;
@@ -3636,7 +3636,8 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContract.pricePeriod=valuesManagerArticle9.getValue("pricePeriod");
                     dataSaveAndUpdateContract.eventPayment=valuesManagerArticle9.getValue("eventPayment");
                     dataSaveAndUpdateContract.contentType=valuesManagerArticle9.getValue("contentType");
-                    dataSaveAndUpdateContract.materialId=dynamicFormMaterial.getValue("materialId");
+                    //dataSaveAndUpdateContract.materialId=dynamicFormMaterial.getValue("materialId");
+                    dataSaveAndUpdateContract.materialId=1;
 
 
 

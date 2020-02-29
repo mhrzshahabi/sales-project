@@ -510,7 +510,7 @@ var vlayoutBodyConc = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactConc]}),
-            isc.HLayout.create({height: "50", align: "left", members: [
+            /*isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormConc",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
                     validators: [
@@ -533,7 +533,7 @@ var vlayoutBodyConc = isc.VLayout.create({
                         {fieldName: "descl", operator: "contains", value: "Conc"}]
                     },
                     }]})
-            ]}),
+            ]}),*/
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2Conc", align: "center", members: [dynamicForm1Conc, dynamicForm2Conc]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactConcSeller]}),

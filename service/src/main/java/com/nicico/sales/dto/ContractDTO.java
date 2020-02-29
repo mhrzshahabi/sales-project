@@ -1,6 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.base.ContractDetail;
+import com.nicico.sales.model.entities.base.ContractShipment;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -10,6 +12,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -70,6 +73,7 @@ public class ContractDTO {
     private Long contactBySellerId;
     private Long contactBySellerAgentId;
 
+
     @Getter
     @Setter
     @ApiModel("ContractInfoTuple")
@@ -109,6 +113,8 @@ public class ContractDTO {
     @Accessors(chain = true)
     @ApiModel("ContractCreateRq")
     public static class Create extends ContractDTO {
+        private ContractDetailDTO.Create contractDetails;
+        private List<ContractShipmentDTO.Create> contractShipments;
     }
 
     @Getter
@@ -119,6 +125,8 @@ public class ContractDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private ContractDetailDTO.TupleUpdate contractDetails;
+        private List<ContractShipmentDTO.TupleUpdate> contractShipments;
     }
 
     @Getter

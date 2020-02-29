@@ -6,6 +6,7 @@ import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractDTO;
+import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.model.entities.base.ContractDetail;
@@ -348,18 +349,29 @@ public class ContractService implements IContractService {
     @Override
     @PreAuthorize("hasAuthority('C_CONTRACT')")
     public ContractDTO.Info create(ContractDTO.Create request) {
+        request.getContractDetails().setContract(request);
+        for (ContractShipmentDTO.Create contractShipment : request.getContractShipments()) {
+            contractShipment.setContract(request);
+        }
         final Contract contract = modelMapper.map(request, Contract.class);
-        return save(contract);
+        ContractDTO.Info saved = save(contract);
+        contract.getContractDetails().setContractId(saved.getId());
+        contract.getContractShipments().forEach(contractShipment -> contractShipment.setContractId(saved.getId()));
+        return saved;
     }
 
     @Transactional
     @Override
     @PreAuthorize("hasAuthority('U_CONTRACT')")
     public ContractDTO.Info update(Long id, ContractDTO.Update request) {
+        request.getContractDetails().setContractId(id);
+        for (ContractShipmentDTO.TupleUpdate contractShipment : request.getContractShipments()) {
+            contractShipment.setContractId(id);
+        }
         final Optional<Contract> slById = contractDAO.findById(id);
         final Contract contract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractNotFound));
-
         Contract updating = new Contract();
+
         modelMapper.map(contract, updating);
         modelMapper.map(request, updating);
         return save(updating);

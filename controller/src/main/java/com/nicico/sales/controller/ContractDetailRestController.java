@@ -48,9 +48,9 @@ public class ContractDetailRestController {
     @Loggable
     @PutMapping
     public ResponseEntity<ContractDetailDTO.Info> update(@RequestBody ContractDetailDTO.Update request) {
-        ContractDetailDTO.Info info = contractDetailService.findByContractID(request.getContract_id());
-        request.setId(info.getId());
-        return new ResponseEntity<>(contractDetailService.update(info.getId(), request), HttpStatus.OK);
+        //ContractDetailDTO.Info info = contractDetailService.findByContractID(request.getContract().getId());
+        //request.setId(info.getId());
+        return new ResponseEntity<>(contractDetailService.update(null, request), HttpStatus.OK);
     }
 
     @Loggable

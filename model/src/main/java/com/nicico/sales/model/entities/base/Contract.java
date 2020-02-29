@@ -8,6 +8,8 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -314,5 +316,12 @@ public class Contract extends Auditable {
 
     @Column(name = "MOLYBDENUM_TOLORANCE")
     private Double molybdenumTolorance;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "contract", optional = false, cascade = CascadeType.ALL)
+    private ContractDetail contractDetails;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = CascadeType.ALL)
+    private List<ContractShipment> contractShipments;
+
 
 }

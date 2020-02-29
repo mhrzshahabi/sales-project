@@ -82,16 +82,27 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
     iconOrientation: "right",
     click: function(){
              var dataSaveAndUpdateContractConc = {};
+             var dataSaveAndUpdateContractConcDetail = {};
+             dataSaveAndUpdateContractConcDetail.id;
              if(methodHtpp=="PUT"){
                 dataSaveAndUpdateContractConc.id=ListGrid_Conc.getSelectedRecord().id;
+                var criteriaConcDetail = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{fieldName: "contract.id", operator: "equals", value: ListGrid_Conc.getSelectedRecord().id}]
+                };
+                RestDataSource_contractDetail_list.fetchData(criteriaConcDetail, function (dsResponse, data, dsRequest) {
+                     dataSaveAndUpdateContractConcDetail.id=data[0].id;
+                     alert(data[0].id + " save Edit")
+                })
                 ListGrid_Conc.invalidateCache();
             }
             contactHeaderConc.validate();
-            dynamicFormConc.validate();
+            //dynamicFormConc.validate();
             valuesManagerArticle5_DeliveryTermsConc.validate();
-            if (contactHeaderConc.hasErrors()|| dynamicFormConc.hasErrors()){
+           /* if (contactHeaderConc.hasErrors()|| dynamicFormConc.hasErrors()){
                 return;
-            }
+            }*/
             if (valuesManagerArticle5_DeliveryTermsConc.hasErrors()){
                 contactConcTabs.selectTab(1);
                 return;
@@ -134,11 +145,10 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
             dataSaveAndUpdateContractConc.pricePeriod = "any";
             dataSaveAndUpdateContractConc.eventPayment = "any";
             dataSaveAndUpdateContractConc.contentType = "any";
-            dataSaveAndUpdateContractConc.materialId = dynamicFormConc.getValue("materialId");
+            //dataSaveAndUpdateContractConc.materialId = dynamicFormConc.getValue("materialId");
+            dataSaveAndUpdateContractConc.materialId = 3;
             dataSaveAndUpdateContractConc.treatCost = valuesManagerArticle9_conc.getValue("TC");
             dataSaveAndUpdateContractConc.refinaryCost = valuesManagerArticle9_conc.getValue("RC");
-
-        var dataSaveAndUpdateContractConcDetail = {};
 
         dataSaveAndUpdateContractConcDetail.name_ContactAgentSeller = contactHeaderConcAgent.getValue("name_ContactAgentSeller")
         dataSaveAndUpdateContractConcDetail.phone_ContactAgentSeller = contactHeaderConcAgent.getValue("phone_ContactAgentSeller")
@@ -312,8 +322,12 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
         dataSaveAndUpdateContractConcDetail.article10_number59 =valuesManagerArticle12_quality.getValue("article12_number59");
         dataSaveAndUpdateContractConcDetail.article10_number60 =valuesManagerArticle12_quality.getValue("article12_number60");
         dataSaveAndUpdateContractConcDetail.article10_number61 =valuesManagerArticle12_quality.getValue("article12_number61");
+        dataSaveAndUpdateContractConc.contractDetails=dataSaveAndUpdateContractConcDetail;
+        dataSaveAndUpdateContractConc.contractShipments=saveListGrid_ContractConcItemShipment();
+        console.log(dataSaveAndUpdateContractConc);
         recordContractNoConc=contactHeaderConc.getValue("contractNo");
-        var criteriaContractNoConc={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:dynamicFormConc.getValue("materialId")},{fieldName:"contractNo",operator:"equals",value:recordContractNoConc}]};
+        var criteriaContractNoConc={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"materialId",operator:"equals",value:3},{fieldName:"contractNo",operator:"equals",value:recordContractNoConc}]};
+        alert(methodHtpp);
         RestDataSource_Contract.fetchData(criteriaContractNoConc,function(dsResponse, data, dsRequest) {
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
@@ -323,7 +337,7 @@ var IButton_ContactConc_Save = isc.IButtonSave.create({
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         Window_ContactConc.close();
                         ListGrid_Conc.invalidateCache();
-                        saveCotractConcDetails(dataSaveAndUpdateContractConcDetail,(JSON.parse(resp.data)).id);
+                        saveValueAllArticlesConc((JSON.parse(resp.data)).id);
                     } else
                         isc.say(RpcResponse_o.data);
                 }
@@ -336,8 +350,6 @@ var contactFormButtonSaveLayout = isc.HStack.create({
         width: "100%",
         height: "3%",
         align: "center",
-        //showEdges: true,
-        //backgroundColor: "#CCFFFF",
         membersMargin: 5,
         layoutMargin: 10,
         members: [
@@ -372,57 +384,22 @@ VLayout_contactMain=isc.VLayout.create({
             ]
             })
 
-function saveCotractConcDetails(data, contractID) {
-        data.contract_id = contractID;
-        data.feild_all_defintitons_save = "";
-        data.string_Currency="";
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/contractDetail",
-            httpMethod: methodHtpp,
-            data: JSON.stringify(data),
-            callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    saveListGrid_ContractConcItemShipment(contractID);
-                    saveValueAllArticlesConc(contractID);
-                } else
-                    isc.say(RpcResponse_o.data);
-            }
-        }))
-    }
 
-function saveListGrid_ContractConcItemShipment(contractID) {
+function saveListGrid_ContractConcItemShipment() {
         ListGrid_ContractConcItemShipment.selectAllRecords();
+        var dataEditMain=[];
+        var dataEdit=[];
         ListGrid_ContractConcItemShipment.getSelectedRecords().forEach(function(element) {
-            var dataEditMain=ListGrid_ContractConcItemShipment.getSelectedRecord(element)
-            dataEditMain.contractId=contractID;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractShipment/",
-                httpMethod: "POST",
-                data: JSON.stringify(dataEditMain),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
+            element.contractId = 357;
+            dataEdit.push((JSON.parse(JSON.stringify(element))));
             });
         ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
-            var dataEdit=ListGrid_ContractConcItemShipment.getEditedRecord(element);
-            dataEdit.contractId=contractID;
-            dataEdit.sendDate=(ListGrid_ContractConcItemShipment.getEditedRecord(element).sendDate).toNormalDate("toUSShortDate")
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractShipment/",
-                httpMethod: "POST",
-                data: JSON.stringify(dataEdit),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>");
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-        })
-ListGrid_ContractConcItemShipment.deselectAllRecords();
+            var rec = ListGrid_ContractConcItemShipment.getEditedRecord(element);
+            rec.contractId = 357;
+            dataEdit.push(rec);
+        });
+        ListGrid_ContractConcItemShipment.deselectAllRecords();
+        return dataEdit;
 };
 
 var dataALLArticleConc = {};

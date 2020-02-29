@@ -85,11 +85,11 @@ var contactCadTabs = isc.TabSet.create({
                    dataSaveAndUpdateContractCad.id=ListGrid_Cad.getSelectedRecord().id;
             }
             contactCadHeader.validate();
-            dynamicFormCath.validate();
+            //dynamicFormCath.validate();
             valuesManagerArticle6_quality.validate();
-            if (contactCadHeader.hasErrors()|| dynamicFormCath.hasErrors()){
+           /* if (contactCadHeader.hasErrors()|| dynamicFormCath.hasErrors()){
                 return;
-            }
+            }*/
             if (valuesManagerArticle6_quality.hasErrors()){
                 contactCadTabs.selectTab(1);
                 return;
@@ -131,7 +131,8 @@ var contactCadTabs = isc.TabSet.create({
             dataSaveAndUpdateContractCad.pricePeriod = "any";
             dataSaveAndUpdateContractCad.eventPayment = "any";
             dataSaveAndUpdateContractCad.contentType = "any";
-            dataSaveAndUpdateContractCad.materialId = dynamicFormCath.getValue("materialId");
+            //dataSaveAndUpdateContractCad.materialId = dynamicFormCath.getValue("materialId");
+            dataSaveAndUpdateContractCad.materialId = 2;
 ////////
         var dataSaveAndUpdateContractCadDetail = {};
         dataSaveAndUpdateContractCadDetail.name_ContactAgentSeller = contactCadHeaderCadAgent.getValue("name_ContactAgentSeller")
