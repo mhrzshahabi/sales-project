@@ -1156,7 +1156,6 @@
     }
 
     var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_refresh();
@@ -1849,7 +1848,6 @@
         });
 
     var ToolStripButton_ShipmentEmail_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentEmail_refresh();

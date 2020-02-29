@@ -345,7 +345,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "rateEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -450,6 +449,7 @@
             ListGrid_Dcc
         ]
     });
+
     isc.VLayout.create({
         width: "100%",
         height: "100%",

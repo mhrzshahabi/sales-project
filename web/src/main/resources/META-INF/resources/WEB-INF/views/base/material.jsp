@@ -338,8 +338,7 @@
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
                 buttons: [isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}), isc.IButtonCancel.create({
-                    title: "<spring:message
-		code='global.no'/>"
+                    title: "<spring:message code='global.no'/>"
                 })],
                 buttonClick: function (button, index) {
                     this.hide();
@@ -493,7 +492,6 @@
     });
 
     var ToolStripButton_Material_Refresh = isc.ToolStripButtonRefresh.create({
-        //icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Material_refresh();
@@ -502,7 +500,6 @@
 
     <sec:authorize access="hasAuthority('C_MATERIAL')">
     var ToolStripButton_Material_Add = isc.ToolStripButtonAdd.create({
-        //icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Material.clearValues();
@@ -597,7 +594,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "materialExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -2030,7 +2026,6 @@
 
     isc.SectionStack.create(
         {
-            ID: "Material_Section_Stack",
             sections: [
                 {
                     title: "<spring:message code='ProductGroup'/>",

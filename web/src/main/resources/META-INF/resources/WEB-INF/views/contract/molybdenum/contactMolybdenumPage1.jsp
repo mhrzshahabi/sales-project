@@ -711,12 +711,12 @@
                                     }}
                             });
                      var ToolStripButton_ContactMO_Refresh = isc.ToolStripButtonRefresh.create({
-                                icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
                                        ListGrid_contractMo.invalidateCache(criteriaMo);
                                 }
                             });
+
                     var ToolStrip_Actions_ContactMO = isc.ToolStrip.create({
                         width: "100%",
                         height: "100%",

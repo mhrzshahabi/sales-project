@@ -116,7 +116,6 @@
         }
     }
 
-
     var Menu_ListGrid_Country = isc.Menu.create({
         width: 150,
         data: [
@@ -155,7 +154,6 @@
             </sec:authorize>
         ]
     });
-
 
     var DynamicForm_Country = isc.DynamicForm.create(
         {
@@ -222,9 +220,7 @@
             ]
         });
 
-
     var ToolStripButton_Country_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Country_refresh();
@@ -233,7 +229,6 @@
 
     <sec:authorize access="hasAuthority('C_COUNTRY')">
     var ToolStripButton_Country_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Country.clearValues();
@@ -324,7 +319,6 @@
                         callback: function (resp) {
                             if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
-//resp.setHeader('Cache-Control', 'no-cache');
                                 ListGrid_Country_refresh();
                                 Window_Country.close();
                             }
@@ -360,22 +354,19 @@
         ]
     });
 
-
     var VLayout_saveButton_country = isc.VLayout.create({
         width: 650,
         textAlign: "center",
         align: "center",
-    members: [
-    HLayout_Country_IButton
-    ]
+        members: [
+            HLayout_Country_IButton
+        ]
     });
-
 
     var Window_Country = isc.Window.create(
         {
             title: "<spring:message code='country.title'/> ",
             width: 580,
-// height: 500,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -391,7 +382,6 @@
                 VLayout_saveButton_country
             ]
         });
-
 
     var ListGrid_Country = isc.ListGrid.create(
         {
@@ -445,4 +435,3 @@
                 HLayout_Country_Actions, HLayout_Country_Grid
             ]
         });
-

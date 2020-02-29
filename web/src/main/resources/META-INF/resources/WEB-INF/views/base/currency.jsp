@@ -6,7 +6,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-
     var RestDataSource_Currency = isc.MyRestDataSource.create(
         {
             fields: [
@@ -41,11 +40,9 @@
             fetchDataURL: "${contextPath}/api/currency/spec-list"
         });
 
-
     function ListGrid_Currency_refresh() {
         ListGrid_Currency.invalidateCache();
     }
-
 
     function ListGrid_Currency_edit() {
         var record = ListGrid_Currency.getSelectedRecord();
@@ -129,7 +126,6 @@
         }
     }
 
-
     var Menu_ListGrid_Currency = isc.Menu.create(
         {
             width: 150,
@@ -173,7 +169,6 @@
                 </sec:authorize>
             ]
         });
-
 
     var DynamicForm_Currency = isc.DynamicForm.create({
         width: "100%",
@@ -238,9 +233,7 @@
             ]
     });
 
-
     var ToolStripButton_Currency_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Currency_refresh();
@@ -249,7 +242,6 @@
 
     <sec:authorize access="hasAuthority('C_CURRENCY')">
     var ToolStripButton_Currency_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Currency.clearValues();
@@ -347,7 +339,6 @@
             }
         });
 
-
     var Window_Currency = isc.Window.create(
         {
             title: "<spring:message code='currency.title'/> ",
@@ -378,7 +369,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "CurrencyEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -391,7 +381,6 @@
                     })
             ]
         });
-
 
     var ListGrid_Currency = isc.ListGrid.create(
         {
@@ -432,7 +421,6 @@
                 },],
             autoFetchData: true
         });
-
 
     var HLayout_Currency_Grid = isc.HLayout.create(
         {

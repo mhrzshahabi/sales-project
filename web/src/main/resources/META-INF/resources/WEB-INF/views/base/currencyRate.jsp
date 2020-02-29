@@ -209,7 +209,6 @@
     });
 
     var ToolStripButton_CurrencyRate_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_CurrencyRate_refresh();
@@ -395,7 +394,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "currencyRateEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",

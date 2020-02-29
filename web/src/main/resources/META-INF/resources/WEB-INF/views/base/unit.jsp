@@ -175,7 +175,6 @@
                             width: 5,
                         }),
                         isc.IButtonCancel.create({
-                            ID: "unitEditExitIButton",
                             title: "<spring:message code='global.cancel'/>",
                             width: 100,
                             icon: "pieces/16/icon_delete.png",
@@ -271,7 +270,6 @@
     }
 
     var ToolStripButton_Unit_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Unit_refresh();
@@ -280,7 +278,6 @@
 
     <sec:authorize access="hasAuthority('C_UNIT')">
     var ToolStripButton_Unit_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Unit.clearValues();

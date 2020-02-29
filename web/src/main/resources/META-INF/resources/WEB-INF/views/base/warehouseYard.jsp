@@ -182,7 +182,6 @@
     });
 
     var ToolStripButton_WarehouseYard_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_WarehouseYard_refresh();
@@ -191,7 +190,6 @@
 
     <sec:authorize access="hasAuthority('C_WAREHOUSE_YARD')">
     var ToolStripButton_WarehouseYard_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_WarehouseYard.clearValues();
@@ -314,7 +312,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "warehouseYardEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",

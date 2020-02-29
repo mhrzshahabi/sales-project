@@ -662,7 +662,6 @@
     });
 
     var ToolStripButton_ProvisionalInvoice_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ProvisionalInvoice_refresh();
@@ -670,7 +669,6 @@
     });
 
     var ToolStripButton_ProvisionalInvoice_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_ProvisionalInvoice.clearValues();
@@ -776,7 +774,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "provisionalInvoiceEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",

@@ -558,7 +558,6 @@
         ]
     });
     var ToolStripButton_ListGrid_ShipmentByWarehouseIssueMo_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentByWarehouseIssueMo.invalidateCache();
@@ -873,7 +872,6 @@
     });
 
     var ToolStripButton_WarehouseIssueMo_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_WarehouseIssueMo_refresh();
@@ -882,7 +880,6 @@
 
     <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_MO')">
     var ToolStripButton_WarehouseIssueMo_Add = isc.ToolStripButtonAddLarge.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_ShipmentByWarehouseIssueMo.getSelectedRecord();

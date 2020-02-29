@@ -10,7 +10,6 @@
         ListGrid_Instruction.invalidateCache();
     }
 
-
     function ListGrid_Instruction_edit() {
         var record = ListGrid_Instruction.getSelectedRecord();
 
@@ -36,7 +35,6 @@
             Window_Instruction.show();
         }
     }
-
 
     function ListGrid_Instruction_remove() {
         var record = ListGrid_Instruction.getSelectedRecord();
@@ -96,7 +94,6 @@
         }
     }
 
-
     var Menu_ListGrid_Instruction = isc.Menu.create(
         {
             width: 150,
@@ -140,7 +137,6 @@
                 </sec:authorize>
             ]
         });
-
 
     var DynamicForm_Instruction = isc.DynamicForm.create(
         {
@@ -195,10 +191,8 @@
                 }]
         });
 
-
     var ToolStripButton_Instruction_Refresh = isc.ToolStripButtonRefresh.create(
         {
-            icon: "[SKIN]/actions/refresh.png",
             title: "<spring:message code='global.form.refresh'/>",
             click: function () {
                 ListGrid_Instruction_refresh();
@@ -208,7 +202,6 @@
     <sec:authorize access="hasAuthority('C_INSTRUCTION')">
     var ToolStripButton_Instruction_Add = isc.ToolStripButtonAdd.create(
         {
-            icon: "[SKIN]/actions/add.png",
             title: "<spring:message code='global.form.new'/>",
             click: function () {
                 DynamicForm_Instruction.clearValues();
@@ -277,7 +270,6 @@
             ]
         });
 
-
     var RestDataSource_Instruction = isc.MyRestDataSource.create(
         {
             fields: [
@@ -322,19 +314,6 @@
                 DynamicForm_Instruction.setValue("disableDate", DynamicForm_Instruction.getValue("disableDate").toNormalDate("toUSShortDate"));
                 DynamicForm_Instruction.setValue("runDate", DynamicForm_Instruction.getValue("runDate").toNormalDate("toUSShortDate"));
 
-                /*if (d < dRun)
-                {
-                isc.warn("
-
-                <spring:message code='instruction.date.validation'/>",
-{
-title: "
-
-                <spring:message code='dialog_WarnTitle'/>"
-});
-return;
-}*/
-
                 var data = DynamicForm_Instruction.getValues();
                 var methodXXXX = "PUT";
                 if (data.id == null) methodXXXX = "POST";
@@ -356,7 +335,6 @@ return;
             }
         });
 
-
     var InstructionCancelBtn = isc.IButtonCancel.create(
         {
             top: 260,
@@ -369,7 +347,6 @@ return;
                 Window_Instruction.close();
             }
         });
-
 
     var HLayout_Instruction_IButton = isc.HLayout.create(
         {
@@ -385,7 +362,6 @@ return;
             ]
         });
 
-
         var VLayout_saveButton_instruction = isc.VLayout.create({
         width: 650,
         textAlign: "center",
@@ -394,7 +370,6 @@ return;
         HLayout_Instruction_IButton
         ]
     });
-
 
     var Window_Instruction = isc.Window.create({
         title: "<spring:message code='instruction.title'/> ",
@@ -415,7 +390,6 @@ return;
                 VLayout_saveButton_instruction
             ]
     });
-
 
     var ListGrid_Instruction = isc.ListGrid.create(
         {
@@ -452,7 +426,6 @@ return;
             autoFetchData: true
         });
 
-
     var HLayout_Instruction_Grid = isc.HLayout.create(
         {
             width: "100%",
@@ -477,7 +450,6 @@ return;
             autoDraw: false,
             loadingMessage: ""
         });
-
 
     isc.HLayout.create(
         {

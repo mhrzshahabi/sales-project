@@ -257,7 +257,6 @@
         });
 
     var ToolStripButton_LME_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_LME_refresh();
@@ -266,7 +265,6 @@
 
     <sec:authorize access="hasAuthority('C_LME')">
     var ToolStripButton_LME_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_LME.clearValues();
@@ -447,7 +445,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "LMEEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -534,7 +531,7 @@
         ]
     });
 
-    var VLayout_LME_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

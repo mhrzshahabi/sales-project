@@ -150,7 +150,6 @@
     });
 
     var ToolStripButton_Glossary_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Glossary_refresh();
@@ -158,7 +157,6 @@
     });
 
     var ToolStripButton_Glossary_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Glossary.clearValues();
@@ -277,7 +275,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "glossaryEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",

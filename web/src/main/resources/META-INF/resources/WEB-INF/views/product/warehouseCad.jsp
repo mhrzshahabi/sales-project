@@ -123,7 +123,7 @@
     });
 
     isc.ViewLoader.create({
-        ID: "BijackViewLoader",
+        ID: "WarehouseCadViewLoader",
         width: 830,
         height: 800,
         autoDraw: false,
@@ -145,7 +145,7 @@
         },
         items:
             [
-                BijackViewLoader
+                WarehouseCadViewLoader
             ]
     });
 
@@ -173,15 +173,15 @@
             if (record.materialItem.gdsCode == 9 || record.materialItem.gdsCode == 10 || record.materialItem.gdsCode == 11 ||
                 record.materialItem.gdsCode == 114 || record.materialItem.gdsCode == 129 || record.materialItem.gdsCode == 86 ||
                 record.materialItem.gdsCode == 90 || record.materialItem.gdsCode == 95) {
-                BijackViewLoader.setViewURL("warehouseCad/showWarehouseCadForm");
+                WarehouseCadViewLoader.setViewURL("warehouseCad/showWarehouseCadForm");
                 Window_Bijack.show();
             }
             if (record.materialItem.gdsCode == 97) {
-                BijackViewLoader.setViewURL("warehouseCad/showWarehouseMoForm");
+                WarehouseCadViewLoader.setViewURL("warehouseCad/showWarehouseMoForm");
                 Window_Bijack.show();
             }
             if (record.materialItem.gdsCode == 8) {
-                BijackViewLoader.setViewURL("warehouseCad/showWarehouseConcForm");
+                WarehouseCadViewLoader.setViewURL("warehouseCad/showWarehouseConcForm");
                 Window_Bijack.show();
             }
         }
@@ -274,7 +274,6 @@
     });
 
     var ToolStripButton_warehouseCAD_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_warehouseCAD_refresh();
@@ -317,13 +316,12 @@
     });
 
     ToolStripButton_WarehouseCAD_Report = isc.ToolStripButtonRefresh.create({
-        ID: "exportButton",
         icon: "[SKIN]/actions/excel-512.png",
         title: "<spring:message code='global.form.export'/>",
         click: function () {
             const fieldsGrid = ListGrid_warehouseCAD.getFields().filter(
                 function (q) {
-                    return q.name.toString().toLowerCase() != 'grouptitle'
+                    return q.name.toString().toLowerCase() != '$74y'
                 });
 
             const fields = fieldsGrid.map(function (f) {

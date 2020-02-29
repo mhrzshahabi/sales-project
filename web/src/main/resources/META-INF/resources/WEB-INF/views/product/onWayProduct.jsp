@@ -215,7 +215,7 @@
         fetchDataURL: "${contextPath}/api/materialItem/spec-list"
     });
 
-    var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
+    var DynamicForm_DailyReport_OnWayProduct = isc.DynamicForm.create({
         wrapItemTitles: false,
         target: "_Blank",
         numCols: 4,
@@ -246,7 +246,7 @@
         numCols: 4,
         fields: [{
             name: "toDay",
-            ID: "toDayDate",
+            ID: "toDayDateOnWayProduct",
             title: "<spring:message code='dailyWarehouse.toDay'/>",
             type: 'text',
             align: "center",
@@ -256,7 +256,7 @@
             icons: [{
                 src: "pieces/pcal.png",
                 click: function () {
-                    displayDatePicker('toDayDate', this, 'ymd', '/');
+                    displayDatePicker('toDayDateOnWayProduct', this, 'ymd', '/');
                 }
             }],
             defaultValue: "1398/12/01"
@@ -325,7 +325,7 @@
         },]
     });
 
-    var Menu_ListGrid_Tozin = isc.Menu.create({
+    var Menu_ListGrid_OnWayProduct = isc.Menu.create({
         width: 150,
         data: [{
             title: "<spring:message code='bijack'/>",
@@ -335,15 +335,15 @@
                 if (record.codeKala == 9 || record.codeKala == 10 || record.codeKala == 11 ||
                     record.codeKala == 114 || record.codeKala == 129 || record.codeKala == 86 ||
                     record.codeKala == 90 || record.codeKala == 95) {
-                    BijackViewLoader.setViewURL("tozin/showWarehouseCadForm");
+                    OnWayProductViewLoader.setViewURL("tozin/showWarehouseCadForm");
                     Window_Bijack.show();
                 }
                 if (record.codeKala == 97 || record.codeKala == 100) {
-                    BijackViewLoader.setViewURL("tozin/showWarehouseMoForm");
+                    OnWayProductViewLoader.setViewURL("tozin/showWarehouseMoForm");
                     Window_Bijack.show();
                 }
                 if (record.codeKala == 8) {
-                    BijackViewLoader.setViewURL("tozin/showWarehouseConcForm");
+                    OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
                     Window_Bijack.show();
                 }
             }
@@ -351,7 +351,7 @@
     });
 
     isc.ViewLoader.create({
-        ID: "BijackViewLoader",
+        ID: "OnWayProductViewLoader",
         width: 830,
         height: 830,
         autoDraw: false,
@@ -372,12 +372,11 @@
             this.Super("closeClick", arguments)
         },
         items: [
-            BijackViewLoader
+            OnWayProductViewLoader
         ]
     });
 
     var ToolStripButton_Tozin_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
@@ -400,13 +399,12 @@
     });
 
     ToolStripButton_Tozin_Report = isc.ToolStripButtonRefresh.create({
-        ID: "exportButton",
         icon: "[SKIN]/actions/excel-512.png",
         title: "<spring:message code='global.form.export'/>",
         click: function () {
             const fieldsGrid = ListGrid_Tozin_IN_ONWAYPRODUCT.getFields().filter(
                 function (q) {
-                    return q.name.toString().toLowerCase() != 'grouptitle'
+                    return q.name.toString().toLowerCase() != '$74y'
                 });
             const fields = fieldsGrid.map(function (f) {
                 return f.name
@@ -415,7 +413,7 @@
                 return f.title
             });
 
-            var fromDay_Value = DynamicForm_DailyReport_Tozin.getValue("fromDay");
+            var fromDay_Value = DynamicForm_DailyReport_OnWayProduct.getValue("fromDay");
 
             var toDay_Value = DynamicForm_DailyReport_Tozin1.getValue("toDay");
 
@@ -470,7 +468,7 @@
                         {
                             fieldName: "tozinDate",
                             operator: "greaterOrEqual",
-                            value: DynamicForm_DailyReport_Tozin.getValues().fromDay
+                            value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
                         },
                         {
                             fieldName: "tozinDate",
@@ -509,7 +507,7 @@
                         {
                             fieldName: "tozinDate",
                             operator: "greaterOrEqual",
-                            value: DynamicForm_DailyReport_Tozin.getValues().fromDay
+                            value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
                         },
                         {
                             fieldName: "tozinDate",
@@ -557,7 +555,7 @@
         membersMargin: 10,
         align: "center",
         members: [
-            DynamicForm_DailyReport_Tozin,
+            DynamicForm_DailyReport_OnWayProduct,
             DynamicForm_DailyReport_Tozin1,
             DynamicForm_DailyReport_Tozin2,
             DynamicForm_DailyReport_Tozin3,
@@ -592,7 +590,7 @@
             {
                 fieldName: "tozinDate",
                 operator: "greaterOrEqual",
-                value: DynamicForm_DailyReport_Tozin.getValues().fromDay
+                value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
             },
             {
                 fieldName: "tozinDate",
@@ -628,7 +626,7 @@
         height: "100%",
         dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
         initialCriteria: RestDataSource_TozinInitialCriteria,
-        contextMenu: Menu_ListGrid_Tozin,
+        contextMenu: Menu_ListGrid_OnWayProduct,
         fields: [
             {
                 name: "plak",

@@ -502,7 +502,6 @@
 
 
     var ToolStripButton_Person_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Person_refresh();
@@ -511,7 +510,6 @@
 
     <sec:authorize access="hasAuthority('C_PERSON')">
     var ToolStripButton_Person_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Person.clearValues();

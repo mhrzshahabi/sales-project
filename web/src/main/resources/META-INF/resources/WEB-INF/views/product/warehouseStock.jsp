@@ -68,7 +68,6 @@
         numCols: 4,
         fields: [{
             name: "toDay",
-            ID: "toDayDate",
             title: "",
             type: 'date',
             align: "center",
@@ -126,7 +125,6 @@
     });
 
     var ToolStripButton_WarehouseStock_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_WarehouseStock_refresh();
@@ -159,6 +157,182 @@
     });
     </sec:authorize>
 
+    var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
+        width: "200",
+        wrapItemTitles: false,
+        height: "100%",
+        action: "report/printDailyReportBandarAbbas",
+        target: "_Blank",
+        titleWidth: "200",
+        numCols: 4,
+        fields: [{
+            name: "toDay",
+            ID: "toDayDateTozin",
+            title: "<spring:message code='dailyWarehouse.toDay'/>",
+            type: 'text',
+            align: "center",
+            width: 150,
+            colSpan: 1,
+            titleColSpan: 1,
+            icons: [{
+                src: "pieces/pcal.png",
+                click: function () {
+                    displayDatePicker('toDayDateTozin', this, 'ymd', '/');
+                }
+            }],
+            defaultValue: "1398/10/26",
+        },]
+    });
+
+    var Menu_ListGrid_Tozin = isc.Menu.create({
+        width: 150,
+        data: [
+            {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    "<spring:url value="/warehouseStock/print/beyn_mojtama/pdf" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    "<spring:url value="/warehouseStock/print/beyn_mojtama/excel" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    "<spring:url value="/warehouseStock/print/beyn_mojtama/html" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
+                }
+            }
+        ]
+    });
+
+    var MenuButton_Tozin = isc.MenuButton.create({
+        autoDraw: false,
+        title: "<spring:message code='tozin.report.betweenComplexes'/>",
+        prompt: "<spring:message code='tozin.report.betweenComplexes.date'/>",
+        width: 125,
+        menu: Menu_ListGrid_Tozin
+    });
+
+    var Menu_ListGrid_Forosh_Bargiri = isc.Menu.create({
+        width: 200,
+        data: [
+            {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/warehouseStock/print/Forosh_Bargiri/pdf" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/warehouseStock/print/Forosh_Bargiri/excel" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/warehouseStock/print/Forosh_Bargiri/html" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            }
+        ]
+    });
+
+    var Menu_ListGrid_Kharid_Konstantere = isc.Menu.create({
+        width: 200,
+        data: [
+            {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/warehouseStock/print/Kharid_Konstantere/pdf" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/warehouseStock/print/Kharid_Konstantere/excel" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/warehouseStock/print/Kharid_Konstantere/html" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            }
+        ]
+    });
+
+    var Menu_ListGrid_Kharid_Zaieat = isc.Menu.create({
+        width: 250,
+        data: [
+            {
+                title: "<spring:message code='global.form.print.pdf'/>", icon: "icon/pdf.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/warehouseStock/print/Kharid_Zaieat/pdf" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.excel'/>", icon: "icon/excel.png",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/warehouseStock/print/Kharid_Zaieat/excel" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            },
+            {
+                title: "<spring:message code='global.form.print.html'/>", icon: "icon/html.jpg",
+                click: function () {
+                    var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                    "<spring:url value="/warehouseStock/print/Kharid_Zaieat/html" var="printUrl"/>"
+                    window.open('${printUrl}' + '/' + toDay);
+                }
+            }
+        ]
+    });
+
+    var MenuButton_Forosh_Bargiri = isc.MenuButton.create({
+        autoDraw: false,
+        title: "<spring:message code='tozin.report.salesUpload'/>",
+        prompt: "<spring:message code='tozin.report.salesUpload.byDate'/>",
+        width: 200,
+        menu: Menu_ListGrid_Forosh_Bargiri
+    });
+
+    var MenuButton_Kharid_Konstantere = isc.MenuButton.create({
+        autoDraw: false,
+        title: "<spring:message code='tozin.report.cons.buy'/>",
+        prompt: "<spring:message code='tozin.report.cons.buy.byDate'/>",
+        width: 200,
+        menu: Menu_ListGrid_Kharid_Konstantere
+    });
+
+    var MenuButton_Kharid_Zaieat = isc.MenuButton.create({
+        autoDraw: false,
+        title: "<spring:message code='tozin.report.waste'/>",
+        prompt: "<spring:message code='tozin.report.waste.byDate'/>",
+        width: 250,
+        menu: Menu_ListGrid_Kharid_Zaieat
+    });
+
     var ToolStrip_Actions_WarehouseStock = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
@@ -179,10 +353,22 @@
                     align: "left",
                     border: '0px',
                     members: [
-                        ToolStripButton_WarehouseStock_Refresh,
+                        ToolStripButton_WarehouseStock_Refresh
                     ]
                 })
+            ]
+    });
 
+    var ToolStrip_Reports_WarehouseStock = isc.ToolStrip.create({
+        width: "100%",
+        membersMargin: 5,
+        members:
+            [
+                MenuButton_Tozin,
+                MenuButton_Forosh_Bargiri,
+                MenuButton_Kharid_Konstantere,
+                MenuButton_Kharid_Zaieat,
+                DynamicForm_DailyReport_Tozin,
             ]
     });
 
@@ -191,6 +377,14 @@
         members:
             [
                 ToolStrip_Actions_WarehouseStock
+            ]
+    });
+
+    var HLayout_WarehouseStock_Reports = isc.HLayout.create({
+        width: "100%",
+        members:
+            [
+                ToolStrip_Reports_WarehouseStock
             ]
     });
 
@@ -237,6 +431,6 @@
         width: "100%",
         height: "100%",
         members: [
-            HLayout_WarehouseStock_Actions, HLayout_WarehouseStock_Grid
+            HLayout_WarehouseStock_Actions, HLayout_WarehouseStock_Reports, HLayout_WarehouseStock_Grid
         ]
     });

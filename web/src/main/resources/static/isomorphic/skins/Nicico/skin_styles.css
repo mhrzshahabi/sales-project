@@ -121,6 +121,24 @@
   font-style: normal;
 }
 @font-face {
+  font-family: 'IRANSansNum';
+  font-style: normal;
+  font-weight: 500;
+  src: url("fonts/IRANSansWeb(FaNum)_Light.ttf");
+  src: url("fonts/IRANSansWeb(FaNum)_Light.eot");
+  src: url("fonts/IRANSansWeb(FaNum)_Light.woff");
+  src: local("☺"), url("fonts/IRANSansWeb(FaNum)_Light.woff") format("woff"), url("fonts/IRANSansWeb(FaNum)_Light.otf") format("opentype"), url("fonts/IRANSansWeb(FaNum)_Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: 'IRANSans';
+  font-style: normal;
+  font-weight: 500;
+  src: url("fonts/IRANSansWeb_Light.ttf");
+  src: url("fonts/IRANSansWeb_Light.eot");
+  src: url("fonts/IRANSansWeb_Light.woff");
+  src: local("☺"), url("fonts/IRANSansWeb_Light.woff") format("woff"), url("fonts/IRANSansWeb_Light.otf") format("opentype"), url("fonts/IRANSansWeb_Light.ttf") format("truetype");
+}
+@font-face {
   font-family: 'corbel';
   /* see comment on @font-face above */
   src: url("fonts/corbel.ttf");
@@ -237,7 +255,7 @@ ul {
 .pageBackground {
   background-color: #fafafa;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -246,7 +264,7 @@ ul {
 .normalFocused,
 .normalDisabled {
   color: #282828;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -275,7 +293,7 @@ ul {
   background-color: #eff9ff;
   border: 1px solid #fe9d2a;
   color: #363636;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   padding: 5px;
 }
@@ -284,7 +302,7 @@ ul {
 .groupLabel {
   background-color: #fafafa;
   color: #282828;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   padding-left: 5px;
   padding-right: 5px;
@@ -311,7 +329,7 @@ ul {
 .linkText {
   outline: none;
   vertical-align: middle;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12.58px;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
@@ -365,7 +383,7 @@ ul {
   outline: 0px;
   color: white;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
 }
 
 /* Buttons */
@@ -453,7 +471,7 @@ ul {
   outline: 0px;
   color: white;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
 }
 
 .buttonDisabled,
@@ -587,7 +605,7 @@ ul {
 .imgButtonDown,
 .imgButtonSelectedDown,
 .imgButtonDisabled {
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -612,7 +630,7 @@ ul {
 .stretchImgButtonPendingSelectedDown,
 .stretchImgButtonPendingSelectedDisabled,
 .stretchImgButtonPendingDisabled {
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -654,7 +672,7 @@ ul {
 .buttonTitleDisabled,
 .buttonTitleSelectedDisabled {
   color: black;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -734,7 +752,7 @@ ul {
 .menuDisabled,
 .menuDisabledDark {
   color: #999999;
-  font-family: BYekan !important;
+  font-family: IRANSansNum, IRANSans !important;
 }
 
 /* styles to be used by a parent when showing its submenu */
@@ -783,7 +801,7 @@ ul {
 .treeMenuSelectedSelectedOver {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   padding-bottom: 2px;
   padding-top: 2px;
@@ -882,7 +900,7 @@ ul {
   padding: 0px 0px 0px 6px;
   font-size: 12px;
   line-height: 18px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -1062,7 +1080,7 @@ ul {
   line-height: 17px;
   padding-left: 10px;
   padding-right: 10px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
 }
 
 .windowStatusBar,
@@ -1070,7 +1088,7 @@ ul {
   background: white;
   border-top: 1px solid #d0d0d0;
   color: #fe9d2a;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   padding: 7px;
 }
@@ -1153,7 +1171,7 @@ ul {
 .listPaneTitleDisabled {
   background-color: #d9d9d9;
   color: #616161;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 13px;
 }
 
@@ -1164,7 +1182,7 @@ ul {
   background-color: #ffffff;
   border: 1px solid #9e9e9e;
   color: #d0d0d0;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -1336,7 +1354,7 @@ ul {
 .tabButtonTopSelectedDown {
   color: #8d959e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffd7a7;
   border-bottom: none;
   background: #ffd7a7;
@@ -1355,7 +1373,7 @@ ul {
 .tabButtonTopSelectedDown,
 .tabButtonTopSelected {
   color: #000000 !important;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffffff;
   border-bottom: none;
   background: #ffffff;
@@ -1404,7 +1422,7 @@ ul {
 .tabButtonTopDisabled {
   color: #9e9e9e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   background: #dadada;
   -moz-border-radius: 4px 4px 0px 0px;
   -webkit-border-radius: 4px;
@@ -1429,7 +1447,7 @@ ul {
 .tabButtonBottomSelectedDown {
   color: #8d959e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffd7a7;
   border-top: none;
   background: #ffd7a7;
@@ -1449,7 +1467,7 @@ ul {
 .tabButtonBottomSelectedDown,
 .tabButtonBottomSelected {
   color: #000000 !important;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffffff;
   border-top: none;
   background: #ffffff;
@@ -1498,7 +1516,7 @@ ul {
 .tabButtonBottomDisabled {
   color: #9e9e9e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   background: #dadada;
   -moz-border-radius: 0px 0px 5px 5px;
   -webkit-border-radius: 0px;
@@ -1523,7 +1541,7 @@ ul {
 .tabButtonLeftSelectedDown {
   color: #8d959e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffd7a7;
   border-right: none;
   background: #ffd7a7;
@@ -1544,7 +1562,7 @@ ul {
 .tabButtonLeftSelectedDown,
 .tabButtonLeftSelected {
   color: #000000 !important;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffffff;
   border-right: none;
   background: #ffffff;
@@ -1593,7 +1611,7 @@ ul {
 .tabButtonLeftDisabled {
   color: #9e9e9e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   background: #dadada;
   -moz-border-radius: 5px 0px 0px 5px;
   -webkit-border-radius: 5px;
@@ -1618,7 +1636,7 @@ ul {
 .tabButtonRightSelectedDown {
   color: #8d959e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffd7a7;
   border-left: none;
   background: #ffd7a7;
@@ -1638,7 +1656,7 @@ ul {
 .tabButtonRightSelectedDown,
 .tabButtonRightSelected {
   color: #000000 !important;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffffff;
   border-left: none;
   background: #ffffff;
@@ -1687,7 +1705,7 @@ ul {
 .tabButtonRightDisabled {
   color: #9e9e9e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   background: #dadada;
   -moz-border-radius: 0px 5px 5px 0px;
   -webkit-border-radius: 0px;
@@ -1717,7 +1735,7 @@ ul {
 .iconOnlyTabButtonTopSelectedDown {
   color: #8d959e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffd7a7;
   border-bottom: none;
   background: #ffd7a7;
@@ -1736,7 +1754,7 @@ ul {
 .iconOnlyTabButtonTopSelectedDown,
 .iconOnlyTabButtonTopSelected {
   color: #000000 !important;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffffff;
   border-bottom: none;
   background: #ffffff;
@@ -1785,7 +1803,7 @@ ul {
 .iconOnlyTabButtonTopDisabled {
   color: #9e9e9e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   background: #dadada;
   -moz-border-radius: 4px 4px 0px 0px;
   -webkit-border-radius: 4px;
@@ -1810,7 +1828,7 @@ ul {
 .iconOnlyTabButtonBottomSelectedDown {
   color: #8d959e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffd7a7;
   border-top: none;
   background: #ffd7a7;
@@ -1830,7 +1848,7 @@ ul {
 .iconOnlyTabButtonBottomSelectedDown,
 .iconOnlyTabButtonBottomSelected {
   color: #000000 !important;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffffff;
   border-top: none;
   background: #ffffff;
@@ -1879,7 +1897,7 @@ ul {
 .iconOnlyTabButtonBottomDisabled {
   color: #9e9e9e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   background: #dadada;
   -moz-border-radius: 0px 0px 5px 5px;
   -webkit-border-radius: 0px;
@@ -1904,7 +1922,7 @@ ul {
 .iconOnlyTabButtonLeftSelectedDown {
   color: #8d959e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffd7a7;
   border-right: none;
   background: #ffd7a7;
@@ -1925,7 +1943,7 @@ ul {
 .iconOnlyTabButtonLeftSelectedDown,
 .iconOnlyTabButtonLeftSelected {
   color: #000000 !important;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffffff;
   border-right: none;
   background: #ffffff;
@@ -1974,7 +1992,7 @@ ul {
 .iconOnlyTabButtonLeftDisabled {
   color: #9e9e9e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   background: #dadada;
   -moz-border-radius: 5px 0px 0px 5px;
   -webkit-border-radius: 5px;
@@ -1999,7 +2017,7 @@ ul {
 .iconOnlyTabButtonRightSelectedDown {
   color: #8d959e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffd7a7;
   border-left: none;
   background: #ffd7a7;
@@ -2019,7 +2037,7 @@ ul {
 .iconOnlyTabButtonRightSelectedDown,
 .iconOnlyTabButtonRightSelected {
   color: #000000 !important;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   border: 2px solid #ffffff;
   border-left: none;
   background: #ffffff;
@@ -2068,7 +2086,7 @@ ul {
 .iconOnlyTabButtonRightDisabled {
   color: #9e9e9e !important;
   font-size: 13px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   background: #dadada;
   -moz-border-radius: 0px 5px 5px 0px;
   -webkit-border-radius: 0px;
@@ -2089,14 +2107,14 @@ ul {
 .sectionHeaderTitleopened,
 .sectionHeaderTitleclosed {
   color: #616161;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12.58px;
 }
 
 .sectionHeaderTitleDisabledopened,
 .sectionHeaderTitleDisabledclosed {
   color: #ababab;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12.58px;
 }
 
@@ -2107,7 +2125,7 @@ ul {
   background: #ffffff;
   color: #616161;
   padding-left: 10px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12.58px;
 }
@@ -2289,7 +2307,7 @@ ul {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 14px;
   line-height: 24px;
   border: 1px solid transparent;
@@ -2315,7 +2333,7 @@ ul {
 
 .navBarHeader {
   color: #616161;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 14px;
   font-weight: bold;
 }
@@ -2362,7 +2380,7 @@ ul {
 
 .navItemHeader {
   color: #616161;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   background: url(./images/SectionHeader/header_opened_stretch.png) padding-box;
   background-attachment: scroll;
@@ -2747,7 +2765,7 @@ ul {
 .labelAnchorFocusedRTL {
   background-color: transparent;
   color: #333333;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -2912,7 +2930,7 @@ ul {
 .headerItemError,
 .headerItemErrorRTL {
   color: #4d4d4d;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 14px;
   font-weight: bold;
 }
@@ -3742,7 +3760,7 @@ option:checked {
   padding: 2px 9px;
   outline: none;
   text-decoration: none;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -3824,7 +3842,7 @@ option:checked {
 .selectItemLiteTextDisabledHintRTL {
   outline: none;
   border: 0px;
-  padding-right: 8px;
+  padding-right: 0px;
   background-color: transparent;
 }
 
@@ -5040,7 +5058,7 @@ option:checked {
 .labelAnchorPendingError,
 .labelAnchorPendingErrorRTL {
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   text-decoration: none;
 }
 
@@ -5135,7 +5153,7 @@ option:checked {
   outline: none;
   text-decoration: none;
   text-align: left;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -5482,7 +5500,7 @@ option:checked {
   background-color: #ffffff;
   color: #fe9d2a;
   border: 2px solid #ffffff;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -5498,7 +5516,7 @@ option:checked {
 .dateChooserNavButtonDisabled {
   background: #fafafa;
   color: #616161;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -5664,7 +5682,7 @@ option:checked {
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   letter-spacing: 0.5px;
 }
@@ -5829,7 +5847,7 @@ option:checked {
   font-size: 14px;
   font-weight: bold;
   padding: 4px 8px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
 }
 
 /* ColorChooser (ColorPicker) */
@@ -5872,7 +5890,7 @@ option:checked {
 .textItemLiteEditorTypeHintRTL,
 .textItemLiteEditorTypeDisabledHint,
 .textItemLiteEditorTypeDisabledHintRTL {
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   color: #282828;
   padding: 0px 6px 0px;
@@ -5921,7 +5939,7 @@ option:checked {
 .selectItemLiteTextEditorTypeDisabledHint,
 .selectItemLiteTextEditorTypeDisabledHintRTL {
   outline: none;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   color: #282828;
   padding: 0px 6px 0px;
@@ -6053,7 +6071,7 @@ option:checked {
 .rangebarRange,
 .rangebarValue {
   color: #282828;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12.58px;
 }
 
@@ -6250,7 +6268,7 @@ option:checked {
 .sliderValuePendingText,
 .sliderValuePendingTextDisabled {
   color: #282828;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12.58px;
   padding: 2px;
 }
@@ -6301,7 +6319,7 @@ option:checked {
   border-bottom: 1px solid #929292;
   border-right: 1px solid #929292;
   color: #363636;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   -webkit-text-size-adjust: 100%;
 }
@@ -6316,7 +6334,7 @@ option:checked {
 .detailHeader {
   background-color: #bdddff;
   color: #363636;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 14px;
   font-weight: bold;
 }
@@ -6360,7 +6378,7 @@ option:checked {
 .offlineMessage,
 .emptyMessage {
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   padding: 11px;
 }
@@ -6368,7 +6386,7 @@ option:checked {
 .gridDragTracker {
   border: 1px dotted #808080;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   padding: 1px;
 }
@@ -6389,7 +6407,7 @@ option:checked {
   line-height: 22px;
   background-color: #fafafa;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -6427,7 +6445,7 @@ some LG header-titles to be vertically offset from other headers */
 .headerSpanButtonDown,
 .headerSpanButtonDisabled {
   color: #464646;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12px;
   background-color: #d9d9d9;
@@ -6465,7 +6483,7 @@ some LG header-titles to be vertically offset from other headers */
   background-color: #d9d9d9;
   font-weight: bold;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   letter-spacing: 0.3px;
   padding: 0px 0px 0px 3px;
   border-right: 1px solid #ffffff;
@@ -6496,7 +6514,7 @@ some LG header-titles to be vertically offset from other headers */
 .sorterButton {
   color: #464646;
   background-color: #d9d9d9;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12px;
   letter-spacing: 0.3px;
@@ -6511,7 +6529,7 @@ some LG header-titles to be vertically offset from other headers */
   background-color: #dadada;
   font-weight: bold;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   letter-spacing: 0.3px;
   padding: 0px 0px 0px 3px;
 }
@@ -6538,7 +6556,7 @@ some LG header-titles to be vertically offset from other headers */
   color: #ababab;
   font-weight: bold;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   letter-spacing: 0.3px;
   padding: 0px 0px 0px 3px;
 }
@@ -6551,7 +6569,7 @@ some LG header-titles to be vertically offset from other headers */
 .sorterButtonDown {
   color: #374b71;
   background-color: #d9d9d9;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12px;
   letter-spacing: 0.3px;
@@ -6566,7 +6584,7 @@ some LG header-titles to be vertically offset from other headers */
 .sorterButtonSelectedDown {
   color: #374b71;
   background-color: #d9d9d9;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12px;
   letter-spacing: 0.3px;
@@ -6614,7 +6632,7 @@ some LG header-titles to be vertically offset from other headers */
   background-color: #d9d9d9;
   font-weight: bold;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   letter-spacing: 0.3px;
   padding: 3px 0px 3px 0px;
   border-right: 1px solid #ffffff;
@@ -6644,7 +6662,7 @@ some LG header-titles to be vertically offset from other headers */
 .headerButtonRotated {
   color: #464646;
   background-color: #d9d9d9;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12px;
   letter-spacing: 0.3px;
@@ -6658,7 +6676,7 @@ some LG header-titles to be vertically offset from other headers */
   background-color: #dadada;
   font-weight: bold;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   letter-spacing: 0.3px;
   padding: 3px 0px 3px 0px;
 }
@@ -6681,7 +6699,7 @@ some LG header-titles to be vertically offset from other headers */
   color: #ababab;
   font-weight: bold;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   letter-spacing: 0.3px;
   padding: 3px 0px 3px 0px;
 }
@@ -6692,7 +6710,7 @@ some LG header-titles to be vertically offset from other headers */
 .headerButtonDownRotated {
   color: #374b71;
   background-color: #d9d9d9;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12px;
   letter-spacing: 0.3px;
@@ -6705,7 +6723,7 @@ some LG header-titles to be vertically offset from other headers */
 .headerButtonSelectedDownRotated {
   color: #374b71;
   background-color: #d9d9d9;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12px;
   letter-spacing: 0.3px;
@@ -6722,7 +6740,7 @@ some LG header-titles to be vertically offset from other headers */
 .headerTitleDisabled,
 .headerTitleSelectedDisabled {
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   padding-left: 4px;
   padding-right: 4px;
@@ -6750,7 +6768,7 @@ some LG header-titles to be vertically offset from other headers */
 .filterOperatorIconSelected,
 .filterOperatorIconSelectedFocused,
 .filterOperatorIconSelectedFocusedOver {
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 9px;
   line-height: 14px;
   text-align: center;
@@ -6821,7 +6839,7 @@ some LG header-titles to be vertically offset from other headers */
 .specialColDisabled {
   background-color: white;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   color: #374b71;
   padding-left: 3px;
   border: none;
@@ -6938,7 +6956,7 @@ some LG header-titles to be vertically offset from other headers */
 .tallCellAltDisabled,
 .tallCellAltDisabledDark {
   color: #374b71;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   text-overflow: ellipsis;
   padding-left: 3px;
@@ -7004,7 +7022,7 @@ some LG header-titles to be vertically offset from other headers */
 .cellDisabledAltCol,
 .cellDisabledDarkAltCol {
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   color: #374b71;
   padding-left: 3px;
   text-overflow: ellipsis;
@@ -7028,7 +7046,7 @@ some LG header-titles to be vertically offset from other headers */
 
 .cellOverAltCol {
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
 }
 
 .cellOverAltCol,
@@ -7086,7 +7104,7 @@ some LG header-titles to be vertically offset from other headers */
 .gridSummaryCellDark,
 .gridSummaryCellDisabledDark {
   font-size: 12.5px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   text-overflow: ellipsis;
   background-color: #e7f6ff;
   border-bottom: 1px solid #fe9d2a;
@@ -7111,7 +7129,7 @@ some LG header-titles to be vertically offset from other headers */
   border: none;
   border-bottom: 1px solid #8C8C8C;
   color: #4c4c4c;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12.5px;
   padding-left: 3px;
@@ -7145,7 +7163,7 @@ some LG header-titles to be vertically offset from other headers */
 .treeTallCellDisabled,
 .treeTallCellDisabledDark {
   color: #3f3f3f;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   text-overflow: ellipsis;
 }
@@ -7279,7 +7297,7 @@ some LG header-titles to be vertically offset from other headers */
   border-radius: 0px;
   color: #000000;
   font-size: 12px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   padding: 3px 4px 3px 4px;
 }
 
@@ -7403,7 +7421,7 @@ some LG header-titles to be vertically offset from other headers */
   border: none;
   border-bottom: 1px solid #d0d0d0;
   color: #616161;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 15.5px;
   font-weight: 500;
   padding: 8px 10px 8px 10px;
@@ -7430,7 +7448,7 @@ some LG header-titles to be vertically offset from other headers */
   -webkit-border-radius: 3px;
   border-radius: 3px;
   padding: 3px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 13.5px;
   color: #4d4d4d;
 }
@@ -7980,7 +7998,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-top: none;
   border-right: 1px solid #d0d0d0;
   border-bottom: 1px solid #d0d0d0;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   color: #3f3f3f;
   text-overflow: ellipsis;
@@ -7992,7 +8010,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-top: none;
   border-right: 1px solid #d0d0d0;
   border-bottom: 1px solid #d0d0d0;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   color: #3f3f3f;
   text-overflow: ellipsis;
@@ -8004,7 +8022,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-top: none;
   border-right: 1px solid #d0d0d0;
   border-bottom: 1px solid #d0d0d0;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   color: #666666;
   text-overflow: ellipsis;
@@ -8034,7 +8052,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 .rowHeaderSelectedDown,
 .rowHeaderSelectedOver,
 .rowHeaderSelectedDisabled {
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   color: #ffffff;
 }
@@ -8088,7 +8106,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 .rowHeaderLabelSelectedDown,
 .rowHeaderLabelSelectedOver,
 .rowHeaderLabelSelectedDisabled {
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 13px;
   color: #ffffff;
 }
@@ -8133,7 +8151,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 .colHeaderSelectedDown,
 .colHeaderSelectedOver,
 .colHeaderSelectedDisabled {
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 13px;
   color: #ffffff;
 }
@@ -8191,7 +8209,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 .colHeaderLabelSelectedDown,
 .colHeaderLabelSelectedOver,
 .colHeaderLabelSelectedDisabled {
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 13px;
   font-weight: bold;
   color: #ffffff;
@@ -8234,7 +8252,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 .innerHeaderSelectedDown,
 .innerHeaderSelectedOver,
 .innerHeaderSelectedDisabled {
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   color: #3f3f3f;
   background-color: #e6e6e6;
@@ -8290,7 +8308,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 .chartTitle {
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
@@ -8298,21 +8316,21 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 .chartAxisTitle {
   color: #0000FF;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   font-weight: bold;
 }
 
 .chartValueTitle {
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
 .chartTotal {
   background-color: linen;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8361,7 +8379,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 ============================================================*/
 .printHeader {
   border: 1px solid #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   font-weight: bold;
 }
@@ -8386,7 +8404,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8412,7 +8430,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8422,7 +8440,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8435,7 +8453,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8456,7 +8474,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8470,7 +8488,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #454545;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8480,7 +8498,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8490,7 +8508,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8504,7 +8522,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8514,7 +8532,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8525,7 +8543,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #454545;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8537,7 +8555,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #454545;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8549,7 +8567,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8559,7 +8577,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8576,7 +8594,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
   color: #454545;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8606,7 +8624,7 @@ a.calMonthEventLink:active {
 .eventWindowSelected {
   background-color: #f0fbff;
   border: 1px solid #c8e1f4;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   padding: 1px;
   margin: 0px;
@@ -8623,7 +8641,7 @@ a.calMonthEventLink:active {
   background-color: #d0e6f6;
   color: #4d4d4d;
   border: 1px solid #d0e6f6;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   margin: 1px;
   padding: 2px 2px 0px 2px;
@@ -8644,7 +8662,7 @@ a.calMonthEventLink:active {
   background-color: #f0fbff;
   color: #000000;
   border: 1px solid #f0fbff;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   margin-left: 1px;
   margin-right: 1px;
@@ -8682,7 +8700,7 @@ a.calMonthEventLink:active {
   display: inline-block;
   color: #ffffff;
   background-color: #AA0000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8724,7 +8742,7 @@ a.calMonthEventLink:active {
 .propSheetValueDisabled {
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   margin: 0px;
   padding: 0px;
@@ -8736,7 +8754,7 @@ a.calMonthEventLink:active {
   background-color: #d0d0d0;
   border-bottom: 1px solid #ababab;
   border-right: 1px solid #ababab;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   padding-left: 4px;
   padding-right: 4px;
@@ -8746,7 +8764,7 @@ a.calMonthEventLink:active {
 .propSheetValueError {
   background-color: #cfd9f2;
   color: #204269;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
 }
 
@@ -8754,7 +8772,7 @@ a.calMonthEventLink:active {
 .propSheetFieldDisabled {
   background-color: #ffffff;
   border: 0px;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   margin-top: 3px;
   padding-bottom: 0px;
@@ -8768,7 +8786,7 @@ a.calMonthEventLink:active {
   background-color: #d9d9d9;
   border-bottom: 1px solid #ababab;
   color: #000000;
-  font-family: BYekan;
+  font-family: IRANSansNum, IRANSans;
   font-size: 12px;
   font-weight: bold;
   padding: 4px;

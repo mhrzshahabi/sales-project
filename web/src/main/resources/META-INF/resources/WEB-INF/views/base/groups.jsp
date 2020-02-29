@@ -347,7 +347,6 @@
     }
 
     var ToolStripButton_Groups_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Groups_refresh();
@@ -356,7 +355,6 @@
 
     <sec:authorize access="hasAuthority('C_GROUPS')">
     var ToolStripButton_Groups_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Groups.clearValues();
@@ -525,7 +523,6 @@
     }
 
     var ToolStripButton_Person_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Person_GroupEmail_refresh();
@@ -979,7 +976,6 @@
     }
 
     var ToolStripButton_GroupsPerson_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_GroupsPerson_refresh();
@@ -987,7 +983,6 @@
     });
 
     var ToolStripButton_GroupsPerson_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_Groups.getSelectedRecord();
@@ -1435,7 +1430,6 @@
     });
 
     isc.SectionStack.create({
-        ID: "Groups_Section_Stack",
         sections:
             [
                 {

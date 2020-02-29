@@ -6,7 +6,7 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_Country = isc.MyRestDataSource.create(
+    var RestDataSource_Country_IN_CONTACT = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -91,7 +91,7 @@
             fetchDataURL: "${contextPath}/api/contactAccount/spec-list"
         });
 
-    var RestDataSource_Bank = isc.MyRestDataSource.create(
+    var RestDataSource_Bank_IN_CONTACT = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -292,7 +292,7 @@
                     }
                 }
                 </sec:authorize>
-                ]
+            ]
         });
 
     var ValuesManager_Contact = isc.ValuesManager.create({});
@@ -359,7 +359,7 @@
                     wrapTitle: false,
                     hint: "Persian/فارسی",
                     validators: [{
-                        type:"required",
+                        type: "required",
                         validateOnChange: true
                     }]
                 },
@@ -374,10 +374,10 @@
                     hint: "Latin",
                     wrapTitle: false,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "tradeMark",
@@ -571,10 +571,10 @@
                 width: 500,
                 wrapTitle: false,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "mobile",
@@ -599,7 +599,7 @@
                 type: 'long',
                 width: 500,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Country,
+                optionDataSource: RestDataSource_Country_IN_CONTACT,
                 displayField: "nameFa",
                 valueField: "id",
                 pickListWidth: 500,
@@ -610,10 +610,10 @@
                     {name: "nameFa", width: 480, align: "center"},
                 ],
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
 
@@ -855,7 +855,6 @@
     }
 
     var ToolStripButton_Contact_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Contact_refresh();
@@ -864,7 +863,6 @@
 
     <sec:authorize access="hasAuthority('C_CONTACT')">
     var ToolStripButton_Contact_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             clearContactForms();
@@ -983,8 +981,8 @@
                     }
                 }
             },
-            recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                if (record != null){
+            recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                if (record != null) {
                     contactAccountTabs.enableTab("edit");
                     ContactAccount_EditDynamicForm.editRecord(record);
                 }
@@ -1084,7 +1082,7 @@
                             errorMessage: "<spring:message code='global.form.correctType'/>",
                         },
                         {
-                            type:"required",
+                            type: "required",
                             validateOnChange: true
                         }]
                 },
@@ -1094,7 +1092,7 @@
                     type: 'long',
                     width: 300,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Bank,
+                    optionDataSource: RestDataSource_Bank_IN_CONTACT,
                     displayField: "bankName",
                     valueField: "id",
                     pickListWidth: "300",
@@ -1131,7 +1129,7 @@
                             errorMessage: "<spring:message code='global.form.correctType'/>",
                         },
                         {
-                            type:"required",
+                            type: "required",
                             validateOnChange: true
                         }],
                     textAlign: "left"
@@ -1145,10 +1143,10 @@
                     colSpan: "2",
                     format: "",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "bankSwift",
@@ -1159,10 +1157,10 @@
                     colSpan: "2",
                     format: "",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "accountOwner",
@@ -1227,7 +1225,7 @@
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
                         {
-                            type:"required",
+                            type: "required",
                             validateOnChange: true
                         }]
                 },
@@ -1237,7 +1235,7 @@
                     type: 'long',
                     width: 300,
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Bank,
+                    optionDataSource: RestDataSource_Bank_IN_CONTACT,
                     displayField: "bankName",
                     valueField: "id",
                     pickListWidth: 300,
@@ -1274,7 +1272,7 @@
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         },
                         {
-                            type:"required",
+                            type: "required",
                             validateOnChange: true
                         }],
                     textAlign: "left"
@@ -1287,10 +1285,10 @@
                     width: 300,
                     colSpan: "2",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "bankSwift",
@@ -1300,10 +1298,10 @@
                     width: 300,
                     colSpan: "2",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "accountOwner",
@@ -1461,7 +1459,7 @@
                     pane: editPane,
                     disabled: true
                 }
-                ]
+            ]
         });
 
     var Button_Delete_Account = isc.IButton.create(
@@ -1884,7 +1882,6 @@
         });
 
     isc.VLayout.create({
-        ID: "VLayout_Parameters_Body",
         width: "100%",
         height: "100%",
         members: [

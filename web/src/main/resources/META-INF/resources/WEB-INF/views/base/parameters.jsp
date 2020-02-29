@@ -248,7 +248,6 @@
     });
 
     var ToolStripButton_Parameters_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Parameters_refresh();
@@ -257,7 +256,6 @@
 
     <sec:authorize access="hasAuthority('C_PARAMETERS')">
     var ToolStripButton_Parameters_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Parameters.clearValues();

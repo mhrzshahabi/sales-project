@@ -1,18 +1,3 @@
-@font-face {
-    font-family: B Titr;
-    src: url('../font/BTitrBold.woff2') format('woff2'),
-    url('../font/BTitrBold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
-
-.mainHeaderStyleOnline {
-    background-color: #374b71;
-    font-size: 14px;
-    color: white;
-    padding: 4px;
-}
-
 .myBoxedGridCell {
     font-family: Arial, serif;
     font-size: 11px;
@@ -28,36 +13,18 @@
     border: none !important;
 }
 
-.box-shaddow:hover {
-    /*-webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);*/
-    /*-moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);*/
-    /*box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.75);*/
-    /*background: rgba(255, 255, 255, 0.7);*/
-}
-
-
 body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: IRANSans, tahoma, serif;
+    font-family: IRANSansNum, IRANSans, serif;
     color: #060790;
     text-align: center;
 }
 
-/*Fix Bug*/
 .checkboxFalse {
     max-width: 100% !important;
 }
-
-span {
-    display: inline-flex !important;
-}
-
-span:hover {
-    display: inline-flex !important;
-}
-
 
 .formTitleRTL {
     white-space: nowrap !important;
@@ -74,27 +41,14 @@ span:hover {
     position: absolute !important;
     left: 3px !important;
 }
-.selectItemPickerIcon, .selectItemPickerIconOver, .selectItemPickerIconRTL, .selectItemPickerIconOverRTL, .selectItemPickerIconFocused, .selectItemPickerIconFocusedRTL, .selectItemPickerIconDisabled, .selectItemPickerIconDisabledRTL, .selectItemPickerIconError, .selectItemPickerIconErrorOver, .selectItemPickerIconErrorRTL, .selectItemPickerIconErrorOverRTL, .selectItemPickerIconErrorFocused, .selectItemPickerIconErrorFocusedRTL, .selectItemPickerIconErrorFocusedOver, .selectItemPickerIconErrorFocusedOverRTL{
+
+.selectItemPickerIcon, .selectItemPickerIconOver, .selectItemPickerIconRTL, .selectItemPickerIconOverRTL, .selectItemPickerIconFocused, .selectItemPickerIconFocusedRTL, .selectItemPickerIconDisabled, .selectItemPickerIconDisabledRTL, .selectItemPickerIconError, .selectItemPickerIconErrorOver, .selectItemPickerIconErrorRTL, .selectItemPickerIconErrorOverRTL, .selectItemPickerIconErrorFocused, .selectItemPickerIconErrorFocusedRTL, .selectItemPickerIconErrorFocusedOver, .selectItemPickerIconErrorFocusedOverRTL {
     position: relative !important;
 }
-/*End Fix Bug*/
 
-
-
-.ribbonBar{
+.ribbonBar {
     background-color: rgb(251, 251, 251) !important;
 }
-
-.testmain{
-    background: #ebecf0 !important;
-}
-
-#testmain{
-    background: #ebecf0 !important;
-}
-
-
-
 
 /*Help General*/
 .glow-on-hover {
@@ -114,9 +68,8 @@ span:hover {
     height: 50px;
     flex-direction: row;
     text-align: center;
-    
-}
 
+}
 
 #mybutton {
     position: fixed;
@@ -126,13 +79,56 @@ span:hover {
     -moz-transition: all 0.75s ease 0s;
     -o-transition: all 0.75s ease 0s;
     transition: all 0.75s ease 0s;
-    opacity:0.5;
+    opacity: 0.5;
     text-align: center;
 }
+
 #mybutton:hover {
     bottom: 8px;
-    opacity:1;
+    opacity: 1;
 
 }
+
 /*Help General*/
 
+/* smartStyleButton */
+.buttonHtml {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 2px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.buttonHtml1 {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}
+
+.buttonHtml1:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.buttonHtml3 {
+    background-color: white;
+    color: black;
+    border: 2px solid #f44336;
+}
+
+.buttonHtml3:hover {
+    background-color: #f44336;
+    color: white;
+}
+
+.cssDynamicForm {
+    color: #333333
+}
