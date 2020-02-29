@@ -50,10 +50,16 @@
             <viewExists viewName="VIEW_TOZIN"/>
             <viewExists viewName="VIEW_TOZIN_S"/>
             <viewExists viewName="VIEW_FROSH"/>
+            <viewExists viewName="VIEW_TOZIN_M"/>
+            <viewExists viewName="VIEW_KHARID"/>
+            <viewExists viewName="VIEW_ZAYEAT"/>
         </preConditions>
         <dropView viewName="VIEW_TOZIN"/>
         <dropView viewName="VIEW_TOZIN_S"/>
         <dropView viewName="VIEW_FROSH"/>
+        <dropView viewName="VIEW_TOZIN_M"/>
+        <dropView viewName="VIEW_KHARID"/>
+        <dropView viewName="VIEW_ZAYEAT"/>
     </changeSet>
     <changeSet author="RMazloom" id="1578893517121-247">
         <createView viewName="VIEW_TOZIN">
@@ -141,6 +147,41 @@
 				 , (case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end)
 				 order by tzn_date,p.id,m.gdscode
             ]]>
+        </createView>
+        <createView viewName="VIEW_TOZIN_M">
+            <![CDATA[
+                select k.material_id,k.gdscode, tzn_date,p.id,p.namefa plant, s.namefa snamefa,t.namefa,gdsname, case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,nvl(sum(wazn),0) wazn,nvl(sum(tedad),0) tedad
+                from view_tozin k
+                left join tbl_tozin_plant s on s.id=substr(SOURCE_PLANT_ID,1,1)
+                left join tbl_tozin_plant t on t.id=target_plant_id
+                left join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
+                where  source_plant_id is not null and target_plant_id is not null
+                and substr(source_plant_id,1,1)<>'-'
+                group by tzn_date, p.id,p.namefa,SOURCE_PLANT_ID,target_plant_id,s.namefa,t.namefa,k.gdscode,gdsname,case when instr(carname ,'انتينر')>0  then 'ريلی' else 'جاده اي' end  ,k.material_id
+                order by tzn_date,p.id,SOURCE_PLANT_ID,gdscode
+            ]]>
+        </createView>
+        <createView viewName="VIEW_KHARID"><![CDATA[
+				 select tzn_date,p.id,p.namefa plant,sellerid, seller,gdsname
+				 , case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,
+				 nvl(sum(wazn),0) wazn,nvl(sum(tedad),0) tedad  , gdscode
+					from view_tozin_s t
+					join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
+					where  substr(condition,1,1)=2
+					group by tzn_date, p.id,p.namefa,sellerid,seller,gdscode,gdsname,
+					    case when instr(carname ,'انتينر')>0  then 'ريلی' else 'جاده اي' end
+				]]>
+        </createView>
+        <createView viewName="VIEW_ZAYEAT">
+            with a as (
+            select tzn_date,p.id,p.namefa plant,sellerid, seller,gdsname , target
+            , case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,
+            nvl(sum(wazn),0) wazn,nvl(sum(tedad),0) tedad   , gdscode
+            from view_tozin_s t
+            join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
+            where  (substr(condition,1,1)=2) and (gdscode in (24 , 159 ))
+            group by tzn_date, p.id,p.namefa,sellerid,seller,gdscode,gdsname ,target,case when instr(carname ,'انتينر')>0  then 'ريلی' else 'جاده اي' end)
+            select a."TZN_DATE",a."ID",a."PLANT",a."SELLERID",a."SELLER",a."GDSNAME",a."TARGET",a."CAR",a."WAZN",a."TEDAD" , a."GDSCODE"  from a right join TBL_TOZIN_PLANT  on A.plant = TBL_TOZIN_PLANT.NAMEFA
         </createView>
     </changeSet>
     <changeSet author="RMazloom" id="1578893517121-248">
