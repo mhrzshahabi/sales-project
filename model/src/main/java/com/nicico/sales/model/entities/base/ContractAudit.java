@@ -323,7 +323,7 @@ public class ContractAudit {
     @EqualsAndHashCode(callSuper = false)
     @Embeddable
     public static class ContractAuditId implements Serializable {
-        @Column(name = "ID")
+        @Column(name = "CONTRACT_ID")
         private Long id;
 
         @Column(name = "REV")

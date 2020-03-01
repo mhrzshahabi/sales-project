@@ -213,7 +213,7 @@ public class ContractDetailDTO {
     @Accessors(chain = true)
     @ApiModel("ContractDetailCreateRq")
     public static class Create extends ContractDetailDTO {
-        private ContractDTO.Create contract;
+        ContractDTO.Create contract;
     }
 
     @Getter
@@ -224,20 +224,7 @@ public class ContractDetailDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        private ContractDTO.Update contract;
-
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("ContractDetailTupleUpdateRq")
-    public static class TupleUpdate extends ContractDetailDTO {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Long id;
-        private Long contractId;
-
+        ContractDTO.Update contract;
     }
 
     @Getter

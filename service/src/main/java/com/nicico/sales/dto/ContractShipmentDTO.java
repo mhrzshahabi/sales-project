@@ -48,7 +48,6 @@ public class ContractShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ContractShipmentCreateRq")
     public static class Create extends ContractShipmentDTO {
-        private ContractDTO.Create contract;
     }
 
     @Getter
@@ -59,20 +58,6 @@ public class ContractShipmentDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        private ContractDTO.Update contract;
-
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("ContractShipmentTupleUpdateRq")
-    public static class TupleUpdate extends ContractShipmentDTO {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private Long id;
-        private Long contractId;
-
     }
 
     @Getter

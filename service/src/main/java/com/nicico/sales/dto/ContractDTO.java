@@ -66,8 +66,6 @@ public class ContractDTO {
     private Integer optional;
     private long contactInspectionId;
     private Double mo_amount;
-    @NotNull
-    @ApiModelProperty(required = true)
     private Long contactId; // contactByBuyerId
     private Long contactByBuyerAgentId;
     private Long contactBySellerId;
@@ -125,8 +123,8 @@ public class ContractDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        private ContractDetailDTO.TupleUpdate contractDetails;
-        private List<ContractShipmentDTO.TupleUpdate> contractShipments;
+        private ContractDetailDTO.Update contractDetails;
+        private List<ContractShipmentDTO.Update> contractShipments;
     }
 
     @Getter

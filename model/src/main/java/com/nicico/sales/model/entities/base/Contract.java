@@ -9,7 +9,6 @@ import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -26,7 +25,7 @@ public class Contract extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT")
     @SequenceGenerator(name = "SEQ_CONTRACT", sequenceName = "SEQ_CONTRACT", allocationSize = 1)
-    @Column(name = "ID")
+    @Column(name = "CONTRACT_ID")
     private Long id;
 
     @Column(name = "C_ADDENDUM", length = 200)
@@ -317,11 +316,13 @@ public class Contract extends Auditable {
     @Column(name = "MOLYBDENUM_TOLORANCE")
     private Double molybdenumTolorance;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "contract", optional = false, cascade = CascadeType.ALL)
+    @NotAudited
+    @OneToOne(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ContractDetail contractDetails;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = CascadeType.ALL)
+    @NotAudited
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CONTRACT_ID", nullable = false)
     private List<ContractShipment> contractShipments;
-
 
 }

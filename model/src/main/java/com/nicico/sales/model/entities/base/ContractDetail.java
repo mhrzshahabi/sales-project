@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -27,13 +26,9 @@ public class ContractDetail extends Auditable {
     @Column(name = "id")
     private Long ID;
 
-    @Setter(AccessLevel.NONE)
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CONTRACT_ID",insertable = false,updatable = false)
+    @JoinColumn(name = "CONTRACT_ID")
     private Contract contract;
-
-    @Column(name = "CONTRACT_ID")
-    private Long contractId;
 
     @Column(name = "NAME_CONTACTAGENTSELLER", length = 4000)
     private String name_ContactAgentSeller;
