@@ -349,7 +349,7 @@
                 criteriaContractConcItemShipment = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",
-                    criteria: [{fieldName: "contract.id", operator: "equals", value: record.id}]
+                    criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
                 };
                 Window_ContactConc.show();
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
