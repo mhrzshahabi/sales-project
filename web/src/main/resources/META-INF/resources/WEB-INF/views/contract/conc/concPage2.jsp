@@ -82,16 +82,22 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
                 width: "300",
                 showTitle: false,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Unit,
-                displayField: "nameEN",
+                optionDataSource: RestDataSource_Parameters,
+                displayField: "paramName",
                 valueField: "id",
                 pickListWidth: "300",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: "295", align: "center"}
-                ]
+                    {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
+                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
+                ],
+                pickListCriteria: {
+                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
+                        {fieldName: "contractId", operator: "equals", value: 3},
+                        {fieldName: "categoryValue", operator: "equals", value: 1}]
+                }
             },
             {
                 name: "TitleMo",
@@ -114,17 +120,23 @@ var dynamicForm_article3Conc = isc.DynamicForm.create({
                 width: "300",
                 showTitle: false,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Unit,
+                optionDataSource: RestDataSource_Parameters,
                 autoFetchData: false,
-                displayField: "nameEN",
+                displayField: "paramName",
                 valueField: "id",
                 pickListWidth: "300",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: "295", align: "center"}
-                ]
+                    {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
+                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
+                ],
+                pickListCriteria: {
+                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
+                        {fieldName: "contractId", operator: "equals", value: 3},
+                        {fieldName: "categoryValue", operator: "equals", value: 1}]
+                }
             }
         ]
     })
