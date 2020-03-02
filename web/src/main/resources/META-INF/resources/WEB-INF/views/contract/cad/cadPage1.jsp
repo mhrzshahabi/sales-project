@@ -474,8 +474,8 @@ var DynamicForm_ContactParameter_ValueNumber8Cad=isc.DynamicForm.create({
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 3},
-                        {fieldName: "categoryValue", operator: "equals", value: 1}]
+                        {fieldName: "contractId", operator: "equals", value: 2}
+                        ]
                 },
                 width: "1200",
                 height: "30",

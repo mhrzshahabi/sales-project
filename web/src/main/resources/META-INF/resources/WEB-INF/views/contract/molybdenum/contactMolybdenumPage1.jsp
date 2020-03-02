@@ -1314,8 +1314,8 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName: "categoryValue", operator: "equals", value: 1}]
+                        {fieldName: "contractId", operator: "equals", value: 1}
+                        ]
                 },
                 width: "1200",
                 height: "30",
@@ -1769,8 +1769,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ], pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName: "categoryValue", operator: "equals", value: 3}]
+                        {fieldName: "contractId", operator: "equals", value: 1}]
                 },
                 title: "quantity_number17_2"
             }
@@ -2316,8 +2315,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     {name: "paramValue", width: "50%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                    {fieldName: "contractId", operator: "equals", value: 1},
-                    {fieldName:"categoryValue",operator:"equals",value:5}]
+                    {fieldName: "contractId", operator: "equals", value: 1}]
                     },
                 changed: function (form, item, value) {
                     dynamicForm_article5_Note2_number30.setValue("article5_Note1_value", item.getSelectedRecord().paramValue);
@@ -3341,8 +3339,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ], pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName: "categoryValue", operator: "equals", value: 9}]
+                        {fieldName: "contractId", operator: "equals", value: 1}]
                 },
                 colSpan: 2,
                 title: "article9_number55",
@@ -3376,8 +3373,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ], pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName: "categoryValue", operator: "equals", value: 9}]
+                        {fieldName: "contractId", operator: "equals", value: 1}]
                 },
                 colSpan: 2,
                 title: "article9_ImportantNote",
@@ -3905,8 +3901,7 @@ function manageNote(value, id) {
                         {name: "paramValue", width: "50%", align: "center"}
                     ],
                     pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName:"categoryValue",operator:"equals",value:5}]
+                        {fieldName: "contractId", operator: "equals", value: 1}]
                     },
                     changed: function (form, item, value) {
                         dynamicForm_article5_Note2_number30.setValue("article5_Note1_value" + id, item.getSelectedRecord().paramValue);

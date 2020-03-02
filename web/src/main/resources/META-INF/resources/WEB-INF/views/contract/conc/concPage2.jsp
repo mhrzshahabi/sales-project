@@ -506,7 +506,7 @@ var article12_qualityConc = isc.DynamicForm.create({
                     {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 2},
+                        {fieldName: "contractId", operator: "equals", value: 3},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"
@@ -537,7 +537,7 @@ var article12_qualityConc = isc.DynamicForm.create({
                     {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 2},
+                        {fieldName: "contractId", operator: "equals", value: 3},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"
