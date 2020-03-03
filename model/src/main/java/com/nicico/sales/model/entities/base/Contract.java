@@ -319,13 +319,12 @@ public class Contract extends Auditable {
 
     @NotAudited
     @OneToOne(mappedBy = "contract", fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @Cascade({org.hibernate.annotations.CascadeType.PERSIST})
     private ContractDetail contractDetails;
 
     @NotAudited
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn(name = "CONTRACT_ID", nullable = false)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
     private List<ContractShipment> contractShipments;
 
 }

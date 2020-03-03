@@ -27,8 +27,7 @@ public class ContractShipment extends Auditable {
     @Column(name = "ID")
     private Long id;
 
-    @Setter(AccessLevel.NONE)
-    @Column(name = "CONTRACT_ID", insertable = false, updatable = false)
+    @Column(name = "CONTRACT_ID")
     private Long contractId;
 
     @Column(name = "PLAN", length = 20)

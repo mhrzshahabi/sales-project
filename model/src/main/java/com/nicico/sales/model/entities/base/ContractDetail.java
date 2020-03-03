@@ -26,7 +26,7 @@ public class ContractDetail extends Auditable {
     @Column(name = "id")
     private Long ID;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONTRACT_ID")
     private Contract contract;
 

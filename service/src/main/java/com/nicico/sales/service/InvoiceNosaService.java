@@ -32,7 +32,8 @@ public class InvoiceNosaService implements IInvoiceNosaService {
     //    @PreAuthorize("hasAuthority('R_INVOICE_SALES')")
     public List<InvoiceNosaDTO.Info> list() {
 
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8090/accounting" + "/rest/detail/getDetailGridFetch", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(accountingAppUrl + "/rest/detail/getDetailGridFetch?_operationType=fetch&_startRow=0&_endRow=500&_sortBy=code&_textMatchStyle=substring&\n" +
+                "                _componentId=isc_PickListMenu_0&_dataSource=isc_MyRestDataSource_3&isc_metaDataPrefix=_&isc_dataFormat=json", String.class);
 
         String body = response.getBody();
         ArrayList arrInput = (ArrayList) ((LinkedTreeMap) ((LinkedHashMap) gson.fromJson(body, new TypeToken<Map<Object, Object>>() {

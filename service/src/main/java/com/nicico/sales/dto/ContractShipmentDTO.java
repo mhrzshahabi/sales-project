@@ -26,6 +26,7 @@ public class ContractShipmentDTO {
     private String sendDate;
     private Long duration;
     private Long tolorance;
+    private Long contractId;
 
 
     @Getter
@@ -58,6 +59,7 @@ public class ContractShipmentDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private Boolean deleted;
     }
 
     @Getter

@@ -82,7 +82,6 @@
         click: function () {
             var dataSaveAndUpdateContractConc = {};
             var dataSaveAndUpdateContractConcDetail = {};
-            dataSaveAndUpdateContractConcDetail.id;
             if (methodHtpp == "PUT") {
                 dataSaveAndUpdateContractConc.id = ListGrid_Conc.getSelectedRecord().id;
                 var criteriaConcDetail = {
@@ -97,7 +96,7 @@
                 RestDataSource_contractDetail_list.fetchData(criteriaConcDetail, function (dsResponse, data, dsRequest) {
                     dataSaveAndUpdateContractConcDetail.id = data[0].id;
                     alert(data[0].id + " save Edit")
-                })
+                });
                 ListGrid_Conc.invalidateCache();
             }
             contactHeaderConc.validate();
@@ -338,7 +337,6 @@
                     value: recordContractNoConc
                 }]
             };
-            alert(methodHtpp);
             RestDataSource_Contract.fetchData(criteriaContractNoConc, function (dsResponse, data, dsRequest) {
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/contract",
@@ -404,7 +402,7 @@
             ListGrid_ContractConcItemShipment.deselectRecord(ListGrid_ContractConcItemShipment.getRecord(element));
         });
         ListGrid_ContractConcItemShipment.getSelectedRecords().forEach(function (element) {
-            dataEdit.push((JSON.parse(JSON.stringify(element))));
+            dataEdit.push(JSON.parse(JSON.stringify(element)));
         });
         ListGrid_ContractConcItemShipment.deselectAllRecords();
         console.log(dataEdit);
