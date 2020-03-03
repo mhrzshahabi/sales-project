@@ -565,4 +565,10 @@
         </preConditions>
         <dropTable tableName="TBL_OA_USER_DETAIL"/>
     </changeSet>
+    <changeSet author="RMazloom" id="1582016166374-257">
+        <renameColumn tableName="TBL_CONTRACT" oldColumnName="ID" newColumnName="CONTRACT_ID"/>
+    </changeSet>
+    <changeSet author="RMazloom" id="1582016166374-258">
+        <renameColumn tableName="TBL_CONTRACT_AUD" oldColumnName="ID" newColumnName="CONTRACT_ID"/>
+    </changeSet>
 </databaseChangeLog>
