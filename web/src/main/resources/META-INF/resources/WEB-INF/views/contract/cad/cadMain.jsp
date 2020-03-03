@@ -226,6 +226,7 @@ var ListGrid_Cad = isc.ListGrid.create({
         dataSource: RestDataSource_Contract,
         autoFetchData: true,
         initialCriteria: criteriaCad,
+        showFilterEditor: true,
         fields:
             [
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -284,19 +285,19 @@ var ListGrid_Cad = isc.ListGrid.create({
                                         }});
             } else {
             methodHtpp="PUT";
-            criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
+            criteriaContractItemShipment={_constructor:"AdvancedCriteria"
+                                            ,operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
             Window_ContactCad.show();
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract/readWord",
                 httpMethod: "PUT",
-                data: JSON.stringify(record.contractNo),
+                data: (record.contractNo+ "_Cad_"+record.id),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         var text = resp.httpResponseText;
                         var text2 = text.replaceAll('","', '","').replaceAll('&?','":"');
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
                         setTimeout(function(){
-                                recordContractNo=contactCadHeader.getValue("contractNo");
                                 contactCadTabs.selectTab(0);
                                 dynamicFormCad_fullArticle01.setValue(textMain.Article01);
                                 dynamicForm_fullArticle02Cad.setValue(textMain.Article02);
@@ -310,33 +311,33 @@ var ListGrid_Cad = isc.ListGrid.create({
                                 fullArticle10.setValue(textMain.Article10);
                                 article11_quality.setValue(textMain.Article11);
                                 fullArticle12.setValue(textMain.Article12);
-                                contactCadHeader.setValue("createDate", record.contractDate)
-                                contactCadHeader.setValue("contractNo", record.contractNo)
-                                contactCadHeader.setValue("contactId", record.contactId)
-                               // dynamicFormCath.setValue("materialId",record.materialId)
-                                contactCadHeader.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId)
-                                contactCadHeader.setValue("contactBySellerId", record.contactBySellerId)
-                                contactCadHeader.setValue("contactBySellerAgentId", record.contactBySellerAgentId)
-                                valuesManagerArticle2Cad.setValue("amount", record.amount);
-                                valuesManagerArticle2Cad.setValue("amount_en", record.amount_en);
-                                valuesManagerArticle2Cad.setValue("unitId", record.unitId);
-                                valuesManagerArticle2Cad.setValue("molybdenumTolorance", record.molybdenumTolorance);
-                                valuesManagerArticle2Cad.setValue("optional", record.optional);
-                                valuesManagerArticle3_quality.setValue("plant", record.plant);
-                                valuesManagerArticle4_quality.setValue("article4_quality1",record.mo_amount);
-                                valuesManagerArticle4_quality.setValue("article4_quality2",record.copper);
-                                valuesManagerArticle6_quality.setValue("incotermsId",record.incotermsId);
-                                valuesManagerArticle6_quality.setValue("portByPortSourceId",record.portByPortSourceId);
-                                valuesManagerArticle6_quality.setValue("incotermsText",record.incotermsText);
-
+                                ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
                         },300)
                     }else{
                         isc.say(RpcResponse_o.data);
                 }
                 }
             }))
-            var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
+            var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract.id",operator:"equals",value:record.id}]};
             setTimeout(function(){RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
+                        contactCadHeader.setValue("createDate", record.contractDate)
+                        contactCadHeader.setValue("contractNo", record.contractNo)
+                        contactCadHeader.setValue("contactId", record.contactId)
+                        contactCadHeader.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId)
+                        contactCadHeader.setValue("contactBySellerId", record.contactBySellerId)
+                        contactCadHeader.setValue("contactBySellerAgentId", record.contactBySellerAgentId)
+                        valuesManagerArticle2Cad.setValue("amount", record.amount);
+                        valuesManagerArticle2Cad.setValue("amount_en", record.amount_en);
+                        valuesManagerArticle2Cad.setValue("unitId", record.unitId);
+                        valuesManagerArticle2Cad.setValue("molybdenumTolorance", record.molybdenumTolorance);
+                        valuesManagerArticle2Cad.setValue("optional", record.optional);
+                        valuesManagerArticle3_quality.setValue("plant", record.plant);
+                        valuesManagerArticle4_quality.setValue("article4_quality1",record.mo_amount);
+                        valuesManagerArticle4_quality.setValue("article4_quality2",record.copper);
+                        valuesManagerArticle6_quality.setValue("incotermsId",record.incotermsId);
+                        valuesManagerArticle6_quality.setValue("portByPortSourceId",record.portByPortSourceId);
+                        valuesManagerArticle6_quality.setValue("incotermsText",record.incotermsText);
+                                //*****************
                         contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("mobile_ContactAgentSeller", data[0].mobile_ContactAgentSeller)
@@ -363,7 +364,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                         valuesManagerArticle10_quality.setValue("article10_number60",data[0].article10_number60);
                         valuesManagerArticle10_quality.setValue("article10_number61",data[0].article10_number61);
 
-                        ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
+
             })},300)
         }
     }});
