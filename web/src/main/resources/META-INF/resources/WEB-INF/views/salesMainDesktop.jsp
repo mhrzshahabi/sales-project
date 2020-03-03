@@ -109,11 +109,6 @@
                         },
     })
 
-     isc.ListGrid.addProperties({
-            formatCellValue: "isc.NumberUtil.format(value, ',0')",
-        }
-    )
-
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
@@ -172,6 +167,7 @@
     Page.setAppImgDir("static/img/");
 
     isc.ListGrid.addProperties({
+        formatCellValue: "isc.NumberUtil.format(value, ',0')",
         dataPageSize: 50,
         showPrompt: true,
         allowFilterExpressions: true,
