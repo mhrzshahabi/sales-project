@@ -16,7 +16,7 @@ import java.util.Date;
 @Immutable
 @Subselect(
         "SELECT" +
-                " ID," +
+                " CONTRACT_ID," +
                 "REV," +
                 "REVTYPE," +
                 "C_CREATED_BY," +

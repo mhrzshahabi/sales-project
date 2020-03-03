@@ -320,9 +320,9 @@
         click: function () {
             methodHtpp="POST";
             Window_ContactConc.show();
-            setTimeout(function () {
-                clearAdd()
-            }, 300)
+            setTimeout(function () {clearAdd()}, 300)
+
+
         }
     });
     </sec:authorize>
@@ -633,7 +633,7 @@
                                                                             _constructor: "AdvancedCriteria",
                                                                             operator: "and",
                                                                             criteria: [{fieldName: "contract_id", operator: "equals", value: activeSelectID.id},
-                                                                                       {fieldName: "id.rev", operator: "equals", value: ListGrid_ContractDraft.getSelectedRecord().id.rev+1}]
+                                                                                       {fieldName: "id.rev", operator: "equals", value: ListGrid_ContractDraft.getSelectedRecord().id.rev}]
                                                                             };
                                                                             RestDataSource_contractDetailAudit_list.fetchData(criteriaContractDetailAudit, function (dsResponse, data, dsRequest) {
                                                                                 contactHeaderConcAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)

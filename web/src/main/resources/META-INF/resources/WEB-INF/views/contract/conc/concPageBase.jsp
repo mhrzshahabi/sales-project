@@ -95,7 +95,6 @@
                 };
                 RestDataSource_contractDetail_list.fetchData(criteriaConcDetail, function (dsResponse, data, dsRequest) {
                     dataSaveAndUpdateContractConcDetail.id = data[0].id;
-                    alert(data[0].id + " save Edit")
                 });
                 ListGrid_Conc.invalidateCache();
             }
@@ -452,20 +451,25 @@
         contactConcTabs.selectTab(0);
         contactHeaderConc.clearValues();
         contactHeaderConcAgent.clearValues();
-        valuesManagerConcArticle1.clearValues();
-        dynamicForm_fullArticle01.clearValues();
-        dynamicForm_fullArticle02.clearValues();
-        dynamicForm_fullArticleConc03.clearValues();
-        dynamicForm_fullArticleConc04.clearValues();
-        dynamicForm_fullArticleConc05.clearValues();
-        dynamicForm_fullArticleConc06.clearValues();
-        dynamicForm_fullArticleConc07.clearValues();
-        dynamicForm_fullArticleConc08.clearValues();
-        dynamicForm_fullArticleConc09.clearValues();
-        dynamicForm_fullArticleConc10.clearValues();
-        dynamicForm_fullArticleConc11.clearValues();
-        dynamicForm_fullArticleConc12.clearValues();
+        dynamicForm_fullArticle01.setValue("");
+        valuesManagerfullArticle.setValue("");
+        valuesManagerConcArticle1.setValue("");
+        dynamicForm_fullArticle02.setValue("");
+        dynamicForm_fullArticleConc03.setValue("");
+        dynamicForm_fullArticleConc04.setValue("");
+        dynamicForm_fullArticleConc05.setValue("");
+        dynamicForm_fullArticleConc06.setValue("");
+        dynamicForm_fullArticleConc07.setValue("");
+        dynamicForm_fullArticleConc08.setValue("");
+        dynamicForm_fullArticleConc09.setValue("");
+        dynamicForm_fullArticleConc10.setValue("");
+        dynamicForm_fullArticleConc11.setValue("");
+        dynamicForm_fullArticleConc12.setValue("");
+        valuesManagerArticle5_DeliveryTermsConc.clearValues();
+        dynamicForm_article9Conc.clearValues();
+        article10_qualityConc.clearValues();
+        valuesManagerArticle12_quality.clearValues();
         valuesManagerArticle2Conc.clearValues();
         valuesManagerArticle3_conc.clearValues();
-        valuesManagerfullArticle.clearValues();
+        ListGrid_ContractConcItemShipment.setData([]);
     }
