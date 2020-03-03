@@ -259,9 +259,9 @@ var ListGrid_Cad = isc.ListGrid.create({
         click: function () {
         methodHtpp="POST";
         Window_ContactCad.show();
-        setTimeout(function(){
-            clearAdd()
-            },250)
+        setTimeout(function(){clearAdd()},250)
+
+
         }
     });
     </sec:authorize>

@@ -53,7 +53,7 @@ var contactCadTabs = isc.TabSet.create({
             {
                 title: "page1", canClose: false,
                 pane: isc.ViewLoader.create({
-                    ID: "ViewLoaderpage1",
+                    ID: "ViewLoaderpageCad1",
                     autoDraw: true,
                     viewURL: "<spring:url value="/contact/cadPage1"/>",
                     loadingMessage: "Loading Page.."
@@ -63,7 +63,7 @@ var contactCadTabs = isc.TabSet.create({
             {
                 title: "page2", canClose: false,
                 pane: isc.ViewLoader.create({
-                    ID: "ViewLoaderpage2",
+                    ID: "ViewLoaderpageCad2",
                     autoDraw: true,
                     viewURL: "<spring:url value="/contact/cadPage2"/>",
                     loadingMessage: "Loading Page.."

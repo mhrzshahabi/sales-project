@@ -321,8 +321,6 @@
             methodHtpp="POST";
             Window_ContactConc.show();
             setTimeout(function () {clearAdd()}, 300)
-
-
         }
     });
     </sec:authorize>

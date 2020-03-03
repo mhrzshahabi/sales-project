@@ -54,7 +54,7 @@
             {
                 title: "page1", canClose: false,
                 pane: isc.ViewLoader.create({
-                    ID: "ViewLoaderpage1",
+                    ID: "ViewLoaderpageConc1",
                     autoDraw: true,
                     viewURL: "<spring:url value="/contact/concPage1" />",
                     loadingMessage: "Loading Page1.."
@@ -63,7 +63,7 @@
             {
                 title: "page2", canClose: false,
                 pane: isc.ViewLoader.create({
-                    ID: "ViewLoaderpage2",
+                    ID: "ViewLoaderpageConc2",
                     autoDraw: true,
                     viewURL: "<spring:url value="/contact/concPage2" />",
                     loadingMessage: "Loading Page2..",
