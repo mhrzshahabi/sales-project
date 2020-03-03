@@ -4,9 +4,12 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.SalesException;
+import com.nicico.sales.dto.ContractShipmentAuditDTO;
 import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.iservice.IContractShipmentService;
 import com.nicico.sales.model.entities.base.ContractShipment;
+import com.nicico.sales.model.entities.base.ContractShipmentAudit;
+import com.nicico.sales.repository.ContractShipmentAuditDAO;
 import com.nicico.sales.repository.ContractShipmentDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,6 +26,7 @@ import java.util.Optional;
 public class ContractShipmentService implements IContractShipmentService {
 
     private final ContractShipmentDAO contractShipmentDAO;
+    private final ContractShipmentAuditDAO contractShipmentAuditDAO;
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
@@ -42,6 +46,15 @@ public class ContractShipmentService implements IContractShipmentService {
         final List<ContractShipment> slAll = contractShipmentDAO.findAll();
 
         return modelMapper.map(slAll, new TypeToken<List<ContractShipmentDTO.Info>>() {
+        }.getType());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    @PreAuthorize("hasAuthority('R_CONTRACT_SHIPMENT')")
+    public List<ContractShipmentAuditDTO.Info> listAudit() {
+        final List<ContractShipmentAudit> slAll = contractShipmentAuditDAO.findAll();
+        return modelMapper.map(slAll, new TypeToken<List<ContractShipmentAuditDTO.Info>>() {
         }.getType());
     }
 
@@ -89,6 +102,13 @@ public class ContractShipmentService implements IContractShipmentService {
     @PreAuthorize("hasAuthority('R_CONTRACT_SHIPMENT')")
     public TotalResponse<ContractShipmentDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(contractShipmentDAO, criteria, contractShipment -> modelMapper.map(contractShipment, ContractShipmentDTO.Info.class));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    @PreAuthorize("hasAuthority('R_CONTRACT_SHIPMENT')")
+    public TotalResponse<ContractShipmentAuditDTO.Info> searchAudit(NICICOCriteria criteria) {
+        return SearchUtil.search(contractShipmentAuditDAO, criteria, contractShipmentAudit -> modelMapper.map(contractShipmentAudit, ContractShipmentAuditDTO.Info.class));
     }
 
 

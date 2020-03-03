@@ -65,7 +65,8 @@
         showErrorStyle: true,
         errorOrientation: "right",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>"
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+
     });
 
     isc.RichTextEditor.addProperties({
@@ -95,6 +96,23 @@
             this.pickList.invalidateCache();
         }
     });
+
+    isc.FormItem.addProperties({
+                   format:",##0",
+                   selectOnClick:true,
+                   hintStyle:"noneStyleFormItem",
+                   formatEditorValue (value, record, form, item){
+                         return NumberUtil.format(value,",0");
+                        },
+                   keyUp(item, form, keyName){
+                            item.setHint(NumberUtil.format(item.getValue(),",0"));
+                        },
+    })
+
+     isc.ListGrid.addProperties({
+            formatCellValue: "isc.NumberUtil.format(value, ',0')",
+        }
+    )
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},

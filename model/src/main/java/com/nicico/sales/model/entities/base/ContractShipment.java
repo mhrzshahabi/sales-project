@@ -3,6 +3,9 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -11,6 +14,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@Audited
+@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTRACT_SHIPMENT")
@@ -21,11 +26,6 @@ public class ContractShipment extends Auditable {
     @SequenceGenerator(name = "SEQ_CONTRACT_SHIPMENT", sequenceName = "SEQ_CONTRACT_SHIPMENT", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Contractship2contract"))
-    private Contract contract;
 
     @Column(name = "CONTRACT_ID")
     private Long contractId;
@@ -38,6 +38,7 @@ public class ContractShipment extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotAudited
     @JoinColumn(name = "DISCHARGE", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Contractship2dischargeport"))
     private Port discharge;
 

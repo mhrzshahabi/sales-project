@@ -165,4 +165,4 @@ nicico:
   upload:
     dir: c:/upload
   apps:
-    accounting: http://localhost:8099/accounting
+    accounting: http://devapp01.icico.net.ir/accounting

@@ -451,8 +451,8 @@ isc.DynamicForm.create({
                 startRow: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Parameters,
-                displayField: "paramValue",
-                valueField: "paramValue",
+                displayField: "paramName",
+                valueField: "paramName",
                 showTitle: false,
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
@@ -462,7 +462,7 @@ isc.DynamicForm.create({
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 2},
+                        {fieldName: "contractId", operator: "equals", value: 3},
                         {fieldName: "categoryValue", operator: "equals", value: 1}]
                 },
                 width: "1200",
@@ -510,7 +510,7 @@ var vlayoutBodyConc = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactConc]}),
-            isc.HLayout.create({height: "50", align: "left", members: [
+            /*isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormConc",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
                     validators: [
@@ -533,7 +533,7 @@ var vlayoutBodyConc = isc.VLayout.create({
                         {fieldName: "descl", operator: "contains", value: "Conc"}]
                     },
                     }]})
-            ]}),
+            ]}),*/
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2Conc", align: "center", members: [dynamicForm1Conc, dynamicForm2Conc]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactConcSeller]}),
@@ -569,16 +569,21 @@ var vlayoutBodyConc = isc.VLayout.create({
                 type: 'long',
                 width: "250",
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Unit,
-                displayField: "nameEN",
+                optionDataSource: RestDataSource_Parameters,
+                displayField: "paramName",
                 valueField: "id",
                 pickListWidth: "250",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "nameEN", width: 245, align: "center"}
-                ]
+                    {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
+                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
+                ],pickListCriteria: {
+                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
+                        {fieldName: "contractId", operator: "equals", value: 3},
+                        {fieldName: "categoryValue", operator: "equals", value: 1}]
+                },
             },
             {
                 type: "text",

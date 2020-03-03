@@ -16,9 +16,9 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
                 {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
-                {name: "sideContractDate"},
-                {name: "refinaryCost"},
-                {name: "treatCost"},
+              //  {name: "sideContractDate"},
+             //   {name: "refinaryCost"},
+            //    {name: "treatCost"},
                 {name: "material.descl", title: "materialId"}
             ],
         fetchDataURL: "${contextPath}/api/contract/spec-list"
@@ -83,6 +83,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
             ],
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
+
 
 
 
@@ -361,6 +362,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         autoFitExpandField: true,
         virtualScrolling: true,
         loadOnExpand: true,
+        showFilterEditor: true,
         loaded: false,
         fields:
             [

@@ -3,11 +3,13 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,7 +26,7 @@ public class Contract extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT")
     @SequenceGenerator(name = "SEQ_CONTRACT", sequenceName = "SEQ_CONTRACT", allocationSize = 1)
-    @Column(name = "ID")
+    @Column(name = "CONTRACT_ID")
     private Long id;
 
     @Column(name = "C_ADDENDUM", length = 200)
@@ -314,5 +316,15 @@ public class Contract extends Auditable {
 
     @Column(name = "MOLYBDENUM_TOLORANCE")
     private Double molybdenumTolorance;
+
+    @NotAudited
+    @OneToOne(mappedBy = "contract", fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.PERSIST})
+    private ContractDetail contractDetails;
+
+    @NotAudited
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
+    private List<ContractShipment> contractShipments;
 
 }

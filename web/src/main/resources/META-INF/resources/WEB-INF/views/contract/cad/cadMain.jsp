@@ -293,7 +293,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         var text = resp.httpResponseText;
-                        var text2 = text.replaceAll('","', '","').replaceAll('&?','":"')
+                        var text2 = text.replaceAll('","', '","').replaceAll('&?','":"');
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
                         setTimeout(function(){
                                 recordContractNo=contactCadHeader.getValue("contractNo");
@@ -313,7 +313,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                                 contactCadHeader.setValue("createDate", record.contractDate)
                                 contactCadHeader.setValue("contractNo", record.contractNo)
                                 contactCadHeader.setValue("contactId", record.contactId)
-                                dynamicFormCath.setValue("materialId",record.materialId)
+                               // dynamicFormCath.setValue("materialId",record.materialId)
                                 contactCadHeader.setValue("contactByBuyerAgentId", record.contactByBuyerAgentId)
                                 contactCadHeader.setValue("contactBySellerId", record.contactBySellerId)
                                 contactCadHeader.setValue("contactBySellerAgentId", record.contactBySellerAgentId)

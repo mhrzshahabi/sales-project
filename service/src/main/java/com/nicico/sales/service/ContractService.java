@@ -27,6 +27,8 @@ import org.apache.poi.xwpf.usermodel.*;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeMap;
 import org.modelmapper.TypeToken;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 import org.springframework.core.env.Environment;
@@ -39,7 +41,6 @@ import javax.persistence.EntityManager;
 import java.io.*;
 import java.math.BigInteger;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -54,10 +55,7 @@ public class ContractService implements IContractService {
     private final ContractShipmentDAO contractShipmentDAO;
     private final PortDAO portDAO;
     private final ContractDetailDAO contractDetailDAO;
-    private final ShipmentContractService shipmentContractService;
-    private final ShipmentContractDAO shipmentContractDAO;
     private final EntityManager entityManager;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private MyXWPFHtmlDocument myXWPFHtmlDocument;
 
     private static void setHeaderRowforSingleCell(XWPFTableCell cell, String text) {
@@ -348,8 +346,14 @@ public class ContractService implements IContractService {
     @Override
     @PreAuthorize("hasAuthority('C_CONTRACT')")
     public ContractDTO.Info create(ContractDTO.Create request) {
+        request.getContractDetails().setContract(request);
         final Contract contract = modelMapper.map(request, Contract.class);
-        return save(contract);
+        ContractDTO.Info savedContract = save(contract);
+        request.getContractShipments().forEach(contractShipment -> {
+            contractShipment.setContractId(savedContract.getId());
+            contractShipmentDAO.saveAndFlush(modelMapper.map(contractShipment, ContractShipment.class));
+        });
+        return savedContract;
     }
 
     @Transactional
@@ -360,8 +364,40 @@ public class ContractService implements IContractService {
         final Contract contract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractNotFound));
 
         Contract updating = new Contract();
+        TypeMap<Contract, Contract> typeMap = modelMapper.getTypeMap(Contract.class, Contract.class);
+        if (typeMap == null) { // if not  already added
+            modelMapper.addMappings(new PropertyMap<Contract, Contract>() {
+                @Override
+                protected void configure() {
+                    skip(destination.getContractShipments());
+                }
+            });
+        }
+
         modelMapper.map(contract, updating);
         modelMapper.map(request, updating);
+
+        //*********** update , create , delete ContractShipments ***********//
+        request.getContractShipments().forEach(contractShipment -> {
+            if (contractShipment.getDeleted() != null && contractShipment.getDeleted())
+                contractShipmentDAO.deleteById(contractShipment.getId());
+            else {
+                contractShipment.setContractId(request.getId());
+                if (contractShipment.getId() == null) {
+                    contractShipmentDAO.saveAndFlush(modelMapper.map(contractShipment, ContractShipment.class));
+                } else {
+                    contract.getContractShipments().forEach(fromDatabase -> {
+                        if (fromDatabase.getId().equals(contractShipment.getId())) {
+                            ContractShipment creation = new ContractShipment();
+                            modelMapper.map(fromDatabase, creation);
+                            modelMapper.map(contractShipment, creation);
+                            contractShipmentDAO.saveAndFlush(creation);
+                        }
+                    });
+                }
+            }
+        });
+
         return save(updating);
     }
 

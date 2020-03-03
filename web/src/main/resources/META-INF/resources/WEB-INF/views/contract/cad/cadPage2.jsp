@@ -118,7 +118,6 @@ var buttonAddItem=isc.IButton.create({
         fields:
             [
                 {name: "id", hidden: true,},
-                {name: "tblContractItem.id", type: "long", hidden: true},
                 {
                     name: "plan",
                     title: "<spring:message code='shipment.plan'/>",
