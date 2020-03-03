@@ -8,7 +8,7 @@
     var sendDateSetConc;
     var sendDateSetConcSave;
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>', "30", 5);
-    factoryLableArticle("lableArticle3_1", '<b><font size=3px>Copper concentrates as per the following typical analysis:</font><b>', "30", 5)
+    factoryLableArticle("lableArticle3_1", '<b><font size=3px>COPPER CONCENTRATES AS PER THE FOLLOWING TYPICAL ANALYSIS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle4", '<b><font size=4px>Article 4 -SHIPMENT</font><b>', "30", 5);
     factoryLableArticle("lableArticle5", '<b><font size=4px>Article 5 -Delivery Terms</font><b>', "30", 5);
     factoryLableArticle("lableArticle6", '<b><font size=4px>Article 6 -Insurance</font><b>', "30", 5);
