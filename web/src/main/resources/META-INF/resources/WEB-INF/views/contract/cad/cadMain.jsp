@@ -740,9 +740,8 @@ function clearAdd(){
         contactCadTabs.selectTab(0);
         contactCadHeader.clearValues();
         contactCadHeaderCadAgent.clearValues();
-        valuesManagerArticle2Cad.setValue("");
         valuesManagerCadArticle1.clearValues();
-        dynamicForm_fullArticle02Cad.setValue("");
+        valuesManagerArticle2Cad.clearValues();
         valuesManagerArticle3_quality.clearValues();
         valuesManagerArticle4_quality.clearValues();
         valuesManagerArticle6_quality.clearValues();
@@ -751,4 +750,18 @@ function clearAdd(){
         valuesManagerArticle9_quality.clearValues();
         valuesManagerArticle10_quality.clearValues();
         valuesManagerArticle12_quality.clearValues();
+        dynamicFormCad_fullArticle01.setValue("");
+        dynamicForm_fullArticle02Cad.setValue("");
+        fullArticle3.setValue("");
+        fullArticle4.setValue("");
+        article5_quality.setValue("");
+        fullArticle6.setValue("");
+        fullArticle7.setValue("");
+        fullArticle8.setValue("");
+        fullArticle9.setValue("");
+        fullArticle10.setValue("");
+        article11_quality.setValue("");
+        fullArticle12.setValue("");
+        ListGrid_ContractItemShipment.setData([]);
+
 }
