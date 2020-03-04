@@ -717,6 +717,18 @@ function deleteFromContractShipment(id){
                                 }
                             })
 
+     <sec:authorize access="hasAuthority('D_CONTRACT')">
+        var ToolStripButton_ContractCad_Remove = isc.ToolStripButtonRemove.create({
+            align: "left",
+            border: '0px',
+            icon: "[SKIN]/actions/remove.png",
+            title: "<spring:message code='global.form.remove'/>",
+            click: function () {
+                ListGrid_ContractCad_remove();
+            }
+        });
+     </sec:authorize>
+
     var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
             membersMargin: 5,
             members: [
@@ -729,6 +741,10 @@ function deleteFromContractShipment(id){
 
                 <sec:authorize access="hasAuthority('U_CONTRACT')">
                 ToolStripButton_ContactCad_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CONTRACT')">
+                ToolStripButton_ContractCad_Remove,
                 </sec:authorize>
 
                 <sec:authorize access="hasAuthority('U_CONTRACT')">
@@ -794,3 +810,46 @@ function clearAdd(){
         ListGrid_ContractItemShipment.setData([]);
 
 }
+
+
+function ListGrid_ContractCad_remove() {
+        var recordCad = ListGrid_Cad.getSelectedRecord();
+        if (recordCad == null || recordCad.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        } else {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index == 0) {
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/contract/" + recordCad.id,
+                            httpMethod: "DELETE",
+                            callback: function (resp) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                    ListGrid_Cad.invalidateCache();
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                }
+                            }
+                        }))
+                    }
+                }
+            });
+        }
+    }
