@@ -850,10 +850,6 @@
                     warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
-            if (warehouseCadItems.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
             if (warehouseCadItems.length > 1) {
                 isc.warn("<spring:message code='bijack.moreThanOne'/>");
                 return;
