@@ -692,6 +692,31 @@ function deleteFromContractShipment(id){
         }
     });
 
+    var ToolStripButton_Contract_PrintCad = isc.ToolStripButtonPrint.create({
+                                icon: "[SKIN]/actions/print.png",
+                                showIf: "true",
+                                title: "<spring:message code='global.form.print'/>",
+                                click: function () {
+                                    var printSelectCadID = ListGrid_Cad.getSelectedRecord();
+                                    if (printSelectCadID == null || printSelectCadID.id == null) {
+                                        isc.Dialog.create({
+                                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                                            icon: "[SKIN]ask.png",
+                                            title: "<spring:message code='global.message'/>",
+                                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                            buttonClick: function () {
+                                                this.hide();
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        "<spring:url value="/contract/print" var="printUrl"/>";
+                                        var recordCadIdPrint = ListGrid_Cad.getSelectedRecord();
+                                        window.open('${printUrl}' + "/" + recordCadIdPrint.id);
+                                    }
+                                }
+                            })
+
     var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
             membersMargin: 5,
             members: [
@@ -704,6 +729,10 @@ function deleteFromContractShipment(id){
 
                 <sec:authorize access="hasAuthority('U_CONTRACT')">
                 ToolStripButton_ContactCad_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CONTRACT')">
+                ToolStripButton_Contract_PrintCad,
                 </sec:authorize>
 
                 isc.ToolStrip.create({

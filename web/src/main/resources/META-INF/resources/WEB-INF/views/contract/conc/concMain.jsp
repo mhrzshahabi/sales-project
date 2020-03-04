@@ -216,9 +216,7 @@
                 {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
                 {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
-                {name: "sideContractDate", ID: "sideContractDate"},
-                {name: "refinaryCost", ID: "refinaryCost"},
-                {name: "treatCost", ID: "treatCost"},
+                {name: "material.descl", title: "materialId"}
             ],
         // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
@@ -673,6 +671,31 @@
         }
     });
 
+    var ToolStripButton_Contract_PrintConc = isc.ToolStripButtonPrint.create({
+                                icon: "[SKIN]/actions/print.png",
+                                showIf: "true",
+                                title: "<spring:message code='global.form.print'/>",
+                                click: function () {
+                                    var printSelectConcID = ListGrid_Conc.getSelectedRecord();
+                                    if (printSelectConcID == null || printSelectConcID.id == null) {
+                                        isc.Dialog.create({
+                                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                                            icon: "[SKIN]ask.png",
+                                            title: "<spring:message code='global.message'/>",
+                                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                            buttonClick: function () {
+                                                this.hide();
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        "<spring:url value="/contract/print" var="printUrl"/>";
+                                        var recordConcIdPrint = ListGrid_Conc.getSelectedRecord();
+                                        window.open('${printUrl}' + "/" + recordConcIdPrint.id);
+                                    }
+                                }
+                            })
+
     var ToolStrip_Actions_ContactConc = isc.ToolStrip.create({
         membersMargin: 5,
         members: [
@@ -682,6 +705,8 @@
 
             <sec:authorize access="hasAuthority('U_CONTRACT')">
             ToolStripButton_ContactConc_Edit,
+
+            ToolStripButton_Contract_PrintConc,
             </sec:authorize>
 
                  isc.ToolStrip.create({
