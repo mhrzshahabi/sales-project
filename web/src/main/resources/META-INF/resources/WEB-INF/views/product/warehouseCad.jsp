@@ -377,6 +377,17 @@
         }
     });
 
+    var ToolStripButton_WarehouseCAD_JasperReport = isc.ToolStripButtonPrint.create({
+        title: "Report",
+        click: function () {
+            var gdscode = DynamicForm_Material_WarehouseCad.getValue("materialId");
+            var ptype = DynamicForm_Plant_WarehouseCad.getValue("type");
+            var mtype = DynamicForm_MovementType_WarehouseCad.getValue("type");
+            "<spring:url var="printUrl" value="/warehouseCad/printJasper"/>";
+            window.open('${printUrl}' + '/' + gdscode + '/' + ptype + '/' + mtype);
+        }
+    });
+
     var DynamicForm_Material_WarehouseCad = isc.DynamicForm.create({
         wrapItemTitles: false,
         target: "_Blank",
@@ -389,7 +400,7 @@
             showHover: true,
             autoFetchData: false,
             title: "<spring:message code='contractItem.material'/>",
-            type: 'long',
+            type: 'Long',
             editorType: "SelectItem",
             optionDataSource: RestDataSource_MaterialItem_IN_WAREHOUSECAD,
             displayField: "gdsName",
@@ -400,7 +411,12 @@
             pickListFields: [{
                 name: "gdsName",
                 align: "center"
-            }],
+            },
+            // {
+            //    name: "id",
+            //    hidden: true
+            // }
+            ],
             defaultValue: 11
         }]
     });
@@ -490,7 +506,9 @@
                     align: "left",
                     border: '0px',
                     members: [
-                        ToolStripButton_warehouseCAD_Refresh, ToolStripButton_WarehouseCAD_Report
+                        ToolStripButton_warehouseCAD_Refresh,
+                        ToolStripButton_WarehouseCAD_Report,
+                        // ToolStripButton_WarehouseCAD_JasperReport
                     ]
                 })
 
