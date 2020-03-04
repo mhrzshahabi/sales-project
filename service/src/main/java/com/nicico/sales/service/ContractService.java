@@ -287,7 +287,7 @@ public class ContractService implements IContractService {
             prefixContractWrite = "MoOx_";
             prefixPrintContractWrite = "PrintMoOx_";
         } else {
-            ContractWrite = contractNo;
+            ContractWrite = contractNo.replace("_Cad", "");
             prefixContractWrite = "Cathod_";
             prefixPrintContractWrite = "PrintCathod_";
         }
@@ -333,7 +333,8 @@ public class ContractService implements IContractService {
                 String contractMo = contractNo.replace("?Mo", "");
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_MO_OX" + contractMo.substring(1, contractMo.length() - 1) + "_" + maxRef + ".doc");
             } else {
-                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo.substring(1, contractNo.length() - 1) + "_" + maxRef + ".doc");
+                String contractCad = contractNo.replace("Cad", "");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractCad + "_" + maxRef + ".doc");
             }
             allArticle = extractText(inputstream);
         } catch (Exception e) {

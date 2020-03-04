@@ -99,11 +99,7 @@
                 ListGrid_Conc.invalidateCache();
             }
             contactHeaderConc.validate();
-            //dynamicFormConc.validate();
             valuesManagerArticle5_DeliveryTermsConc.validate();
-            /* if (contactHeaderConc.hasErrors()|| dynamicFormConc.hasErrors()){
-                 return;
-             }*/
             if (valuesManagerArticle5_DeliveryTermsConc.hasErrors()) {
                 contactConcTabs.selectTab(1);
                 return;
@@ -325,7 +321,6 @@
             dataSaveAndUpdateContractConcDetail.article10_number61 = valuesManagerArticle12_quality.getValue("article12_number61");
             dataSaveAndUpdateContractConc.contractDetails = dataSaveAndUpdateContractConcDetail;
             dataSaveAndUpdateContractConc.contractShipments = saveListGrid_ContractConcItemShipment();
-            console.log(dataSaveAndUpdateContractConc);
             recordContractNoConc = contactHeaderConc.getValue("contractNo");
             var criteriaContractNoConc = {
                 _constructor: "AdvancedCriteria",
