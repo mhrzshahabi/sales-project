@@ -342,20 +342,19 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    },
+                    {
+                        name: "code",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {
@@ -379,20 +378,20 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    autoFetchData: false,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    },
+                    {
+                        name: "code",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {
@@ -421,20 +420,20 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    autoFetchData: false,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    },
+                    {
+                        name: "code",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {
@@ -458,20 +457,20 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    autoFetchData: false,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    },
+                    {
+                        name: "code",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {
@@ -495,20 +494,20 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    autoFetchData: false,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    },
+                    {
+                        name: "code",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {
@@ -554,20 +553,20 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    autoFetchData: false,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    },
+                    {
+                        name: "code",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    }
+                    ],
                 },
                 {
                     name: "openingDate",
@@ -583,20 +582,20 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    autoFetchData: false,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    },
+                    {
+                        name: "code",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {
@@ -631,20 +630,20 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    autoFetchData: false,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    },
+                    {
+                        name: "code",
+                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {

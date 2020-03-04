@@ -488,7 +488,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         margin: 3,
         backgroundColor: "#6aa6de",
         align: "center",
-        contents: "Concentrate"
+        contents: "Concentrates"
     })
     var VLayout_Contract_Body = isc.VLayout.create({
         width: "100%",
