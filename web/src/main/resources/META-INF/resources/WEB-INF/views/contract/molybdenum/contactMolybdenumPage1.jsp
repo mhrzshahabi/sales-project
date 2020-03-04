@@ -314,7 +314,8 @@
                     ViewLoader_createMoOx
                     ]
             });
-     var ListGrid_contractMo = isc.ListGrid.create({
+                var ListGrid_contractMo = isc.ListGrid.create({
+                        showFilterEditor: true,
                         width: "100%",
                         height: "100%",
                         dataSource: RestDataSource_Contract,
@@ -1491,6 +1492,7 @@ var dynamicForm_fullArticle02MoOx = isc.DynamicForm.create({
         ]
     })
 lotList = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "180",
         dataSource: RestDataSource_WarehouseLot,
@@ -2168,6 +2170,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
     })
     ///*//*** to do
 ListGrid_ContractItemShipment = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "200",
         modalEditing: true,

@@ -8,7 +8,7 @@
     var sendDateSetConc;
     var sendDateSetConcSave;
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>', "30", 5);
-    factoryLableArticle("lableArticle3_1", '<b><font size=3px>Copper concentrates as per the following typical analysis:</font><b>', "30", 5)
+    factoryLableArticle("lableArticle3_1", '<b><font size=3px>COPPER CONCENTRATES AS PER THE FOLLOWING TYPICAL ANALYSIS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle4", '<b><font size=4px>Article 4 -SHIPMENT</font><b>', "30", 5);
     factoryLableArticle("lableArticle5", '<b><font size=4px>Article 5 -Delivery Terms</font><b>', "30", 5);
     factoryLableArticle("lableArticle6", '<b><font size=4px>Article 6 -Insurance</font><b>', "30", 5);
@@ -159,6 +159,7 @@
     })
 
     isc.ListGrid.create({
+        showFilterEditor: true,
         ID: "ListGrid_ContractConcItemShipment",
         width: "100%",
         height: "200",
@@ -242,7 +243,27 @@
                 },
             ], saveEdits: function () {
         }, removeData: function (data) {
-            data.deleted = true;
+            if(data.deleted){
+                data.deleted = false;
+                return;
+            }
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index == 0) {
+                                         data.deleted = true;
+                                         ListGrid_ContractConcItemShipment.markSelectionRemoved();
+                                    }
+                    }
+            })
+
         }
     });
     var dynamicForm_fullArticleConc04 = isc.RichTextEditor.create({

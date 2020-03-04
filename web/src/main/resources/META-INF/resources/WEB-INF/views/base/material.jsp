@@ -620,6 +620,7 @@
     recordNotFound.hide();
 
     var ListGrid_Material = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Material,
@@ -1313,6 +1314,7 @@
 
     var ListGrid_MaterialFeature = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_MaterialFeature,
@@ -1912,6 +1914,7 @@
 
     var ListGrid_MaterialItem = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             styleName: "listgrid-child",
             height: 180,

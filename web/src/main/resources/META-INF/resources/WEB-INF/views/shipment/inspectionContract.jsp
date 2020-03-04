@@ -405,6 +405,7 @@
 
 
     var ListGrid_PersonByInspectionContract_EmailCC = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "800",
         height: "400",
         dataSource: RestDataSource_PersonByInspectionContract_EmailCC_In_InspectionContract,
@@ -977,6 +978,7 @@
     });
 
     var ListGrid_InspectionContract = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1065,6 +1067,7 @@
     ListGrid_InspectionContract.hide();
 
     var ListGrid_Inspection = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Inspection,

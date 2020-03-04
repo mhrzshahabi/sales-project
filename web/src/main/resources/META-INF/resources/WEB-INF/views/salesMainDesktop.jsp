@@ -98,21 +98,16 @@
     });
 
     isc.FormItem.addProperties({
-                   format:",##0",
-                   selectOnClick:true,
-                   hintStyle:"noneStyleFormItem",
-                   formatEditorValue (value, record, form, item){
-                         return NumberUtil.format(value,",0");
-                        },
-                   keyUp(item, form, keyName){
-                            item.setHint(NumberUtil.format(item.getValue(),",0"));
-                        },
-    })
-
-     isc.ListGrid.addProperties({
-            formatCellValue: "isc.NumberUtil.format(value, ',0')",
+        format: ",##0",
+        selectOnClick: true,
+        hintStyle: "noneStyleFormItem",
+        formatEditorValue(value, record, form, item) {
+            return NumberUtil.format(value, ",0");
+        },
+        keyUp(item, form, keyName) {
+            item.setHint(NumberUtil.format(item.getValue(), ",0"));
         }
-    )
+    });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -176,7 +171,8 @@
         showPrompt: true,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
-        filterOnKeypress: true
+        filterOnKeypress: true,
+        formatCellValue: "isc.NumberUtil.format(value, ',0')"
     });
 
     isc.ToolStripButton.addProperties({
@@ -730,25 +726,25 @@
 
     /*----------------------inspectionTab------------------------*/
     <%--inspectionTab = isc.ToolStripMenuButton.create({--%>
-        <%--title: "&nbsp; <spring:message code='main.inspectionTab'/>",--%>
-        <%--menu: isc.Menu.create({--%>
-            <%--placement: "none",--%>
-            <%--data: [--%>
-                <%--{--%>
-                    <%--title: "<spring:message code='inspectionMoistureResults.title'/>",--%>
-                    <%--click: function () {--%>
-                        <%--createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")--%>
-                    <%--}--%>
-                <%--},--%>
-                <%--{isSeparator: true},--%>
-                <%--{--%>
-                    <%--title: "<spring:message code='inspectionAssayResults.title'/>",--%>
-                    <%--click: function () {--%>
-                        <%--createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")--%>
-                    <%--}--%>
-                <%--}--%>
-            <%--]--%>
-        <%--})--%>
+    <%--title: "&nbsp; <spring:message code='main.inspectionTab'/>",--%>
+    <%--menu: isc.Menu.create({--%>
+    <%--placement: "none",--%>
+    <%--data: [--%>
+    <%--{--%>
+    <%--title: "<spring:message code='inspectionMoistureResults.title'/>",--%>
+    <%--click: function () {--%>
+    <%--createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")--%>
+    <%--}--%>
+    <%--},--%>
+    <%--{isSeparator: true},--%>
+    <%--{--%>
+    <%--title: "<spring:message code='inspectionAssayResults.title'/>",--%>
+    <%--click: function () {--%>
+    <%--createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")--%>
+    <%--}--%>
+    <%--}--%>
+    <%--]--%>
+    <%--})--%>
     <%--});--%>
 
 
@@ -874,19 +870,19 @@
     var toggle = true;
     headerAndMenu.setStyleName('header-and-menu toggle-show');
     var switchBtn = document.getElementById('switch-btn');
-    switchBtn.addEventListener('click',	function onToggleClick (e){
-        setTimeout(function() {
+    switchBtn.addEventListener('click', function onToggleClick(e) {
+        setTimeout(function () {
             //switchBtn.classList.remove("fade-in");
             //switchBtn.classList.remove("fade-out");
-            if(toggle) {
-                 switchBtn.firstChild.src = "static/img/unpinSvg.svg";
-                 headerAndMenu.setStyleName('header-and-menu toggle-hide')
+            if (toggle) {
+                switchBtn.firstChild.src = "static/img/unpinSvg.svg";
+                headerAndMenu.setStyleName('header-and-menu toggle-hide')
                 setTimeout(function () {
                     headerLayout.setVisibility(false);
                     MainDesktopMenuH.setVisibility(false);
                 }, 300)
 
-            }else{
+            } else {
                 switchBtn.firstChild.src = "static/img/pinSvg.svg";
                 headerAndMenu.setStyleName('header-and-menu toggle-show')
                 setTimeout(function () {
@@ -896,7 +892,7 @@
 
             }
             toggle = !toggle;
-        },100)
+        }, 100)
 
 
         // checked = e.target.checked;
@@ -917,9 +913,8 @@
         // }
     })
 
-    document.addEventListener("mouseout", function(event){
-        if(event.clientY <= 10 || event.pageY<= 10)
-        {
+    document.addEventListener("mouseout", function (event) {
+        if (event.clientY <= 10 || event.pageY <= 10) {
             headerAndMenu.setStyleName('header-and-menu toggle-show')
             //headerLayout.setStyleName('header-top')
             //ribbonHLayout.setStyleName('main-menu')
@@ -928,8 +923,8 @@
                 MainDesktopMenuH.setVisibility(true);
             }, 100)
 
-        }else  if(event.clientY > 100){
-            if(!toggle){
+        } else if (event.clientY > 100) {
+            if (!toggle) {
                 headerAndMenu.setStyleName('header-and-menu toggle-hide')
                 //headerLayout.setStyleName('header-top')
                 //ribbonHLayout.setStyleName('main-menu')
@@ -938,7 +933,7 @@
                     MainDesktopMenuH.setVisibility(false);
                 }, 300)
 
-            }else{
+            } else {
                 headerAndMenu.setStyleName('header-and-menu toggle-show')
                 //	headerLayout.setStyleName('header-top')
                 //	ribbonHLayout.setStyleName('main-menu')
@@ -951,7 +946,6 @@
 
         }
     })
-
 
 
     <sec:authorize access="hasAuthority('R_CURRENCY')">
@@ -978,7 +972,7 @@
     isc.HTMLFlow.create({
         textAlign: "center",
         top: 100,
-        left:20,
+        left: 20,
         contents: "<div id=\"mybutton\">\n" +
         "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
         "</div>",

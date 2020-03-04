@@ -265,16 +265,15 @@
     };
 
     var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "80%",
         modalEditing: true,
         canEdit: true,
         editEvent: "click",
-        // editByCell: true,
         canRemoveRecords: true,
         autoSaveEdits: true,
         deferRemoval: false,
-        // saveLocally: true,
         showGridSummary: true,
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_BIJACK,
         fields: [{
@@ -727,21 +726,11 @@
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.selectAllRecords();
 
-            if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.data.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
-
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getSelectedRecords().forEach(function (element) {
                 if (element.bundleSerial != undefined && element.sheetNo != undefined && element.weightKg != undefined &&
                     element.bundleSerial != null && element.sheetNo != null && element.weightKg != null)
                     warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
-
-            if (warehouseCadItems.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.deselectAllRecords();
 

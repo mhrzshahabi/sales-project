@@ -462,16 +462,15 @@
 
 
     var ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "80%",
         canEdit: true,
         editEvent: "click",
-        // editByCell: true,
         modalEditing: true,
         canRemoveRecords: true,
         autoSaveEdits: true,
         deferRemoval: false,
-        // saveLocally: true,
         showGridSummary: true,
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSEMO_BIJACK,
         fields: [{

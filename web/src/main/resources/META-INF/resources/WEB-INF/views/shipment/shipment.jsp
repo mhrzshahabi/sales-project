@@ -1251,6 +1251,7 @@
     hLayoutViewLoader.hide();
 
     var ListGrid_Shipment = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
@@ -1679,6 +1680,7 @@
     });
 
     ListGrid_Person_EmailCC = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "800",
         height: "400",
         dataSource: RestDataSource_Person_EmailCC,
@@ -1954,6 +1956,7 @@
     });
 
     var ListGrid_ShipmentEmail = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ShipmentEmail,

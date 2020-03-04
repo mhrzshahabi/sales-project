@@ -53,7 +53,7 @@ var contactCadTabs = isc.TabSet.create({
             {
                 title: "page1", canClose: false,
                 pane: isc.ViewLoader.create({
-                    ID: "ViewLoaderpage1",
+                    ID: "ViewLoaderpageCad1",
                     autoDraw: true,
                     viewURL: "<spring:url value="/contact/cadPage1"/>",
                     loadingMessage: "Loading Page.."
@@ -63,7 +63,7 @@ var contactCadTabs = isc.TabSet.create({
             {
                 title: "page2", canClose: false,
                 pane: isc.ViewLoader.create({
-                    ID: "ViewLoaderpage2",
+                    ID: "ViewLoaderpageCad2",
                     autoDraw: true,
                     viewURL: "<spring:url value="/contact/cadPage2"/>",
                     loadingMessage: "Loading Page.."
@@ -81,20 +81,31 @@ var contactCadTabs = isc.TabSet.create({
         iconOrientation: "right",
         click: function () {
             var dataSaveAndUpdateContractCad = {};
-            if(methodHtpp=="PUT"){
-                   dataSaveAndUpdateContractCad.id=ListGrid_Cad.getSelectedRecord().id;
+            var dataSaveAndUpdateContractCadDetail = {};
+            if(methodHtpp == "PUT"){
+               dataSaveAndUpdateContractCad.id=ListGrid_Cad.getSelectedRecord().id;
+               var criteriaCadDetail = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{
+                        fieldName: "contract.id",
+                        operator: "equals",
+                        value: ListGrid_Cad.getSelectedRecord().id
+                    }]
+                };
+                RestDataSource_contractDetail_list.fetchData(criteriaCadDetail, function (dsResponse, data, dsRequest) {
+                    dataSaveAndUpdateContractCadDetail.id = data[0].id;
+                });
+                ListGrid_Cad.invalidateCache();
             }
             contactCadHeader.validate();
-            //dynamicFormCath.validate();
             valuesManagerArticle6_quality.validate();
-           /* if (contactCadHeader.hasErrors()|| dynamicFormCath.hasErrors()){
-                return;
-            }*/
             if (valuesManagerArticle6_quality.hasErrors()){
                 contactCadTabs.selectTab(1);
                 return;
             }
             contactCadHeader.setValue("contractDate",contactCadHeader.getValues().createDate.toNormalDate("toUSShortDate"));
+
             dataSaveAndUpdateContractCad.contractDate = contactCadHeader.getValue("contractDate");
             dataSaveAndUpdateContractCad.contractNo = contactCadHeader.getValue("contractNo");
             dataSaveAndUpdateContractCad.contactId = contactCadHeader.getValue("contactId");
@@ -134,7 +145,7 @@ var contactCadTabs = isc.TabSet.create({
             //dataSaveAndUpdateContractCad.materialId = dynamicFormCath.getValue("materialId");
             dataSaveAndUpdateContractCad.materialId = 2;
 ////////
-        var dataSaveAndUpdateContractCadDetail = {};
+
         dataSaveAndUpdateContractCadDetail.name_ContactAgentSeller = contactCadHeaderCadAgent.getValue("name_ContactAgentSeller")
         dataSaveAndUpdateContractCadDetail.phone_ContactAgentSeller = contactCadHeaderCadAgent.getValue("phone_ContactAgentSeller")
         dataSaveAndUpdateContractCadDetail.mobile_ContactAgentSeller = contactCadHeaderCadAgent.getValue("mobile_ContactAgentSeller")
@@ -307,9 +318,15 @@ var contactCadTabs = isc.TabSet.create({
         dataSaveAndUpdateContractCadDetail.article10_number59 =valuesManagerArticle10_quality.getValue("article10_number59");
         dataSaveAndUpdateContractCadDetail.article10_number60 =valuesManagerArticle10_quality.getValue("article10_number60");
         dataSaveAndUpdateContractCadDetail.article10_number61 =valuesManagerArticle10_quality.getValue("article10_number61");
-        recordContractNo=contactCadHeader.getValue("contractNo");
-
-        var criteriaContractNoCad={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "material.descl", operator: "contains", value: "Cath"},{fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
+        dataSaveAndUpdateContractCad.contractDetails = dataSaveAndUpdateContractCadDetail;
+        dataSaveAndUpdateContractCad.contractShipments = saveListGrid_ContractCadItemShipment();
+        recordContractNo = contactCadHeader.getValue("contractNo");
+        var criteriaContractNoCad={
+            _constructor:"AdvancedCriteria",
+            operator:"and",
+            criteria:[{fieldName: "materialId",
+            operator: "equals", value: 2},
+            {fieldName:"contractNo",operator:"equals",value:recordContractNo}]};
         RestDataSource_Contract.fetchData(criteriaContractNoCad,function(dsResponse, data, dsRequest) {
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/contract",
@@ -319,7 +336,7 @@ var contactCadTabs = isc.TabSet.create({
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         Window_ContactCad.close();
                         ListGrid_Cad.invalidateCache();
-                        saveCotractCadDetails(dataSaveAndUpdateContractCadDetail,(JSON.parse(resp.data)).id);
+                        saveValueAllArticles((JSON.parse(resp.data)).id);
                     } else
                         isc.say(RpcResponse_o.data);
                 }
@@ -368,43 +385,20 @@ var VLayout_contactCadMain = isc.VLayout.create({
         ]
     })
 
-
-function saveListGrid_ContractCadItemShipment(contractID) {
+function saveListGrid_ContractCadItemShipment() {
         ListGrid_ContractItemShipment.selectAllRecords();
-        var data_ContractItemShipment = {};
-        var ListGrid_ShipmentItems = [];
-        ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
-            var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
-            dataEditMain.contractId=contractID;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractShipment/",
-                httpMethod: "POST",
-                data: JSON.stringify(dataEditMain),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-            });
+        var dataEdit = [];
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
-            dataEdit.contractId=contractID;
-            dataEdit.sendDate=(ListGrid_ContractItemShipment.getEditedRecord(element).sendDate).toNormalDate("toUSShortDate")
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractShipment/",
-                httpMethod: "POST",
-                data: JSON.stringify(dataEdit),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>");
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-        })
+            dataEdit.push(ListGrid_ContractItemShipment.getEditedRecord(element));
+            ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
+        });
+        ListGrid_ContractItemShipment.getSelectedRecords().forEach(function (element) {
+            dataEdit.push(JSON.parse(JSON.stringify(element)));
+        });
         ListGrid_ContractItemShipment.deselectAllRecords();
-};
+        console.log(dataEdit);
+        return dataEdit;
+    };
 
     var dataALLArticle = {};
     function saveValueAllArticles(contractID) {
@@ -420,7 +414,7 @@ function saveListGrid_ContractCadItemShipment(contractID) {
         dataALLArticle.Article10 = nvlCad(fullArticle10.getValue());
         dataALLArticle.Article11 = nvlCad(article11_quality.getValue());
         dataALLArticle.Article12 = nvlCad(fullArticle12.getValue());
-        dataALLArticle.contractNo = contactCadHeader.getValue("contractNo");
+        dataALLArticle.contractNo = contactCadHeader.getValue("contractNo")+ "_Cad";
         dataALLArticle.contractId = contractID;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/contract/writeWord",
@@ -442,22 +436,3 @@ function nvlCad(articleIsNotNull){
             return articleIsNotNull;
         }
     }
-
-function saveCotractCadDetails(data, contractID) {
-        data.contract_id = contractID;
-        var allData = data
-        allData.string_Currency="null";
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/contractDetail",
-            httpMethod: methodHtpp,
-            data: JSON.stringify(allData),
-            callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    saveListGrid_ContractCadItemShipment(contractID);
-                    saveValueAllArticles(contractID);
-                } else
-                    isc.say(RpcResponse_o.data);
-            }
-        }))
-    }
-

@@ -452,16 +452,15 @@
 
 
     var ListGrid_WarehouseCadItem_IN_WAREHOUSECONC_BIJACK = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "80%",
         canEdit: true,
         editEvent: "click",
-        // editByCell: true,
         modalEditing: true,
         canRemoveRecords: true,
         autoSaveEdits: true,
         deferRemoval: false,
-        // saveLocally: true,
         showGridSummary: true,
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECONC_BIJACK,
         fields: [{
@@ -851,10 +850,6 @@
                     warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
-            if (warehouseCadItems.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
             if (warehouseCadItems.length > 1) {
                 isc.warn("<spring:message code='bijack.moreThanOne'/>");
                 return;

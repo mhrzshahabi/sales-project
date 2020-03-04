@@ -347,6 +347,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
 
 
     var ListGrid_Contract = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Contract,
@@ -362,7 +363,6 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         autoFitExpandField: true,
         virtualScrolling: true,
         loadOnExpand: true,
-        showFilterEditor: true,
         loaded: false,
         fields:
             [

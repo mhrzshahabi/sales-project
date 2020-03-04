@@ -893,6 +893,7 @@
 
     var ListGrid_ContactAccount = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_ContactAccount,
@@ -1674,6 +1675,7 @@
 
     var ListGrid_Contact = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Contact,

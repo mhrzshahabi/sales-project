@@ -54,7 +54,7 @@
             {
                 title: "page1", canClose: false,
                 pane: isc.ViewLoader.create({
-                    ID: "ViewLoaderpage1",
+                    ID: "ViewLoaderpageConc1",
                     autoDraw: true,
                     viewURL: "<spring:url value="/contact/concPage1" />",
                     loadingMessage: "Loading Page1.."
@@ -63,7 +63,7 @@
             {
                 title: "page2", canClose: false,
                 pane: isc.ViewLoader.create({
-                    ID: "ViewLoaderpage2",
+                    ID: "ViewLoaderpageConc2",
                     autoDraw: true,
                     viewURL: "<spring:url value="/contact/concPage2" />",
                     loadingMessage: "Loading Page2..",
@@ -95,16 +95,11 @@
                 };
                 RestDataSource_contractDetail_list.fetchData(criteriaConcDetail, function (dsResponse, data, dsRequest) {
                     dataSaveAndUpdateContractConcDetail.id = data[0].id;
-                    alert(data[0].id + " save Edit")
                 });
                 ListGrid_Conc.invalidateCache();
             }
             contactHeaderConc.validate();
-            //dynamicFormConc.validate();
             valuesManagerArticle5_DeliveryTermsConc.validate();
-            /* if (contactHeaderConc.hasErrors()|| dynamicFormConc.hasErrors()){
-                 return;
-             }*/
             if (valuesManagerArticle5_DeliveryTermsConc.hasErrors()) {
                 contactConcTabs.selectTab(1);
                 return;
@@ -326,7 +321,6 @@
             dataSaveAndUpdateContractConcDetail.article10_number61 = valuesManagerArticle12_quality.getValue("article12_number61");
             dataSaveAndUpdateContractConc.contractDetails = dataSaveAndUpdateContractConcDetail;
             dataSaveAndUpdateContractConc.contractShipments = saveListGrid_ContractConcItemShipment();
-            console.log(dataSaveAndUpdateContractConc);
             recordContractNoConc = contactHeaderConc.getValue("contractNo");
             var criteriaContractNoConc = {
                 _constructor: "AdvancedCriteria",
@@ -452,20 +446,25 @@
         contactConcTabs.selectTab(0);
         contactHeaderConc.clearValues();
         contactHeaderConcAgent.clearValues();
-        valuesManagerConcArticle1.clearValues();
-        dynamicForm_fullArticle01.clearValues();
-        dynamicForm_fullArticle02.clearValues();
-        dynamicForm_fullArticleConc03.clearValues();
-        dynamicForm_fullArticleConc04.clearValues();
-        dynamicForm_fullArticleConc05.clearValues();
-        dynamicForm_fullArticleConc06.clearValues();
-        dynamicForm_fullArticleConc07.clearValues();
-        dynamicForm_fullArticleConc08.clearValues();
-        dynamicForm_fullArticleConc09.clearValues();
-        dynamicForm_fullArticleConc10.clearValues();
-        dynamicForm_fullArticleConc11.clearValues();
-        dynamicForm_fullArticleConc12.clearValues();
+        dynamicForm_fullArticle01.setValue("");
+        valuesManagerfullArticle.setValue("");
+        valuesManagerConcArticle1.setValue("");
+        dynamicForm_fullArticle02.setValue("");
+        dynamicForm_fullArticleConc03.setValue("");
+        dynamicForm_fullArticleConc04.setValue("");
+        dynamicForm_fullArticleConc05.setValue("");
+        dynamicForm_fullArticleConc06.setValue("");
+        dynamicForm_fullArticleConc07.setValue("");
+        dynamicForm_fullArticleConc08.setValue("");
+        dynamicForm_fullArticleConc09.setValue("");
+        dynamicForm_fullArticleConc10.setValue("");
+        dynamicForm_fullArticleConc11.setValue("");
+        dynamicForm_fullArticleConc12.setValue("");
+        valuesManagerArticle5_DeliveryTermsConc.clearValues();
+        dynamicForm_article9Conc.clearValues();
+        article10_qualityConc.clearValues();
+        valuesManagerArticle12_quality.clearValues();
         valuesManagerArticle2Conc.clearValues();
         valuesManagerArticle3_conc.clearValues();
-        valuesManagerfullArticle.clearValues();
+        ListGrid_ContractConcItemShipment.setData([]);
     }

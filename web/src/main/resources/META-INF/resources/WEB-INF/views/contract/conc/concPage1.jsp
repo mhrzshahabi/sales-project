@@ -6,7 +6,7 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     factoryLableHedear("LablePageConc", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
-    factoryLable("lableNameContactConc", '<b><font size=4px>COPPER CONCENTRATE CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
+    factoryLable("lableNameContactConc", '<b><font size=4px>COPPER CONCENTRATES CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
     factoryLableArticle("lableArticle1Conc", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle2Conc", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
     factoryLableArticle("lableArticleSelect", '<b><font size=4px>SELECT ITEMS</font><b>', "25",5);
@@ -510,30 +510,6 @@ var vlayoutBodyConc = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactConc]}),
-            /*isc.HLayout.create({height: "50", align: "left", members: [
-                isc.DynamicForm.create({ID:"dynamicFormConc",items:[{type: "text",name:"materialId",
-                    title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
-                    validators: [
-                    {
-                    type:"required",
-                    validateOnChange: true }],
-                    width: "400",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Material,
-                    displayField: "descl",
-                    valueField: "id",
-                    pickListWidth: "400",
-                    pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                    {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "descl", title: "<spring:message code="material.descl"/>", width: "395", align: "center" }
-                    ],
-                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "descl", operator: "contains", value: "Conc"}]
-                    },
-                    }]})
-            ]}),*/
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2Conc", align: "center", members: [dynamicForm1Conc, dynamicForm2Conc]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactConcSeller]}),

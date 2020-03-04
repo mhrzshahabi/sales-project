@@ -230,6 +230,7 @@
     };
 
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "50%",
         canEdit: true,
@@ -540,7 +541,7 @@
         click: function () {
             if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
-                DynamicForm_warehouseCAD.validate()
+                DynamicForm_warehouseCAD.validate();
                 return;
             }
             DynamicForm_warehouseCAD.validate();
@@ -579,10 +580,6 @@
                 return;
             }
 
-            if (warehouseCadItems.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
             if (warehouseCadItems.length > 1) {
                 isc.warn("<spring:message code='bijack.moreThanOne'/>");
                 return;
