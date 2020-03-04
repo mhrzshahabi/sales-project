@@ -5,19 +5,19 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    /*var RestDataSource_CathodList = isc.MyRestDataSource.create({
+    var RestDataSource_CathodList = isc.MyRestDataSource.create({
         fields: [
-                {name: "storeId"},
-                {name: "tozinId"},
-                {name: "productId"},
-                {name: "productLabel"},
-                {name: "wazn"},
-                {name: "sheetNumber"},
-                {name: "packingTypeId"},
-                {name: "gdsCode"}
-            ],
+            {name: "storeId"},
+            {name: "tozinId"},
+            {name: "productId"},
+            {name: "productLabel"},
+            {name: "wazn"},
+            {name: "sheetNumber"},
+            {name: "packingTypeId"},
+            {name: "gdsCode"}
+        ],
         fetchDataURL: "${contextPath}/api/cathodList/spec-list"
-    });*/
+    });
 
     var RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
@@ -637,7 +637,7 @@
         click: function () {
             if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
-                DynamicForm_warehouseCAD.validate()
+                DynamicForm_warehouseCAD.validate();
                 return;
             }
             DynamicForm_warehouseCAD.validate();
@@ -672,11 +672,6 @@
 
             if (notComplete != 0) {
                 isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
-                return;
-            }
-
-            if (warehouseCadItems.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
                 return;
             }
 
@@ -718,10 +713,14 @@
     ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
     var criteria_cathod = {
         _constructor: "AdvancedCriteria", operator: "and",
-        criteria: [{fieldName: "tozinId", operator: "equals", value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId}]
+        criteria: [{
+            fieldName: "tozinId",
+            operator: "equals",
+            value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId
+        }]
     };
 
-    /*RestDataSource_CathodList.fetchData(criteria_cathod,
+    RestDataSource_CathodList.fetchData(criteria_cathod,
         function (dsResponse, data, dsRequest) {
             data.forEach(function (item) {
                 delete item.storeId;
@@ -731,7 +730,7 @@
                 delete item.gdsCode;
             });
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(data);
-        });*/
+        });
 
     DynamicForm_warehouseCAD.clearValues();
 

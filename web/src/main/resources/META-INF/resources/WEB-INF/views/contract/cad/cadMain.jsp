@@ -692,6 +692,43 @@ function deleteFromContractShipment(id){
         }
     });
 
+    var ToolStripButton_Contract_PrintCad = isc.ToolStripButtonPrint.create({
+                                icon: "[SKIN]/actions/print.png",
+                                showIf: "true",
+                                title: "<spring:message code='global.form.print'/>",
+                                click: function () {
+                                    var printSelectCadID = ListGrid_Cad.getSelectedRecord();
+                                    if (printSelectCadID == null || printSelectCadID.id == null) {
+                                        isc.Dialog.create({
+                                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                                            icon: "[SKIN]ask.png",
+                                            title: "<spring:message code='global.message'/>",
+                                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                            buttonClick: function () {
+                                                this.hide();
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        "<spring:url value="/contract/print" var="printUrl"/>";
+                                        var recordCadIdPrint = ListGrid_Cad.getSelectedRecord();
+                                        window.open('${printUrl}' + "/" + recordCadIdPrint.id);
+                                    }
+                                }
+                            })
+
+     <sec:authorize access="hasAuthority('D_CONTRACT')">
+        var ToolStripButton_ContractCad_Remove = isc.ToolStripButtonRemove.create({
+            align: "left",
+            border: '0px',
+            icon: "[SKIN]/actions/remove.png",
+            title: "<spring:message code='global.form.remove'/>",
+            click: function () {
+                ListGrid_ContractCad_remove();
+            }
+        });
+     </sec:authorize>
+
     var ToolStrip_Actions_ContactCad = isc.ToolStrip.create({
             membersMargin: 5,
             members: [
@@ -704,6 +741,14 @@ function deleteFromContractShipment(id){
 
                 <sec:authorize access="hasAuthority('U_CONTRACT')">
                 ToolStripButton_ContactCad_Edit,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CONTRACT')">
+                ToolStripButton_ContractCad_Remove,
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('U_CONTRACT')">
+                ToolStripButton_Contract_PrintCad,
                 </sec:authorize>
 
                 isc.ToolStrip.create({
@@ -740,9 +785,8 @@ function clearAdd(){
         contactCadTabs.selectTab(0);
         contactCadHeader.clearValues();
         contactCadHeaderCadAgent.clearValues();
-        valuesManagerArticle2Cad.setValue("");
         valuesManagerCadArticle1.clearValues();
-        dynamicForm_fullArticle02Cad.setValue("");
+        valuesManagerArticle2Cad.clearValues();
         valuesManagerArticle3_quality.clearValues();
         valuesManagerArticle4_quality.clearValues();
         valuesManagerArticle6_quality.clearValues();
@@ -751,4 +795,61 @@ function clearAdd(){
         valuesManagerArticle9_quality.clearValues();
         valuesManagerArticle10_quality.clearValues();
         valuesManagerArticle12_quality.clearValues();
+        dynamicFormCad_fullArticle01.setValue("");
+        dynamicForm_fullArticle02Cad.setValue("");
+        fullArticle3.setValue("");
+        fullArticle4.setValue("");
+        article5_quality.setValue("");
+        fullArticle6.setValue("");
+        fullArticle7.setValue("");
+        fullArticle8.setValue("");
+        fullArticle9.setValue("");
+        fullArticle10.setValue("");
+        article11_quality.setValue("");
+        fullArticle12.setValue("");
+        ListGrid_ContractItemShipment.setData([]);
+
 }
+
+
+function ListGrid_ContractCad_remove() {
+        var recordCad = ListGrid_Cad.getSelectedRecord();
+        if (recordCad == null || recordCad.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        } else {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index == 0) {
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/contract/" + recordCad.id,
+                            httpMethod: "DELETE",
+                            callback: function (resp) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                    ListGrid_Cad.invalidateCache();
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                }
+                            }
+                        }))
+                    }
+                }
+            });
+        }
+    }
