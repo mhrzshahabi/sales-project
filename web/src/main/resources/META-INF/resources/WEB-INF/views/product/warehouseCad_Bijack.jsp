@@ -265,16 +265,15 @@
     };
 
     var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "80%",
         modalEditing: true,
         canEdit: true,
         editEvent: "click",
-        // editByCell: true,
         canRemoveRecords: true,
         autoSaveEdits: true,
         deferRemoval: false,
-        // saveLocally: true,
         showGridSummary: true,
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_BIJACK,
         fields: [{

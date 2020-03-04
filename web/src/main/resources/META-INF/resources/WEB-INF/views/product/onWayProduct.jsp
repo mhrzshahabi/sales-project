@@ -621,6 +621,7 @@
     };
 
     var ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
+        showFilterEditor: true,
         alternateRecordStyles: true,
         width: "100%",
         height: "100%",

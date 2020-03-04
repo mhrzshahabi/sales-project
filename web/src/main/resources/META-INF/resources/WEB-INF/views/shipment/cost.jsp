@@ -189,6 +189,7 @@
     }
 
     var ListGrid_Shipment_CostHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         contextMenu: Menu_ListGrid_Shipment_CostHeader,
@@ -1254,6 +1255,7 @@
     });
 
     var ListGrid_Cost = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",

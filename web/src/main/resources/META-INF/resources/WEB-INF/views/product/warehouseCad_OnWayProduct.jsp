@@ -249,6 +249,7 @@
     };
 
     var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "80%",
         modalEditing: true,

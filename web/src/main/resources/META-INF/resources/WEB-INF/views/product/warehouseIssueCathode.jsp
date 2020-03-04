@@ -302,6 +302,7 @@
     }
 
     var ListGrid_ShipmentByWarehouseIssueCathode = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueCathode,
@@ -714,6 +715,7 @@
             });
 
             var ListGrid_WarehouseCadITEMByWarehouseIssueCathode = isc.ListGrid.create({
+                showFilterEditor: true,
                 width: "100%",
                 height: "100%",
                 dataSource: RestDataSource_WarehouseCadITEMByWarehouseIssueCathode,
@@ -734,6 +736,7 @@
 
 
             var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected = isc.ListGrid.create({
+                showFilterEditor: true,
                 width: "100%",
                 height: "100%",
                 dataSource: ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode,
@@ -1190,6 +1193,7 @@
     // });
 
     var ListGrid_WarehouseIssueCathode = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",

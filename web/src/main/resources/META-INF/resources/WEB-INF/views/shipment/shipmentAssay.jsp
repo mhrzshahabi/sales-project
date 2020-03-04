@@ -614,6 +614,7 @@
 
                         }) /* dynamic Form */
                         , ListGrid_ShipmentAssayItemPaste = isc.ListGrid.create({
+                            showFilterEditor: true,
                             dataSource: ClientDataSource_ShipmentAssayItem,
                             sortDirection: "descending",
                             width: "100%",
@@ -799,6 +800,7 @@
         }
 
     var ListGrid_ShipmentByAssayHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByAssayHeader,
@@ -1454,6 +1456,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     });
 
     var ListGrid_ShipmentAssayHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1952,6 +1955,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     });
 
     var ListGrid_ShipmentAssayItem = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         dataSource: MyRestDataSource_ShipmentAssayItem,

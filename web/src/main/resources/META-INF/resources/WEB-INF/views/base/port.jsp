@@ -444,6 +444,7 @@
 
     var ListGrid_Port = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Port,

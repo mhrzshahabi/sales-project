@@ -413,6 +413,7 @@
 
 
     var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueCons,
@@ -1108,6 +1109,7 @@
 
 
     var ListGrid_WarehouseIssueCons = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",

@@ -612,6 +612,7 @@
 
                                     }) /* dynamic Form */ , ListGrid_ShipmentMoistureItemPaste = isc.ListGrid.create(
                                     {
+                                        showFilterEditor: true,
                                         dataSource: ClientDataSource_ShipmentMoistureItem,
                                         sortDirection: "descending",
                                         width: "100%",
@@ -832,6 +833,7 @@
 
 
     var ListGrid_ShipmentByMoistureHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByMoistureHeader,
@@ -1482,6 +1484,7 @@
     });
 
     var ListGrid_ShipmentMoistureHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1966,6 +1969,7 @@
     });
 
     var ListGrid_ShipmentMoistureItem = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentMoistureItem,

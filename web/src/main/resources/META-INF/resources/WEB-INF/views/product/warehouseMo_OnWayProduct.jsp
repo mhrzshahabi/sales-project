@@ -229,6 +229,7 @@
     };
 
     var ListGrid_WarehouseCadItem = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "80%",
         canEdit: true,
