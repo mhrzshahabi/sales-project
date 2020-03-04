@@ -348,11 +348,11 @@
                     pickListFields: [
                     {
                         name: "detailName",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
                     },
                     {
                         name: "code",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.code'/>"
                     }
                     ],
                     changed: function (form, item, value) {
@@ -385,11 +385,11 @@
                     pickListFields: [
                     {
                         name: "detailName",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
                     },
                     {
                         name: "code",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.code'/>"
                     }
                     ],
                     changed: function (form, item, value) {
@@ -427,11 +427,11 @@
                     pickListFields: [
                     {
                         name: "detailName",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
                     },
                     {
                         name: "code",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.code'/>"
                     }
                     ],
                     changed: function (form, item, value) {
@@ -464,11 +464,11 @@
                     pickListFields: [
                     {
                         name: "detailName",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
                     },
                     {
                         name: "code",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.code'/>"
                     }
                     ],
                     changed: function (form, item, value) {
@@ -501,11 +501,11 @@
                     pickListFields: [
                     {
                         name: "detailName",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
                     },
                     {
                         name: "code",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.code'/>"
                     }
                     ],
                     changed: function (form, item, value) {
@@ -560,11 +560,11 @@
                     pickListFields: [
                     {
                         name: "detailName",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
                     },
                     {
                         name: "code",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.code'/>"
                     }
                     ],
                 },
@@ -589,11 +589,11 @@
                     pickListFields: [
                     {
                         name: "detailName",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
                     },
                     {
                         name: "code",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.code'/>"
                     }
                     ],
                     changed: function (form, item, value) {
@@ -637,11 +637,11 @@
                     pickListFields: [
                     {
                         name: "detailName",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
                     },
                     {
                         name: "code",
-                        <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                        title: "<spring:message code='invoiceSales.code'/>"
                     }
                     ],
                     changed: function (form, item, value) {
