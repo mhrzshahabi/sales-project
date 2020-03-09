@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bijack" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d88d962e-01d0-49e5-87c5-4ceb745e994f">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bijack" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="bd4b0a98-0252-417c-885c-a6f6dcef1dd9">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="538"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="448"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -12,7 +14,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+	<style name="Table_CH" mode="Opaque" backcolor="#1D2228">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -21,7 +23,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+	<style name="Table_TD" mode="Opaque" backcolor="#E1E2E2">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -30,346 +32,299 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="Dataset1" uuid="a5b30565-c205-4584-8a1f-adfea5db162f">
+	<subDataset name="content" uuid="13003af0-9460-450f-be42-ee506eb92c6a">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
-		<parameter name="mitem" class="java.lang.Long"/>
-		<parameter name="plant_type" class="java.lang.String"/>
-		<parameter name="movement_type" class="java.lang.String"/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 		<queryString language="SQL">
-			<![CDATA[select 
-    warec.BIJACK_NO ,   
-    warec.WAREHOUSE_NO,
-    mitem.GDSNAME,
-    warec.MOVEMENT_TYPE,
-    warec.PLANT,
-    warec.SOURCE_LOAD_DATE,
-    warec.DESTINATION_UNLOAD_DATE,
-    mitem.GDSCODE
-  FROM
-    TBL_WAREHOUSE_CAD warec
-    INNER JOIN 
-    TBL_MATERIAL_ITEM mitem
-    ON
-     warec.material_item_id = mitem.id
-     where mitem.gdscode = $P{mitem} AND
-     warec.PLANT =  $P{plant_type}   AND
-     warec.MOVEMENT_TYPE like '%$P!{movement_type}%']]>
+			<![CDATA[]]>
 		</queryString>
-		<field name="BIJACK_NO" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="BIJACK_NO"/>
-		</field>
-		<field name="WAREHOUSE_NO" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="WAREHOUSE_NO"/>
-		</field>
-		<field name="GDSNAME" class="java.lang.String">
+		<field name="bijackNo" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="GDSNAME"/>
 		</field>
-		<field name="MOVEMENT_TYPE" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="MOVEMENT_TYPE"/>
+		<field name="warehouseNo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="TZN_DATE"/>
 		</field>
-		<field name="PLANT" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="PLANT"/>
+		<field name="plant" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="WAZN"/>
 		</field>
-		<field name="SOURCE_LOAD_DATE" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="SOURCE_LOAD_DATE"/>
+		<field name="movementType" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="TEDAD"/>
 		</field>
-		<field name="DESTINATION_UNLOAD_DATE" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="DESTINATION_UNLOAD_DATE"/>
+		<field name="sourceLoadDate" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="SOURCEE"/>
 		</field>
-		<field name="GDSCODE" class="java.math.BigDecimal">
-			<property name="com.jaspersoft.studio.field.label" value="GDSCODE"/>
+		<field name="destinationUnloadDate" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="TARGET"/>
+		</field>
+		<field name="mahsool" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="HAVCODE"/>
 		</field>
 	</subDataset>
-	<parameter name="mitem" class="java.lang.Long"/>
-	<parameter name="logo_nicico" class="java.lang.Object"/>
-	<parameter name="plant_type" class="java.lang.String"/>
-	<parameter name="movement-type" class="java.lang.String"/>
+	<parameter name="logo_nicico" class="java.awt.image.BufferedImage"/>
+	<parameter name="mahsool" class="java.lang.String"/>
+	<parameter name="vahed" class="java.lang.String"/>
+	<parameter name="haml" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select 
-    warec.BIJACK_NO ,   
-    warec.WAREHOUSE_NO,
-    mitem.GDSNAME,
-    warec.MOVEMENT_TYPE,
-    warec.PLANT,
-    warec.SOURCE_LOAD_DATE,
-    warec.DESTINATION_UNLOAD_DATE,
-    mitem.GDSCODE
-  FROM
-    TBL_WAREHOUSE_CAD warec
-    INNER JOIN 
-    TBL_MATERIAL_ITEM mitem
-    ON
-     warec.material_item_id = mitem.id
-     where mitem.gdscode = $P{mitem} AND
-     warec.PLANT =  $P{plant_type}  AND
-     warec.MOVEMENT_TYPE  like  '%$P!{movement-type}%']]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="BIJACK_NO" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="BIJACK_NO"/>
-	</field>
-	<field name="WAREHOUSE_NO" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="WAREHOUSE_NO"/>
-	</field>
-	<field name="GDSNAME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="GDSNAME"/>
-	</field>
-	<field name="MOVEMENT_TYPE" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="MOVEMENT_TYPE"/>
-	</field>
-	<field name="PLANT" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="PLANT"/>
-	</field>
-	<field name="SOURCE_LOAD_DATE" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="SOURCE_LOAD_DATE"/>
-	</field>
-	<field name="DESTINATION_UNLOAD_DATE" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="DESTINATION_UNLOAD_DATE"/>
-	</field>
-	<field name="GDSCODE" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.label" value="GDSCODE"/>
-	</field>
 	<variable name="currentPage" class="java.lang.Integer">
-		<variableExpression><![CDATA[$V{PAGE_COUNT}]]></variableExpression>
+		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="106" splitType="Stretch">
-			<rectangle radius="12">
-				<reportElement x="0" y="0" width="553" height="50" uuid="520fa16f-55b7-4556-948e-c633ea995de2"/>
+		<band height="78" splitType="Stretch">
+			<rectangle radius="5">
+				<reportElement x="1" y="53" width="553" height="21" isPrintWhenDetailOverflows="true" forecolor="#E1E2E2" backcolor="#FB8122" uuid="935177f5-8bad-4000-8064-452fd6b2c5b1"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</graphicElement>
 			</rectangle>
-			<image hAlign="Center">
-				<reportElement x="490" y="5" width="50" height="40" uuid="43d78a0e-06d1-43c6-8320-13c8bcd74e1a"/>
+			<rectangle radius="5">
+				<reportElement x="0" y="0" width="554" height="50" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="363dffa2-2cc0-4dce-884c-e1204d4a3892"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#E1E2E2"/>
+				</graphicElement>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="497" y="1" width="50" height="48" uuid="3b99f146-68a2-4b9f-8685-abe6faaec187"/>
 				<imageExpression><![CDATA[$P{logo_nicico}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="132" y="11" width="258" height="30" uuid="73400fb3-2e83-4491-a8fb-c27bd290fb16"/>
+				<reportElement x="513" y="54" width="30" height="19" uuid="7c380485-1fd2-437c-bca0-207d787cd447"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[محصول :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="54" width="38" height="19" uuid="47ebd53b-77b4-4525-a43f-c0348aceb5e9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[واحد تولیدی :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="82" y="54" width="28" height="19" uuid="0a511e4d-2302-4f0d-8157-fb816ac622a1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[نوع حمل :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="420" y="54" width="93" height="19" uuid="a1b61b0f-0aef-4c99-a608-4a3a801e9b8d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="12" isBold="true" isItalic="false"/>
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mahsool}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="54" width="73" height="19" uuid="d2a03c96-822c-4d55-8697-484b89d30e5a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{vahed}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="54" width="70" height="19" uuid="23279d86-e702-4b1a-90f1-aa09ed1b535b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{haml}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="202" y="1" width="150" height="24" uuid="e88033b6-b36a-41b5-8413-3782db8d3915"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="12"/>
 				</textElement>
 				<text><![CDATA[گزارش بیجک های ورودی]]></text>
 			</staticText>
-			<rectangle radius="12">
-				<reportElement x="0" y="60" width="553" height="30" uuid="4e210a5e-37e5-4943-b01c-0b72399bad68"/>
-			</rectangle>
-			<staticText>
-				<reportElement x="490" y="65" width="50" height="20" uuid="d81678c0-7502-49a7-970d-f83fca3c996e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[محصول:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="290" y="65" width="60" height="20" uuid="08443ea3-47ce-440d-a437-d47dec29451a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[واحد تولیدی:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="100" y="65" width="50" height="20" uuid="185ecfee-b0f3-4017-9f55-0b146dd7f507"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[نوع حمل:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="380" y="65" width="110" height="20" uuid="ca2a94e7-9253-4ba3-8268-97091e1d5152"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{GDSNAME}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="180" y="65" width="110" height="20" uuid="52fd4133-94a7-43cc-b13d-55cc9cef3377"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{plant_type}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="10" y="65" width="90" height="20" uuid="a6168793-5500-4328-9509-e1c2111f6050"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{movement-type}]]></textFieldExpression>
-			</textField>
+			<line>
+				<reportElement x="182" y="23" width="190" height="1" forecolor="#3B3B3B" uuid="67fe5a6c-1969-491b-bf75-a2863195af06"/>
+			</line>
 		</band>
 	</title>
 	<detail>
-		<band height="76" splitType="Stretch">
+		<band height="53">
 			<componentElement>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="5" width="553" height="60" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="8938cef2-88db-4248-9a55-75e8cfe4fc14">
+				<reportElement isPrintRepeatedValues="false" x="1" y="2" width="553" height="50" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#F0F0F0" uuid="0a32806c-503b-4b5e-bb32-21f3e9605eb4">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
 					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
-					<printWhenExpression><![CDATA[$V{REPORT_COUNT} ==1]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 1]]></printWhenExpression>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Dataset1" uuid="1b2a82b5-bdda-48e1-b28b-bb1b7f3319fa">
-						<datasetParameter name="mitem">
-							<datasetParameterExpression><![CDATA[$P{mitem}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="plant_type">
-							<datasetParameterExpression><![CDATA[$P{plant_type}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="movement_type">
-							<datasetParameterExpression><![CDATA[$P{movement-type}]]></datasetParameterExpression>
-						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<datasetRun subDataset="content" uuid="43d41df5-4fe5-4434-95b5-679199d72a1e">
+						<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JsonDataSource)$P{REPORT_DATA_SOURCE}).subDataSource("content")]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="89" uuid="ff420570-39f6-4679-831e-5bb16e06824d">
+					<jr:column width="82" uuid="b700eeba-d64b-45d1-a6ae-62291afc5b6c">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
-						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="89" height="30" uuid="fa3b5697-11f3-40f3-9fc4-327465245320"/>
+								<reportElement x="0" y="0" width="82" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="ff9a7fdd-991a-4ffe-8923-5b608f186f3e"/>
+								<box>
+									<pen lineColor="#696969"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD"/>
+									<font fontName="Shabnam-FD" size="5" isBold="true"/>
 								</textElement>
 								<text><![CDATA[تاریخ تخلیه در مقصد]]></text>
 							</staticText>
-						</jr:tableHeader>
+						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="89" height="30" uuid="1998936c-b5ed-4c85-9862-bb40df3921cd"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD" size="8"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="82" height="30" uuid="49de9799-bba1-4706-b765-f0b19c07319e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{DESTINATION_UNLOAD_DATE}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{destinationUnloadDate}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="85" uuid="f6eb270e-3097-4b5e-b977-cf9e63c52547">
+					<jr:column width="77" uuid="ec00595e-f56f-435e-9742-8d4c6358983a">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
-						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="85" height="30" uuid="4e198255-5041-4366-ae44-de79f367ef59"/>
+								<reportElement x="0" y="0" width="77" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="4fb47f9e-b131-4e09-9a9e-ac384f0669ee"/>
+								<box>
+									<pen lineColor="#696969"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD"/>
+									<font fontName="Shabnam-FD" size="5" isBold="true"/>
 								</textElement>
 								<text><![CDATA[تاریخ بارگیری در مبدا]]></text>
 							</staticText>
-						</jr:tableHeader>
+						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="85" height="30" uuid="22a1d40c-0472-45df-b523-cfb86ebeaccc"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD" size="8"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="77" height="30" uuid="08536a64-2497-4ad5-9060-b6aae26a8c51"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{SOURCE_LOAD_DATE}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{sourceLoadDate}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="81" uuid="f6628541-03f2-4ae5-8901-2608523604af">
+					<jr:column width="98" uuid="0a30ca47-18a1-4d9a-976d-f3a434230a45">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
-						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="81" height="30" uuid="8bd92ab8-a495-48c0-885e-dbd03be9b75a"/>
+								<reportElement x="0" y="0" width="98" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="e5484c3c-25b1-42c4-bd15-59204046fdc3"/>
+								<box>
+									<pen lineColor="#696969"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD"/>
+									<font fontName="Shabnam-FD" size="5" isBold="true"/>
 								</textElement>
 								<text><![CDATA[مجتمع]]></text>
 							</staticText>
-						</jr:tableHeader>
+						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="81" height="30" uuid="d30be37f-ede2-44a4-a395-4dce0359c0ad"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD" size="8"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="98" height="30" uuid="9be3a503-f4df-467e-ac9c-7fc18f6486ea"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PLANT}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{plant}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="64" uuid="e65495ee-9dd7-4a8d-a117-02513d4ae7cd">
+					<jr:column width="69" uuid="decc1de4-cbce-465d-abbc-ecdc216ba673">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
-						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="64" height="30" uuid="4fb68d12-dfc1-484c-971a-eb26976a879d"/>
+								<reportElement x="0" y="0" width="69" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="e2b9c9d5-1d52-4473-be2c-28c0c7a68fc8"/>
+								<box>
+									<pen lineColor="#696969"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD"/>
+									<font fontName="Shabnam-FD" size="5" isBold="true"/>
 								</textElement>
 								<text><![CDATA[نوع حمل]]></text>
 							</staticText>
-						</jr:tableHeader>
+						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="64" height="30" uuid="ef7e195e-c735-4030-ba9d-73b721f58b21"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD" size="8"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="69" height="30" uuid="01bfe808-7c5b-4d4c-99cd-832bb474e615"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{MOVEMENT_TYPE}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{movementType}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="78" uuid="f934e129-e2ba-478f-8b17-606838dd4e01">
+					<jr:column width="74" uuid="b2e356a2-9c34-4086-b1ef-779b9b123b37">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
-						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="78" height="30" uuid="8d44d610-9cf2-4274-ba1d-03f7c0516ee7"/>
+								<reportElement x="0" y="0" width="74" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="c4c2b3cb-d245-4b86-8615-c7b8f6f8e207"/>
+								<box>
+									<pen lineColor="#696969"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD"/>
+									<font fontName="Shabnam-FD" size="5" isBold="true"/>
 								</textElement>
 								<text><![CDATA[محصول]]></text>
 							</staticText>
-						</jr:tableHeader>
+						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="78" height="30" uuid="f515d1dd-4c33-4a0f-82d2-36d355295684"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD" size="8"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="74" height="30" uuid="d29c318f-31c4-4528-9774-465e1f646e34"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{GDSNAME}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="78" uuid="714f312c-e408-4406-be2f-e1ed40c4e1d3">
+					<jr:column width="75" uuid="fa575963-4895-4d47-b332-da660bebe6bf">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
-						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="78" height="30" uuid="abdb005e-afd4-43c2-8a6d-0a5053191243"/>
+								<reportElement x="0" y="0" width="75" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="f676dfbc-86b5-4991-96e3-e8482c55b27b"/>
+								<box>
+									<pen lineColor="#696969"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD"/>
+									<font fontName="Shabnam-FD" size="5" isBold="true"/>
 								</textElement>
 								<text><![CDATA[نام انبار]]></text>
 							</staticText>
-						</jr:tableHeader>
+						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="78" height="30" uuid="a16ca90b-b554-4750-9955-b345f4e9c7f2"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD" size="8"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="75" height="30" uuid="e9d5be99-81cd-497b-943e-91d685f1a90e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{WAREHOUSE_NO}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{warehouseNo}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="78" uuid="7a4e7bf3-22dd-43a3-ae33-c2d7c6728edc">
+					<jr:column width="78" uuid="bc20e1bf-df69-4663-a426-3c6556ed7aff">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
-						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="78" height="30" uuid="acc7451d-e29e-4a97-a361-fafe9146b6f0"/>
+								<reportElement x="0" y="0" width="78" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="2727da15-5f76-4a5c-92b9-a61c585d5e82"/>
+								<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+									<pen lineColor="#FF0400"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD"/>
+									<font fontName="Shabnam-FD" size="5" isBold="true"/>
 								</textElement>
 								<text><![CDATA[شماره بیجک]]></text>
 							</staticText>
-						</jr:tableHeader>
+						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="78" height="30" uuid="442cbf41-512f-411f-af36-9eb49ccf460a"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD" size="8"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="78" height="30" uuid="9dc8de95-7fbc-4fd6-bb26-c094a19df0f1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{BIJACK_NO}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{bijackNo}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -378,21 +333,21 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="17" splitType="Stretch">
+		<band height="16">
 			<staticText>
-				<reportElement x="260" y="2" width="29" height="14" uuid="35c299e3-0426-4a74-a81b-95ea9a6a9590"/>
+				<reportElement x="261" y="1" width="33" height="15" uuid="cd1a8c3b-b0fb-4adb-b869-592f02c5a821"/>
 				<box>
 					<pen lineColor="#FFFFFF"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font fontName="Shabnam-FD" size="7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="5"/>
 				</textElement>
 				<text><![CDATA[صفحه:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="230" y="2" width="30" height="14" uuid="fc4993d7-d7a2-4739-99fa-f9cfb9982540"/>
-				<textElement textAlignment="Center">
-					<font fontName="Shabnam-FD" size="8"/>
+				<reportElement x="242" y="1" width="22" height="15" uuid="d3390c53-4830-478f-836e-11480efe1449"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

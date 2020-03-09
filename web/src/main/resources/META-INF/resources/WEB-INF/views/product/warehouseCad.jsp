@@ -377,14 +377,50 @@
         }
     });
 
-    var ToolStripButton_WarehouseCAD_JasperReport = isc.ToolStripButtonPrint.create({
-        title: "Report",
+    var pdf = isc.DynamicForm.create({
+        method: "POST",
+        action: "${contextPath}/warehouseCad/printJasper",
+        autoDraw: true,
+        visibility: "hidden",
+        target: "_Blank",
+        fields:
+            [
+                {name: "type"},
+                {name: "mahsool"},
+                {name: "vahed"},
+                {name: "haml"},
+                {name: "criteria"},
+            ]
+    });
+
+    var JasperReport_Pdf = isc.ToolStripButtonRefresh.create({
+        icon: "[SKIN]/actions/pdf-file.png",
+        title: "<spring:message code='global.form.export.pdf'/>",
+
         click: function () {
-            var gdscode = DynamicForm_Material_WarehouseCad.getValue("materialId");
-            var ptype = DynamicForm_Plant_WarehouseCad.getValue("type");
-            var mtype = DynamicForm_MovementType_WarehouseCad.getValue("type");
-            "<spring:url var="printUrl" value="/warehouseCad/printJasper"/>";
-            window.open('${printUrl}' + '/' + gdscode + '/' + ptype + '/' + mtype);
+            let materialId_List_Pdf = DynamicForm_Material_WarehouseCad.getField("materialId").getValueMap();
+            let materialId_Value_Pdf = DynamicForm_Material_WarehouseCad.getValue("materialId");
+            const material = materialId_List_Pdf[materialId_Value_Pdf];
+
+            let Vahed_tolidi_List_Pdf = DynamicForm_Plant_WarehouseCad.getField("type").getValueMap();
+            let Vahed_tolidi_Value_Pdf = DynamicForm_Plant_WarehouseCad.getValue("type");
+            const tolidfrom = Vahed_tolidi_List_Pdf[Vahed_tolidi_Value_Pdf];
+
+            if (materialId_List_Pdf != null && materialId_List_Pdf !== 'undefined') {
+                const filterEditorCriteria = ListGrid_warehouseCAD.getCriteria();
+                const criteria_arr = [];
+                filterEditorCriteria.criteria.forEach(key => criteria_arr.add(key));
+                filterEditorCriteria.criteria = criteria_arr;
+                const criteria = JSON.stringify(filterEditorCriteria);
+                pdf.setValue("criteria", criteria);
+                pdf.setValue("mahsool", material);
+                pdf.setValue("vahed", tolidfrom);
+                pdf.setValue("haml", DynamicForm_MovementType_WarehouseCad.getValue("type"));
+                pdf.setValue("type", "pdf");
+                pdf.submitForm();
+            } else {
+                isc.say("<spring:message code='department.warning.message'/>");
+            }
         }
     });
 
@@ -508,7 +544,7 @@
                     members: [
                         ToolStripButton_warehouseCAD_Refresh,
                         ToolStripButton_WarehouseCAD_Report,
-                        // ToolStripButton_WarehouseCAD_JasperReport
+                        JasperReport_Pdf
                     ]
                 })
 
