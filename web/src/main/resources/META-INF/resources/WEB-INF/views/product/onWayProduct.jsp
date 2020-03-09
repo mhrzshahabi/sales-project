@@ -3,7 +3,7 @@
 
 //<script>
 
-    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
         ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
@@ -386,25 +386,24 @@
     var excel = isc.DynamicForm.create({
         method: "POST",
         action: "${contextPath}/tozin/print/",
-
         autoDraw: true,
         visibility: "hidden",
         target: "_Blank",
         fields: [
-            {name: "top", type: "hidden"},
-            {name: "fields", type: "hidden"},
-            {name: "headers", type: "hidden"},
-            {name: "criteria", type: "hidden"}
+            {name: "top"},
+            {name: "fields"},
+            {name: "headers"},
+            {name: "criteria"}
         ]
     });
 
     ToolStripButton_Tozin_Report = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/excel-512.png",
-        title: "<spring:message code='global.form.export'/>",
+        title: "<spring:message code='global.form.export.excel'/>",
         click: function () {
             const fieldsGrid = ListGrid_Tozin_IN_ONWAYPRODUCT.getFields().filter(
                 function (q) {
-                    return q.name.toString().toLowerCase() != '$74y'
+                    return q.name.toString().toLowerCase() != '$74y';
                 });
             const fields = fieldsGrid.map(function (f) {
                 return f.name
@@ -414,11 +413,11 @@
             });
 
             var fromDay_Value = DynamicForm_DailyReport_OnWayProduct.getValue("fromDay");
-
             var toDay_Value = DynamicForm_DailyReport_Tozin1.getValue("toDay");
 
             var materialId_List = DynamicForm_DailyReport_Tozin2.getField("materialId").getValueMap();
             var materialId_Value = DynamicForm_DailyReport_Tozin2.getValue("materialId");
+
 
             var Vahed_tolidi_List = DynamicForm_DailyReport_Tozin3.getField("type").getValueMap();
             var Vahed_tolidi_Value = DynamicForm_DailyReport_Tozin3.getValue("type");
@@ -439,7 +438,7 @@
 
             const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getCriteria();
             const criterias = [];
-            filterEditorCriteria.criteria.forEach(function (key, index) {
+            filterEditorCriteria.criteria.forEach(function (key) {
                 criterias.add(key);
             });
             filterEditorCriteria.criteria = criterias;
@@ -451,6 +450,55 @@
                 criteria: criteria
             });
             excel.submitForm();
+        }
+    });
+
+
+    var pdf = isc.DynamicForm.create({
+        method: "POST",
+        action: "${contextPath}/tozin/report",
+        autoDraw: true,
+        visibility: "hidden",
+        target: "_Blank",
+        fields:
+            [
+                {name: "type"},
+                {name: "dateaval"},
+                {name: "datedovom"},
+                {name: "kala"},
+                {name: "tolid"},
+                {name: "haml"},
+                {name: "criteria"},
+            ]
+    });
+
+    var Jasper_Pdf = isc.ToolStripButtonRefresh.create({
+        icon: "[SKIN]/actions/pdf-file.png",
+        title: "<spring:message code='global.form.export.pdf'/>",
+        click: function () {
+            let materialId_List_Pdf = DynamicForm_DailyReport_Tozin2.getField("materialId").getValueMap();
+            let materialId_Value_Pdf = DynamicForm_DailyReport_Tozin2.getValue("materialId");
+            const material = materialId_List_Pdf[materialId_Value_Pdf];
+            let Vahed_tolidi_List_Pdf = DynamicForm_DailyReport_Tozin3.getField("type").getValueMap();
+            let Vahed_tolidi_Value_Pdf = DynamicForm_DailyReport_Tozin3.getValue("type");
+            const tolidfrom = Vahed_tolidi_List_Pdf[Vahed_tolidi_Value_Pdf];
+            if (materialId_List_Pdf != null && materialId_List_Pdf !== 'undefined') {
+                const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getCriteria();
+                const criteria_arr = [];
+                filterEditorCriteria.criteria.forEach(key => criteria_arr.add(key));
+                filterEditorCriteria.criteria = criteria_arr;
+                const criteria = JSON.stringify(filterEditorCriteria);
+                pdf.setValue("criteria", criteria);
+                pdf.setValue("dateaval", DynamicForm_DailyReport_OnWayProduct.getValue("fromDay"));
+                pdf.setValue("datedovom", DynamicForm_DailyReport_Tozin1.getValue("toDay"));
+                pdf.setValue("kala", material);
+                pdf.setValue("tolid", tolidfrom);
+                pdf.setValue("haml", DynamicForm_DailyReport_Tozin4.getValue("type"));
+                pdf.setValue("type", "pdf");
+                pdf.submitForm();
+            } else {
+                isc.say("<spring:message code='department.warning.message'/>");
+            }
         }
     });
 
@@ -566,7 +614,7 @@
                 align: "left",
                 border: '0px',
                 members: [
-                    ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report
+                    ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report, Jasper_Pdf
                 ]
             })
 
@@ -621,7 +669,6 @@
     };
 
     var ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
-        showFilterEditor: true,
         alternateRecordStyles: true,
         width: "100%",
         height: "100%",
