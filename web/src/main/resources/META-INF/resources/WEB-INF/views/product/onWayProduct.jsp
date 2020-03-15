@@ -473,7 +473,7 @@
     });
 
     var Jasper_Pdf = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/pdf-file.png",
+        icon: "[SKIN]/actions/pdf.png",
         title: "<spring:message code='global.form.export.pdf'/>",
         click: function () {
             let materialId_List_Pdf = DynamicForm_DailyReport_Tozin2.getField("materialId").getValueMap();

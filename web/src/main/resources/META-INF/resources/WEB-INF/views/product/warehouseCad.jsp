@@ -394,7 +394,7 @@
     });
 
     var JasperReport_Pdf = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/pdf-file.png",
+        icon: "[SKIN]/actions/pdf.png",
         title: "<spring:message code='global.form.export.pdf'/>",
 
         click: function () {
