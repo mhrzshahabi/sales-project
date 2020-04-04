@@ -6,9 +6,11 @@ import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinDTO;
 import com.nicico.sales.iservice.ITozinService;
 import com.nicico.sales.model.entities.base.MaterialItem;
+import com.nicico.sales.model.entities.base.Tozin;
 import com.nicico.sales.model.entities.base.WarehouseCad;
 import com.nicico.sales.repository.MaterialItemDAO;
 import com.nicico.sales.repository.TozinDAO;
@@ -68,7 +70,7 @@ public class TozinService implements ITozinService {
 
         if (tozin.equals("SourceTozin"))
             sourceTozinPlantIds.addAll(bijacks.stream().map(WarehouseCad::getSourceTozinPlantId).collect(Collectors.toList()));
-        else //  "DestTozin"
+        else
             sourceTozinPlantIds.addAll(bijacks.stream().map(WarehouseCad::getDestinationTozinPlantId).collect(Collectors.toList()));
 
         final List<SearchDTO.CriteriaRq> requestCriteriaRqList = new ArrayList<>();
@@ -96,5 +98,13 @@ public class TozinService implements ITozinService {
         final SearchDTO.SearchRs<TozinDTO.Info> response = SearchUtil.search(tozinDAO, request, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
 
         return mapSearchRs(criteria, response);
+    }
+
+
+    @Transactional(readOnly = true)
+    public TozinDTO.Info get(Long id) {
+        final Optional<Tozin> tzById = tozinDAO.findById(id);
+        final Tozin tozin = tzById.orElseThrow(()-> new SalesException(SalesException.ErrorType.TozinNotFound));
+        return modelMapper.map(tozin , TozinDTO.Info.class);
     }
 }
