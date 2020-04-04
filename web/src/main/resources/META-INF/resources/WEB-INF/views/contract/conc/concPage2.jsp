@@ -159,7 +159,7 @@
     })
 
     isc.ListGrid.create({
-        showFilterEditor: true,
+        showFilterEditor: false,
         ID: "ListGrid_ContractConcItemShipment",
         width: "100%",
         height: "200",

@@ -717,7 +717,7 @@ public class ContractService implements IContractService {
 }
 
 
-class MyXWPFHtmlDocument extends POIXMLDocumentPart {
+    class MyXWPFHtmlDocument extends POIXMLDocumentPart {
     private String html;
     private String id;
 
@@ -751,13 +751,14 @@ class MyXWPFHtmlDocument extends POIXMLDocumentPart {
 }
 
 //the XWPFRelation for /word/htmlDoc#.html
-final class XWPFHtmlRelation extends POIXMLRelation {
+    final class XWPFHtmlRelation extends POIXMLRelation {
     public XWPFHtmlRelation() {
         super(
                 "text/html",
                 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk",
                 "/word/htmlDoc#.html");
     }
+
 
 
 }

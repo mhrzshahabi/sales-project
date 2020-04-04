@@ -545,21 +545,17 @@ var vlayoutBodyConc = isc.VLayout.create({
                 type: 'long',
                 width: "250",
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                displayField: "paramName",
+                optionDataSource: RestDataSource_Unit,
+                displayField: "nameEN",
                 valueField: "id",
                 pickListWidth: "250",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
-                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
-                ],pickListCriteria: {
-                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 3},
-                        {fieldName: "categoryValue", operator: "equals", value: 1}]
-                },
+                    {name: "id", title: "id", canEdit: false, hidden: true},
+                    {name: "nameEN", width: 245, align: "center"}
+                ],changed: function (form, item, value) {
+                }
             },
             {
                 type: "text",

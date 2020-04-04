@@ -107,7 +107,7 @@ var buttonAddItem=isc.IButton.create({
 });
 
     ListGrid_ContractItemShipment = isc.ListGrid.create({
-        showFilterEditor: true,
+        showFilterEditor: false,
         width: "100%",
         height: "200",
         modalEditing: true,
