@@ -50,8 +50,8 @@ public class InvoiceSales extends Auditable {
     @Column(name = "CURRENCY")
     private String currency;
 
-    @Column(name = "CONTAMINATION_TAXES_ID")
-    private Long contaminationTaxesId;
+//    @Column(name = "CONTAMINATION_TAXES_ID")
+//    private Long contaminationTaxesId;
 
     @Column(name = "CONTAMINATION_TAXES_NAME")
     private String contaminationTaxesName;

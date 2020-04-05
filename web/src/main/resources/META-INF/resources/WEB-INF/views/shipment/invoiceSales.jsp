@@ -55,10 +55,6 @@
                     title: "<spring:message code='invoiceSales.currency'/>",
                 },
                 {
-                    name: "contaminationTaxesId",
-                    title: "<spring:message code='invoiceSales.contaminationTaxesId'/>",
-                },
-                {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
                 },
@@ -414,41 +410,14 @@
                     colSpan: 4
                 },
                 {
-                    name: "contaminationTaxesId",
-                    title: "<spring:message code='invoiceSales.contaminationTaxesId'/>",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    autoFetchData: false,
-                    pickListProperties: {
-                        showFilterEditor: true
-                    },
-                    pickListFields: [
-                    {
-                        name: "detailName",
-                        title: "<spring:message code='invoiceSales.detailCode'/>"
-                    },
-                    {
-                        name: "code",
-                        title: "<spring:message code='invoiceSales.code'/>"
-                    }
-                    ],
-                    changed: function (form, item, value) {
-
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("contaminationTaxesId")).getSelectedRecord().detailName;
-                        (form.getItem("contaminationTaxesName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("contaminationTaxesName")).setValue("");
-                    },
-                },
-                {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
-                    type: "staticText",
-                    Value : ""
+                    valueMap:
+                        {
+                            "ندارد" : "ندارد",
+                            "دارد" : "دارد"
+                        },
+                    colSpan: 4
                 },
                 {
                     name: "paymentTypeId",
@@ -891,13 +860,6 @@
                     title: "<spring:message code='invoiceSales.currency'/>",
                     width: "10%",
                     align: "center",
-                },
-                {
-                    name: "contaminationTaxesId",
-                    title: "<spring:message code='invoiceSales.contaminationTaxesId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
                 },
                 {
                     name: "contaminationTaxesName",

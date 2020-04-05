@@ -29,7 +29,6 @@ public class InvoiceSalesDTO {
     private Long salesTypeId;
     private String salesTypeName;
     private String currency;
-    private Long contaminationTaxesId;
     private String contaminationTaxesName;
     private Long paymentTypeId;
     private String paymentTypeName;
