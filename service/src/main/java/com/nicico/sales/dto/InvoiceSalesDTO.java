@@ -21,12 +21,11 @@ public class InvoiceSalesDTO {
     private Long id;
     private String serial;
     private String invoiceNo;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String invoiceDate;
     private String district;
     private Long customerId;
     private String customerName;
-    private Long salesTypeId;
     private String salesTypeName;
     private String currency;
     private String contaminationTaxesName;

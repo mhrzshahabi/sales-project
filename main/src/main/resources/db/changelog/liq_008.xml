@@ -8,4 +8,8 @@
         <dropColumn tableName="TBL_INVOICE_SALES" columnName="CONTAMINATION_TAXES_ID"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1778899665544-012">
+        <dropColumn tableName="TBL_INVOICE_SALES" columnName="SALES_TYPE_ID"/>
+    </changeSet>
+
 </databaseChangeLog>

@@ -41,8 +41,8 @@ public class InvoiceSales extends Auditable {
     @Column(name = "CUSTOMER_NAME")
     private String customerName;
 
-    @Column(name = "SALES_TYPE_ID")
-    private Long salesTypeId;
+//    @Column(name = "SALES_TYPE_ID")
+//    private Long salesTypeId;
 
     @Column(name = "SALES_TYPE_NAME")
     private String salesTypeName;

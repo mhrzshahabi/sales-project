@@ -1,10 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
-    <% DateUtil dateUtil = new DateUtil();%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
 
@@ -41,10 +39,6 @@
                 {
                     name: "customerName",
                     title: "<spring:message code='invoiceSales.customerName'/>",
-                },
-                {
-                    name: "salesTypeId",
-                    title: "<spring:message code='invoiceSales.salesTypeId'/>",
                 },
                 {
                     name: "salesTypeName",
@@ -131,23 +125,32 @@
         {
             fields: [
                 {
-                    name: "id",
-                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    name: "id"
                 },
                 {
-                    name: "detailName",
-                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    name: "detailName"
                 },
                 {
-                    name: "childrenDigitCount",
-                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    name: "childrenDigitCount"
                 },
                 {
-                    name: "code",
-                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    name: "code"
                 }
             ],
             fetchDataURL: "${contextPath}/api/invoiceNosaSales/list"
+        });
+
+ var RestDataSource_salesType = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id"
+                },
+                {
+                    name: "salesType"
+                }
+            ],
+            fetchDataURL: "${contextPath}/api/salesType/spec-list"
         });
 
 
@@ -374,41 +377,22 @@
                     Value : ""
                 },
                 {
-                    name: "salesTypeId",
-                    title: "<spring:message code='invoiceSales.salesTypeId'/>",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    autoFetchData: false,
-                    pickListProperties: {
-                        showFilterEditor: true
-                    },
-                    pickListFields: [
-                    {
-                        name: "detailName",
-                        title: "<spring:message code='invoiceSales.detailCode'/>"
-                    },
-                    {
-                        name: "code",
-                        title: "<spring:message code='invoiceSales.code'/>"
-                    }
-                    ],
-                    changed: function (form, item, value) {
-
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("salesTypeId")).getSelectedRecord().detailName;
-                        (form.getItem("salesTypeName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("salesTypeName")).setValue("");
-                    },
-                },
-                {
                     name: "salesTypeName",
                     title: "<spring:message code='invoiceSales.salesTypeName'/>",
-                    type: "staticText",
-                    Value : ""
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_salesType,
+                    displayField: "salesType",
+                    valueField: "salesType",
+                    pickListFields: [
+                    {
+                        name: "id",
+                        hidden: true
+                    },
+                    {
+                        name: "salesType",
+                        title: "<spring:message code='invoiceSales.salesTypeName'/>"
+                    }
+                    ],
                 },
                 {
                     name: "currency",
@@ -865,13 +849,6 @@
                     title: "<spring:message code='invoiceSales.customerName'/>",
                     width: "10%",
                     align: "center",
-                },
-                {
-                    name: "salesTypeId",
-                    title: "<spring:message code='invoiceSales.salesTypeId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
                 },
                 {
                     name: "salesTypeName",
