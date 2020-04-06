@@ -30,7 +30,7 @@ public class InvoiceSales extends Auditable {
     private String invoiceNo;
 
     @Column(name = "INVOICE_DATE")
-    private Date invoiceDate;
+    private String invoiceDate;
 
     @Column(name = "DISTRICT")
     private String district;
@@ -72,19 +72,19 @@ public class InvoiceSales extends Auditable {
     private Long preInvoiceId;
 
     @Column(name = "PRE_INVOICE_DATE")
-    private Date preInvoiceDate;
+    private String preInvoiceDate;
 
     @Column(name = "ISSUE_ID")
     private Long issueId;
 
     @Column(name = "ISSUE_DATE")
-    private Date issueDate;
+    private String issueDate;
 
     @Column(name = "OPENING_BANK_ID")
     private Long openingBankId;
 
     @Column(name = "OPENING_DATE")
-    private Date openingDate;
+    private String openingDate;
 
     @Column(name = "DEALER_BANK_ID")
     private Long dealerBankId;

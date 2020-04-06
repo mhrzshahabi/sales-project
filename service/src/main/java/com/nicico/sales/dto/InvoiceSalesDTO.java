@@ -22,7 +22,7 @@ public class InvoiceSalesDTO {
     private String serial;
     private String invoiceNo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date invoiceDate;
+    private String invoiceDate;
     private String district;
     private Long customerId;
     private String customerName;
@@ -35,14 +35,14 @@ public class InvoiceSalesDTO {
     private Long lcNoId;
     private String lcNoName;
     private Long preInvoiceId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date preInvoiceDate;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private String preInvoiceDate;
     private Long issueId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date issueDate;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private String issueDate;
     private Long openingBankId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date openingDate;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private String openingDate;
     private Long dealerBankId;
     private String dealerBankName;
     private String otherDescription;

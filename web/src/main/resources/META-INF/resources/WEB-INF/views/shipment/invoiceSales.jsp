@@ -323,9 +323,15 @@
                 {
                     name: "invoiceDate",
                     title: "<spring:message code='invoiceSales.invoiceDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: "date",
-                    format: 'DD-MM-YYYY',
+                    ID: "invoiceDateId",
+                    type: 'text',
+                    icons: [{
+                        src: "pieces/pcal.png",
+                        click: function () {
+                            displayDatePicker('invoiceDateId', this, 'ymd', '/');
+                        }
+                    }],
+                    defaultValue: "1398/06/01"
                 },
                 {
                     name: "district",
@@ -500,9 +506,15 @@
                 {
                     name: "preInvoiceDate",
                     title: "<spring:message code='invoiceSales.preInvoiceDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: "date",
-                    format: 'DD-MM-YYYY',
+                    ID: "preInvoiceDateId",
+                    type: 'text',
+                    icons: [{
+                        src: "pieces/pcal.png",
+                        click: function () {
+                            displayDatePicker('preInvoiceDateId', this, 'ymd', '/');
+                        }
+                    }],
+                    defaultValue: "1398/06/01"
                 },
                 {
                     name: "issueId",
@@ -511,9 +523,15 @@
                 {
                     name: "issueDate",
                     title: "<spring:message code='invoiceSales.issueDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: "date",
-                    format: 'DD-MM-YYYY',
+                    ID: "issueDateId",
+                    type: 'text',
+                    icons: [{
+                        src: "pieces/pcal.png",
+                        click: function () {
+                            displayDatePicker('issueDateId', this, 'ymd', '/');
+                        }
+                    }],
+                    defaultValue: "1398/06/01"
                 },
                 {
                     name: "openingBankId",
@@ -540,9 +558,15 @@
                 {
                     name: "openingDate",
                     title: "<spring:message code='invoiceSales.openingDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: "date",
-                    format: 'DD-MM-YYYY',
+                    ID: "openingDateId",
+                    type: 'text',
+                    icons: [{
+                        src: "pieces/pcal.png",
+                        click: function () {
+                            displayDatePicker('openingDateId', this, 'ymd', '/');
+                        }
+                    }],
+                    defaultValue: "1398/06/01"
                 },
                 {
                     name: "dealerBankId",
