@@ -43,9 +43,9 @@ public class CompareMessagesFile {
         messageEnRemain.removeAll(messagesFa.keySet());
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(UPLOAD_FILE_DIR + "/compareMessagesFile.txt"));
-        writer.write("# Date : ****************** " + new Date() + "\r\n");
-        writer.write("# Exist in messagesFa but not in messagesEn : " + "\r\n" + messageFaRemain + "\r\n");
-        writer.write("# Exist in messagesEN but not in messagesFA : " + "\r\n" + messageEnRemain);
+        writer.write("\r\n"+"# Date : ****************** " + new Date() + "\r\n");
+        writer.write("\r\n"+"# Exist in messagesFa but not in messagesEn : " + "\r\n" + messageFaRemain + "\r\n");
+        writer.write("\r\n"+"# Exist in messagesEN but not in messagesFA : " + "\r\n" + messageEnRemain);
         writer.close();
     }
 }
