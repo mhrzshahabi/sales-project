@@ -45,16 +45,8 @@
                     title: "<spring:message code='invoiceSales.salesTypeName'/>",
                 },
                 {
-                    name: "currency",
-                    title: "<spring:message code='invoiceSales.currency'/>",
-                },
-                {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
-                },
-                {
-                    name: "paymentTypeId",
-                    title: "<spring:message code='invoiceSales.paymentTypeId'/>",
                 },
                 {
                     name: "paymentTypeName",
@@ -83,22 +75,6 @@
                 {
                     name: "issueDate",
                     title: "<spring:message code='invoiceSales.issueDate'/>",
-                },
-                {
-                    name: "openingBankId",
-                    title: "<spring:message code='invoiceSales.openingBankId'/>",
-                },
-                {
-                    name: "openingDate",
-                    title: "<spring:message code='invoiceSales.openingDate'/>",
-                },
-                {
-                    name: "dealerBankId",
-                    title: "<spring:message code='invoiceSales.dealerBankId'/>",
-                },
-                {
-                    name: "dealerBankName",
-                    title: "<spring:message code='invoiceSales.dealerBankName'/>",
                 },
                 {
                     name: "otherDescription",
@@ -151,6 +127,25 @@
                 }
             ],
             fetchDataURL: "${contextPath}/api/salesType/spec-list"
+        });
+
+ var RestDataSource_paymentType = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id"
+                },
+                {
+                    name: "code"
+                },
+                {
+                    name: "paymentType"
+                },
+                {
+                    name: "nonCash"
+                }
+            ],
+            fetchDataURL: "${contextPath}/api/paymentType/spec-list"
         });
 
 
@@ -395,11 +390,6 @@
                     ],
                 },
                 {
-                    name: "currency",
-                    title: "<spring:message code='invoiceSales.currency'/>",
-                    colSpan: 4
-                },
-                {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
                     valueMap:
@@ -410,41 +400,40 @@
                     colSpan: 4
                 },
                 {
-                    name: "paymentTypeId",
-                    title: "<spring:message code='invoiceSales.paymentTypeId'/>",
+                    name: "paymentTypeName",
+                    title: "<spring:message code='invoiceSales.paymentType'/>",
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    autoFetchData: false,
+                    optionDataSource: RestDataSource_paymentType,
+                    displayField: "paymentType",
+                    valueField: "paymentType",
+                    colSpan: 4,
                     pickListProperties: {
                         showFilterEditor: true
                     },
                     pickListFields: [
                     {
-                        name: "detailName",
-                        title: "<spring:message code='invoiceSales.detailCode'/>"
+                        name: "id",
+                        hidden: true
                     },
                     {
                         name: "code",
-                        title: "<spring:message code='invoiceSales.code'/>"
+                        title: "<spring:message code='invoiceSales.paymentCode'/>"
+                    },
+                    {
+                        name: "paymentType",
+                        title: "<spring:message code='invoiceSales.paymentTypeName'/>",
+                        showHover: true
+                    },
+                    {
+                        name: "nonCash",
+                        title: "<spring:message code='invoiceSales.paymentNonCash'/>",
+                        valueMap:
+                        {
+                            true : "بلی",
+                            false : "خیر",
+                        },
                     }
                     ],
-                    changed: function (form, item, value) {
-
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("paymentTypeId")).getSelectedRecord().detailName;
-                        (form.getItem("paymentTypeName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("paymentTypeName")).setValue("");
-                    },
-                },
-                {
-                    name: "paymentTypeName",
-                    title: "<spring:message code='invoiceSales.paymentTypeName'/>",
-                    type: "staticText",
-                    Value : ""
                 },
                 {
                     name: "lcNoId",
@@ -516,78 +505,6 @@
                         }
                     }],
                     defaultValue: "1398/06/01"
-                },
-                {
-                    name: "openingBankId",
-                    title: "<spring:message code='invoiceSales.openingBankId'/>",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    autoFetchData: false,
-                    pickListProperties: {
-                        showFilterEditor: true
-                    },
-                    pickListFields: [
-                    {
-                        name: "detailName",
-                        title: "<spring:message code='invoiceSales.detailCode'/>"
-                    },
-                    {
-                        name: "code",
-                        title: "<spring:message code='invoiceSales.code'/>"
-                    }
-                    ],
-                },
-                {
-                    name: "openingDate",
-                    title: "<spring:message code='invoiceSales.openingDate'/>",
-                    ID: "openingDateId",
-                    type: 'text',
-                    icons: [{
-                        src: "pieces/pcal.png",
-                        click: function () {
-                            displayDatePicker('openingDateId', this, 'ymd', '/');
-                        }
-                    }],
-                    defaultValue: "1398/06/01"
-                },
-                {
-                    name: "dealerBankId",
-                    title: "<spring:message code='invoiceSales.dealerBankId'/>",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    autoFetchData: false,
-                    pickListProperties: {
-                        showFilterEditor: true
-                    },
-                    pickListFields: [
-                    {
-                        name: "detailName",
-                        title: "<spring:message code='invoiceSales.detailCode'/>"
-                    },
-                    {
-                        name: "code",
-                        title: "<spring:message code='invoiceSales.code'/>"
-                    }
-                    ],
-                    changed: function (form, item, value) {
-
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("dealerBankId")).getSelectedRecord().detailName;
-                        (form.getItem("dealerBankName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("dealerBankName")).setValue("");
-                    },
-                },
-                {
-                    name: "dealerBankName",
-                    title: "<spring:message code='invoiceSales.dealerBankName'/>",
-                    type: "staticText",
-                    Value : ""
                 },
                 {
                     name: "otherDescription",
@@ -857,27 +774,14 @@
                     align: "center",
                 },
                 {
-                    name: "currency",
-                    title: "<spring:message code='invoiceSales.currency'/>",
-                    width: "10%",
-                    align: "center",
-                },
-                {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
                     width: "10%",
                     align: "center",
                 },
                 {
-                    name: "paymentTypeId",
-                    title: "<spring:message code='invoiceSales.paymentTypeId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
                     name: "paymentTypeName",
-                    title: "<spring:message code='invoiceSales.paymentTypeName'/>",
+                    title: "<spring:message code='invoiceSales.paymentType'/>",
                     width: "10%",
                     align: "center",
                 },
@@ -916,34 +820,6 @@
                 {
                     name: "issueDate",
                     title: "<spring:message code='invoiceSales.issueDate'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
-                    name: "openingBankId",
-                    title: "<spring:message code='invoiceSales.openingBankId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
-                    name: "openingDate",
-                    title: "<spring:message code='invoiceSales.openingDate'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
-                    name: "dealerBankId",
-                    title: "<spring:message code='invoiceSales.dealerBankId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
-                    name: "dealerBankName",
-                    title: "<spring:message code='invoiceSales.dealerBankName'/>",
                     width: "10%",
                     align: "center",
                     showIf: "false"

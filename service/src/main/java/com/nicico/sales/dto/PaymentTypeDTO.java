@@ -12,16 +12,18 @@ import java.util.Date;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SalesTypeDTO {
+public class PaymentTypeDTO {
 
     private Long id;
-    private String salesType;
+    private Long code;
+    private String paymentType;
+    private Boolean nonCash;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("SalesTypeInfo")
-    public static class Info extends SalesTypeDTO {
+    @ApiModel("PaymentTypeInfo")
+    public static class Info extends PaymentTypeDTO {
         private Long id;
         private Date createdDate;
         private String createdBy;
