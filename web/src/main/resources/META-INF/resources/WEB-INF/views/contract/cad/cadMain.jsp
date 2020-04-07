@@ -242,14 +242,13 @@ var ListGrid_Cad = isc.ListGrid.create({
         dataSource: RestDataSource_Contract,
         autoFetchData: true,
         initialCriteria: criteriaCad,
-        showFilterEditor: true,
         fields:
             [
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "material.descl",showTitle:"false",hidden: true,
                     title: "Type material",
-                    align: "center",
+                    align: "center",canEdit: false
                 },
                 {
                     name: "contractNo",
@@ -263,7 +262,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                     title: "<spring:message code='contract.contractDate'/>",
                     align: "center",
                     showTitle:"true",
-                    canEdit: true
+                    canEdit: false
                 },
                 {name: "contact.nameFA",showTitle:"true",title: "<spring:message code='contact.name'/>", align: "center"}
             ]
@@ -470,7 +469,7 @@ function deleteFromContractShipment(id){
     });
 
     var ToolStripButton_Contract_DraftList_Cad = isc.ToolStripButtonDraft.create({
-        title: "Draft",
+        title: "<spring:message code='contract.draft'/>",
         click: function () {
              var recordContract = ListGrid_Cad.getSelectedRecord();
                  if (recordContract == null || recordContract.id == null) {
