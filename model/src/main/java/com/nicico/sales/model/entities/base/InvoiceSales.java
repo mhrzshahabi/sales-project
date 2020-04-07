@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -47,8 +46,8 @@ public class InvoiceSales extends Auditable {
     @Column(name = "SALES_TYPE_NAME")
     private String salesTypeName;
 
-    @Column(name = "CURRENCY")
-    private String currency;
+//    @Column(name = "CURRENCY")
+//    private String currency;
 
 //    @Column(name = "CONTAMINATION_TAXES_ID")
 //    private Long contaminationTaxesId;
@@ -56,8 +55,8 @@ public class InvoiceSales extends Auditable {
     @Column(name = "CONTAMINATION_TAXES_NAME")
     private String contaminationTaxesName;
 
-    @Column(name = "PAYMENT_TYPE_ID")
-    private Long paymentTypeId;
+//    @Column(name = "PAYMENT_TYPE_ID")
+//    private Long paymentTypeId;
 
     @Column(name = "PAYMENT_TYPE_NAME")
     private String paymentTypeName;
@@ -80,17 +79,17 @@ public class InvoiceSales extends Auditable {
     @Column(name = "ISSUE_DATE")
     private String issueDate;
 
-    @Column(name = "OPENING_BANK_ID")
-    private Long openingBankId;
+//    @Column(name = "OPENING_BANK_ID")
+//    private Long openingBankId;
+//
+//    @Column(name = "OPENING_DATE")
+//    private String openingDate;
 
-    @Column(name = "OPENING_DATE")
-    private String openingDate;
-
-    @Column(name = "DEALER_BANK_ID")
-    private Long dealerBankId;
-
-    @Column(name = "DEALER_BANK_NAME")
-    private String dealerBankName;
+//    @Column(name = "DEALER_BANK_ID")
+//    private Long dealerBankId;
+//
+//    @Column(name = "DEALER_BANK_NAME")
+//    private String dealerBankName;
 
     @Column(name = "OTHER_DESCRIPTION")
     private String otherDescription;
