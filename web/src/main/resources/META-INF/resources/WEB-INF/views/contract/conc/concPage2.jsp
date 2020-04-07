@@ -607,7 +607,7 @@
         value: ""
     })
 
-    var VLayout_PageTwo_Contract = isc.VLayout.create({
+    var VLayout_PageTwo_ContractConc = isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "top",

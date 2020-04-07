@@ -546,7 +546,7 @@ var fullArticle12 = isc.RichTextEditor.create({
 })
 
     isc.VStack.create({
-        ID: "VLayout_PageTwo_Contract",
+        ID: "VLayout_PageTwo_ContractCad",
         width: "100%",
         height: "100%",
         align: "top",
