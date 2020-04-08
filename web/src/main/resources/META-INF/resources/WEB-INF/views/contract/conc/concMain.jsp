@@ -299,7 +299,6 @@
                     title: "<spring:message code='contract.contractDate'/>",
                     showTitle: "true",
                     align: "center",
-                    type: "datetime",
                     canEdit: false
                 },
                 {
