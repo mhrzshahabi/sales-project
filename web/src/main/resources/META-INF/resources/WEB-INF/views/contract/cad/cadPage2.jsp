@@ -70,7 +70,7 @@ var article4_quality = isc.DynamicForm.create({
                 name: "article4_quality1",
                 type: "text",
                 showTitle: true,
-                width: "500",
+                width: "500",keyPressFilter: "[0-9.]",
                 wrap: false,
                 title: "<strong class='cssDynamicForm'>BUNDELS TONNAGE IN MT FOR ELECTROLYTIC COPPER CATHODES</strong>",changed: function (form, item, value) {
                         fullArticle4.setValue("IN BUNDLES OF "+" "+value+" "+" METRIC TONS FOR ELECTROLYTIC COPPER CATHODES AND "+" "+article4_quality.getValue("article4_quality2")+" "+" METRIC TONS FOR(SXEW),EACH STARAPPED FOR SAFE OCEAN TRANSPORTATION");
@@ -80,7 +80,7 @@ var article4_quality = isc.DynamicForm.create({
                 name: "article4_quality2",
                 type: "text",
                 showTitle: true,
-                wrap: false,
+                wrap: false,keyPressFilter: "[0-9.]",
                 width: "500",
                 title: "<strong class='cssDynamicForm'>BUNDELS TONNAGE IN MT FOR SXEW</strong>",changed: function (form, item, value) {
                         fullArticle4.setValue("IN BUNDLES OF "+" "+article4_quality.getValue("article4_quality1")+" "+" METRIC TONS FOR ELECTROLYTIC COPPER CATHODES AND "+" "+value+" "+" METRIC TONS FOR(SXEW),EACH STARAPPED FOR SAFE OCEAN TRANSPORTATION");
