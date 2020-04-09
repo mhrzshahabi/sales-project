@@ -40,4 +40,7 @@ public abstract class Auditable {
     @Version
     @Column(name = "n_version", nullable = false)
     private Integer version;
+
+    @Column(name = "n_status", nullable = true)
+    private EStatus status;
 }
