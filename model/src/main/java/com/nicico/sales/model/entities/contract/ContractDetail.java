@@ -1,15 +1,16 @@
 package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.Auditable;
-import com.nicico.sales.model.entities.base.Material;
+import com.nicico.sales.model.entities.base.Contract;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,40 +21,38 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Audited
 @Entity
-@Table(name = "TBL_CNTR_CONTRACT")
-public class ContractDetail extends Auditable {
-
-    @NotAudited
-    @OneToOne(mappedBy = "contract", fetch = FetchType.LAZY)
-    @Cascade({org.hibernate.annotations.CascadeType.PERSIST})
-    private com.nicico.sales.model.entities.base.ContractDetail contractDetails;
+@Table(name = "TBL_CNTR_CONTRACT_DETAIL")
+public class ContractDetail extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_CONTRACT")
-    @SequenceGenerator(name = "SEQ_CNTR_CONTRACT", sequenceName = "SEQ_CNTR_CONTRACT", allocationSize = 1)
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_CONTRACT_DETAIL")
+    @SequenceGenerator(name = "SEQ_CNTR_CONTRACT_DETAIL", sequenceName = "SEQ_CNTR_CONTRACT_DETAIL", allocationSize = 1)
     private Long id;
 
-    @Column(name = "C_CONTRACT_NO", nullable = false, length = 200)
-    private String contractNo;
+    @Column(name = "C_CONTENT")
+    private String content;
 
-    @Column(name = "C_CONTRACT_DATE", length = 50)
-    private String contractDate;
-
-    @Column(name = "C_IS_COMPLETE", length = 3)
-    private String isComplete;
-
-    @Column(name = "C_DESCL", length = 4000)
-    private String descl;
-
+    @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetail2contractByContractId"))
+    private Contract contract;
+
+    @NotNull
+    @Column(name = "F_CONTRACT_ID", nullable = false)
+    private Long contractId;
+
     @NotAudited
-    @JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contract2materialByMaterialId"))
-    private Material material;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_CONTRACT_DETAIL_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetail2contractDetailTypeByContractDetailTypeId"))
+    private Contract contractDetailType;
 
-    @Column(name = "MATERIAL_ID", nullable = false)
-    private Long materialId;
+    @NotNull
+    @Column(name = "F_CONTRACT_DETAIL_TYPE_ID", nullable = false)
+    private Long contractDetailTypeId;
+
+    @NotAudited
+    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<ContractDetailValue> contractDetailValues;
 }
-
-

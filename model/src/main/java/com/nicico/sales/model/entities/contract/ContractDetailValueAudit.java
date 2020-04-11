@@ -18,11 +18,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Entity
 @Immutable
-@Subselect("SELECT * FROM TBL_CNTR_CONTRACT_AUDIT")
-public class ContractAudit extends Contract {
+@Subselect("SELECT * FROM TBL_CNTR_CONTRACT_DETAIL_VALUE_AUDIT")
+public class ContractDetailValueAudit extends ContractDetailValue {
 
     @EmbeddedId
-    private ContractAuditId auditId;
+    private ContractDetailValueAudit.ContractDetailValueAuditId auditId;
 
     @Column(name = "REVTYPE")
     private Long revType;
@@ -30,7 +30,7 @@ public class ContractAudit extends Contract {
     @Getter
     @Embeddable
     @EqualsAndHashCode(callSuper = false)
-    public static class ContractAuditId implements Serializable {
+    public static class ContractDetailValueAuditId implements Serializable {
 
         @Column(name = "ID")
         private Long id;
