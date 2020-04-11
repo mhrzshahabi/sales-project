@@ -387,7 +387,6 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 {
                     name: "contractDate",
                     title: "<spring:message code='contract.contractDate'/>",
-                    type: 'datetime',
                     width: "7%",
                     align: "center"
                 },

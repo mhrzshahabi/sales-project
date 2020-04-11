@@ -334,8 +334,7 @@
                 {
                     name: "invoiceNo",
                     title: "<spring:message code='invoiceSales.invoiceNo'/>",
-                    // width: 500,
-                    // colSpan: 3
+                    canEdit: false
                 },
                 {
                     name: "invoiceDate",
