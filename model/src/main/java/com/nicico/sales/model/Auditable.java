@@ -1,5 +1,6 @@
 package com.nicico.sales.model;
 
+import com.nicico.sales.model.enumeration.EStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -41,6 +42,6 @@ public abstract class Auditable {
     @Column(name = "n_version", nullable = false)
     private Integer version;
 
-    @Column(name = "n_status", nullable = true)
+    @Column(name = "n_status")
     private EStatus status;
 }
