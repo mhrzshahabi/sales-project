@@ -185,7 +185,7 @@
                     width: 500,
                     type: "select",
                     required: true,
-                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "CONCENTRATE", "2": "CATHOD"},
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "CONCENTRATES", "2": "CATHODS"},
                     validators: [
                     {
                         type:"required",

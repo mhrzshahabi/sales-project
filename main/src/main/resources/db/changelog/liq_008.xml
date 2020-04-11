@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+
+    <changeSet author="MShahabi" id="1778899665544-007">
+        <dropColumn tableName="TBL_INVOICE_SALES" columnName="CONTAMINATION_TAXES_ID"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-012">
+        <dropColumn tableName="TBL_INVOICE_SALES" columnName="SALES_TYPE_ID"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-016">
+        <dropColumn tableName="TBL_INVOICE_SALES" columnName="PAYMENT_TYPE_ID"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-017">
+        <dropColumn tableName="TBL_INVOICE_SALES" columnName="CURRENCY"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-018">
+        <dropColumn tableName="TBL_INVOICE_SALES" columnName="OPENING_BANK_ID"/>
+        <dropColumn tableName="TBL_INVOICE_SALES" columnName="OPENING_DATE"/>
+        <dropColumn tableName="TBL_INVOICE_SALES" columnName="DEALER_BANK_ID"/>
+        <dropColumn tableName="TBL_INVOICE_SALES" columnName="DEALER_BANK_NAME"/>
+    </changeSet>
+
+</databaseChangeLog>

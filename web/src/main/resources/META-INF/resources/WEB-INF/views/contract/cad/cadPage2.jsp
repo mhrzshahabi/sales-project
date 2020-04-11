@@ -70,7 +70,7 @@ var article4_quality = isc.DynamicForm.create({
                 name: "article4_quality1",
                 type: "text",
                 showTitle: true,
-                width: "500",
+                width: "500",keyPressFilter: "[0-9.]",
                 wrap: false,
                 title: "<strong class='cssDynamicForm'>BUNDELS TONNAGE IN MT FOR ELECTROLYTIC COPPER CATHODES</strong>",changed: function (form, item, value) {
                         fullArticle4.setValue("IN BUNDLES OF "+" "+value+" "+" METRIC TONS FOR ELECTROLYTIC COPPER CATHODES AND "+" "+article4_quality.getValue("article4_quality2")+" "+" METRIC TONS FOR(SXEW),EACH STARAPPED FOR SAFE OCEAN TRANSPORTATION");
@@ -80,7 +80,7 @@ var article4_quality = isc.DynamicForm.create({
                 name: "article4_quality2",
                 type: "text",
                 showTitle: true,
-                wrap: false,
+                wrap: false,keyPressFilter: "[0-9.]",
                 width: "500",
                 title: "<strong class='cssDynamicForm'>BUNDELS TONNAGE IN MT FOR SXEW</strong>",changed: function (form, item, value) {
                         fullArticle4.setValue("IN BUNDLES OF "+" "+article4_quality.getValue("article4_quality1")+" "+" METRIC TONS FOR ELECTROLYTIC COPPER CATHODES AND "+" "+value+" "+" METRIC TONS FOR(SXEW),EACH STARAPPED FOR SAFE OCEAN TRANSPORTATION");
@@ -106,15 +106,16 @@ var buttonAddItem=isc.IButton.create({
     click: "ListGrid_ContractItemShipment.startEditingNew()"
 });
 
-    ListGrid_ContractItemShipment = isc.ListGrid.create({
-        showFilterEditor: true,
+    isc.ListGrid.create({
+        ID:"ListGrid_ContractItemShipment",
+        showFilterEditor: false,
         width: "100%",
         height: "200",
         modalEditing: true,
         canEdit: true,
         canRemoveRecords: true,
         autoFetchData: false,
-        autoSaveEdits: false,
+        autoSaveEdits: true,
         dataSource: RestDataSource_ContractShipment,
         fields:
             [
@@ -132,7 +133,7 @@ var buttonAddItem=isc.IButton.create({
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
                     width: "10%",
-                    align: "center"
+                    align: "center",keyPressFilter: "[0-9.]"
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
@@ -151,7 +152,7 @@ var buttonAddItem=isc.IButton.create({
                     name: "amount",
                     title: "<spring:message code='global.amount'/>",
                     type: 'float',
-                    width: "10%",
+                    width: "10%",keyPressFilter: "[0-9.]",
                     align: "center",changed: function (form, item, value) {
                        if(ListGrid_ContractItemShipment.getEditRow()==0){
                            amountSet=value;
@@ -173,11 +174,11 @@ var buttonAddItem=isc.IButton.create({
                     name: "duration",
                     title: "<spring:message code='global.duration'/>",
                     type : 'text',
-                    width: "10%",
+                    width: "10%",keyPressFilter: "[0-9.]",
                     align: "center"
                 },
                 {
-                name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",
+                name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",keyPressFilter: "[0-9.]",
                     type: 'text',width: "10%", align: "center",changed: function (form, item, value) {
                        if(ListGrid_ContractItemShipment.getEditRow()==0){
                            valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
@@ -185,28 +186,11 @@ var buttonAddItem=isc.IButton.create({
                 }
                 },
             ],saveEdits: function () {
-                var ContractItemShipmentRecord = ListGrid_ContractItemShipment.getEditedRecord(ListGrid_ContractItemShipment.getEditRow());
-                if(ListGrid_ContractItemShipment.getSelectedRecord() == null){
-                        return;
-                }else{
-                     var dateSendCad= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
-                     ContractItemShipmentRecord.sendDate=moment(dateSendCad).format('L')
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                        actionURL: "${contextPath}/api/contractShipment/",
-                        httpMethod: "PUT",
-                        data: JSON.stringify(ContractItemShipmentRecord),
-                        callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                isc.say("<spring:message code='global.form.request.successful'/>");
-                                ListGrid_ContractItemShipment.setData([]);
-                                ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-                            } else
-                                isc.say(RpcResponse_o.data);
-                        }
-                    }))
+            },removeData: function (data) {
+                if(data.deleted){
+                data.deleted = false;
+                return;
                 }
-        },removeData: function (data) {
-            var ContractShipmentId = data.id;
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
@@ -218,20 +202,9 @@ var buttonAddItem=isc.IButton.create({
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
-                            httpMethod: "DELETE",
-                            callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                    ListGrid_ContractItemShipment.invalidateCache();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                        }
+                                         data.deleted = true;
+                                         ListGrid_ContractItemShipment.markSelectionRemoved();
                                     }
-                                })
-                            );
-                        }
                     }
             })
         }
@@ -573,7 +546,7 @@ var fullArticle12 = isc.RichTextEditor.create({
 })
 
     isc.VStack.create({
-        ID: "VLayout_PageTwo_Contract",
+        ID: "VLayout_PageTwo_ContractCad",
         width: "100%",
         height: "100%",
         align: "top",

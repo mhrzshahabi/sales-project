@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -30,7 +29,7 @@ public class InvoiceSales extends Auditable {
     private String invoiceNo;
 
     @Column(name = "INVOICE_DATE")
-    private Date invoiceDate;
+    private String invoiceDate;
 
     @Column(name = "DISTRICT")
     private String district;
@@ -41,23 +40,23 @@ public class InvoiceSales extends Auditable {
     @Column(name = "CUSTOMER_NAME")
     private String customerName;
 
-    @Column(name = "SALES_TYPE_ID")
-    private Long salesTypeId;
+//    @Column(name = "SALES_TYPE_ID")
+//    private Long salesTypeId;
 
     @Column(name = "SALES_TYPE_NAME")
     private String salesTypeName;
 
-    @Column(name = "CURRENCY")
-    private String currency;
+//    @Column(name = "CURRENCY")
+//    private String currency;
 
-    @Column(name = "CONTAMINATION_TAXES_ID")
-    private Long contaminationTaxesId;
+//    @Column(name = "CONTAMINATION_TAXES_ID")
+//    private Long contaminationTaxesId;
 
     @Column(name = "CONTAMINATION_TAXES_NAME")
     private String contaminationTaxesName;
 
-    @Column(name = "PAYMENT_TYPE_ID")
-    private Long paymentTypeId;
+//    @Column(name = "PAYMENT_TYPE_ID")
+//    private Long paymentTypeId;
 
     @Column(name = "PAYMENT_TYPE_NAME")
     private String paymentTypeName;
@@ -72,25 +71,25 @@ public class InvoiceSales extends Auditable {
     private Long preInvoiceId;
 
     @Column(name = "PRE_INVOICE_DATE")
-    private Date preInvoiceDate;
+    private String preInvoiceDate;
 
     @Column(name = "ISSUE_ID")
     private Long issueId;
 
     @Column(name = "ISSUE_DATE")
-    private Date issueDate;
+    private String issueDate;
 
-    @Column(name = "OPENING_BANK_ID")
-    private Long openingBankId;
+//    @Column(name = "OPENING_BANK_ID")
+//    private Long openingBankId;
+//
+//    @Column(name = "OPENING_DATE")
+//    private String openingDate;
 
-    @Column(name = "OPENING_DATE")
-    private Date openingDate;
-
-    @Column(name = "DEALER_BANK_ID")
-    private Long dealerBankId;
-
-    @Column(name = "DEALER_BANK_NAME")
-    private String dealerBankName;
+//    @Column(name = "DEALER_BANK_ID")
+//    private Long dealerBankId;
+//
+//    @Column(name = "DEALER_BANK_NAME")
+//    private String dealerBankName;
 
     @Column(name = "OTHER_DESCRIPTION")
     private String otherDescription;

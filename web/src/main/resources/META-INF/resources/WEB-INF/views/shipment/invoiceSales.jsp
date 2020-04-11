@@ -1,10 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
-    <% DateUtil dateUtil = new DateUtil();%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
 
@@ -43,28 +41,12 @@
                     title: "<spring:message code='invoiceSales.customerName'/>",
                 },
                 {
-                    name: "salesTypeId",
-                    title: "<spring:message code='invoiceSales.salesTypeId'/>",
-                },
-                {
                     name: "salesTypeName",
                     title: "<spring:message code='invoiceSales.salesTypeName'/>",
                 },
                 {
-                    name: "currency",
-                    title: "<spring:message code='invoiceSales.currency'/>",
-                },
-                {
-                    name: "contaminationTaxesId",
-                    title: "<spring:message code='invoiceSales.contaminationTaxesId'/>",
-                },
-                {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
-                },
-                {
-                    name: "paymentTypeId",
-                    title: "<spring:message code='invoiceSales.paymentTypeId'/>",
                 },
                 {
                     name: "paymentTypeName",
@@ -95,22 +77,6 @@
                     title: "<spring:message code='invoiceSales.issueDate'/>",
                 },
                 {
-                    name: "openingBankId",
-                    title: "<spring:message code='invoiceSales.openingBankId'/>",
-                },
-                {
-                    name: "openingDate",
-                    title: "<spring:message code='invoiceSales.openingDate'/>",
-                },
-                {
-                    name: "dealerBankId",
-                    title: "<spring:message code='invoiceSales.dealerBankId'/>",
-                },
-                {
-                    name: "dealerBankName",
-                    title: "<spring:message code='invoiceSales.dealerBankName'/>",
-                },
-                {
                     name: "otherDescription",
                     title: "<spring:message code='invoiceSales.otherDescription'/>",
                 },
@@ -135,23 +101,51 @@
         {
             fields: [
                 {
-                    name: "id",
-                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    name: "id"
                 },
                 {
-                    name: "detailName",
-                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    name: "detailName"
                 },
                 {
-                    name: "childrenDigitCount",
-                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    name: "childrenDigitCount"
                 },
                 {
-                    name: "code",
-                    <%--title: "<spring:message code='invoiceSales.secondContractName'/>"--%>
+                    name: "code"
                 }
             ],
             fetchDataURL: "${contextPath}/api/invoiceNosaSales/list"
+        });
+
+ var RestDataSource_salesType = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id"
+                },
+                {
+                    name: "salesType"
+                }
+            ],
+            fetchDataURL: "${contextPath}/api/salesType/spec-list"
+        });
+
+ var RestDataSource_paymentType = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id"
+                },
+                {
+                    name: "code"
+                },
+                {
+                    name: "paymentType"
+                },
+                {
+                    name: "nonCash"
+                }
+            ],
+            fetchDataURL: "${contextPath}/api/paymentType/spec-list"
         });
 
 
@@ -321,15 +315,20 @@
                 {
                     name: "invoiceNo",
                     title: "<spring:message code='invoiceSales.invoiceNo'/>",
-                    // width: 500,
-                    // colSpan: 3
+                    canEdit: false
                 },
                 {
                     name: "invoiceDate",
                     title: "<spring:message code='invoiceSales.invoiceDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: "date",
-                    format: 'DD-MM-YYYY',
+                    ID: "invoiceDateId",
+                    type: 'text',
+                    icons: [{
+                        src: "pieces/pcal.png",
+                        click: function () {
+                            displayDatePicker('invoiceDateId', this, 'ymd', '/');
+                        }
+                    }],
+                    defaultValue: "1398/06/01"
                 },
                 {
                     name: "district",
@@ -342,20 +341,19 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
+                    },
+                    {
+                        name: "code",
+                        title: "<spring:message code='invoiceSales.code'/>"
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {
@@ -373,120 +371,68 @@
                     Value : ""
                 },
                 {
-                    name: "salesTypeId",
-                    title: "<spring:message code='invoiceSales.salesTypeId'/>",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
-                    changed: function (form, item, value) {
-
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("salesTypeId")).getSelectedRecord().detailName;
-                        (form.getItem("salesTypeName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("salesTypeName")).setValue("");
-                    },
-                },
-                {
                     name: "salesTypeName",
                     title: "<spring:message code='invoiceSales.salesTypeName'/>",
-                    type: "staticText",
-                    Value : ""
-                },
-                {
-                    name: "currency",
-                    title: "<spring:message code='invoiceSales.currency'/>",
-                    colSpan: 4
-                },
-                {
-                    name: "contaminationTaxesId",
-                    title: "<spring:message code='invoiceSales.contaminationTaxesId'/>",
                     editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
-                    changed: function (form, item, value) {
-
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("contaminationTaxesId")).getSelectedRecord().detailName;
-                        (form.getItem("contaminationTaxesName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("contaminationTaxesName")).setValue("");
+                    optionDataSource: RestDataSource_salesType,
+                    displayField: "salesType",
+                    valueField: "salesType",
+                    pickListFields: [
+                    {
+                        name: "id",
+                        hidden: true
                     },
+                    {
+                        name: "salesType",
+                        title: "<spring:message code='invoiceSales.salesTypeName'/>"
+                    }
+                    ],
                 },
                 {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
-                    type: "staticText",
-                    Value : ""
-                },
-                {
-                    name: "paymentTypeId",
-                    title: "<spring:message code='invoiceSales.paymentTypeId'/>",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
-                    changed: function (form, item, value) {
-
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("paymentTypeId")).getSelectedRecord().detailName;
-                        (form.getItem("paymentTypeName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("paymentTypeName")).setValue("");
-                    },
+                    valueMap:
+                        {
+                            "ندارد" : "ندارد",
+                            "دارد" : "دارد"
+                        },
+                    colSpan: 4
                 },
                 {
                     name: "paymentTypeName",
-                    title: "<spring:message code='invoiceSales.paymentTypeName'/>",
-                    type: "staticText",
-                    Value : ""
+                    title: "<spring:message code='invoiceSales.paymentType'/>",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_paymentType,
+                    displayField: "paymentType",
+                    valueField: "paymentType",
+                    colSpan: 4,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "id",
+                        hidden: true
+                    },
+                    {
+                        name: "code",
+                        title: "<spring:message code='invoiceSales.paymentCode'/>"
+                    },
+                    {
+                        name: "paymentType",
+                        title: "<spring:message code='invoiceSales.paymentTypeName'/>",
+                        showHover: true
+                    },
+                    {
+                        name: "nonCash",
+                        title: "<spring:message code='invoiceSales.paymentNonCash'/>",
+                        valueMap:
+                        {
+                            true : "بلی",
+                            false : "خیر",
+                        },
+                    }
+                    ],
                 },
                 {
                     name: "lcNoId",
@@ -495,20 +441,20 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    autoFetchData: false,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
+                    },
+                    {
+                        name: "code",
+                        title: "<spring:message code='invoiceSales.code'/>"
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {
@@ -532,9 +478,15 @@
                 {
                     name: "preInvoiceDate",
                     title: "<spring:message code='invoiceSales.preInvoiceDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: "date",
-                    format: 'DD-MM-YYYY',
+                    ID: "preInvoiceDateId",
+                    type: 'text',
+                    icons: [{
+                        src: "pieces/pcal.png",
+                        click: function () {
+                            displayDatePicker('preInvoiceDateId', this, 'ymd', '/');
+                        }
+                    }],
+                    defaultValue: "1398/06/01"
                 },
                 {
                     name: "issueId",
@@ -543,75 +495,15 @@
                 {
                     name: "issueDate",
                     title: "<spring:message code='invoiceSales.issueDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: "date",
-                    format: 'DD-MM-YYYY',
-                },
-                {
-                    name: "openingBankId",
-                    title: "<spring:message code='invoiceSales.openingBankId'/>",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
-                },
-                {
-                    name: "openingDate",
-                    title: "<spring:message code='invoiceSales.openingDate'/>",
-                    defaultValue: "<%=dateUtil.todayDate()%>",
-                    type: "date",
-                    format: 'DD-MM-YYYY',
-                },
-                {
-                    name: "dealerBankId",
-                    title: "<spring:message code='invoiceSales.dealerBankId'/>",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_nosa_IN_invoiceSales,
-                    displayField: "code",
-                    valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
-                    changed: function (form, item, value) {
-
-                    if (value != null && value != 'undefined') {
-                        var detName =(form.getItem("dealerBankId")).getSelectedRecord().detailName;
-                        (form.getItem("dealerBankName")).setValue(detName);
-                    }
-                    else
-                        (form.getItem("dealerBankName")).setValue("");
-                    },
-                },
-                {
-                    name: "dealerBankName",
-                    title: "<spring:message code='invoiceSales.dealerBankName'/>",
-                    type: "staticText",
-                    Value : ""
+                    ID: "issueDateId",
+                    type: 'text',
+                    icons: [{
+                        src: "pieces/pcal.png",
+                        click: function () {
+                            displayDatePicker('issueDateId', this, 'ymd', '/');
+                        }
+                    }],
+                    defaultValue: "1398/06/01"
                 },
                 {
                     name: "otherDescription",
@@ -631,20 +523,20 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    <%--cachePickListResults: false,--%>
-                    <%--pickListProperties: {--%>
-                        <%--showFilterEditor: true--%>
-                    <%--},--%>
-                    <%--pickListFields: [--%>
-                    <%--{--%>
-                        <%--name: "detailName",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--},--%>
-                    <%--{--%>
-                        <%--name: "code",--%>
-                        <%--&lt;%&ndash;title: "<spring:message code='invoiceSales.secondContractName'/>"&ndash;%&gt;--%>
-                    <%--}--%>
-                    <%--],--%>
+                    autoFetchData: false,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "detailName",
+                        title: "<spring:message code='invoiceSales.detailCode'/>"
+                    },
+                    {
+                        name: "code",
+                        title: "<spring:message code='invoiceSales.code'/>"
+                    }
+                    ],
                     changed: function (form, item, value) {
 
                     if (value != null && value != 'undefined') {
@@ -875,30 +767,10 @@
                     align: "center",
                 },
                 {
-                    name: "salesTypeId",
-                    title: "<spring:message code='invoiceSales.salesTypeId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
                     name: "salesTypeName",
                     title: "<spring:message code='invoiceSales.salesTypeName'/>",
                     width: "10%",
                     align: "center",
-                },
-                {
-                    name: "currency",
-                    title: "<spring:message code='invoiceSales.currency'/>",
-                    width: "10%",
-                    align: "center",
-                },
-                {
-                    name: "contaminationTaxesId",
-                    title: "<spring:message code='invoiceSales.contaminationTaxesId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
                 },
                 {
                     name: "contaminationTaxesName",
@@ -907,15 +779,8 @@
                     align: "center",
                 },
                 {
-                    name: "paymentTypeId",
-                    title: "<spring:message code='invoiceSales.paymentTypeId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
                     name: "paymentTypeName",
-                    title: "<spring:message code='invoiceSales.paymentTypeName'/>",
+                    title: "<spring:message code='invoiceSales.paymentType'/>",
                     width: "10%",
                     align: "center",
                 },
@@ -954,34 +819,6 @@
                 {
                     name: "issueDate",
                     title: "<spring:message code='invoiceSales.issueDate'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
-                    name: "openingBankId",
-                    title: "<spring:message code='invoiceSales.openingBankId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
-                    name: "openingDate",
-                    title: "<spring:message code='invoiceSales.openingDate'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
-                    name: "dealerBankId",
-                    title: "<spring:message code='invoiceSales.dealerBankId'/>",
-                    width: "10%",
-                    align: "center",
-                    showIf: "false"
-                },
-                {
-                    name: "dealerBankName",
-                    title: "<spring:message code='invoiceSales.dealerBankName'/>",
                     width: "10%",
                     align: "center",
                     showIf: "false"

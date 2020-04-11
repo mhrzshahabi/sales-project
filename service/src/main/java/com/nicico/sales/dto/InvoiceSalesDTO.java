@@ -1,6 +1,5 @@
 package com.nicico.sales.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,31 +20,20 @@ public class InvoiceSalesDTO {
     private Long id;
     private String serial;
     private String invoiceNo;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date invoiceDate;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private String invoiceDate;
     private String district;
     private Long customerId;
     private String customerName;
-    private Long salesTypeId;
     private String salesTypeName;
-    private String currency;
-    private Long contaminationTaxesId;
     private String contaminationTaxesName;
-    private Long paymentTypeId;
     private String paymentTypeName;
     private Long lcNoId;
     private String lcNoName;
     private Long preInvoiceId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date preInvoiceDate;
+    private String preInvoiceDate;
     private Long issueId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date issueDate;
-    private Long openingBankId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date openingDate;
-    private Long dealerBankId;
-    private String dealerBankName;
+    private String issueDate;
     private String otherDescription;
     private String firstContractNo;
     private String secondContractNo;
