@@ -299,14 +299,14 @@
                     title: "<spring:message code='contract.contractDate'/>",
                     showTitle: "true",
                     align: "center",
-                    type: "datetime",
                     canEdit: false
                 },
                 {
                     name: "contact.nameFA",
                     showTitle: "true",
                     title: "<spring:message code='contact.name'/>",
-                    align: "center"
+                    align: "center",
+                    canEdit: false
                 }
             ]
     });
@@ -446,7 +446,7 @@
     });
 
     var ToolStripButton_Contract_DraftList = isc.ToolStripButtonDraft.create({
-        title: "Draft",
+        title: "<spring:message code='contract.draft'/>",
         click: function () {
              var recordContract = ListGrid_Conc.getSelectedRecord();
                  if (recordContract == null || recordContract.id == null) {

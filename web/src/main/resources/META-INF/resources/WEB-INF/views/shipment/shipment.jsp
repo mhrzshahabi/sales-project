@@ -329,7 +329,6 @@
                 optionDataSource: RestDataSource_pickShipmentItem,
                 displayField: "contractNo",
                 valueField: "cisId",
-                pickListWidth: 680,
                 pickListHeight: "500",
                 required: true,
                 validators: [

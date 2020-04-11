@@ -2791,7 +2791,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     });
 
-    var VLayout_PageTwo_Contract = isc.VLayout.create({
+    var VLayout_PageTwo_ContractMol = isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "center",
@@ -3569,7 +3569,7 @@ var contactTabs = isc.TabSet.create({
             },
             {
                 title: "page2", canClose: false,
-                pane: VLayout_PageTwo_Contract
+                pane: VLayout_PageTwo_ContractMol
             },
             {
                 title: "page3", canClose: false,

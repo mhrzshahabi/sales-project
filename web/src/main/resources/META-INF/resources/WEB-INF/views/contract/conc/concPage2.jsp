@@ -159,8 +159,8 @@
     })
 
     isc.ListGrid.create({
-        showFilterEditor: false,
         ID: "ListGrid_ContractConcItemShipment",
+        showFilterEditor: false,
         width: "100%",
         height: "200",
         modalEditing: true,
@@ -185,9 +185,9 @@
                 {
                     name: "shipmentRow",
                     title: "<spring:message code='contractItem.itemRow'/> ",
-                    type: 'text',
                     width: "10%",
-                    align: "center"
+                    align: "center",
+                    keyPressFilter: "[0-9.]",
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
@@ -205,8 +205,13 @@
                 {
                     name: "amount",
                     title: "<spring:message code='global.amount'/>",
-                    type: 'float',
                     width: "10%",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true,
+                        keyPressFilter: "[0-9.]"
+                    }],
                     align: "center", changed: function (form, item, value) {
                         if (ListGrid_ContractConcItemShipment.getEditRow() == 0) {
                             amountSet = value;
@@ -229,20 +234,30 @@
                 {
                     name: "duration",
                     title: "<spring:message code='global.duration'/>",
-                    type: 'text',
                     width: "10%",
-                    align: "center"
+                    align: "center",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true,
+                        keyPressFilter: "[0-9.]"
+                    }]
                 },
                 {
-                    name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",
-                    type: 'text', width: "10%", align: "center", changed: function (form, item, value) {
+                    name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",keyPressFilter: "[0-9.]",
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true,
+                    }],
+                     width: "10%", align: "center", changed: function (form, item, value) {
                         if (ListGrid_ContractConcItemShipment.getEditRow() == 0) {
                             valuesManagerArticle5_quality.setValue("fullArticle5", amountSet + "MT" + " " + "+/-" + value + " " + valuesManagerArticle2Conc.getItem("optional").getDisplayValue(valuesManagerArticle2Conc.getValue("optional")) + " " + "PER EACH CALENDER MONTH STARTING FROM" + " " + sendDateSetConc + " " + "TILL");
                         }
                     }
                 },
             ], saveEdits: function () {
-        }, removeData: function (data) {
+            }, removeData: function (data) {
             if(data.deleted){
                 data.deleted = false;
                 return;
@@ -592,7 +607,7 @@
         value: ""
     })
 
-    var VLayout_PageTwo_Contract = isc.VLayout.create({
+    var VLayout_PageTwo_ContractConc = isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "top",
