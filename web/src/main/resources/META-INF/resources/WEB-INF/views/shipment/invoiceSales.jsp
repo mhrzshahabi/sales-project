@@ -116,6 +116,25 @@
             fetchDataURL: "${contextPath}/api/invoiceNosaSales/list"
         });
 
+ var RestDataSource_accDepartment = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "departmentCode"
+                },
+                {
+                    name: "departmentName"
+                },
+                {
+                    name: "departmentNameLatin"
+                }
+            ],
+            dataFormat:"json",
+            jsonPrefix:"",
+            jsonSuffix:"",
+            fetchDataURL: "${contextPath}/api/accDepartment/list"
+        });
+
  var RestDataSource_salesType = isc.MyRestDataSource.create(
         {
             fields: [
@@ -334,6 +353,21 @@
                 {
                     name: "district",
                     title: "<spring:message code='invoiceSales.district'/>",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_accDepartment,
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "departmentCode",
+                        title: "<spring:message code='invoiceSales.districtCode'/>"
+                    },
+                    {
+                        name: "departmentName",
+                        title: "<spring:message code='invoiceSales.districtName'/>"
+                    }
+                    ],
                 },
                 {
                     name: "customerId",
