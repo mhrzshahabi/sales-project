@@ -133,7 +133,11 @@ var buttonAddItem=isc.IButton.create({
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
                     width: "10%",
-                    align: "center",keyPressFilter: "[0-9.]"
+                    align: "center",keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type:"isInteger",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
@@ -186,6 +190,7 @@ var buttonAddItem=isc.IButton.create({
                 }
                 },
             ],saveEdits: function () {
+                console.log(ListGrid_ContractItemShipment.validateRow(0));
             },removeData: function (data) {
                 if(data.deleted){
                 data.deleted = false;
