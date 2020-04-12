@@ -61,60 +61,7 @@
     }
 
 
-    function ListGrid_Country_remove() {
-        var record = ListGrid_Country.getSelectedRecord();
-        if (record == null || record.id == null) {
-            isc.Dialog.create(
-                {
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create(
-                        {
-                            title: "<spring:message code='global.ok'/>"
-                        })],
-                    buttonClick: function () {
-                        this.hide();
-                    }
-                });
-        }
-        else {
-            isc.Dialog.create(
-                {
-                    message: "<spring:message code='global.grid.record.remove.ask'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                    buttons: [isc.IButtonSave.create(
-                        {
-                            title: "<spring:message code = 'global.yes'/>"
 
-                        }), isc.IButtonCancel.create(
-                        {
-                            title: "<spring:message code='global.no'/>"
-                        })],
-                    buttonClick: function (button, index) {
-                        this.hide();
-                        if (index == 0) {
-                            var CountryId = record.id;
-                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
-                                {
-                                    actionURL: "${contextPath}/api/country/" + record.id,
-                                    httpMethod: "DELETE",
-                                    callback: function (resp) {
-                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                            ListGrid_Country_refresh();
-                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                        }
-                                        else {
-                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                        }
-                                    }
-                                }));
-                        }
-                    }
-                });
-        }
-    }
 
     var Menu_ListGrid_Country = isc.Menu.create({
         width: 150,
@@ -317,7 +264,7 @@
                         httpMethod: method,
                         data: JSON.stringify(data),
                         callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                            if (!resp && resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Country_refresh();
                                 Window_Country.close();
