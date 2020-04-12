@@ -326,6 +326,7 @@
         autoCenter: true,
         isModal: true,
         showModalMask: true,
+        canDragReposition: false,
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,

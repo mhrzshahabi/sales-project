@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
@@ -197,10 +196,10 @@
                 }, {name: "nameEN", width: "10%", align: "center"},
                 ],
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "fullName",
@@ -209,10 +208,10 @@
                 required: true, length: "200", errorOrientation: "bottom",
                 width: 500,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "jobTitle",
@@ -249,7 +248,7 @@
                         validateOnChange: true
                     },
                     {
-                        type:"required",
+                        type: "required",
                         validateOnChange: true
                     }
                 ]
@@ -404,11 +403,10 @@
         textAlign: "center",
         align: "center",
         members: [
-        HLayout_Person_IButton
+            HLayout_Person_IButton
 
         ]
     });
-
 
 
     var Window_Person = isc.Window.create({
@@ -597,10 +595,10 @@
                     required: true, errorOrientation: "bottom",
                     width: 400,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "jobTitle",
@@ -628,10 +626,10 @@
                     width: 400,
                     regex: "^([a-zA-Z0-9_.\\-+])+@(([a-zA-Z0-9\\-])+\\.)+[a-zA-Z0-9]{2,4}$",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "email1",
@@ -722,7 +720,7 @@
                     name: "contact.nameFA",
                     title: "<spring:message code='commercialParty.title'/>",
                     type: 'text',
-                    width: 120,
+                    width: "10%",
                     align: "center",
                     sortNormalizer: function (recordObject) {
                         return recordObject.contact.nameFA;
@@ -733,24 +731,24 @@
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
                     required: true, errorOrientation: "bottom",
-                    width: 150,
+                    width: "10%",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "jobTitle",
                     title: "<spring:message code='person.jobTitle'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "title",
                     title: "<spring:message code='person.title'/>",
                     type: 'text',
-                    width: 150,
+                    width: "10%",
                     valueMap:
                         {
                             "MR": "<spring:message code='global.MR'/>",
@@ -763,18 +761,18 @@
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
                     required: true, errorOrientation: "bottom",
-                    width: 150,
+                    width: "10%",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "email1",
                     title: "<spring:message code='person.email1'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "email2",
@@ -786,55 +784,55 @@
                     name: "webAddress",
                     title: "<spring:message code='person.webAddress'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "phoneNo",
                     title: "<spring:message code='person.phoneNo'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "faxNo",
                     title: "<spring:message code='person.faxNo'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "mobileNo",
                     title: "<spring:message code='person.mobileNo'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "mobileNo1",
                     title: "<spring:message code='person.mobileNo1'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "mobileNo2",
                     title: "<spring:message code='person.mobileNo2'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "whatsApp",
                     title: "<spring:message code='person.whatsApp'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "weChat",
                     title: "<spring:message code='person.weChat'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
                 {
                     name: "address",
                     title: "<spring:message code='person.address'/>",
                     type: 'text',
-                    width: 150
+                    width: "10%",
                 },
 
             ],

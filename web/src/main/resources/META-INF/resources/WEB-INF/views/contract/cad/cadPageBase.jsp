@@ -79,10 +79,20 @@ var contactCadTabs = isc.TabSet.create({
         icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
+            ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
+            if(ListGrid_ContractItemShipment.validateRow(element) != true){
+                    ListGrid_ContractItemShipment.validateRow(element);
+                    isc.warn("<spring:message code='main.contractShipment'/>");
+                    return;
+                    }
+                 })
             var dataSaveAndUpdateContractCad = {};
             var dataSaveAndUpdateContractCadDetail = {};
             contactCadHeader.validate();
             valuesManagerArticle6_quality.validate();
+
+
+
             if (valuesManagerArticle6_quality.hasErrors()){
                 contactCadTabs.selectTab(1);
                 return;

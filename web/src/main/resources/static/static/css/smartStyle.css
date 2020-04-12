@@ -68,13 +68,14 @@ body {
     height: 50px;
     flex-direction: row;
     text-align: center;
+    margin-left: 14px;
 
 }
 
 #mybutton {
     position: fixed;
-    left: 10px;
-    bottom: 6px;
+    left: 18px;
+    bottom: -18px;
     -webkit-transition: all 0.75s ease 0s;
     -moz-transition: all 0.75s ease 0s;
     -o-transition: all 0.75s ease 0s;

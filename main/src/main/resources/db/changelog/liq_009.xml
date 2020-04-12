@@ -8,7 +8,6 @@
         <modifyDataType columnName="INVOICE_DATE" newDataType="varchar2(24 CHAR)" tableName="TBL_INVOICE_SALES"/>
         <modifyDataType columnName="PRE_INVOICE_DATE" newDataType="varchar2(24 CHAR)" tableName="TBL_INVOICE_SALES"/>
         <modifyDataType columnName="ISSUE_DATE" newDataType="varchar2(24 CHAR)" tableName="TBL_INVOICE_SALES"/>
-        <modifyDataType columnName="OPENING_DATE" newDataType="varchar2(24 CHAR)" tableName="TBL_INVOICE_SALES"/>
     </changeSet>
 
 </databaseChangeLog>
