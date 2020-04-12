@@ -118,7 +118,6 @@
                     keyPressFilter: "[0-4]",
                     length: "1",
                     hint: "<spring:message code='deghat.ashar.cu'/>",
-                    showHintInField: true,
                     validators: [
                         {
                             type: "isInteger",

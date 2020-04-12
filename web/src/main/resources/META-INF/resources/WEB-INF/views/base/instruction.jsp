@@ -460,19 +460,23 @@
             layoutTopMargin: 5,
             members: [
                 isc.TabSet.create(
+
                     {
                         tabBarPosition: "top",
                         width: "100%",
                         tabs: [
                             {
                                 title: "<spring:message code='instruction.title'/>",
-                                pane: VLayout_Instruction_Body
+                                pane: VLayout_Instruction_Body ,
+                                name:"ttt",
                             },
                             {
                                 title: "<spring:message code='global.Attachment'/>",
                                 pane: InstructionAttachmentViewLoader,
+                                name: "titleInstruction_ins",
                                 tabSelected: function (form, item, value) {
                                     var record = ListGrid_Instruction.getSelectedRecord();
+
                                     if (record == null || record.id == null) {
                                         isc.Dialog.create(
                                             {
@@ -491,6 +495,8 @@
                                     }
                                     var dccTableId = record.id;
                                     var dccTableName = "TBL_INSTRUCTION";
+                                    var titleInstruction_tab = ListGrid_Instruction.getSelectedRecord().titleInstruction;
+                                     this.setTabTitle("titleInstruction_ins" , titleInstruction_tab);
                                     InstructionAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                                 }
                             }]

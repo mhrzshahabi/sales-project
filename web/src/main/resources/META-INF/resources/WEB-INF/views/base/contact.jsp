@@ -528,7 +528,8 @@
                     width: 200,
                     keyPressFilter: "[0-9.]",
                     wrapTitle: false,
-                    textAlign: "left"
+                    textAlign: "left" , required:true
+
                 },
                 {
                     name: "economicalCode",

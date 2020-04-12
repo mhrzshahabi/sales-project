@@ -107,7 +107,7 @@
             keyPressFilter: "[0-4]",
             length: "1",
             hint: "<spring:message code='deghat.ashar'/>",
-            showHintInField: true
+
         },{
             type: "RowSpacerItem"
           }]
