@@ -13,7 +13,7 @@ import java.lang.reflect.ParameterizedType;
 public class EnumConverter<E extends Enum<E>> implements AttributeConverter<E, Integer> {
 
     private Class<E> eType;
-    private static Method getIdMethod;
+    private Method getIdMethod;
 
     {
         ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();
