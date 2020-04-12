@@ -1,6 +1,5 @@
 package com.nicico.sales.model;
 
-import com.nicico.sales.model.enumeration.EStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -22,6 +21,7 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable {
+
     @CreatedDate
     @Column(name = "d_created_date", nullable = false, updatable = false)
     private Date createdDate;

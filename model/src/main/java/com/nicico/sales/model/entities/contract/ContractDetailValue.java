@@ -30,6 +30,10 @@ public class ContractDetailValue extends BaseEntity {
     private Long id;
 
     @NotEmpty
+    @Column(name = "C_NAME", nullable = false)
+    private String name;
+
+    @NotEmpty
     @Column(name = "C_KEY", nullable = false)
     private String key;
 

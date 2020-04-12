@@ -22,6 +22,10 @@ public class ContractType extends BaseEntity {
     private Long id;
 
     @NotEmpty
+    @Column(name = "C_CODE", nullable = false, length = 200, unique = true)
+    private String code;
+
+    @NotEmpty
     @Column(name = "C_TITLE_FA", nullable = false, length = 200, unique = true)
     private String titleFa;
 
