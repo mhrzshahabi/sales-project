@@ -246,10 +246,20 @@
             title: "<spring:message code='warehouseCadItem.lotName'/>"
         }, {
             name: "barrelNo",
-            title: "<spring:message code='warehouseCadItem.barrelNo'/>"
+            title: "<spring:message code='warehouseCadItem.barrelNo'/>",
+            validators: [{
+                type: "regexp",
+                expression: "^[0-9]*$",
+                validateOnChange: true
+            }],
         }, {
             name: "weightKg",
-            title: "<spring:message code='warehouseCadItem.weightKg'/>"
+            title: "<spring:message code='warehouseCadItem.weightKg'/>",
+            validators: [{
+                type: "regexp",
+                expression: "^[0-9]*$",
+                validateOnChange: true
+            }],
         }, {
             name: "description",
             title: "<spring:message code='warehouseCadItem.description'/>"
@@ -554,6 +564,10 @@
              if(DynamicForm_warehouseMo.getValue("destinationTozinPlantId")==undefined && DynamicForm_warehouseMo.getValue("destinationTozinPlantStaticId") == undefined){
                     isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
                     DynamicForm_warehouseMo.validate()
+                    return;
+                }
+             if (ListGrid_WarehouseCadItem.hasErrors()){
+                isc.warn("<spring:message code='warehouseCadItem.tedadMoErrors'/>");
                     return;
                 }
             DynamicForm_warehouseMo.validate();

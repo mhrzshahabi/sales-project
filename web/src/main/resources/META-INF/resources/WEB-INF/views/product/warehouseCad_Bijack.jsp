@@ -285,9 +285,19 @@
         }, {
             name: "bundleSerial"
         }, {
-            name: "sheetNo"
+            name: "sheetNo",
+            // validators: [{
+            //     type: "regexp",
+            //     expression: "^[0-9]*$",
+            //     validateOnChange: true
+            // }],
         }, {
-            name: "weightKg"
+            name: "weightKg",
+            // validators: [{
+            //     type: "regexp",
+            //     expression: "^[0-9]*$",
+            //     validateOnChange: true
+            // }],
         }, {
             name: "issueId"
         }, {
@@ -328,13 +338,19 @@
                 }
             });
         },
+
         saveEdits: function () {
+
+            <%--if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditSessionRowNum())) {--%>
+                <%--isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");--%>
+                <%--return;--%>
+            <%--}--%>
+
             var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditRow());
             if (warehouseCadItemRecord.issueId != undefined) {
                 isc.warn("<spring:message code='bijack.item.inventory'/>");
                 return;
             }
-
             if (warehouseCadItemRecord.bundleSerial != undefined && warehouseCadItemRecord.sheetNo != undefined && warehouseCadItemRecord.weightKg != undefined &&
                 warehouseCadItemRecord.bundleSerial != null && warehouseCadItemRecord.sheetNo != null && warehouseCadItemRecord.weightKg != null) {
 
@@ -705,12 +721,16 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
+
             if (DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantStaticId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
                 DynamicForm_warehouseCAD_Bij.validate()
                 return;
             }
-
+            <%--if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditSessionRowNum())) {--%>
+                <%--isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");--%>
+                <%--return;--%>
+            <%--}--%>
             DynamicForm_warehouseCAD_Bij.validate();
             if (DynamicForm_warehouseCAD_Bij.hasErrors())
                 return;

@@ -244,7 +244,12 @@
         showGridSummary: true,
         fields: [{
             name: "weightKg",
-            title: "<spring:message code='warehouseCadItem.weightKg'/>"
+            title: "<spring:message code='warehouseCadItem.weightKg'/>",
+            validators: [{
+                type: "regexp",
+                expression: "^[0-9]*$",
+                validateOnChange: true
+            }],
         }, {
             name: "description",
             title: "<spring:message code='warehouseCadItem.description'/>"
@@ -542,6 +547,10 @@
             if (DynamicForm_warehouseConc.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseConc.getValue("destinationTozinPlantStaticId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
                 DynamicForm_warehouseConc.validate();
+                return;
+            }
+            if(ListGrid_WarehouseCadItem.hasErrors()){
+                isc.warn("<spring:message code='warehouseCadItem.tedadConcErrors'/>");
                 return;
             }
             DynamicForm_warehouseConc.validate();
