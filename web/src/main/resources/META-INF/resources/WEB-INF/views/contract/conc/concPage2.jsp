@@ -158,8 +158,7 @@
         click: "ListGrid_ContractConcItemShipment.startEditingNew()"
     })
 
-    isc.ListGrid.create({
-        ID: "ListGrid_ContractConcItemShipment",
+ListGrid_ContractConcItemShipment = isc.ListGrid.create({
         showFilterEditor: false,
         width: "100%",
         height: "200",
@@ -187,7 +186,10 @@
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     width: "10%",
                     align: "center",
-                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type:"isInteger",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
@@ -206,11 +208,9 @@
                     name: "amount",
                     title: "<spring:message code='global.amount'/>",
                     width: "10%",
-                    validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true,
-                        keyPressFilter: "[0-9.]"
+                    validators: [{
+                        type:"isInteger",
+                        validateOnChange: true
                     }],
                     align: "center", changed: function (form, item, value) {
                         if (ListGrid_ContractConcItemShipment.getEditRow() == 0) {
@@ -238,7 +238,7 @@
                     align: "center",
                     validators: [
                     {
-                        type:"required",
+                        type:"isInteger",
                         validateOnChange: true,
                         keyPressFilter: "[0-9.]"
                     }]
@@ -247,8 +247,9 @@
                     name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",keyPressFilter: "[0-9.]",
                     validators: [
                     {
-                        type:"required",
+                        type:"isInteger",
                         validateOnChange: true,
+                        keyPressFilter: "[0-9.]"
                     }],
                      width: "10%", align: "center", changed: function (form, item, value) {
                         if (ListGrid_ContractConcItemShipment.getEditRow() == 0) {
