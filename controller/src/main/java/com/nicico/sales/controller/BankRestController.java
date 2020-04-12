@@ -4,7 +4,7 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.BankDTO;
-import com.nicico.sales.iservice.IBankService;
+import com.nicico.sales.iservice.IBankService11;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class BankRestController {
 
-    private final IBankService bankService;
+    private final IBankService11 bankService;
 
     @Loggable
     @GetMapping(value = "/{id}")
