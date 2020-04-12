@@ -80,6 +80,13 @@
         icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
+            ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
+            if(ListGrid_ContractConcItemShipment.validateRow(element) != true){
+                    ListGrid_ContractConcItemShipment.validateRow(element);
+                    isc.warn("<spring:message code='main.contractShipment'/>");
+                    return;
+                    }
+                 })
             var dataSaveAndUpdateContractConc = {};
             var dataSaveAndUpdateContractConcDetail = {};
             contactHeaderConc.validate();

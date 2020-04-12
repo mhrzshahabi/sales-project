@@ -270,11 +270,21 @@
             name: "sheetNumber",
             title: "<spring:message code='warehouseCadItem.sheetNo'/>",
             width: "20%",
+            validators: [{
+                type: "regexp",
+                expression: "^[0-9]*$",
+                validateOnChange: true
+            }],
             summaryFunction: "sum"
         }, {
             name: "wazn",
             title: "<spring:message code='warehouseCadItem.weightKg'/>",
             width: "20%",
+            validators: [{
+                type: "regexp",
+                expression: "^[0-9]*$",
+                validateOnChange: true
+            }],
             summaryFunction: "sum"
         }, {
             name: "description",
@@ -638,6 +648,10 @@
             if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
                 DynamicForm_warehouseCAD.validate();
+                return;
+            }
+            if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.hasErrors()) {
+                isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");
                 return;
             }
             DynamicForm_warehouseCAD.validate();
