@@ -1,4 +1,5 @@
 <%@ page import="com.nicico.copper.common.domain.ConstantVARs" %>
+<%@ page import="com.nicico.copper.core.SecurityUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
@@ -991,7 +992,18 @@
         }
     });
     /*Help*/
+    SalesDocumentUrl = document.URL.split("?")[0].slice(-1) === "/"
+        ? document.URL.split("?")[0].slice(0, -1)
+        : document.URL.split("?")[0];
+    const SalesConfigs = {
+        Urls:{
+            RootUrl:"${contextPath}",
+            InvoiceExportRest:"${contextPath}" + "/rest",
+        },
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        userFullName: '<%= SecurityUtil.getFullName()%>',
 
+    }
 </script>
 </body>
 </html>

@@ -10,9 +10,8 @@ function invoiceExport() {
         Vars: {
             Debug: false,
             Prefix: "invoice-export-tab",
-            Url: AccountingConfigs.Urls.CallerSystemRest,
+            Url: SalesConfigs.Urls.InvoiceExportRest,
             Urls: {
-                systemsUrl : '<spring:eval expression="@environment.getProperty(\'nicico.apps.systems\')"/>',
             },
             Method: "POST",
             ContentType: "application/json; charset=utf-8",
@@ -27,7 +26,6 @@ function invoiceExport() {
                 titleAlign: "right",
             },
             Authorities: {},
-            callerSystem : {...window['callerSystemClicked']}
         },
         Methods: {
             JsonRPCManagerRequest: function (props, responseCallBack) {
@@ -41,13 +39,13 @@ function invoiceExport() {
                 if (method == null) method = "POST";
 
                 let httpHeaders = props.httpHeaders;
-                if (httpHeaders == null) httpHeaders = trainingConfigs.httpHeaders;
+                if (httpHeaders == null) httpHeaders = SalesConfigs.httpHeaders;
 
                 let contentType = props.contentType;
                 if (contentType == null) contentType = "application/json; charset=utf-8";
 
-                isc.MyRPCManager.sendRequest({
-
+                isc.RPCManager.sendRequest({
+                    ...{BaseRPCRequest},
                     actionURL: url,
                     httpMethod: method,
                     httpHeaders: httpHeaders,
@@ -91,7 +89,7 @@ function invoiceExport() {
                                 result[key].addAll(first[key]);
                                 result[key].addAll(second[key]);
                             } else if (first[key].Class === "Object" || first[key].Class == null)
-                                result[key] = osiTab.Methods.concatObjectsByKey(isBoolOperatorAnd, first[key], second[key]);
+                                result[key] = ieTab.Methods.concatObjectsByKey(isBoolOperatorAnd, first[key], second[key]);
                             else console.log("concatation error; type of '" + key + "'[" + first[key].Class + "] not recogenized...");
                         } else
                             result[key] = second[key];
@@ -102,7 +100,7 @@ function invoiceExport() {
             },
             FetchSpecListData: function (usePageStrategy, props, responseCallBack) {
 
-                osiTab.method.jsonRPCManagerRequest(props, (response) => {
+                ieTab.method.jsonRPCManagerRequest(props, (response) => {
 
                     if (!usePageStrategy || props.params._endRow >= 700) {
 
@@ -125,7 +123,7 @@ function invoiceExport() {
                     currentProps.params._startRow = currentProps.params._endRow;
                     currentProps.params._endRow = (currentProps.params._endRow - oldStartRow) + currentProps.params._startRow;
 
-                    evaluationResultTab.method.fetchSpecListData(usePageStrategy, currentProps, (response2) => {
+                    ieTab.method.fetchSpecListData(usePageStrategy, currentProps, (response2) => {
 
                         let json = JSON.parse(response2.data);
                         data.addAll(json.response.data);
@@ -203,9 +201,9 @@ function invoiceExport() {
                 }
             },
             RefreshAll: () => {
-                for (let grid in osiTab.Grids) {
+                for (let grid in ieTab.Grids) {
                     try {
-                        let iscGrid = window[osiTab.Grids[grid].ID];
+                        let iscGrid = window[ieTab.Grids[grid].ID];
                         if (typeof (iscGrid) === "object") {
                             iscGrid.invalidateCache();
                             // iscGrid.deselectAllRecords();
@@ -215,8 +213,8 @@ function invoiceExport() {
                     }
 
                 }
-                for (let form in osiTab.DynamicForms.Forms) {
-                    let f = window[osiTab.DynamicForms.Forms[form]["ID"]];
+                for (let form in ieTab.DynamicForms.Forms) {
+                    let f = window[ieTab.DynamicForms.Forms[form]["ID"]];
 
                     try {
                         f.clearValues();
@@ -224,8 +222,8 @@ function invoiceExport() {
                         console.log(e);
                     }
                 }
-                for (let windows in osiTab.Layouts.Window) {
-                    let w = window[osiTab.Layouts.Window[windows]["ID"]];
+                for (let windows in ieTab.Layouts.Window) {
+                    let w = window[ieTab.Layouts.Window[windows]["ID"]];
 
                     try {
                         w.hide();
@@ -235,33 +233,33 @@ function invoiceExport() {
                 }
             },
             Required: function () {
-                return !osiTab.Vars.debug
+                return !ieTab.Vars.debug
             },
             CrudDynamicForm: function (props) {
-                osiTab.Logs.add(['props:', props]);
+                ieTab.Logs.add(['props:', props]);
                 if (typeof (props) === "undefined") return;
-                let url = osiTab.Vars.Url;
-                let method = osiTab.Vars.Method;
+                let url = ieTab.Vars.Url;
+                let method = ieTab.Vars.Method;
                 let httpHeaders = trainingConfigs.httpHeaders;
                 let params = "";
                 let data = "";
                 let callBack = "";
                 let defaultResponse = function (response) {
-                    osiTab.Logs.add(["return status:", response]);
+                    ieTab.Logs.add(["return status:", response]);
                     if (response.status === 400 || response.status == 500) {
                         response.text().then(error => {
-                            osiTab.Logs.add(["fetch error:", error]);
+                            ieTab.Logs.add(["fetch error:", error]);
                             MyRPCManager.handleError({httpResponseText: error});
                         });
                         return;
                     }
 
                     if (response.status === 200 || response.status === 201) response.text().then(resp => {
-                        osiTab.Dialog.Success()
+                        ieTab.Dialog.Success()
                     });
                     else {
                         response.text().then(error => {
-                            osiTab.Logs.add(["fetch error:", error]);
+                            ieTab.Logs.add(["fetch error:", error]);
                             MyRPCManager.handleError({httpResponseText: error});
                         });
                     }
@@ -297,7 +295,7 @@ function invoiceExport() {
                     }
 
                 }
-                osiTab.Logs.add(['data to send rpc', data]);
+                ieTab.Logs.add(['data to send rpc', data]);
                 fetch(url, {
                     method: method,
                     headers: httpHeaders,
@@ -305,26 +303,26 @@ function invoiceExport() {
                 }).then(response => {
                     defaultResponse(response);
                 }).finally(() => {
-                    osiTab.Logs.add(["fetch finally: ", osiTab.Vars.Method]);
+                    ieTab.Logs.add(["fetch finally: ", ieTab.Vars.Method]);
                     if (typeof (callBack) === "function") {
                         callBack()
                     } else {
                     }
-                    osiTab.Methods.RefreshAll();
+                    ieTab.Methods.RefreshAll();
                 });
             },
             DynamicFormRefresh: (method = "POST", form) => {
-                osiTab.Vars.Method = method;
+                ieTab.Vars.Method = method;
                 form = window[form.ID];
                 form.clearValues();
             },
             NewForm: function (iscWindow, form) {
                 const win = window[iscWindow.ID];
-                osiTab.Methods.DynamicFormRefresh("POST", form);
+                ieTab.Methods.DynamicFormRefresh("POST", form);
                 win.show();
             },
             Save: function (data, url, callBack) {
-                osiTab.Methods.CrudDynamicForm({
+                ieTab.Methods.CrudDynamicForm({
                     data: data,
                     url: url,
                     callBack: callBack,
@@ -347,7 +345,7 @@ function invoiceExport() {
                             }
                         });
                     } else {
-                        osiTab.Vars.Method = "PUT";
+                        ieTab.Vars.Method = "PUT";
                         form.clearValues();
                         form.editRecord(record);
                         windowOfForm.show();
@@ -376,9 +374,9 @@ function invoiceExport() {
                             ],
                             buttonClick: function (button, index) {
                                 if (index === 0) {
-                                    // let urlD = osiTab.Vars.Url + "pattern/list";
+                                    // let urlD = ieTab.Vars.Url + "pattern/list";
                                     // if (typeof (deleteUrl) === "string") urlD = deleteUrl;
-                                    osiTab.Methods.CrudDynamicForm({
+                                    ieTab.Methods.CrudDynamicForm({
                                         data: data,
                                         url: deleteUrl,
                                         method: "DELETE",
@@ -388,7 +386,7 @@ function invoiceExport() {
 
                                 }
 
-                                // osiTab.log.add(ids);
+                                // ieTab.log.add(ids);
 
                                 this.hide();
 
@@ -445,7 +443,7 @@ function invoiceExport() {
                                         let wind = windowToCloseIs();
                                         //console.log("windowToClose:",wind);
                                         wind.closeClick();
-                                        osiTab.Methods.RefreshAll();
+                                        ieTab.Methods.RefreshAll();
                                     } catch (e) {
                                         let wind = windowToCloseIs();
                                         //console.log("windowToClose:",wind);
@@ -523,13 +521,82 @@ function invoiceExport() {
         },
         Grids: {},
         Layouts: {
-            Vlayouts: {},
+            Vlayouts: {
+                createMainVlayOut(members){
+                    isc.VLayout.create(
+                        {
+                            ID:ieTab.Vars.Prefix + "v-layout-main",
+                            width: "100%",
+                            height: "100%",
+                            members: members
+                        });                }
+            },
             Hlayouts: {},
             Window: {},
             PortalLayouts: {},
             Menu: {},
-            ToolStrips: {},
-            ToolStripButtons: {},
+            ToolStrips: {
+                createMainToolStrip:function () {
+                  return  isc.HLayout.create({
+                      width: "100%",
+                      members:
+                          [ isc.ToolStrip.create({
+                      ID:ieTab.Vars.Prefix + "tool-strip-main",
+                        width: "100%",
+                        members:
+                            [
+                        //    <sec:authorize access="hasAuthority('C_PARAMETERS')">
+                                isc.ToolStripButtonAdd.create({...ieTab.Layouts.ToolStripButtons.new,
+                                    ID:ieTab.Vars.Prefix + "tool-strip-button-add",                                }),
+              //  </sec:authorize>
+                 //   <sec:authorize access="hasAuthority('U_PARAMETERS')">
+                                isc.ToolStripButtonEdit.create({...ieTab.Layouts.ToolStripButtons.edit,
+                                    ID:ieTab.Vars.Prefix + "tool-strip-button-edit",                                }),
+
+                                ,
+             //   </sec:authorize>
+                //    <sec:authorize access="hasAuthority('D_PARAMETERS')">
+                                isc.ToolStripButtonRemove.create({...ieTab.Layouts.ToolStripButtons.remove,
+                                    ID:ieTab.Vars.Prefix + "tool-strip-button-remove",                                }),
+                                //    </sec:authorize>
+                    isc.ToolStrip.create({
+                        width: "100%",
+                        align: "left",
+                        border: '0px',
+                        members: [
+                            isc.ToolStripButtonRefresh.create({...ieTab.Layouts.ToolStripButtons.refresh,
+                                ID:ieTab.Vars.Prefix + "tool-strip-button-refresh",}),
+                        ]
+                    })
+                ]
+                })]});
+                }
+            },
+            ToolStripButtons: {
+                new:{
+                    title: "<spring:message code='global.form.new'/>",
+                    click: function () {
+
+                    }
+                },
+                edit:{
+                    icon: "[SKIN]/actions/edit.png",
+                    title: "<spring:message code='global.form.edit'/>",
+                    click: function () {
+                    }
+                },
+                remove:{
+                    icon: "[SKIN]/actions/remove.png",
+                    title: "<spring:message code='global.form.remove'/>",
+                    click: function () {
+                    }
+                },
+                refresh:{
+                    title: "<spring:message code='global.form.refresh'/>",
+                    click: function () {
+                    }
+                }
+            },
             Ibuttons: {
                 Buttons: {},
             },
@@ -585,7 +652,7 @@ function invoiceExport() {
             },
             Error: function (response) {
 
-                osiTab.log["errorResponse"] = response;
+                ieTab.log["errorResponse"] = response;
                 isc.Dialog.create({
                     message: '<spring:message code="global.form.response.error" />',
                     icon: "[SKIN]warn.png",
@@ -610,5 +677,35 @@ function invoiceExport() {
         },
         Log: {},
     };
+/**********************************************VAR*********************************************************************/
+ieTab.Layouts.ToolStripButtons.new.click =function(){
+    ieTab.Layouts.Window.invoice.show()
+};
+/**********************************************METHOD******************************************************************/
+/**********************************************FIELD*******************************************************************/
+/**********************************************DATASOURCE**************************************************************/
+/**********************************************LISTGRID****************************************************************/
+/**********************************************LAYOUT******************************************************************/
+ieTab.Layouts.Window.invoice = isc.Window.create(
+        {
+            title: "<spring:message code='parameters.title'/> ",
+            width: 580,
+            autoSize: true,
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            closeClick: function () {
+                this.Super("closeClick", arguments)
+            },
+            items: [
+            ]
+        });
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+ieTab.Layouts.Vlayouts.createMainVlayOut([ieTab.Layouts.ToolStrips.createMainToolStrip()]);
+    return ieTab;
 }
-invoiceExport();
+var ieTab = invoiceExport();
