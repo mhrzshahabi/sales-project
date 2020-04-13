@@ -33,7 +33,6 @@
 
     function ListGrid_WarehouseYard_edit() {
         var record = ListGrid_WarehouseYard.getSelectedRecord();
-
         if (record == null || record.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",

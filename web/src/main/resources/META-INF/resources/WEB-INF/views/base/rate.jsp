@@ -55,6 +55,7 @@
             height: "100%",
             align: "center",
             titleWidth: "100",
+            autoDraw: false,
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
 
@@ -109,7 +110,7 @@
                     name: "symbol",
                     title: "<spring:message code='feature.symbol'/>",
                     type: 'text',
-                    width: 300
+                    width: 300 ,
                 },
                 {
                     name: "decimalDigit",
@@ -117,8 +118,6 @@
                     width: 300,
                     keyPressFilter: "[0-4]",
                     length: "1",
-                    hint: "<spring:message code='deghat.ashar.cu'/>",
-                    showHintInField: true,
                     validators: [
                         {
                             type: "isInteger",
@@ -164,6 +163,9 @@
             );
         }
     });
+
+
+
 
 
     var Window_Rate = isc.Window.create({
@@ -317,6 +319,7 @@
         click: function () {
             DynamicForm_Rate.clearValues();
             ListGrid_Rate_edit();
+
         }
     });
     </sec:authorize>
@@ -437,7 +440,7 @@
                 {
                     name: "decimalDigit",
                     title: "<spring:message code='rate.decimalDigit'/>",
-                    align: "center"
+                    align: "center" , showIf: "false",
                 }
 
             ],
