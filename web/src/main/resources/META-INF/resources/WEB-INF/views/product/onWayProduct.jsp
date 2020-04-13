@@ -672,6 +672,7 @@
         alternateRecordStyles: true,
         width: "100%",
         height: "100%",
+        autoFitMaxRecords: 10,
         dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
         initialCriteria: RestDataSource_TozinInitialCriteria,
         contextMenu: Menu_ListGrid_OnWayProduct,
