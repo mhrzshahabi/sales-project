@@ -29,9 +29,13 @@ public class AccDepartmentRestController {
 
     @Loggable
     @GetMapping(value = "/list")
-    public ResponseEntity<List<AccDepartmentDTO.Info>> list() {
+    public ResponseEntity<TotalResponse<AccDepartmentDTO.Info>> list() {
 
-        return new ResponseEntity<>(iAccDepartmentService.list(), HttpStatus.OK);
+        GridResponse<AccDepartmentDTO.Info> gridResponseDep = new GridResponse<>();
+        gridResponseDep.setData(iAccDepartmentService.list());
+        TotalResponse<AccDepartmentDTO.Info> totalResponseDep = new TotalResponse<>(gridResponseDep);
+
+        return new ResponseEntity<>(totalResponseDep, HttpStatus.OK);
 
     }
 
