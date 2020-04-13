@@ -792,6 +792,15 @@
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
                 },
+                 {
+                    title: "<spring:message code='invoiceSales.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
+                    }
+                },
+
+
+
             ]
         })
     });
