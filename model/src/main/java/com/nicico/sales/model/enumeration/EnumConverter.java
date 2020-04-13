@@ -16,9 +16,9 @@ public class EnumConverter<E extends Enum<E>> implements AttributeConverter<E, I
     private Method getIdMethod;
 
     {
-        ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();
+        ParameterizedType superInterface = (ParameterizedType) getClass().getGenericInterfaces()[0];
         //noinspection unchecked
-        eType = (Class<E>) superClass.getActualTypeArguments()[0];
+        eType = (Class<E>) superInterface.getActualTypeArguments()[0].getClass();
 
         try {
             getIdMethod = eType.getDeclaredMethod("getId");

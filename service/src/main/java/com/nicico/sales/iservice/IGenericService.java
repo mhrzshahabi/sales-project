@@ -39,7 +39,7 @@ public interface IGenericService<T, ID extends Serializable, C, R, U, D> {
 
     List<R> saveAll(List<T> entities);
 
-    Boolean validation(T entity, Object ...request);
+    Boolean validation(T entity, Object... request);
 
-    Boolean validationAll(List<T> entity, Object ...request);
+    Boolean validationAll(List<T> entity, Object... request);
 }

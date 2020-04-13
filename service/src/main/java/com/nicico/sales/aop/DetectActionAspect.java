@@ -8,12 +8,17 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 @Aspect
 @Component
 public class DetectActionAspect {
 
     @Before(value = "@annotation(com.nicico.sales.annotation.Action)")
-    public void setActionType(JoinPoint joinPoint) throws NoSuchFieldException, IllegalAccessException {
+    public void setActionType(JoinPoint joinPoint) throws IllegalAccessException, NoSuchFieldException {
 
         Object target = joinPoint.getTarget();
         if (target == null)
@@ -24,7 +29,9 @@ public class DetectActionAspect {
 
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
             Action action = signature.getMethod().getDeclaredAnnotation(Action.class);
-            targetClass.getDeclaredField("actionType").set(target, action.value());
+            Field actionTypeField = GenericService.class.getDeclaredField("actionType");
+            actionTypeField.setAccessible(true);
+            actionTypeField.set(target, action.value());
         }
     }
 }

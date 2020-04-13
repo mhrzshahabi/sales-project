@@ -9,7 +9,6 @@ import com.nicico.sales.SalesException;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.iservice.IGenericService;
-import com.nicico.sales.utility.AuthorizationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -33,7 +32,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
-@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 public abstract class GenericService<T, ID extends Serializable, C, R, U, D> implements IGenericService<T, ID, C, R, U, D> {
 
     private Class<T> tType;
@@ -49,8 +47,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     protected EntityManager entityManager;
     @Autowired
     protected JpaRepository<T, ID> repository;
-    @Autowired
-    protected AuthorizationUtil authorizationUtil;
     @Autowired
     protected JpaSpecificationExecutor<T> repositorySpecificationExecutor;
 
@@ -71,12 +67,9 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional(readOnly = true)
     public R get(ID id) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.Get.name());
-
         final Optional<T> entityById = repository.findById(id);
         final T entity = entityById.orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
 
-//        actionType = ActionType.Get;
         R result = modelMapper.map(entity, rType);
 
         validation(entity, result);
@@ -88,11 +81,8 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional(readOnly = true)
     public List<R> getAll(List<ID> ids) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.List.name());
-
         final List<T> entities = repository.findAllById(ids);
 
-//        actionType = ActionType.List;
         List<R> result = entities.stream().map(q -> {
 
             R eResult = modelMapper.map(q, rType);
@@ -109,11 +99,8 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional(readOnly = true)
     public List<R> list() {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.List.name());
-
         final List<T> entities = repository.findAll();
 
-//        actionType = ActionType.List;
         List<R> result = entities.stream().map(q -> {
 
             R eResult = modelMapper.map(q, rType);
@@ -130,9 +117,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional(readOnly = true)
     public TotalResponse<R> search(NICICOCriteria request) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.Search.name());
-
-//        actionType = ActionType.Search;
         List<T> entities = new ArrayList<>();
         TotalResponse<R> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
@@ -151,9 +135,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional(readOnly = true)
     public SearchDTO.SearchRs<R> search(SearchDTO.SearchRq request) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.Search.name());
-
-//        actionType = ActionType.Search;
         List<T> entities = new ArrayList<>();
         SearchDTO.SearchRs<R> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
@@ -172,9 +153,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional
     public R create(C request) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.Create.name());
-
-//        actionType = ActionType.Create;
         final T entity = modelMapper.map(request, tType);
         validation(entity, request);
 
@@ -186,9 +164,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional
     public List<R> createAll(List<C> requests) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.CreateAll.name());
-
-//        actionType = ActionType.CreateAll;
         final List<T> entities = requests.stream().map(q -> {
 
             T entity = modelMapper.map(q, tType);
@@ -226,8 +201,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional
     public R update(ID id, U request) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.Update.name());
-
         final Optional<T> entityById = repository.findById(id);
         final T entity = entityById.orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
 
@@ -238,7 +211,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
             modelMapper.map(entity, updating);
             modelMapper.map(request, updating);
 
-//            actionType = ActionType.Update;
             validation(updating, request);
             return save(updating);
 
@@ -283,11 +255,8 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional
     public List<R> updateAll(List<ID> ids, List<U> requests) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.UpdateAll.name());
-
         try {
 
-//            actionType = ActionType.UpdateAll;
             List<T> entities = new ArrayList<>();
             for (int i = 0; i < ids.size(); i++) {
 
@@ -321,12 +290,9 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Transactional
     public void delete(ID id) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.Delete.name());
-
         final Optional<T> entityById = repository.findById(id);
         final T entity = entityById.orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
 
-//        actionType = ActionType.Delete;
         validation(entity, id);
 
         repository.deleteById(id);
@@ -338,14 +304,11 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @SuppressWarnings("unchecked")
     public void deleteAll(D request) {
 
-//        authorizationUtil.checkStandardPermission(tType.getSimpleName(), ActionType.DeleteAll.name());
-
         Method idsGetterMethod = getMethod(dType, new String[]{"getIds", "getCodes"});
         try {
 
             final List<T> entities = repository.findAllById((Iterable<ID>) idsGetterMethod.invoke(request));
 
-//            actionType = ActionType.DeleteAll;
             entities.forEach(q -> validation(q, request));
 
             validationAll(entities, request);
@@ -371,13 +334,13 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     }
 
     @Override
-    public Boolean validation(T entity, Object ...request) {
+    public Boolean validation(T entity, Object... request) {
 
         return null;
     }
 
     @Override
-    public Boolean validationAll(List<T> entity, Object ...request) {
+    public Boolean validationAll(List<T> entity, Object... request) {
 
         return null;
     }

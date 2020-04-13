@@ -21,10 +21,10 @@ public class EnumSetConverter<E extends Enum<E>> implements AttributeConverter<E
     private Method getIdMethod;
 
     {
-        ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();
-        ParameterizedType firstTypeArgument = (ParameterizedType) superClass.getActualTypeArguments()[0];
+        ParameterizedType superInterface = (ParameterizedType) getClass().getGenericInterfaces()[0];
+        ParameterizedType firstTypeArgument = (ParameterizedType) superInterface.getActualTypeArguments()[0];
         //noinspection unchecked
-        eType = (Class<E>) firstTypeArgument.getActualTypeArguments()[0];
+        eType = (Class<E>) firstTypeArgument.getActualTypeArguments()[0].getClass();
 
         try {
             getIdMethod = eType.getDeclaredMethod("getId");
