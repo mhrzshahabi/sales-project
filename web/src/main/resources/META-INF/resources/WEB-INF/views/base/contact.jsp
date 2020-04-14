@@ -1687,16 +1687,9 @@
 
                 },
                 {
-                    name: "nameFA",
-                    title: "<spring:message code='contact.nameFa'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
                     name: "nameEN",
                     title: "<spring:message code='contact.nameEn'/>",
-                    align: "center",
-                    hidden: true
+                    align: "center"
                 },
                 {
                     name: "tradeMark",
