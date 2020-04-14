@@ -97,7 +97,7 @@
         }
     });
 
-    isc.FormItem.addProperties({
+    isc.TextItem.addProperties({
         format: ",##0",
         selectOnClick: true,
         hintStyle: "noneStyleFormItem",

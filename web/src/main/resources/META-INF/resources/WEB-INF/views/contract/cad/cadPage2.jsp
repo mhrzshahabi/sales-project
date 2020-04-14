@@ -133,7 +133,11 @@ var buttonAddItem=isc.IButton.create({
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
                     width: "10%",
-                    align: "center",keyPressFilter: "[0-9.]"
+                    align: "center",keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type:"isInteger",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
@@ -158,7 +162,11 @@ var buttonAddItem=isc.IButton.create({
                            amountSet=value;
                            valuesManagerArticle5_quality.setValue("fullArticle5",value+"MT");
                         }
-                }
+                    },
+                    validators: [{
+                        type:"isInteger",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "sendDate",
@@ -174,11 +182,11 @@ var buttonAddItem=isc.IButton.create({
                     name: "duration",
                     title: "<spring:message code='global.duration'/>",
                     type : 'text',
-                    width: "10%",keyPressFilter: "[0-9.]",
+                    width: "10%",
                     align: "center"
                 },
                 {
-                name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",keyPressFilter: "[0-9.]",
+                name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",
                     type: 'text',width: "10%", align: "center",changed: function (form, item, value) {
                        if(ListGrid_ContractItemShipment.getEditRow()==0){
                            valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
@@ -186,6 +194,7 @@ var buttonAddItem=isc.IButton.create({
                 }
                 },
             ],saveEdits: function () {
+                console.log(ListGrid_ContractItemShipment.validateRow(0));
             },removeData: function (data) {
                 if(data.deleted){
                 data.deleted = false;
