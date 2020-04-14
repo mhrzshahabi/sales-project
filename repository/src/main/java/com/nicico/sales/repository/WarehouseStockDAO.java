@@ -21,7 +21,7 @@ public interface WarehouseStockDAO extends JpaRepository<WarehouseStock, Long>, 
     List<Object[]> warehouseStockConc();
 
     @Query(value = "select c.c_contract_no,m.c_code,m.c_descl,s.amount,s.send_date,ss.id from tbl_contract_shipment s  " +
-            "join tbl_contract c on s.contract_id=c.id " +
+            "join tbl_contract c on s.contract_id=c.contract_id " +
             "join tbl_material m on m.id= c.material_id " +
             "left join tbl_shipment ss on ss.contract_shipment_id=s.id " +
             "left join tbl_invoice i on i.shipment_id=ss.id and upper(i.invoice_type)='FINAL' " +
@@ -39,7 +39,7 @@ public interface WarehouseStockDAO extends JpaRepository<WarehouseStock, Long>, 
             "       to_char(s.d_created_date,'yyyy/mm/dd','nls_calendar=persian')f7,cr.c_contract_no f8  " +
             "from tbl_warehouse_issue_cons c  " +
             "join tbl_shipment s on s.id=c.shipment_id  " +
-            "join tbl_contract cr on cr.id=s.contract_id  " +
+            "join tbl_contract cr on cr.contract_id=s.contract_id  " +
             "join tbl_port p on p.id=s.discharge  " +
             "join tbl_country co on co.id=p.country_id  " +
             "  " +
@@ -50,7 +50,7 @@ public interface WarehouseStockDAO extends JpaRepository<WarehouseStock, Long>, 
             "       to_char(s.d_created_date,'yyyy/mm/dd','nls_calendar=persian')f7,cr.c_contract_no f8  " +
             "from tbl_warehouse_issue_mo c  " +
             "join tbl_shipment s on s.id=c.shipment_id  " +
-            "join tbl_contract cr on cr.id=s.contract_id  " +
+            "join tbl_contract cr on cr.contract_id=s.contract_id  " +
             "join tbl_port p on p.id=s.discharge  " +
             "join tbl_country co on co.id=p.country_id  " +
             ") group by f1,f3,f5,f6,f7,f8  " +
@@ -62,7 +62,7 @@ public interface WarehouseStockDAO extends JpaRepository<WarehouseStock, Long>, 
             "       to_char(s.d_created_date,'yyyy/mm/dd','nls_calendar=persian')f7,cr.c_contract_no f8  " +
             "from TBL_WAREHOUSE_ISSUE_CATHODE c  " +
             "join tbl_shipment s on s.id=c.shipment_id  " +
-            "join tbl_contract cr on cr.id=s.contract_id  " +
+            "join tbl_contract cr on cr.contract_id=s.contract_id  " +
             "join tbl_port p on p.id=s.discharge  " +
             "join tbl_country co on co.id=p.country_id  " +
             ") group by f1,f3,f5,f6,f7,f8   " +
