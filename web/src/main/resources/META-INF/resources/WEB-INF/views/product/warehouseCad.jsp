@@ -491,12 +491,34 @@
         }]
     });
 
+    var bijack_criteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [
+            {
+                fieldName: "materialItem.gdsCode",
+                operator: "equals",
+                value: DynamicForm_Material_WarehouseCad.getValues().materialId
+            },
+            {
+                fieldName: "plant",
+                operator: "contains",
+                value: DynamicForm_Plant_WarehouseCad.getValues().type
+            },
+            {
+                fieldName: "movementType",
+                operator: "contains",
+                value: DynamicForm_MovementType_WarehouseCad.getValues().type
+            }
+        ]
+    };
+
     var warehouseCAD_searchBtn = isc.IButton.create({
         width: 120,
         title: "<spring:message code='global.search'/>",
         icon: "icon/search.png",
         click: function () {
-            var criteria = {
+            var bijack_criteria = {
                 _constructor: "AdvancedCriteria",
                 operator: "and",
                 criteria: [
@@ -517,10 +539,10 @@
                     }
                 ]
             };
-            ListGrid_warehouseCAD.fetchData(criteria);
+            ListGrid_warehouseCAD.setCriteria(bijack_criteria);
+            ListGrid_warehouseCAD_refresh();
         }
     });
-
 
     var ToolStrip_Actions_warehouseCAD = isc.ToolStrip.create({
         width: "100%",
@@ -578,13 +600,14 @@
 
     var ListGrid_warehouseCAD = isc.ListGrid.create(
         {
-            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_WarehouseCad,
+            initialCriteria: bijack_criteria,
             contextMenu: Menu_ListGrid_warehouseCAD,
             styleName: 'expandList',
             autoFetchData: true,
+            useClientFiltering: false,
             alternateRecordStyles: true,
             canExpandRecords: true,
             canExpandMultipleRecords: false,
