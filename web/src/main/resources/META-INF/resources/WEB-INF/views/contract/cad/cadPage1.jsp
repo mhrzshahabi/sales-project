@@ -469,8 +469,21 @@ var DynamicForm_ContactParameter_ValueNumber8Cad=isc.DynamicForm.create({
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
-                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
+                   // {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"},
+                    {
+                    name: "categoryValue",
+                    title: "<spring:message	code='parameters.paramValue.d'/>",
+                    width: "15%",
+                    type: "text",
+                    required: true,
+                    valueMap: {
+                        "1": "Unit",
+                        "2": "Time",
+                        "3": "Financial",
+                        "-2": "BANK REFERENCE"
+                    }
+                    }
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
