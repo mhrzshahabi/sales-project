@@ -20,7 +20,7 @@
                     title: "<spring:message code='goods.code'/> "
                 },
                 {
-                    name: "nameFa",
+                    name: "nameEn",
                     title: "<spring:message code='global.country'/> "
                 }],
             fetchDataURL: "${contextPath}/api/country/spec-list"
@@ -528,8 +528,7 @@
                     width: 200,
                     keyPressFilter: "[0-9.]",
                     wrapTitle: false,
-                    textAlign: "left" , required:true
-
+                    textAlign: "left"
                 },
                 {
                     name: "economicalCode",
@@ -583,32 +582,29 @@
                 width: 500,
                 wrapTitle: false
             },
-
             {
-
                 name: "fax",
                 title: "<spring:message code='contact.fax'/>",
                 width: 500,
                 wrapTitle: false,
                 textAlign: "left"
             },
-
             {
                 required: true,
                 name: "countryId",
-                title: "<spring:message code='country.nameFa'/>",
+                title: "<spring:message code='global.country'/>",
                 type: 'long',
                 width: 500,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Country_IN_CONTACT,
-                displayField: "nameFa",
+                displayField: "nameEn",
                 valueField: "id",
                 pickListWidth: 500,
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", width: 480, align: "center", hidden: true},
-                    {name: "nameFa", width: 480, align: "center"},
+                    {name: "nameEn", width: 480, align: "center"},
                 ],
                 validators: [
                     {
@@ -617,7 +613,6 @@
                     }]
             },
             {name: "address", title: "<spring:message code='contact.address'/>", width: 500, wrapTitle: false},
-
             {
                 name: "webSite",
                 title: "<spring:message code='contact.webSite'/>",
@@ -631,7 +626,6 @@
                     }
                 ]
             },
-
             {
                 name: "email",
                 title: "<spring:message code='contact.email'/>",
@@ -645,8 +639,7 @@
                     }
                 ]
             }
-        ],
-
+        ]
     });
 
     var contactTabs = isc.TabSet.create({
