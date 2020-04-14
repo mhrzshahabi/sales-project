@@ -54,6 +54,14 @@
 </form>
 
 <script type="application/javascript">
+
+    <%@include file="common/js/isc-plus.js"%>
+
+    var salesCommonUtil = new evaluation.CommonUtil();
+    var salesFormUtil = new evaluation.FormUtil();
+    var salesFindFormUtil = new evaluation.FindFormUtil();
+    var salesGeneralTabUtil = new evaluation.GeneralTabUtil();
+
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.DynamicForm.addProperties({
@@ -610,8 +618,7 @@
                                 }
                             });
                             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        }
-                        else {
+                        } else {
                             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
                         }
                     }
@@ -772,8 +779,7 @@
                                 }
                             });
                             createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
-                        }
-                        else {
+                        } else {
                             createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
                         }
                     }
@@ -974,8 +980,8 @@
         top: 100,
         left: 20,
         contents: "<div id=\"mybutton\">\n" +
-        "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
-        "</div>",
+            "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
+            "</div>",
         dynamicContents: true,
         click: function () {
             fillScreenWindow_Main.show();

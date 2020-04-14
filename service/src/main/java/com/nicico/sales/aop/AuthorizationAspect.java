@@ -8,11 +8,14 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.ParameterizedType;
 
 @Aspect
+@Order(1)
 @Component
 @RequiredArgsConstructor
 public class AuthorizationAspect {
@@ -31,12 +34,14 @@ public class AuthorizationAspect {
 
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Action action = signature.getMethod().getDeclaredAnnotation(Action.class);
-        if (action == null || action.value() == ActionType.Unknown)
-            return;
 
-        ParameterizedType superClass = (ParameterizedType) target.getClass().getGenericSuperclass();
-        Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
-        String entityName = entityClass.getSimpleName();
-        authorizationUtil.checkStandardPermission(entityName, action.value().name());
+        if (StringUtils.isEmpty(action.authorityName())) {
+
+            ParameterizedType superClass = (ParameterizedType) target.getClass().getGenericSuperclass();
+            Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
+            String entityName = entityClass.getSimpleName();
+            authorizationUtil.checkStandardPermission(entityName, action.value().name());
+        } else if (action.value() != ActionType.Unknown)
+            authorizationUtil.checkStandardPermission(action.authorityName());
     }
 }

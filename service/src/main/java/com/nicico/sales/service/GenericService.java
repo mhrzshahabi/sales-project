@@ -4,10 +4,10 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
-import com.nicico.sales.EvaluationException;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.ErrorType;
+import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IGenericService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +68,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     public R get(ID id) {
 
         final Optional<T> entityById = repository.findById(id);
-        final T entity = entityById.orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
+        final T entity = entityById.orElseThrow(() -> new SalesException2(ErrorType.NotFound));
 
         R result = modelMapper.map(entity, rType);
 
@@ -202,7 +202,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     public R update(ID id, U request) {
 
         final Optional<T> entityById = repository.findById(id);
-        final T entity = entityById.orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
+        final T entity = entityById.orElseThrow(() -> new SalesException2(ErrorType.NotFound));
 
         try {
 
@@ -263,7 +263,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
                 ID id = ids.get(i);
                 U request = requests.get(i);
                 final Optional<T> entityById = repository.findById(id);
-                final T entity = entityById.orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
+                final T entity = entityById.orElseThrow(() -> new SalesException2(ErrorType.NotFound));
 
                 T updating = tType.getDeclaredConstructor().newInstance();
                 modelMapper.map(entity, updating);
@@ -291,7 +291,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     public void delete(ID id) {
 
         final Optional<T> entityById = repository.findById(id);
-        final T entity = entityById.orElseThrow(() -> new SalesException(SalesException.ErrorType.NotFound));
+        final T entity = entityById.orElseThrow(() -> new SalesException2(ErrorType.NotFound));
 
         validation(entity, id);
 
@@ -360,6 +360,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
             }
         }
 
-        throw new EvaluationException(EvaluationException.ErrorType.Unknown, "id", "شناسه موجودیت یافت نشد.");
+        throw new SalesException2(ErrorType.Unknown, "id", "شناسه موجودیت یافت نشد.");
     }
 }

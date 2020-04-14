@@ -1,4 +1,4 @@
-package com.nicico.sales.model.enumeration;
+package com.nicico.sales.util;
 
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
