@@ -29,17 +29,18 @@ public class AccDepartmentService implements IAccDepartmentService {
 
     private final ModelMapper modelMapper;
     private final OAuth2RestTemplate restTemplate;
-//    private final ObjectMapper objectMapper;
 
-//    @Value("${nicico.apps.accounting}")
-//    private String accountingAppUrl;
+    @Value("${nicico.apps.accounting}")
+    private String accountingAppUrl;
 
 
     @Override
     public List<AccDepartmentDTO.Info> list() {
-//        ResponseEntity<String> response = restTemplate.getForEntity(accountingAppUrl + "/rest/department/list", String.class);
+
         ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8090/accounting" + "/rest/oa-user-department/oa-user-cansubmit-department/",String.class);
-//        return modelMapper.map(forEntity, new TypeToken<List<AccDepartmentDTO.Info>>() {}.getType());
+//        ResponseEntity<String> response = restTemplate.getForEntity( accountingAppUrl + "/rest/oa-user-department/oa-user-cansubmit-department/",String.class);
+        String body = response.getBody();
+        //        return modelMapper.map(forEntity, new TypeToken<List<AccDepartmentDTO.Info>>() {}.getType());
         return null;
     }
 

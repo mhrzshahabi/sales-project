@@ -101,12 +101,13 @@
             type: 'text',
             width: 400
         }, {
-            name: "decimalDigit",
-            title: "<spring:message code='rate.decimalDigit'/>",
-            width: 400,
-            keyPressFilter: "[0-4]",
-            length: "1",
-            hint: "<spring:message code='deghat.ashar'/>",
+            "name": "decimalDigit",
+            "title": "<spring:message code='rate.decimalDigit'/>",
+            "width": 400,
+            "keyPressFilter": "[0-4]",
+            "length": "1",
+            <%--hint: "<spring:message code='deghat.ashar'/>",--%>
+            <%--    showHintInField: true,--%>
 
         },{
             type: "RowSpacerItem"
@@ -147,7 +148,6 @@
     var Window_Unit = isc.Window.create({
         title: "<spring:message code='unit.title'/>",
         width: 580,
-        height: 310,
         autoSize: true,
         autoCenter: true,
         isModal: true,

@@ -5,7 +5,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Oracle_SalesLocal"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="378"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="614"/>
 	<parameter name="logo_nicico" class="java.lang.Object"/>
@@ -93,11 +93,11 @@ group by id,plant,gdscode,gdsname
 				<imageExpression><![CDATA[$P{logo_nicico}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="102" y="24" width="350" height="30" uuid="818128ec-da92-4187-b5a1-86c53dd5824e"/>
+				<reportElement x="90" y="10" width="350" height="30" uuid="818128ec-da92-4187-b5a1-86c53dd5824e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Shabnam-FD" size="14"/>
 				</textElement>
-				<text><![CDATA[گزارش فروش و بارگیری محصولات (واحد وزن: کیلوگرم)]]></text>
+				<text><![CDATA[گزارش فروش و بارگیری محصولات]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="10" y="40" width="80" height="30" uuid="33738ce8-2c3b-4091-a1b4-e51b4a8c03f7"/>
@@ -106,6 +106,13 @@ group by id,plant,gdscode,gdsname
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dateReport}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="215" y="44" width="100" height="30" uuid="e8a1fe41-8f25-457e-82e5-997d1e2ef1ac"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Shabnam-FD"/>
+				</textElement>
+				<text><![CDATA[(واحد وزن: کیلوگرم)]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

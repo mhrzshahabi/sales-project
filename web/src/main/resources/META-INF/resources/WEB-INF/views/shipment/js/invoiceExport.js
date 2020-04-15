@@ -11,8 +11,7 @@ function invoiceExport() {
             Debug: false,
             Prefix: "invoice-export-tab",
             Url: SalesConfigs.Urls.InvoiceExportRest,
-            Urls: {
-            },
+            Urls: {},
             Method: "POST",
             ContentType: "application/json; charset=utf-8",
             DefaultFormConfig: {
@@ -678,18 +677,240 @@ function invoiceExport() {
         Log: {},
     };
 /**********************************************VAR*********************************************************************/
-ieTab.Layouts.ToolStripButtons.new.click =function(){
-    ieTab.Layouts.Window.invoice.show()
-};
+ieTab.Layouts.ToolStripButtons.new.click =function(){    ieTab.Layouts.Window.invoice.show()};
 /**********************************************METHOD******************************************************************/
 /**********************************************FIELD*******************************************************************/
+ieTab.Fields.ContractItem = function(){return {
+    ID:ieTab.Vars.Prefix + "dynamic-form-contract-item",
+    name:"contractId",
+    width:"*",
+    title:"<spring:message code='shipment.Bol.shipmentContract'/>",
+    optionDataSource:isc.MyRestDataSource.create({ ...ieTab.RestDataSources.shipments()
+    , ID:ieTab.Vars.Prefix + "rest-data-source-shipment"
+    }),
+    displayField: "nameFA",
+        valueField: "id",
+        // pickListWidth: "100%",
+        pickListHeight: "500",
+        pickListProperties: {
+        showFilterEditor: true,
+            autoFitFieldWidths:true,
+            // wrapCells:true,
+            // wrapHeaderTitles:true,
+            // autoFitHeaderHeights:true
+    },
+    pickListFields: ieTab.RestDataSources.shipments().fields
+
+}};
+ieTab.Fields.lme = function(){return {
+    ID:ieTab.Vars.Prefix + "dynamic-form-lme-item",
+    name:"lmeId",
+    width:"*",
+    title:"<spring:message code='material.price'/>",
+    optionDataSource:isc.MyRestDataSource.create({ ...ieTab.RestDataSources.lme
+    , ID:ieTab.Vars.Prefix + "rest-data-source-lme"
+    }),
+    // displayField: "nameFA",
+        valueField: "id",
+        // pickListWidth: "100%",
+        pickListHeight: "500",
+        pickListProperties: {
+        showFilterEditor: true,
+            autoFitFieldWidths:true,
+            // wrapCells:true,
+            // wrapHeaderTitles:true,
+            // autoFitHeaderHeights:true
+    },
+    pickListFields: ieTab.RestDataSources.lme.fields
+
+}};
 /**********************************************DATASOURCE**************************************************************/
+ieTab.RestDataSources.shipments = function(){
+    return {
+        fields: [
+            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+            {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
+            {name: "contactId", type: 'long', hidden: true},
+            {
+                name: "contract.contact.nameFA",
+                title: "<spring:message code='contact.name'/>",
+                type: 'text'
+            },
+            {name: "contractId", type: 'long', hidden: true},
+            {
+                name: "contract.contractNo",
+                title: "<spring:message code='contract.contractNo'/>",
+                type: 'text',
+                width: 180
+            },
+            {
+                name: "contract.contractDate",
+                title: "<spring:message code='contract.contractDate'/>",
+                type: 'text',
+                width: 180
+            },
+            {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
+            {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
+            {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
+            {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
+            {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
+            {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
+            {
+                name: "laycan",
+                title: "<spring:message code='shipmentContract.laycanStart'/>",
+                type: 'integer',
+                width: "10%",
+                align: "center",
+            },
+            {
+                name: "shipmentType",
+                title: "<spring:message code='shipment.shipmentType'/>",
+                type: 'text',
+                width: 400,
+                valueMap: {"bulk": "bulk", "container": "container"}
+            },
+            {
+                name: "bookingCat",
+                title: "<spring:message code='shipment.bookingCat'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true,
+
+            },
+            {
+                name: "loadingLetter",
+                title: "<spring:message code='shipment.loadingLetter'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true
+            },
+            {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
+            {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", width: "10%"},
+            {
+                name: "portByLoading.port",
+                title: "<spring:message code='shipment.loading'/>",
+                width: "10%"
+            },
+            {
+                name: "portByDischargeId",
+                title: "<spring:message code='shipment.discharge'/>",
+                width: "10%"
+            },
+            {
+                name: "portByDischarge.port",
+                title: "<spring:message code='shipment.discharge'/>",
+                width: "10%"
+            },
+            {name: "dischargeAddress", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
+            {name: "description", title: "<spring:message code='shipment.description'/>", type: 'text', width: "10%"},
+            {name: "swb", title: "<spring:message code='shipment.SWB'/>", type: 'text', width: "10%"},
+            {name: "switchPort.port", title: "<spring:message code='port.switchPort'/>", type: 'text', width: "50%"},
+            {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
+            {
+                name: "status",
+                title: "<spring:message code='shipment.staus'/>",
+                type: 'text',
+                width: "10%",
+                valueMap: {
+                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
+                    "Resource": "<spring:message code='shipment.resource'/>"
+                }
+            },
+            {
+                name: "contractShipment.sendDate",
+                title: "<spring:message code='global.sendDate'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                align: "center",
+                showHover: true,
+                validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+            },
+            {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
+            {
+                name: "contactByAgent.nameFA",
+                title: "<spring:message code='shipment.agent'/>",
+                type: 'text',
+                width: "20%",
+                align: "center",
+                showHover: true
+            },
+            {
+                name: "vesselName",
+                title: "<spring:message code='shipment.vesselName'/>",
+                type: 'text',
+                required: true,
+                width: "10%",
+                showHover: true,
+                validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+            }
+        ],
+        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/shipment/spec-list"
+}};
+ieTab.RestDataSources.lme = {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "cuUsdMt",
+                    title: "<spring:message code='LME.cuUsdMt'/>",
+                    width: 200
+                },
+                {
+                    name: "lmeDate",
+                    title: "<spring:message code='LME.LMEDate'/>",
+                    width: 200
+                },
+                {
+                    name: "goldUsdOunce",
+                    title: "<spring:message code='LME.goldUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "silverUsdOunce",
+                    title: "<spring:message code='LME.silverUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "seleniumUsdLb",
+                    title: "<spring:message code='LME.seleniumUsdLb'/>",
+                    width: 200
+                },
+                {
+                    name: "platinumUsdOunce",
+                    title: "<spring:message code='LME.platinumUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "palladiumUsdOunce",
+                    title: "<spring:message code='LME.palladiumUsdOunce'/>",
+                    width: 200
+                },
+                {
+                    name: "molybdenumUsdLb",
+                    title: "<spring:message code='LME.molybdenumUsdLb'/>",
+                    width: 200
+                }],
+            fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/LME/spec-list"};
 /**********************************************LISTGRID****************************************************************/
 /**********************************************LAYOUT******************************************************************/
 ieTab.Layouts.Window.invoice = isc.Window.create(
         {
             title: "<spring:message code='parameters.title'/> ",
-            width: 580,
+            width: .8*window.outerWidth,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -701,6 +922,17 @@ ieTab.Layouts.Window.invoice = isc.Window.create(
                 this.Super("closeClick", arguments)
             },
             items: [
+                isc.DynamicForm.create(
+                    {
+                        numCols: 2,
+                        width:.7*window.innerWidth,
+                        colWidths: ["20%", "*"],
+                        canDragResize:true, resizeFrom:["L"],
+                        items: [
+                            ieTab.Fields.ContractItem(),
+                            ieTab.Fields.lme(),
+                        ]
+                    })
             ]
         });
 /***********************************************************************************************************************/
