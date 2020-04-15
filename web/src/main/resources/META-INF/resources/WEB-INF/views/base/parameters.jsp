@@ -185,7 +185,7 @@
                     width: 500,
                     type: "select",
                     required: true,
-                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "CONCENTRATES", "2": "CATHODS"},
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "COPPER CONCENTRATES", "2": "COPPER CATHODES"},
                     validators: [
                     {
                         type:"required",
@@ -432,7 +432,7 @@
                     width: "15%",
                     type: "select",
                     required: true,
-                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "CONCENTRATES", "2": "CATHODS"}
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "COPPER CONCENTRATES", "2": "COPPER CATHODES"}
                 }],
             autoFetchData: true
         });

@@ -1671,7 +1671,7 @@
             virtualScrolling: true,
             loadOnExpand: true,
             loaded: false,
-            contextMenu: Menu_ListGrid_Contact,
+contextMenu: Menu_ListGrid_Contact,
             fields: [
                 {
                     name: "id",

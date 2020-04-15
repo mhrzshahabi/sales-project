@@ -6,7 +6,7 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     factoryLableHedear("LablePageConc", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
-    factoryLable("lableNameContactConc", '<b><font size=4px>COPPER CONCENTRATES CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
+    factoryLable("lableNameContactConc", '<b><font size=4px>COPPER CONCENTRATES CONTRACT</font><b>', "100%", '2%', 1);
     factoryLableArticle("lableArticle1Conc", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle2Conc", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
     factoryLableArticle("lableArticleSelect", '<b><font size=4px>SELECT ITEMS</font><b>', "25",5);
