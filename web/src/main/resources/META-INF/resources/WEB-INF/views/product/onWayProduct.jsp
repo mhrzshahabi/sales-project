@@ -1,8 +1,10 @@
+<%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
 
+    <% DateUtil dateUtil = new DateUtil();%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
@@ -234,7 +236,7 @@
                     displayDatePicker('fromDayDate', this, 'ymd', '/');
                 }
             }],
-            defaultValue: "1398/06/01"
+            defaultValue: "1399/01/01"
         }]
     });
 
@@ -259,7 +261,7 @@
                     displayDatePicker('toDayDateOnWayProduct', this, 'ymd', '/');
                 }
             }],
-            defaultValue: "1398/12/01"
+            defaultValue: "<%=dateUtil.todayDate()%>"
         }]
     });
 
@@ -453,7 +455,6 @@
         }
     });
 
-
     var pdf = isc.DynamicForm.create({
         method: "POST",
         action: "${contextPath}/tozin/report",
@@ -585,7 +586,8 @@
                     ]
                 };
             }
-            ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteria);
+            ListGrid_Tozin_IN_ONWAYPRODUCT.setCriteria(criteria);
+            ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
         }
     });
 
@@ -676,6 +678,8 @@
         dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
         initialCriteria: RestDataSource_TozinInitialCriteria,
         contextMenu: Menu_ListGrid_OnWayProduct,
+        autoFetchData: true,
+        useClientFiltering: false,
         fields: [
             {
                 name: "plak",
@@ -752,8 +756,7 @@
                 width: "10%",
                 title: "<spring:message code='Tozin.tozinDate'/>"
             }
-        ],
-        autoFetchData: true
+        ]
     });
 
     var VLayout_Tozin_Grid = isc.VLayout.create({
