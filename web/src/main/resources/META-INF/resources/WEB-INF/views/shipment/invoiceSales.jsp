@@ -120,6 +120,12 @@
         {
             fields: [
                 {
+                    name: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
                     name: "departmentCode"
                 },
                 {
@@ -381,12 +387,14 @@
                     pickListFields: [
                     {
                         name: "detailName",
-                        title: "<spring:message code='invoiceSales.detailCode'/>"
+                        title: "<spring:message code='invoiceSales.detailCode'/>",
+                        showHover: true
                     },
                     {
                         name: "code",
-                        title: "<spring:message code='invoiceSales.code'/>"
-                    }
+                        title: "<spring:message code='invoiceSales.code'/>",
+                        showHover: true
+                    },
                     ],
                     changed: function (form, item, value) {
 
@@ -753,6 +761,19 @@
             dataSource: RestDataSource_invoiceSales,
             contextMenu: Menu_ListGrid_InvoiceSales,
             autoFetchData: true,
+            styleName: 'expandList',
+            alternateRecordStyles: true,
+            canExpandRecords: true,
+            canExpandMultipleRecords: false,
+            wrapCells: false,
+            showRollOver: false,
+            showRecordComponents: true,
+            showRecordComponentsByCell: true,
+            autoFitExpandField: true,
+            virtualScrolling: true,
+            loadOnExpand: true,
+            loaded: false,
+            sortField: 2,
             fields: [
                 {
                     name: "id",
@@ -886,7 +907,51 @@
                     showIf: "false"
                 }
             ],
-        });
+            <%--getExpansionComponent: function (record) {--%>
+            <%--var criteria1 = {--%>
+                <%--_constructor: "AdvancedCriteria",--%>
+                <%--operator: "and",--%>
+                <%--criteria: [{fieldName: "id", operator: "equals", value: record.id}]--%>
+            <%--};--%>
+
+            <%--ListGrid_MaterialFeature.fetchRelatedData(record, function (dsResponse, data, dsRequest) {--%>
+                <%--ListGrid_MaterialFeature.setData(data);--%>
+            <%--}, {operationId: "00"});--%>
+
+            <%--ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {--%>
+                <%--if (data.length == 0) {--%>
+                    <%--recordNotFound.show();--%>
+                    <%--ListGrid_MaterialItem.hide()--%>
+                <%--} else {--%>
+                    <%--recordNotFound.hide();--%>
+                    <%--ListGrid_MaterialItem.setData(data);--%>
+                    <%--ListGrid_MaterialItem.setAutoFitMaxRecords(1);--%>
+
+                    <%--ListGrid_MaterialItem.show();--%>
+                <%--}--%>
+            <%--}, {operationId: "00"});--%>
+
+
+            <%--var hLayout = isc.HLayout.create({--%>
+                <%--align: "center", padding: 5,--%>
+                <%--membersMargin: 20,--%>
+                <%--members: [--%>
+                    <%--<sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">--%>
+                    <%--ToolStripButton_MaterialItem_Add--%>
+                    <%--</sec:authorize>--%>
+                <%--]--%>
+            <%--});--%>
+
+            <%--var layoutMaterial = isc.VLayout.create({--%>
+                <%--styleName: "expand-layout",--%>
+                <%--padding: 5,--%>
+                <%--membersMargin: 10,--%>
+                <%--members: [ListGrid_MaterialItem, recordNotFound, hLayout]--%>
+            <%--});--%>
+
+            <%--return layoutMaterial;--%>
+        <%--}--%>
+    });
 
 
     var HLayout_invoiceSales_Grid = isc.HLayout.create({
