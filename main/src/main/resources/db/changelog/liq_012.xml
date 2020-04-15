@@ -28,12 +28,25 @@
             <column name="TOTAL_PRICE" type="FLOAT"/>
             <column name="NOTES" type="VARCHAR2(255 CHAR)"/>
             <column name="EXPLAIN" type="VARCHAR2(255 CHAR)"/>
+            <column name="INVOICE_SALES_ID" type="NUMBER(19, 0)"/>
 
         </createTable>
     </changeSet>
 
     <changeSet author="MShahabi" id="1778899665544-020">
         <createSequence sequenceName="SEQ_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-021">
+        <addForeignKeyConstraint baseColumnNames="INVOICE_SALES_ID"
+            baseTableName="TBL_INVOICE_SALES_ITEM"
+            constraintName="invoicesales_itm2invoicesales"
+            referencedColumnNames="ID"
+            referencedTableName="TBL_INVOICE_SALES"
+            nullable="false"
+            insertable="false"
+            updatable="false"
+        />
     </changeSet>
 
 </databaseChangeLog>

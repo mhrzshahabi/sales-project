@@ -64,6 +64,14 @@ public class InvoiceSalesItem extends Auditable {
     @Column(name = "EXPLAIN")
     private String explain;
 
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "INVOICE_SALES_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "invoicesales_itm2invoicesales"))
+    private InvoiceSales invoiceSales;
+
+    @Column(name = "INVOICE_SALES_ID")
+    private Long invoiceSalesId;
+
 
 
 
