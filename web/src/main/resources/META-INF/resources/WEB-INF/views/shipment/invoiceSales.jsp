@@ -5,7 +5,6 @@
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-
     var RestDataSource_invoiceSales = isc.MyRestDataSource.create(
         {
             fields: [
@@ -167,7 +166,7 @@
                     name: "invoiceSalesId"
                 }
             ],
-            fetchDataURL: "${contextPath}/api/invoiceSalesItem/list"
+            fetchDataURL: "${contextPath}/api/invoiceSalesItem/spec-list"
         });
 
     var RestDataSource_nosa_IN_invoiceSales = isc.MyRestDataSource.create(
@@ -997,16 +996,15 @@
                 criteria: [{fieldName: "invoiceSalesId", operator: "equals", value: record.id}]
             };
 
-            ListGrid_MaterialItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            ListGrid_InvoiceSalesItem.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                 if (data.length == 0) {
                     recordNotFound.show();
                     ListGrid_InvoiceSalesItem.hide()
                 } else {
                     recordNotFound.hide();
-                    ListGrid_MaterialItem.setData(data);
-                    ListGrid_MaterialItem.setAutoFitMaxRecords(1);
-
-                    ListGrid_MaterialItem.show();
+                    ListGrid_InvoiceSalesItem.setData(data);
+                    ListGrid_InvoiceSalesItem.setAutoFitMaxRecords(1);
+                    ListGrid_InvoiceSalesItem.show();
                 }
             }, {operationId: "00"});
 
@@ -1261,8 +1259,7 @@
                 {
                     name: "invoiceSalesId",
                     type: "long",
-                    hidden: true,
-                    wrapTitle: false
+                    hidden: true
                 }
             ]
     });
@@ -1276,7 +1273,7 @@
 
     <%--<sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">--%>
     var ToolStripButton_InvoiceSalesItem_Add = isc.ToolStripButtonAddLarge.create({
-        title: "<spring:message code='global.form.new.sub'/>",
+        title: "<spring:message code='global.form.new.subInvoice'/>",
         click: function () {
             var record = ListGrid_invoiceSales.getSelectedRecord();
 
@@ -1378,8 +1375,9 @@
                 DynamicForm_InvoiceSalesItem.validate();
                 if (DynamicForm_InvoiceSalesItem.hasErrors())
                     return;
-                var data = DynamicForm_InvoiceSalesItem.getValues();
 
+                var data = DynamicForm_InvoiceSalesItem.getValues();
+                data.invoiceSalesId = ListGrid_invoiceSales.getSelectedRecord().id;
                 var methodXXXX = "PUT";
                 if (data.id == null) methodXXXX = "POST";
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
@@ -1391,7 +1389,7 @@
                             if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_InvoiceSalesItem.invalidateCache();
-                                setCriteria_ListGrid(data.invoiceSalesId)
+                                setCriteria_ListGrid(data.invoiceSalesId);
                                 Window_InvoiceSalesItem.close();
                             }
                             else
@@ -1457,7 +1455,7 @@
             setAutoFitExtraRecords: true,
             showRecordComponents: true,
             showRecordComponentsByCell: true,
-            numCols: 2,
+            // numCols: 2,
             fields: [
                 {
                     name: "id",
@@ -1542,13 +1540,13 @@
                 },
                 {
                     name: "editIcon",
-                    width: "5%",
+                    width: "4%",
                     align: "center",
                     showTitle: false
                 },
                 {
                     name: "removeIcon",
-                    width: "5%",
+                    width: "4%",
                     align: "center",
                     showTitle: false
                 }
