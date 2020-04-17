@@ -1,0 +1,52 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="MShahabi" id="1778899665544-019">
+        <createTable tableName="TBL_INVOICE_SALES_ITEM">
+
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_SALES_ITEM_PK"/>
+            </column>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="PRODUCT_CODE" type="VARCHAR2(100 CHAR)"/>
+            <column name="PRODUCT_NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="UNIT_NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="NET_AMOUNT" type="FLOAT"/>
+            <column name="ORDER_AMOUNT" type="FLOAT"/>
+            <column name="UNIT_PRICE" type="FLOAT"/>
+            <column name="LINE_PRICE" type="FLOAT"/>
+            <column name="DISCOUNT" type="FLOAT"/>
+            <column name="LINE_PRICE_AFTER_DISCOUNT" type="FLOAT"/>
+            <column name="LEGAL_FEES" type="FLOAT"/>
+            <column name="VAT" type="FLOAT"/>
+            <column name="TOTAL_PRICE" type="FLOAT"/>
+            <column name="NOTES" type="VARCHAR2(255 CHAR)"/>
+            <column name="EXPLAIN" type="VARCHAR2(255 CHAR)"/>
+            <column name="INVOICE_SALES_ID" type="NUMBER(19, 0)"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-020">
+        <createSequence sequenceName="SEQ_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-021">
+        <addForeignKeyConstraint baseColumnNames="INVOICE_SALES_ID"
+            baseTableName="TBL_INVOICE_SALES_ITEM"
+            constraintName="invoicesales_itm2invoicesales"
+            referencedColumnNames="ID"
+            referencedTableName="TBL_INVOICE_SALES"
+            nullable="false"
+            insertable="false"
+            updatable="false"
+        />
+    </changeSet>
+
+</databaseChangeLog>
