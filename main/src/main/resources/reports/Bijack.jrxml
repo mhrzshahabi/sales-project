@@ -39,25 +39,28 @@
 			<![CDATA[]]>
 		</queryString>
 		<field name="bijackNo" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="GDSNAME"/>
+			<property name="com.jaspersoft.studio.field.label" value="BIJACK_NO"/>
 		</field>
 		<field name="warehouseNo" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="TZN_DATE"/>
+			<property name="com.jaspersoft.studio.field.label" value="WAREHOUSE_NO"/>
 		</field>
 		<field name="plant" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="WAZN"/>
+			<property name="com.jaspersoft.studio.field.label" value="PLANT"/>
 		</field>
 		<field name="movementType" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="TEDAD"/>
+			<property name="com.jaspersoft.studio.field.label" value="MOVEMENT_TYPE"/>
 		</field>
 		<field name="sourceLoadDate" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="SOURCEE"/>
+			<property name="com.jaspersoft.studio.field.label" value="SOURCE_LOAD_DATE"/>
 		</field>
 		<field name="destinationUnloadDate" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="TARGET"/>
+			<property name="com.jaspersoft.studio.field.label" value="DESTINATION_UNLOAD_DATE"/>
 		</field>
 		<field name="mahsool" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="HAVCODE"/>
+		</field>
+		<field name="materialItem.gdsName" class="java.lang.String">
+			<property name="net.sf.jasperreports.json.field.expression" value="materialItem.gdsName"/>
 		</field>
 	</subDataset>
 	<parameter name="logo_nicico" class="java.awt.image.BufferedImage"/>
@@ -88,7 +91,7 @@
 				</graphicElement>
 			</rectangle>
 			<image hAlign="Center" vAlign="Middle">
-				<reportElement x="497" y="1" width="50" height="48" uuid="3b99f146-68a2-4b9f-8685-abe6faaec187"/>
+				<reportElement x="497" y="2" width="50" height="48" uuid="3b99f146-68a2-4b9f-8685-abe6faaec187"/>
 				<imageExpression><![CDATA[$P{logo_nicico}]]></imageExpression>
 			</image>
 			<staticText>
@@ -134,14 +137,14 @@
 				<textFieldExpression><![CDATA[$P{haml}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="202" y="1" width="150" height="24" uuid="e88033b6-b36a-41b5-8413-3782db8d3915"/>
+				<reportElement x="202" y="4" width="150" height="24" uuid="e88033b6-b36a-41b5-8413-3782db8d3915"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Shabnam-FD" size="12"/>
 				</textElement>
 				<text><![CDATA[گزارش بیجک های ورودی]]></text>
 			</staticText>
 			<line>
-				<reportElement x="182" y="23" width="190" height="1" forecolor="#3B3B3B" uuid="67fe5a6c-1969-491b-bf75-a2863195af06"/>
+				<reportElement x="182" y="26" width="190" height="1" forecolor="#3B3B3B" uuid="67fe5a6c-1969-491b-bf75-a2863195af06"/>
 			</line>
 		</band>
 	</title>
@@ -272,11 +275,12 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="74" height="30" uuid="d29c318f-31c4-4528-9774-465e1f646e34"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+							<textField>
+								<reportElement x="0" y="0" width="74" height="30" uuid="e3a2b04e-75b5-4272-a7dc-20560baff498"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
+								<textFieldExpression><![CDATA[$F{materialItem.gdsName}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
