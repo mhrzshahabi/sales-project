@@ -32,6 +32,7 @@ public class InvoiceSalesItemDTO {
     private Double totalPrice;
     private String notes;
     private String explain;
+    private Long invoiceSalesId;
 
     @Getter
     @Setter
