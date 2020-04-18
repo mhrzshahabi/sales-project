@@ -29,7 +29,7 @@ public class ContractDetailTypeParamValue extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_DETAIL_TYPE_PARAM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetailTypeParamValue2contractDetailTypeParamByContractDetailTypeParamId"))
-    private ContractDetailType contractDetailTypeParam;
+    private ContractDetailTypeParam contractDetailTypeParam;
 
     @NotNull
     @Column(name = "F_CONTRACT_DETAIL_TYPE_PARAM_ID", nullable = false)

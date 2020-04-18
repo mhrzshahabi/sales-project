@@ -49,7 +49,7 @@ public class Contract extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractTypeByContractTypeId"))
-    private Material contractType;
+    private ContractType contractType;
 
     @NotNull
     @Column(name = "F_CONTRACT_TYPE_ID", nullable = false)

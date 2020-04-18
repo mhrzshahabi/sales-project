@@ -1,14 +1,14 @@
 package com.nicico.sales.model.entities.contract;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.nicico.sales.model.enumeration.DataType;
+import lombok.*;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
+import org.hibernate.envers.NotAudited;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
@@ -16,11 +16,37 @@ import javax.persistence.Entity;
 @Entity
 @Immutable
 @Subselect("SELECT * FROM TBL_CNTR_CONTRACT_DETAIL_VALUE_AUDIT")
-public class ContractDetailValueAudit extends ContractDetailValue {
+public class ContractDetailValueAudit extends BaseEntity {
 
     @EmbeddedId
     private AuditId auditId;
 
     @Column(name = "REVTYPE")
     private Long revType;
+
+    @NotEmpty
+    @Column(name = "C_NAME", nullable = false)
+    private String name;
+
+    @NotEmpty
+    @Column(name = "C_KEY", nullable = false)
+    private String key;
+
+    @NotNull
+    @Column(name = "N_TYPE", nullable = false)
+    private DataType type;
+
+    @NotEmpty
+    @Column(name = "C_VALUE", nullable = false)
+    private String value;
+
+    @NotAudited
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_CONTRACT_DETAIL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetailValue2contractDetailByContractDetailId"))
+    private ContractDetail contractDetail;
+
+    @NotNull
+    @Column(name = "F_CONTRACT_DETAIL_ID", nullable = false)
+    private Long contractDetailId;
 }
