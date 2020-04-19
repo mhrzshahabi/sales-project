@@ -1193,7 +1193,7 @@
         height: "100%",
         titleWidth: "100",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
-        numCols: 2,
+        numCols: 4,
         fields:
             [
                 {
@@ -1260,6 +1260,9 @@
                     name: "invoiceSalesId",
                     type: "long",
                     hidden: true
+                },
+                {
+                    type: "RowSpacerItem"
                 }
             ]
     });
