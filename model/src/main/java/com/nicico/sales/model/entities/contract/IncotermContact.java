@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.entities.base.Contact;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 

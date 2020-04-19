@@ -1,4 +1,4 @@
-package com.nicico.sales.model.entities.contract;
+package com.nicico.sales.model.entities.common;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

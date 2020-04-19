@@ -1,6 +1,8 @@
 package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.entities.base.Contract;
+import com.nicico.sales.model.entities.common.AuditId;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;

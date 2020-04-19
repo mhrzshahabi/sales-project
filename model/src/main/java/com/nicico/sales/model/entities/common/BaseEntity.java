@@ -1,4 +1,4 @@
-package com.nicico.sales.model.entities.contract;
+package com.nicico.sales.model.entities.common;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.enumeration.EStatus;
