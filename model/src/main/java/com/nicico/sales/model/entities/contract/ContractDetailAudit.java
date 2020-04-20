@@ -49,7 +49,7 @@ public class ContractDetailAudit extends BaseEntity {
     @Column(name = "F_CONTRACT_DETAIL_TYPE_ID", nullable = false)
     private Long contractDetailTypeId;
 
-    @NotAudited
-    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<ContractDetailValue> contractDetailValues;
+//    @NotAudited
+//    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    private List<ContractDetailValue> contractDetailValues;
 }
