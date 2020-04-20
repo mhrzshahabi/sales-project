@@ -1,6 +1,7 @@
-package com.nicico.sales.dto.base2;
+package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -9,44 +10,53 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 
 @Getter
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UnitDTO {
+public class ContractTypeDTO {
 
-//    private String nameFA;
-//    private String nameEN;
-//    private String symbol;
-//    private Long decimalDigit;
+    private String code;
+    private String titleFa;
+    private String titleEn;
+    private String description;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitInfo")
-    public static class Info extends UnitDTO {
+    @ApiModel("ContractTypeInfo")
+    public static class Info extends ContractTypeDTO {
+
         private Long id;
+
+        // Auditing
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private EnumSet<EStatus> eStatus;
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitCreateRq")
-    public static class Create extends UnitDTO {
+    @ApiModel("ContractTypeCreateRq")
+    public static class Create extends ContractTypeDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitUpdateRq")
-    public static class Update extends UnitDTO {
+    @ApiModel("ContractTypeUpdateRq")
+    public static class Update extends ContractTypeDTO {
+
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -55,8 +65,9 @@ public class UnitDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitDeleteRq")
+    @ApiModel("ContractTypeDeleteRq")
     public static class Delete {
+
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

@@ -1,13 +1,10 @@
 package com.nicico.sales.model.entities.warehouse;
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.base.Contact;
-import com.nicico.sales.model.entities.base2.Unit;
+import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
