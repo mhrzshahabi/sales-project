@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -20,4 +21,11 @@ public class IncotermStep extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_INCOTERM_STEP")
     @SequenceGenerator(name = "SEQ_CNTR_INCOTERM_STEP", sequenceName = "SEQ_CNTR_INCOTERM_STEP", allocationSize = 1)
     private Long id;
+
+    @NotNull
+    @Column(name = "C_TITLE", nullable = false, length = 200)
+    private String title;
+
+    @Column(name = "C_DESCRIPTION", length = 4000)
+    private String description;
 }

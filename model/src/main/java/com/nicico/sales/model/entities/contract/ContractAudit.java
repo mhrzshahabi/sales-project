@@ -45,7 +45,7 @@ public class ContractAudit extends BaseEntity {
     @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CONTRACT_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractTypeByContractTypeId"))
+    @JoinColumn(name = "F_CONTRACT_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractAudit2contractTypeByContractTypeId"))
     private ContractType contractType;
 
     @NotNull
@@ -55,7 +55,7 @@ public class ContractAudit extends BaseEntity {
     @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2materialByMaterialId"))
+    @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractAudit2materialByMaterialId"))
     private Material material;
 
     @NotNull
@@ -65,7 +65,7 @@ public class ContractAudit extends BaseEntity {
     @NotAudited
     @Setter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractByParentId"))
+    @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractAudit2contractByParentId"))
     private List<Contract> appendixContracts;
 
     @Column(name = "F_PARENT_ID")

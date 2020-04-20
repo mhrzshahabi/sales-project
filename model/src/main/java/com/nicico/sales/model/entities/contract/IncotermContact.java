@@ -60,10 +60,10 @@ public class IncotermContact extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_INCOTERM_MODES_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermContact2incotermModesByIncotermModesId"))
-    private IncotermModes incotermModes;
+    @JoinColumn(name = "F_INCOTERM_RULES_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermContact2incotermRulesByIncotermRulesId"))
+    private IncotermRules incotermRules;
 
     @NotNull
-    @Column(name = "F_INCOTERM_MODES_ID", nullable = false)
-    private Long incotermModesId;
+    @Column(name = "F_INCOTERM_RULES_ID", nullable = false)
+    private Long incotermRulesId;
 }
