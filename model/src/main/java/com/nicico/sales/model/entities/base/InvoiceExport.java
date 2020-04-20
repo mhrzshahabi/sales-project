@@ -1,3 +1,4 @@
+/***
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
@@ -39,3 +40,4 @@ public class InvoiceExport extends Auditable {
     private Boolean isDeleted;
 
 }
+**/
