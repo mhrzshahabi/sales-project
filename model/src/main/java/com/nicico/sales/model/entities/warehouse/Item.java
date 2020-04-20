@@ -14,9 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@Audited
 @Entity
 @Table(name = "TBL_WARH_ITEM")
 public class Item extends BaseEntity {

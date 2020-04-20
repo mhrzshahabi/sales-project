@@ -1,11 +1,8 @@
 package com.nicico.sales.model.entities.warehouse;
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,9 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@Audited
 @Entity
 @Table(name = "TBL_WARH_INVENTORY")
 public class Inventory extends BaseEntity {

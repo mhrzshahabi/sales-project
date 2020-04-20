@@ -18,9 +18,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@Audited
 @Entity
 @Table(name = "TBL_WARH_INVENTORY_RAW_MATERIAL_VALUE")
 public class InventoryRawMaterialValue extends BaseEntity {

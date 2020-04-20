@@ -62,11 +62,11 @@ public class ContractAudit extends BaseEntity {
     @Column(name = "F_MATERIAL_ID", nullable = false)
     private Long materialId;
 
-    @NotAudited
-    @Setter(AccessLevel.NONE)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractAudit2contractByParentId"))
-    private List<Contract> appendixContracts;
+//    @NotAudited
+//    @Setter(AccessLevel.NONE)
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractAudit2contractByParentId"))
+//    private List<Contract> appendixContracts;
 
     @Column(name = "F_PARENT_ID")
     private Long parentId;

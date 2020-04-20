@@ -15,9 +15,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@Audited
 @Entity
 @Table(name = "TBL_WARH_REMITTANCE_DETAIL")
 public class RemittanceDetail extends BaseEntity {
