@@ -13,6 +13,7 @@ import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.WarehouseLot;
 import com.nicico.sales.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.POIXMLDocumentPart;
 import org.apache.poi.POIXMLRelation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -45,6 +46,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ContractService implements IContractService {
 
     private final ContractDAO contractDAO;
@@ -297,13 +299,15 @@ public class ContractService implements IContractService {
             directory.mkdir();
         }
         OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + "_" + maxRef + ".doc");
-        OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".doc");
+        OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".docx");
         XWPFParagraph paragraph = doc.createParagraph();
         XWPFRun run = paragraph.createRun();
         //String base64Text = Base64.getEncoder().encodeToString(dataALLArticle.getBytes());
         run.setText(dataALLArticle);
         doc.write(os);
         printdoc.write(printOs);
+         Process process = Runtime.getRuntime().exec("doc2pdf /contract/reza.docx");
+         log.info(String.valueOf(process.waitFor()));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

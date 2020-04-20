@@ -60,23 +60,9 @@
             name: "id",
             hidden: true, showIf: "false",
         }, {
-            name: "code",
-            title: "<spring:message code='unit.code'/>",
-            type: 'text',
-            required: true,
-            width: 400,
-            keyPressFilter: "[0-9]",
-            length: "15", showIf: "false",
-            validators: [
-            {
-                type:"required",
-                validateOnChange: true
-            }]
-        }, {
             name: "nameFA",
             title: "<spring:message code='unit.nameFa'/>",
             required: true,
-            readonly: true,
             width: 400,
             validators: [
             {
@@ -89,7 +75,6 @@
             type: 'text',
             required: true,
             width: 400,
-            keyPressFilter: "[a-z|A-Z|0-9.]",
             validators: [
             {
                 type:"required",
@@ -99,19 +84,15 @@
             name: "symbol",
             title: "<spring:message code='unit.symbol'/>",
             type: 'text',
+            required: true,
             width: 400
         }, {
-            "name": "decimalDigit",
-            "title": "<spring:message code='rate.decimalDigit'/>",
-            "width": 400,
-            "keyPressFilter": "[0-4]",
-            "length": "1",
-            <%--hint: "<spring:message code='deghat.ashar'/>",--%>
-            <%--    showHintInField: true,--%>
-
-        },{
-            type: "RowSpacerItem"
-          }]
+            name: "decimalDigit",
+            title: "<spring:message code='rate.decimalDigit'/>",
+            width: 400,
+            keyPressFilter: "[0-4]",
+            length: "1"
+        }]
     });
 
     var IButton_Unit_Save = isc.IButtonSave.create({
@@ -352,10 +333,6 @@
                     hidden: true
                 },
                 {
-                    name: "code",
-                    title: "<spring:message code='unit.code'/> "
-                },
-                {
                     name: "nameFA",
                     title: "<spring:message code='unit.nameFa'/> "
                 },
@@ -386,10 +363,6 @@
             primaryKey: true,
             canEdit: false,
             hidden: true
-        }, {
-            name: "code",
-            title: "<spring:message code='unit.code'/> ",
-            align: "center", showIf: "false",
         }, {
             name: "nameFA",
             title: "<spring:message code='unit.nameFa'/> ",
