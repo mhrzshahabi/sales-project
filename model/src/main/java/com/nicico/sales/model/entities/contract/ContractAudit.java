@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Immutable
-@Subselect("SELECT * FROM TBL_CNTR_CONTRACT_AUDIT")
+@Subselect("SELECT * FROM TBL_CNTR_CONTRACT_AUD")
 public class ContractAudit extends BaseEntity {
 
     @EmbeddedId

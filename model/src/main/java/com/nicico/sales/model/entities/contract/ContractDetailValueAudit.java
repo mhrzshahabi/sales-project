@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Entity
 @Immutable
-@Subselect("SELECT * FROM TBL_CNTR_CONTRACT_DETAIL_VALUE_AUDIT")
+@Subselect("SELECT * FROM TBL_CNTR_CONTRACT_DETAIL_VALUE_AUD")
 public class ContractDetailValueAudit extends BaseEntity {
 
     @EmbeddedId
