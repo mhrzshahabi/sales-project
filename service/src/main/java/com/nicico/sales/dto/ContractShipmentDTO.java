@@ -27,6 +27,7 @@ public class ContractShipmentDTO {
     private Long duration;
     private Long tolorance;
     private Long contractId;
+    private Long incotermsShipmentId;
 
 
     @Getter

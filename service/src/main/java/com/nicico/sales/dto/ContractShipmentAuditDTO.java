@@ -34,6 +34,7 @@ public class ContractShipmentAuditDTO {
     private String sendDate;
     private Long duration;
     private Long tolorance;
+    private Long incotermsShipmentId;
 
     @Getter
     @Accessors(chain = true)
