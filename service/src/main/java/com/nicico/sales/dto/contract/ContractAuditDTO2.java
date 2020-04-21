@@ -18,18 +18,22 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractDetailAuditDTO {
+public class ContractAuditDTO2 {
 
     private Long revType;
+    private String no;
+    private Date date;
     private String content;
-    private Long contractId;
-    private Long contractDetailTypeId;
+    private String description;
+    private Long contractTypeId;
+    private Long materialId;
+    private Long parentId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailAuditInfo")
-    public static class Info extends ContractDetailAuditDTO {
+    @ApiModel("ContractAuditInfo")
+    public static class Info extends ContractAuditDTO2 {
 
         private AuditId auditId;
 
@@ -48,15 +52,15 @@ public class ContractDetailAuditDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailAuditCreateRq")
-    public static class Create extends ContractDetailAuditDTO {
+    @ApiModel("ContractAuditCreateRq")
+    public static class Create extends ContractAuditDTO2 {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailAuditUpdateRq")
-    public static class Update extends ContractDetailAuditDTO {
+    @ApiModel("ContractAuditUpdateRq")
+    public static class Update extends ContractAuditDTO2 {
 
         @NotNull
         @ApiModelProperty(required = true)
@@ -66,7 +70,7 @@ public class ContractDetailAuditDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailAuditDeleteRq")
+    @ApiModel("ContractAuditDeleteRq")
     public static class Delete {
 
         @NotNull

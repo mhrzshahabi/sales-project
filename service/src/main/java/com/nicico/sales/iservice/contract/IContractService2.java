@@ -3,35 +3,35 @@ package com.nicico.sales.iservice.contract;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
-import com.nicico.sales.dto.contract.ContractDTO;
+import com.nicico.sales.dto.contract.ContractDTO2;
 
 import java.util.List;
 
 public interface IContractService2 {
 
-    ContractDTO.Info get(Long id);
+    ContractDTO2.Info get(Long id);
 
-    List<ContractDTO.Info> getAll(List<Long> ids);
+    List<ContractDTO2.Info> getAll(List<Long> ids);
 
-    List<ContractDTO.Info> list();
+    List<ContractDTO2.Info> list();
 
-    ContractDTO.Info create(ContractDTO.Create request);
+    ContractDTO2.Info create(ContractDTO2.Create request);
 
-    List<ContractDTO.Info> createAll(List<ContractDTO.Create> requests);
+    List<ContractDTO2.Info> createAll(List<ContractDTO2.Create> requests);
 
-    ContractDTO.Info update(ContractDTO.Update request);
+    ContractDTO2.Info update(ContractDTO2.Update request);
 
-    ContractDTO.Info update(Long id, ContractDTO.Update request);
+    ContractDTO2.Info update(Long id, ContractDTO2.Update request);
 
-    List<ContractDTO.Info> updateAll(List<ContractDTO.Update> requests);
+    List<ContractDTO2.Info> updateAll(List<ContractDTO2.Update> requests);
 
-    List<ContractDTO.Info> updateAll(List<Long> ids, List<ContractDTO.Update> requests);
+    List<ContractDTO2.Info> updateAll(List<Long> ids, List<ContractDTO2.Update> requests);
 
     void delete(Long id);
 
-    void deleteAll(ContractDTO.Delete request);
+    void deleteAll(ContractDTO2.Delete request);
 
-    TotalResponse<ContractDTO.Info> search(NICICOCriteria request);
+    TotalResponse<ContractDTO2.Info> search(NICICOCriteria request);
 
-    SearchDTO.SearchRs<ContractDTO.Info> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<ContractDTO2.Info> search(SearchDTO.SearchRq request);
 }

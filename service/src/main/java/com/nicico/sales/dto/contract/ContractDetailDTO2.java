@@ -1,16 +1,13 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.dto.MaterialDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.EnumSet;
@@ -20,22 +17,17 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractDTO {
+public class ContractDetailDTO2 {
 
-    private String no;
-    private Date date;
     private String content;
-    private String description;
-
-    private Long parentId;
-    private Long materialId;
-    private Long contractTypeId;
+    private Long contractId;
+    private Long contractDetailTypeId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractInfo")
-    public static class Info extends ContractDTO {
+    @ApiModel("ContractDetailInfo")
+    public static class Info extends ContractDetailDTO2 {
 
         private Long id;
 
@@ -54,15 +46,15 @@ public class ContractDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractCreateRq")
-    public static class Create extends ContractDTO {
+    @ApiModel("ContractDetailCreateRq")
+    public static class Create extends ContractDetailDTO2 {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractUpdateRq")
-    public static class Update extends ContractDTO {
+    @ApiModel("ContractDetailUpdateRq")
+    public static class Update extends ContractDetailDTO2 {
 
         @NotNull
         @ApiModelProperty(required = true)
@@ -72,7 +64,7 @@ public class ContractDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDeleteRq")
+    @ApiModel("ContractDetailDeleteRq")
     public static class Delete {
 
         @NotNull

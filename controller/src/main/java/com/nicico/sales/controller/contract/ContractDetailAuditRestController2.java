@@ -3,7 +3,7 @@ package com.nicico.sales.controller.contract;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.contract.ContractDetailAuditDTO;
+import com.nicico.sales.dto.contract.ContractDetailAuditDTO2;
 import com.nicico.sales.iservice.contract.IContractDetailAuditService2;
 import com.nicico.sales.model.entities.common.AuditId;
 import lombok.RequiredArgsConstructor;
@@ -26,28 +26,28 @@ public class ContractDetailAuditRestController2 {
 
     @Loggable
     @GetMapping(value = "/")
-    public ResponseEntity<ContractDetailAuditDTO.Info> get(@RequestBody AuditId auditId) {
+    public ResponseEntity<ContractDetailAuditDTO2.Info> get(@RequestBody AuditId auditId) {
 
         return new ResponseEntity<>(contractDetailAuditService.get(auditId), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    public ResponseEntity<List<ContractDetailAuditDTO.Info>> list() {
+    public ResponseEntity<List<ContractDetailAuditDTO2.Info>> list() {
 
         return new ResponseEntity<>(contractDetailAuditService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-    public ResponseEntity<ContractDetailAuditDTO.Info> create(@Validated @RequestBody ContractDetailAuditDTO.Create request) {
+    public ResponseEntity<ContractDetailAuditDTO2.Info> create(@Validated @RequestBody ContractDetailAuditDTO2.Create request) {
 
         return new ResponseEntity<>(contractDetailAuditService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
-    public ResponseEntity<ContractDetailAuditDTO.Info> update(@RequestBody ContractDetailAuditDTO.Update request) {
+    public ResponseEntity<ContractDetailAuditDTO2.Info> update(@RequestBody ContractDetailAuditDTO2.Update request) {
 
         return new ResponseEntity<>(contractDetailAuditService.update(request.getAuditId(), request), HttpStatus.OK);
     }
@@ -62,7 +62,7 @@ public class ContractDetailAuditRestController2 {
 
     @Loggable
     @DeleteMapping(value = "/list")
-    public ResponseEntity<Void> delete(@Validated @RequestBody ContractDetailAuditDTO.Delete request) {
+    public ResponseEntity<Void> delete(@Validated @RequestBody ContractDetailAuditDTO2.Delete request) {
 
         contractDetailAuditService.deleteAll(request);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class ContractDetailAuditRestController2 {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-    public ResponseEntity<TotalResponse<ContractDetailAuditDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<TotalResponse<ContractDetailAuditDTO2.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
 
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailAuditService.search(nicicoCriteria), HttpStatus.OK);
