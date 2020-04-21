@@ -190,7 +190,7 @@
             fetchDataURL: "${contextPath}/api/invoiceNosaSales/list"
         });
 
- var RestDataSource_accDepartment = isc.MyRestDataSource.create(
+ /*var RestDataSource_accDepartment = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -207,7 +207,7 @@
                 }
             ],
             fetchDataURL: "${contextPath}/api/accDepartment/list"
-        });
+        });*/
 
     var RestDataSource_salesType = isc.MyRestDataSource.create(
         {
@@ -257,9 +257,8 @@
                     name: "vat"
                 }
             ],
-            fetchDataURL: "${contextPath}/api/percentPerYear/list"
+            fetchDataURL: "${contextPath}/api/percentPerYear/spec-list"
         });
-
 
     function ListGrid_InvoiceSales_refresh() {
         ListGrid_invoiceSales.invalidateCache();
@@ -445,7 +444,7 @@
                 {
                     name: "district",
                     title: "<spring:message code='invoiceSales.district'/>",
-                    editorType: "SelectItem",
+                    /*editorType: "SelectItem",
                     optionDataSource: RestDataSource_accDepartment,
                     displayField: "departmentName",
                     valueField: "departmentName",
@@ -461,7 +460,7 @@
                         name: "departmentName",
                         title: "<spring:message code='invoiceSales.districtName'/>"
                     }
-                    ],
+                    ],*/
                 },
                 {
                     name: "customerId",
@@ -1239,21 +1238,19 @@
                 {
                     name: "netAmount",
                     title: "<spring:message code='invoiceSalesItem.netAmount'/>",
+                    changed: function (form, item, value) {
+                        form.getField("unitPrice").setDisabled(!value)
+                    }
                 },
                 {
                     name: "unitPrice",
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
+                    disabled: true,
                     changed: function (form, item, value) {
 
                         var net =(DynamicForm_InvoiceSalesItem.getItem("netAmount")).getValue();
                         var unit =(DynamicForm_InvoiceSalesItem.getItem("unitPrice")).getValue();
                         DynamicForm_InvoiceSalesItem.getItem("linePrice").setValue(net * unit);
-                    }
-                },
-                {
-                    name: "linePrice",
-                    title: "<spring:message code='invoiceSalesItem.linePrice'/>",
-                    changed: function (form, item, value) {
 
                         var criteria1 = {
                             _constructor: "AdvancedCriteria",
@@ -1262,13 +1259,17 @@
                         };
                         RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
                             var line = (DynamicForm_InvoiceSalesItem.getItem("linePrice")).getValue();
-                            alert(year);
-                            var legTotal = line*(data.legalFees);
-                            var vatTotal = line*(data.vat);
+                            var legTotal = line*(data[0].legalFees);
+                            var vatTotal = line*(data[0].vat);
                             DynamicForm_InvoiceSalesItem.getItem("legalFees").setValue(legTotal);
                             DynamicForm_InvoiceSalesItem.getItem("vat").setValue(vatTotal);
                         });
                     }
+                },
+                {
+                    name: "linePrice",
+                    title: "<spring:message code='invoiceSalesItem.linePrice'/>",
+                    canEdit: false,
                 },
                 {
                     name: "discount",
@@ -1288,22 +1289,6 @@
                     name: "vat",
                     title: "<spring:message code='invoiceSalesItem.vat'/>",
                     canEdit: false,
-                    changed: function (form, item, value) {
-                        switch (year){
-                            case 2018:
-                                var percent = 1;
-                                break;
-                            case 2019:
-                                var percent = 2;
-                                break;
-                            case 2020:
-                                var percent = 3;
-                                break;
-                        }
-                        var line = (DynamicForm_InvoiceSalesItem.getItem("linePrice")).getValue();
-                        var vatTotal = line*percent;
-                        DynamicForm_InvoiceSalesItem.getItem("vat").setValue(vatTotal);
-                    }
                 },
                 {
                     name: "totalPrice",
