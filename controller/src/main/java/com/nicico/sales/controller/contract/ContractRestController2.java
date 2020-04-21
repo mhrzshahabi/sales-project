@@ -4,7 +4,7 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.contract.ContractDTO;
-import com.nicico.sales.iservice.contract.IContractService;
+import com.nicico.sales.iservice.contract.IContractService2;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,10 +18,10 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/contract")
-public class ContractRestController {
+@RequestMapping(value = "/api/g-contract")
+public class ContractRestController2 {
 
-    private final IContractService contractService;
+    private final IContractService2 contractService;
 
     @Loggable
     @GetMapping(value = "/{id}")

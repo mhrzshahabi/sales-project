@@ -8,7 +8,7 @@ import com.nicico.sales.model.entities.common.AuditId;
 
 import java.util.List;
 
-public interface IContractAuditService {
+public interface IContractAuditService2 {
 
     ContractAuditDTO.Info get(AuditId auditId);
 

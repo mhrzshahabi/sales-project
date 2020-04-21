@@ -16,4 +16,5 @@
 	<include file="classpath:/db/changelog/liq_009.xml"/>
 	<include file="classpath:/db/changelog/liq_010.xml"/>
 	<include file="classpath:/db/changelog/liq_011.xml"/>
+	<include file="classpath:/db/changelog/liq_012.xml"/>
 </databaseChangeLog>

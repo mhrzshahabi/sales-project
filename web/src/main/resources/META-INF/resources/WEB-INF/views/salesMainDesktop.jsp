@@ -177,10 +177,19 @@
     isc.ListGrid.addProperties({
         dataPageSize: 50,
         showPrompt: true,
+        canAutoFitFields: false,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true,
-        formatCellValue: "isc.NumberUtil.format(value, ',0')"
+        formatCellValue: "isc.NumberUtil.format(value, ',0')",
+        sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
+        sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
+        configureSortText: '<spring:message code="global.grid.configureSortText" />',
+        autoFitAllText: '<spring:message code="global.grid.autoFitAllText" />',
+        autoFitFieldText: '<spring:message code="global.grid.autoFitFieldText" />',
+        filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
+        groupByText: '<spring:message code="global.grid.groupByText" />',
+        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />'
     });
 
     isc.ToolStripButton.addProperties({

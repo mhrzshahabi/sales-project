@@ -7,7 +7,7 @@ import com.nicico.sales.dto.contract.ContractDetailDTO;
 
 import java.util.List;
 
-public interface IContractDetailService {
+public interface IContractDetailService2 {
 
     ContractDetailDTO.Info get(Long id);
 
