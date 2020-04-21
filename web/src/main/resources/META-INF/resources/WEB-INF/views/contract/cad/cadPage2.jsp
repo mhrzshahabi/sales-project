@@ -192,7 +192,35 @@ var buttonAddItem=isc.IButton.create({
                            valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
                         }
                 }
-                },
+                },{
+                name: "incotermsShipmentId",
+                colSpan: 3,
+                titleColSpan: 1,
+                tabIndex: 6,
+                showTitle: true,
+                showHover: true,
+                showHintInField: true,
+                required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                type: 'long',
+                numCols: 4,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Incoterms_InCat,
+                displayField: "code",
+                valueField: "id",
+                pickListWidth: "450",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "code", width: 440, align: "center"}
+                ],
+                width: "10%",
+                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
+            },
             ],saveEdits: function () {
                 console.log(ListGrid_ContractItemShipment.validateRow(0));
             },removeData: function (data) {
