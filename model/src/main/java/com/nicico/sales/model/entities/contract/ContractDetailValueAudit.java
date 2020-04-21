@@ -46,7 +46,7 @@ public class ContractDetailValueAudit extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_DETAIL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetailValueAudit2contractDetailByContractDetailId"))
-    private ContractDetail contractDetail;
+    private ContractDetail2 contractDetail;
 
     @NotNull
     @Column(name = "F_CONTRACT_DETAIL_ID", nullable = false)

@@ -19,8 +19,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/contract-audit")
-public class ContractAuditRestController {
+@RequestMapping(value = "/api/g-contract-audit")
+public class ContractAuditRestController2 {
 
     private final IContractAuditService2 contractAuditService;
 

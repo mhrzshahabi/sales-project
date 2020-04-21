@@ -46,8 +46,10 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Autowired
     protected EntityManager entityManager;
     @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     protected JpaRepository<T, ID> repository;
     @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     protected JpaSpecificationExecutor<T> repositorySpecificationExecutor;
 
     {

@@ -21,7 +21,7 @@ import java.util.List;
 @Entity
 @Immutable
 @Subselect("SELECT * FROM TBL_CNTR_CONTRACT_AUD")
-public class ContractAudit extends BaseEntity {
+public class ContractAudit2 extends BaseEntity {
 
     @EmbeddedId
     private AuditId auditId;

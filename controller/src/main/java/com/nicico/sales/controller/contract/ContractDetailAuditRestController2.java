@@ -4,7 +4,7 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.contract.ContractDetailAuditDTO;
-import com.nicico.sales.iservice.contract.IContractDetailAuditService;
+import com.nicico.sales.iservice.contract.IContractDetailAuditService2;
 import com.nicico.sales.model.entities.common.AuditId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +19,10 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/contract-detail-audit")
-public class ContractDetailAuditRestController {
+@RequestMapping(value = "/api/g-contract-detail-audit")
+public class ContractDetailAuditRestController2 {
 
-    private final IContractDetailAuditService contractDetailAuditService;
+    private final IContractDetailAuditService2 contractDetailAuditService;
 
     @Loggable
     @GetMapping(value = "/")

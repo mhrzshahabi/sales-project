@@ -23,7 +23,7 @@ import java.util.List;
 @Audited
 @Entity
 @Table(name = "TBL_CNTR_CONTRACT_DETAIL")
-public class ContractDetail extends BaseEntity {
+public class ContractDetail2 extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_CONTRACT_DETAIL")

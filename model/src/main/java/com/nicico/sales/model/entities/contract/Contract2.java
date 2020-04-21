@@ -26,7 +26,7 @@ import java.util.List;
 @Audited
 @Entity
 @Table(name = "TBL_CNTR_CONTRACT")
-public class Contract extends BaseEntity {
+public class Contract2 extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_CONTRACT")
@@ -70,7 +70,7 @@ public class Contract extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractByParentId"))
-    private List<Contract> appendixContracts;
+    private List<Contract2> appendixContracts;
 
     @Column(name = "F_PARENT_ID")
     private Long parentId;
