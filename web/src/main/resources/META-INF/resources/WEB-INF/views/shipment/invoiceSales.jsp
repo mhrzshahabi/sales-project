@@ -5,6 +5,8 @@
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
+    var today = new Date();
+    var year = today.getFullYear();
     var RestDataSource_invoiceSales = isc.MyRestDataSource.create(
         {
             fields: [
@@ -192,10 +194,7 @@
         {
             fields: [
                 {
-                    name: "id",
-                    primaryKey: true,
-                    canEdit: false,
-                    hidden: true
+                    name: "id"
                 },
                 {
                     name: "departmentCode"
@@ -207,13 +206,10 @@
                     name: "departmentNameLatin"
                 }
             ],
-            dataFormat:"json",
-            jsonPrefix:"",
-            jsonSuffix:"",
             fetchDataURL: "${contextPath}/api/accDepartment/list"
         });
 
- var RestDataSource_salesType = isc.MyRestDataSource.create(
+    var RestDataSource_salesType = isc.MyRestDataSource.create(
         {
             fields: [
                 {
@@ -243,6 +239,25 @@
                 }
             ],
             fetchDataURL: "${contextPath}/api/paymentType/spec-list"
+        });
+
+ var RestDataSource_percentPerYear = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id"
+                },
+                {
+                    name: "year"
+                },
+                {
+                    name: "legalFees"
+                },
+                {
+                    name: "vat"
+                }
+            ],
+            fetchDataURL: "${contextPath}/api/percentPerYear/list"
         });
 
 
@@ -432,6 +447,8 @@
                     title: "<spring:message code='invoiceSales.district'/>",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_accDepartment,
+                    displayField: "departmentName",
+                    valueField: "departmentName",
                     pickListProperties: {
                         showFilterEditor: true
                     },
@@ -1201,6 +1218,9 @@
                     hidden: true,
                 },
                 {
+                    type: "RowSpacerItem"
+                },
+                {
                     name: "productCode",
                     title: "<spring:message code='invoiceSalesItem.productCode'/>",
                 },
@@ -1213,20 +1233,42 @@
                     title: "<spring:message code='invoiceSalesItem.unitName'/>",
                 },
                 {
-                    name: "netAmount",
-                    title: "<spring:message code='invoiceSalesItem.netAmount'/>",
-                },
-                {
                     name: "orderAmount",
                     title: "<spring:message code='invoiceSalesItem.orderAmount'/>",
                 },
                 {
+                    name: "netAmount",
+                    title: "<spring:message code='invoiceSalesItem.netAmount'/>",
+                },
+                {
                     name: "unitPrice",
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
+                    changed: function (form, item, value) {
+
+                        var net =(DynamicForm_InvoiceSalesItem.getItem("netAmount")).getValue();
+                        var unit =(DynamicForm_InvoiceSalesItem.getItem("unitPrice")).getValue();
+                        DynamicForm_InvoiceSalesItem.getItem("linePrice").setValue(net * unit);
+                    }
                 },
                 {
                     name: "linePrice",
                     title: "<spring:message code='invoiceSalesItem.linePrice'/>",
+                    changed: function (form, item, value) {
+
+                        var criteria1 = {
+                            _constructor: "AdvancedCriteria",
+                            operator: "and",
+                            criteria: [{fieldName: "year", operator: "equals", value: year}]
+                        };
+                        RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                            var line = (DynamicForm_InvoiceSalesItem.getItem("linePrice")).getValue();
+                            alert(year);
+                            var legTotal = line*(data.legalFees);
+                            var vatTotal = line*(data.vat);
+                            DynamicForm_InvoiceSalesItem.getItem("legalFees").setValue(legTotal);
+                            DynamicForm_InvoiceSalesItem.getItem("vat").setValue(vatTotal);
+                        });
+                    }
                 },
                 {
                     name: "discount",
@@ -1235,14 +1277,33 @@
                 {
                     name: "linePriceAfterDiscount",
                     title: "<spring:message code='invoiceSalesItem.linePriceAfterDiscount'/>",
+                    colSpan: 4
                 },
                 {
                     name: "legalFees",
                     title: "<spring:message code='invoiceSalesItem.legalFees'/>",
+                    canEdit: false,
                 },
                 {
                     name: "vat",
                     title: "<spring:message code='invoiceSalesItem.vat'/>",
+                    canEdit: false,
+                    changed: function (form, item, value) {
+                        switch (year){
+                            case 2018:
+                                var percent = 1;
+                                break;
+                            case 2019:
+                                var percent = 2;
+                                break;
+                            case 2020:
+                                var percent = 3;
+                                break;
+                        }
+                        var line = (DynamicForm_InvoiceSalesItem.getItem("linePrice")).getValue();
+                        var vatTotal = line*percent;
+                        DynamicForm_InvoiceSalesItem.getItem("vat").setValue(vatTotal);
+                    }
                 },
                 {
                     name: "totalPrice",
@@ -1291,6 +1352,20 @@
                     }
                 });
             } else {
+                // switch (year) {
+                //     case 2018:
+                //         DynamicForm_InvoiceSalesItem.setValue("legalFees", 201911);
+                //         DynamicForm_InvoiceSalesItem.setValue("vat", 201922);
+                //         break;
+                //     case 2019:
+                //         DynamicForm_InvoiceSalesItem.setValue("legalFees", 201911);
+                //         DynamicForm_InvoiceSalesItem.setValue("vat", 201922);
+                //         break;
+                //     case 2020:
+                //         DynamicForm_InvoiceSalesItem.setValue("legalFees", 202011);
+                //         DynamicForm_InvoiceSalesItem.setValue("vat", 202022);
+                //         break;
+                // }
                 DynamicForm_InvoiceSalesItem.clearValues();
                 DynamicForm_InvoiceSalesItem.setValue("invoiceSalesId", record.id);
                 Window_InvoiceSalesItem.show();
