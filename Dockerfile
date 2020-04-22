@@ -8,4 +8,4 @@ ENV PROFILE=Development JVM_ARGS=""
 
 VOLUME /tmp /var/log/nicico /var/nicico
 
-ENTRYPOINT java $JVM_ARGS -Djava.security.egd=file:/dev/urandom -Dspring.profiles.active=$PROFILE -jar /app.jar
+ENTRYPOINT java $JVM_ARGS -Djava.security.egd=file:/dev/urandom -Dspring.profiles.active=$PROFILE -Dspring.redis.host=redis -jar /app.jar
