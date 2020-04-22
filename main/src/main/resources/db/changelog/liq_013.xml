@@ -19,4 +19,7 @@
             <column name="INCOTERMS_SHIPMENT_ID" type="number(19, 0)"/>
         </addColumn>
     </changeSet>
+    <changeSet author="programmer (generated)" id="1778899665544-030">
+        <dropNotNullConstraint columnDataType="NUMBER(19,0)" columnName="INCOTERMS_ID" tableName="TBL_CONTRACT"/>
+    </changeSet>
 </databaseChangeLog>
