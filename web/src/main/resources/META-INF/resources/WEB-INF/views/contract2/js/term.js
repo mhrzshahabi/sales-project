@@ -3,7 +3,7 @@ var termTab = {
     variable: {
 
         method: "POST",
-        url: contextPath + "/api/term/",
+        url: "${contextPath}" + "/api/term/",
     },
     method: {},
     restDataSource: {},
@@ -70,7 +70,7 @@ var termTab = {
 
                 OkDialog = isc.Dialog.create({
 
-                    message: "<spring:message code='global.form.request.successful'/><br><spring:message code='global.message'>:&nbsp;" + warn,
+                    message: "<spring:message code='global.form.request.successful'/><br><spring:message code='global.message'/>:&nbsp;" + warn,
                     icon: "[SKIN]warn.png",
                     title: "<spring:message code='global.ok'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
@@ -114,14 +114,50 @@ var termTab = {
 
 //***************************************************** RESTDATASOURCE *************************************************
 
+termTab.dynamicForm.FormItem.id = {
+    hidden: true,
+    primaryKey: true,
+    name: "id",
+    type: "number",
+    title: "<spring:message code='global.id'/>"
+};
+termTab.dynamicForm.FormItem.version = {
+    hidden: true,
+    name: "version",
+    type: "number",
+    title: "<spring:message code='global.version'/>"
+};
+termTab.dynamicForm.FormItem.editable = {
+    hidden: true,
+    name: "editable",
+    type: "boolean",
+    title: "<spring:message code='global.editable'/>"
+};
+termTab.dynamicForm.FormItem.eStatus = {
+    hidden: true,
+    name: "eStatus",
+    type: "number",
+    title: "<spring:message code='global.e-status'/>"
+};
+termTab.dynamicForm.FormItem.title = {
+    required: true,
+    name: "title",
+    title: "<spring:message code='global.title'/>"
+};
+termTab.dynamicForm.FormItem.description = {
+    type: "textArea",
+    name: "description",
+    title: "<spring:message code='global.description'/>"
+};
+
 termTab.restDataSource.term = isc.MyRestDataSource.create({
     fields: [
-        {name: "id", hidden: false, primaryKey: true, type: "number"},
-        {name: "version", hidden: false, type: "number"},
-        {name: "title", type: "string"},
-        {name: "editable", type: "boolean"},
-        {name: "eStatus", type: "number"},
-        {name: "description", type: "string", showHover: true, hoverWidth: "300"}
+        termTab.dynamicForm.FormItem.id,
+        termTab.dynamicForm.FormItem.version,
+        termTab.dynamicForm.FormItem.editable,
+        termTab.dynamicForm.FormItem.eStatus,
+        termTab.dynamicForm.FormItem.title,
+        termTab.dynamicForm.FormItem.description
     ],
     fetchDataURL: termTab.variable.url + "spec-list"
 });
@@ -182,28 +218,12 @@ termTab.dynamicForm.term = isc.DynamicForm.create({
     errorOrientation: "bottom",
     requiredMessage: '<spring:message code="validator.field.is.required" />',
     fields: [
-        {
-            hidden: true,
-            name: "id",
-            type: "number",
-            title: "<spring:message code='global.id'/>"
-        },
-        {
-            hidden: true,
-            name: "version",
-            type: "number",
-            title: "<spring:message code='global.version'/>"
-        },
-        {
-            required: true,
-            name: "title",
-            title: "<spring:message code='global.title'/>"
-        },
-        {
-            type: "textArea",
-            name: "description",
-            title: "<spring:message code='global.description'/>"
-        }
+        termTab.dynamicForm.FormItem.id,
+        termTab.dynamicForm.FormItem.version,
+        termTab.dynamicForm.FormItem.editable,
+        termTab.dynamicForm.FormItem.eStatus,
+        termTab.dynamicForm.FormItem.title,
+        termTab.dynamicForm.FormItem.description
     ]
 });
 termTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
@@ -265,7 +285,6 @@ termTab.window.term = isc.Window.create({
     showModalMask: true,
     dismissOnEscape: true,
     align: "center",
-    title: '<spring:message code=""/>',
     closeClick: function () {
 
         this.Super("closeClick", arguments)
@@ -348,7 +367,7 @@ termTab.toolStrip.refresh = isc.ToolStripButtonRefresh.create({
 
 termTab.toolStrip.remove = isc.ToolStripButtonRemove.create({
     icon: "[SKIN]/actions/remove.png",
-    title: '<spring:message code="evalution.form.freePerson" />',
+    title: '<spring:message code="global.form.remove" />',
     click: function () {
         termTab.method.remove();
     }
