@@ -286,18 +286,18 @@
             name: "bundleSerial"
         }, {
             name: "sheetNo",
-            // validators: [{
-            //     type: "regexp",
-            //     expression: "^[0-9]*$",
-            //     validateOnChange: true
-            // }],
+            validators: [{
+                type: "regexp",
+                expression: "^[0-9]*$",
+                validateOnChange: true
+            }],
         }, {
             name: "weightKg",
-            // validators: [{
-            //     type: "regexp",
-            //     expression: "^[0-9]*$",
-            //     validateOnChange: true
-            // }],
+            validators: [{
+                type: "regexp",
+                expression: "^[0-9]*$",
+                validateOnChange: true
+            }],
         }, {
             name: "issueId"
         }, {
@@ -341,10 +341,11 @@
 
         saveEdits: function () {
 
-            <%--if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditSessionRowNum())) {--%>
-                <%--isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");--%>
-                <%--return;--%>
-            <%--}--%>
+            // Doesn't Work Completely. Need to Change
+            if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditSessionRowNum())) {
+                isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");
+                return;
+            }
 
             var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditRow());
             if (warehouseCadItemRecord.issueId != undefined) {

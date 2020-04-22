@@ -56,6 +56,7 @@ public class ContractService implements IContractService {
     private final WarehouseLotDAO warehouseLotDAO;
     private final ContractShipmentDAO contractShipmentDAO;
     private final PortDAO portDAO;
+    private final IncotermsDAO incotermsDAO;
     private final ContractDetailDAO contractDetailDAO;
     private final EntityManager entityManager;
     private MyXWPFHtmlDocument myXWPFHtmlDocument;
@@ -237,7 +238,7 @@ public class ContractService implements IContractService {
                         "<body>" + value + "</body>"));
                 printdoc.getDocument().getBody().addNewAltChunk().setId(myXWPFHtmlDocument.getId());
                 runPrintValue.addBreak();
-                XWPFTable tableShipment = printdoc.createTable(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size() + 1, 8);
+                XWPFTable tableShipment = printdoc.createTable(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size() + 1, 9);
                 CTTblWidth widthLot = tableShipment.getCTTbl().addNewTblPr().addNewTblW();
                 widthLot.setW(BigInteger.valueOf(10000));
                 setTableAlign(tableShipment, ParagraphAlignment.CENTER);
@@ -249,6 +250,7 @@ public class ContractService implements IContractService {
                 setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(5), "SEND DATE");
                 setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(6), "DURATION");
                 setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(7), "TOLORANCE");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(8), "INCOTERMS");
 
                 tableShipment.getRow(0).getCell(0).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(1).setColor("D9D9D9");
@@ -258,6 +260,7 @@ public class ContractService implements IContractService {
                 tableShipment.getRow(0).getCell(5).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(6).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(7).setColor("D9D9D9");
+                tableShipment.getRow(0).getCell(8).setColor("D9D9D9");
                 for (int i = 0; i < contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size(); i++) {
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(0), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getPlan()));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(1), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getShipmentRow() + ""));
@@ -267,6 +270,7 @@ public class ContractService implements IContractService {
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(5), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getSendDate() + ""));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(6), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getDuration() + ""));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(7), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getTolorance() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(8), nvl(incotermsDAO.findById(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getIncotermsShipmentId()).get().getCode() + ""));
                 }
             } else {
                 myXWPFHtmlDocument = createHtmlDoc(printdoc, key);
@@ -553,7 +557,7 @@ public class ContractService implements IContractService {
         if (headerParagraph == null) headerParagraph = header.createParagraph();
         headerParagraph.setAlignment(ParagraphAlignment.CENTER);
         InputStream in = this.getClass().getResourceAsStream("/reports/report-logo/ArmNicico.jpg");
-        run.addPicture(in, Document.PICTURE_TYPE_JPEG, "ArmNicico.jpg", Units.toEMU(510), Units.toEMU(75));
+        run.addPicture(in, org.apache.poi.xwpf.usermodel.Document.PICTURE_TYPE_JPEG, "ArmNicico.jpg", Units.toEMU(510), Units.toEMU(75));
         in.close();
 
         XWPFTable tableNo = printdoc.createTable(1, 2);

@@ -8,7 +8,7 @@
 /* This file is loaded by browsers, but also passed to the SmartClient server, which uses the
    "Flying Saucer" JAR to export a page in PDF format.  Therefore, we must declare @font-face in
    way that's compatible with both use cases, and as optimal as possible for all browsers.
-   
+
    Multiple src: declarations can be made in a single #font-face declaration, but only the last
    one that can be parsed will take effect.  The src: declarations aren't merged and the browser
    doesn't even check font format support when choosing a src: line - it just uses the last one
@@ -120,7 +120,7 @@
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
+/*@font-face {
   font-family: 'IRANSansNum';
   font-style: normal;
   font-weight: 500;
@@ -137,7 +137,7 @@
   src: url("fonts/IRANSansWeb_Light.eot");
   src: url("fonts/IRANSansWeb_Light.woff");
   src: local("☺"), url("fonts/IRANSansWeb_Light.woff") format("woff"), url("fonts/IRANSansWeb_Light.otf") format("opentype"), url("fonts/IRANSansWeb_Light.ttf") format("truetype");
-}
+}*/
 @font-face {
   font-family: 'corbel';
   /* see comment on @font-face above */
@@ -169,7 +169,7 @@
 /*============================================================
 This CSS file is generated from the Flat series of skins
 
-DO NOT edit this .css file directly, unless renamed to 
+DO NOT edit this .css file directly, unless renamed to
 something other than skin_styles.css, since future SASS compiles
 will overwrite that file.
 ==============================================================*/
@@ -178,7 +178,7 @@ will overwrite that file.
 	Copyright 2001 and beyond, Isomorphic Software
 
 	:: Contents ::
-	
+
 	1) General
 			default text
             default border
@@ -210,7 +210,7 @@ will overwrite that file.
 			checkbox & radioButton
 			ColorChooser
 			DateChooser
-	9) Slider & Rangebar		
+	9) Slider & Rangebar
 	10) DetailViewer
 	11) ListGrid
 			parts
@@ -683,7 +683,7 @@ ul {
 }
 
 /*============================================================
-    3) Menus 
+    3) Menus
 ============================================================*/
 .menuBorder {
   border: 1px solid #cccccc;
@@ -6420,7 +6420,7 @@ option:checked {
 ============================================================*/
 /* imgHeaderButton - ListGrid column header buttons for image based
    headerButton - ListGrid column header buttons for css3 based */
-/* ListGrid headerButtons - remove top and bottom padding to defeat a Button hack that can cause 
+/* ListGrid headerButtons - remove top and bottom padding to defeat a Button hack that can cause
 some LG header-titles to be vertically offset from other headers */
 .headerButton,
 .headerButtonSelected,
