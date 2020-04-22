@@ -116,7 +116,7 @@ var evaluation;
                 // @ts-ignore
                 restDataSourceProperties.transformRequest = function (dsRequest) {
                     // @ts-ignore
-                    dsRequest.httpHeaders = EvaluationConfigs.httpHeaders;
+                    dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
                     return this.Super("transformRequest", arguments);
                 };
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);

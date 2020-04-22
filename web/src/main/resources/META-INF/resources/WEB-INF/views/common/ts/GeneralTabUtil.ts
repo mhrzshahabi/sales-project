@@ -137,9 +137,9 @@ namespace evaluation {
             };
             This.variable.method = "POST";
             // @ts-ignore
-            This.variable.url = EvaluationConfigs.baseRestUrl;
+            This.variable.url = "${contextPath}";
             // @ts-ignore
-            This.variable.httpHeaders = EvaluationConfigs.httpHeaders;
+            This.variable.httpHeaders = BaseRPCRequest.httpHeaders;
             This.variable.contentType = "application/json; charset=utf-8";
             This.variable.defaultStylePrefix = "evaluation-evaluationResult-tab-";
 
@@ -159,7 +159,7 @@ namespace evaluation {
             This.method.transformRequest = function (dsRequest: isc.DSRequest) {
 
                 // @ts-ignore
-                dsRequest.httpHeaders = EvaluationConfigs.httpHeaders;
+                dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
                 return this.Super("transformRequest", arguments);
             };
             This.method.concatObjectsByKey = function (isBoolOperatorAnd, ...objs) {

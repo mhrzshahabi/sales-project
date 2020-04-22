@@ -174,7 +174,7 @@ var evaluation;
                 // @ts-ignore
                 transformRequest: function (dsRequest) {
                     // @ts-ignore
-                    dsRequest.httpHeaders = EvaluationConfigs.httpHeaders;
+                    dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
                     return this.Super("transformRequest", arguments);
                 }
             });
