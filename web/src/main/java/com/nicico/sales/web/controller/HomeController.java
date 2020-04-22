@@ -27,7 +27,7 @@ public class HomeController {
     @GetMapping(value = {"/", "/home"})
     public String showHomePage(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().setAttribute("userFullName", SecurityUtil.getFullName());
-        localeResolver.setLocale(request, response, new Locale(request.getParameter("lang") == null ? ConstantVARs.LANGUAGE_FA : request.getParameter("lang")));
+        localeResolver.setLocale(request, response, new Locale(request.getParameter("lang") == null ? ConstantVARs.LANGUAGE_EN : request.getParameter("lang")));
 
         return "salesMainDesktop";
     }

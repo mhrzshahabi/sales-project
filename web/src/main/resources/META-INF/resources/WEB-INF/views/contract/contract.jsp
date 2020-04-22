@@ -226,9 +226,10 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         showRollOverIcon: false,
         showMenuOnRollOver: true,
         disabledCursor: "not-allowed",
-        title: "&nbsp; <spring:message code='global.menu.contract.management'/>",
+        title: "&nbsp <spring:message code='global.menu.contract.management'/> &nbsp",
         showDownIcon: false,
         baseStyle: "contract-menu",
+        menuAlign: "center",
         menu: isc.Menu.create({
             data: [{
                 title: "<spring:message code='salesContractMoButton.title'/>",
@@ -251,8 +252,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 }
 
             ]
-        }),
-
+        })
     });
 
     <sec:authorize access="hasAuthority('O_CONTRACT')">
@@ -369,7 +369,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 {name: "id", hidden: true},
                 {
                     name: "material.descl",
-                    title: "Type material",
+                    title: "<spring:message code='material.title'/>",
                     hidden: false,
                     width: "5%",
                     align: "center",
@@ -415,13 +415,6 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                     type: 'text',
                     width: "7%",
                     align: "center"
-                },
-                {
-                    name: "prepaid",
-                    title: "<spring:message code='contract.prepaid'/>",
-                    type: 'integer',
-                    required: true,
-                    width: "100"
                 }
             ],
         getExpansionComponent: function (record) {
