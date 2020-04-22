@@ -172,7 +172,8 @@
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true,
-        formatCellValue: "isc.NumberUtil.format(value, ',0')"
+        formatCellValue: "isc.NumberUtil.format(value, ',0')",
+        canAutoFitFields: false
     });
 
     isc.ToolStripButton.addProperties({

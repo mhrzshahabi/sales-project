@@ -1070,13 +1070,7 @@
                 name: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
-                required: true,
-                width: 400,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                width: 400
             },
             {
                 name: "person.id",
@@ -1282,16 +1276,10 @@
                 name: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
-                required: true,
                 width: "10%",
                 sortNormalizer: function (recordObject) {
                     return recordObject.groups.groupsName;
-                },
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                }
             },
             {
                 name: "person.id",
