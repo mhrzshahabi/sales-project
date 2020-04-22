@@ -1,4 +1,4 @@
-FROM jdk-8u222:pdf01
+FROM devops01.icico.net.ir/jdk-8u222:pdf01
 
 COPY main/target/*.jar /app.jar
 
