@@ -7,36 +7,36 @@
 ///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
 //------------------------------------------- Namespaces -------------------------------------------
-var evaluation;
-(function (evaluation) {
+var nicico;
+(function (nicico) {
     //------------------------------------------ Classes -------------------------------------------
     var BasicFormUtil = /** @class */ (function () {
         function BasicFormUtil() {
         }
         BasicFormUtil.getDefaultBasicForm = function (creator, gridFields, formFields, fetchDataUrl, criteria) {
             // @ts-ignore
-            var dynamicForm = isc.DynamicForm.evaluation.getDefault(formFields);
+            var dynamicForm = isc.DynamicForm.nicico.getDefault(formFields);
             // @ts-ignore
-            var dataSource = isc.RestDataSource.evaluation.getDefault(fetchDataUrl, gridFields);
+            var dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, gridFields);
             // @ts-ignore
-            var grid = isc.ListGrid.evaluation.getDefault(gridFields, dataSource);
+            var grid = isc.ListGrid.nicico.getDefault(gridFields, dataSource);
             var crudActions = [];
             crudActions.add(creator.method.refresh(grid));
             crudActions.add(creator.method.newForm(dynamicForm));
             crudActions.add(creator.method.editForm(grid, dynamicForm));
             crudActions.add(creator.method["delete"](grid));
             // @ts-ignore
-            var menu = isc.Menu.evaluation.getDefault(crudActions);
+            var menu = isc.Menu.nicico.getDefault(crudActions);
             // @ts-ignore
-            isc.ListGrid.evaluation.changeProperties(grid, "contextMenu", menu);
+            isc.ListGrid.nicico.changeProperties(grid, "contextMenu", menu);
             // @ts-ignore
-            var toolStrip = isc.ToolStrip.evaluation.getDefault(crudActions);
+            var toolStrip = isc.ToolStrip.nicico.getDefault(crudActions);
             // @ts-ignore
-            return isc.VLayout.evaluation.getDefault([toolStrip, grid]);
+            return isc.VLayout.nicico.getDefault([toolStrip, grid]);
         };
         return BasicFormUtil;
     }());
-    evaluation.BasicFormUtil = BasicFormUtil;
+    nicico.BasicFormUtil = BasicFormUtil;
     //------------------------------------------ Classes -----------------------------------------//
-})(evaluation || (evaluation = {}));
+})(nicico || (nicico = {}));
 //------------------------------------------- Namespaces -----------------------------------------//

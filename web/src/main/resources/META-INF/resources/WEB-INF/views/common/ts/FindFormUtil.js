@@ -6,8 +6,8 @@
 ///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
 //------------------------------------------- Namespaces -------------------------------------------
-var evaluation;
-(function (evaluation) {
+var nicico;
+(function (nicico) {
     //------------------------------------------ Classes -------------------------------------------
     var FindFormUtil = /** @class */ (function () {
         function FindFormUtil() {
@@ -23,8 +23,8 @@ var evaluation;
         }
         FindFormUtil.prototype.showFindFormByData = function (ownerWindow, title, data, currentData, fields, selectionMultiplicityValue) {
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
-            this.owner = new evaluation.ObjectHider(ownerWindow);
-            this.selectionMultiplicity = new evaluation.ObjectHider(selectionMultiplicityValue);
+            this.owner = new nicico.ObjectHider(ownerWindow);
+            this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.createListGrid(null, null, null);
             var listGrid = this.listGridWidget.getObject();
             listGrid.setData(data);
@@ -56,9 +56,9 @@ var evaluation;
         };
         FindFormUtil.prototype.showFindFormByListGrid = function (ownerWindow, title, currentData, listGrid, selectionMultiplicityValue) {
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
-            this.owner = new evaluation.ObjectHider(ownerWindow);
-            this.selectionMultiplicity = new evaluation.ObjectHider(selectionMultiplicityValue);
-            this.listGridWidget = new evaluation.ObjectHider(isc.ListGrid.create(listGrid));
+            this.owner = new nicico.ObjectHider(ownerWindow);
+            this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
+            this.listGridWidget = new nicico.ObjectHider(isc.ListGrid.create(listGrid));
             this.createWindow(title, this.getButtonLayout(), listGrid);
             if (currentData != null && currentData.length > 0) {
                 // @ts-ignore
@@ -86,8 +86,8 @@ var evaluation;
         FindFormUtil.prototype.showFindFormByRestDataSource = function (ownerWindow, title, currentData, restDataSource, dataArrivedCallback, criteria, selectionMultiplicityValue) {
             if (criteria === void 0) { criteria = null; }
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
-            this.owner = new evaluation.ObjectHider(ownerWindow);
-            this.selectionMultiplicity = new evaluation.ObjectHider(selectionMultiplicityValue);
+            this.owner = new nicico.ObjectHider(ownerWindow);
+            this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.createListGrid(isc.RestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
             this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject());
             if (ownerWindow != null)
@@ -97,8 +97,8 @@ var evaluation;
         FindFormUtil.prototype.showFindFormByRestApiUrl = function (ownerWindow, title, currentData, restApiUrl, fields, dataArrivedCallback, criteria, selectionMultiplicityValue) {
             if (criteria === void 0) { criteria = null; }
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
-            this.owner = new evaluation.ObjectHider(ownerWindow);
-            this.selectionMultiplicity = new evaluation.ObjectHider(selectionMultiplicityValue);
+            this.owner = new nicico.ObjectHider(ownerWindow);
+            this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.createListGrid(this.getRestDataSource(restApiUrl, fields), criteria, currentData, dataArrivedCallback);
             this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject());
             if (ownerWindow != null)
@@ -108,8 +108,8 @@ var evaluation;
         FindFormUtil.prototype.showFindFormByRestApiUrl2 = function (ownerWindow, width, height, title, currentData, restApiUrl, fields, dataArrivedCallback, criteria, selectionMultiplicityValue) {
             if (criteria === void 0) { criteria = null; }
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
-            this.owner = new evaluation.ObjectHider(ownerWindow);
-            this.selectionMultiplicity = new evaluation.ObjectHider(selectionMultiplicityValue);
+            this.owner = new nicico.ObjectHider(ownerWindow);
+            this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.createListGrid(this.getRestDataSource(restApiUrl, fields), criteria, currentData, dataArrivedCallback);
             this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject(), width, height);
             if (ownerWindow != null)
@@ -181,7 +181,7 @@ var evaluation;
         };
         FindFormUtil.prototype.createListGrid = function (restDataSource, criteria, currentData, dataArrivedCallback) {
             var This = this;
-            This.listGridWidget = new evaluation.ObjectHider(isc.ListGrid.create({
+            This.listGridWidget = new nicico.ObjectHider(isc.ListGrid.create({
                 width: "100%",
                 height: window.innerHeight * .6,
                 margin: 10,
@@ -241,7 +241,7 @@ var evaluation;
             if (height === void 0) { height = null; }
             var This = this;
             var vLayout = this.createVLayout(buttonLayout, listGrid);
-            This.windowWidget = new evaluation.ObjectHider(isc.Window.create({
+            This.windowWidget = new nicico.ObjectHider(isc.Window.create({
                 title: title,
                 width: width == null ? "50%" : width,
                 height: height,
@@ -273,7 +273,7 @@ var evaluation;
         };
         return FindFormUtil;
     }());
-    evaluation.FindFormUtil = FindFormUtil;
+    nicico.FindFormUtil = FindFormUtil;
     //------------------------------------------ Classes -----------------------------------------//
-})(evaluation || (evaluation = {}));
+})(nicico || (nicico = {}));
 //------------------------------------------- Namespaces -----------------------------------------//

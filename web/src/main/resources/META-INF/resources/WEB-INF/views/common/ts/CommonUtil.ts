@@ -9,7 +9,7 @@
 
 //------------------------------------------- Namespaces -------------------------------------------
 
-namespace evaluation {
+namespace nicico {
 
     //----------------------------------------- Interfaces -----------------------------------------
 
@@ -41,18 +41,18 @@ namespace evaluation {
             // @ts-ignore
             isc.Canvas.tag = null;
             // @ts-ignore
-            isc.Canvas.evaluation = {};
+            isc.Canvas.nicico = {};
             // @ts-ignore
-            isc.Canvas.evaluation.changeProperties = function (canvas: isc.Canvas, propertyName: string, propertyValue: any): isc.Canvas {
+            isc.Canvas.nicico.changeProperties = function (canvas: isc.Canvas, propertyName: string, propertyValue: any): isc.Canvas {
 
                 canvas[propertyName] = propertyValue;
                 return canvas;
             };
 
             // @ts-ignore
-            isc.Menu.evaluation = {};
+            isc.Menu.nicico = {};
             // @ts-ignore
-            isc.Menu.evaluation.getDefault = function (...crudActions: any[]): isc.Menu {
+            isc.Menu.nicico.getDefault = function (...crudActions: any[]): isc.Menu {
 
                 var menu = isc.Menu.create({
 
@@ -99,16 +99,16 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.ListGrid.evaluation = {};
+            isc.ListGrid.nicico = {};
             // @ts-ignore
-            isc.ListGrid.evaluation.changeFieldsProperties = function (listGrid: isc.ListGrid, fieldPropertyName: string, fieldPropertyValue: any): isc.ListGrid {
+            isc.ListGrid.nicico.changeFieldsProperties = function (listGrid: isc.ListGrid, fieldPropertyName: string, fieldPropertyValue: any): isc.ListGrid {
 
                 // @ts-ignore
                 listGrid.getItem(fieldPropertyName).setValue(fieldPropertyValue);
                 return listGrid;
             };
             // @ts-ignore
-            isc.ListGrid.evaluation.getDefault = function (fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
+            isc.ListGrid.nicico.getDefault = function (fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
 
                 let listGridProperties: Partial<isc.ListGrid> = {};
 
@@ -139,7 +139,7 @@ namespace evaluation {
                 return this.createListGrid(listGridProperties, fields, restDataSource);
             };
             // @ts-ignore
-            isc.ListGrid.evaluation.createListGrid = function (listGridProperties: Partial<isc.ListGrid>, fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
+            isc.ListGrid.nicico.createListGrid = function (listGridProperties: Partial<isc.ListGrid>, fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
 
                 let listGrid = isc.ListGrid.create(listGridProperties);
                 listGrid.fields = fields;
@@ -148,9 +148,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.RestDataSource.evaluation = {};
+            isc.RestDataSource.nicico = {};
             // @ts-ignore
-            isc.RestDataSource.evaluation.getDefault = function (fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
+            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
 
                 let restDataSourceProperties: Partial<isc.RestDataSource> = {};
 
@@ -167,14 +167,14 @@ namespace evaluation {
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
             };
             // @ts-ignore
-            isc.RestDataSource.evaluation.changeFieldsProperties = function (restDataSource: isc.RestDataSource, fieldPropertyName: string, fieldPropertyValue: any): isc.RestDataSource {
+            isc.RestDataSource.nicico.changeFieldsProperties = function (restDataSource: isc.RestDataSource, fieldPropertyName: string, fieldPropertyValue: any): isc.RestDataSource {
 
                 // @ts-ignore
                 restDataSource.fields[fieldPropertyName] = fieldPropertyValue;
                 return restDataSource;
             };
             // @ts-ignore
-            isc.RestDataSource.evaluation.createRestDataSource = function (restDataSourceProperties: Partial<isc.RestDataSource>, fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
+            isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties: Partial<isc.RestDataSource>, fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
 
                 let restDataSource = isc.RestDataSource.create(restDataSourceProperties);
                 restDataSource.fields = fields;
@@ -183,9 +183,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.FormItem.evaluation = {};
+            isc.FormItem.nicico = {};
             // @ts-ignore
-            isc.FormItem.evaluation.getDefaultProperties = function (name: string, title: string, required?: boolean | Criteria = true, readonly?: boolean | Criteria, validators?: Array<Partial<Validator>>, id?: string): Partial<isc.FormItem> {
+            isc.FormItem.nicico.getDefaultProperties = function (name: string, title: string, required?: boolean | Criteria = true, readonly?: boolean | Criteria, validators?: Array<Partial<Validator>>, id?: string): Partial<isc.FormItem> {
 
                 let formItemProperties: Partial<isc.FormItem> = {};
 
@@ -239,7 +239,7 @@ namespace evaluation {
 
             // TODO : put your fields template here, like below
             // @ts-ignore
-            isc.FormItem.evaluation.getDefaultPersianDate = function (name: string, title: string, required?: boolean | Criteria = true, readonly?: boolean | Criteria, validators?: Array<Partial<Validator>>, id?: string): isc.FormItem {
+            isc.FormItem.nicico.getDefaultPersianDate = function (name: string, title: string, required?: boolean | Criteria = true, readonly?: boolean | Criteria, validators?: Array<Partial<Validator>>, id?: string): isc.FormItem {
 
                 let formItemProperties = this.getDefaultProperties(name, title, required, readonly, validators, id);
 
@@ -255,15 +255,15 @@ namespace evaluation {
 
 
             // @ts-ignore
-            isc.FormItem.evaluation.createFormItem = function (formItemProperties: Partial<isc.FormItem>): isc.FormItem {
+            isc.FormItem.nicico.createFormItem = function (formItemProperties: Partial<isc.FormItem>): isc.FormItem {
 
                 return isc.FormItem.create(formItemProperties);
             };
 
             // @ts-ignore
-            isc.DynamicForm.evaluation = {};
+            isc.DynamicForm.nicico = {};
             // @ts-ignore
-            isc.DynamicForm.evaluation.getDefault = function (fields: Array<Partial<isc.FormItem>>, id?: string): isc.DynamicForm {
+            isc.DynamicForm.nicico.getDefault = function (fields: Array<Partial<isc.FormItem>>, id?: string): isc.DynamicForm {
 
                 let dynamicFormProperties: Partial<isc.DynamicForm> = {};
 
@@ -291,14 +291,14 @@ namespace evaluation {
                 return this.createDynamicForm(dynamicFormProperties, fields);
             };
             // @ts-ignore
-            isc.DynamicForm.evaluation.changeFieldsProperties = function (dynamicForm: isc.DynamicForm, fieldPropertyName: string, fieldPropertyValue: any): isc.DynamicForm {
+            isc.DynamicForm.nicico.changeFieldsProperties = function (dynamicForm: isc.DynamicForm, fieldPropertyName: string, fieldPropertyValue: any): isc.DynamicForm {
 
                 // @ts-ignore
                 dynamicForm.fields[fieldPropertyName] = fieldPropertyValue;
                 return dynamicForm;
             };
             // @ts-ignore
-            isc.DynamicForm.evaluation.createDynamicForm = function (dynamicFormProperties: Partial<isc.DynamicForm>, fields: Array<Partial<isc.FormItem>>): isc.DynamicForm {
+            isc.DynamicForm.nicico.createDynamicForm = function (dynamicFormProperties: Partial<isc.DynamicForm>, fields: Array<Partial<isc.FormItem>>): isc.DynamicForm {
 
                 let dynamicForm = isc.DynamicForm.create(dynamicFormProperties);
                 dynamicForm.fields = fields;
@@ -306,9 +306,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.Window.evaluation = {};
+            isc.Window.nicico = {};
             // @ts-ignore
-            isc.Window.evaluation.getDefault = function (title: string, items: Array<isc.Canvas>, id?: string): isc.Window {
+            isc.Window.nicico.getDefault = function (title: string, items: Array<isc.Canvas>, id?: string): isc.Window {
 
                 return isc.Window.create({
 
@@ -339,9 +339,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.HTMLFlow.evaluation = {};
+            isc.HTMLFlow.nicico = {};
             // @ts-ignore
-            isc.HTMLFlow.evaluation.getDefault = function (content: string): isc.HTMLFlow {
+            isc.HTMLFlow.nicico.getDefault = function (content: string): isc.HTMLFlow {
 
                 return isc.HTMLFlow.create({
                     // @ts-ignore
@@ -350,9 +350,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.IButton.evaluation = {};
+            isc.IButton.nicico = {};
             // @ts-ignore
-            isc.IButton.evaluation.getDefault = function (title: string, icon: string, action: any): isc.IButton {
+            isc.IButton.nicico.getDefault = function (title: string, icon: string, action: any): isc.IButton {
 
                 return isc.IButton.create({
 
@@ -366,9 +366,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.HLayout.evaluation = {};
+            isc.HLayout.nicico = {};
             // @ts-ignore
-            isc.HLayout.evaluation.getDefault = function (items: Array<isc.Canvas>, id?: string): isc.HLayout {
+            isc.HLayout.nicico.getDefault = function (items: Array<isc.Canvas>, id?: string): isc.HLayout {
 
                 return isc.HLayout.create({
 
@@ -382,7 +382,7 @@ namespace evaluation {
                 });
             };
             // @ts-ignore
-            isc.HLayout.evaluation.getSaveLayout = function (saveAction: any, id?: string): isc.HLayout {
+            isc.HLayout.nicico.getSaveLayout = function (saveAction: any, id?: string): isc.HLayout {
 
                 // @ts-ignore
                 var saveLayout = isc.HLayout.getDefault(id);
@@ -398,9 +398,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.VLayout.evaluation = {};
+            isc.VLayout.nicico = {};
             // @ts-ignore
-            isc.VLayout.evaluation.getDefault = function (items: Array<isc.Canvas>, id?: string): isc.VLayout {
+            isc.VLayout.nicico.getDefault = function (items: Array<isc.Canvas>, id?: string): isc.VLayout {
 
                 return isc.VLayout.create({
 
@@ -411,9 +411,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.Label.evaluation = {};
+            isc.Label.nicico = {};
             // @ts-ignore
-            isc.Label.evaluation.getDefault = function (content: string, id?: string): isc.Label {
+            isc.Label.nicico.getDefault = function (content: string, id?: string): isc.Label {
 
                 return isc.Label.create({
 
@@ -423,9 +423,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.ToolStripButton.evaluation = {};
+            isc.ToolStripButton.nicico = {};
             // @ts-ignore
-            isc.ToolStripButton.evaluation.getDefault = function (title: string, icon: string, clickAction: any): isc.ToolStripButton {
+            isc.ToolStripButton.nicico.getDefault = function (title: string, icon: string, clickAction: any): isc.ToolStripButton {
 
                 return isc.ToolStripButton.create({
 
@@ -436,9 +436,9 @@ namespace evaluation {
             };
 
             // @ts-ignore
-            isc.ToolStrip.evaluation = {};
+            isc.ToolStrip.nicico = {};
             // @ts-ignore
-            isc.ToolStrip.evaluation.getDefault = function (...crudActions: any[], id?: string): isc.ToolStrip {
+            isc.ToolStrip.nicico.getDefault = function (...crudActions: any[], id?: string): isc.ToolStrip {
 
                 var toolStrip = isc.ToolStrip.create({
 
@@ -449,29 +449,29 @@ namespace evaluation {
                 if (crudActions.length === 0) return toolStrip;
 
                 // @ts-ignore
-                toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault('<spring:message code="global.form.refresh" />', "[SKIN]/actions/refresh.png", crudActions[0]));
+                toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.refresh" />', "[SKIN]/actions/refresh.png", crudActions[0]));
                 if (crudActions.length > 0)
                 // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault('<spring:message code="global.form.new"/>', "[SKIN]/actions/add.png", crudActions[1]));
+                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.new"/>', "[SKIN]/actions/add.png", crudActions[1]));
                 if (crudActions.length > 1)
                 // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault('<spring:message code="global.form.edit"/>', "[SKIN]/actions/edit.png", crudActions[2]));
+                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.edit"/>', "[SKIN]/actions/edit.png", crudActions[2]));
                 if (crudActions.length > 2)
                 // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault('<spring:message code="global.form.remove"/>', "[SKIN]/actions/remove.png", crudActions[3]));
+                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.remove"/>', "[SKIN]/actions/remove.png", crudActions[3]));
 
                 if (crudActions.length > 3)
                     for (let i = 4; i < crudActions.length; i++)
                         // @ts-ignore
-                        toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault(crudActions[i].title, crudActions[i].icon, crudActions[i].click));
+                        toolStrip.addMember(isc.ToolStripButton.nicico.getDefault(crudActions[i].title, crudActions[i].icon, crudActions[i].click));
 
                 return toolStrip;
             };
 
             // @ts-ignore
-            isc.FacetChart.evaluation = {};
+            isc.FacetChart.nicico = {};
             // @ts-ignore
-            isc.FacetChart.evaluation.getDefault = function (data: any, valueProperty: string, facets: Array<Partial<isc.Facet>>, title?: string, defaultChartType?: isc.ChartType, allowedChartTypes?: Array<isc.ChartType>, id?: string) {
+            isc.FacetChart.nicico.getDefault = function (data: any, valueProperty: string, facets: Array<Partial<isc.Facet>>, title?: string, defaultChartType?: isc.ChartType, allowedChartTypes?: Array<isc.ChartType>, id?: string) {
 
                 return isc.FacetChart.create({
 
@@ -499,7 +499,7 @@ namespace evaluation {
                 });
             };
             // @ts-ignore
-            isc.FacetChart.evaluation.showChart = function (ownerWindow: isc.Window, title: string, chart: isc.FacetChart) {
+            isc.FacetChart.nicico.showChart = function (ownerWindow: isc.Window, title: string, chart: isc.FacetChart) {
 
                 var windowWidget = isc.Window.create({
 

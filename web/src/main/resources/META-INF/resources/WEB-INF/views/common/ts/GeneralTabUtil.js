@@ -16,8 +16,8 @@ var __assign = (this && this.__assign) || function () {
 ///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
 //------------------------------------------- Namespaces -------------------------------------------
-var evaluation;
-(function (evaluation) {
+var nicico;
+(function (nicico) {
     //----------------------------------------- Interfaces -----------------------------------------
     //----------------------------------------- Interfaces ---------------------------------------//
     //------------------------------------------ Classes -------------------------------------------
@@ -37,7 +37,7 @@ var evaluation;
         };
         return GeneralTabUtil;
     }());
-    evaluation.GeneralTabUtil = GeneralTabUtil;
+    nicico.GeneralTabUtil = GeneralTabUtil;
     var JSPTabVariableImp = /** @class */ (function () {
         function JSPTabVariableImp() {
             var This = this;
@@ -54,7 +54,7 @@ var evaluation;
             // @ts-ignore
             This.variable.httpHeaders = BaseRPCRequest.httpHeaders;
             This.variable.contentType = "application/json; charset=utf-8";
-            This.variable.defaultStylePrefix = "evaluation-evaluationResult-tab-";
+            This.variable.defaultStylePrefix = "";
             This.method = {
                 "delete": null,
                 refresh: null,
@@ -359,7 +359,7 @@ var evaluation;
         }
         return JSPTabVariableImp;
     }());
-    evaluation.JSPTabVariableImp = JSPTabVariableImp;
+    nicico.JSPTabVariableImp = JSPTabVariableImp;
     //------------------------------------------ Classes -----------------------------------------//
-})(evaluation || (evaluation = {}));
+})(nicico || (nicico = {}));
 //------------------------------------------- Namespaces -----------------------------------------//

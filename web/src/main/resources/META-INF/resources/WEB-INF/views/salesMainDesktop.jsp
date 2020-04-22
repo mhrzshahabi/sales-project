@@ -66,10 +66,10 @@
         willHandleError: false //centralized error handling
     };
 
-    var salesCommonUtil = new evaluation.CommonUtil();
-    var salesFormUtil = new evaluation.FormUtil();
-    var salesFindFormUtil = new evaluation.FindFormUtil();
-    var salesGeneralTabUtil = new evaluation.GeneralTabUtil();
+    var salesCommonUtil = new nicico.CommonUtil();
+    var salesFormUtil = new nicico.FormUtil();
+    var salesFindFormUtil = new nicico.FindFormUtil();
+    var salesGeneralTabUtil = new nicico.GeneralTabUtil();
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 

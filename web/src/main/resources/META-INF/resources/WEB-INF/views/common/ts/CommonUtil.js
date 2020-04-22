@@ -5,8 +5,8 @@
 ///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
 //------------------------------------------- Namespaces -------------------------------------------
-var evaluation;
-(function (evaluation) {
+var nicico;
+(function (nicico) {
     //----------------------------------------- Interfaces -----------------------------------------
     //----------------------------------------- Interfaces ---------------------------------------//
     //------------------------------------------ Classes -------------------------------------------
@@ -15,16 +15,16 @@ var evaluation;
             // @ts-ignore
             isc.Canvas.tag = null;
             // @ts-ignore
-            isc.Canvas.evaluation = {};
+            isc.Canvas.nicico = {};
             // @ts-ignore
-            isc.Canvas.evaluation.changeProperties = function (canvas, propertyName, propertyValue) {
+            isc.Canvas.nicico.changeProperties = function (canvas, propertyName, propertyValue) {
                 canvas[propertyName] = propertyValue;
                 return canvas;
             };
             // @ts-ignore
-            isc.Menu.evaluation = {};
+            isc.Menu.nicico = {};
             // @ts-ignore
-            isc.Menu.evaluation.getDefault = function () {
+            isc.Menu.nicico.getDefault = function () {
                 var crudActions = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
                     crudActions[_i] = arguments[_i];
@@ -67,15 +67,15 @@ var evaluation;
                 return menu;
             };
             // @ts-ignore
-            isc.ListGrid.evaluation = {};
+            isc.ListGrid.nicico = {};
             // @ts-ignore
-            isc.ListGrid.evaluation.changeFieldsProperties = function (listGrid, fieldPropertyName, fieldPropertyValue) {
+            isc.ListGrid.nicico.changeFieldsProperties = function (listGrid, fieldPropertyName, fieldPropertyValue) {
                 // @ts-ignore
                 listGrid.getItem(fieldPropertyName).setValue(fieldPropertyValue);
                 return listGrid;
             };
             // @ts-ignore
-            isc.ListGrid.evaluation.getDefault = function (fields, restDataSource) {
+            isc.ListGrid.nicico.getDefault = function (fields, restDataSource) {
                 var listGridProperties = {};
                 listGridProperties.width = "100%";
                 listGridProperties.height = "100%";
@@ -99,16 +99,16 @@ var evaluation;
                 return this.createListGrid(listGridProperties, fields, restDataSource);
             };
             // @ts-ignore
-            isc.ListGrid.evaluation.createListGrid = function (listGridProperties, fields, restDataSource) {
+            isc.ListGrid.nicico.createListGrid = function (listGridProperties, fields, restDataSource) {
                 var listGrid = isc.ListGrid.create(listGridProperties);
                 listGrid.fields = fields;
                 listGrid.dataSource = restDataSource;
                 return listGrid;
             };
             // @ts-ignore
-            isc.RestDataSource.evaluation = {};
+            isc.RestDataSource.nicico = {};
             // @ts-ignore
-            isc.RestDataSource.evaluation.getDefault = function (fetchDataUrl, fields) {
+            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl, fields) {
                 var restDataSourceProperties = {};
                 restDataSourceProperties.jsonPrefix = "";
                 restDataSourceProperties.jsonSuffix = "";
@@ -122,22 +122,22 @@ var evaluation;
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
             };
             // @ts-ignore
-            isc.RestDataSource.evaluation.changeFieldsProperties = function (restDataSource, fieldPropertyName, fieldPropertyValue) {
+            isc.RestDataSource.nicico.changeFieldsProperties = function (restDataSource, fieldPropertyName, fieldPropertyValue) {
                 // @ts-ignore
                 restDataSource.fields[fieldPropertyName] = fieldPropertyValue;
                 return restDataSource;
             };
             // @ts-ignore
-            isc.RestDataSource.evaluation.createRestDataSource = function (restDataSourceProperties, fetchDataUrl, fields) {
+            isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties, fetchDataUrl, fields) {
                 var restDataSource = isc.RestDataSource.create(restDataSourceProperties);
                 restDataSource.fields = fields;
                 restDataSource.fetchDataURL = fetchDataUrl;
                 return restDataSource;
             };
             // @ts-ignore
-            isc.FormItem.evaluation = {};
+            isc.FormItem.nicico = {};
             // @ts-ignore
-            isc.FormItem.evaluation.getDefaultProperties = function (name, title, required, readonly, validators, id) {
+            isc.FormItem.nicico.getDefaultProperties = function (name, title, required, readonly, validators, id) {
                 if (required === void 0) { required = true; }
                 var formItemProperties = {};
                 formItemProperties.ID = id;
@@ -181,7 +181,7 @@ var evaluation;
             };
             // TODO : put your fields template here, like below
             // @ts-ignore
-            isc.FormItem.evaluation.getDefaultPersianDate = function (name, title, required, readonly, validators, id) {
+            isc.FormItem.nicico.getDefaultPersianDate = function (name, title, required, readonly, validators, id) {
                 if (required === void 0) { required = true; }
                 var formItemProperties = this.getDefaultProperties(name, title, required, readonly, validators, id);
                 // @ts-ignore
@@ -192,13 +192,13 @@ var evaluation;
                 return this.createFormItem(formItemProperties);
             };
             // @ts-ignore
-            isc.FormItem.evaluation.createFormItem = function (formItemProperties) {
+            isc.FormItem.nicico.createFormItem = function (formItemProperties) {
                 return isc.FormItem.create(formItemProperties);
             };
             // @ts-ignore
-            isc.DynamicForm.evaluation = {};
+            isc.DynamicForm.nicico = {};
             // @ts-ignore
-            isc.DynamicForm.evaluation.getDefault = function (fields, id) {
+            isc.DynamicForm.nicico.getDefault = function (fields, id) {
                 var dynamicFormProperties = {};
                 dynamicFormProperties.ID = id;
                 dynamicFormProperties.numCols = 2;
@@ -221,21 +221,21 @@ var evaluation;
                 return this.createDynamicForm(dynamicFormProperties, fields);
             };
             // @ts-ignore
-            isc.DynamicForm.evaluation.changeFieldsProperties = function (dynamicForm, fieldPropertyName, fieldPropertyValue) {
+            isc.DynamicForm.nicico.changeFieldsProperties = function (dynamicForm, fieldPropertyName, fieldPropertyValue) {
                 // @ts-ignore
                 dynamicForm.fields[fieldPropertyName] = fieldPropertyValue;
                 return dynamicForm;
             };
             // @ts-ignore
-            isc.DynamicForm.evaluation.createDynamicForm = function (dynamicFormProperties, fields) {
+            isc.DynamicForm.nicico.createDynamicForm = function (dynamicFormProperties, fields) {
                 var dynamicForm = isc.DynamicForm.create(dynamicFormProperties);
                 dynamicForm.fields = fields;
                 return dynamicForm;
             };
             // @ts-ignore
-            isc.Window.evaluation = {};
+            isc.Window.nicico = {};
             // @ts-ignore
-            isc.Window.evaluation.getDefault = function (title, items, id) {
+            isc.Window.nicico.getDefault = function (title, items, id) {
                 return isc.Window.create({
                     ID: id,
                     width: "50%",
@@ -261,18 +261,18 @@ var evaluation;
                 });
             };
             // @ts-ignore
-            isc.HTMLFlow.evaluation = {};
+            isc.HTMLFlow.nicico = {};
             // @ts-ignore
-            isc.HTMLFlow.evaluation.getDefault = function (content) {
+            isc.HTMLFlow.nicico.getDefault = function (content) {
                 return isc.HTMLFlow.create({
                     // @ts-ignore
                     content: content
                 });
             };
             // @ts-ignore
-            isc.IButton.evaluation = {};
+            isc.IButton.nicico = {};
             // @ts-ignore
-            isc.IButton.evaluation.getDefault = function (title, icon, action) {
+            isc.IButton.nicico.getDefault = function (title, icon, action) {
                 return isc.IButton.create({
                     icon: icon,
                     title: title,
@@ -283,9 +283,9 @@ var evaluation;
                 });
             };
             // @ts-ignore
-            isc.HLayout.evaluation = {};
+            isc.HLayout.nicico = {};
             // @ts-ignore
-            isc.HLayout.evaluation.getDefault = function (items, id) {
+            isc.HLayout.nicico.getDefault = function (items, id) {
                 return isc.HLayout.create({
                     ID: id,
                     width: "100%",
@@ -297,7 +297,7 @@ var evaluation;
                 });
             };
             // @ts-ignore
-            isc.HLayout.evaluation.getSaveLayout = function (saveAction, id) {
+            isc.HLayout.nicico.getSaveLayout = function (saveAction, id) {
                 // @ts-ignore
                 var saveLayout = isc.HLayout.getDefault(id);
                 // @ts-ignore
@@ -310,9 +310,9 @@ var evaluation;
                 return saveLayout;
             };
             // @ts-ignore
-            isc.VLayout.evaluation = {};
+            isc.VLayout.nicico = {};
             // @ts-ignore
-            isc.VLayout.evaluation.getDefault = function (items, id) {
+            isc.VLayout.nicico.getDefault = function (items, id) {
                 return isc.VLayout.create({
                     ID: id,
                     width: "100%",
@@ -320,18 +320,18 @@ var evaluation;
                 });
             };
             // @ts-ignore
-            isc.Label.evaluation = {};
+            isc.Label.nicico = {};
             // @ts-ignore
-            isc.Label.evaluation.getDefault = function (content, id) {
+            isc.Label.nicico.getDefault = function (content, id) {
                 return isc.Label.create({
                     height: "5%",
                     contents: content
                 });
             };
             // @ts-ignore
-            isc.ToolStripButton.evaluation = {};
+            isc.ToolStripButton.nicico = {};
             // @ts-ignore
-            isc.ToolStripButton.evaluation.getDefault = function (title, icon, clickAction) {
+            isc.ToolStripButton.nicico.getDefault = function (title, icon, clickAction) {
                 return isc.ToolStripButton.create({
                     icon: icon,
                     title: title,
@@ -339,9 +339,9 @@ var evaluation;
                 });
             };
             // @ts-ignore
-            isc.ToolStrip.evaluation = {};
+            isc.ToolStrip.nicico = {};
             // @ts-ignore
-            isc.ToolStrip.evaluation.getDefault = function (id) {
+            isc.ToolStrip.nicico.getDefault = function (id) {
                 var toolStrip = isc.ToolStrip.create({
                     ID: id,
                     width: "100%"
@@ -349,26 +349,26 @@ var evaluation;
                 if (crudActions.length === 0)
                     return toolStrip;
                 // @ts-ignore
-                toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault('<spring:message code="global.form.refresh" />', "[SKIN]/actions/refresh.png", crudActions[0]));
+                toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.refresh" />', "[SKIN]/actions/refresh.png", crudActions[0]));
                 if (crudActions.length > 0)
                     // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault('<spring:message code="global.form.new"/>', "[SKIN]/actions/add.png", crudActions[1]));
+                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.new"/>', "[SKIN]/actions/add.png", crudActions[1]));
                 if (crudActions.length > 1)
                     // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault('<spring:message code="global.form.edit"/>', "[SKIN]/actions/edit.png", crudActions[2]));
+                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.edit"/>', "[SKIN]/actions/edit.png", crudActions[2]));
                 if (crudActions.length > 2)
                     // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault('<spring:message code="global.form.remove"/>', "[SKIN]/actions/remove.png", crudActions[3]));
+                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.remove"/>', "[SKIN]/actions/remove.png", crudActions[3]));
                 if (crudActions.length > 3)
                     for (var i = 4; i < crudActions.length; i++)
                         // @ts-ignore
-                        toolStrip.addMember(isc.ToolStripButton.evaluation.getDefault(crudActions[i].title, crudActions[i].icon, crudActions[i].click));
+                        toolStrip.addMember(isc.ToolStripButton.nicico.getDefault(crudActions[i].title, crudActions[i].icon, crudActions[i].click));
                 return toolStrip;
             };
             // @ts-ignore
-            isc.FacetChart.evaluation = {};
+            isc.FacetChart.nicico = {};
             // @ts-ignore
-            isc.FacetChart.evaluation.getDefault = function (data, valueProperty, facets, title, defaultChartType, allowedChartTypes, id) {
+            isc.FacetChart.nicico.getDefault = function (data, valueProperty, facets, title, defaultChartType, allowedChartTypes, id) {
                 return isc.FacetChart.create({
                     ID: id,
                     width: "100%",
@@ -394,7 +394,7 @@ var evaluation;
                 });
             };
             // @ts-ignore
-            isc.FacetChart.evaluation.showChart = function (ownerWindow, title, chart) {
+            isc.FacetChart.nicico.showChart = function (ownerWindow, title, chart) {
                 var windowWidget = isc.Window.create({
                     title: title,
                     width: "50%",
@@ -452,7 +452,7 @@ var evaluation;
         }
         return CommonUtil;
     }());
-    evaluation.CommonUtil = CommonUtil;
+    nicico.CommonUtil = CommonUtil;
     var ObjectHider = /** @class */ (function () {
         function ObjectHider(hider) {
             this._hider = hider;
@@ -462,7 +462,7 @@ var evaluation;
         };
         return ObjectHider;
     }());
-    evaluation.ObjectHider = ObjectHider;
+    nicico.ObjectHider = ObjectHider;
     //------------------------------------------ Classes -----------------------------------------//
-})(evaluation || (evaluation = {}));
+})(nicico || (nicico = {}));
 //------------------------------------------- Namespaces -----------------------------------------//

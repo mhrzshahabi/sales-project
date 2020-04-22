@@ -6,8 +6,8 @@
 ///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
 //------------------------------------------- Namespaces -------------------------------------------
-var evaluation;
-(function (evaluation) {
+var nicico;
+(function (nicico) {
     //------------------------------------------ Classes -------------------------------------------
     var FormUtil = /** @class */ (function () {
         function FormUtil() {
@@ -22,8 +22,8 @@ var evaluation;
             };
         }
         FormUtil.prototype.showForm = function (ownerWindow, title, canvas) {
-            this.owner = new evaluation.ObjectHider(ownerWindow);
-            this.bodyWidget = new evaluation.ObjectHider(canvas);
+            this.owner = new nicico.ObjectHider(ownerWindow);
+            this.bodyWidget = new nicico.ObjectHider(canvas);
             this.createWindow(title, this.getButtonLayout());
             if (ownerWindow != null)
                 ownerWindow.close();
@@ -72,7 +72,7 @@ var evaluation;
                     buttonLayout
                 ]
             });
-            This.windowWidget = new evaluation.ObjectHider(isc.Window.create({
+            This.windowWidget = new nicico.ObjectHider(isc.Window.create({
                 title: title,
                 width: "50%",
                 align: "center",
@@ -94,7 +94,7 @@ var evaluation;
         };
         return FormUtil;
     }());
-    evaluation.FormUtil = FormUtil;
+    nicico.FormUtil = FormUtil;
     //------------------------------------------ Classes -----------------------------------------//
-})(evaluation || (evaluation = {}));
+})(nicico || (nicico = {}));
 //------------------------------------------- Namespaces -----------------------------------------//

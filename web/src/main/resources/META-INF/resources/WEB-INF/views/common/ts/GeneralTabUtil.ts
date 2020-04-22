@@ -9,7 +9,7 @@
 
 //------------------------------------------- Namespaces -------------------------------------------
 
-namespace evaluation {
+namespace nicico {
 
     //----------------------------------------- Interfaces -----------------------------------------
 
@@ -141,7 +141,7 @@ namespace evaluation {
             // @ts-ignore
             This.variable.httpHeaders = BaseRPCRequest.httpHeaders;
             This.variable.contentType = "application/json; charset=utf-8";
-            This.variable.defaultStylePrefix = "evaluation-evaluationResult-tab-";
+            This.variable.defaultStylePrefix = "";
 
             This.method = {
 

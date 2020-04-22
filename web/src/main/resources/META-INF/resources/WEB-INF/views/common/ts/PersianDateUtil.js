@@ -5,8 +5,8 @@
 ///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
 //------------------------------------------- Namespaces -------------------------------------------
-var evaluation;
-(function (evaluation) {
+var nicico;
+(function (nicico) {
     //------------------------------------------ Classes -------------------------------------------
     var PersianDateUtil = /** @class */ (function () {
         function PersianDateUtil() {
@@ -62,7 +62,7 @@ var evaluation;
         };
         return PersianDateUtil;
     }());
-    evaluation.PersianDateUtil = PersianDateUtil;
+    nicico.PersianDateUtil = PersianDateUtil;
     //------------------------------------------ Classes -----------------------------------------//
-})(evaluation || (evaluation = {}));
+})(nicico || (nicico = {}));
 //------------------------------------------- Namespaces -----------------------------------------//
