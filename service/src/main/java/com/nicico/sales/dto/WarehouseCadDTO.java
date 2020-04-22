@@ -16,7 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseCadDTO {
-
+    private TozinDTO tozinDTO;
     private String warehouseNo;
     private Long materialItemId;
     private String plant;
@@ -58,6 +58,7 @@ public class WarehouseCadDTO {
         private String lastModifiedBy;
         private Integer version;
     }
+
 
     @Getter
     @Setter

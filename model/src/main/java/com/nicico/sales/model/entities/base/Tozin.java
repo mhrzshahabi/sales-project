@@ -25,6 +25,7 @@ public class Tozin {
     @Id
     @Column(name = "SOURCEE")
     private String source;
+
     @Id
     @Column(name = "TOZINE_ID")
     private String tozinId;

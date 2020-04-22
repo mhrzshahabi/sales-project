@@ -1,6 +1,7 @@
 package com.nicico.sales.util;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Component
+@Profile("Local")
 public class CompareMessagesFile {
 
     private final Environment environment;

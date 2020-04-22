@@ -4,7 +4,14 @@
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-
+var RestDataSource_Incoterms_InConc = isc.MyRestDataSource.create({
+        fields:
+        [
+        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+        {name: "code", title: "<spring:message code='goods.code'/> "},
+        ],
+        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+});
     var sendDateSetConc;
     var sendDateSetConcSave;
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>', "30", 5);
@@ -169,7 +176,7 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
         autoSaveEdits: true,
         dataSource: RestDataSource_ContractShipment,
         fields:
-            [
+                [
                 {name: "id", hidden: true,},
                 {name: "tblContractItem.id", type: "long", hidden: true},
                 {
@@ -256,6 +263,34 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                             valuesManagerArticle5_quality.setValue("fullArticle5", amountSet + "MT" + " " + "+/-" + value + " " + valuesManagerArticle2Conc.getItem("optional").getDisplayValue(valuesManagerArticle2Conc.getValue("optional")) + " " + "PER EACH CALENDER MONTH STARTING FROM" + " " + sendDateSetConc + " " + "TILL");
                         }
                     }
+                },{
+                    name: "incotermsShipmentId",
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    tabIndex: 6,
+                    showTitle: true,
+                    showHover: true,
+                    showHintInField: true,
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    type: 'long',
+                    numCols: 4,
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Incoterms_InConc,
+                    displayField: "code",
+                    valueField: "id",
+                    pickListWidth: "450",
+                    pickListHeight: "500",
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "code", width: 440, align: "center"}
+                    ],
+                    width: "10%",
+                    title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
                 },
             ], saveEdits: function () {
             }, removeData: function (data) {
@@ -303,10 +338,15 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 name: "incotermsText",
                 type: "text",
                 showTitle: true,
-                disabled: true,
+                disabled: false,
                 defaultValue: "INCOTERMS 2010",
                 width: "500",
                 wrap: false,
+                valueMap:
+                        {
+                            "INCOTERMS 2010": "INCOTERMS 2010",
+                            "INCOTERMS 2020": "INCOTERMS 2020"
+                        },
                 title: "<strong class='cssDynamicForm'>CONTRACT INCOTERMS</strong>",
                 changed: function (form, item, value) {
                     //article6_quality.setValue("fullArticle6",textTes);
@@ -317,11 +357,12 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 colSpan: 3,
                 titleColSpan: 1,
                 tabIndex: 6,
+                showIf:"false",
                 showTitle: true,
                 showHover: true,
                 showHintInField: true,
                 hint: "FOB",
-                required: true,
+                required: false,
                 validators: [
                     {
                         type: "required",
@@ -343,8 +384,9 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             }, {
                 name: "portByPortSourceId",
+                showIf:"false",
                 editorType: "SelectItem",
-                required: true,
+                required: false,
                 validators: [
                     {
                         type: "required",
@@ -405,27 +447,31 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
     var dynamicForm_article9Conc = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle9_conc",
         height: "20",
+        width: "100%",
         wrapItemTitles: false,
         items: [
             {
                 name: "TC",
                 showTitle: true,
-                title: "What is the value of TC",
+                title: "<strong class='cssDynamicForm'>What is the value of TC</strong>",
                 startRow: true,
                 width: "100",
-                keyPressFilter: "[0-9.]"
+                keyPressFilter: "[0-9.]",
+                wrap: false
             },
             {
                 name: "RC",
                 showTitle: true,
-                title: "What is the value of RC",
+                title: "<strong class='cssDynamicForm'>What is the value of RC</strong>",
                 startRow: true,
                 width: "100",
                 keyPressFilter: "[0-9.]",
-                textAlign: "left"
-            },
+                textAlign: "left",
+                wrap: false
+            }
         ]
-    })
+    });
+
     var dynamicForm_fullArticleConc09 = isc.RichTextEditor.create({
         valuesManager: "valuesManagerfullArticle",
         autoDraw: true,
@@ -632,7 +678,7 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
             lableArticle8,
             dynamicForm_fullArticleConc08,
             lableArticle9,
-            isc.HLayout.create({align: "left", members: [lableArticleNull, dynamicForm_article9Conc]}),
+            isc.HLayout.create({align: "left", members: [dynamicForm_article9Conc]}),
             dynamicForm_fullArticleConc09,
             lableArticle10,
             article10_qualityConc,

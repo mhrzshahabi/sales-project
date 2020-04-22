@@ -379,7 +379,7 @@
 
     var pdf = isc.DynamicForm.create({
         method: "POST",
-        action: "${contextPath}/warehouseCad/printJasper",
+        action: "${contextPath}/warehouseCad/Bijack",
         autoDraw: true,
         visibility: "hidden",
         target: "_Blank",
