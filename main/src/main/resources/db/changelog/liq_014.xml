@@ -53,42 +53,6 @@
     <changeSet author="karimi (generated)" id="1587445534563-160">
         <createSequence sequenceName="SEQ_CNTR_TERM"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-161">
-        <createSequence sequenceName="SEQ_WARH_DEPOT"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-162">
-        <createSequence sequenceName="SEQ_WARH_INVENTORY"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-163">
-        <createSequence sequenceName="SEQ_WARH_INVENTORY_RAW_MATERIAL"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-164">
-        <createSequence sequenceName="SEQ_WARH_INVENTORY_RAW_MATERIAL_VALUE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-165">
-        <createSequence sequenceName="SEQ_WARH_INVENTORY_VALUE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-166">
-        <createSequence sequenceName="SEQ_WARH_ITEM"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-167">
-        <createSequence sequenceName="SEQ_WARH_RAW_MATERIAL"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-168">
-        <createSequence sequenceName="SEQ_WARH_REMITTANCE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-169">
-        <createSequence sequenceName="SEQ_WARH_REMITTANCE_DETAIL"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-170">
-        <createSequence sequenceName="SEQ_WARH_REMITTANCE_TYPE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-171">
-        <createSequence sequenceName="SEQ_WARH_STORE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-172">
-        <createSequence sequenceName="SEQ_WARH_WAREHOUSE"/>
-    </changeSet>
     <changeSet author="karimi (generated)" id="1587445534563-173">
         <createTable tableName="TBL_CNTR_CONTRACT">
             <column name="id" type="NUMBER(19, 0)">
