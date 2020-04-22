@@ -57,6 +57,15 @@
 
     <%@include file="common/js/isc-plus.js"%>
 
+    BaseRPCRequest = {
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        useSimpleHttp: true,
+        contentType: "application/json; charset=utf-8",
+        showPrompt: true,
+        serverOutputAsString: false,
+        willHandleError: false //centralized error handling
+    };
+
     var salesCommonUtil = new evaluation.CommonUtil();
     var salesFormUtil = new evaluation.FormUtil();
     var salesFindFormUtil = new evaluation.FindFormUtil();
@@ -116,15 +125,6 @@
             item.setHint(NumberUtil.format(item.getValue(), ",0"));
         }
     });
-
-    BaseRPCRequest = {
-        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
-        useSimpleHttp: true,
-        contentType: "application/json; charset=utf-8",
-        showPrompt: true,
-        serverOutputAsString: false,
-        willHandleError: false //centralized error handling
-    };
 
     function redirectLogin() {
         location.href = "<spring:url value='/' />";
