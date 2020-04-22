@@ -24,6 +24,10 @@ public class Store extends BaseEntity {
     private Long id;
 
     @NotNull
+    @Column(name = "C_CODE", nullable = false)
+    private String code;
+
+    @NotNull
     @Column(name = "C_NAME", nullable = false)
     private String name;
 

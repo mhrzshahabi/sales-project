@@ -31,6 +31,10 @@ public class Item extends BaseEntity {
     @Column(name = "C_NAME_EN")
     private String nameEn;
 
+    @NotNull
+    @Column(name = "B_IS_BULK")
+    private Boolean isBulk = false;
+
     @Column(name = "C_DESCRIPTION", length = 1500)
     private String description;
 

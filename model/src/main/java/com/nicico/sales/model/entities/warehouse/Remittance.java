@@ -66,35 +66,7 @@ public class Remittance extends BaseEntity {
     @Column(name = "F_SOURCE_WAREHOUSE_ID", nullable = false)
     private Long sourceWarehouseId;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_SOURCE_TOZIN_ID", insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_remittance2sourceTozinAsSourceBySourceTozinId"))
-    private Tozin sourceTozin;
 
-    @NotNull
-    @Column(name = "F_SOURCE_TOZIN_ID", nullable = false)
-    private Long sourceTozinId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_DESTINATION_WAREHOUSE_ID", insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_remittance2warehouseAsDestinationByWarehouseId"))
-    private Warehouse destinationWarehouse;
-
-    @NotNull
-    @Column(name = "F_DESTINATION_WAREHOUSE_ID", nullable = false)
-    private Long destinationWarehouseId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_DESTINATION_TOZIN_ID", insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_remittance2destinationTozinByDestinationTozinId"))
-    private Tozin destinationTozin;
-
-    @NotNull
-    @Column(name = "F_DESTINATION_TOZIN_ID", nullable = false)
-    private Long destinationTozinId;
 
     // rahahanPolompNo
     @Column(name = "RAIL_POLOMP_NO")
