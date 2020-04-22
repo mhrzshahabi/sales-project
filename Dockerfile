@@ -1,4 +1,4 @@
-FROM devops01.icico.net.ir/jdk-8u222:01
+FROM jdk-8u222:pdf01
 
 COPY main/target/*.jar /app.jar
 
@@ -8,4 +8,4 @@ ENV PROFILE=Development JVM_ARGS=""
 
 VOLUME /tmp /var/log/nicico /var/nicico
 
-ENTRYPOINT java $JVM_ARGS -Djava.security.egd=file:/dev/urandom -Dspring.profiles.active=$PROFILE -Dspring.redis.host=redis -jar /app.jar
+ENTRYPOINT java $JVM_ARGS -Djava.security.egd=file:/dev/urandom -Dspring.profiles.active=$PROFILE -jar /app.jar
