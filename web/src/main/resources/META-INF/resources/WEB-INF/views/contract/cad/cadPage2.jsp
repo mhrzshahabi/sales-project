@@ -266,10 +266,15 @@ var article6_quality = isc.DynamicForm.create({
                 name: "incotermsText",
                 type: "text",
                 showTitle: true,
-                disabled: true,
+                disabled: false,
                 defaultValue: "INCOTERMS 2010",
                 width: "500",
                 wrap: false,
+                valueMap:
+                        {
+                            "INCOTERMS 2010": "INCOTERMS 2010",
+                            "INCOTERMS 2020": "INCOTERMS 2020"
+                        },
                 title: "<strong class='cssDynamicForm'>CONTRACT INCOTERMS</strong>",changed: function (form, item, value) {
                 }
             }
@@ -277,12 +282,13 @@ var article6_quality = isc.DynamicForm.create({
                 name: "incotermsId", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
+                showIf:"false",
                 tabIndex: 6,
                 showTitle: true,
                 showHover: true,
                 showHintInField: true,
                 hint: "FOB",
-                required: true,
+                required: false,
                 validators: [
                 {
                     type:"required",
@@ -304,8 +310,9 @@ var article6_quality = isc.DynamicForm.create({
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             } , {
                 name: "portByPortSourceId",
+                showIf:"false",
                 editorType: "SelectItem",
-                required: true,
+                required: false,
                 validators: [
                 {
                 type:"required",
