@@ -13,6 +13,7 @@ import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.WarehouseLot;
 import com.nicico.sales.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.POIXMLDocumentPart;
 import org.apache.poi.POIXMLRelation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -45,6 +46,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ContractService implements IContractService {
 
     private final ContractDAO contractDAO;
@@ -308,6 +310,8 @@ public class ContractService implements IContractService {
         run.setText(dataALLArticle);
         doc.write(os);
         printdoc.write(printOs);
+         Process process = Runtime.getRuntime().exec("doc2pdf /contract/reza.docx");
+         log.info(String.valueOf(process.waitFor()));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

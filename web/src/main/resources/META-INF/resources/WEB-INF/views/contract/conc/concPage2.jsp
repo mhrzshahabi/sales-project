@@ -338,10 +338,15 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 name: "incotermsText",
                 type: "text",
                 showTitle: true,
-                disabled: true,
+                disabled: false,
                 defaultValue: "INCOTERMS 2010",
                 width: "500",
                 wrap: false,
+                valueMap:
+                        {
+                            "INCOTERMS 2010": "INCOTERMS 2010",
+                            "INCOTERMS 2020": "INCOTERMS 2020"
+                        },
                 title: "<strong class='cssDynamicForm'>CONTRACT INCOTERMS</strong>",
                 changed: function (form, item, value) {
                     //article6_quality.setValue("fullArticle6",textTes);
@@ -352,11 +357,12 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 colSpan: 3,
                 titleColSpan: 1,
                 tabIndex: 6,
+                showIf:"false",
                 showTitle: true,
                 showHover: true,
                 showHintInField: true,
                 hint: "FOB",
-                required: true,
+                required: false,
                 validators: [
                     {
                         type: "required",
@@ -378,8 +384,9 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             }, {
                 name: "portByPortSourceId",
+                showIf:"false",
                 editorType: "SelectItem",
-                required: true,
+                required: false,
                 validators: [
                     {
                         type: "required",
