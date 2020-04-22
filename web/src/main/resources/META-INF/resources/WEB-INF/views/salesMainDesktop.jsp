@@ -640,6 +640,15 @@
                     }
                 },
                 {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.term'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
                 /*{
                     title: "<spring:message code='charter.title'/>",
                     click: function () {

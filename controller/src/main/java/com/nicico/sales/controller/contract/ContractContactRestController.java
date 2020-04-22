@@ -46,7 +46,7 @@ public class ContractContactRestController {
 
     @Loggable
     @PutMapping
-    public ResponseEntity<ContractContactDTO.Info> update(@RequestBody ContractContactDTO.Update request) {
+    public ResponseEntity<ContractContactDTO.Info> update(@Validated @RequestBody ContractContactDTO.Update request) {
 
         return new ResponseEntity<>(contractContactService.update(request.getId(), request), HttpStatus.OK);
     }

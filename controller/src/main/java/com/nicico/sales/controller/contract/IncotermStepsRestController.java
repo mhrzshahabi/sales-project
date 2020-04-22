@@ -46,7 +46,7 @@ public class IncotermStepsRestController {
 
     @Loggable
     @PutMapping
-    public ResponseEntity<IncotermStepsDTO.Info> update(@RequestBody IncotermStepsDTO.Update request) {
+    public ResponseEntity<IncotermStepsDTO.Info> update(@Validated @RequestBody IncotermStepsDTO.Update request) {
 
         return new ResponseEntity<>(incotermStepsService.update(request.getId(), request), HttpStatus.OK);
     }

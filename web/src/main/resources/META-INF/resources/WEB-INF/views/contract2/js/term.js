@@ -125,19 +125,6 @@ termTab.restDataSource.term = isc.MyRestDataSource.create({
     ],
     fetchDataURL: termTab.variable.url + "spec-list"
 });
-termTab.restDataSource.OperationUnit = isc.RestDataSource.create({
-    fields: [
-        {name: "id"},
-        {name: "code"},
-        {name: "name"},
-        {name: "version"},
-    ],
-    dataFormat: "json",
-    jsonPrefix: "",
-    jsonSuffix: "",
-    transformRequest: courseTab.method.transformRequest,
-    fetchDataURL: courseTab.variable.operationUnitUrl + "get-valid-list"
-});
 
 //*************************************************** Componnents ******************************************************
 
@@ -220,7 +207,6 @@ termTab.dynamicForm.term = isc.DynamicForm.create({
     ]
 });
 termTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
-
     height: "5%",
     width: "100%",
     showEdges: false,
@@ -235,34 +221,24 @@ termTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
             click: function () {
+                termTab.dynamicForm.term.validate();
+                if (termTab.dynamicForm.term.hasErrors())
+                    return;
+                var data = termTab.dynamicForm.term.getValues();
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: termTab.variable.url,
+                    httpMethod: termTab.variable.method,
+                    data: JSON.stringify(data),
+                    callback: function (resp) {
 
-                // var evalHintForm = window[zoneIndexTab.dynamicForm.EvalHint.ID];
-                // evalHintForm.validate();
-                // if (evalHintForm.hasErrors())
-                //     return;
-                //
-                // var data = evalHintForm.getValues();
-                // var url = zoneIndexTab.variable.evalHintListUrl + (data.id == null ? "" : data.id);
-                // isc.RPCManager.sendRequest({
-                //
-                //     actionURL: url,
-                //     useSimpleHttp: true,
-                //     contentType: zoneIndexTab.variable.contentType,
-                //     httpHeaders: zoneIndexTab.variable.httpHeaders,
-                //     httpMethod: zoneIndexTab.variable.evalHintMethod,
-                //     showPrompt: true,
-                //     data: JSON.stringify(data),
-                //     callback: function (resp) {
-                //
-                //         if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
-                //
-                //             zoneIndexTab.dialog.ok();
-                //             zoneIndexTab.method.RefreshEvalHint();
-                // termTab.window.term.close();
-                //         } else
-                //             zoneIndexTab.dialog.error(resp);
-                //     }
-                // });
+                        if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                            termTab.dialog.ok();
+                            termTab.method.refresh();
+                            termTab.window.term.close();
+                        } else
+                            termTab.dialog.error(resp);
+                    }
+                }));
             }
         }),
         isc.IButtonCancel.create({
@@ -335,7 +311,8 @@ termTab.method.remove = function () {
 termTab.method.add = function () {
     termTab.variable.method = "POST";
     termTab.dynamicForm.term.clearValues();
-    termTab.dynamicForm.term.show();
+    termTab.window.term.setTitle("<spring:message code='term.window.title.add'/>");
+    termTab.window.term.show();
 };
 termTab.method.refresh = function () {
     termTab.listGrid.term.invalidateCache();
@@ -346,8 +323,9 @@ termTab.method.edit = function () {
     if (record == null || record.id == null)
         termTab.dialog.notSelected();
     else {
-        termTab.variable.method="PUT";
+        termTab.variable.method = "PUT";
         termTab.dynamicForm.term.editRecord(JSON.parse(JSON.stringify(record)))
+        termTab.window.term.setTitle("<spring:message code='term.window.title.edit'/>");
         termTab.window.term.show();
     }
 };

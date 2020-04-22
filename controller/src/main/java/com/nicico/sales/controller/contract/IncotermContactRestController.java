@@ -46,7 +46,7 @@ public class IncotermContactRestController {
 
     @Loggable
     @PutMapping
-    public ResponseEntity<IncotermContactDTO.Info> update(@RequestBody IncotermContactDTO.Update request) {
+    public ResponseEntity<IncotermContactDTO.Info> update(@Validated @RequestBody IncotermContactDTO.Update request) {
 
         return new ResponseEntity<>(incotermContactService.update(request.getId(), request), HttpStatus.OK);
     }

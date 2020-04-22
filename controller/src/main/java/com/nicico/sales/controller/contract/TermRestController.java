@@ -46,7 +46,7 @@ public class TermRestController {
 
     @Loggable
     @PutMapping
-    public ResponseEntity<TermDTO.Info> update(@RequestBody TermDTO.Update request) {
+    public ResponseEntity<TermDTO.Info> update(@Validated @RequestBody TermDTO.Update request) {
 
         return new ResponseEntity<>(termService.update(request.getId(), request), HttpStatus.OK);
     }

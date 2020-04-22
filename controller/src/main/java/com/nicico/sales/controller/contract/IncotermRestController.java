@@ -46,7 +46,7 @@ public class IncotermRestController {
 
     @Loggable
     @PutMapping
-    public ResponseEntity<IncotermDTO.Info> update(@RequestBody IncotermDTO.Update request) {
+    public ResponseEntity<IncotermDTO.Info> update(@Validated @RequestBody IncotermDTO.Update request) {
 
         return new ResponseEntity<>(incotermService.update(request.getId(), request), HttpStatus.OK);
     }

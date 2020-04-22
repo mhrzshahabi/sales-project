@@ -11,6 +11,7 @@ public enum ErrorType {
     UnAuthorized(401),
     Forbidden(403),
     NotFound(404),
+    NotEditable(404),
     PayloadTooLarge(413),
     Unknown(500),
     NotImplemented(50);

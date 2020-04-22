@@ -25,7 +25,7 @@ import java.util.Locale;
 public class FailedAuthRequestAuditor {
 
     private final ApplicationContext context;
-    private ResourceBundleMessageSource messageSource;
+    private final ResourceBundleMessageSource messageSource;
 
     @EventListener
     public void onBadCredentialsEvent(AuthenticationFailureBadCredentialsEvent event) {

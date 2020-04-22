@@ -46,7 +46,7 @@ public class ContractDetailTypeParamValueRestController {
 
     @Loggable
     @PutMapping
-    public ResponseEntity<ContractDetailTypeParamValueDTO.Info> update(@RequestBody ContractDetailTypeParamValueDTO.Update request) {
+    public ResponseEntity<ContractDetailTypeParamValueDTO.Info> update(@Validated @RequestBody ContractDetailTypeParamValueDTO.Update request) {
 
         return new ResponseEntity<>(contractDetailTypeParamValueService.update(request.getId(), request), HttpStatus.OK);
     }

@@ -46,7 +46,7 @@ public class ContractDetailTypeTemplateRestController {
 
     @Loggable
     @PutMapping
-    public ResponseEntity<ContractDetailTypeTemplateDTO.Info> update(@RequestBody ContractDetailTypeTemplateDTO.Update request) {
+    public ResponseEntity<ContractDetailTypeTemplateDTO.Info> update(@Validated @RequestBody ContractDetailTypeTemplateDTO.Update request) {
 
         return new ResponseEntity<>(contractDetailTypeTemplateService.update(request.getId(), request), HttpStatus.OK);
     }
