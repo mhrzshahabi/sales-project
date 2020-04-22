@@ -7,7 +7,7 @@
     <% DateUtil dateUtil = new DateUtil();%>
 
     factoryLableHedear("LablePageCad", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
-    factoryLable("lableNameContactCad", '<b><font size=4px>COPPER CATHODES CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
+    factoryLable("lableNameContactCad", '<b><font size=4px>COPPER CATHODES CONTRACT</font><b>', "100%", '2%', 1);
     factoryLableArticle("lableArticle1Cad", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle2Cad", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
     factoryLableArticle("lableArticleSelectConc", '<b><font size=4px>SELECT ITEMS</font><b>', "25",5);
@@ -469,8 +469,21 @@ var DynamicForm_ContactParameter_ValueNumber8Cad=isc.DynamicForm.create({
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
-                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
+                   // {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"},
+                    {
+                    name: "categoryValue",
+                    title: "<spring:message	code='parameters.paramValue.d'/>",
+                    width: "15%",
+                    type: "text",
+                    required: true,
+                    valueMap: {
+                        "1": "Unit",
+                        "2": "Time",
+                        "3": "Financial",
+                        "-2": "BANK REFERENCE"
+                    }
+                    }
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [

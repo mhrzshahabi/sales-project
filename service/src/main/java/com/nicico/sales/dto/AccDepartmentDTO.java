@@ -12,6 +12,7 @@ import lombok.experimental.Accessors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccDepartmentDTO {
 
+    private Long id;
     private Long departmentCode;
     private String departmentName;
     private String departmentNameLatin;

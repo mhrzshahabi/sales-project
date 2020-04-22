@@ -341,6 +341,7 @@
 
         saveEdits: function () {
 
+            // Doesn't Work Completely. Need to Change
             <%--if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditSessionRowNum())) {--%>
                 <%--isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");--%>
                 <%--return;--%>
@@ -727,10 +728,7 @@
                 DynamicForm_warehouseCAD_Bij.validate()
                 return;
             }
-            <%--if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditSessionRowNum())) {--%>
-                <%--isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");--%>
-                <%--return;--%>
-            <%--}--%>
+
             DynamicForm_warehouseCAD_Bij.validate();
             if (DynamicForm_warehouseCAD_Bij.hasErrors())
                 return;

@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 public class AccDepartment {
 
+    private Long id;
     private Long departmentCode;
     private String departmentName;
     private String departmentNameLatin;

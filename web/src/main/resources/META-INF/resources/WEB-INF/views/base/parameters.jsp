@@ -185,7 +185,7 @@
                     width: 500,
                     type: "select",
                     required: true,
-                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "CONCENTRATES", "2": "CATHODS"},
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "COPPER CONCENTRATES", "2": "COPPER CATHODES"},
                     validators: [
                     {
                         type:"required",
@@ -405,7 +405,7 @@
                 {
                     name: "paramName",
                     title: "<spring:message code='parameters.paramName'/>",
-                    width: "25%",
+                    width: "20%",
                     align: "center"
                 },
 
@@ -414,6 +414,25 @@
                     title: "<spring:message code='parameters.paramValue.c'/>",
                     width: "50%",
                     align: "center"
+                },{
+                    name: "categoryValue",
+                    title: "<spring:message	code='parameters.paramValue.d'/>",
+                    width: "15%",
+                    type: "text",
+                    required: true,
+                    valueMap: {
+                        "1": "Unit",
+                        "2": "Time",
+                        "3": "Financial",
+                        "-2": "BANK REFERENCE"
+                    }
+                },{
+                    name: "contractId",
+                    title: "<spring:message	code='parameters.paramValue'/>",
+                    width: "15%",
+                    type: "select",
+                    required: true,
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "COPPER CONCENTRATES", "2": "COPPER CATHODES"}
                 }],
             autoFetchData: true
         });

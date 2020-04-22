@@ -537,6 +537,12 @@
         },
         saveEdits: function () {
 
+            // Doesn't Work Completely. Need to Change
+            <%--if (ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getEditSessionRowNum())) {--%>
+                <%--isc.warn("<spring:message code='warehouseCadItem.tedadMoErrors'/>");--%>
+                <%--return;--%>
+            <%--}--%>
+
             var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getEditRow());
             if (warehouseCadItemRecord.issueId != undefined) {
                 isc.warn("<spring:message code='bijack.item.inventory'/>");

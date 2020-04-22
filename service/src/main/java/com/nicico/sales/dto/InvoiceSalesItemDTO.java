@@ -15,29 +15,31 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractShipmentDTO {
+public class InvoiceSalesItemDTO {
 
-
-    private String plan;
-    private Long shipmentRow;
-    private Long dischargeId;
-    private String address;
-    private Double amount;
-    private String sendDate;
-    private Long duration;
-    private Long tolorance;
-    private Long contractId;
-    private Long incotermsShipmentId;
-
+    private Long id;
+    private String productCode;
+    private String productName;
+    private String unitName;
+    private Double netAmount;
+    private Double orderAmount;
+    private Double unitPrice;
+    private Double linePrice;
+    private Double discount;
+    private Double linePriceAfterDiscount;
+    private Double legalFees;
+    private Double vat;
+    private Double totalPrice;
+    private String notes;
+    private String explain;
+    private Long invoiceSalesId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractShipmentInfo")
-    public static class Info extends ContractShipmentDTO {
+    @ApiModel("InvoiceSalesItemInfo")
+    public static class Info extends InvoiceSalesItemDTO {
         private Long id;
-
-        private PortDTO discharge;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
@@ -48,25 +50,24 @@ public class ContractShipmentDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractShipmentCreateRq")
-    public static class Create extends ContractShipmentDTO {
+    @ApiModel("InvoiceSalesItemCreateRq")
+    public static class Create extends InvoiceSalesItemDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractShipmentUpdateRq")
-    public static class Update extends ContractShipmentDTO {
+    @ApiModel("InvoiceSalesItemUpdateRq")
+    public static class Update extends InvoiceSalesItemDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        private Boolean deleted;
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractShipmentDeleteRq")
+    @ApiModel("InvoiceSalesItemDeleteRq")
     public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)

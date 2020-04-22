@@ -2,689 +2,111 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="karimi (generated)" id="1587445534563-144">
-        <createSequence sequenceName="SEQ_CNTR_CONTRACT"/>
+
+    <changeSet author="MShahabi" id="1778899665544-019">
+    <createTable tableName="TBL_INVOICE_SALES_ITEM">
+
+        <column name="ID" type="NUMBER(19, 0)">
+            <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_SALES_ITEM_PK"/>
+        </column>
+        <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+        <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+        <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+        <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+        <column name="N_VERSION" type="NUMBER(10, 0)"/>
+        <column name="PRODUCT_CODE" type="VARCHAR2(100 CHAR)"/>
+        <column name="PRODUCT_NAME" type="VARCHAR2(255 CHAR)"/>
+        <column name="UNIT_NAME" type="VARCHAR2(255 CHAR)"/>
+        <column name="NET_AMOUNT" type="FLOAT"/>
+        <column name="ORDER_AMOUNT" type="FLOAT"/>
+        <column name="UNIT_PRICE" type="FLOAT"/>
+        <column name="LINE_PRICE" type="FLOAT"/>
+        <column name="DISCOUNT" type="FLOAT"/>
+        <column name="LINE_PRICE_AFTER_DISCOUNT" type="FLOAT"/>
+        <column name="LEGAL_FEES" type="FLOAT"/>
+        <column name="VAT" type="FLOAT"/>
+        <column name="TOTAL_PRICE" type="FLOAT"/>
+        <column name="NOTES" type="VARCHAR2(255 CHAR)"/>
+        <column name="EXPLAIN" type="VARCHAR2(255 CHAR)"/>
+        <column name="INVOICE_SALES_ID" type="NUMBER(19, 0)"/>
+
+    </createTable>
+</changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-020">
+        <createSequence sequenceName="SEQ_INVOICE_SALES_ITEM"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-145">
-        <createSequence sequenceName="SEQ_CNTR_CONTRACT_CONTACT"/>
+
+    <changeSet author="MShahabi" id="1778899665544-021">
+        <addForeignKeyConstraint baseColumnNames="INVOICE_SALES_ID"
+            baseTableName="TBL_INVOICE_SALES_ITEM"
+            constraintName="invoicesales_itm2invoicesales"
+            referencedColumnNames="ID"
+            referencedTableName="TBL_INVOICE_SALES"
+            nullable="false"
+            insertable="false"
+            updatable="false"
+        />
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-146">
-        <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-147">
-        <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-148">
-        <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE_PARAM"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-149">
-        <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-150">
-        <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-151">
-        <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_VALUE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-152">
-        <createSequence sequenceName="SEQ_CNTR_CONTRACT_TYPE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-153">
-        <createSequence sequenceName="SEQ_CNTR_INCOTERM"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-154">
-        <createSequence sequenceName="SEQ_CNTR_INCOTERM_ASPECT"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-155">
-        <createSequence sequenceName="SEQ_CNTR_INCOTERM_CONTACT"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-156">
-        <createSequence sequenceName="SEQ_CNTR_INCOTERM_RULE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-157">
-        <createSequence sequenceName="SEQ_CNTR_INCOTERM_RULES"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-158">
-        <createSequence sequenceName="SEQ_CNTR_INCOTERM_STEP"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-159">
-        <createSequence sequenceName="SEQ_CNTR_INCOTERM_STEPS"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-160">
-        <createSequence sequenceName="SEQ_CNTR_TERM"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-161">
-        <createSequence sequenceName="SEQ_WARH_DEPOT"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-162">
-        <createSequence sequenceName="SEQ_WARH_INVENTORY"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-163">
-        <createSequence sequenceName="SEQ_WARH_INVENTORY_RAW_MATERIAL"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-164">
-        <createSequence sequenceName="SEQ_WARH_INVENTORY_RAW_MATERIAL_VALUE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-165">
-        <createSequence sequenceName="SEQ_WARH_INVENTORY_VALUE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-166">
-        <createSequence sequenceName="SEQ_WARH_ITEM"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-167">
-        <createSequence sequenceName="SEQ_WARH_RAW_MATERIAL"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-168">
-        <createSequence sequenceName="SEQ_WARH_REMITTANCE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-169">
-        <createSequence sequenceName="SEQ_WARH_REMITTANCE_DETAIL"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-170">
-        <createSequence sequenceName="SEQ_WARH_REMITTANCE_TYPE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-171">
-        <createSequence sequenceName="SEQ_WARH_STORE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-172">
-        <createSequence sequenceName="SEQ_WARH_WAREHOUSE"/>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-173">
-        <createTable tableName="TBL_CNTR_CONTRACT">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACTPK"/>
+
+    <changeSet author="MShahabi" id="1778899665544-022">
+        <createTable tableName="TBL_PERCENT_PER_YEAR">
+
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_PERCENT_PER_YEAR_PK"/>
             </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_CONTENT" type="VARCHAR2(255 CHAR)"/>
-            <column name="F_CONTRACT_TYPE_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="D_DATE" type="TIMESTAMP"/>
-            <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
-            <column name="F_MATERIAL_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_NO" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_PARENT_ID" type="NUMBER(19, 0)"/>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="YEAR" type="NUMBER(19, 0)"/>
+            <column name="LEGAL_FEES" type="FLOAT"/>
+            <column name="VAT" type="FLOAT"/>
+
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-174">
-        <createTable tableName="TBL_CNTR_CONTRACT_AUD">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_AUDPK"/>
-            </column>
-            <column name="REV" type="NUMBER(10, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_AUDPK"/>
-            </column>
-            <column name="REVTYPE" type="NUMBER(3, 0)"/>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_created_date" type="TIMESTAMP"/>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="C_CONTENT" type="VARCHAR2(255 CHAR)"/>
-            <column name="F_CONTRACT_TYPE_ID" type="NUMBER(19, 0)"/>
-            <column name="D_DATE" type="TIMESTAMP"/>
-            <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
-            <column name="F_MATERIAL_ID" type="NUMBER(19, 0)"/>
-            <column name="C_NO" type="VARCHAR2(200 CHAR)"/>
-            <column name="F_PARENT_ID" type="NUMBER(19, 0)"/>
-        </createTable>
+
+    <changeSet author="MShahabi" id="1778899665544-023">
+        <createSequence sequenceName="SEQ_PERCENT_PER_YEAR"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-175">
-        <createTable tableName="TBL_CNTR_CONTRACT_CONTACT">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_CONTACTPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_CONTACT_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_CONTRACT_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
+
+    <changeSet author="MShahabi" id="1778899665544-024">
+
+        <insert tableName="TBL_PERCENT_PER_YEAR">
+            <column name="ID" valueSequenceNext="SEQ_PERCENT_PER_YEAR"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="YEAR">2018</column>
+            <column name="LEGAL_FEES">3</column>
+            <column name="VAT">6</column>
+        </insert>
+        <insert tableName="TBL_PERCENT_PER_YEAR">
+            <column name="ID" valueSequenceNext="SEQ_PERCENT_PER_YEAR"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="YEAR">2019</column>
+            <column name="LEGAL_FEES">5</column>
+            <column name="VAT">9</column>
+        </insert>
+        <insert tableName="TBL_PERCENT_PER_YEAR">
+            <column name="ID" valueSequenceNext="SEQ_PERCENT_PER_YEAR"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="YEAR">2020</column>
+            <column name="LEGAL_FEES">4</column>
+            <column name="VAT">9</column>
+        </insert>
+
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-176">
-        <createTable tableName="TBL_CNTR_CONTRACT_DETAIL">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAILPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_CONTENT" type="VARCHAR2(255 CHAR)"/>
-            <column name="F_CONTRACT_DETAIL_TYPE_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_CONTRACT_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-177">
-        <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_AUD">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_AUDPK"/>
-            </column>
-            <column name="REV" type="NUMBER(10, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_AUDPK"/>
-            </column>
-            <column name="REVTYPE" type="NUMBER(3, 0)"/>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_created_date" type="TIMESTAMP"/>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="C_CONTENT" type="VARCHAR2(255 CHAR)"/>
-            <column name="F_CONTRACT_DETAIL_TYPE_ID" type="NUMBER(19, 0)"/>
-            <column name="F_CONTRACT_ID" type="NUMBER(19, 0)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-178">
-        <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPEPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_CODE" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_TITLE_EN" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_TITLE_FA" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-179">
-        <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAMPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_CONTRACT_DETAIL_TYPE_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_KEY" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_NAME" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="N_TYPE" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-180">
-        <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUE">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUEPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_CONTRACT_DETAIL_TYPE_PARAM_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_VALUE" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-181">
-        <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATEPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_CONTENT" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_CONTRACT_DETAIL_TYPE_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-182">
-        <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_VALUEPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_CONTRACT_DETAIL_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_KEY" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_NAME" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="N_TYPE" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_VALUE" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-183">
-        <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUD">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUDPK"/>
-            </column>
-            <column name="REV" type="NUMBER(10, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUDPK"/>
-            </column>
-            <column name="REVTYPE" type="NUMBER(3, 0)"/>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_created_date" type="TIMESTAMP"/>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="F_CONTRACT_DETAIL_ID" type="NUMBER(19, 0)"/>
-            <column name="C_KEY" type="VARCHAR2(255 CHAR)"/>
-            <column name="C_NAME" type="VARCHAR2(255 CHAR)"/>
-            <column name="N_TYPE" type="NUMBER(10, 0)"/>
-            <column name="C_VALUE" type="VARCHAR2(255 CHAR)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-184">
-        <createTable tableName="TBL_CNTR_CONTRACT_TYPE">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_TYPEPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_CODE" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
-            <column name="C_TITLE_EN" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_TITLE_FA" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-185">
-        <createTable tableName="TBL_CNTR_INCOTERM">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERMPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
-            <column name="D_PUBLISH_DATE" type="TIMESTAMP"/>
-            <column name="C_TITLE" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-186">
-        <createTable tableName="TBL_CNTR_INCOTERM_ASPECT">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_ASPECTPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
-            <column name="C_TITLE" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-187">
-        <createTable tableName="TBL_CNTR_INCOTERM_CONTACT">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_CONTACTPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_CONTACT_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_INCOTERM_ASPECT_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_INCOTERM_RULES_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_INCOTERM_STEPS_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_TERM_ID" type="NUMBER(19, 0)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-188">
-        <createTable tableName="TBL_CNTR_INCOTERM_RULE">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_RULEPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
-            <column name="C_TITLE" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-189">
-        <createTable tableName="TBL_CNTR_INCOTERM_RULES">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_RULESPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_INCOTERM_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_INCOTERM_RULE_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-190">
-        <createTable tableName="TBL_CNTR_INCOTERM_STEP">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_STEPPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
-            <column name="C_TITLE" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-191">
-        <createTable tableName="TBL_CNTR_INCOTERM_STEPS">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_STEPSPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_INCOTERM_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_INCOTERM_STEP_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-192">
-        <createTable tableName="TBL_CNTR_TERM">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_TERMPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
-            <column name="C_TITLE" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
+
 </databaseChangeLog>

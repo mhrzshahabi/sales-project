@@ -92,4 +92,7 @@ public class ContractShipmentAudit {
 	@Column(name = "TOLORANCE")
 	private Long tolorance;
 
+	@Column(name = "INCOTERMS_SHIPMENT_ID")
+	private Long incotermsShipmentId;
+
 }
