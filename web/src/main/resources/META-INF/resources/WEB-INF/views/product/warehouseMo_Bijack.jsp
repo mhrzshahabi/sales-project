@@ -483,18 +483,18 @@
             name: "lotName"
         }, {
             name: "barrelNo",
-            validators: [{
-                type: "regexp",
-                expression: "^[0-9]*$",
-                validateOnChange: true
-            }],
+            // validators: [{
+            //     type: "regexp",
+            //     expression: "^[0-9]*$",
+            //     validateOnChange: true
+            // }],
         }, {
             name: "weightKg",
-            validators: [{
-                type: "regexp",
-                expression: "^[0-9]*$",
-                validateOnChange: true
-            }],
+            // validators: [{
+            //     type: "regexp",
+            //     expression: "^[0-9]*$",
+            //     validateOnChange: true
+            // }],
         }, {
             name: "issueId"
         }, {
@@ -538,10 +538,10 @@
         saveEdits: function () {
 
             // Doesn't Work Completely. Need to Change
-            if (ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getEditSessionRowNum())) {
-                isc.warn("<spring:message code='warehouseCadItem.tedadMoErrors'/>");
-                return;
-            }
+            <%--if (ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getEditSessionRowNum())) {--%>
+                <%--isc.warn("<spring:message code='warehouseCadItem.tedadMoErrors'/>");--%>
+                <%--return;--%>
+            <%--}--%>
 
             var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSEMO_BIJACK.getEditRow());
             if (warehouseCadItemRecord.issueId != undefined) {
