@@ -4,6 +4,7 @@ import com.nicico.copper.core.SecurityUtil;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.exception.UnAuthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -53,7 +54,7 @@ public class AuthorizationUtil {
         log.debug(messageSource.getMessage("logging.check.authority", null, locale));
 
         if (!SecurityUtil.hasAuthority(standardPermissionKey))
-            throw new SalesException2(ErrorType.UnAuthorized, "", messageSource.getMessage("exception.access-denied", new Object[]{standardPermissionKey}, locale));
+            throw new UnAuthorizedException(standardPermissionKey);
     }
 
     public void checkStandardPermission(String permissionKey) {
@@ -61,6 +62,6 @@ public class AuthorizationUtil {
         Locale locale = LocaleContextHolder.getLocale();
         log.debug(messageSource.getMessage("logging.check.authority", new Object[]{permissionKey}, locale));
         if (!SecurityUtil.hasAuthority(permissionKey))
-            throw new SalesException2(ErrorType.UnAuthorized, "", messageSource.getMessage("exception.access-denied", new Object[]{permissionKey}, locale));
+            throw new UnAuthorizedException(permissionKey);
     }
 }

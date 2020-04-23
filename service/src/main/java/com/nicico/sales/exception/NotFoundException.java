@@ -2,11 +2,8 @@ package com.nicico.sales.exception;
 
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.utility.MessageKeyUtil;
-import lombok.AccessLevel;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -15,10 +12,6 @@ import java.util.Locale;
 @Getter
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class NotFoundException extends BaseException {
-
-    @Autowired
-    @Getter(AccessLevel.NONE)
-    private ResourceBundleMessageSource messageSource;
 
     public NotFoundException() {
 

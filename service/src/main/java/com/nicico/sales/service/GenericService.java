@@ -7,6 +7,7 @@ import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IGenericService;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +71,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     public R get(ID id) {
 
         final Optional<T> entityById = repository.findById(id);
-        final T entity = entityById.orElseThrow(() -> new SalesException2(ErrorType.NotFound));
+        final T entity = entityById.orElseThrow(() -> new NotFoundException(tType));
 
         R result = modelMapper.map(entity, rType);
 
@@ -204,7 +205,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     public R update(ID id, U request) {
 
         final Optional<T> entityById = repository.findById(id);
-        final T entity = entityById.orElseThrow(() -> new SalesException2(ErrorType.NotFound));
+        final T entity = entityById.orElseThrow(() -> new NotFoundException(tType));
 
         try {
 
@@ -265,7 +266,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
                 ID id = ids.get(i);
                 U request = requests.get(i);
                 final Optional<T> entityById = repository.findById(id);
-                final T entity = entityById.orElseThrow(() -> new SalesException2(ErrorType.NotFound));
+                final T entity = entityById.orElseThrow(() -> new NotFoundException(tType));
 
                 T updating = tType.getDeclaredConstructor().newInstance();
                 modelMapper.map(entity, updating);
@@ -293,7 +294,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     public void delete(ID id) {
 
         final Optional<T> entityById = repository.findById(id);
-        final T entity = entityById.orElseThrow(() -> new SalesException2(ErrorType.NotFound));
+        final T entity = entityById.orElseThrow(() -> new NotFoundException(tType));
 
         validation(entity, id);
 

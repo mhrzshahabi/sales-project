@@ -3,10 +3,7 @@ package com.nicico.sales.config;
 import com.nicico.copper.common.AbstractExceptionHandlerControllerAdvice;
 import com.nicico.copper.common.dto.ErrorResponseDTO;
 import com.nicico.sales.enumeration.ErrorType;
-import com.nicico.sales.exception.BaseException;
-import com.nicico.sales.exception.NotFoundException;
-import com.nicico.sales.exception.SalesException2;
-import com.nicico.sales.exception.UnAuthorizedException;
+import com.nicico.sales.exception.*;
 import com.nicico.sales.model.annotation.EntityConstraint;
 import com.nicico.sales.utility.MessageKeyUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +26,7 @@ import java.util.*;
 public class SalesExceptionHandlerControllerAdvice2 extends AbstractExceptionHandlerControllerAdvice {
 
     private final ResourceBundleMessageSource messageSource;
-
-    private static List<EntityConstraint> uniqueConstraintAnnotations = new ArrayList<>();
+    private static final List<EntityConstraint> uniqueConstraintAnnotations = new ArrayList<>();
 
     static {
 
@@ -111,9 +107,10 @@ public class SalesExceptionHandlerControllerAdvice2 extends AbstractExceptionHan
     }
 
     @ExceptionHandler({
+            SalesException2.class,
             NotFoundException.class,
-            UnAuthorizedException.class,
-            SalesException2.class
+            NotEditableException.class,
+            UnAuthorizedException.class
     })
     public ResponseEntity<Object> handleBaseExceptions(BaseException exception) {
 
