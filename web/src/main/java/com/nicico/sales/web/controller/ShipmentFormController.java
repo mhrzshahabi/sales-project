@@ -155,12 +155,8 @@ public class ShipmentFormController {
                 replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer()));
                 replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
 
-                String[] port = shipment.getPortByDischarge().getPort().split(",");
-                replacePOI(doc, "port", " به مقصد " + port[1]);
+                replacePOI(doc, "port", " به مقصد " + shipment.getPortByDischarge().getPort());
 
-
-                String[] portw = shipment.getPortByDischarge().getPort().split(",");
-                replacePOI(doc, "comp", " به مقصد بندر " + port[0] + " در کشور " + port[1]);
                 replacePOI(doc, "containerType", shipment.getContainerType()  == null ? "50" : shipment.getContainerType() );
                 replacePOI(doc, "blNumbers", shipment.getBlNumbers());
                 replacePOI(doc, "bookingno", "(Booking No." + shipment.getBookingCat() + ")");
