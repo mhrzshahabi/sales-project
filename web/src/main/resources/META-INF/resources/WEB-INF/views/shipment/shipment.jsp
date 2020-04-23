@@ -268,12 +268,7 @@
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
-                    DynamicForm_Shipment.clearValues();
-                    DynamicForm_Shipment1.clearValues();
-                    DynamicForm_Shipment2.clearValues();
-                    abal.show();
-                    abal.fetchData();
-                    Window_Shipment.animateShow();
+                    ListGrid_Shipment_add();
                 }
             },
             </sec:authorize>
@@ -536,7 +531,7 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        titleWidth: "100",
+        titleWidth: "125",
         numCols: 4,
         fields: [
             {name: "id", hidden: true,},
@@ -615,7 +610,8 @@
                 valueField: "id",
                 width: "100%",
                 align: "center", colSpan: 4,
-                startRow: true
+                startRow: true,
+                required: true
             },
             {
                 name: "switchPortId",
@@ -633,6 +629,7 @@
                 optionDataSource: RestDataSource_LoadingPort,
                 displayField: "port",
                 valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4
+                required: true
             },
             {
                 name: "consignee", colSpan: 4,
@@ -1127,6 +1124,16 @@
         }
     }
 
+    function ListGrid_Shipment_add(){
+        DynamicForm_Shipment.clearValues();
+        DynamicForm_Shipment1.clearValues();
+        DynamicForm_Shipment2.clearValues();
+        abal.show();
+        abal.fetchData();
+        Shipment_contact_name.setContents("");
+        Window_Shipment.animateShow();
+    }
+
     function ListGrid_Shipment_edit() {
         var record = ListGrid_Shipment.getSelectedRecord();
 
@@ -1141,6 +1148,10 @@
                 }
             });
         } else {
+            DynamicForm_Shipment.clearValues();
+            DynamicForm_Shipment1.clearValues();
+            DynamicForm_Shipment2.clearValues();
+
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment1.editRecord(record);
             DynamicForm_Shipment2.editRecord(record);
@@ -1166,12 +1177,7 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-            DynamicForm_Shipment.clearValues();
-            DynamicForm_Shipment1.clearValues();
-            DynamicForm_Shipment2.clearValues();
-            abal.show();
-            abal.fetchData();
-            Window_Shipment.animateShow();
+            ListGrid_Shipment_add();
         }
     });
     </sec:authorize>
@@ -1181,9 +1187,6 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
-            DynamicForm_Shipment.clearValues();
-            DynamicForm_Shipment1.clearValues();
-            DynamicForm_Shipment2.clearValues();
             ListGrid_Shipment_edit();
         }
     });
@@ -1277,7 +1280,10 @@
                 type: 'text',
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contract.contact.nameFA
+                }
             },
             {name: "contractId", type: 'long', hidden: true},
             {
@@ -1285,14 +1291,20 @@
                 title: "<spring:message code='contract.contractNo'/>",
                 type: 'text',
                 width: "10%",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contract.contractNo
+                }
             },
             {
                 name: "contract.contractDate",
                 title: "<spring:message code='contract.contractDate'/>",
                 type: 'text',
                 width: "10%",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contract.contractDate
+                }
             },
             {
                 name: "materialId",
@@ -1307,7 +1319,10 @@
                 type: 'text',
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.material.descl
+                }
             },
             {
                 name: "material.unit.nameEN",
@@ -1380,7 +1395,10 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                sortNormalizer: function (recordObject) {
+                    return recordObject.portByLoading.port
+                }
             },
             {
                 name: "portByDischarge.port",
@@ -1407,7 +1425,10 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contractShipment.sendDate
+                }
             },
             {
                 name: "createDate",
@@ -1443,7 +1464,10 @@
                 type: 'text',
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contactByAgent.nameFA
+                }
             },
             {
                 name: "vesselName",
@@ -1477,7 +1501,10 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                sortNormalizer: function (recordObject) {
+                    return recordObject.switchPort.port
+                }
             },
             {
                 name: "status",
