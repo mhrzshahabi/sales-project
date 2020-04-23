@@ -23,6 +23,7 @@ public class AuthorizationUtil {
 
     public String getStandardPermissionKey(String entityName, String actionTypeStr) {
 
+        entityName = entityName.toUpperCase();
         ActionType actionType = ActionType.valueOf(actionTypeStr);
         switch (actionType) {
 

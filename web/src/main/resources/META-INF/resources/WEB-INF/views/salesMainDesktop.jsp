@@ -141,9 +141,9 @@
             if (response.error == 'invalid_token')
                 isc.warn(response.data);
             console.log("Global RPCManager Error Handler: ", request, response);
-            if (response.httpResponseCode == 401) { // Unauthorized
+            /*if (response.httpResponseCode == 401) { // Unauthorized
                 redirectLogin();
-            } else if (response.httpResponseCode == 403) { // Forbidden
+            } else*/ if (response.httpResponseCode == 403) { // Forbidden
                 isc.say(JSON.parse(response.httpResponseText).exception);
             } else if (response.httpResponseCode == 500) {
                 isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 500");
@@ -151,20 +151,20 @@
                 isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 450");
             }
             const httpResponse = JSON.parse(response.httpResponseText);
-            switch (String(httpResponse.error)) {
-                case "Unauthorized":
+            switch (String(httpResponse.error).toUpperCase()) {
+                case "UNAUTHORIZED":
                     isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
-                case "DataIntegrityViolation_Unique":
+                case "DATAINTEGRITYVIOLATION_UNIQUE":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
-                case "DataIntegrityViolation_FK":
+                case "DATAINTEGRITYVIOLATION_FK":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
-                case "DataIntegrityViolation":
+                case "DATAINTEGRITYVIOLATION":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
-                case "Forbidden":
+                case "FORBIDDEN":
                     isc.warn("<spring:message code='exception.ACCESS_DENIED'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
@@ -218,17 +218,17 @@
             loadingMessage: " <spring:message code='global.loadingMessage'/>"
         });
 
-        isc.ViewLoader.addMethods({
-            handleError: function (rq, rs) {
-                console.log("Global ViewLoader Error: ", rq, rs);
-                if (rs.httpResponseCode == 403) { // Forbidden
-                    nicico.error("Access Denied");  //TODO: I18N message key
-                } else {
-                    redirectLogin();
-                }
-                return false;
-            }
-        });
+        // isc.ViewLoader.addMethods({
+        //     handleError: function (rq, rs) {
+        //         console.log("Global ViewLoader Error: ", rq, rs);
+        //         if (rs.httpResponseCode == 403) { // Forbidden
+        //             nicico.error("Access Denied");  //TODO: I18N message key
+        //         } else {
+        //             redirectLogin();
+        //         }
+        //         return false;
+        //     }
+        // });
 
         var flagTabExist = false;
 
