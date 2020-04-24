@@ -679,13 +679,13 @@
                     }
 
                 },
-                {isSeparator: true},
+                /*{isSeparator: true},
                 {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
                     }
-                },
+                },*/
                 {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",
