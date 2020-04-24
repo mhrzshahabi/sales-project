@@ -628,7 +628,7 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_LoadingPort,
                 displayField: "port",
-                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4
+                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4,
                 required: true
             },
             {
