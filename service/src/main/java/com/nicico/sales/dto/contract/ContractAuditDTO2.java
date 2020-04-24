@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.EnumSet;
@@ -23,6 +24,8 @@ public class ContractAuditDTO2 {
     private Long revType;
     private String no;
     private Date date;
+    private Date affectFrom;
+    private Date affectUpTo;
     private String content;
     private String description;
     private Long contractTypeId;

@@ -36,6 +36,13 @@ public class ContractAudit2 extends BaseEntity {
     @Column(name = "D_DATE")
     private Date date;
 
+    @NotNull
+    @Column(name = "D_AFFECT_FROM", nullable = false)
+    private Date affectFrom;
+
+    @Column(name = "D_AFFECT_UP_TO")
+    private Date affectUpTo;
+
     @Column(name = "C_CONTENT")
     private String content;
 

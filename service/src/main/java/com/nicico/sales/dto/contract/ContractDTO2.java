@@ -21,6 +21,8 @@ public class ContractDTO2 {
 
     private String no;
     private Date date;
+    private Date affectFrom;
+    private Date affectUpTo;
     private String content;
     private String description;
 

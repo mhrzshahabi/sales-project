@@ -80,6 +80,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="D_DATE" type="TIMESTAMP"/>
+            <column name="D_AFFECT_FROM" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="D_AFFECT_UP_TO" type="TIMESTAMP"/>
             <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
             <column name="F_MATERIAL_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
@@ -106,6 +110,10 @@
             <column name="C_CONTENT" type="VARCHAR2(255 CHAR)"/>
             <column name="F_CONTRACT_TYPE_ID" type="NUMBER(19, 0)"/>
             <column name="D_DATE" type="TIMESTAMP"/>
+            <column name="D_AFFECT_FROM" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="D_AFFECT_UP_TO" type="TIMESTAMP"/>
             <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
             <column name="F_MATERIAL_ID" type="NUMBER(19, 0)"/>
             <column name="C_NO" type="VARCHAR2(200 CHAR)"/>
