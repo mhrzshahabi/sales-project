@@ -36,9 +36,9 @@
     nvl(invoice_internal.LCID,'') AS lcid,
     nvl(lct.LC_NUMBER,'') AS lc_number
 FROM
-    n_master.view_innersalesforsalse invoice_internal
-    JOIN n_master.customer1tbl mc ON mc.cust_id = invoice_internal.customerid
-    LEFT JOIN n_master.LC_T lct ON lct.LCID = invoice_internal.LCID
+    n_mdms.view_innersalesforsalse invoice_internal
+    JOIN n_mdms.customer1tbl mc ON mc.cust_id = invoice_internal.customerid
+    LEFT JOIN n_mdms.LC_T lct ON lct.LCID = invoice_internal.LCID
 WHERE
     invoice_internal."INV_ID" = $P{ID}]]>
 	</queryString>
