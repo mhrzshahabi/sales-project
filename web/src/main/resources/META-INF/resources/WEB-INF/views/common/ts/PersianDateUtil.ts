@@ -1,9 +1,7 @@
 //------------------------------------------ TS References -----------------------------------------
 
 // @ts-ignore
-///<reference path="C:/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/karimi/Java/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
+///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 
 //------------------------------------------ TS References ---------------------------------------//
 

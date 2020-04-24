@@ -55,7 +55,12 @@
 
 <script type="application/javascript">
 
-    <%@include file="common/js/isc-plus.js"%>
+    <%@include file="common/ts/CommonUtil.js"%>
+    <%@include file="common/ts/GeneralTabUtil.js"%>
+    <%@include file="common/ts/PersianDateUtil.js"%>
+    <%@include file="common/ts/FormUtil.js"%>
+    <%@include file="common/ts/FindFormUtil.js"%>
+    <%@include file="common/ts/BasicFormUtil.js"%>
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},

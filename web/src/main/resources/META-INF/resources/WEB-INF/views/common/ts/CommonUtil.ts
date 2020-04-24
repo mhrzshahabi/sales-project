@@ -1,9 +1,7 @@
 //------------------------------------------ TS References -----------------------------------------
 
 // @ts-ignore
-///<reference path="C:/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/karimi/Java/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
+///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 
 //------------------------------------------ TS References ---------------------------------------//
 
@@ -36,6 +34,11 @@ namespace nicico {
 
     export class CommonUtil {
 
+        static baseUrl: "${contextPath}}";
+        // @ts-ignore
+        static httpHeaders: BaseRPCRequest.httpHeaders;
+        static contentType: "application/json; charset=utf-8";
+
         constructor() {
 
             // @ts-ignore
@@ -50,70 +53,16 @@ namespace nicico {
             };
 
             // @ts-ignore
-            isc.Menu.nicico = {};
-            // @ts-ignore
-            isc.Menu.nicico.getDefault = function (...crudActions: any[]): isc.Menu {
-
-                var menu = isc.Menu.create({
-
-                    width: 150
-                });
-
-                if (crudActions.length === 0) return menu;
-
-                menu.addData({
-
-                    click: crudActions[0],
-                    icon: "pieces/16/refresh.png",
-                    title: '<spring:message code="global.form.refresh"/> ',
-                });
-                if (crudActions.length > 0)
-                    menu.addData({
-
-                        click: crudActions[1],
-                        icon: "pieces/16/icon_add.png",
-                        title: '<spring:message code="global.form.new"/>'
-                    });
-                if (crudActions.length > 1)
-                    menu.addData({
-                        click: crudActions[2],
-                        icon: "pieces/16/icon_edit.png",
-                        title: "<spring:message code='global.form.edit'/>"
-                    });
-                if (crudActions.length > 2)
-                    menu.addData({
-                        click: crudActions[3],
-                        icon: "pieces/16/icon_delete.png",
-                        title: '<spring:message code="global.form.remove"/>'
-                    });
-
-                if (crudActions.length > 3)
-                    for (let i = 4; i < crudActions.length; i++)
-                        menu.addData({
-                            icon: crudActions[i].icon,
-                            click: crudActions[i].click,
-                            title: crudActions[i].title
-                        });
-
-                return menu;
-            };
-
-            // @ts-ignore
             isc.ListGrid.nicico = {};
             // @ts-ignore
-            isc.ListGrid.nicico.changeFieldsProperties = function (listGrid: isc.ListGrid, fieldPropertyName: string, fieldPropertyValue: any): isc.ListGrid {
-
-                // @ts-ignore
-                listGrid.getItem(fieldPropertyName).setValue(fieldPropertyValue);
-                return listGrid;
-            };
-            // @ts-ignore
-            isc.ListGrid.nicico.getDefault = function (fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
+            isc.ListGrid.nicico.getDefault = function (fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource, criteria?: Criteria): isc.ListGrid {
 
                 let listGridProperties: Partial<isc.ListGrid> = {};
 
                 listGridProperties.width = "100%";
                 listGridProperties.height = "100%";
+
+                listGridProperties.initialCriteria = criteria;
 
                 listGridProperties.sortField = 0;
                 listGridProperties.dataPageSize = 50;
@@ -121,8 +70,11 @@ namespace nicico {
                 listGridProperties.autoFetchData = true;
 
                 listGridProperties.showFilterEditor = true;
-                listGridProperties.filterOnKeypress = true;
+                listGridProperties.filterOnKeypress = false;
                 listGridProperties.canAutoFitFields = false;
+                // @ts-ignore
+                listGridProperties.allowAdvancedCriteria = true;
+                listGridProperties.alternateRecordStyles = true;
 
                 listGridProperties.selectionType = "single";
                 listGridProperties.sortDirection = "descending";
@@ -161,17 +113,10 @@ namespace nicico {
                 restDataSourceProperties.transformRequest = function (dsRequest) {
 
                     // @ts-ignore
-                    dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
+                    dsRequest.httpHeaders = httpHeaders;
                     return this.Super("transformRequest", arguments);
                 };
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
-            };
-            // @ts-ignore
-            isc.RestDataSource.nicico.changeFieldsProperties = function (restDataSource: isc.RestDataSource, fieldPropertyName: string, fieldPropertyValue: any): isc.RestDataSource {
-
-                // @ts-ignore
-                restDataSource.fields[fieldPropertyName] = fieldPropertyValue;
-                return restDataSource;
             };
             // @ts-ignore
             isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties: Partial<isc.RestDataSource>, fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
@@ -185,16 +130,18 @@ namespace nicico {
             // @ts-ignore
             isc.FormItem.nicico = {};
             // @ts-ignore
-            isc.FormItem.nicico.getDefaultProperties = function (name: string, title: string, required?: boolean | Criteria = true, readonly?: boolean | Criteria, validators?: Array<Partial<Validator>>, id?: string): Partial<isc.FormItem> {
+            isc.FormItem.nicico.getDefaultProperties = function (name: string, title: string, type: FormItemType, editorType: string, required?: boolean | Criteria = true, readonly?: boolean | Criteria, validators?: Array<Partial<Validator>>, id?: string): Partial<isc.FormItem> {
 
                 let formItemProperties: Partial<isc.FormItem> = {};
 
                 formItemProperties.ID = id;
                 formItemProperties.name = name;
+                formItemProperties.type = type;
                 formItemProperties.title = title;
+                formItemProperties.editorType = editorType;
                 if (!title)
                     formItemProperties.showTitle = false;
-                if (name == "id" || name == "version") {
+                if (name == "id" || name == "version" || name == "editable") {
 
                     formItemProperties.hidden = true;
                     formItemProperties.canEdit = false;
@@ -204,10 +151,10 @@ namespace nicico {
                 } else
                     formItemProperties.requiredWhen = <Criteria>required;
                 if (readonly instanceof Boolean)
-                // @ts-ignore
+                    // @ts-ignore
                     formItemProperties.readonly = <boolean>readonly;
                 else
-                // @ts-ignore
+                    // @ts-ignore
                     formItemProperties.readonlyWhen = <Criteria>readonly;
                 formItemProperties.validators = validators;
 
@@ -235,25 +182,6 @@ namespace nicico {
 
                 return formItemProperties;
             };
-
-
-            // TODO : put your fields template here, like below
-            // @ts-ignore
-            isc.FormItem.nicico.getDefaultPersianDate = function (name: string, title: string, required?: boolean | Criteria = true, readonly?: boolean | Criteria, validators?: Array<Partial<Validator>>, id?: string): isc.FormItem {
-
-                let formItemProperties = this.getDefaultProperties(name, title, required, readonly, validators, id);
-
-                // @ts-ignore
-                formItemProperties.type = 'persianDate';
-                formItemProperties.hint = "1398/03/25";
-
-                // @ts-ignore
-                formItemProperties.icons = [persianDatePicker];
-
-                return this.createFormItem(formItemProperties);
-            };
-
-
             // @ts-ignore
             isc.FormItem.nicico.createFormItem = function (formItemProperties: Partial<isc.FormItem>): isc.FormItem {
 
@@ -291,13 +219,6 @@ namespace nicico {
                 return this.createDynamicForm(dynamicFormProperties, fields);
             };
             // @ts-ignore
-            isc.DynamicForm.nicico.changeFieldsProperties = function (dynamicForm: isc.DynamicForm, fieldPropertyName: string, fieldPropertyValue: any): isc.DynamicForm {
-
-                // @ts-ignore
-                dynamicForm.fields[fieldPropertyName] = fieldPropertyValue;
-                return dynamicForm;
-            };
-            // @ts-ignore
             isc.DynamicForm.nicico.createDynamicForm = function (dynamicFormProperties: Partial<isc.DynamicForm>, fields: Array<Partial<isc.FormItem>>): isc.DynamicForm {
 
                 let dynamicForm = isc.DynamicForm.create(dynamicFormProperties);
@@ -313,7 +234,7 @@ namespace nicico {
                 return isc.Window.create({
 
                     ID: id,
-                    width: "50%",
+                    width: "70%",
                     align: "center",
                     isModal: true,
                     autoSize: true,
@@ -321,6 +242,7 @@ namespace nicico {
                     autoCenter: true,
                     showModalMask: true,
                     dismissOnEscape: true,
+                    dismissOnOutsideClick: true,
                     title: title,
                     // @ts-ignore
                     closeClick: function () {
@@ -336,136 +258,6 @@ namespace nicico {
                         })
                     ]
                 });
-            };
-
-            // @ts-ignore
-            isc.HTMLFlow.nicico = {};
-            // @ts-ignore
-            isc.HTMLFlow.nicico.getDefault = function (content: string): isc.HTMLFlow {
-
-                return isc.HTMLFlow.create({
-                    // @ts-ignore
-                    content: content
-                });
-            };
-
-            // @ts-ignore
-            isc.IButton.nicico = {};
-            // @ts-ignore
-            isc.IButton.nicico.getDefault = function (title: string, icon: string, action: any): isc.IButton {
-
-                return isc.IButton.create({
-
-                    icon: icon,
-                    title: title,
-                    // @ts-ignore
-                    click: function () {
-                        action();
-                    }
-                });
-            };
-
-            // @ts-ignore
-            isc.HLayout.nicico = {};
-            // @ts-ignore
-            isc.HLayout.nicico.getDefault = function (items: Array<isc.Canvas>, id?: string): isc.HLayout {
-
-                return isc.HLayout.create({
-
-                    ID: id,
-                    width: "100%",
-                    padding: 10,
-                    layoutMargin: 5,
-                    membersMargin: 10,
-                    showEdges: false,
-                    members: items
-                });
-            };
-            // @ts-ignore
-            isc.HLayout.nicico.getSaveLayout = function (saveAction: any, id?: string): isc.HLayout {
-
-                // @ts-ignore
-                var saveLayout = isc.HLayout.getDefault(id);
-                // @ts-ignore
-                saveLayout.addMember(isc.IButtonSave.getDefault('<spring:message code="global.form.save"/> ', "pieces/16/save.png", saveAction));
-                // @ts-ignore
-                saveLayout.addMember(isc.IButtonCancel.getDefault('<spring:message code="global.close"/> ', "pieces/16/icon_delete.png", function () {
-
-                    var win = this.getParentElements().last();
-                    win.close();
-                }));
-                return saveLayout;
-            };
-
-            // @ts-ignore
-            isc.VLayout.nicico = {};
-            // @ts-ignore
-            isc.VLayout.nicico.getDefault = function (items: Array<isc.Canvas>, id?: string): isc.VLayout {
-
-                return isc.VLayout.create({
-
-                    ID: id,
-                    width: "100%",
-                    members: items
-                });
-            };
-
-            // @ts-ignore
-            isc.Label.nicico = {};
-            // @ts-ignore
-            isc.Label.nicico.getDefault = function (content: string, id?: string): isc.Label {
-
-                return isc.Label.create({
-
-                    height: "5%",
-                    contents: content
-                });
-            };
-
-            // @ts-ignore
-            isc.ToolStripButton.nicico = {};
-            // @ts-ignore
-            isc.ToolStripButton.nicico.getDefault = function (title: string, icon: string, clickAction: any): isc.ToolStripButton {
-
-                return isc.ToolStripButton.create({
-
-                    icon: icon,
-                    title: title,
-                    click: clickAction
-                });
-            };
-
-            // @ts-ignore
-            isc.ToolStrip.nicico = {};
-            // @ts-ignore
-            isc.ToolStrip.nicico.getDefault = function (...crudActions: any[], id?: string): isc.ToolStrip {
-
-                var toolStrip = isc.ToolStrip.create({
-
-                    ID: id,
-                    width: "100%"
-                });
-
-                if (crudActions.length === 0) return toolStrip;
-
-                // @ts-ignore
-                toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.refresh" />', "[SKIN]/actions/refresh.png", crudActions[0]));
-                if (crudActions.length > 0)
-                // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.new"/>', "[SKIN]/actions/add.png", crudActions[1]));
-                if (crudActions.length > 1)
-                // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.edit"/>', "[SKIN]/actions/edit.png", crudActions[2]));
-                if (crudActions.length > 2)
-                // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.remove"/>', "[SKIN]/actions/remove.png", crudActions[3]));
-
-                if (crudActions.length > 3)
-                    for (let i = 4; i < crudActions.length; i++)
-                        // @ts-ignore
-                        toolStrip.addMember(isc.ToolStripButton.nicico.getDefault(crudActions[i].title, crudActions[i].icon, crudActions[i].click));
-
-                return toolStrip;
             };
 
             // @ts-ignore

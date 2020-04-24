@@ -1,9 +1,7 @@
 //------------------------------------------ TS References -----------------------------------------
 ///<reference path="CommonUtil.ts"/>
 // @ts-ignore
-///<reference path="C:/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/karimi/Java/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
+///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
 //------------------------------------------- Namespaces -------------------------------------------
 var nicico;
@@ -16,6 +14,9 @@ var nicico;
             };
             this.cancelCallBack = function () {
                 return;
+            };
+            this.validate = function (data) {
+                return true;
             };
             this.okCallBack = function (data) {
                 return data;
@@ -31,6 +32,7 @@ var nicico;
         };
         FormUtil.prototype.getButtonLayout = function () {
             var This = this;
+            // @ts-ignore
             var cancel = isc.IButtonCancel.create({
                 // @ts-ignore
                 click: function () {
@@ -42,13 +44,17 @@ var nicico;
                 icon: "pieces/16/icon_delete.png",
                 title: '<spring:message code="global.close" />'
             });
+            // @ts-ignore
             var ok = isc.IButtonSave.create({
                 // @ts-ignore
                 click: function () {
+                    var data = This.populateData(This.bodyWidget.getObject());
+                    if (!This.validate(data))
+                        return;
                     This.windowWidget.getObject().close();
                     if (This.owner.getObject() != null)
                         This.owner.getObject().show();
-                    This.okCallBack(This.populateData(This.bodyWidget.getObject()));
+                    This.okCallBack(data);
                 },
                 icon: "pieces/16/approve.png",
                 title: '<spring:message code="global.ok" />'
@@ -72,19 +78,8 @@ var nicico;
                     buttonLayout
                 ]
             });
-            This.windowWidget = new nicico.ObjectHider(isc.Window.create({
-                title: title,
-                width: "50%",
-                align: "center",
-                items: [vLayout],
-                isModal: true,
-                autoSize: true,
-                autoDraw: false,
-                autoCenter: true,
-                showModalMask: true,
-                dismissOnEscape: false,
-                dismissOnOutsideClick: false,
-                // @ts-ignore
+            // @ts-ignore
+            This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout]), {
                 closeClick: function () {
                     this.Super("closeClick", arguments);
                     if (This.owner.getObject() != null)

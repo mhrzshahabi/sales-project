@@ -1,9 +1,7 @@
 //------------------------------------------ TS References -----------------------------------------
 
 // @ts-ignore
-///<reference path="C:/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/karimi/Java/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
+///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 
 //------------------------------------------ TS References ---------------------------------------//
 
@@ -137,10 +135,10 @@ namespace nicico {
             };
             This.variable.method = "POST";
             // @ts-ignore
-            This.variable.url = "${contextPath}";
+            This.variable.url = nicico.CommonUtil.baseUrl;
             // @ts-ignore
-            This.variable.httpHeaders = BaseRPCRequest.httpHeaders;
-            This.variable.contentType = "application/json; charset=utf-8";
+            This.variable.httpHeaders = nicico.CommonUtil.httpHeaders;
+            This.variable.contentType = nicico.CommonUtil.contentType;
             This.variable.defaultStylePrefix = "";
 
             This.method = {
@@ -159,7 +157,7 @@ namespace nicico {
             This.method.transformRequest = function (dsRequest: isc.DSRequest) {
 
                 // @ts-ignore
-                dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
+                dsRequest.httpHeaders = nicico.CommonUtil.httpHeaders;
                 return this.Super("transformRequest", arguments);
             };
             This.method.concatObjectsByKey = function (isBoolOperatorAnd, ...objs) {
@@ -391,7 +389,7 @@ namespace nicico {
                     message: "<spring:message code='global.grid.record.not.selected'/>",
                     icon: "[SKIN]ask.png",
                     title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create({title: "تائید"})],
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
                     buttonClick: function (button, index) {
                         this.close();
@@ -404,7 +402,7 @@ namespace nicico {
                     message: "<spring:message code='global.grid.record.moreSelected'/>",
                     icon: "[SKIN]ask.png",
                     title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create({title: "تائید"})],
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
                     buttonClick: function (button, index) {
                         this.close();
@@ -421,7 +419,7 @@ namespace nicico {
                         message: "<spring:message code='global.form.request.successful'/>",
                         icon: "[SKIN]say.png",
                         title: "<spring:message code='global.ok'/>",
-                        buttons: [isc.Button.create({title: "تائید"})],
+                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                         // @ts-ignore
                         buttonClick: function (button, index) {
                             this.close();
@@ -437,7 +435,7 @@ namespace nicico {
                         message: "<spring:message code='global.form.request.successful'/><br>پیام:&nbsp;" + warn,
                         icon: "[SKIN]warn.png",
                         title: "<spring:message code='global.ok'/>",
-                        buttons: [isc.Button.create({title: "تائید"})],
+                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                         // @ts-ignore
                         buttonClick: function (button, index) {
                             this.close();
@@ -451,8 +449,8 @@ namespace nicico {
 
                     message: message,
                     icon: "[SKIN]say.png",
-                    title: title || "پیغام",
-                    buttons: [isc.Button.create({title: "تائید"})],
+                    title: title || "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
                     buttonClick: function (button, index) {
                         this.close();

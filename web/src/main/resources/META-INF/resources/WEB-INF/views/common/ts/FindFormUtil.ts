@@ -3,9 +3,7 @@
 ///<reference path="CommonUtil.ts"/>
 
 // @ts-ignore
-///<reference path="C:\isomorphic\system\development\smartclient.d.ts" />
-///<reference path="/home/karimi/Java/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
+///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 
 //------------------------------------------ TS References ---------------------------------------//
 
@@ -51,7 +49,7 @@ namespace nicico {
                 var primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
                 // @ts-ignore
                 if (primaryKeyField == null && listGrid.dataSource != null)
-                // @ts-ignore
+                    // @ts-ignore
                     primaryKeyField = Object.values(listGrid.dataSource.getFields()).find(p => p.primaryKey);
                 else
                     primaryKeyField = {name: 'id'};
@@ -83,7 +81,7 @@ namespace nicico {
                 var primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
                 // @ts-ignore
                 if (primaryKeyField == null && listGrid.dataSource != null)
-                // @ts-ignore
+                    // @ts-ignore
                     primaryKeyField = Object.values(listGrid.dataSource.getFields()).find(p => p.primaryKey);
                 else
                     primaryKeyField = {name: 'id'};
@@ -192,56 +190,24 @@ namespace nicico {
 
         public getRestDataSource(restApiUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
 
-            return isc.RestDataSource.create({
-
-                fields: fields,
-                jsonPrefix: "",
-                jsonSuffix: "",
-                dataFormat: "json",
-                fetchDataURL: restApiUrl,
-                // @ts-ignore
-                transformRequest: function (dsRequest) {
-
-                    // @ts-ignore
-                    dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
-                    return this.Super("transformRequest", arguments);
-                }
-            });
+            // @ts-ignore
+            return isc.RestDataSource.nicico.getDefault(restApiUrl, fields);
         }
 
         public createListGrid(restDataSource: isc.RestDataSource, criteria: Criteria, currentData: Array<any>, dataArrivedCallback?: any): void {
 
             let This = this;
-            This.listGridWidget = new ObjectHider(isc.ListGrid.create({
+            // @ts-ignore
+            This.listGridWidget = new ObjectHider(Object.assign(isc.ListGrid.nicico.getDefault(null, restDataSource, criteria), {
 
-                width: "100%",
                 height: window.innerHeight * .6,
-                margin: 10,
-                dataPageSize: 50,
-                autoFetchData: true,
                 // @ts-ignore
                 currentData: currentData,
-                initialCriteria: criteria,
-                dataSource: restDataSource,
-                canAutoFitFields: false,
                 selectionType: (This.selectionMultiplicity.getObject() < 1 ? "none" : (This.selectionMultiplicity.getObject() === 1 ? "single" : "simple")),
                 selectionAppearance: (This.selectionMultiplicity.getObject() > 1 ? "checkbox" : "rowStyle"),
                 sortField: This.selectionMultiplicity.getObject() > 1 ? 1 : 0,
-                fetchDelay: 1000,
                 autoSaveEdits: false,
-                showFilterEditor: true,
                 validateOnChange: true,
-                filterOnKeyPress: false,
-                alternateRecordStyles: true,
-                allowAdvancedCriteria: true,
-                sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
-                sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
-                configureSortText: '<spring:message code="global.grid.configureSortText" />',
-                autoFitAllText: '<spring:message code="global.grid.autoFitAllText" />',
-                autoFitFieldText: '<spring:message code="global.grid.autoFitFieldText" />',
-                filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
-                groupByText: '<spring:message code="global.grid.groupByText" />',
-                freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
                 dataArrived: function (startRow, endRow) {
 
                     if (this.currentData != null && this.currentData.length > 0) {
@@ -250,7 +216,7 @@ namespace nicico {
                         var primaryKeyField = this.getFields().find(p => p.primaryKey);
                         // @ts-ignore
                         if (primaryKeyField == null && this.dataSource != null)
-                        // @ts-ignore
+                            // @ts-ignore
                             primaryKeyField = Object.values(this.dataSource.getFields()).find(p => p.primaryKey);
                         else
                             primaryKeyField = {name: 'id'};
@@ -273,33 +239,7 @@ namespace nicico {
         public createWindow(title: string, buttonLayout: isc.HLayout, listGrid: isc.ListGrid, width: string = null, height: string = null): void {
 
             let This = this;
-            let vLayout = this.createVLayout(buttonLayout, listGrid);
-            This.windowWidget = new ObjectHider(isc.Window.create({
-
-                title: title,
-                width: width == null ? "50%" : width,
-                height: height,
-                align: "center",
-                items: [vLayout],
-                isModal: true,
-                autoSize: true,
-                autoDraw: false,
-                autoCenter: true,
-                showModalMask: true,
-                dismissOnEscape: false,
-                dismissOnOutsideClick: false,
-                // @ts-ignore
-                closeClick: function () {
-                    this.Super("closeClick", arguments);
-                    if (This.owner.getObject() != null)
-                        This.owner.getObject().show();
-                }
-            }));
-        }
-
-        public createVLayout(buttonLayout: isc.HLayout, listGrid: isc.ListGrid): isc.VLayout {
-
-            return isc.VLayout.create({
+            let vLayout = isc.VLayout.create({
 
                 width: "100%",
                 members: [
@@ -307,6 +247,19 @@ namespace nicico {
                     buttonLayout
                 ]
             });
+
+
+            // @ts-ignore
+            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout]), {
+
+                height: height,
+                width: width == null ? "50%" : width,
+                closeClick: function () {
+                    this.Super("closeClick", arguments);
+                    if (This.owner.getObject() != null)
+                        This.owner.getObject().show();
+                }
+            }));
         }
     }
 

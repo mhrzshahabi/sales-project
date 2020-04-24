@@ -2,9 +2,7 @@
 ///<reference path="CommonUtil.ts"/>
 ///<reference path="GeneralTabUtil.ts"/>
 // @ts-ignore
-///<reference path="C:/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/karimi/Java/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
+///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
 //------------------------------------------- Namespaces -------------------------------------------
 var nicico;
@@ -13,26 +11,94 @@ var nicico;
     var BasicFormUtil = /** @class */ (function () {
         function BasicFormUtil() {
         }
-        BasicFormUtil.getDefaultBasicForm = function (creator, gridFields, formFields, fetchDataUrl, criteria) {
+        BasicFormUtil.getDefaultBasicForm = function (entity, creator, gridFields, formFields, fetchDataUrl, criteria) {
             // @ts-ignore
             var dynamicForm = isc.DynamicForm.nicico.getDefault(formFields);
             // @ts-ignore
             var dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, gridFields);
             // @ts-ignore
-            var grid = isc.ListGrid.nicico.getDefault(gridFields, dataSource);
-            var crudActions = [];
-            crudActions.add(creator.method.refresh(grid));
-            crudActions.add(creator.method.newForm(dynamicForm));
-            crudActions.add(creator.method.editForm(grid, dynamicForm));
-            crudActions.add(creator.method["delete"](grid));
+            var grid = isc.ListGrid.nicico.getDefault(gridFields, dataSource, criteria);
+            entity = entity.toUpperCase();
+            var menu = isc.Menu.create({
+                width: 150,
+                data: [
+                    // @ts-ignore
+                    // <sec:authorize access="hasAuthority('C_' + entity)">
+                    {
+                        icon: "pieces/16/icon_add.png",
+                        title: '<spring:message code="global.form.new"/>',
+                        click: creator.method.newForm(dynamicForm)
+                    },
+                    // </sec:authorize>
+                    // <sec:authorize access="hasAuthority('U_' + entity)">
+                    {
+                        icon: "pieces/16/icon_edit.png",
+                        title: "<spring:message code='global.form.edit'/>",
+                        click: creator.method.editForm(grid, dynamicForm)
+                    },
+                    // </sec:authorize>
+                    // <sec:authorize access="hasAuthority('D_' + entity')">
+                    {
+                        icon: "pieces/16/icon_delete.png",
+                        title: '<spring:message code="global.form.remove"/>',
+                        click: creator.method.delete(grid)
+                    },
+                    // </sec:authorize>
+                    {
+                        icon: "pieces/16/refresh.png",
+                        title: '<spring:message code="global.form.refresh"/>',
+                        click: creator.method.refresh(grid)
+                    }
+                ]
+            });
             // @ts-ignore
-            var menu = isc.Menu.nicico.getDefault(crudActions);
+            isc.Canvas.nicico.changeProperties(grid, "contextMenu", menu);
             // @ts-ignore
-            isc.ListGrid.nicico.changeProperties(grid, "contextMenu", menu);
-            // @ts-ignore
-            var toolStrip = isc.ToolStrip.nicico.getDefault(crudActions);
-            // @ts-ignore
-            return isc.VLayout.nicico.getDefault([toolStrip, grid]);
+            var toolStrip = isc.ToolStrip.create({
+                width: "100%",
+                members: [
+                    ,
+                    // <sec:authorize access="hasAuthority('C_' + entity)">
+                    // @ts-ignore
+                    isc.ToolStripButtonAdd.create({
+                        click: creator.method.newForm(dynamicForm),
+                        title: "<spring:message code='global.form.new'/>"
+                    }),
+                    // </sec:authorize>
+                    // <sec:authorize access="hasAuthority('U_' + entity)">
+                    // @ts-ignore
+                    isc.ToolStripButtonEdit.create({
+                        icon: "[SKIN]/actions/edit.png",
+                        title: "<spring:message code='global.form.edit'/>",
+                        click: creator.method.editForm(grid, dynamicForm)
+                    }),
+                    // </sec:authorize>
+                    // <sec:authorize access="hasAuthority('D_' + entity)">
+                    // @ts-ignore
+                    isc.ToolStripButtonRemove.create({
+                        icon: "[SKIN]/actions/remove.png",
+                        title: "<spring:message code='global.form.remove'/>",
+                        click: creator.method.delete(grid)
+                    }),
+                    // </sec:authorize>
+                    isc.ToolStrip.create({
+                        width: "100%",
+                        align: "left",
+                        border: '0px',
+                        members: [
+                            // @ts-ignore
+                            isc.ToolStripButtonRefresh.create({
+                                click: creator.method.refresh(grid),
+                                title: "<spring:message code='global.form.refresh'/>"
+                            })
+                        ]
+                    })
+                ]
+            });
+            return isc.VLayout.create({
+                width: "100%",
+                members: [toolStrip, grid]
+            });
         };
         return BasicFormUtil;
     }());

@@ -1,8 +1,6 @@
 //------------------------------------------ TS References -----------------------------------------
 // @ts-ignore
-///<reference path="C:/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/karimi/Java/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/saeb/Java/isomorphic/isomorphic/system/development/smartclient.d.ts" />
+///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
 //------------------------------------------- Namespaces -------------------------------------------
 var nicico;
@@ -22,70 +20,23 @@ var nicico;
                 return canvas;
             };
             // @ts-ignore
-            isc.Menu.nicico = {};
-            // @ts-ignore
-            isc.Menu.nicico.getDefault = function () {
-                var crudActions = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    crudActions[_i] = arguments[_i];
-                }
-                var menu = isc.Menu.create({
-                    width: 150
-                });
-                if (crudActions.length === 0)
-                    return menu;
-                menu.addData({
-                    click: crudActions[0],
-                    icon: "pieces/16/refresh.png",
-                    title: '<spring:message code="global.form.refresh"/> ',
-                });
-                if (crudActions.length > 0)
-                    menu.addData({
-                        click: crudActions[1],
-                        icon: "pieces/16/icon_add.png",
-                        title: '<spring:message code="global.form.new"/>'
-                    });
-                if (crudActions.length > 1)
-                    menu.addData({
-                        click: crudActions[2],
-                        icon: "pieces/16/icon_edit.png",
-                        title: "<spring:message code='global.form.edit'/>"
-                    });
-                if (crudActions.length > 2)
-                    menu.addData({
-                        click: crudActions[3],
-                        icon: "pieces/16/icon_delete.png",
-                        title: '<spring:message code="global.form.remove"/>'
-                    });
-                if (crudActions.length > 3)
-                    for (var i = 4; i < crudActions.length; i++)
-                        menu.addData({
-                            icon: crudActions[i].icon,
-                            click: crudActions[i].click,
-                            title: crudActions[i].title
-                        });
-                return menu;
-            };
-            // @ts-ignore
             isc.ListGrid.nicico = {};
             // @ts-ignore
-            isc.ListGrid.nicico.changeFieldsProperties = function (listGrid, fieldPropertyName, fieldPropertyValue) {
-                // @ts-ignore
-                listGrid.getItem(fieldPropertyName).setValue(fieldPropertyValue);
-                return listGrid;
-            };
-            // @ts-ignore
-            isc.ListGrid.nicico.getDefault = function (fields, restDataSource) {
+            isc.ListGrid.nicico.getDefault = function (fields, restDataSource, criteria) {
                 var listGridProperties = {};
                 listGridProperties.width = "100%";
                 listGridProperties.height = "100%";
+                listGridProperties.initialCriteria = criteria;
                 listGridProperties.sortField = 0;
                 listGridProperties.dataPageSize = 50;
                 listGridProperties.fetchDelay = 1000;
                 listGridProperties.autoFetchData = true;
                 listGridProperties.showFilterEditor = true;
-                listGridProperties.filterOnKeypress = true;
+                listGridProperties.filterOnKeypress = false;
                 listGridProperties.canAutoFitFields = false;
+                // @ts-ignore
+                listGridProperties.allowAdvancedCriteria = true;
+                listGridProperties.alternateRecordStyles = true;
                 listGridProperties.selectionType = "single";
                 listGridProperties.sortDirection = "descending";
                 listGridProperties.groupByText = '<spring=message code="global.grid.groupByText" />';
@@ -116,16 +67,10 @@ var nicico;
                 // @ts-ignore
                 restDataSourceProperties.transformRequest = function (dsRequest) {
                     // @ts-ignore
-                    dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
+                    dsRequest.httpHeaders = httpHeaders;
                     return this.Super("transformRequest", arguments);
                 };
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
-            };
-            // @ts-ignore
-            isc.RestDataSource.nicico.changeFieldsProperties = function (restDataSource, fieldPropertyName, fieldPropertyValue) {
-                // @ts-ignore
-                restDataSource.fields[fieldPropertyName] = fieldPropertyValue;
-                return restDataSource;
             };
             // @ts-ignore
             isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties, fetchDataUrl, fields) {
@@ -137,15 +82,17 @@ var nicico;
             // @ts-ignore
             isc.FormItem.nicico = {};
             // @ts-ignore
-            isc.FormItem.nicico.getDefaultProperties = function (name, title, required, readonly, validators, id) {
+            isc.FormItem.nicico.getDefaultProperties = function (name, title, type, editorType, required, readonly, validators, id) {
                 if (required === void 0) { required = true; }
                 var formItemProperties = {};
                 formItemProperties.ID = id;
                 formItemProperties.name = name;
+                formItemProperties.type = type;
                 formItemProperties.title = title;
+                formItemProperties.editorType = editorType;
                 if (!title)
                     formItemProperties.showTitle = false;
-                if (name == "id" || name == "version") {
+                if (name == "id" || name == "version" || name == "editable") {
                     formItemProperties.hidden = true;
                     formItemProperties.canEdit = false;
                 }
@@ -179,18 +126,6 @@ var nicico;
                 formItemProperties.requiredMessage = '<spring:message code="validator.field.is.required"/>';
                 return formItemProperties;
             };
-            // TODO : put your fields template here, like below
-            // @ts-ignore
-            isc.FormItem.nicico.getDefaultPersianDate = function (name, title, required, readonly, validators, id) {
-                if (required === void 0) { required = true; }
-                var formItemProperties = this.getDefaultProperties(name, title, required, readonly, validators, id);
-                // @ts-ignore
-                formItemProperties.type = 'persianDate';
-                formItemProperties.hint = "1398/03/25";
-                // @ts-ignore
-                formItemProperties.icons = [persianDatePicker];
-                return this.createFormItem(formItemProperties);
-            };
             // @ts-ignore
             isc.FormItem.nicico.createFormItem = function (formItemProperties) {
                 return isc.FormItem.create(formItemProperties);
@@ -221,12 +156,6 @@ var nicico;
                 return this.createDynamicForm(dynamicFormProperties, fields);
             };
             // @ts-ignore
-            isc.DynamicForm.nicico.changeFieldsProperties = function (dynamicForm, fieldPropertyName, fieldPropertyValue) {
-                // @ts-ignore
-                dynamicForm.fields[fieldPropertyName] = fieldPropertyValue;
-                return dynamicForm;
-            };
-            // @ts-ignore
             isc.DynamicForm.nicico.createDynamicForm = function (dynamicFormProperties, fields) {
                 var dynamicForm = isc.DynamicForm.create(dynamicFormProperties);
                 dynamicForm.fields = fields;
@@ -238,7 +167,7 @@ var nicico;
             isc.Window.nicico.getDefault = function (title, items, id) {
                 return isc.Window.create({
                     ID: id,
-                    width: "50%",
+                    width: "70%",
                     align: "center",
                     isModal: true,
                     autoSize: true,
@@ -246,6 +175,7 @@ var nicico;
                     autoCenter: true,
                     showModalMask: true,
                     dismissOnEscape: true,
+                    dismissOnOutsideClick: true,
                     title: title,
                     // @ts-ignore
                     closeClick: function () {
@@ -259,111 +189,6 @@ var nicico;
                         })
                     ]
                 });
-            };
-            // @ts-ignore
-            isc.HTMLFlow.nicico = {};
-            // @ts-ignore
-            isc.HTMLFlow.nicico.getDefault = function (content) {
-                return isc.HTMLFlow.create({
-                    // @ts-ignore
-                    content: content
-                });
-            };
-            // @ts-ignore
-            isc.IButton.nicico = {};
-            // @ts-ignore
-            isc.IButton.nicico.getDefault = function (title, icon, action) {
-                return isc.IButton.create({
-                    icon: icon,
-                    title: title,
-                    // @ts-ignore
-                    click: function () {
-                        action();
-                    }
-                });
-            };
-            // @ts-ignore
-            isc.HLayout.nicico = {};
-            // @ts-ignore
-            isc.HLayout.nicico.getDefault = function (items, id) {
-                return isc.HLayout.create({
-                    ID: id,
-                    width: "100%",
-                    padding: 10,
-                    layoutMargin: 5,
-                    membersMargin: 10,
-                    showEdges: false,
-                    members: items
-                });
-            };
-            // @ts-ignore
-            isc.HLayout.nicico.getSaveLayout = function (saveAction, id) {
-                // @ts-ignore
-                var saveLayout = isc.HLayout.getDefault(id);
-                // @ts-ignore
-                saveLayout.addMember(isc.IButtonSave.getDefault('<spring:message code="global.form.save"/> ', "pieces/16/save.png", saveAction));
-                // @ts-ignore
-                saveLayout.addMember(isc.IButtonCancel.getDefault('<spring:message code="global.close"/> ', "pieces/16/icon_delete.png", function () {
-                    var win = this.getParentElements().last();
-                    win.close();
-                }));
-                return saveLayout;
-            };
-            // @ts-ignore
-            isc.VLayout.nicico = {};
-            // @ts-ignore
-            isc.VLayout.nicico.getDefault = function (items, id) {
-                return isc.VLayout.create({
-                    ID: id,
-                    width: "100%",
-                    members: items
-                });
-            };
-            // @ts-ignore
-            isc.Label.nicico = {};
-            // @ts-ignore
-            isc.Label.nicico.getDefault = function (content, id) {
-                return isc.Label.create({
-                    height: "5%",
-                    contents: content
-                });
-            };
-            // @ts-ignore
-            isc.ToolStripButton.nicico = {};
-            // @ts-ignore
-            isc.ToolStripButton.nicico.getDefault = function (title, icon, clickAction) {
-                return isc.ToolStripButton.create({
-                    icon: icon,
-                    title: title,
-                    click: clickAction
-                });
-            };
-            // @ts-ignore
-            isc.ToolStrip.nicico = {};
-            // @ts-ignore
-            isc.ToolStrip.nicico.getDefault = function (id) {
-                var toolStrip = isc.ToolStrip.create({
-                    ID: id,
-                    width: "100%"
-                });
-                if (crudActions.length === 0)
-                    return toolStrip;
-                // @ts-ignore
-                toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.refresh" />', "[SKIN]/actions/refresh.png", crudActions[0]));
-                if (crudActions.length > 0)
-                    // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.new"/>', "[SKIN]/actions/add.png", crudActions[1]));
-                if (crudActions.length > 1)
-                    // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.edit"/>', "[SKIN]/actions/edit.png", crudActions[2]));
-                if (crudActions.length > 2)
-                    // @ts-ignore
-                    toolStrip.addMember(isc.ToolStripButton.nicico.getDefault('<spring:message code="global.form.remove"/>', "[SKIN]/actions/remove.png", crudActions[3]));
-                if (crudActions.length > 3)
-                    for (var i = 4; i < crudActions.length; i++)
-                        // @ts-ignore
-                        toolStrip.addMember(isc.ToolStripButton.nicico.getDefault(crudActions[i].title, crudActions[i].icon, crudActions[i].click));
-                return toolStrip;
             };
             // @ts-ignore
             isc.FacetChart.nicico = {};
