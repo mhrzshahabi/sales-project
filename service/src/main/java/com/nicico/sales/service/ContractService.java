@@ -310,8 +310,8 @@ public class ContractService implements IContractService {
         run.setText(dataALLArticle);
         doc.write(os);
         printdoc.write(printOs);
-//        Process process = Runtime.getRuntime().exec("doc2pdf /contract/"+ prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".docx");
-//        log.info(String.valueOf(process.waitFor()));
+        Process process = Runtime.getRuntime().exec("doc2pdf " + UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".docx");
+        log.info(String.valueOf(process.waitFor()));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -725,7 +725,7 @@ public class ContractService implements IContractService {
 }
 
 
-    class MyXWPFHtmlDocument extends POIXMLDocumentPart {
+class MyXWPFHtmlDocument extends POIXMLDocumentPart {
     private String html;
     private String id;
 
@@ -759,14 +759,13 @@ public class ContractService implements IContractService {
 }
 
 //the XWPFRelation for /word/htmlDoc#.html
-    final class XWPFHtmlRelation extends POIXMLRelation {
+final class XWPFHtmlRelation extends POIXMLRelation {
     public XWPFHtmlRelation() {
         super(
                 "text/html",
                 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk",
                 "/word/htmlDoc#.html");
     }
-
 
 
 }
