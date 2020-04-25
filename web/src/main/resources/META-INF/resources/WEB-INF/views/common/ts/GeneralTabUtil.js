@@ -10,6 +10,8 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+///<reference path="CommonUtil.ts"/>
+///<reference path="FormUtil.ts"/>
 // @ts-ignore
 ///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
@@ -39,6 +41,26 @@ var nicico;
     var JSPTabVariableImp = /** @class */ (function () {
         function JSPTabVariableImp() {
             var This = this;
+            This.dynamicForm = {
+                fields: []
+            };
+            This.listGrid = {
+                fields: [],
+                criteria: null
+            };
+            This.log = {};
+            This.tab = {};
+            This.chart = {};
+            This.label = {};
+            This.button = {};
+            This.menu = {};
+            This.toolStrip = {};
+            This.hStack = {};
+            This.vStack = {};
+            This.hLayout = {};
+            This.vLayout = {};
+            This.restDataSource = {};
+            This.window = {};
             This.variable = {
                 url: "",
                 method: null,
@@ -48,10 +70,11 @@ var nicico;
             };
             This.variable.method = "POST";
             // @ts-ignore
-            This.variable.url = nicico.CommonUtil.baseUrl;
+            This.variable.url = "${contextPath}/";
             // @ts-ignore
-            This.variable.httpHeaders = nicico.CommonUtil.httpHeaders;
-            This.variable.contentType = nicico.CommonUtil.contentType;
+            This.variable.httpHeaders = BaseRPCRequest.httpHeaders;
+            // @ts-ignore
+            This.variable.contentType = BaseRPCRequest.contentType;
             This.variable.defaultStylePrefix = "";
             This.method = {
                 delete: null,
@@ -66,7 +89,7 @@ var nicico;
             };
             This.method.transformRequest = function (dsRequest) {
                 // @ts-ignore
-                dsRequest.httpHeaders = nicico.CommonUtil.httpHeaders;
+                dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
                 return this.Super("transformRequest", arguments);
             };
             This.method.concatObjectsByKey = function (isBoolOperatorAnd) {
@@ -189,15 +212,23 @@ var nicico;
                 if (refreshActionHook != null)
                     refreshActionHook();
             };
-            This.method.newForm = function (form, newActionHook) {
+            This.method.newForm = function (title, grid, form, newActionHook) {
                 This.variable.method = "POST";
                 form.clearValues();
-                var win = form.getParentElements().last();
-                win.show();
+                var formUtil = new nicico.FormUtil();
+                formUtil.validate = function (data) {
+                    form.validate();
+                    return !form.hasErrors();
+                };
+                formUtil.okCallBack = function (data) {
+                    This.method.saveForm(grid, form);
+                };
+                formUtil.showForm(null, title, form);
+                form.show();
                 if (newActionHook != null)
                     newActionHook();
             };
-            This.method.editForm = function (grid, form, editActionHook) {
+            This.method.editForm = function (title, grid, form, editActionHook) {
                 var record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
@@ -205,8 +236,16 @@ var nicico;
                     This.variable.method = "PUT";
                     form.clearValues();
                     form.editRecord(__assign({}, record));
-                    var win = form.getParentElements().last();
-                    win.show();
+                    var formUtil = new nicico.FormUtil();
+                    formUtil.validate = function (data) {
+                        form.validate();
+                        return !form.hasErrors();
+                    };
+                    formUtil.okCallBack = function (data) {
+                        This.method.saveForm(grid, form);
+                    };
+                    formUtil.showForm(null, title, form);
+                    form.show();
                     if (editActionHook != null)
                         editActionHook(record);
                 }

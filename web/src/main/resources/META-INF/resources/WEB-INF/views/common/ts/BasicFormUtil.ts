@@ -16,80 +16,103 @@ namespace nicico {
 
     export class BasicFormUtil {
 
-        static getDefaultBasicForm(entity: string, creator: JSPTabVariable, gridFields: Array<Partial<isc.ListGridField>>, formFields: Array<Partial<isc.FormItem>>, fetchDataUrl: string, criteria: Criteria): isc.VLayout {
+        static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string): isc.VLayout {
 
             // @ts-ignore
-            let dynamicForm = isc.DynamicForm.nicico.getDefault(formFields);
+            creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"),'') + '/';
             // @ts-ignore
-            let dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, gridFields);
+            creator.dynamicForm.main = isc.DynamicForm.nicico.getDefault(creator.dynamicForm.fields);
             // @ts-ignore
-            let grid = isc.ListGrid.nicico.getDefault(gridFields, dataSource, criteria);
+            creator.dynamicForm.main.hide();
+            // @ts-ignore
+            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields);
+            // @ts-ignore
+            creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
 
-            entity = entity.toUpperCase();
-            let menu = isc.Menu.create({
+            // @ts-ignore
+            creator.menu.main = isc.Menu.create({
 
                 width: 150,
                 data: [
-                    // @ts-ignore
-                    // <sec:authorize access="hasAuthority('C_' + entity)">
+
                     {
                         icon: "pieces/16/icon_add.png",
                         title: '<spring:message code="global.form.new"/>',
-                        click: creator.method.newForm(dynamicForm)
+                        click: function() {
+                            // @ts-ignore
+                            creator.method.newForm("", creator.listGrid.main, creator.dynamicForm.main)
+                        }
                     },
-                    // </sec:authorize>
-                    // <sec:authorize access="hasAuthority('U_' + entity)">
+
+
                     {
                         icon: "pieces/16/icon_edit.png",
                         title: "<spring:message code='global.form.edit'/>",
-                        click: creator.method.editForm(grid, dynamicForm)
+                        click: function() {
+                            // @ts-ignore
+                            creator.method.editForm("", creator.listGrid.main, creator.dynamicForm.main)
+                        }
                     },
-                    // </sec:authorize>
-                    // <sec:authorize access="hasAuthority('D_' + entity')">
+
+
                     {
                         icon: "pieces/16/icon_delete.png",
                         title: '<spring:message code="global.form.remove"/>',
-                        click: creator.method.delete(grid)
+                        click: function() {
+                            // @ts-ignore
+                            creator.method.delete(creator.listGrid.main)
+                        }
                     },
-                    // </sec:authorize>
+
                     {
                         icon: "pieces/16/refresh.png",
                         title: '<spring:message code="global.form.refresh"/>',
-                        click: creator.method.refresh(grid)
+                        click: function() {
+                            // @ts-ignore
+                            creator.method.refresh(creator.listGrid.main)
+                        }
                     }
                 ]
             });
             // @ts-ignore
-            isc.Canvas.nicico.changeProperties(grid, "contextMenu", menu);
+            isc.Canvas.nicico.changeProperties(creator.listGrid.main, "contextMenu", creator.menu.main);
 
             // @ts-ignore
-            let toolStrip = isc.ToolStrip.create({
+            creator.toolStrip.main = isc.ToolStrip.create({
                 width: "100%",
                 members: [
-                    ,
-                    // <sec:authorize access="hasAuthority('C_' + entity)">
+
                     // @ts-ignore
                     isc.ToolStripButtonAdd.create({
-                        click: creator.method.newForm(dynamicForm),
-                        title: "<spring:message code='global.form.new'/>"
+                        title: "<spring:message code='global.form.new'/>",
+                        click: function() {
+                            // @ts-ignore
+                            creator.method.newForm("", creator.listGrid.main, creator.dynamicForm.main)
+                        }
                     }),
-                    // </sec:authorize>
-                    // <sec:authorize access="hasAuthority('U_' + entity)">
+
+
                     // @ts-ignore
                     isc.ToolStripButtonEdit.create({
                         icon: "[SKIN]/actions/edit.png",
                         title: "<spring:message code='global.form.edit'/>",
-                        click: creator.method.editForm(grid, dynamicForm)
+                        click: function() {
+                            // @ts-ignore
+                            creator.method.editForm("", creator.listGrid.main, creator.dynamicForm.main)
+                        }
                     }),
-                    // </sec:authorize>
-                    // <sec:authorize access="hasAuthority('D_' + entity)">
+
+
                     // @ts-ignore
                     isc.ToolStripButtonRemove.create({
                         icon: "[SKIN]/actions/remove.png",
                         title: "<spring:message code='global.form.remove'/>",
-                        click: creator.method.delete(grid)
+                        click: function() {
+                            // @ts-ignore
+                            creator.method.delete(creator.listGrid.main)
+                        }
                     }),
-                    // </sec:authorize>
+
 
                     isc.ToolStrip.create(
                         {
@@ -99,19 +122,27 @@ namespace nicico {
                             members: [
                                 // @ts-ignore
                                 isc.ToolStripButtonRefresh.create({
-                                    click: creator.method.refresh(grid),
-                                    title: "<spring:message code='global.form.refresh'/>"
+                                    title: "<spring:message code='global.form.refresh'/>",
+                                    click: function() {
+                                        // @ts-ignore
+                                        creator.method.refresh(creator.listGrid.main)
+                                    }
                                 })
                             ]
                         })
                 ]
             });
 
-            return isc.VLayout.create({
+            // @ts-ignore
+            creator.vLayout.main = isc.VLayout.create({
 
                 width: "100%",
-                members: [toolStrip, grid]
+                // @ts-ignore
+                members: [creator.toolStrip.main, creator.listGrid.main]
             });
+
+            // @ts-ignore
+            return creator.vLayout.main;
         }
     }
 

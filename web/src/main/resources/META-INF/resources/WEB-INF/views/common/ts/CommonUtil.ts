@@ -34,11 +34,6 @@ namespace nicico {
 
     export class CommonUtil {
 
-        static baseUrl: "${contextPath}}";
-        // @ts-ignore
-        static httpHeaders: BaseRPCRequest.httpHeaders;
-        static contentType: "application/json; charset=utf-8";
-
         constructor() {
 
             // @ts-ignore
@@ -93,10 +88,12 @@ namespace nicico {
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties: Partial<isc.ListGrid>, fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
 
-                let listGrid = isc.ListGrid.create(listGridProperties);
-                listGrid.fields = fields;
-                listGrid.dataSource = restDataSource;
-                return listGrid;
+                // @ts-ignore
+                return isc.ListGrid.create(Object.assign(listGridProperties, {
+                    fields: fields,
+                    dataSource: restDataSource
+
+                }));
             };
 
             // @ts-ignore
@@ -113,7 +110,7 @@ namespace nicico {
                 restDataSourceProperties.transformRequest = function (dsRequest) {
 
                     // @ts-ignore
-                    dsRequest.httpHeaders = httpHeaders;
+                    dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
                     return this.Super("transformRequest", arguments);
                 };
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
@@ -121,10 +118,11 @@ namespace nicico {
             // @ts-ignore
             isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties: Partial<isc.RestDataSource>, fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
 
-                let restDataSource = isc.RestDataSource.create(restDataSourceProperties);
-                restDataSource.fields = fields;
-                restDataSource.fetchDataURL = fetchDataUrl;
-                return restDataSource;
+                // @ts-ignore
+                return isc.RestDataSource.create(Object.assign(restDataSourceProperties, {
+                    fields: fields,
+                    fetchDataURL: fetchDataUrl
+                }));
             };
 
             // @ts-ignore
@@ -221,9 +219,10 @@ namespace nicico {
             // @ts-ignore
             isc.DynamicForm.nicico.createDynamicForm = function (dynamicFormProperties: Partial<isc.DynamicForm>, fields: Array<Partial<isc.FormItem>>): isc.DynamicForm {
 
-                let dynamicForm = isc.DynamicForm.create(dynamicFormProperties);
-                dynamicForm.fields = fields;
-                return dynamicForm;
+                // @ts-ignore
+                return isc.DynamicForm.create(Object.assign(dynamicFormProperties, {
+                    fields: fields
+                }));
             };
 
             // @ts-ignore

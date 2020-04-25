@@ -53,16 +53,17 @@
 <form action="logout" method="get" id="logoutForm">
 </form>
 
+<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+
 <script type="application/javascript">
 
     <%@include file="common/ts/CommonUtil.js"%>
-    <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/PersianDateUtil.js"%>
     <%@include file="common/ts/FormUtil.js"%>
     <%@include file="common/ts/FindFormUtil.js"%>
-    <%@include file="common/ts/BasicFormUtil.js"%>
+    <%@include file="common/ts/GeneralTabUtil.js"%>
 
-    BaseRPCRequest = {
+    var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
         contentType: "application/json; charset=utf-8",

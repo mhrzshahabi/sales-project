@@ -51,10 +51,11 @@ var nicico;
             };
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties, fields, restDataSource) {
-                var listGrid = isc.ListGrid.create(listGridProperties);
-                listGrid.fields = fields;
-                listGrid.dataSource = restDataSource;
-                return listGrid;
+                // @ts-ignore
+                return isc.ListGrid.create(Object.assign(listGridProperties, {
+                    fields: fields,
+                    dataSource: restDataSource
+                }));
             };
             // @ts-ignore
             isc.RestDataSource.nicico = {};
@@ -67,17 +68,18 @@ var nicico;
                 // @ts-ignore
                 restDataSourceProperties.transformRequest = function (dsRequest) {
                     // @ts-ignore
-                    dsRequest.httpHeaders = httpHeaders;
+                    dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
                     return this.Super("transformRequest", arguments);
                 };
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
             };
             // @ts-ignore
             isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties, fetchDataUrl, fields) {
-                var restDataSource = isc.RestDataSource.create(restDataSourceProperties);
-                restDataSource.fields = fields;
-                restDataSource.fetchDataURL = fetchDataUrl;
-                return restDataSource;
+                // @ts-ignore
+                return isc.RestDataSource.create(Object.assign(restDataSourceProperties, {
+                    fields: fields,
+                    fetchDataURL: fetchDataUrl
+                }));
             };
             // @ts-ignore
             isc.FormItem.nicico = {};
@@ -157,9 +159,10 @@ var nicico;
             };
             // @ts-ignore
             isc.DynamicForm.nicico.createDynamicForm = function (dynamicFormProperties, fields) {
-                var dynamicForm = isc.DynamicForm.create(dynamicFormProperties);
-                dynamicForm.fields = fields;
-                return dynamicForm;
+                // @ts-ignore
+                return isc.DynamicForm.create(Object.assign(dynamicFormProperties, {
+                    fields: fields
+                }));
             };
             // @ts-ignore
             isc.Window.nicico = {};

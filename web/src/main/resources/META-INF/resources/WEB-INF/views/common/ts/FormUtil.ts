@@ -77,7 +77,7 @@ namespace nicico {
                         This.owner.getObject().show();
                     This.okCallBack(data);
                 },
-                icon: "pieces/16/approve.png",
+                icon: "pieces/16/save.png",
                 title: '<spring:message code="global.ok" />'
             });
             return isc.HLayout.create({
