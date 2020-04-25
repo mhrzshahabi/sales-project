@@ -1,0 +1,34 @@
+package com.nicico.sales.model.entities.base;
+
+import com.nicico.sales.model.Auditable;
+import lombok.*;
+import lombok.experimental.Accessors;
+
+import javax.persistence.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
+@EqualsAndHashCode(of = {"id"}, callSuper = false)
+@Entity
+@Table(name = "TBL_PERCENT_PER_YEAR")
+public class PercentPerYear extends Auditable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PERCENT_PER_YEAR")
+    @SequenceGenerator(name = "SEQ_PERCENT_PER_YEAR", sequenceName = "SEQ_PERCENT_PER_YEAR", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
+
+    @Column(name = "YEAR")
+    private Long year;
+
+    @Column(name = "LEGAL_FEES")
+    private Double legalFees;
+
+    @Column(name = "VAT")
+    private Double vat;
+
+}
