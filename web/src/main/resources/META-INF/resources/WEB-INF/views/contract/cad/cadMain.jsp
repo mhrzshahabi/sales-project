@@ -247,7 +247,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
                 {
                     name: "material.descl",showTitle:"false",hidden: true,
-                    title: "Type material",
+                    title: "Material",
                     align: "center",canEdit: false
                 },
                 {

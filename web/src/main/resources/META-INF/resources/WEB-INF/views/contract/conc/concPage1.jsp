@@ -587,8 +587,8 @@ var vlayoutBodyConc = isc.VLayout.create({
                 title: '<b><font size=2px>(IN</font><b>',
                 valueMap: {
                     "0": "",
-                    "1": "SELLERS",
-                    "2": "BUYER"
+                    "1": "SELLER’S",
+                    "2": "BUYER’S"
                 },
                 changed: function (form, item, value) {
                     dynamicForm_fullArticle02.setValue(dynamicForm_fullArticle02.getValue()+" "+"(IN"+" "+article2Conc.getItem("optional").getDisplayValue(value)+" "+"OPTION) DURING");

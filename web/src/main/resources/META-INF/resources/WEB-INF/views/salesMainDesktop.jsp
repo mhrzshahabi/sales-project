@@ -173,7 +173,8 @@
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true,
-        formatCellValue: "isc.NumberUtil.format(value, ',0')"
+        formatCellValue: "isc.NumberUtil.format(value, ',0')",
+        canAutoFitFields: false
     });
 
     isc.ToolStripButton.addProperties({
@@ -679,13 +680,13 @@
                     }
 
                 },
-                {isSeparator: true},
+                /*{isSeparator: true},
                 {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
                     }
-                },
+                },*/
                 {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",

@@ -153,7 +153,6 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    keyPressFilter: "[a-z|A-Z|0-9.]",
                     titleColSpan: 1,
                     validators: [
                     {

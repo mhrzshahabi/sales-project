@@ -621,18 +621,6 @@
                     }]
                 },
                 {
-                    name: "email1",
-                    title: "<spring:message code='person.email1'/>",
-                    type: 'text',
-                    width: "10%"
-                },
-                {
-                    name: "email2",
-                    title: "<spring:message code='person.email2'/>",
-                    type: 'text',
-                    width: "10%"
-                },
-                {
                     name: "phoneNo",
                     title: "<spring:message code='person.phoneNo'/>",
                     type: 'text',
@@ -641,12 +629,6 @@
                 {
                     name: "mobileNo",
                     title: "<spring:message code='person.mobileNo'/>",
-                    type: 'text',
-                    width: "10%"
-                },
-                {
-                    name: "mobileNo1",
-                    title: "<spring:message code='person.mobileNo1'/>",
                     type: 'text',
                     width: "10%"
                 }],
@@ -1070,13 +1052,7 @@
                 name: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
-                required: true,
-                width: 400,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                width: 400
             },
             {
                 name: "person.id",
@@ -1282,16 +1258,10 @@
                 name: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
-                required: true,
                 width: "10%",
                 sortNormalizer: function (recordObject) {
                     return recordObject.groups.groupsName;
-                },
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                }
             },
             {
                 name: "person.id",
@@ -1360,24 +1330,6 @@
                 }]
             },
             {
-                name: "person.email1",
-                title: "<spring:message code='person.email1'/>",
-                type: 'text',
-                width: "10%",
-                sortNormalizer: function (recordObject) {
-                    return recordObject.person.email1;
-                }
-            },
-            {
-                name: "person.email2",
-                title: "<spring:message code='person.email2'/>",
-                type: 'text',
-                width: "10%",
-                sortNormalizer: function (recordObject) {
-                    return recordObject.person.email2;
-                }
-            },
-            {
                 name: "person.webAddress",
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
@@ -1393,24 +1345,6 @@
                 width: "10%",
                 sortNormalizer: function (recordObject) {
                     return recordObject.person.mobileNo;
-                }
-            },
-            {
-                name: "person.mobileNo1",
-                title: "<spring:message code='person.mobileNo1'/>",
-                type: 'text',
-                width: "10%",
-                sortNormalizer: function (recordObject) {
-                    return recordObject.person.mobileNo1;
-                }
-            },
-            {
-                name: "person.mobileNo2",
-                title: "<spring:message code='person.mobileNo2'/>",
-                type: 'text',
-                width: "10%",
-                sortNormalizer: function (recordObject) {
-                    return recordObject.person.mobileNo2;
                 }
             }
         ],
