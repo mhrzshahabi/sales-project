@@ -28,5 +28,4 @@ public interface IContractDetailService {
     TotalResponse<ContractDetailDTO.Info> search(NICICOCriteria criteria);
 
     TotalResponse<ContractDetailAuditDTO.Info> searchAudit(NICICOCriteria criteria);
-
 }

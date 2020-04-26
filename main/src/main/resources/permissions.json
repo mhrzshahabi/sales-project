@@ -864,6 +864,24 @@
     {
       "code": "D_WAREHOUSE_YARD",
       "title": "حذف یارد انبار"
+    },
+
+
+    {
+      "code": "R_TERM",
+      "title": "نمایش ترم"
+    },
+    {
+      "code": "C_TERM",
+      "title": "ایجاد ترم"
+    },
+    {
+      "code": "U_TERM",
+      "title": "به روز رسانی ترم"
+    },
+    {
+      "code": "D_TERM",
+      "title": "حذف ترم"
     }
 
   ]

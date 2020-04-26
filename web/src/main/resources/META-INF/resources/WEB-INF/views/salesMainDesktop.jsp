@@ -54,7 +54,30 @@
 <form action="logout" method="get" id="logoutForm">
 </form>
 
+<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+
 <script type="application/javascript">
+
+    <%@include file="common/ts/CommonUtil.js"%>
+    <%@include file="common/ts/PersianDateUtil.js"%>
+    <%@include file="common/ts/FormUtil.js"%>
+    <%@include file="common/ts/FindFormUtil.js"%>
+    <%@include file="common/ts/GeneralTabUtil.js"%>
+
+    var BaseRPCRequest = {
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        useSimpleHttp: true,
+        contentType: "application/json; charset=utf-8",
+        showPrompt: true,
+        serverOutputAsString: false,
+        willHandleError: false //centralized error handling
+    };
+
+    var salesCommonUtil = new nicico.CommonUtil();
+    var salesFormUtil = new nicico.FormUtil();
+    var salesFindFormUtil = new nicico.FindFormUtil();
+    var salesGeneralTabUtil = new nicico.GeneralTabUtil();
+
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.DynamicForm.addProperties({
@@ -110,15 +133,6 @@
         }
     });
 
-    BaseRPCRequest = {
-        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
-        useSimpleHttp: true,
-        contentType: "application/json; charset=utf-8",
-        showPrompt: true,
-        serverOutputAsString: false,
-        willHandleError: false //centralized error handling
-    };
-
     function redirectLogin() {
         location.href = "<spring:url value='/' />";
     }
@@ -134,9 +148,9 @@
             if (response.error == 'invalid_token')
                 isc.warn(response.data);
             console.log("Global RPCManager Error Handler: ", request, response);
-            if (response.httpResponseCode == 401) { // Unauthorized
+            /*if (response.httpResponseCode == 401) { // Unauthorized
                 redirectLogin();
-            } else if (response.httpResponseCode == 403) { // Forbidden
+            } else*/ if (response.httpResponseCode == 403) { // Forbidden
                 isc.say(JSON.parse(response.httpResponseText).exception);
             } else if (response.httpResponseCode == 500) {
                 isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 500");
@@ -144,20 +158,20 @@
                 isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 450");
             }
             const httpResponse = JSON.parse(response.httpResponseText);
-            switch (String(httpResponse.error)) {
-                case "Unauthorized":
+            switch (String(httpResponse.error).toUpperCase()) {
+                case "UNAUTHORIZED":
                     isc.warn("<spring:message code='exception.AccessDeniedException'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
-                case "DataIntegrityViolation_Unique":
+                case "DATAINTEGRITYVIOLATION_UNIQUE":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_Unique'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
-                case "DataIntegrityViolation_FK":
+                case "DATAINTEGRITYVIOLATION_FK":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
-                case "DataIntegrityViolation":
+                case "DATAINTEGRITYVIOLATION":
                     isc.warn("<spring:message code='exception.DataIntegrityViolation_FK'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
-                case "Forbidden":
+                case "FORBIDDEN":
                     isc.warn("<spring:message code='exception.ACCESS_DENIED'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
@@ -170,11 +184,19 @@
     isc.ListGrid.addProperties({
         dataPageSize: 50,
         showPrompt: true,
+        canAutoFitFields: false,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true,
         formatCellValue: "isc.NumberUtil.format(value, ',0')",
-        canAutoFitFields: false
+        sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
+        sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
+        configureSortText: '<spring:message code="global.grid.configureSortText" />',
+        autoFitAllText: '<spring:message code="global.grid.autoFitAllText" />',
+        autoFitFieldText: '<spring:message code="global.grid.autoFitFieldText" />',
+        filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
+        groupByText: '<spring:message code="global.grid.groupByText" />',
+        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />'
     });
 
     isc.ToolStripButton.addProperties({
@@ -203,17 +225,17 @@
             loadingMessage: " <spring:message code='global.loadingMessage'/>"
         });
 
-        isc.ViewLoader.addMethods({
-            handleError: function (rq, rs) {
-                console.log("Global ViewLoader Error: ", rq, rs);
-                if (rs.httpResponseCode == 403) { // Forbidden
-                    nicico.error("Access Denied");  //TODO: I18N message key
-                } else {
-                    redirectLogin();
-                }
-                return false;
-            }
-        });
+        // isc.ViewLoader.addMethods({
+        //     handleError: function (rq, rs) {
+        //         console.log("Global ViewLoader Error: ", rq, rs);
+        //         if (rs.httpResponseCode == 403) { // Forbidden
+        //             nicico.error("Access Denied");  //TODO: I18N message key
+        //         } else {
+        //             redirectLogin();
+        //         }
+        //         return false;
+        //     }
+        // });
 
         var flagTabExist = false;
 
@@ -612,8 +634,7 @@
                                 }
                             });
                             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        }
-                        else {
+                        } else {
                             createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
                         }
                     }
@@ -626,6 +647,15 @@
                     }
                 },
                 {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.term'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
                 /*{
                     title: "<spring:message code='charter.title'/>",
                     click: function () {
@@ -680,13 +710,13 @@
                     }
 
                 },
-                /*{isSeparator: true},
+                {isSeparator: true},
                 {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
                     }
-                },*/
+                },
                 {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",
@@ -774,8 +804,7 @@
                                 }
                             });
                             createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
-                        }
-                        else {
+                        } else {
                             createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
                         }
                     }
@@ -985,8 +1014,8 @@
         top: 100,
         left: 20,
         contents: "<div id=\"mybutton\">\n" +
-        "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
-        "</div>",
+            "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
+            "</div>",
         dynamicContents: true,
         click: function () {
             fillScreenWindow_Main.show();
