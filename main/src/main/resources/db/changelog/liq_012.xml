@@ -109,4 +109,28 @@
 
     </changeSet>
 
+    <changeSet author="MShahabi" id="1778899665544-025">
+        <createTable tableName="TBL_VESSEL">
+
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_VESSEL_PK"/>
+            </column>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="TYPE" type="VARCHAR2(100 CHAR)"/>
+            <column name="IMO" type="NUMBER(19, 0)"/>
+            <column name="YEAR_OF_BUILd" type="NUMBER(19, 0)"/>
+            <column name="LENGTH" type="FLOAT"/>
+            <column name="BEAM" type="FLOAT"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-026">
+        <createSequence sequenceName="SEQ_VESSEL"/>
+    </changeSet>
+
 </databaseChangeLog>
