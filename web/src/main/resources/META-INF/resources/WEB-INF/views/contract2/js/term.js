@@ -29,7 +29,8 @@ termTab.dynamicForm.fields = [{
     width: "100%",
     type: "textArea",
     name: "description",
-    title: "<spring:message code='global.description'/>"
+    title: "<spring:message code='global.description'/>",
+    requiredMessage: "<spring:message code='validator.field.is.required'/>"
 }];
 Object.assign(termTab.listGrid.fields, termTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(termTab, "api/term/");

@@ -166,6 +166,8 @@ namespace nicico {
                 formItemProperties.selectOnFocus = true;
                 formItemProperties.shouldSaveValue = true;
 
+                // @ts-ignore
+                formItemProperties.showInlineErrors = true;
                 formItemProperties.stopOnError = true;
                 formItemProperties.showErrorIcon = true;
                 formItemProperties.showErrorText = true;
@@ -205,6 +207,8 @@ namespace nicico {
                 dynamicFormProperties.canSubmit = true;
                 dynamicFormProperties.wrapItemTitles = false;
 
+                // @ts-ignore
+                dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.stopOnError = true;
                 dynamicFormProperties.showErrorText = true;
                 dynamicFormProperties.showErrorIcons = true;
@@ -212,7 +216,7 @@ namespace nicico {
                 dynamicFormProperties.validateOnExit = true;
                 dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.errorOrientation = "bottom";
-                dynamicFormProperties.requiredMessage = "<spring=message code='validator.field.is.required'/>";
+                dynamicFormProperties.requiredMessage = '<spring:message code="validator.field.is.required"/>';
 
                 return this.createDynamicForm(dynamicFormProperties, fields);
             };
