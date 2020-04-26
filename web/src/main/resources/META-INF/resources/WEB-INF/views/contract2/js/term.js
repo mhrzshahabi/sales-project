@@ -1,4 +1,4 @@
-var termTab = salesGeneralTabUtil.getDefaultJSPTabVariable();
+var termTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 termTab.dynamicForm.fields = [{
     hidden: true,
     primaryKey: true,
@@ -31,6 +31,6 @@ termTab.dynamicForm.fields = [{
     name: "description",
     title: "<spring:message code='global.description'/>"
 }];
-termTab.listGrid.fields = [...termTab.dynamicForm.fields];
+Object.assign(termTab.listGrid.fields, termTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(termTab, "api/term/");
 termTab.dynamicForm.main.windowWidth = 500;

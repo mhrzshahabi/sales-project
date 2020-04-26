@@ -73,9 +73,7 @@
     };
 
     var salesCommonUtil = new nicico.CommonUtil();
-    var salesFormUtil = new nicico.FormUtil();
-    var salesFindFormUtil = new nicico.FindFormUtil();
-    var salesGeneralTabUtil = new nicico.GeneralTabUtil();
+    var salesCommonUtil = new nicico.PersianDateUtil();
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
