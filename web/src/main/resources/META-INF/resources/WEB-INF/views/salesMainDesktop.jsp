@@ -1011,6 +1011,52 @@
     });
     /*Help*/
 
+    isc.FilterBuilder.addProperties({
+
+        getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
+
+            if (this.dataSource == null)
+                return {name: fieldName, type: type, filterOperator: operatorId};
+
+            const field = this.dataSource.getField(fieldName);
+            if (field == null || (field.editorType !== "SelectItem" && field.editorType !== "ComboBoxItem"))
+                return {name: fieldName, type: type, filterOperator: operatorId};
+
+            return {
+                required: true,
+                autoFetchData: false,
+                showFilterEditor: true,
+                multiple: field.multiple,
+                editorType: field.editorType,
+                valueField: field.valueField,
+                displayField: field.displayField,
+                optionDataSource: field.dataSource,
+                pickListFields: [
+                    {
+                        title: '<spring:message code="global.id"/>',
+                        hidden: true,
+                        type: "number",
+                        name: field.valueField
+                    }, {
+                        title: '<spring:message code="global.title"/>',
+                        align: "left",
+                        type: "string",
+                        showHover: true,
+                        hoverWidth: "30%",
+                        name: field.displayField,
+                        hoverHTML: record => record[field.displayField],
+                    }
+                ],
+                pickListProperties: {
+
+                    sortField: 1,
+                    showFilterEditor: true,
+                    sortDirection: "descending"
+                }
+            };
+        }
+    });
+
 </script>
 </body>
 </html>
