@@ -310,8 +310,8 @@ public class ContractService implements IContractService {
         run.setText(dataALLArticle);
         doc.write(os);
         printdoc.write(printOs);
-        Process process = Runtime.getRuntime().exec("doc2pdf /contract/"+ prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".docx");
-        log.info(String.valueOf(process.waitFor()));
+//        Process process = Runtime.getRuntime().exec("doc2pdf /contract/"+ prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".docx");
+//        log.info(String.valueOf(process.waitFor()));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

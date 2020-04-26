@@ -447,27 +447,31 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
     var dynamicForm_article9Conc = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle9_conc",
         height: "20",
+        width: "100%",
         wrapItemTitles: false,
         items: [
             {
                 name: "TC",
                 showTitle: true,
-                title: "What is the value of TC",
+                title: "<strong class='cssDynamicForm'>What is the value of TC</strong>",
                 startRow: true,
                 width: "100",
-                keyPressFilter: "[0-9.]"
+                keyPressFilter: "[0-9.]",
+                wrap: false
             },
             {
                 name: "RC",
                 showTitle: true,
-                title: "What is the value of RC",
+                title: "<strong class='cssDynamicForm'>What is the value of RC</strong>",
                 startRow: true,
                 width: "100",
                 keyPressFilter: "[0-9.]",
-                textAlign: "left"
-            },
+                textAlign: "left",
+                wrap: false
+            }
         ]
-    })
+    });
+
     var dynamicForm_fullArticleConc09 = isc.RichTextEditor.create({
         valuesManager: "valuesManagerfullArticle",
         autoDraw: true,
@@ -674,7 +678,7 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
             lableArticle8,
             dynamicForm_fullArticleConc08,
             lableArticle9,
-            isc.HLayout.create({align: "left", members: [lableArticleNull, dynamicForm_article9Conc]}),
+            isc.HLayout.create({align: "left", members: [dynamicForm_article9Conc]}),
             dynamicForm_fullArticleConc09,
             lableArticle10,
             article10_qualityConc,

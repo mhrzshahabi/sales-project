@@ -485,7 +485,10 @@
                     name: "country.nameFa",
                     title: "<spring:message code='country'/>",
                     width: "50%",
-                    align: "center"
+                    align: "center",
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.country.nameFa
+                    }
                 }],
             autoFetchData: true
         });

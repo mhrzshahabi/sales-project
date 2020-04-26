@@ -326,7 +326,7 @@
                             {name: "id", primaryKey: true, canEdit: false, hidden: true},
                            {
                             name: "material.descl",showTitle:"false",
-                            title: "Type material",
+                            title: "Material",
                             hidden: false,
                             align: "center",hidden: true
                             },

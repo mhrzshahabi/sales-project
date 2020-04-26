@@ -769,18 +769,6 @@
                         }]
                 },
                 {
-                    name: "email1",
-                    title: "<spring:message code='person.email1'/>",
-                    type: 'text',
-                    width: "10%",
-                },
-                {
-                    name: "email2",
-                    title: "<spring:message code='person.email2'/>",
-                    type: 'text',
-                    width: 150
-                },
-                {
                     name: "webAddress",
                     title: "<spring:message code='person.webAddress'/>",
                     type: 'text',
@@ -801,18 +789,6 @@
                 {
                     name: "mobileNo",
                     title: "<spring:message code='person.mobileNo'/>",
-                    type: 'text',
-                    width: "10%",
-                },
-                {
-                    name: "mobileNo1",
-                    title: "<spring:message code='person.mobileNo1'/>",
-                    type: 'text',
-                    width: "10%",
-                },
-                {
-                    name: "mobileNo2",
-                    title: "<spring:message code='person.mobileNo2'/>",
                     type: 'text',
                     width: "10%",
                 },
