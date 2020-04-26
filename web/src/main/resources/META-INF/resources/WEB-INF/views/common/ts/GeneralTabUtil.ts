@@ -316,6 +316,10 @@ namespace nicico {
                 if (rpcRequest.httpMethod == null) rpcRequest.httpMethod = This.variable.method;
                 if (rpcRequest.httpHeaders == null) rpcRequest.httpHeaders = This.variable.httpHeaders;
                 if (rpcRequest.contentType == null) rpcRequest.contentType = This.variable.contentType;
+                if (rpcRequest.useSimpleHttp == null) rpcRequest.useSimpleHttp = true;
+                if (rpcRequest.showPrompt == null) rpcRequest.showPrompt = true;
+                if (rpcRequest.serverOutputAsString == null) rpcRequest.serverOutputAsString = false;
+                if (rpcRequest.willHandleError == null) rpcRequest.willHandleError = false;
 
                 isc.RPCManager.sendRequest(rpcRequest);
             };
@@ -413,8 +417,8 @@ namespace nicico {
                 let url = This.variable.url + (This.variable.method.toUpperCase() == "POST" ? "" : data["id"]);
 
                 let rpcRequest = <isc.RPCRequest>{};
-                rpcRequest.data = data;
                 rpcRequest.actionURL = url;
+                rpcRequest.data = JSON.stringify(data);
                 This.method.jsonRPCManagerRequest(rpcRequest, (response) => {
                     var win = form.getParentElements().last();
                     This.method.refresh(grid);
