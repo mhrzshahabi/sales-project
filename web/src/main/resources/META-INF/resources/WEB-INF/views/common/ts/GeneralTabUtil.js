@@ -231,7 +231,11 @@ var nicico;
                 formUtil.okCallBack = function (data) {
                     This.method.saveForm(grid, form);
                 };
-                formUtil.showForm(null, title, form);
+                // @ts-ignore
+                var width = form.windowWidth == null ? "50%" : form.windowWidth;
+                // @ts-ignore
+                var height = form.windowHeight;
+                formUtil.showForm(null, title, form, width, height);
                 form.show();
                 if (newActionHook != null)
                     newActionHook();
@@ -252,7 +256,11 @@ var nicico;
                     formUtil.okCallBack = function (data) {
                         This.method.saveForm(grid, form);
                     };
-                    formUtil.showForm(null, title, form);
+                    // @ts-ignore
+                    var width = form.windowWidth == null ? "50%" : form.windowWidth;
+                    // @ts-ignore
+                    var height = form.windowHeight;
+                    formUtil.showForm(null, title, form, width, height);
                     form.show();
                     if (editActionHook != null)
                         editActionHook(record);
@@ -294,15 +302,15 @@ var nicico;
                 var data = form.getValues();
                 if (getDataActionHook != null)
                     data = getDataActionHook(form, data);
-                var url = This.variable.url + (This.variable.method.toUpperCase() == "POST" ? "" : data["id"]);
                 var rpcRequest = {};
-                rpcRequest.actionURL = url;
+                rpcRequest.actionURL = This.variable.url;
                 rpcRequest.data = JSON.stringify(data);
                 This.method.jsonRPCManagerRequest(rpcRequest, function (response) {
                     var win = form.getParentElements().last();
                     This.method.refresh(grid);
                     win.close();
-                    saveActionHook(response);
+                    if (saveActionHook != null)
+                        saveActionHook(response);
                 }, errorActionHook);
             };
             This.dialog = {

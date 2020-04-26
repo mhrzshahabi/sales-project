@@ -228,12 +228,13 @@ namespace nicico {
             // @ts-ignore
             isc.Window.nicico = {};
             // @ts-ignore
-            isc.Window.nicico.getDefault = function (title: string, items: Array<isc.Canvas>, id?: string): isc.Window {
+            isc.Window.nicico.getDefault = function (title: string, items: Array<isc.Canvas>, width: string = null, height: string = null, id?: string): isc.Window {
 
                 return isc.Window.create({
 
                     ID: id,
-                    width: "70%",
+                    width: width == null ? "70%" : width,
+                    height: height,
                     align: "center",
                     isModal: true,
                     autoSize: true,
@@ -292,7 +293,7 @@ namespace nicico {
             // @ts-ignore
             isc.FacetChart.nicico.showChart = function (ownerWindow: isc.Window, title: string, chart: isc.FacetChart) {
 
-                var windowWidget = isc.Window.create({
+                let windowWidget = isc.Window.create({
 
                     title: title,
                     width: "50%",

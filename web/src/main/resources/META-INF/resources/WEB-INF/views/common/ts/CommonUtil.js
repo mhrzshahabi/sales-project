@@ -167,10 +167,13 @@ var nicico;
             // @ts-ignore
             isc.Window.nicico = {};
             // @ts-ignore
-            isc.Window.nicico.getDefault = function (title, items, id) {
+            isc.Window.nicico.getDefault = function (title, items, width, height, id) {
+                if (width === void 0) { width = null; }
+                if (height === void 0) { height = null; }
                 return isc.Window.create({
                     ID: id,
-                    width: "70%",
+                    width: width == null ? "70%" : width,
+                    height: height,
                     align: "center",
                     isModal: true,
                     autoSize: true,
