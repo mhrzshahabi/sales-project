@@ -26,6 +26,7 @@ var nicico;
             creator.menu.main = isc.Menu.create({
                 width: 150,
                 data: [
+                    // <c:if test = "${c_entity}">
                     {
                         icon: "pieces/16/icon_add.png",
                         title: '<spring:message code="global.form.new"/>',
@@ -34,6 +35,8 @@ var nicico;
                             creator.method.newForm("", creator.listGrid.main, creator.dynamicForm.main);
                         }
                     },
+                    // </c:if>
+                    // <c:if test = "${u_entity}">
                     {
                         icon: "pieces/16/icon_edit.png",
                         title: "<spring:message code='global.form.edit'/>",
@@ -42,6 +45,8 @@ var nicico;
                             creator.method.editForm("", creator.listGrid.main, creator.dynamicForm.main);
                         }
                     },
+                    // </c:if>
+                    // <c:if test = "${d_entity}">
                     {
                         icon: "pieces/16/icon_delete.png",
                         title: '<spring:message code="global.form.remove"/>',
@@ -50,6 +55,7 @@ var nicico;
                             creator.method.delete(creator.listGrid.main);
                         }
                     },
+                    // </c:if>
                     {
                         icon: "pieces/16/refresh.png",
                         title: '<spring:message code="global.form.refresh"/>',
@@ -66,6 +72,7 @@ var nicico;
             creator.toolStrip.main = isc.ToolStrip.create({
                 width: "100%",
                 members: [
+                    // <c:if test = "${c_entity}">
                     // @ts-ignore
                     isc.ToolStripButtonAdd.create({
                         title: "<spring:message code='global.form.new'/>",
@@ -74,6 +81,8 @@ var nicico;
                             creator.method.newForm("", creator.listGrid.main, creator.dynamicForm.main);
                         }
                     }),
+                    // </c:if>
+                    // <c:if test = "${u_entity}">
                     // @ts-ignore
                     isc.ToolStripButtonEdit.create({
                         icon: "[SKIN]/actions/edit.png",
@@ -83,6 +92,8 @@ var nicico;
                             creator.method.editForm("", creator.listGrid.main, creator.dynamicForm.main);
                         }
                     }),
+                    // </c:if>
+                    // <c:if test = "${d_entity}">
                     // @ts-ignore
                     isc.ToolStripButtonRemove.create({
                         icon: "[SKIN]/actions/remove.png",
@@ -92,6 +103,7 @@ var nicico;
                             creator.method.delete(creator.listGrid.main);
                         }
                     }),
+                    // </c:if>
                     isc.ToolStrip.create({
                         width: "100%",
                         align: "left",

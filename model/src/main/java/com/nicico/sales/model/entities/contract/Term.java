@@ -26,7 +26,6 @@ public class Term extends BaseEntity {
     @Column(name = "C_TITLE", nullable = false, length = 200)
     private String title;
 
-    @NotNull
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
 }

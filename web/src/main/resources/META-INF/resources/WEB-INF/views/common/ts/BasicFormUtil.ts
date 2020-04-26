@@ -29,10 +29,6 @@ namespace nicico {
             // @ts-ignore
             creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
 
-            console.log("c_entity", "${c_entity}");
-            console.log("u_entity", "${u_entity}");
-            console.log("d_entity", "${d_entity}");
-
             // @ts-ignore
             creator.menu.main = isc.Menu.create({
 

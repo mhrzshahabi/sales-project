@@ -20,12 +20,12 @@ public class BaseEntity extends Auditable {
 
     @NotNull
     @Builder.Default
-    @Column(name = "B_EDITABLE", nullable = false, columnDefinition = "number default 0")
-    private Boolean editable;
+    @Column(name = "B_EDITABLE", nullable = false, columnDefinition = "number default 1")
+    private Boolean editable = true;
 
     @NotNull
     @Builder.Default
     @Column(name = "N_E_STATUS", nullable = false, columnDefinition = "number default 1")
     @SuppressWarnings("JpaAttributeTypeInspection")
-    private EnumSet<EStatus> eStatus;
+    private EnumSet<EStatus> eStatus = EnumSet.of(EStatus.Active);
 }

@@ -205,6 +205,14 @@ var nicico;
                     rpcRequest.httpHeaders = This.variable.httpHeaders;
                 if (rpcRequest.contentType == null)
                     rpcRequest.contentType = This.variable.contentType;
+                if (rpcRequest.useSimpleHttp == null)
+                    rpcRequest.useSimpleHttp = true;
+                if (rpcRequest.showPrompt == null)
+                    rpcRequest.showPrompt = true;
+                if (rpcRequest.serverOutputAsString == null)
+                    rpcRequest.serverOutputAsString = false;
+                if (rpcRequest.willHandleError == null)
+                    rpcRequest.willHandleError = false;
                 isc.RPCManager.sendRequest(rpcRequest);
             };
             This.method.refresh = function (grid, refreshActionHook) {
@@ -288,8 +296,8 @@ var nicico;
                     data = getDataActionHook(form, data);
                 var url = This.variable.url + (This.variable.method.toUpperCase() == "POST" ? "" : data["id"]);
                 var rpcRequest = {};
-                rpcRequest.data = data;
                 rpcRequest.actionURL = url;
+                rpcRequest.data = JSON.stringify(data);
                 This.method.jsonRPCManagerRequest(rpcRequest, function (response) {
                     var win = form.getParentElements().last();
                     This.method.refresh(grid);
