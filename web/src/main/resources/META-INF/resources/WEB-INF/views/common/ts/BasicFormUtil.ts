@@ -28,19 +28,34 @@ namespace nicico {
             creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields);
             // @ts-ignore
             creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+            // <c:if test = "${u_entity}">
+            // @ts-ignore
+            creator.listGrid.main.recordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                // @ts-ignore
+                creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
+            }
+            // </c:if>
 
             // @ts-ignore
             creator.menu.main = isc.Menu.create({
 
                 width: 150,
                 data: [
+                    {
+                        icon: "pieces/16/refresh.png",
+                        title: '<spring:message code="global.form.refresh"/>',
+                        click: function() {
+                            // @ts-ignore
+                            creator.method.refresh(creator.listGrid.main)
+                        }
+                    },
                     // <c:if test = "${c_entity}">
                     {
                         icon: "pieces/16/icon_add.png",
                         title: '<spring:message code="global.form.new"/>',
                         click: function() {
                             // @ts-ignore
-                            creator.method.newForm("", creator.listGrid.main, creator.dynamicForm.main)
+                            creator.method.newForm('<spring:message code="global.form.new"/>', creator.listGrid.main, creator.dynamicForm.main)
                         }
                     },
                     // </c:if>
@@ -50,7 +65,7 @@ namespace nicico {
                         title: "<spring:message code='global.form.edit'/>",
                         click: function() {
                             // @ts-ignore
-                            creator.method.editForm("", creator.listGrid.main, creator.dynamicForm.main)
+                            creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
                         }
                     },
                     // </c:if>
@@ -62,16 +77,8 @@ namespace nicico {
                             // @ts-ignore
                             creator.method.delete(creator.listGrid.main)
                         }
-                    },
-                    // </c:if>
-                    {
-                        icon: "pieces/16/refresh.png",
-                        title: '<spring:message code="global.form.refresh"/>',
-                        click: function() {
-                            // @ts-ignore
-                            creator.method.refresh(creator.listGrid.main)
-                        }
                     }
+                    // </c:if>
                 ]
             });
             // @ts-ignore
@@ -88,7 +95,7 @@ namespace nicico {
                         title: "<spring:message code='global.form.new'/>",
                         click: function() {
                             // @ts-ignore
-                            creator.method.newForm("", creator.listGrid.main, creator.dynamicForm.main)
+                            creator.method.newForm('<spring:message code="global.form.new"/>', creator.listGrid.main, creator.dynamicForm.main)
                         }
                     }),
                     // </c:if>
@@ -99,7 +106,7 @@ namespace nicico {
                         title: "<spring:message code='global.form.edit'/>",
                         click: function() {
                             // @ts-ignore
-                            creator.method.editForm("", creator.listGrid.main, creator.dynamicForm.main)
+                            creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
                         }
                     }),
                     // </c:if>
