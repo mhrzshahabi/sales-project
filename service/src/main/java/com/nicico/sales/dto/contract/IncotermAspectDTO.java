@@ -39,7 +39,7 @@ public class IncotermAspectDTO {
 
         // BaseEntity
         private Boolean editable;
-        private EnumSet<EStatus> eStatus;
+        private List<EStatus> eStatus;
     }
 
     @Getter
