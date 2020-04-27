@@ -581,19 +581,81 @@
                         createTab("<spring:message code='instruction.title'/>", "<spring:url value="/instruction/showForm" />")
                     }
                 },
+
+
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT')">
                 {isSeparator: true},
-
                 {
-                    showIf: "false",
-                    title: "<spring:message code='commercialIncoterms.title'/>",
+                    title: "<spring:message code='contract.title'/>",
                     click: function () {
-                        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")
+                        createTab("<spring:message code='contract.title'/>", "<spring:url value="/contract2/show-form" />")
                     }
-                }
-
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT_TYPE')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='contract-type.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='contract-type.title'/>", "<spring:url value="/contract-type/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT_DETAIL_TYPE')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='contract-detail-type.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='contract-detail-type.title'/>", "<spring:url value="/contract-detail-type/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='incoterm.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='incoterm.title'/>", "<spring:url value="/incoterm/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_ASPECT')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='incoterm-aspect.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='incoterm-aspect.title'/>", "<spring:url value="/incoterm-aspect/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_STEP')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='incoterm-step.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='incoterm-step.title'/>", "<spring:url value="/incoterm-step/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_RULE')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='incoterm-rule.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='incoterm-rule.title'/>", "<spring:url value="/incoterm-rule/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_TERM')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='term.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='term.title'/>", "<spring:url value="/term/show-form" />")
+                    }
+                },
+                </sec:authorize>
             ]
-
-
         }),
     });
 

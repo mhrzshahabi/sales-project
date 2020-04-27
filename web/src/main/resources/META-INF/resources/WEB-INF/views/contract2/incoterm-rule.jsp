@@ -4,4 +4,4 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@include file="../common/ts/BasicFormUtil.js"%>
-<%@include file="js/term.js"%>
+<%@include file="js/incoterm-rule.js"%>

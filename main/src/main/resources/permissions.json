@@ -867,6 +867,109 @@
     },
 
 
+
+    {
+      "code": "R_CONTRACT_TYPE",
+      "title": "نمایش نوع قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_TYPE",
+      "title": "ایجاد نوع قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_TYPE",
+      "title": "به روز رسانی نوع قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_TYPE",
+      "title": "حذف نوع قرارداد"
+    },
+    
+    {
+      "code": "R_CONTRACT_DETAIL_TYPE",
+      "title": "نمایش نوع جزییات قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DETAIL_TYPE",
+      "title": "ایجاد نوع جزییات قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DETAIL_TYPE",
+      "title": "به روز رسانی نوع جزییات قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DETAIL_TYPE",
+      "title": "حذف نوع جزییات قرارداد"
+    },
+    
+    {
+      "code": "R_INCOTERM",
+      "title": "نمایش اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM",
+      "title": "ایجاد اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM",
+      "title": "به روز رسانی اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM",
+      "title": "حذف اینکوترم"
+    },
+    
+    {
+      "code": "R_INCOTERM_ASPECT",
+      "title": "نمایش نوع اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_ASPECT",
+      "title": "ایجاد نوع اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_ASPECT",
+      "title": "به روز رسانی نوع اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_ASPECT",
+      "title": "حذف نوع اینکوترم"
+    },
+    
+    {
+      "code": "R_INCOTERM_STEP",
+      "title": "نمایش گام اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_STEP",
+      "title": "ایجاد گام اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_STEP",
+      "title": "به روز رسانی گام اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_STEP",
+      "title": "حذف گام اینکوترم"
+    },
+    
+    {
+      "code": "R_INCOTERM_RULE",
+      "title": "نمایش مد اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_RULE",
+      "title": "ایجاد مد اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_RULE",
+      "title": "به روز رسانی مد اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_RULE",
+      "title": "حذف مد اینکوترم"
+    },
+    
     {
       "code": "R_TERM",
       "title": "نمایش ترم"
