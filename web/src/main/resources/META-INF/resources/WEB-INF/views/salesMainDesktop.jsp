@@ -468,6 +468,11 @@
                             click: function () {
                                 createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
                             }
+                        }, {
+                            title: "vessel",
+                            click: function () {
+                                createTab("vessel", "<spring:url value="/vessel/showForm" />")
+                            }
                         },
 
                         {isSeparator: true},

@@ -882,6 +882,21 @@
     {
       "code": "D_TERM",
       "title": "حذف ترم"
+    },{
+      "code": "R_VESSEL",
+      "title": "نمایش کشتی"
+    },
+    {
+      "code": "C_VESSEL",
+      "title": "ایجاد کشتی"
+    },
+    {
+      "code": "U_VESSEL",
+      "title": "به روز رسانی کشتی"
+    },
+    {
+      "code": "D_VESSEL",
+      "title": "حذف کشتی"
     }
 
   ]

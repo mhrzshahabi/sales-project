@@ -125,7 +125,6 @@
             <column name="YEAR_OF_BUILd" type="NUMBER(19, 0)"/>
             <column name="LENGTH" type="FLOAT"/>
             <column name="BEAM" type="FLOAT"/>
-
         </createTable>
     </changeSet>
 
@@ -133,4 +132,16 @@
         <createSequence sequenceName="SEQ_VESSEL"/>
     </changeSet>
 
+    <changeSet author="programmer (generated)" id="1778899665544-031">
+        <addColumn tableName="TBL_VESSEL">
+        <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+            <constraints nullable="false"/>
+        </column>
+        </addColumn>
+        <addColumn tableName="TBL_VESSEL">
+        <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
+            <constraints nullable="false"/>
+        </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
