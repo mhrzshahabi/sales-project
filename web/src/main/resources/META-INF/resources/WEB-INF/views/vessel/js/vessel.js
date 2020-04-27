@@ -8,23 +8,23 @@ vesselTab.dynamicForm.fields = [{
 },{
     width: "10%",
     name: "type",
-    title: "type"
+    title: "<spring:message code='vessel.type'/>"
 }, {
     width: "10%",
     name: "imo",
-    title: "imo"
+    title: "<spring:message code='vessel.imo'/>"
 }, {
     width: "10%",
     name: "yearOfBuild",
-    title: "yearOfBuild"
+    title: "<spring:message code='vessel.year.of.build'/>"
 }, {
     width: "10%",
     name: "length",
-    title: "length",
+    title: "<spring:message code='vessel.length'/>"
 },{
     width: "10%",
     name: "beam",
-    title: "beam",
+    title: "<spring:message code='vessel.beam'/>"
 }];
 Object.assign(vesselTab.listGrid.fields, vesselTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(vesselTab, "api/vessel/");

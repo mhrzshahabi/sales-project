@@ -469,9 +469,9 @@
                                 createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
                             }
                         }, {
-                            title: "vessel",
+                            title: "<spring:message code='vessel.title'/>",
                             click: function () {
-                                createTab("vessel", "<spring:url value="/vessel/showForm" />")
+                                createTab("<spring:message code='vessel.title'/>", "<spring:url value="/vessel/showForm" />")
                             }
                         },
 
