@@ -16,7 +16,6 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class AuthorizationUtil {
 
-    private final SecurityChecker securityChecker;
     private final ResourceBundleMessageSource messageSource;
 
     public String getStandardPermissionKey(String entityName, String actionTypeStr) {
@@ -65,6 +64,6 @@ public class AuthorizationUtil {
         if (permissionKey == null) return false;
         if (permissionKey.matches("^[a-zA-Z0-9_]+$")) SecurityUtil.hasAuthority(permissionKey);
 
-        return securityChecker.check(permissionKey);
+        return SecurityChecker.check(permissionKey);
     }
 }
