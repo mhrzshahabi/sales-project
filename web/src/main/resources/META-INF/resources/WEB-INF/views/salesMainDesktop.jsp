@@ -72,8 +72,31 @@
         willHandleError: false //centralized error handling
     };
 
+    var BaseFormItems = [{
+        hidden: true,
+        primaryKey: true,
+        name: "id",
+        type: "number",
+        title: "<spring:message code='global.id'/>"
+    }, {
+        hidden: true,
+        name: "version",
+        type: "number",
+        title: "<spring:message code='global.version'/>"
+    }, {
+        hidden: true,
+        name: "editable",
+        type: "boolean",
+        title: "<spring:message code='global.editable'/>"
+    }, {
+        hidden: true,
+        name: "eStatus",
+        type: "number",
+        title: "<spring:message code='global.e-status'/>"
+    }];
+
     var salesCommonUtil = new nicico.CommonUtil();
-    var salesCommonUtil = new nicico.PersianDateUtil();
+    var salesPersianDateUtil = new nicico.PersianDateUtil();
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 

@@ -1,26 +1,5 @@
 var termTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-termTab.dynamicForm.fields = [{
-    hidden: true,
-    primaryKey: true,
-    name: "id",
-    type: "number",
-    title: "<spring:message code='global.id'/>"
-}, {
-    hidden: true,
-    name: "version",
-    type: "number",
-    title: "<spring:message code='global.version'/>"
-}, {
-    hidden: true,
-    name: "editable",
-    type: "boolean",
-    title: "<spring:message code='global.editable'/>"
-}, {
-    hidden: true,
-    name: "eStatus",
-    type: "number",
-    title: "<spring:message code='global.e-status'/>"
-}, {
+termTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
     required: true,
     name: "title",
@@ -31,7 +10,7 @@ termTab.dynamicForm.fields = [{
     name: "description",
     title: "<spring:message code='global.description'/>",
     requiredMessage: "<spring:message code='validator.field.is.required'/>"
-}];
+}]);
 Object.assign(termTab.listGrid.fields, termTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(termTab, "api/term/");
 termTab.dynamicForm.main.windowWidth = 500;
