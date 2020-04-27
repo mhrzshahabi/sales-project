@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/contract2")
-public class ContractFormController {
+public class ContractFormController2 {
 
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) {
