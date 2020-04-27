@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb (generated)" id="1587971310555-224">
+        <createSequence sequenceName="SEQ_WARH_ITEM"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1587971310555-257">
+        <addForeignKeyConstraint baseColumnNames="F_DEFAULT_UNIT_ID" baseTableName="TBL_WARH_ITEM" constraintName="fk_item2unitByunitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1587971310555-261">
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_REMITTANCE" constraintName="fk_remittance2itemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM" validate="true"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1587971310555-238">
+        <createTable tableName="TBL_WARH_ITEM">
+            <column name="id" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_WARH_ITEMPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_DESCRIPTION" type="VARCHAR2(1500 CHAR)"/>
+            <column name="B_IS_BULK" type="NUMBER(1, 0)"/>
+            <column name="C_NAME" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_NAME_EN" type="VARCHAR2(255 CHAR)"/>
+            <column name="F_DEFAULT_UNIT_ID" type="NUMBER(19, 0)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

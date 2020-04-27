@@ -1,17 +1,14 @@
 package com.nicico.sales.model.entities.warehouse;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
@@ -19,27 +16,10 @@ import java.io.Serializable;
 @Entity
 @Immutable
 @Subselect("select * from n_master.V_TOZINE_CONTENT_M")
-@IdClass(Tozin.TozinId.class)
+//@IdClass(Tozin.TozinId.class)
 public class Tozin {
-
-    @Id
-    @Column(name = "SOURCEE")
-    private String source;
-    @Id
-    @Column(name = "TOZINE_ID")
-    private String tozinId;
-    @Id
-    @Column(name = "GDSNAME")
-    private String nameKala;
-    @Id
-    @Column(name = "GDSCODE")
-    private Long codeKala;
-    @Id
-    @Column(name = "TARGET")
-    private String target;
-    @Id
-    @Column(name = "CARD_ID")
-    private String cardId;
+    @EmbeddedId
+    private com.nicico.sales.model.entities.warehouse.TozinId Id;
     @Column(name = "PLAK")
     private String plak;
     @Column(name = "CARNAME")
@@ -101,13 +81,13 @@ public class Tozin {
     @Column(name = "TZN_SHARH1")
     private String tznSharh1;
 
-    @EqualsAndHashCode(callSuper = false)
-    public static class TozinId implements Serializable {
-        private String source;
-        private String tozinId;
-        private String nameKala;
-        private Long codeKala;
-        private String target;
-        private String cardId;
-    }
+//    @EqualsAndHashCode(callSuper = false)
+//    public static class TozinId implements Serializable {
+//        private String source;
+//        private String tozinId;
+//        private String nameKala;
+//        private Long codeKala;
+//        private String target;
+//        private String cardId;
+//    }
 }

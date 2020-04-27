@@ -21,8 +21,8 @@ import javax.validation.constraints.NotNull;
 public class RemittanceDetailRawMaterialValue extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_INVENTORY_RAW_MATERIAL_VALUE")
-    @SequenceGenerator(name = "SEQ_WARH_INVENTORY_RAW_MATERIAL_VALUE", sequenceName = "SEQ_WARH_INVENTORY_RAW_MATERIAL_VALUE", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE")
+    @SequenceGenerator(name = "SEQ_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE", sequenceName = "SEQ_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE", allocationSize = 1)
     private Long id;
 
     @NotEmpty

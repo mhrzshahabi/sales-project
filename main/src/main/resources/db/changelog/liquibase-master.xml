@@ -19,4 +19,17 @@
 	<include file="classpath:/db/changelog/liq_012.xml"/>
 	<include file="classpath:/db/changelog/liq_013.xml"/>
 	<include file="classpath:/db/changelog/liq_014.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_depot.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_inventory.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_inventory_value.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_item.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_item_raw_material.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_raw_material.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_remittance.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_remittance_detail.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_remittance_tozin.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_remittance_type.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_store.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_warehouse.xml"/>
+
 </databaseChangeLog>
