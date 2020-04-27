@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.contract;
 
+import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.common.AuditId;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.DataType;
@@ -41,6 +42,15 @@ public class ContractDetailValueAudit extends BaseEntity {
     @NotEmpty
     @Column(name = "C_VALUE", nullable = false)
     private String value;
+
+    @NotAudited
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetailValueAudit2unitByUnitId"))
+    private Unit unit;
+
+    @Column(name = "F_UNIT_ID")
+    private Long unitId;
 
     @NotAudited
     @Setter(AccessLevel.NONE)

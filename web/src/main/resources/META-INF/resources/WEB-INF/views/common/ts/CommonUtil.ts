@@ -166,6 +166,8 @@ namespace nicico {
                 formItemProperties.selectOnFocus = true;
                 formItemProperties.shouldSaveValue = true;
 
+                // @ts-ignore
+                formItemProperties.showInlineErrors = true;
                 formItemProperties.stopOnError = true;
                 formItemProperties.showErrorIcon = true;
                 formItemProperties.showErrorText = true;
@@ -205,6 +207,8 @@ namespace nicico {
                 dynamicFormProperties.canSubmit = true;
                 dynamicFormProperties.wrapItemTitles = false;
 
+                // @ts-ignore
+                dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.stopOnError = true;
                 dynamicFormProperties.showErrorText = true;
                 dynamicFormProperties.showErrorIcons = true;
@@ -212,7 +216,7 @@ namespace nicico {
                 dynamicFormProperties.validateOnExit = true;
                 dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.errorOrientation = "bottom";
-                dynamicFormProperties.requiredMessage = "<spring=message code='validator.field.is.required'/>";
+                dynamicFormProperties.requiredMessage = '<spring:message code="validator.field.is.required"/>';
 
                 return this.createDynamicForm(dynamicFormProperties, fields);
             };
@@ -228,12 +232,13 @@ namespace nicico {
             // @ts-ignore
             isc.Window.nicico = {};
             // @ts-ignore
-            isc.Window.nicico.getDefault = function (title: string, items: Array<isc.Canvas>, id?: string): isc.Window {
+            isc.Window.nicico.getDefault = function (title: string, items: Array<isc.Canvas>, width: string = null, height: string = null, id?: string): isc.Window {
 
                 return isc.Window.create({
 
                     ID: id,
-                    width: "70%",
+                    width: width == null ? "70%" : width,
+                    height: height,
                     align: "center",
                     isModal: true,
                     autoSize: true,
@@ -292,7 +297,7 @@ namespace nicico {
             // @ts-ignore
             isc.FacetChart.nicico.showChart = function (ownerWindow: isc.Window, title: string, chart: isc.FacetChart) {
 
-                var windowWidget = isc.Window.create({
+                let windowWidget = isc.Window.create({
 
                     title: title,
                     width: "50%",

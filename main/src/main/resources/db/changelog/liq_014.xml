@@ -2,58 +2,58 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="karimi (generated)" id="1587445534563-144">
+    <changeSet author="karimi (generated)" id="1587962310766-158">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-145">
+    <changeSet author="karimi (generated)" id="1587962310766-159">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_CONTACT"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-146">
+    <changeSet author="karimi (generated)" id="1587962310766-160">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-147">
+    <changeSet author="karimi (generated)" id="1587962310766-161">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-148">
+    <changeSet author="karimi (generated)" id="1587962310766-162">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE_PARAM"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-149">
+    <changeSet author="karimi (generated)" id="1587962310766-163">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUE"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-150">
+    <changeSet author="karimi (generated)" id="1587962310766-164">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-151">
+    <changeSet author="karimi (generated)" id="1587962310766-165">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_VALUE"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-152">
+    <changeSet author="karimi (generated)" id="1587962310766-166">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_TYPE"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-153">
+    <changeSet author="karimi (generated)" id="1587962310766-167">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-154">
+    <changeSet author="karimi (generated)" id="1587962310766-168">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_ASPECT"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-155">
+    <changeSet author="karimi (generated)" id="1587962310766-169">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_CONTACT"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-156">
+    <changeSet author="karimi (generated)" id="1587962310766-170">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_RULE"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-157">
+    <changeSet author="karimi (generated)" id="1587962310766-171">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_RULES"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-158">
+    <changeSet author="karimi (generated)" id="1587962310766-172">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_STEP"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-159">
+    <changeSet author="karimi (generated)" id="1587962310766-173">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_STEPS"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-160">
+    <changeSet author="karimi (generated)" id="1587962310766-174">
         <createSequence sequenceName="SEQ_CNTR_TERM"/>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-173">
+    <changeSet author="karimi (generated)" id="1587962310766-175">
         <createTable tableName="TBL_CNTR_CONTRACT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACTPK"/>
@@ -72,18 +72,18 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
+            <column name="D_AFFECT_FROM" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="D_AFFECT_UP_TO" type="TIMESTAMP"/>
             <column name="C_CONTENT" type="VARCHAR2(255 CHAR)"/>
             <column name="F_CONTRACT_TYPE_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column name="D_DATE" type="TIMESTAMP"/>
-            <column name="D_AFFECT_FROM" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="D_AFFECT_UP_TO" type="TIMESTAMP"/>
             <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
             <column name="F_MATERIAL_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
@@ -94,7 +94,7 @@
             <column name="F_PARENT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-174">
+    <changeSet author="karimi (generated)" id="1587962310766-176">
         <createTable tableName="TBL_CNTR_CONTRACT_AUD">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_AUDPK"/>
@@ -107,20 +107,18 @@
             <column name="d_created_date" type="TIMESTAMP"/>
             <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
             <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="D_AFFECT_FROM" type="TIMESTAMP"/>
+            <column name="D_AFFECT_UP_TO" type="TIMESTAMP"/>
             <column name="C_CONTENT" type="VARCHAR2(255 CHAR)"/>
             <column name="F_CONTRACT_TYPE_ID" type="NUMBER(19, 0)"/>
             <column name="D_DATE" type="TIMESTAMP"/>
-            <column name="D_AFFECT_FROM" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="D_AFFECT_UP_TO" type="TIMESTAMP"/>
             <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
             <column name="F_MATERIAL_ID" type="NUMBER(19, 0)"/>
             <column name="C_NO" type="VARCHAR2(200 CHAR)"/>
             <column name="F_PARENT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-175">
+    <changeSet author="karimi (generated)" id="1587962310766-177">
         <createTable tableName="TBL_CNTR_CONTRACT_CONTACT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_CONTACTPK"/>
@@ -139,7 +137,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="F_CONTACT_ID" type="NUMBER(19, 0)">
@@ -150,7 +148,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-176">
+    <changeSet author="karimi (generated)" id="1587962310766-178">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAILPK"/>
@@ -169,7 +167,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="C_CONTENT" type="VARCHAR2(255 CHAR)"/>
@@ -181,7 +179,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-177">
+    <changeSet author="karimi (generated)" id="1587962310766-179">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_AUD">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_AUDPK"/>
@@ -199,7 +197,7 @@
             <column name="F_CONTRACT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-178">
+    <changeSet author="karimi (generated)" id="1587962310766-180">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPEPK"/>
@@ -218,7 +216,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="C_CODE" type="VARCHAR2(200 CHAR)">
@@ -232,7 +230,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-179">
+    <changeSet author="karimi (generated)" id="1587962310766-181">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAMPK"/>
@@ -251,7 +249,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="F_CONTRACT_DETAIL_TYPE_ID" type="NUMBER(19, 0)">
@@ -266,9 +264,10 @@
             <column name="N_TYPE" type="NUMBER(10, 0)">
                 <constraints nullable="false"/>
             </column>
+            <column name="F_UNIT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-180">
+    <changeSet author="karimi (generated)" id="1587962310766-182">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUEPK"/>
@@ -287,7 +286,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="F_CONTRACT_DETAIL_TYPE_PARAM_ID" type="NUMBER(19, 0)">
@@ -298,7 +297,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-181">
+    <changeSet author="karimi (generated)" id="1587962310766-183">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATEPK"/>
@@ -317,7 +316,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="C_CONTENT" type="VARCHAR2(255 CHAR)">
@@ -328,7 +327,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-182">
+    <changeSet author="karimi (generated)" id="1587962310766-184">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_VALUEPK"/>
@@ -347,7 +346,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="F_CONTRACT_DETAIL_ID" type="NUMBER(19, 0)">
@@ -362,12 +361,13 @@
             <column name="N_TYPE" type="NUMBER(10, 0)">
                 <constraints nullable="false"/>
             </column>
+            <column name="F_UNIT_ID" type="NUMBER(19, 0)"/>
             <column name="C_VALUE" type="VARCHAR2(255 CHAR)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-183">
+    <changeSet author="karimi (generated)" id="1587962310766-185">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUD">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUDPK"/>
@@ -384,10 +384,11 @@
             <column name="C_KEY" type="VARCHAR2(255 CHAR)"/>
             <column name="C_NAME" type="VARCHAR2(255 CHAR)"/>
             <column name="N_TYPE" type="NUMBER(10, 0)"/>
+            <column name="F_UNIT_ID" type="NUMBER(19, 0)"/>
             <column name="C_VALUE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-184">
+    <changeSet author="karimi (generated)" id="1587962310766-186">
         <createTable tableName="TBL_CNTR_CONTRACT_TYPE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_TYPEPK"/>
@@ -406,7 +407,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="C_CODE" type="VARCHAR2(200 CHAR)">
@@ -421,7 +422,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-185">
+    <changeSet author="karimi (generated)" id="1587962310766-187">
         <createTable tableName="TBL_CNTR_INCOTERM">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERMPK"/>
@@ -440,7 +441,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
@@ -450,7 +451,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-186">
+    <changeSet author="karimi (generated)" id="1587962310766-188">
         <createTable tableName="TBL_CNTR_INCOTERM_ASPECT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_ASPECTPK"/>
@@ -469,7 +470,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
@@ -478,7 +479,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-187">
+    <changeSet author="karimi (generated)" id="1587962310766-189">
         <createTable tableName="TBL_CNTR_INCOTERM_CONTACT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_CONTACTPK"/>
@@ -497,7 +498,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="F_CONTACT_ID" type="NUMBER(19, 0)">
@@ -515,7 +516,7 @@
             <column name="F_TERM_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-188">
+    <changeSet author="karimi (generated)" id="1587962310766-190">
         <createTable tableName="TBL_CNTR_INCOTERM_RULE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_RULEPK"/>
@@ -534,7 +535,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
@@ -543,7 +544,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-189">
+    <changeSet author="karimi (generated)" id="1587962310766-191">
         <createTable tableName="TBL_CNTR_INCOTERM_RULES">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_RULESPK"/>
@@ -562,7 +563,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="F_INCOTERM_ID" type="NUMBER(19, 0)">
@@ -573,7 +574,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-190">
+    <changeSet author="karimi (generated)" id="1587962310766-192">
         <createTable tableName="TBL_CNTR_INCOTERM_STEP">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_STEPPK"/>
@@ -592,7 +593,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
@@ -601,7 +602,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-191">
+    <changeSet author="karimi (generated)" id="1587962310766-193">
         <createTable tableName="TBL_CNTR_INCOTERM_STEPS">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_STEPSPK"/>
@@ -620,7 +621,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="F_INCOTERM_ID" type="NUMBER(19, 0)">
@@ -631,7 +632,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="karimi (generated)" id="1587445534563-192">
+    <changeSet author="karimi (generated)" id="1587962310766-194">
         <createTable tableName="TBL_CNTR_TERM">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_TERMPK"/>
@@ -650,7 +651,7 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
             <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
@@ -658,5 +659,104 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-195">
+        <addUniqueConstraint columnNames="C_NO" constraintName="UC_TBL_CNTR_CONTRACTC_NO_COL" tableName="TBL_CNTR_CONTRACT"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-196">
+        <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPEC_CODE_COL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-197">
+        <addUniqueConstraint columnNames="C_TITLE_EN" constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPEC_TITLE_EN_COL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-198">
+        <addUniqueConstraint columnNames="C_TITLE_FA" constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPEC_TITLE_FA_COL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-199">
+        <addUniqueConstraint columnNames="C_KEY" constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAMC_KEY_COL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-200">
+        <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_CONTRACT_TYPEC_CODE_COL" tableName="TBL_CNTR_CONTRACT_TYPE"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-201">
+        <addUniqueConstraint columnNames="C_TITLE_EN" constraintName="UC_TBL_CNTR_CONTRACT_TYPEC_TITLE_EN_COL" tableName="TBL_CNTR_CONTRACT_TYPE"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-202">
+        <addUniqueConstraint columnNames="C_TITLE_FA" constraintName="UC_TBL_CNTR_CONTRACT_TYPEC_TITLE_FA_COL" tableName="TBL_CNTR_CONTRACT_TYPE"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-203">
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CNTR_CONTRACT_DETAIL_AUD" constraintName="FK3rqhl6uoh73l9c1u0bg6q9aop" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-204">
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CNTR_CONTRACT_AUD" constraintName="FKgp90wlyf9emq36lrt7thvelgd" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-205">
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUD" constraintName="FKo4kt2qio99xibn42mqrxs1c8c" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-206">
+        <addForeignKeyConstraint baseColumnNames="F_PARENT_ID" baseTableName="TBL_CNTR_CONTRACT" constraintName="fk_contract2contractByParentId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-207">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_TYPE_ID" baseTableName="TBL_CNTR_CONTRACT" constraintName="fk_contract2contractTypeByContractTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_TYPE" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-208">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ID" baseTableName="TBL_CNTR_CONTRACT" constraintName="fk_contract2materialByMaterialId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-209">
+        <addForeignKeyConstraint baseColumnNames="F_CONTACT_ID" baseTableName="TBL_CNTR_CONTRACT_CONTACT" constraintName="fk_contractContact2contactByContactId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-210">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_ID" baseTableName="TBL_CNTR_CONTRACT_CONTACT" constraintName="fk_contractContact2contractByContractId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-211">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL" constraintName="fk_contractDetail2contractByContractId" deferrable="false" initiallyDeferred="false" referencedColumnNames="CONTRACT_ID" referencedTableName="TBL_CONTRACT" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-212">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_TYPE_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL" constraintName="fk_contractDetail2contractDetailTypeByContractDetailTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-213">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_TYPE_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" constraintName="fk_contractDetailTypeParam2contractDetailTypeByContractDetailTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-214">
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" constraintName="fk_contractDetailTypeParam2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-215">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_TYPE_PARAM_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUE" constraintName="fk_contractDetailTypeParamValue2contractDetailTypeParamByContractDetailTypeParamId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-216">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_TYPE_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE" constraintName="fk_contractDetailTypeTemplate2contractDetailTypeByContractDetailTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-217">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_VALUE" constraintName="fk_contractDetailValue2contractDetailByContractDetailId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-218">
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_VALUE" constraintName="fk_contractDetailValue2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-219">
+        <addForeignKeyConstraint baseColumnNames="F_CONTACT_ID" baseTableName="TBL_CNTR_INCOTERM_CONTACT" constraintName="fk_incotermContact2contactByContactId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-220">
+        <addForeignKeyConstraint baseColumnNames="F_INCOTERM_ASPECT_ID" baseTableName="TBL_CNTR_INCOTERM_CONTACT" constraintName="fk_incotermContact2incotermAspectByIncotermAspectId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_ASPECT" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-221">
+        <addForeignKeyConstraint baseColumnNames="F_INCOTERM_RULES_ID" baseTableName="TBL_CNTR_INCOTERM_CONTACT" constraintName="fk_incotermContact2incotermRulesByIncotermRulesId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_RULES" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-222">
+        <addForeignKeyConstraint baseColumnNames="F_INCOTERM_STEPS_ID" baseTableName="TBL_CNTR_INCOTERM_CONTACT" constraintName="fk_incotermContact2incotermStepsByIncotermStepsId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_STEPS" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-223">
+        <addForeignKeyConstraint baseColumnNames="F_TERM_ID" baseTableName="TBL_CNTR_INCOTERM_CONTACT" constraintName="fk_incotermContact2termByTermId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_TERM" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-224">
+        <addForeignKeyConstraint baseColumnNames="F_INCOTERM_ID" baseTableName="TBL_CNTR_INCOTERM_RULES" constraintName="fk_incotermRules2incotermByIncotermId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-225">
+        <addForeignKeyConstraint baseColumnNames="F_INCOTERM_RULE_ID" baseTableName="TBL_CNTR_INCOTERM_RULES" constraintName="fk_incotermRules2incotermRuleByIncotermRuleId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_RULE" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-226">
+        <addForeignKeyConstraint baseColumnNames="F_INCOTERM_ID" baseTableName="TBL_CNTR_INCOTERM_STEPS" constraintName="fk_incotermSteps2incotermByIncotermId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1587962310766-227">
+        <addForeignKeyConstraint baseColumnNames="F_INCOTERM_STEP_ID" baseTableName="TBL_CNTR_INCOTERM_STEPS" constraintName="fk_incotermSteps2incotermStepByIncotermStepId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_STEP" validate="true"/>
     </changeSet>
 </databaseChangeLog>

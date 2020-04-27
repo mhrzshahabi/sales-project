@@ -73,10 +73,31 @@
         willHandleError: false //centralized error handling
     };
 
+    var BaseFormItems = [{
+        hidden: true,
+        primaryKey: true,
+        name: "id",
+        type: "number",
+        title: "<spring:message code='global.id'/>"
+    }, {
+        hidden: true,
+        name: "version",
+        type: "number",
+        title: "<spring:message code='global.version'/>"
+    }, {
+        hidden: true,
+        name: "editable",
+        type: "boolean",
+        title: "<spring:message code='global.editable'/>"
+    }, {
+        hidden: true,
+        name: "eStatus",
+        type: "number",
+        title: "<spring:message code='global.e-status'/>"
+    }];
+
     var salesCommonUtil = new nicico.CommonUtil();
-    var salesFormUtil = new nicico.FormUtil();
-    var salesFindFormUtil = new nicico.FindFormUtil();
-    var salesGeneralTabUtil = new nicico.GeneralTabUtil();
+    var salesPersianDateUtil = new nicico.PersianDateUtil();
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
@@ -448,6 +469,11 @@
                             click: function () {
                                 createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
                             }
+                        }, {
+                            title: "<spring:message code='vessel.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='vessel.title'/>", "<spring:url value="/vessel/showForm" />")
+                            }
                         },
 
                         {isSeparator: true},
@@ -710,13 +736,13 @@
                     }
 
                 },
-                {isSeparator: true},
+                /*{isSeparator: true},
                 {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
                     }
-                },
+                },*/
                 {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",
@@ -1032,8 +1058,53 @@
         },
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
-
     }
+    isc.FilterBuilder.addProperties({
+
+        getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
+
+            if (this.dataSource == null)
+                return {name: fieldName, type: type, filterOperator: operatorId};
+
+            const field = this.dataSource.getField(fieldName);
+            if (field == null || (field.editorType !== "SelectItem" && field.editorType !== "ComboBoxItem"))
+                return {name: fieldName, type: type, filterOperator: operatorId};
+
+            return {
+                required: true,
+                autoFetchData: false,
+                showFilterEditor: true,
+                multiple: field.multiple,
+                editorType: field.editorType,
+                valueField: field.valueField,
+                displayField: field.displayField,
+                optionDataSource: field.dataSource,
+                pickListFields: [
+                    {
+                        title: '<spring:message code="global.id"/>',
+                        hidden: true,
+                        type: "number",
+                        name: field.valueField
+                    }, {
+                        title: '<spring:message code="global.title"/>',
+                        align: "left",
+                        type: "string",
+                        showHover: true,
+                        hoverWidth: "30%",
+                        name: field.displayField,
+                        hoverHTML: record => record[field.displayField],
+                    }
+                ],
+                pickListProperties: {
+
+                    sortField: 1,
+                    showFilterEditor: true,
+                    sortDirection: "descending"
+                }
+            };
+        }
+    });
+
 </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.nicico.sales.web.controller.contract;
+package com.nicico.sales.web.controller;
 
 import com.nicico.copper.core.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -9,15 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/term")
-public class TermFormController {
+@RequestMapping("/vessel")
+public class VesselFormController {
 
     @RequestMapping("/showForm")
     public String showTerm(HttpServletRequest request) {
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_TERM"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_TERM"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_TERM"));
-        return "contract2/term";
+        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_VESSEL"));
+        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_VESSEL"));
+        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_VESSEL"));
+        return "vessel/vessel";
     }
 }

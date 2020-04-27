@@ -316,6 +316,10 @@ namespace nicico {
                 if (rpcRequest.httpMethod == null) rpcRequest.httpMethod = This.variable.method;
                 if (rpcRequest.httpHeaders == null) rpcRequest.httpHeaders = This.variable.httpHeaders;
                 if (rpcRequest.contentType == null) rpcRequest.contentType = This.variable.contentType;
+                if (rpcRequest.useSimpleHttp == null) rpcRequest.useSimpleHttp = true;
+                if (rpcRequest.showPrompt == null) rpcRequest.showPrompt = true;
+                if (rpcRequest.serverOutputAsString == null) rpcRequest.serverOutputAsString = false;
+                if (rpcRequest.willHandleError == null) rpcRequest.willHandleError = false;
 
                 isc.RPCManager.sendRequest(rpcRequest);
             };
@@ -337,7 +341,11 @@ namespace nicico {
                 formUtil.okCallBack = function (data) {
                     This.method.saveForm(grid, form);
                 };
-                formUtil.showForm(null, title, form);
+                // @ts-ignore
+                let width = form.windowWidth == null ? "50%" : form.windowWidth;
+                // @ts-ignore
+                let height = form.windowHeight;
+                formUtil.showForm(null, title, form, width, height);
                 form.show();
 
                 if (newActionHook != null) newActionHook();
@@ -362,7 +370,11 @@ namespace nicico {
                     formUtil.okCallBack = function (data) {
                         This.method.saveForm(grid, form);
                     };
-                    formUtil.showForm(null, title, form);
+                    // @ts-ignore
+                    let width = form.windowWidth == null ? "50%" : form.windowWidth;
+                    // @ts-ignore
+                    let height = form.windowHeight;
+                    formUtil.showForm(null, title, form, width, height);
                     form.show();
 
                     if (editActionHook != null) editActionHook(record);
@@ -410,16 +422,14 @@ namespace nicico {
                 let data = form.getValues();
                 if (getDataActionHook != null) data = getDataActionHook(form, data);
 
-                let url = This.variable.url + (This.variable.method.toUpperCase() == "POST" ? "" : data["id"]);
-
                 let rpcRequest = <isc.RPCRequest>{};
-                rpcRequest.data = data;
-                rpcRequest.actionURL = url;
+                rpcRequest.actionURL = This.variable.url;
+                rpcRequest.data = JSON.stringify(data);
                 This.method.jsonRPCManagerRequest(rpcRequest, (response) => {
-                    var win = form.getParentElements().last();
+                    let win = form.getParentElements().last();
                     This.method.refresh(grid);
                     win.close();
-                    saveActionHook(response);
+                    if (saveActionHook != null) saveActionHook(response);
                 }, errorActionHook);
             };
 

@@ -46,7 +46,7 @@ namespace nicico {
             if (currentData != null && currentData.length > 0) {
 
                 // @ts-ignore
-                var primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
+                let primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
                 // @ts-ignore
                 if (primaryKeyField == null && listGrid.dataSource != null)
                     // @ts-ignore
@@ -78,7 +78,7 @@ namespace nicico {
             if (currentData != null && currentData.length > 0) {
 
                 // @ts-ignore
-                var primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
+                let primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
                 // @ts-ignore
                 if (primaryKeyField == null && listGrid.dataSource != null)
                     // @ts-ignore
@@ -213,7 +213,7 @@ namespace nicico {
                     if (this.currentData != null && this.currentData.length > 0) {
 
                         // @ts-ignore
-                        var primaryKeyField = this.getFields().find(p => p.primaryKey);
+                        let primaryKeyField = this.getFields().find(p => p.primaryKey);
                         // @ts-ignore
                         if (primaryKeyField == null && this.dataSource != null)
                             // @ts-ignore

@@ -116,6 +116,8 @@ var nicico;
                 formItemProperties.wrapTitle = false;
                 formItemProperties.selectOnFocus = true;
                 formItemProperties.shouldSaveValue = true;
+                // @ts-ignore
+                formItemProperties.showInlineErrors = true;
                 formItemProperties.stopOnError = true;
                 formItemProperties.showErrorIcon = true;
                 formItemProperties.showErrorText = true;
@@ -147,6 +149,8 @@ var nicico;
                 dynamicFormProperties.colWidths = ["30%", "70%"];
                 dynamicFormProperties.canSubmit = true;
                 dynamicFormProperties.wrapItemTitles = false;
+                // @ts-ignore
+                dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.stopOnError = true;
                 dynamicFormProperties.showErrorText = true;
                 dynamicFormProperties.showErrorIcons = true;
@@ -154,7 +158,7 @@ var nicico;
                 dynamicFormProperties.validateOnExit = true;
                 dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.errorOrientation = "bottom";
-                dynamicFormProperties.requiredMessage = "<spring=message code='validator.field.is.required'/>";
+                dynamicFormProperties.requiredMessage = '<spring:message code="validator.field.is.required"/>';
                 return this.createDynamicForm(dynamicFormProperties, fields);
             };
             // @ts-ignore
@@ -167,10 +171,13 @@ var nicico;
             // @ts-ignore
             isc.Window.nicico = {};
             // @ts-ignore
-            isc.Window.nicico.getDefault = function (title, items, id) {
+            isc.Window.nicico.getDefault = function (title, items, width, height, id) {
+                if (width === void 0) { width = null; }
+                if (height === void 0) { height = null; }
                 return isc.Window.create({
                     ID: id,
-                    width: "70%",
+                    width: width == null ? "70%" : width,
+                    height: height,
                     align: "center",
                     isModal: true,
                     autoSize: true,
