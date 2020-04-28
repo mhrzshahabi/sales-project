@@ -33,11 +33,6 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-250">
-        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_INVENTORY" constraintName="fk_inventory2itemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM" validate="true"/>
-    </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-265">
-        <addForeignKeyConstraint baseColumnNames="F_INVENTORY_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL" constraintName="fk_remittanceDetail2inventoryByInventoryId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_INVENTORY" validate="true"/>
-    </changeSet>
+
 
 </databaseChangeLog>

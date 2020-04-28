@@ -2,13 +2,15 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="saeb (generated)" id="1587971310555-220">
-        <createSequence sequenceName="SEQ_WARH_DEPOT"/>
+
+    <changeSet author="saeb (generated)" id="1587979503463-208">
+        <createSequence sequenceName="SEQ_SHIPMENT_TYPE"/>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-235">
-        <createTable tableName="TBL_WARH_DEPOT">
+
+    <changeSet author="saeb (generated)" id="1587979503463-222">
+        <createTable tableName="TBL_SHIPMENT_TYPE">
             <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_WARH_DEPOTPK"/>
+                <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_TYPEPK"/>
             </column>
             <column name="c_created_by" type="VARCHAR2(255 CHAR)">
                 <constraints nullable="false"/>
@@ -24,18 +26,16 @@
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column name="C_DESCRIPTION" type="VARCHAR2(255 CHAR)"/>
+            <column name="C_DESCRIPTION" type="VARCHAR2(1500 CHAR)"/>
             <column name="C_NAME" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_STORE_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
+
 
 
 </databaseChangeLog>

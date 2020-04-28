@@ -44,4 +44,5 @@
             <column name="C_STATE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
+
 </databaseChangeLog>

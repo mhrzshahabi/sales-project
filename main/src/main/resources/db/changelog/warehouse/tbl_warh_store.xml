@@ -39,8 +39,6 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-269">
-        <addForeignKeyConstraint baseColumnNames="F_WAREHOUSE_ID" baseTableName="TBL_WARH_STORE" constraintName="fk_store2warehouseByWarehouseId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_WAREHOUSE" validate="true"/>
-    </changeSet>
+
 
 </databaseChangeLog>

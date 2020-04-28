@@ -5,12 +5,7 @@
     <changeSet author="saeb (generated)" id="1587971310555-224">
         <createSequence sequenceName="SEQ_WARH_ITEM"/>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-257">
-        <addForeignKeyConstraint baseColumnNames="F_DEFAULT_UNIT_ID" baseTableName="TBL_WARH_ITEM" constraintName="fk_item2unitByunitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
-    </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-261">
-        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_REMITTANCE" constraintName="fk_remittance2itemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM" validate="true"/>
-    </changeSet>
+
     <changeSet author="saeb (generated)" id="1587971310555-238">
         <createTable tableName="TBL_WARH_ITEM">
             <column name="id" type="NUMBER(19, 0)">
@@ -42,4 +37,6 @@
             <column name="F_DEFAULT_UNIT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
+
+
 </databaseChangeLog>

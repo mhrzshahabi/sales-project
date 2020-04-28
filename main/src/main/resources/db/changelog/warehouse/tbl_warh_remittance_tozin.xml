@@ -2,6 +2,11 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+
+    <changeSet author="saeb (generated)" id="1587979503463-218">
+        <createSequence sequenceName="SEQ_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
     <changeSet author="saeb (generated)" id="1587971310555-244">
         <createTable tableName="TBL_WARH_REMITTANCE_TOZIN">
             <column name="id" type="NUMBER(19, 0)">
@@ -47,8 +52,6 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-268">
-        <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_ID" baseTableName="TBL_WARH_REMITTANCE_TOZIN" constraintName="fk_remittance_tozinl2remittanceByRemittanceId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_REMITTANCE" validate="true"/>
-    </changeSet>
+
 
 </databaseChangeLog>
