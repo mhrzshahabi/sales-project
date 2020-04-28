@@ -29,8 +29,8 @@ public class Incoterm extends BaseEntity {
     private String title;
 
     @NotNull
-    @Column(name = "N_VERSION", nullable = false)
-    private Integer version;
+    @Column(name = "N_INCOTERM_VERSION", nullable = false)
+    private Integer incotermVersion;
 
     @Column(name = "D_PUBLISH_DATE")
     private Date publishDate;
