@@ -438,6 +438,9 @@
             <column name="n_version" type="NUMBER(10, 0)">
                 <constraints nullable="false"/>
             </column>
+            <column name="n_incoterm_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
             <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
                 <constraints nullable="false"/>
             </column>

@@ -671,14 +671,89 @@
                         createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
                     }
                 },
+
+
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.contract'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract2/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT_TYPE')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.contract-type'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.contract-type'/>", "<spring:url value="/contract-type/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT_DETAIL_TYPE')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.contract-detail-type'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.contract-detail-type'/>", "<spring:url value="/contract-detail-type/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT_DETAIL_TYPE_PARAM')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.contract-detail-type-param'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.contract-detail-type-param'/>", "<spring:url value="/contract-detail-type-param/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm'/>", "<spring:url value="/incoterm/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_ASPECT')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm-aspect'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm-aspect'/>", "<spring:url value="/incoterm-aspect/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_STEP')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm-step'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm-step'/>", "<spring:url value="/incoterm-step/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_RULE')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm-rule'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm-rule'/>", "<spring:url value="/incoterm-rule/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_TERM')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.term'/>",
                     click: function () {
-                        createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/showForm" />")
+                        createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/show-form" />")
                     }
                 },
-                {isSeparator: true},
+                </sec:authorize>
 
 
                 /*{
