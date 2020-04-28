@@ -884,6 +884,23 @@
       "code": "D_CONTRACT_TYPE",
       "title": "حذف نوع قرارداد"
     },
+
+    {
+      "code": "R_CONTRACT2",
+      "title": "نمایش قرارداد"
+    },
+    {
+      "code": "C_CONTRACT2",
+      "title": "ایجاد قرارداد"
+    },
+    {
+      "code": "U_CONTRACT2",
+      "title": "به روز رسانی قرارداد"
+    },
+    {
+      "code": "D_CONTRACT2",
+      "title": "حذف قرارداد"
+    },
     
     {
       "code": "R_CONTRACT_DETAIL_TYPE",
