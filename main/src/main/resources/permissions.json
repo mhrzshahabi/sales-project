@@ -901,6 +901,23 @@
       "code": "D_CONTRACT_DETAIL_TYPE",
       "title": "حذف نوع جزییات قرارداد"
     },
+
+    {
+      "code": "R_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "نمایش پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "ایجاد پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "به روز رسانی پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "حذف پارامتر نوع جزییات قرارداد"
+    },
     
     {
       "code": "R_INCOTERM",
