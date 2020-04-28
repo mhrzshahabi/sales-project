@@ -756,7 +756,17 @@
                     click: function () {
                         createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
                     }
-                }/*,
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='warehouseStock'/>",
+                    click: function () {
+                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
+                    }
+                },
+
+
+                /*,
                 {isSeparator: true},
                 {
                     title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
@@ -778,6 +788,7 @@
                         createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
                     }
                 }*/
+
             ]
         })
     });
@@ -1052,9 +1063,10 @@
         ? document.URL.split("?")[0].slice(0, -1)
         : document.URL.split("?")[0];
     const SalesConfigs = {
-        Urls:{
-            RootUrl:"${contextPath}",
-            InvoiceExportRest:"${contextPath}" + "/rest",
+        Urls: {
+            RootUrl: "${contextPath}",
+            InvoiceExportRest: "${contextPath}" + "/rest",
+            remittanceRest: "${contextPath}" + "/rest",
         },
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
