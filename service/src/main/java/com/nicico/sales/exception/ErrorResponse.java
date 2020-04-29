@@ -1,11 +1,11 @@
 package com.nicico.sales.exception;
 
-import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import lombok.Getter;
-import lombok.Setter;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 
 @Getter
 public class ErrorResponse {
@@ -20,8 +20,6 @@ public class ErrorResponse {
     private final String className;
     private final String methodName;
     private final Integer lineNumber;
-    @Setter
-    private final ActionType actionType;
 
     ErrorResponse(ErrorType errorCode, String field, String message) {
 
@@ -29,13 +27,22 @@ public class ErrorResponse {
         this.message = message;
         this.errorCode = errorCode;
 
-        StackTraceElement element = Thread.currentThread().getStackTrace()[1];
-        this.fileName = element.getFileName();
-        this.className = element.getClassName();
-        this.methodName = element.getMethodName();
-        this.lineNumber = element.getLineNumber();
+        Optional<StackTraceElement> stackTraceElement = Arrays.stream(Thread.currentThread().getStackTrace()).filter(q -> q.getClassName().matches("com\\.nicico\\.sales\\.service\\..*")).findFirst();
+        if (stackTraceElement.isPresent()) {
 
-        this.actionType = null;
+            StackTraceElement element = stackTraceElement.get();
+            this.fileName = element.getFileName();
+            this.className = element.getClassName();
+            this.methodName = element.getMethodName();
+            this.lineNumber = element.getLineNumber();
+        } else {
+
+            this.lineNumber = -1;
+            this.fileName = null;
+            this.className = null;
+            this.methodName = null;
+        }
+
         this.timeStamp = new Date().getTime();
     }
 }

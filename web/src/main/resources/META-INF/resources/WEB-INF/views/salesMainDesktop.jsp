@@ -72,27 +72,51 @@
         willHandleError: false //centralized error handling
     };
 
+    var statusMap = {
+        "Active": "عادی",
+        "DeActive": "حذف شده"
+    };
+
     var BaseFormItems = [{
         hidden: true,
         primaryKey: true,
         name: "id",
         type: "number",
+        width: 75,
         title: "<spring:message code='global.id'/>"
     }, {
         hidden: true,
         name: "version",
         type: "number",
+        width: 70,
         title: "<spring:message code='global.version'/>"
     }, {
         hidden: true,
         name: "editable",
         type: "boolean",
+        width: 60,
         title: "<spring:message code='global.editable'/>"
     }, {
         hidden: true,
-        name: "eStatus",
         type: "number",
-        title: "<spring:message code='global.e-status'/>"
+        name: "estatus",
+        showHover: true,
+        width: 100,
+        title: "<spring:message code='global.e-status'/>",
+        hoverHTML(record, value, rowNum, colNum, grid) {
+
+            if (record == null || record.estatus == null || record.estatus.length === 0)
+                return;
+
+            return record.estatus.map(q => '<div>' + statusMap[q] + '</div>').join();
+        },
+        formatCellValue: function (value, record, rowNum, colNum, grid) {
+
+            if (record == null || record.estatus == null || record.estatus.length === 0)
+                return;
+
+            return record.estatus.join(', ');
+        }
     }];
 
     var salesCommonUtil = new nicico.CommonUtil();
@@ -170,7 +194,8 @@
             console.log("Global RPCManager Error Handler: ", request, response);
             /*if (response.httpResponseCode == 401) { // Unauthorized
                 redirectLogin();
-            } else*/ if (response.httpResponseCode == 403) { // Forbidden
+            } else*/
+            if (response.httpResponseCode == 403) { // Forbidden
                 isc.say(JSON.parse(response.httpResponseText).exception);
             } else if (response.httpResponseCode == 500) {
                 isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 500");
@@ -193,6 +218,10 @@
                     break;
                 case "FORBIDDEN":
                     isc.warn("<spring:message code='exception.ACCESS_DENIED'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
+                    break;
+                default:
+                    const errorText = httpResponse.errors.map(q => q.message + '<br>').join();
+                    isc.warn(errorText, {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
         }

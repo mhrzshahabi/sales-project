@@ -19,7 +19,7 @@ import org.springframework.util.StopWatch;
 @RequiredArgsConstructor
 public class AuditingAspect {
 
-    @Around("execution(* com.nicico.sales.service.*.*(*)))")
+    @Around("execution(* com.nicico.sales.service.*.*(..))")
     public Object profileAllMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();

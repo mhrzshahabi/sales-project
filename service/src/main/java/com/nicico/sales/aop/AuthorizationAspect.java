@@ -23,7 +23,7 @@ public class AuthorizationAspect {
     private final AuthorizationUtil authorizationUtil;
 
     @Before(value = "" +
-            "execution(* com.nicico.sales.service.*.*(*)) && " +
+            "execution(* com.nicico.sales.service.*.*(..)) && " +
             "@annotation(com.nicico.sales.annotation.Action) && " +
             "!@annotation(org.springframework.security.access.prepost.PreAuthorize)")
     public void authorize(JoinPoint joinPoint) {

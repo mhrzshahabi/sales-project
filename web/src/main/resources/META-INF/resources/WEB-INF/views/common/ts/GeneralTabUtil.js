@@ -244,6 +244,9 @@ var nicico;
                 var record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
+                // @ts-ignore
+                else if (!record.editable)
+                    This.dialog.notEditable();
                 else {
                     This.variable.method = "PUT";
                     form.clearValues();
@@ -318,8 +321,21 @@ var nicico;
                 say: null,
                 error: null,
                 question: null,
+                notEditable: null,
                 notSelected: null,
                 moreSelected: null
+            };
+            This.dialog.notEditable = function () {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.not.editable'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
             };
             This.dialog.notSelected = function () {
                 isc.Dialog.create({

@@ -18,7 +18,7 @@ public class DetectActionAspect {
 
     @Before(value = "" +
             "@annotation(com.nicico.sales.annotation.Action) && " +
-            "execution(* com.nicico.sales.service.GenericService+.*(*))")
+            "execution(* com.nicico.sales.service.GenericService+.*(..))")
     public void setActionType(JoinPoint joinPoint) throws IllegalAccessException, NoSuchFieldException {
 
         Object target = joinPoint.getTarget();
