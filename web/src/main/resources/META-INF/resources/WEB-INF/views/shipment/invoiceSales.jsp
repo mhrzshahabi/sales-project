@@ -260,6 +260,35 @@
             fetchDataURL: "${contextPath}/api/percentPerYear/spec-list"
         });
 
+ var RestDataSource_Unit_IN_invoiceSales = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='MaterialFeature.unit.FA'/> "
+                },
+                {
+                    name: "nameEN",
+                    title: "<spring:message code='unit.nameEN'/> "
+                },
+                {
+                    name: "symbol",
+                    title: "<spring:message code='unit.symbol'/>"
+                },
+                {
+                    name: "decimalDigit",
+                    title: "<spring:message code='rate.decimalDigit'/>"
+                }],
+            fetchDataURL: "${contextPath}/api/unit/spec-list"
+        });
+
     function ListGrid_InvoiceSales_refresh() {
         ListGrid_invoiceSales.invalidateCache();
     }
@@ -1230,6 +1259,18 @@
                 {
                     name: "unitName",
                     title: "<spring:message code='invoiceSalesItem.unitName'/>",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Unit_IN_invoiceSales,
+                    displayField: "nameFA",
+                    valueField: "nameFA",
+                    pickListFields: [
+                    {
+                        name: "nameFA"
+                    },
+                    {
+                        name: "nameEN"
+                    }
+                    ],
                 },
                 {
                     name: "orderAmount",
