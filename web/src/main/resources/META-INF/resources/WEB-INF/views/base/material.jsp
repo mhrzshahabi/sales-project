@@ -41,6 +41,10 @@
                     name: "unit.nameEN",
                     title: "<spring:message code='MaterialFeature.unit'/> "
                 },
+                {
+                    name: "mDetailCode",
+                    title: "<spring:message code='material.detailCode'/> "
+                },
             ],
             fetchDataURL: "${contextPath}/api/material/spec-list"
         });
@@ -95,7 +99,12 @@
                 {
                     name: "materialId",
                     hidden: true
-                },],
+                },
+                {
+                    name: "miDetailCode",
+                    title: "<spring:message code='MaterialItem.detailCode'/> "
+                },
+                ],
             fetchDataURL: "${contextPath}/api/materialItem/spec-list"
         });
 
@@ -284,7 +293,6 @@
                         type:"required",
                         validateOnChange: true
                     }],
-                    textAlign: "left"
                 },
                 {
                     name: "descp",
@@ -298,6 +306,12 @@
                         type:"required",
                         validateOnChange: true
                     }]
+                },
+                {
+                    name: "mDetailCode",
+                    title: "<spring:message code='material.detailCode'/>",
+                    type: 'text',
+                    width: 400,
                 },
                 {
                     name: "unitId",
@@ -483,6 +497,7 @@
                 {name: "code", title: "<spring:message code='material.code'/>", align: "center", showIf: "false",},
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
+                {name: "mDetailCode", title: "<spring:message code='material.detailCode'/>", align: "center"},
                 {
                     name: "unit.nameFA", title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center",
                     sortNormalizer: function (recordObject) {
@@ -708,7 +723,6 @@
                         type:"required",
                         validateOnChange: true
                     }],
-                    textAlign: "left"
                 },
                 {
                     name: "gdsName",
@@ -722,6 +736,11 @@
                         validateOnChange: true
                     }]
                 },
+                {
+                    name: "miDetailCode",
+                    width: "300",
+                    title: "<spring:message code='MaterialItem.detailCode'/> ",
+                }
             ]
     });
 
@@ -939,8 +958,13 @@
                 },
                 {
                     name: "gdsName",
-                    width: "48%",
+                    width: "24%",
                     title: "<spring:message code='MaterialItem.gdsName'/> "
+                },
+                {
+                    name: "miDetailCode",
+                    width: "24%",
+                    title: "<spring:message code='MaterialItem.detailCode'/> "
                 },
                 {
                     name: "editIcon",

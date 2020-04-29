@@ -289,6 +289,36 @@
             fetchDataURL: "${contextPath}/api/unit/spec-list"
         });
 
+ var RestDataSource_MaterialItem_IN_invoiceSales = isc.MyRestDataSource.create(
+        {
+            fields: [
+                {
+                    name: "id",
+                    title: "id",
+                    primaryKey: true,
+                    canEdit: false,
+                    hidden: true
+                },
+                {
+                    name: "gdsCode",
+                    title: "<spring:message code='MaterialItem.gdsCode'/> "
+                },
+                {
+                    name: "gdsName",
+                    title: "<spring:message code='MaterialItem.gdsName'/> "
+                },
+                {
+                    name: "materialId",
+                    hidden: true
+                },
+                {
+                    name: "miDetailCode",
+                    title: "<spring:message code='MaterialItem.detailCode'/> "
+                },
+                ],
+            fetchDataURL: "${contextPath}/api/materialItem/spec-list"
+        });
+
     function ListGrid_InvoiceSales_refresh() {
         ListGrid_invoiceSales.invalidateCache();
     }
@@ -1251,10 +1281,27 @@
                 {
                     name: "productCode",
                     title: "<spring:message code='invoiceSalesItem.productCode'/>",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_MaterialItem_IN_invoiceSales,
+                    displayField: "miDetailCode",
+                    valueField: "miDetailCode",
+                    pickListFields: [
+                    {
+                        name: "miDetailCode"
+                    },
+                    {
+                        name: "gdsName"
+                    }
+                    ],
+                    changed: function (form, item, value) {
+                        var prodRecord = DynamicForm_InvoiceSalesItem.getItem("productCode").getSelectedRecord()
+                        DynamicForm_InvoiceSalesItem.getItem("productName").setValue(prodRecord.gdsName);
+                    }
                 },
                 {
                     name: "productName",
                     title: "<spring:message code='invoiceSalesItem.productName'/>",
+                    type: "staticText"
                 },
                 {
                     name: "unitName",
@@ -1287,7 +1334,7 @@
                     name: "unitPrice",
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
                     disabled: true,
-                    changed: function (form, item, value) {
+                    changed: function () {
 
                         var net =(DynamicForm_InvoiceSalesItem.getItem("netAmount")).getValue();
                         var unit =(DynamicForm_InvoiceSalesItem.getItem("unitPrice")).getValue();
@@ -1315,11 +1362,22 @@
                 {
                     name: "discount",
                     title: "<spring:message code='invoiceSalesItem.discount'/>",
+                    defaultValue: 0,
+                    changed: function(){
+                        var line = DynamicForm_InvoiceSalesItem.getItem("linePrice").getValue();
+                        var disc = DynamicForm_InvoiceSalesItem.getItem("discount").getValue();
+                        var lineAfterDisc = line - disc;
+                        DynamicForm_InvoiceSalesItem.getItem("linePriceAfterDiscount").setValue(lineAfterDisc);
+                        var legtotal = DynamicForm_InvoiceSalesItem.getItem("legalFees").getValue();
+                        var vatTotal = DynamicForm_InvoiceSalesItem.getItem("vat").getValue();
+                        DynamicForm_InvoiceSalesItem.getItem("totalPrice").setValue(lineAfterDisc+legtotal+vatTotal)
+                    }
                 },
                 {
                     name: "linePriceAfterDiscount",
                     title: "<spring:message code='invoiceSalesItem.linePriceAfterDiscount'/>",
-                    colSpan: 4
+                    colSpan: 4,
+                    canEdit: false
                 },
                 {
                     name: "legalFees",
@@ -1334,6 +1392,7 @@
                 {
                     name: "totalPrice",
                     title: "<spring:message code='invoiceSalesItem.totalPrice'/>",
+                    canEdit: false
                 },
                 {
                     name: "notes",
