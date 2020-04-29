@@ -187,7 +187,7 @@
                     name: "code"
                 }
             ],
-            fetchDataURL: "${contextPath}/api/invoiceNosaSales/list"
+            fetchDataURL: "${contextPath}/api/invoiceNosaSales/spec-list"
         });
 
  /*var RestDataSource_accDepartment = isc.MyRestDataSource.create(
