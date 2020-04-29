@@ -39,4 +39,7 @@ public class Material extends Auditable {
     @Column(name = "UNIT_ID")
     private Long unitId;
 
+    @Column(name = "M_DETAIL_CODE")
+    private String mDetailCode;
+
 }
