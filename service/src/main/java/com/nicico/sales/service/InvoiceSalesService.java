@@ -11,7 +11,6 @@ import com.nicico.sales.repository.InvoiceSalesDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +50,11 @@ public class InvoiceSalesService implements IInvoiceSalesService {
 //    @PreAuthorize("hasAuthority('C_INVOICE_SALES')")
     public InvoiceSalesDTO.Info create(InvoiceSalesDTO.Create request) {
         final InvoiceSales invoiceSales = modelMapper.map(request, InvoiceSales.class);
-
+        InvoiceSales last = invoiceSalesDAO.findBySerialOrderByCreatedDate(invoiceSales.getSerial());
+        if (last == null)
+            invoiceSales.setInvoiceNo("0");
+        else
+            invoiceSales.setInvoiceNo(String.valueOf(Integer.parseInt(last.getInvoiceNo()) + 1));
         return save(invoiceSales);
     }
 
