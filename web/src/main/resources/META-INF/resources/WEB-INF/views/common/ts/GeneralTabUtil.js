@@ -245,7 +245,7 @@ var nicico;
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
                 // @ts-ignore
-                else if (!record.editable)
+                else if (record.editable == false)
                     This.dialog.notEditable();
                 else {
                     This.variable.method = "PUT";
