@@ -10,26 +10,22 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class IncotermContactDTO {
+public class IncotermPartyDTO {
 
-    private Long termId;
-    private Long incotermAspectId;
-    private Long contactId;
-    private Long incotermStepsId;
-    private Long incotermRulesId;
+    private String title;
+    private String description;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermContactInfo")
-    public static class Info extends IncotermContactDTO {
+    @ApiModel("IncotermPartyInfo")
+    public static class Info extends IncotermPartyDTO {
 
         private Long id;
 
@@ -48,15 +44,15 @@ public class IncotermContactDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermContactCreateRq")
-    public static class Create extends IncotermContactDTO {
+    @ApiModel("IncotermPartyCreateRq")
+    public static class Create extends IncotermPartyDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermContactUpdateRq")
-    public static class Update extends IncotermContactDTO {
+    @ApiModel("IncotermPartyUpdateRq")
+    public static class Update extends IncotermPartyDTO {
 
         @NotNull
         @ApiModelProperty(required = true)
@@ -66,7 +62,7 @@ public class IncotermContactDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermContactDeleteRq")
+    @ApiModel("IncotermPartyDeleteRq")
     public static class Delete {
 
         @NotNull

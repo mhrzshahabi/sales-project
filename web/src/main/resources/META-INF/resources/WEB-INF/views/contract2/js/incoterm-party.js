@@ -1,5 +1,5 @@
-var incotermStepTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-incotermStepTab.dynamicForm.fields = BaseFormItems.concat([{
+var incotermPartyTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+incotermPartyTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
     name: "title",
     required: true,
@@ -10,15 +10,13 @@ incotermStepTab.dynamicForm.fields = BaseFormItems.concat([{
     name: "description",
     title: "<spring:message code='global.description'/>",
 }]);
-incotermStepTab.listGrid.fields = incotermStepTab.dynamicForm.fields.map(q => {
+incotermPartyTab.listGrid.fields = incotermPartyTab.dynamicForm.fields.map(q => {
     const item = {...q};
     if (item.isBaseItem) {
         item.hidden = false;
         return item;
     } else if (item.name === 'title') {
         item.width = '30%';
-        item.showHover = true;
-        item.hoverWidth = 300;
         return item;
     } else if (item.name === 'description') {
         item.width = '70%';
@@ -28,4 +26,5 @@ incotermStepTab.listGrid.fields = incotermStepTab.dynamicForm.fields.map(q => {
     }
     return item;
 });
-nicico.BasicFormUtil.getDefaultBasicForm(incotermStepTab, "api/incoterm-step/");
+nicico.BasicFormUtil.getDefaultBasicForm(incotermPartyTab, "api/incoterm-party/");
+incotermPartyTab.dynamicForm.main.windowWidth = 500;

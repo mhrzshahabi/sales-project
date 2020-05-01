@@ -1,6 +1,5 @@
 package com.nicico.sales.model.entities.contract;
 
-import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -15,17 +14,17 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CNTR_INCOTERM_CONTACT")
-public class IncotermContact extends BaseEntity {
+@Table(name = "TBL_CNTR_INCOTERM_DETAIL")
+public class IncotermDetail extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_INCOTERM_CONTACT")
-    @SequenceGenerator(name = "SEQ_CNTR_INCOTERM_CONTACT", sequenceName = "SEQ_CNTR_INCOTERM_CONTACT", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_INCOTERM_DETAIL")
+    @SequenceGenerator(name = "SEQ_CNTR_INCOTERM_DETAIL", sequenceName = "SEQ_CNTR_INCOTERM_DETAIL", allocationSize = 1)
     private Long id;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_TERM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermContact2termByTermId"))
+    @JoinColumn(name = "F_TERM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermDetail2termByTermId"))
     private Term term;
 
     @Column(name = "F_TERM_ID")
@@ -33,7 +32,7 @@ public class IncotermContact extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_INCOTERM_ASPECT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermContact2incotermAspectByIncotermAspectId"))
+    @JoinColumn(name = "F_INCOTERM_ASPECT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermDetail2incotermAspectByIncotermAspectId"))
     private IncotermAspect incotermAspect;
 
     @NotNull
@@ -42,16 +41,16 @@ public class IncotermContact extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermContact2contactByContactId"))
-    private Contact contact;
+    @JoinColumn(name = "F_INCOTERM_PARTY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermDetail2incotermPartyByIncotermPartyId"))
+    private IncotermParty incotermParty;
 
     @NotNull
-    @Column(name = "F_CONTACT_ID", nullable = false)
-    private Long contactId;
+    @Column(name = "F_INCOTERM_PARTY_ID", nullable = false)
+    private Long incotermPartyId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_INCOTERM_STEPS_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermContact2incotermStepsByIncotermStepsId"))
+    @JoinColumn(name = "F_INCOTERM_STEPS_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermDetail2incotermStepsByIncotermStepsId"))
     private IncotermSteps incotermSteps;
 
     @NotNull
@@ -60,7 +59,7 @@ public class IncotermContact extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_INCOTERM_RULES_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermContact2incotermRulesByIncotermRulesId"))
+    @JoinColumn(name = "F_INCOTERM_RULES_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermDetail2incotermRulesByIncotermRulesId"))
     private IncotermRules incotermRules;
 
     @NotNull
