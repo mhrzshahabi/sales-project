@@ -10,6 +10,21 @@ termTab.dynamicForm.fields = BaseFormItems.concat([{
     name: "description",
     title: "<spring:message code='global.description'/>",
 }]);
-Object.assign(termTab.listGrid.fields, termTab.dynamicForm.fields);
+termTab.listGrid.fields = termTab.dynamicForm.fields.map(q => {
+    const item = {...q};
+    if (item.isBaseItem) {
+        item.hidden = false;
+        return item;
+    } else if (item.name === 'title') {
+        item.width = '30%';
+        return item;
+    } else if (item.name === 'description') {
+        item.width = '70%';
+        item.showHover = true;
+        item.hoverWidth = 400;
+        return item;
+    }
+    return item;
+});
 nicico.BasicFormUtil.getDefaultBasicForm(termTab, "api/term/");
 termTab.dynamicForm.main.windowWidth = 500;

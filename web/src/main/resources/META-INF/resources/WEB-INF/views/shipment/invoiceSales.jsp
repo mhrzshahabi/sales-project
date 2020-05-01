@@ -187,27 +187,27 @@
                     name: "code"
                 }
             ],
-            fetchDataURL: "${contextPath}/api/invoiceNosaSales/list"
+            fetchDataURL: "${contextPath}/api/invoiceNosaSales/spec-list"
         });
 
- /*var RestDataSource_accDepartment = isc.MyRestDataSource.create(
-        {
-            fields: [
-                {
-                    name: "id"
-                },
-                {
-                    name: "departmentCode"
-                },
-                {
-                    name: "departmentName"
-                },
-                {
-                    name: "departmentNameLatin"
-                }
-            ],
-            fetchDataURL: "${contextPath}/api/accDepartment/list"
-        });*/
+        var RestDataSource_accDepartment = isc.MyRestDataSource.create(
+            {
+                fields: [
+                    {
+                        name: "id"
+                    },
+                    {
+                        name: "departmentCode"
+                    },
+                    {
+                        name: "departmentName"
+                    },
+                    {
+                        name: "departmentNameLatin"
+                    }
+                ],
+                fetchDataURL: "${contextPath}/api/accDepartment/spec-list"
+        });
 
     var RestDataSource_salesType = isc.MyRestDataSource.create(
         {
@@ -479,13 +479,13 @@
                 {
                     name: "serial",
                     title: "<spring:message code='invoiceSales.serial'/>",
-                    // width: 500,
-                    // colSpan: 3
+                    required: true
                 },
                 {
                     name: "invoiceNo",
                     title: "<spring:message code='invoiceSales.invoiceNo'/>",
-                    canEdit: false
+                    canEdit: false,
+                    type: "staticText"
                 },
                 {
                     name: "invoiceDate",
@@ -503,7 +503,7 @@
                 {
                     name: "district",
                     title: "<spring:message code='invoiceSales.district'/>",
-                    /*editorType: "SelectItem",
+                    editorType: "SelectItem",
                     optionDataSource: RestDataSource_accDepartment,
                     displayField: "departmentName",
                     valueField: "departmentName",
@@ -511,15 +511,15 @@
                         showFilterEditor: true
                     },
                     pickListFields: [
-                    {
-                        name: "departmentCode",
-                        title: "<spring:message code='invoiceSales.districtCode'/>"
-                    },
-                    {
-                        name: "departmentName",
-                        title: "<spring:message code='invoiceSales.districtName'/>"
-                    }
-                    ],*/
+                        {
+                            name: "departmentCode",
+                            title: "<spring:message code='invoiceSales.districtCode'/>"
+                        },
+                        {
+                            name: "departmentName",
+                            title: "<spring:message code='invoiceSales.districtName'/>"
+                        }
+                    ],
                 },
                 {
                     name: "customerId",
@@ -1326,73 +1326,52 @@
                 {
                     name: "netAmount",
                     title: "<spring:message code='invoiceSalesItem.netAmount'/>",
+                    defaultValue: 0,
                     changed: function (form, item, value) {
-                        form.getField("unitPrice").setDisabled(!value)
+                        updatePrice();
                     }
                 },
                 {
                     name: "unitPrice",
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
-                    disabled: true,
+                    defaultValue: 0,
                     changed: function () {
-
-                        var net =(DynamicForm_InvoiceSalesItem.getItem("netAmount")).getValue();
-                        var unit =(DynamicForm_InvoiceSalesItem.getItem("unitPrice")).getValue();
-                        DynamicForm_InvoiceSalesItem.getItem("linePrice").setValue(net * unit);
-
-                        var criteria1 = {
-                            _constructor: "AdvancedCriteria",
-                            operator: "and",
-                            criteria: [{fieldName: "year", operator: "equals", value: year}]
-                        };
-                        RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                            var line = (DynamicForm_InvoiceSalesItem.getItem("linePrice")).getValue();
-                            var legTotal = line*(data[0].legalFees);
-                            var vatTotal = line*(data[0].vat);
-                            DynamicForm_InvoiceSalesItem.getItem("legalFees").setValue(legTotal);
-                            DynamicForm_InvoiceSalesItem.getItem("vat").setValue(vatTotal);
-                        });
+                        updatePrice();
                     }
                 },
                 {
                     name: "linePrice",
                     title: "<spring:message code='invoiceSalesItem.linePrice'/>",
-                    canEdit: false,
+                    type: "staticText"
                 },
                 {
                     name: "discount",
                     title: "<spring:message code='invoiceSalesItem.discount'/>",
                     defaultValue: 0,
                     changed: function(){
-                        var line = DynamicForm_InvoiceSalesItem.getItem("linePrice").getValue();
-                        var disc = DynamicForm_InvoiceSalesItem.getItem("discount").getValue();
-                        var lineAfterDisc = line - disc;
-                        DynamicForm_InvoiceSalesItem.getItem("linePriceAfterDiscount").setValue(lineAfterDisc);
-                        var legtotal = DynamicForm_InvoiceSalesItem.getItem("legalFees").getValue();
-                        var vatTotal = DynamicForm_InvoiceSalesItem.getItem("vat").getValue();
-                        DynamicForm_InvoiceSalesItem.getItem("totalPrice").setValue(lineAfterDisc+legtotal+vatTotal)
+                        updatePrice();
                     }
                 },
                 {
                     name: "linePriceAfterDiscount",
                     title: "<spring:message code='invoiceSalesItem.linePriceAfterDiscount'/>",
                     colSpan: 4,
-                    canEdit: false
+                    type: "staticText"
                 },
                 {
                     name: "legalFees",
                     title: "<spring:message code='invoiceSalesItem.legalFees'/>",
-                    canEdit: false,
+                    type: "staticText"
                 },
                 {
                     name: "vat",
                     title: "<spring:message code='invoiceSalesItem.vat'/>",
-                    canEdit: false,
+                    type: "staticText"
                 },
                 {
                     name: "totalPrice",
                     title: "<spring:message code='invoiceSalesItem.totalPrice'/>",
-                    canEdit: false
+                    type: "staticText"
                 },
                 {
                     name: "notes",
@@ -1412,6 +1391,34 @@
                 }
             ]
     });
+
+    function updatePrice(){
+        var net =(DynamicForm_InvoiceSalesItem.getItem("netAmount")).getValue();
+        var unit =(DynamicForm_InvoiceSalesItem.getItem("unitPrice")).getValue();
+        DynamicForm_InvoiceSalesItem.getItem("linePrice").setValue(net * unit);
+
+        var line = DynamicForm_InvoiceSalesItem.getItem("linePrice").getValue();
+        var disc = DynamicForm_InvoiceSalesItem.getItem("discount").getValue();
+        var lineAfterDisc = line - disc;
+        DynamicForm_InvoiceSalesItem.getItem("linePriceAfterDiscount").setValue(lineAfterDisc);
+
+        var legtotal = DynamicForm_InvoiceSalesItem.getItem("legalFees").getValue();
+        var vatTotal = DynamicForm_InvoiceSalesItem.getItem("vat").getValue();
+        DynamicForm_InvoiceSalesItem.getItem("totalPrice").setValue(lineAfterDisc+legtotal+vatTotal);
+
+        var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "year", operator: "equals", value: year}]
+        };
+        RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+            var line = (DynamicForm_InvoiceSalesItem.getItem("linePrice")).getValue();
+            var legTotal = line*(data[0].legalFees);
+            var vatTotal = line*(data[0].vat);
+            DynamicForm_InvoiceSalesItem.getItem("legalFees").setValue(legTotal);
+            DynamicForm_InvoiceSalesItem.getItem("vat").setValue(vatTotal);
+        });
+    }
 
     var ToolStripButton_InvoiceSalesItem_Refresh = isc.ToolStripButtonRefresh.create({
         title: "<spring:message code='global.form.refresh'/>",

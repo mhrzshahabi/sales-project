@@ -72,52 +72,79 @@
         willHandleError: false //centralized error handling
     };
 
-    var statusMap = {
+    const statusMap = {
         "Active": "عادی",
         "DeActive": "حذف شده"
     };
 
-    var BaseFormItems = [{
-        hidden: true,
-        primaryKey: true,
-        name: "id",
-        type: "number",
-        width: 75,
-        title: "<spring:message code='global.id'/>"
-    }, {
-        hidden: true,
-        name: "version",
-        type: "number",
-        width: 70,
-        title: "<spring:message code='global.version'/>"
-    }, {
-        hidden: true,
-        name: "editable",
-        type: "boolean",
-        width: 60,
-        title: "<spring:message code='global.editable'/>"
-    }, {
-        hidden: true,
-        type: "number",
-        name: "estatus",
-        showHover: true,
-        width: 100,
-        title: "<spring:message code='global.e-status'/>",
-        hoverHTML(record, value, rowNum, colNum, grid) {
+    const BaseFormItems = {
 
-            if (record == null || record.estatus == null || record.estatus.length === 0)
-                return;
+        concat: function(fields, setBaseItemsHidden = true) {
 
-            return record.estatus.map(q => '<div>' + statusMap[q] + '</div>').join();
+            let items = [];
+            if (fields.constructor !== Array)
+                return items;
+
+            items.push({...this.formItems[0]});
+            items[0].hidden = setBaseItemsHidden;
+
+            for (let i = 0; i < fields.length; i++)
+                items.push({...fields[i]});
+
+            for (let i = 1; i < this.formItems.length; i++) {
+
+                items.push({...this.formItems[i]});
+                items[items.length - 1].hidden = setBaseItemsHidden;
+            }
+
+            return items;
         },
-        formatCellValue: function (value, record, rowNum, colNum, grid) {
+        formItems: [{
+            isBaseItem: true,
+            hidden: true,
+            primaryKey: true,
+            name: "id",
+            type: "number",
+            width: 75,
+            title: "<spring:message code='global.id'/>"
+        }, {
+            isBaseItem: true,
+            hidden: true,
+            name: "version",
+            type: "number",
+            width: 70,
+            title: "<spring:message code='global.version'/>"
+        }, {
+            isBaseItem: true,
+            hidden: true,
+            name: "editable",
+            type: "boolean",
+            width: 60,
+            title: "<spring:message code='global.editable'/>"
+        }, {
+            isBaseItem: true,
+            hidden: true,
+            type: "number",
+            name: "estatus",
+            showHover: true,
+            width: 100,
+            title: "<spring:message code='global.e-status'/>",
+            hoverHTML(record, value, rowNum, colNum, grid) {
 
-            if (record == null || record.estatus == null || record.estatus.length === 0)
-                return;
+                if (record == null || record.estatus == null || record.estatus.length === 0)
+                    return;
 
-            return record.estatus.join(', ');
-        }
-    }];
+                return record.estatus.map(q => '<div>' + statusMap[q] + '</div>').join();
+            },
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+
+                if (record == null || record.estatus == null || record.estatus.length === 0)
+                    return;
+
+                return record.estatus.join(', ');
+            }
+        }]
+    };
 
     var salesCommonUtil = new nicico.CommonUtil();
     var salesPersianDateUtil = new nicico.PersianDateUtil();
@@ -231,7 +258,7 @@
     Page.setAppImgDir("static/img/");
 
     isc.ListGrid.addProperties({
-        dataPageSize: 50,
+        dataPageSize: 500,
         showPrompt: true,
         canAutoFitFields: false,
         allowFilterExpressions: true,

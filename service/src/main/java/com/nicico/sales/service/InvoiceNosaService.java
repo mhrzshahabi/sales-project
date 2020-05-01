@@ -1,10 +1,12 @@
 package com.nicico.sales.service;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.GridResponse;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.InvoiceNosaDTO;
 import com.nicico.sales.iservice.IInvoiceNosaService;
-import com.nicico.sales.model.entities.base.InvoiceNosa;
+import com.nicico.sales.utility.AccountingTotalResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -29,23 +31,38 @@ public class InvoiceNosaService implements IInvoiceNosaService {
 
     @Transactional(readOnly = true)
     @Override
-    //    @PreAuthorize("hasAuthority('R_INVOICE_SALES')")
-    public List<InvoiceNosaDTO.Info> list() {
-
-        ResponseEntity<String> response = restTemplate.getForEntity(accountingAppUrl + "/rest/detail/getDetailGridFetch?_operationType=fetch&_startRow=0&_endRow=500&_sortBy=code&_textMatchStyle=substring&\n" +
-                "                _componentId=isc_PickListMenu_0&_dataSource=isc_MyRestDataSource_3&isc_metaDataPrefix=_&isc_dataFormat=json", String.class);
-
-        String body = response.getBody();
-        ArrayList arrInput = (ArrayList) ((LinkedTreeMap) ((LinkedHashMap) gson.fromJson(body, new TypeToken<Map<Object, Object>>() {
-        }.getType())).get("response")).get("data");
-
-        List<InvoiceNosa> invoiceNosa = new ArrayList<>();
-
-        for(int i=0; i<arrInput.size(); i++){
-            invoiceNosa.add(gson.fromJson(gson.toJsonTree(arrInput.get(i)),InvoiceNosa.class));
+//    @PreAuthorize("hasAuthority('R_INVOICE_SALES')")
+    public TotalResponse<InvoiceNosaDTO.Info> search(NICICOCriteria criteria) {
+        String queryCriteria = null;
+        Map<String, String> uriVariables = new HashMap<>();
+        if (criteria.getCriteria() != null) {
+            queryCriteria = "operator=" + criteria.getOperator() + "&_constructor=AdvancedCriteria";
+            Iterator criteriaIterator = ((LinkedList) criteria.getCriteria()).iterator();
+            int key = 1;
+            while (criteriaIterator.hasNext()) {
+                uriVariables.put(String.valueOf(key), criteriaIterator.next().toString());
+                queryCriteria = queryCriteria + "&criteria={" + key + "}";
+                key++;
+            }
         }
+        ResponseEntity<String> response = restTemplate.getForEntity(accountingAppUrl + "/rest/detail/getDetailGridFetch?" +
+                (queryCriteria != null ? queryCriteria + "&" : "") +
+                "_operationType=fetch" +
+                "&_startRow=" + criteria.get_startRow() +
+                "&_endRow=" + criteria.get_endRow() +
+                "&_sortBy=" + (criteria.get_sortBy() != null ? criteria.get_sortBy() : "code"), String.class, uriVariables);
 
-        return modelMapper.map(invoiceNosa, new TypeToken<List<InvoiceNosaDTO.Info>>() {}.getType());
-        }
+        AccountingTotalResponse accountingTotalResponse = gson.fromJson(response.getBody(), AccountingTotalResponse.class);
+
+        GridResponse<InvoiceNosaDTO.Info> gridResponseInvoice = new GridResponse<>();
+        gridResponseInvoice.setData(modelMapper.map(accountingTotalResponse.getResponse().getData(), new TypeToken<List<InvoiceNosaDTO.Info>>() {
+        }.getType()));
+        gridResponseInvoice.setStartRow(accountingTotalResponse.getResponse().getStartRow());
+        gridResponseInvoice.setEndRow(accountingTotalResponse.getResponse().getEndRow());
+        gridResponseInvoice.setTotalRows(accountingTotalResponse.getResponse().getTotalRows());
+        gridResponseInvoice.setStatus(accountingTotalResponse.getResponse().getStatus());
+
+        return new TotalResponse<>(gridResponseInvoice);
+    }
 
 }
