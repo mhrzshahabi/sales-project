@@ -1,8 +1,8 @@
 var termTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 termTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
-    required: true,
     name: "title",
+    required: true,
     title: "<spring:message code='global.title'/>"
 }, {
     width: "100%",

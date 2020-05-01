@@ -247,6 +247,7 @@
                     isc.warn("<spring:message code='exception.ACCESS_DENIED'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
                 default:
+                    if (!httpResponse.errors) return;
                     const errorText = httpResponse.errors.map(q => q.message + '<br>').join();
                     isc.warn(errorText, {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;

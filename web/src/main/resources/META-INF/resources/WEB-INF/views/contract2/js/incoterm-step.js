@@ -1,8 +1,8 @@
 var incotermStepTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 incotermStepTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
-    required: true,
     name: "title",
+    required: true,
     title: "<spring:message code='global.title'/>"
 }, {
     width: "100%",
@@ -10,5 +10,20 @@ incotermStepTab.dynamicForm.fields = BaseFormItems.concat([{
     name: "description",
     title: "<spring:message code='global.description'/>",
 }]);
-Object.assign(incotermStepTab.listGrid.fields, incotermStepTab.dynamicForm.fields);
+incotermStepTab.listGrid.fields = incotermStepTab.dynamicForm.fields.map(q => {
+    const item = {...q};
+    if (item.isBaseItem) {
+        item.hidden = false;
+        return item;
+    } else if (item.name === 'title') {
+        item.width = '30%';
+        return item;
+    } else if (item.name === 'description') {
+        item.width = '70%';
+        item.showHover = true;
+        item.hoverWidth = 400;
+        return item;
+    }
+    return item;
+});
 nicico.BasicFormUtil.getDefaultBasicForm(incotermStepTab, "api/incoterm-step/");
