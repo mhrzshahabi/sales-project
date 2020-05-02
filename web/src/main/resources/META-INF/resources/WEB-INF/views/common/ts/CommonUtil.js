@@ -31,6 +31,7 @@ var nicico;
                 listGridProperties.dataPageSize = 50;
                 listGridProperties.fetchDelay = 1000;
                 listGridProperties.autoFetchData = true;
+                listGridProperties.showRowNumbers = true;
                 listGridProperties.showFilterEditor = true;
                 listGridProperties.filterOnKeypress = false;
                 listGridProperties.canAutoFitFields = false;

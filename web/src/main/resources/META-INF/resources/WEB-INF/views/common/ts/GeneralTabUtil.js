@@ -273,6 +273,9 @@ var nicico;
                 var record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
                 else {
                     This.variable.method = "DELETE";
                     This.dialog.question(function () {
