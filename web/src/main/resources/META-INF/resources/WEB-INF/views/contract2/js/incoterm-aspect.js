@@ -1,9 +1,19 @@
 var incotermAspectTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 incotermAspectTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
-    name: "title",
     required: true,
-    title: "<spring:message code='global.title'/>"
+    name: "code",
+    title: "<spring:message code='global.code'/>"
+}, {
+    width: "100%",
+    required: true,
+    name: "titleFa",
+    title: "<spring:message code='global.title-fa'/>"
+}, {
+    width: "100%",
+    required: true,
+    name: "titleEn",
+    title: "<spring:message code='global.title-en'/>"
 }, {
     width: "100%",
     type: "textArea",
@@ -15,14 +25,14 @@ incotermAspectTab.listGrid.fields = incotermAspectTab.dynamicForm.fields.map(q =
     if (item.isBaseItem) {
         item.hidden = false;
         return item;
-    } else if (item.name === 'title') {
-        item.width = '30%';
+    } else if (item.name === 'code' || item.name === 'titleFa' || item.name === 'titleEn') {
+        item.width = '20%';
         item.showHover = true;
         return item;
     } else if (item.name === 'description') {
-        item.width = '70%';
+        item.width = '40%';
         item.showHover = true;
-        item.hoverWidth = '50%';
+        item.hoverWidth = '30%';
         return item;
     }
     return item;

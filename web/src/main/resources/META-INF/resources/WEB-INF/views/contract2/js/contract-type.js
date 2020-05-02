@@ -39,4 +39,3 @@ contractTypeTab.listGrid.fields = contractTypeTab.dynamicForm.fields.map(q => {
 });
 nicico.BasicFormUtil.getDefaultBasicForm(contractTypeTab, "api/contract-type/");
 contractTypeTab.dynamicForm.main.windowWidth = 500;
-
