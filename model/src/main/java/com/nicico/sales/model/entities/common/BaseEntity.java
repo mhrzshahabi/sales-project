@@ -2,6 +2,7 @@ package com.nicico.sales.model.entities.common;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.enumeration.EStatus;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
