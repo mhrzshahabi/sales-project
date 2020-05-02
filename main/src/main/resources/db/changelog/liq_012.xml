@@ -109,4 +109,50 @@
 
     </changeSet>
 
+    <changeSet author="MShahabi" id="1778899665544-025">
+        <createTable tableName="TBL_VESSEL">
+
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_VESSEL_PK"/>
+            </column>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="TYPE" type="VARCHAR2(100 CHAR)"/>
+            <column name="IMO" type="NUMBER(19, 0)"/>
+            <column name="YEAR_OF_BUILd" type="NUMBER(19, 0)"/>
+            <column name="LENGTH" type="FLOAT"/>
+            <column name="BEAM" type="FLOAT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-026">
+        <createSequence sequenceName="SEQ_VESSEL"/>
+    </changeSet>
+
+    <changeSet author="programmer (generated)" id="1778899665544-031">
+        <addColumn tableName="TBL_VESSEL">
+        <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+            <constraints nullable="false"/>
+        </column>
+        </addColumn>
+        <addColumn tableName="TBL_VESSEL">
+        <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
+            <constraints nullable="false"/>
+        </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-032">
+        <addColumn tableName="TBL_MATERIAL">
+            <column name="M_DETAIL_CODE" type="varchar2(100 CHAR)"/>
+        </addColumn>
+        <addColumn tableName="TBL_MATERIAL_ITEM">
+            <column name="MI_DETAIL_CODE" type="varchar2(100 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>
