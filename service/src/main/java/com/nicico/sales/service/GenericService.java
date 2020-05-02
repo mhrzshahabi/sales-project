@@ -341,7 +341,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Override
     public Boolean validation(T entity, Object... request) {
 
-        if (actionType != ActionType.Update)
+        if (actionType != ActionType.Update && actionType != ActionType.Delete)
             return null;
 
         if (!(entity instanceof BaseEntity) || ((BaseEntity) entity).getEditable())
@@ -353,7 +353,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Override
     public Boolean validationAll(List<T> entities, Object... request) {
 
-        if (actionType != ActionType.UpdateAll)
+        if (actionType != ActionType.UpdateAll && actionType != ActionType.DeleteAll)
             return null;
 
         if (entities == null || entities.size() == 0)

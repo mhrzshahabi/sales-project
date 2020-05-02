@@ -20,5 +20,23 @@ contractTypeTab.dynamicForm.fields = BaseFormItems.concat([{
     name: "description",
     title: "<spring:message code='global.description'/>",
 }]);
-Object.assign(contractTypeTab.listGrid.fields, contractTypeTab.dynamicForm.fields);
+contractTypeTab.listGrid.fields = contractTypeTab.dynamicForm.fields.map(q => {
+    const item = {...q};
+    if (item.isBaseItem) {
+        item.hidden = false;
+        return item;
+    } else if (item.name === 'code' || item.name === 'titleFa' || item.name === 'titleEn') {
+        item.width = '20%';
+        item.showHover = true;
+        return item;
+    } else if (item.name === 'description') {
+        item.width = '40%';
+        item.showHover = true;
+        item.hoverWidth = '30%';
+        return item;
+    }
+    return item;
+});
 nicico.BasicFormUtil.getDefaultBasicForm(contractTypeTab, "api/contract-type/");
+contractTypeTab.dynamicForm.main.windowWidth = 500;
+

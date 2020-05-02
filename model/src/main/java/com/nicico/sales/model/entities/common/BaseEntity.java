@@ -32,9 +32,4 @@ public class BaseEntity extends Auditable {
     private List<EStatus> eStatus = new ArrayList<EStatus>() {{
         add(EStatus.Active);
     }};
-
-    @NotNull
-    @Setter(AccessLevel.NONE)
-    @Column(name = "N_E_STATUS", nullable = false, insertable = false, updatable = false)
-    private Integer eStatusValue;
 }
