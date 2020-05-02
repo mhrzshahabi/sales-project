@@ -7,6 +7,10 @@ vesselTab.dynamicForm.fields = [{
     title: "<spring:message code='global.id'/>"
 },{
     width: "10%",
+    name: "name",
+    title: "<spring:message code='vessel.name'/>"
+}, {
+    width: "10%",
     name: "type",
     title: "<spring:message code='vessel.type'/>"
 }, {
