@@ -30,9 +30,9 @@ public class SalesExceptionHandlerControllerAdvice2 extends AbstractExceptionHan
 
     static {
 
-        final Reflections reflections = new Reflections("com.nicico.sales.model");
+        /*final Reflections reflections = new Reflections("com.nicico.sales.model");
         Set<Class<?>> allModels = reflections.getTypesAnnotatedWith(EntityConstraint.class);
-        allModels.forEach(item -> uniqueConstraintAnnotations.addAll(Arrays.asList(item.getDeclaredAnnotationsByType(EntityConstraint.class))));
+        allModels.forEach(item -> uniqueConstraintAnnotations.addAll(Arrays.asList(item.getDeclaredAnnotationsByType(EntityConstraint.class))));*/
     }
 
     @Override
