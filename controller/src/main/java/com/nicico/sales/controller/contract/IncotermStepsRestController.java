@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/incoterm-Steps")
+@RequestMapping(value = "/api/incoterm-steps")
 public class IncotermStepsRestController {
 
     private final IIncotermStepsService incotermStepsService;

@@ -5,7 +5,7 @@ import com.nicico.copper.common.dto.ErrorResponseDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.*;
 import com.nicico.sales.model.annotation.EntityConstraint;
-import com.nicico.sales.utility.MessageKeyUtil;
+import com.nicico.sales.utility.StringFormatUtil;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.reflections.Reflections;
@@ -42,7 +42,7 @@ public class SalesExceptionHandlerControllerAdvice2 extends AbstractExceptionHan
         final Map<String, ErrorResponseDTO.ErrorFieldDTO> uniqueConstraintErrors = new HashMap<>();
         for (EntityConstraint annotation : uniqueConstraintAnnotations) {
 
-            final String messageKey = MessageKeyUtil.makeMessageKey(annotation.constraintType().name());
+            final String messageKey = StringFormatUtil.makeMessageKey(annotation.constraintType().name(), "-");
             final String message = messageSource.getMessage("exception." + messageKey + "constraint",
                     new Object[]{String.join(", ", annotation.constraintFields())}, locale);
             ErrorResponseDTO.ErrorFieldDTO error = new ErrorResponseDTO.ErrorFieldDTO();

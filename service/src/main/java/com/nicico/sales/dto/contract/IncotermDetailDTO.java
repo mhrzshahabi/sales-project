@@ -1,6 +1,7 @@
-package com.nicico.sales.dto;
+package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -15,68 +16,58 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MaterialDTO {
+public class IncotermDetailDTO {
 
-    private String descl;
-    private String descp;
-    private String code;
-    private Long unitId;
-    private String mDetailCode;
+    private Long termId;
+    private Long incotermAspectId;
+    private Long contactId;
+    private Long incotermStepsId;
+    private Long incotermRulesId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("MaterialInfo")
-    public static class Info extends MaterialDTO {
+    @ApiModel("IncotermDetailInfo")
+    public static class Info extends IncotermDetailDTO {
+
         private Long id;
-        private UnitDTO unit;
+
+        // Auditing
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("MaterialTuple")
-    public static class MaterialTuple {
-        private Long id;
-        private String descl;
-        private String descp;
-        private String code;
-        private Long unitId;
-        private UnitDTO unit;
+    @ApiModel("IncotermDetailCreateRq")
+    public static class Create extends IncotermDetailDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("MaterialCreateRq")
-    public static class Create extends MaterialDTO {
-        @ApiModelProperty(required = true)
-        private Long unitId;
-    }
+    @ApiModel("IncotermDetailUpdateRq")
+    public static class Update extends IncotermDetailDTO {
 
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("MaterialUpdateRq")
-    public static class Update extends MaterialDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-
-        @ApiModelProperty(required = true)
-        private Long unitId;
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("MaterialDeleteRq")
+    @ApiModel("IncotermDetailDeleteRq")
     public static class Delete {
+
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

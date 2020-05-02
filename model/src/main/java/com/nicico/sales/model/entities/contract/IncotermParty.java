@@ -14,12 +14,12 @@ import javax.validation.constraints.NotEmpty;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CNTR_TERM")
-public class Term extends BaseEntity {
+@Table(name = "TBL_CNTR_INCOTERM_PARTY")
+public class IncotermParty extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_TERM")
-    @SequenceGenerator(name = "SEQ_CNTR_TERM", sequenceName = "SEQ_CNTR_TERM", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_INCOTERM_PARTY")
+    @SequenceGenerator(name = "SEQ_CNTR_INCOTERM_PARTY", sequenceName = "SEQ_CNTR_INCOTERM_PARTY", allocationSize = 1)
     private Long id;
 
     @NotEmpty

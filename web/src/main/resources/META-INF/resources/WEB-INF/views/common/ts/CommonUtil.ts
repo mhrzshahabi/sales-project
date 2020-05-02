@@ -72,16 +72,16 @@ namespace nicico {
                 listGridProperties.alternateRecordStyles = true;
 
                 listGridProperties.selectionType = "single";
-                listGridProperties.sortDirection = "descending";
+                listGridProperties.sortDirection = "ascending";
 
-                listGridProperties.groupByText = '<spring=message code="global.grid.groupByText" />';
-                listGridProperties.autoFitAllText = '<spring=message code="global.grid.autoFitAllText" />';
-                listGridProperties.freezeFieldText = '<spring=message code="global.grid.freezeFieldText" />';
-                listGridProperties.filterUsingText = '<spring=message code="global.grid.filterUsingText" />';
-                listGridProperties.autoFitFieldText = '<spring=message code="global.grid.autoFitFieldText" />';
-                listGridProperties.configureSortText = '<spring=message code="global.grid.configureSortText" />';
-                listGridProperties.sortFieldAscendingText = '<spring=message code="global.grid.sortFieldAscendingText" />';
-                listGridProperties.sortFieldDescendingText = '<spring=message code="global.grid.sortFieldDescendingText" />';
+                listGridProperties.groupByText = '<spring:message code="global.grid.groupByText" />';
+                listGridProperties.autoFitAllText = '<spring:message code="global.grid.autoFitAllText" />';
+                listGridProperties.freezeFieldText = '<spring:message code="global.grid.freezeFieldText" />';
+                listGridProperties.filterUsingText = '<spring:message code="global.grid.filterUsingText" />';
+                listGridProperties.autoFitFieldText = '<spring:message code="global.grid.autoFitFieldText" />';
+                listGridProperties.configureSortText = '<spring:message code="global.grid.configureSortText" />';
+                listGridProperties.sortFieldAscendingText = '<spring:message code="global.grid.sortFieldAscendingText" />';
+                listGridProperties.sortFieldDescendingText = '<spring:message code="global.grid.sortFieldDescendingText" />';
 
                 return this.createListGrid(listGridProperties, fields, restDataSource);
             };

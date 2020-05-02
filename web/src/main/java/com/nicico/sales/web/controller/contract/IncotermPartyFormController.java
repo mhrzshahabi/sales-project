@@ -9,15 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/contract2")
-public class ContractFormController2 {
+@RequestMapping("/incoterm-party")
+public class IncotermPartyFormController {
 
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) {
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CONTRACT2"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CONTRACT2"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_CONTRACT2"));
-        return "contract2/contract";
+        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_INCOTERM_PARTY"));
+        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_INCOTERM_PARTY"));
+        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_INCOTERM_PARTY"));
+        return "contract2/incoterm-party";
     }
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Incoterm extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_INCOTERM", sequenceName = "SEQ_CNTR_INCOTERM", allocationSize = 1)
     private Long id;
 
-    @NotNull
+    @NotEmpty
     @Column(name = "C_TITLE", nullable = false, length = 200)
     private String title;
 

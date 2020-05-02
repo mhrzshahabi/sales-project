@@ -36,4 +36,7 @@ public class MaterialItem extends Auditable {
     @Column(name = "MATERIAL_ID")
     private Long materialId;
 
+    @Column(name = "MI_DETAIL_CODE")
+    private String miDetailCode;
+
 }

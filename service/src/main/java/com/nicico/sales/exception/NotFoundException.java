@@ -1,7 +1,7 @@
 package com.nicico.sales.exception;
 
 import com.nicico.sales.enumeration.ErrorType;
-import com.nicico.sales.utility.MessageKeyUtil;
+import com.nicico.sales.utility.StringFormatUtil;
 import lombok.Getter;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -43,7 +43,7 @@ public class NotFoundException extends BaseException {
             message = messageSource.getMessage("exception.not-found", null, locale);
         else {
 
-            String code = "entity." + MessageKeyUtil.makeMessageKey(entityClass.getSimpleName());
+            String code = "entity." + StringFormatUtil.makeMessageKey(entityClass.getSimpleName(), "-");
             message = messageSource.getMessage(code, null, locale);
             message = messageSource.getMessage("exception.entity.not-found", new Object[]{message}, locale);
         }

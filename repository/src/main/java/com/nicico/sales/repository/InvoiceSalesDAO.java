@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InvoiceSalesDAO extends JpaRepository<InvoiceSales, Long>, JpaSpecificationExecutor<InvoiceSales> {
-
+    InvoiceSales findBySerialOrderByCreatedDate(String serial);
 }
