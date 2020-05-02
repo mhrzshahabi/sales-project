@@ -758,15 +758,6 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_CONTRACT_DETAIL_TYPE_PARAM')">
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='entity.contract-detail-type-param'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.contract-detail-type-param'/>", "<spring:url value="/contract-detail-type-param/show-form" />")
-                    }
-                },
-                </sec:authorize>
                 <sec:authorize access="hasAnyAuthority('R_INCOTERM')">
                 {isSeparator: true},
                 {
