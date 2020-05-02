@@ -21,7 +21,7 @@ termTab.listGrid.fields = termTab.dynamicForm.fields.map(q => {
     } else if (item.name === 'description') {
         item.width = '70%';
         item.showHover = true;
-        item.hoverWidth = 400;
+        item.hoverWidth = '50%';
         return item;
     }
     return item;

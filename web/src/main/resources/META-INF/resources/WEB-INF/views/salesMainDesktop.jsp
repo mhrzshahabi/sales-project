@@ -123,11 +123,12 @@
             title: "<spring:message code='global.editable'/>"
         }, {
             isBaseItem: true,
-            hidden: true,
-            type: "number",
-            name: "estatus",
-            showHover: true,
             width: 100,
+            name: "estatus",
+            type: "number",
+            hidden: true,
+            showHover: true,
+            canSort: false,
             title: "<spring:message code='global.e-status'/>",
             hoverHTML(record, value, rowNum, colNum, grid) {
 
@@ -799,6 +800,15 @@
                     title: "<spring:message code='entity.incoterm-rule'/>",
                     click: function () {
                         createTab("<spring:message code='entity.incoterm-rule'/>", "<spring:url value="/incoterm-rule/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_PARTY')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm-party'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm-party'/>", "<spring:url value="/incoterm-party/show-form" />")
                     }
                 },
                 </sec:authorize>
