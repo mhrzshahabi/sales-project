@@ -200,10 +200,12 @@
         hintStyle: "noneStyleFormItem",
         formatEditorValue(value, record, form, item) {
             if (value === undefined || isNaN(value)) return value;
-            console.log('value is numbber', value)
+            // console.log('value is numbber', value)
             return NumberUtil.format(value, ",0");
         },
         keyUp(item, form, keyName) {
+            if (item.getValue() === undefined || isNaN(item.getValue())) return;
+
             item.setHint(NumberUtil.format(item.getValue(), ",0"));
         }
     });
@@ -1011,13 +1013,12 @@
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
                 },
-                 {
+                {
                     title: "<spring:message code='invoiceSales.title'/>",
                     click: function () {
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
                     }
                 },
-
 
 
             ]
