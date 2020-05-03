@@ -410,8 +410,10 @@
             if (materialId_List_Pdf != null && materialId_List_Pdf !== 'undefined') {
                 const filterEditorCriteria = ListGrid_warehouseCAD.getCriteria();
                 const criteria_arr = [];
-                filterEditorCriteria.criteria.forEach(key => criteria_arr.add(key));
-                filterEditorCriteria.criteria = criteria_arr;
+                if(Object.keys(filterEditorCriteria).length != 0){
+                    filterEditorCriteria.criteria.forEach(key => criteria_arr.add(key));
+                    filterEditorCriteria.criteria = criteria_arr;
+                }
                 const criteria = JSON.stringify(filterEditorCriteria);
                 pdf.setValue("criteria", criteria);
                 pdf.setValue("mahsool", material);
@@ -604,7 +606,7 @@
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_WarehouseCad,
-            initialCriteria: bijack_criteria,
+            // initialCriteria: bijack_criteria,
             contextMenu: Menu_ListGrid_warehouseCAD,
             styleName: 'expandList',
             autoFetchData: true,
