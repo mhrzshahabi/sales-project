@@ -1,4 +1,5 @@
 <%@ page import="com.nicico.copper.common.domain.ConstantVARs" %>
+<%@ page import="com.nicico.copper.core.SecurityUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
@@ -198,9 +199,13 @@
         selectOnClick: true,
         hintStyle: "noneStyleFormItem",
         formatEditorValue(value, record, form, item) {
+            if (value === undefined || isNaN(value)) return value;
+            // console.log('value is numbber', value)
             return NumberUtil.format(value, ",0");
         },
         keyUp(item, form, keyName) {
+            if (item.getValue() === undefined || isNaN(item.getValue())) return;
+
             item.setHint(NumberUtil.format(item.getValue(), ",0"));
         }
     });
@@ -259,6 +264,13 @@
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
 
+    function formatCellValueNumber(value) {
+        // console.debug("formatCellValueNumber(value) arguments",arguments);
+        if (value === undefined || isNaN(value)) return value;
+        return isc.NumberUtil.format(value, ',0');
+
+    }
+
     isc.ListGrid.addProperties({
         dataPageSize: 500,
         showPrompt: true,
@@ -266,7 +278,7 @@
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true,
-        formatCellValue: "isc.NumberUtil.format(value, ',0')",
+        formatCellValue: formatCellValueNumber,
         sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
         sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
         configureSortText: '<spring:message code="global.grid.configureSortText" />',
@@ -897,7 +909,17 @@
                     click: function () {
                         createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
                     }
-                }/*,
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='warehouseStock'/>",
+                    click: function () {
+                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
+                    }
+                },
+
+
+                /*,
                 {isSeparator: true},
                 {
                     title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
@@ -919,6 +941,7 @@
                         createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
                     }
                 }*/
+
             ]
         })
     });
@@ -990,6 +1013,14 @@
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
                 },
+                {
+                    title: "<spring:message code='invoiceSales.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
+                    }
+                },
+
+
             ]
         })
     });
@@ -1180,7 +1211,18 @@
         }
     });
     /*Help*/
-
+    SalesDocumentUrl = document.URL.split("?")[0].slice(-1) === "/"
+        ? document.URL.split("?")[0].slice(0, -1)
+        : document.URL.split("?")[0];
+    const SalesConfigs = {
+        Urls: {
+            RootUrl: "${contextPath}",
+            InvoiceExportRest: "${contextPath}" + "/rest",
+            remittanceRest: "${contextPath}" + "/rest",
+        },
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        userFullName: '<%= SecurityUtil.getFullName()%>',
+    }
     isc.FilterBuilder.addProperties({
 
         getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
