@@ -154,5 +154,11 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1778899665544-033">
+        <addColumn tableName="TBL_VESSEL">
+            <column name="VESSEL_NAME" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

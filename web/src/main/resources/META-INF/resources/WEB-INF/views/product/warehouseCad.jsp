@@ -139,6 +139,7 @@
         isModal: true,
         align: "center",
         autoDraw: false,
+        canDragReposition: false,
         dismissOnEscape: true,
         closeClick: function () {
             this.Super("closeClick", arguments)
@@ -317,7 +318,7 @@
 
     ToolStripButton_WarehouseCAD_Report = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/excel-512.png",
-        title: "<spring:message code='global.form.export'/>",
+        title: "<spring:message code='global.form.export.excel'/>",
         click: function () {
             const fieldsGrid = ListGrid_warehouseCAD.getFields().filter(
                 function (q) {

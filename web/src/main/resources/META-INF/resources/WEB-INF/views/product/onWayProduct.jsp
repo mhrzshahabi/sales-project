@@ -369,6 +369,7 @@
         isModal: true,
         align: "center",
         autoDraw: false,
+        canDragReposition: false,
         dismissOnEscape: true,
         closeClick: function () {
             this.Super("closeClick", arguments)
@@ -601,7 +602,6 @@
 
     var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
         width: "100%",
-        height: 40,
         membersMargin: 10,
         align: "center",
         members: [

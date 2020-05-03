@@ -22,6 +22,9 @@ public class Vessel extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "VESSEL_NAME")
+    private String name;
+
     @Column(name = "TYPE")
     private String type;
 
