@@ -3,6 +3,7 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
     required: true,
     name: "code",
+    keyPressFilter: "^[A-Za-z0-9]",
     title: "<spring:message code='global.code'/>"
 }, {
     width: "100%",

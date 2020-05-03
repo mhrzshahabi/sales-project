@@ -3,16 +3,19 @@ incotermRuleTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
     required: true,
     name: "code",
+    keyPressFilter: "^[A-Za-z0-9]",
     title: "<spring:message code='global.code'/>"
 }, {
     width: "100%",
     required: true,
     name: "titleFa",
-    title: "<spring:message code='global.title-fa'/>"
+    title: "<spring:message code='global.title-fa'/>",
+    keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9]"
 }, {
     width: "100%",
     required: true,
     name: "titleEn",
+    keyPressFilter: "^[A-Za-z0-9]",
     title: "<spring:message code='global.title-en'/>"
 }, {
     width: "100%",
