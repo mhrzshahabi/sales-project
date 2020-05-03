@@ -75,14 +75,24 @@ contractDetailTypeTab.dynamicForm.paramFields.type = {
     width: "50%",
     name: "type",
     required: true,
-    type: "SelectItem",
     valueMap: JSON.parse('${Enum_DataType}'),
     title: "<spring:message code='global.type'/>"
 };
 contractDetailTypeTab.dynamicForm.paramFields.unitId = {
     width: "50%",
+    type: 'long',
     name: "unitId",
-    type: "SelectItem",
+    editorType: "SelectItem",
+    valueField: "id",
+    displayField: "nameFA",
+    pickListWidth: "300",
+    pickListHeight: "300",
+    pickListProperties: {showFilterEditor: true},
+    pickListFields: [
+        {name: "id", align: "center", hidden: true},
+        {name: "nameFA", align: "center"},
+        {name: "nameEN", align: "center"},
+    ],
     title: "<spring:message code='global.unit'/>",
     optionDataSource: contractDetailTypeTab.restDataSource.unit
 };
@@ -99,6 +109,8 @@ contractDetailTypeTab.dynamicForm.templateFields.content = {
     width: "50%",
     name: "content",
     required: true,
+    editorType: "TextAreaItem",
+    editorProperties: {height: 200},
     title: "<spring:message code='global.content'/>"
 };
 contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId = {
@@ -180,19 +192,149 @@ contractDetailTypeTab.listGrid.detailType = isc.ListGrid.create({
     dataSource: contractDetailTypeTab.restDataSource.detailType
 });
 
-contractDetailTypeTab.listGrid.param = isc.ListGrid.nicico.getDefault(
-    BaseFormItems.concat([
+contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
+
+    width: "100%",
+    height: "100%",
+    // initialCriteria: {},
+    sortField: 0,
+    dataPageSize: 50,
+    fetchDelay: 1000,
+    autoFetchData: true,
+    showRowNumbers: true,
+    showFilterEditor: true,
+    filterOnKeypress: false,
+    canAutoFitFields: false,
+    allowAdvancedCriteria: true,
+    alternateRecordStyles: true,
+    selectionType: "single",
+    sortDirection: "ascending",
+    fields: BaseFormItems.concat([
         contractDetailTypeTab.dynamicForm.paramFields.name,
         contractDetailTypeTab.dynamicForm.paramFields.key,
         contractDetailTypeTab.dynamicForm.paramFields.type,
         contractDetailTypeTab.dynamicForm.paramFields.unitId,
     ]),
-    contractDetailTypeTab.restDataSource.param, {});
-contractDetailTypeTab.listGrid.template = isc.ListGrid.nicico.getDefault(
-    BaseFormItems.concat([
+    dataSource: contractDetailTypeTab.restDataSource.param,
+    canEdit: true,
+    editEvent: "click",
+    autoSaveEdits: false,
+    canRemoveRecords: true,
+    virtualScrolling: false,
+    showRecordComponents: true,
+    showRecordComponentsByCell: true,
+    recordComponentPoolingMode: "recycle",
+    gridComponents: ["header", isc.IButton.create({
+
+        width: "100%",
+        icon: "pieces/16/icon_add.png",
+        title: "<spring:message code='global.add'/>",
+        click: function () {
+            contractDetailTypeTab.listGrid.param.startEditingNew();
+        }
+    }), "body"],
+    editorExit: function(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+
+        console.log(arguments)
+    },
+    removeRecordClick: function (rowNum) {
+
+        const record = this.getRecord(rowNum);
+        if (record == null || record.id == null)
+            this.recordMarkedAsRemoved(rowNum) ? this.unmarkRecordRemoved(rowNum) : this.markRecordRemoved(rowNum);
+        else if (record.editable === false)
+            contractDetailTypeTab.dialog.notEditable();
+        else
+            contractDetailTypeTab.dialog.question(
+                () => {
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: contractDetailTypeTab.variable.paramUrl + record.id,
+                        httpMethod: "DELETE",
+                        callback: function (resp) {
+                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                contractDetailTypeTab.dialog.ok();
+                            } else {
+                                contractDetailTypeTab.dialog.error(resp);
+                            }
+                        }
+                    }));
+                });
+    },
+    saveEdits: function (editCompletionEvent, callback, rowNum) {
+
+        console.log('edited', this.getEditedRecord(0))
+
+        return true;
+    }
+});
+contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
+
+    width: "100%",
+    height: "100%",
+    // initialCriteria: {},
+    sortField: 0,
+    dataPageSize: 50,
+    fetchDelay: 1000,
+    autoFetchData: true,
+    showRowNumbers: true,
+    showFilterEditor: true,
+    filterOnKeypress: false,
+    canAutoFitFields: false,
+    allowAdvancedCriteria: true,
+    alternateRecordStyles: true,
+    selectionType: "single",
+    sortDirection: "ascending",
+    fields: BaseFormItems.concat([
         contractDetailTypeTab.dynamicForm.templateFields.content
     ]),
-    contractDetailTypeTab.restDataSource.template, {});
+    dataSource: contractDetailTypeTab.restDataSource.template,
+    canEdit: true,
+    editEvent: "click",
+    autoSaveEdits: false,
+    canRemoveRecords: true,
+    virtualScrolling: false,
+    showRecordComponents: true,
+    showRecordComponentsByCell: true,
+    recordComponentPoolingMode: "recycle",
+    gridComponents: ["header", isc.IButton.create({
+
+        width: "100%",
+        icon: "pieces/16/icon_add.png",
+        title: "<spring:message code='global.add'/>",
+        click: function () {
+            contractDetailTypeTab.listGrid.template.startEditingNew();
+        }
+    }), "body"],
+    removeRecordClick: function (rowNum) {
+
+        const record = this.getRecord(rowNum);
+        if (record == null || record.id == null)
+            this.recordMarkedAsRemoved(rowNum) ? this.unmarkRecordRemoved(rowNum) : this.markRecordRemoved(rowNum);
+        else if (record.editable === false)
+            contractDetailTypeTab.dialog.notEditable();
+        else
+            contractDetailTypeTab.dialog.question(
+                () => {
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: contractDetailTypeTab.variable.templateUrl + record.id,
+                        httpMethod: "DELETE",
+                        callback: function (resp) {
+                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                                contractDetailTypeTab.dialog.ok();
+                            } else {
+                                contractDetailTypeTab.dialog.error(resp);
+                            }
+                        }
+                    }));
+                });
+    },
+    saveEdits: function (editCompletionEvent, callback, rowNum) {
+
+        console.log('edited', this.getEditedRecord(0))
+
+        return true;
+    }
+});
 contractDetailTypeTab.hLayout.extra = isc.HLayout.create({
     width: "100%",
     height: "500",
@@ -236,6 +378,7 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
             click: function () {
+
                 contractDetailTypeTab.dynamicForm.detailType.validate();
                 if (contractDetailTypeTab.dynamicForm.detailType.hasErrors())
                     return;
@@ -259,7 +402,6 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
         isc.IButtonCancel.create({
 
             width: 100,
-            prompt: "",
             orientation: "vertical",
             icon: "pieces/16/icon_delete.png",
             title: "<spring:message code='global.close'/>",

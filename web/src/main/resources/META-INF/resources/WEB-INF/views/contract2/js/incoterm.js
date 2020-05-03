@@ -29,7 +29,7 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
     }
 }, {
     width: "100%",
-    type: "textArea",
+    editorType: "textArea",
     name: "description",
     title: "<spring:message code='global.description'/>",
 }]);

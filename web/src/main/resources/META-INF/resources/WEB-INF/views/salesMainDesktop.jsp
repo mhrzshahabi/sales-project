@@ -79,7 +79,7 @@
 
     const BaseFormItems = {
 
-        concat: function(fields, setBaseItemsHidden = true) {
+        concat: function (fields, setBaseItemsHidden = true) {
 
             let items = [];
             if (fields.constructor !== Array)
@@ -103,6 +103,7 @@
             isBaseItem: true,
             hidden: true,
             primaryKey: true,
+            canEdit: false,
             name: "id",
             type: "number",
             width: 75,
@@ -110,6 +111,7 @@
         }, {
             isBaseItem: true,
             hidden: true,
+            canEdit: false,
             name: "version",
             type: "number",
             width: 70,
@@ -117,6 +119,7 @@
         }, {
             isBaseItem: true,
             hidden: true,
+            canEdit: false,
             name: "editable",
             type: "boolean",
             width: 60,
@@ -124,6 +127,7 @@
         }, {
             isBaseItem: true,
             width: 100,
+            canEdit: false,
             name: "estatus",
             type: "number",
             hidden: true,

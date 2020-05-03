@@ -19,7 +19,7 @@ termTab.dynamicForm.fields = BaseFormItems.concat([{
     title: "<spring:message code='global.title-en'/>"
 }, {
     width: "100%",
-    type: "textArea",
+    editorType: "textArea",
     name: "description",
     title: "<spring:message code='global.description'/>",
 }]);
