@@ -8,7 +8,7 @@ function remittance() {
         Logs: [],
         Vars: {
             Debug: false,
-            Prefix: "invoice-export-tab",
+            Prefix: "remittance-tab",
             Url: SalesConfigs.Urls.remittanceRest,
             Urls: {},
             Method: "POST",
@@ -685,35 +685,339 @@ function remittance() {
         },
         Log: {},
     };
-    /**********************************************VAR*********************************************************************/
+    /**********************************************VAR******************************************************************/
     remittanceTab.Layouts.ToolStripButtons.new.click = function () {
-        remittanceTab.Layouts.Window.invoice.show()
+        remittanceTab.Layouts.Window.remittance.show()
     };
-    /**********************************************METHOD******************************************************************/
-    /**********************************************FIELD*******************************************************************/
-    remittanceTab.Fields.ContractItem = function () {
+    /**********************************************METHOD***************************************************************/
+    /**********************************************FIELD****************************************************************/
+    remittanceTab.Fields.tozinMain = [
+        {name: "id", hidden: true},
+        {
+            name: "tozinId",
+            title: "<spring:message code='Tozin.tozinPlantId'/>",
+            align: "center",
+            type: "text"
+        },
+        {
+            name: "source",
+            title: "<spring:message code='Tozin.source'/>",
+            align: "center",
+            type: "text"
+
+        },
+
+        {
+            name: "nameKala",
+            title: "<spring:message code='Tozin.nameKala'/>",
+            align: "center",
+            type: "text"
+
+
+        },
+        {
+            hidden: true,
+            name: "codeKala",
+            title: "<spring:message code='Tozin.codeKala'/>",
+            align: "center",
+            type: "text"
+
+        },
+
+
+        {
+            name: "target",
+            title: "<spring:message code='Tozin.target'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "cardId",
+            title: "<spring:message code='Tozin.cardId'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "plak",
+            title: "<spring:message code='Tozin.plak'/>",
+            align: "center",
+            type: "text"
+
+        },
+
+        {
+            name: "date",
+            title: "<spring:message code='Tozin.date'/>",
+            align: "center",
+            type: "text"
+
+        },
+
+    ]
+    remittanceTab.Fields.tozinExtra = [
+        {
+            hidden: true,
+            name: "carName",
+            title: "<spring:message code='Tozin.carName'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "containerId",
+            title: "<spring:message code='Tozin.containerId'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "containerNo1",
+            title: "<spring:message code='Tozin.containerNo1'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "containerNo3",
+            title: "<spring:message code='Tozin.containerNo3'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "containerName",
+            title: "<spring:message code='Tozin.containerName'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "vazn1",
+            title: "<spring:message code='Tozin.vazn1'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "vazn2",
+            title: "<spring:message code='Tozin.vazn2'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "condition",
+            title: "<spring:message code='Tozin.condition'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "vazn",
+            title: "<spring:message code='Tozin.vazn'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "tedad",
+            title: "<spring:message code='Tozin.tedad'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "unitKala",
+            title: "<spring:message code='Tozin.unitKala'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "packName",
+            title: "<spring:message code='Tozin.packName'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "haveCode",
+            title: "<spring:message code='Tozin.haveCode'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            name: "tozinDate",
+            title: "<spring:message code='Tozin.tozinDate'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "tozinTime",
+            title: "<spring:message code='Tozin.tozinTime'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "sourceId",
+            title: "<spring:message code='Tozin.sourceId'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "targetId",
+            title: "<spring:message code='Tozin.targetId'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            name: "havalehName",
+            title: "<spring:message code='Tozin.havalehName'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            name: "havalehFrom",
+            title: "<spring:message code='Tozin.havalehFrom'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            name: "havalehTo",
+            title: "<spring:message code='Tozin.havalehTo'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            name: "havalehDate",
+            title: "<spring:message code='Tozin.havalehDate'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "carNo1",
+            title: "<spring:message code='Tozin.carNo1'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "carNo3",
+            title: "<spring:message code='Tozin.carNo3'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            name: "isFinal",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "ctrlDescOut",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            hidden: true,
+            name: "tznSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center",
+            type: "text"
+
+        }, {
+            hidden: true,
+            name: "strSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center",
+            type: "text"
+
+        }, {
+            hidden: true,
+            name: "tznSharh1",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center",
+            type: "text"
+
+        },]
+    remittanceTab.Fields.TozinItem = function () {
         return {
             ID: remittanceTab.Vars.Prefix + "dynamic-form-contract-item",
-            name: "contractId",
+            name: "tozinId",
             width: "*",
             title: "<spring:message code='shipment.Bol.shipmentContract'/>",
             optionDataSource: isc.MyRestDataSource.create({
-                ...remittanceTab.RestDataSources.shipments()
-                , ID: remittanceTab.Vars.Prefix + "rest-data-source-shipment"
+                ...remittanceTab.RestDataSources.onWayProduct
+                , ID: remittanceTab.Vars.Prefix + "rest-data-source-on-way-product"
             }),
-            displayField: "displayField",
+            type: "select",
+            editorType: "SelectItem",
+            criteriaField: "tozinId",
+            operator: "startsWith",
+            textAlign: "center",
+            // editorType: "ComboBoxItem",
+            autoFetchData: false,
+            addUnknownValues: false,
+            cachePickListResults: false,
+            useClientFiltering: false,
+            displayField: "tozinId",
             valueField: "id",
-            // pickListWidth: "100%",
             pickListHeight: "500",
+            pickListCriteria: {
+                _constructor: "AdvancedCriteria", operator: "and",
+                criteria: [
+                    {fieldName: "target", operator: "iContains", value: "رجا"},]
+            },
             pickListProperties: {
+                dataPageSize: 50,
                 showFilterEditor: true,
                 autoFitFieldWidths: true,
+                sortField: 20,
+                sortDirection: "descending",
+                selectionAppearance: "checkbox"
                 // wrapCells:true,
                 // wrapHeaderTitles:true,
                 // autoFitHeaderHeights:true
             },
-            pickListFields: [...remittanceTab.RestDataSources.shipments().fields,
-                {name: 'displayField', hidden: true, dataPath: 'contract.contact.nameFA', type: 'text'}
+            pickListFields: [
+                ...remittanceTab.Fields.tozinMain,
+
+                // {name: 'displayField', hidden: true, dataPath: 'contract.contact.nameFA', type: 'text'}
             ]
 
         }
@@ -740,160 +1044,13 @@ function remittance() {
                 // autoFitHeaderHeights:true
             },
             pickListFields: remittanceTab.RestDataSources.lme.fields
-
         }
     };
-    /**********************************************DATASOURCE**************************************************************/
-    remittanceTab.RestDataSources.shipments = function () {
-        return {
-            fields: [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {
-                    name: "contractShipmentId",
-                    title: "<spring:message code='contact.name'/>",
-                    type: 'long',
-                    hidden: true
-                },
-                {name: "contactId", type: 'long', hidden: true},
-                {
-                    name: "contract.contact.nameFA",
-                    title: "<spring:message code='contact.name'/>",
-                    type: 'text'
-                },
-                {name: "contractId", type: 'long', hidden: true},
-                {
-                    name: "contract.contractNo",
-                    title: "<spring:message code='contract.contractNo'/>",
-                    type: 'text',
-                    width: 180
-                },
-                {
-                    name: "contract.contractDate",
-                    title: "<spring:message code='contract.contractDate'/>",
-                    type: 'text',
-                    width: 180
-                },
-                {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-                {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
-                {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
-                {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
-                {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-                {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-                {
-                    name: "laycan",
-                    title: "<spring:message code='shipmentContract.laycanStart'/>",
-                    type: 'integer',
-                    width: "10%",
-                    align: "center",
-                },
-                {
-                    name: "shipmentType",
-                    title: "<spring:message code='shipment.shipmentType'/>",
-                    type: 'text',
-                    width: 400,
-                    valueMap: {"bulk": "bulk", "container": "container"}
-                },
-                {
-                    name: "bookingCat",
-                    title: "<spring:message code='shipment.bookingCat'/>",
-                    type: 'text',
-                    width: "10%",
-                    showHover: true,
 
-                },
-                {
-                    name: "loadingLetter",
-                    title: "<spring:message code='shipment.loadingLetter'/>",
-                    type: 'text',
-                    width: "10%",
-                    showHover: true
-                },
-                {name: "loading", title: "<spring:message code='global.address'/>", type: 'text', width: "10%"},
-                {name: "portByLoadingId", title: "<spring:message code='shipment.loading'/>", width: "10%"},
-                {
-                    name: "portByLoading.port",
-                    title: "<spring:message code='shipment.loading'/>",
-                    width: "10%"
-                },
-                {
-                    name: "portByDischargeId",
-                    title: "<spring:message code='shipment.discharge'/>",
-                    width: "10%"
-                },
-                {
-                    name: "portByDischarge.port",
-                    title: "<spring:message code='shipment.discharge'/>",
-                    width: "10%"
-                },
-                {
-                    name: "dischargeAddress",
-                    title: "<spring:message code='global.address'/>",
-                    type: 'text',
-                    width: "10%"
-                },
-                {
-                    name: "description",
-                    title: "<spring:message code='shipment.description'/>",
-                    type: 'text',
-                    width: "10%"
-                },
-                {name: "swb", title: "<spring:message code='shipment.SWB'/>", type: 'text', width: "10%"},
-                {
-                    name: "switchPort.port",
-                    title: "<spring:message code='port.switchPort'/>",
-                    type: 'text',
-                    width: "50%"
-                },
-                {name: "month", title: "<spring:message code='shipment.month'/>", type: 'text', width: "10%"},
-                {
-                    name: "status",
-                    title: "<spring:message code='shipment.staus'/>",
-                    type: 'text',
-                    width: "10%",
-                    valueMap: {
-                        "Load Ready": "<spring:message code='shipment.loadReady'/>",
-                        "Resource": "<spring:message code='shipment.resource'/>"
-                    }
-                },
-                {
-                    name: "contractShipment.sendDate",
-                    title: "<spring:message code='global.sendDate'/>",
-                    type: 'text',
-                    required: true,
-                    width: "10%",
-                    align: "center",
-                    showHover: true,
-                    validators: [
-                        {
-                            type: "required",
-                            validateOnChange: true
-                        }]
-                },
-                {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
-                {
-                    name: "contactByAgent.nameFA",
-                    title: "<spring:message code='shipment.agent'/>",
-                    type: 'text',
-                    width: "20%",
-                    align: "center",
-                    showHover: true
-                },
-                {
-                    name: "vesselName",
-                    title: "<spring:message code='shipment.vesselName'/>",
-                    type: 'text',
-                    required: true,
-                    width: "10%",
-                    showHover: true,
-                    validators: [
-                        {
-                            type: "required",
-                            validateOnChange: true
-                        }]
-                }
-            ],
-            fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/shipment/spec-list"
-        }
+    /**********************************************DATASOURCE***********************************************************/
+    remittanceTab.RestDataSources.onWayProduct = {
+        fields: [...remittanceTab.Fields.tozinMain, ...remittanceTab.Fields.tozinExtra],
+        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/tozin2/on-way-product/spec-list"
     };
     remittanceTab.RestDataSources.lme = {
         fields: [
@@ -946,9 +1103,22 @@ function remittance() {
             }],
         fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/LME/spec-list"
     };
-    /**********************************************LISTGRID****************************************************************/
+    /**********************************************LISTGRID*************************************************************/
+    /**********************************************DynamicForm**********************************************************/
+
+    remittanceTab.DynamicForms.Forms.main = {
+        ID: remittanceTab.Vars.Prefix + "Dynamicform" + "mainForm",
+        numCols: 2,
+        width: .7 * window.innerWidth,
+        colWidths: ["20%", "*"],
+        canDragResize: true, resizeFrom: ["L"],
+        items: [
+            remittanceTab.Fields.TozinItem(),
+            // remittanceTab.Fields.lme(),
+        ]
+    };
     /**********************************************LAYOUT******************************************************************/
-    remittanceTab.Layouts.Window.invoice = isc.Window.create(
+    remittanceTab.Layouts.Window.remittance = isc.Window.create(
         {
             title: "<spring:message code='parameters.title'/> ",
             width: .8 * window.outerWidth,
@@ -963,20 +1133,9 @@ function remittance() {
                 this.Super("closeClick", arguments)
             },
             items: [
-                isc.DynamicForm.create(
-                    {
-                        numCols: 2,
-                        width: .7 * window.innerWidth,
-                        colWidths: ["20%", "*"],
-                        canDragResize: true, resizeFrom: ["L"],
-                        items: [
-                            remittanceTab.Fields.ContractItem(),
-                            remittanceTab.Fields.lme(),
-                        ]
-                    })
+                isc.DynamicForm.create(remittanceTab.DynamicForms.Forms.main)
             ]
         });
-    /***********************************************************************************************************************/
     /***********************************************************************************************************************/
     remittanceTab.Layouts.Vlayouts.createMainVlayOut([remittanceTab.Layouts.ToolStrips.createMainToolStrip()]);
     return remittanceTab;

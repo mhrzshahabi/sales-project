@@ -17,9 +17,21 @@ import javax.persistence.Entity;
 @Immutable
 @Subselect("select * from n_master.V_TOZINE_CONTENT_M")
 //@IdClass(Tozin.TozinId.class)
-public class Tozin {
+public class Tozin2 {
     @EmbeddedId
     private com.nicico.sales.model.entities.warehouse.TozinId Id;
+    @Column(name = "SOURCEE", insertable = false, updatable = false)
+    private String source;
+    @Column(name = "TOZINE_ID", insertable = false, updatable = false)
+    private String tozinId;
+    @Column(name = "GDSNAME", insertable = false, updatable = false)
+    private String nameKala;
+    @Column(name = "GDSCODE", insertable = false, updatable = false)
+    private Long codeKala;
+    @Column(name = "TARGET", insertable = false, updatable = false)
+    private String target;
+    @Column(name = "CARD_ID", insertable = false, updatable = false)
+    private String cardId;
     @Column(name = "PLAK")
     private String plak;
     @Column(name = "CARNAME")

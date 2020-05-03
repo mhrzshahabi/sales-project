@@ -199,6 +199,8 @@
         selectOnClick: true,
         hintStyle: "noneStyleFormItem",
         formatEditorValue(value, record, form, item) {
+            if (value === undefined || isNaN(value)) return value;
+            console.log('value is numbber', value)
             return NumberUtil.format(value, ",0");
         },
         keyUp(item, form, keyName) {
@@ -260,6 +262,13 @@
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
 
+    function formatCellValueNumber(value) {
+        // console.debug("formatCellValueNumber(value) arguments",arguments);
+        if (value === undefined || isNaN(value)) return value;
+        return isc.NumberUtil.format(value, ',0');
+
+    }
+
     isc.ListGrid.addProperties({
         dataPageSize: 500,
         showPrompt: true,
@@ -267,7 +276,7 @@
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true,
-        formatCellValue: "isc.NumberUtil.format(value, ',0')",
+        formatCellValue: formatCellValueNumber,
         sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
         sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
         configureSortText: '<spring:message code="global.grid.configureSortText" />',

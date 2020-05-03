@@ -46,7 +46,7 @@ public class RemittanceTozin extends BaseEntity {
                     foreignKey = @ForeignKey(name = "fk_remittance_tozin2sourceTozinAsSourceByCARD_ID")),
     })
 
-    private Tozin tozin;
+    private Tozin2 tozin;
 
     @NotNull
     @Column(name = "F_TOZIN_ID", nullable = false)
