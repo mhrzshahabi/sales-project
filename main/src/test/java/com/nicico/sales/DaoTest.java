@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SalesApplication.class)
@@ -21,7 +22,6 @@ public class DaoTest {
     TozinDAO2 tozinDAO;
     @Autowired
     ObjectMapper objectMapper;
-
     @Test
     public void tozinDaoTest() throws JsonProcessingException {
         String[] aa = {
@@ -43,6 +43,13 @@ public class DaoTest {
         final List<String> strings = Arrays.asList(aa);
         final List<Tozin2> allByTozinIdList = tozinDAO.findAllByTozinIdList(strings);
         final String s = objectMapper.writeValueAsString(allByTozinIdList);
+        System.out.println(s);
+    }
+
+    @Test
+    public void targetDao() throws JsonProcessingException {
+        final List<Map> all = tozinDAO.listTargets();
+        final String s = objectMapper.writeValueAsString(all);
         System.out.println(s);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface TozinDAO2 extends JpaRepository<Tozin2, TozinId>, JpaSpecificationExecutor<Tozin2> {
@@ -17,4 +18,6 @@ public interface TozinDAO2 extends JpaRepository<Tozin2, TozinId>, JpaSpecificat
     @Query("from Tozin2 t where t.Id.tozinId in (:tozinId)")
     List<Tozin2> findAllByTozinIdList(@Param("tozinId") List<String> tozinId);
 
+    @Query(value = "select * FROM TBL_TOZIN_TARGET", nativeQuery = true)
+    List<Map> listTargets();
 }

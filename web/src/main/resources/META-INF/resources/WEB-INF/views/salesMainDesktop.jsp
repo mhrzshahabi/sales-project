@@ -24,6 +24,7 @@
     <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/moment.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
+    <script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
 
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
@@ -914,7 +915,14 @@
                 {
                     title: "<spring:message code='warehouseStock'/>",
                     click: function () {
-                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
+                        fetch(SalesConfigs.Urls.RootUrl + "/api/tozin2/targets  ", {
+                            headers: SalesConfigs.httpHeaders
+                        }).then(
+                            response => response.json().then(
+                                js => {
+                                    window['targetIdValueMap'] = js.getValueMap('TARGETID', 'TARGET');
+                                    createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
+                                }));
                     }
                 },
 
@@ -1013,12 +1021,7 @@
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
                 },
-                {
-                    title: "<spring:message code='invoiceSales.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
-                    }
-                },
+
 
 
             ]
@@ -1223,6 +1226,7 @@
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
     }
+    persianDate.toLocale('en');
     isc.FilterBuilder.addProperties({
 
         getValueFieldProperties: function (type, fieldName, operatorId, itemType) {

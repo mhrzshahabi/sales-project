@@ -3,7 +3,7 @@
  <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
  <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
  **/
-function remittance() {
+function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
     const remittanceTab = {
         Logs: [],
         Vars: {
@@ -692,6 +692,16 @@ function remittance() {
     /**********************************************METHOD***************************************************************/
     /**********************************************FIELD****************************************************************/
     remittanceTab.Fields.tozinMain = [
+        {
+            // hidden: true,
+            valueMap: targetIdValueMap,
+            operator: "equals",
+            name: "targetId",
+            title: "<spring:message code='Tozin.targetId'/>",
+            align: "center",
+            type: "text"
+
+        },
         {name: "id", hidden: true},
         {
             name: "tozinId",
@@ -715,14 +725,6 @@ function remittance() {
 
 
         },
-        {
-            hidden: true,
-            name: "codeKala",
-            title: "<spring:message code='Tozin.codeKala'/>",
-            align: "center",
-            type: "text"
-
-        },
 
 
         {
@@ -741,7 +743,6 @@ function remittance() {
 
         },
         {
-            hidden: true,
             name: "plak",
             title: "<spring:message code='Tozin.plak'/>",
             align: "center",
@@ -759,6 +760,14 @@ function remittance() {
 
     ]
     remittanceTab.Fields.tozinExtra = [
+        {
+            hidden: true,
+            name: "codeKala",
+            title: "<spring:message code='Tozin.codeKala'/>",
+            align: "center",
+            type: "text"
+
+        },
         {
             hidden: true,
             name: "carName",
@@ -886,14 +895,7 @@ function remittance() {
             type: "text"
 
         },
-        {
-            hidden: true,
-            name: "targetId",
-            title: "<spring:message code='Tozin.targetId'/>",
-            align: "center",
-            type: "text"
 
-        },
         {
             name: "havalehName",
             title: "<spring:message code='Tozin.havalehName'/>",
@@ -976,6 +978,8 @@ function remittance() {
 
         },]
     remittanceTab.Fields.TozinItem = function () {
+        today = new persianDate().subtract('weeks', 3);
+
         return {
             ID: remittanceTab.Vars.Prefix + "dynamic-form-contract-item",
             name: "tozinId",
@@ -986,14 +990,17 @@ function remittance() {
                 , ID: remittanceTab.Vars.Prefix + "rest-data-source-on-way-product"
             }),
             type: "select",
+            multiple: true,
             editorType: "SelectItem",
             criteriaField: "tozinId",
-            operator: "startsWith",
+            // generateExactMatchCriteria: true,
+            // sortField: ["date"],
+            // operator: "startsWith",
             textAlign: "center",
             // editorType: "ComboBoxItem",
-            autoFetchData: false,
-            addUnknownValues: false,
-            cachePickListResults: false,
+            autoFetchData: true,
+            // addUnknownValues: false,
+            // cachePickListResults: false,
             useClientFiltering: false,
             displayField: "tozinId",
             valueField: "id",
@@ -1001,22 +1008,32 @@ function remittance() {
             pickListCriteria: {
                 _constructor: "AdvancedCriteria", operator: "and",
                 criteria: [
-                    {fieldName: "target", operator: "iContains", value: "رجا"},]
+                    {
+                        fieldName: "date", operator: "greaterOrEqual",
+                        value: new persianDate().subtract('weeks', 3).format('YYYYMMDD').toString()
+                    },
+                    {
+                        fieldName: "targetId",
+                        operator: "equals",
+                        value: defaultTargetId
+                    },
+
+                ]
             },
             pickListProperties: {
                 dataPageSize: 50,
                 showFilterEditor: true,
-                autoFitFieldWidths: true,
-                sortField: 20,
+                // autoFitFieldWidths: true,
+                // sortField: 8,
+                sortField: 'date',
                 sortDirection: "descending",
-                selectionAppearance: "checkbox"
+                // selectionAppearance: "checkbox"
                 // wrapCells:true,
                 // wrapHeaderTitles:true,
                 // autoFitHeaderHeights:true
             },
             pickListFields: [
                 ...remittanceTab.Fields.tozinMain,
-
                 // {name: 'displayField', hidden: true, dataPath: 'contract.contact.nameFA', type: 'text'}
             ]
 
@@ -1046,7 +1063,6 @@ function remittance() {
             pickListFields: remittanceTab.RestDataSources.lme.fields
         }
     };
-
     /**********************************************DATASOURCE***********************************************************/
     remittanceTab.RestDataSources.onWayProduct = {
         fields: [...remittanceTab.Fields.tozinMain, ...remittanceTab.Fields.tozinExtra],
@@ -1105,7 +1121,6 @@ function remittance() {
     };
     /**********************************************LISTGRID*************************************************************/
     /**********************************************DynamicForm**********************************************************/
-
     remittanceTab.DynamicForms.Forms.main = {
         ID: remittanceTab.Vars.Prefix + "Dynamicform" + "mainForm",
         numCols: 2,
@@ -1138,7 +1153,8 @@ function remittance() {
         });
     /***********************************************************************************************************************/
     remittanceTab.Layouts.Vlayouts.createMainVlayOut([remittanceTab.Layouts.ToolStrips.createMainToolStrip()]);
+
     return remittanceTab;
 }
 
-var remittanceTab = remittance();
+window['remittanceTab'] = remittance(targetIdValueMap);

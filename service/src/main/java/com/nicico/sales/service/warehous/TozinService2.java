@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -54,5 +55,10 @@ public class TozinService2 implements ITozinService2 {
     @Override
     public SearchDTO.SearchRs<Tozin2> search(SearchDTO.SearchRq request) {
         return null;
+    }
+
+    @Override
+    public List<Map> getTargets() {
+        return tozinDAO.listTargets();
     }
 }

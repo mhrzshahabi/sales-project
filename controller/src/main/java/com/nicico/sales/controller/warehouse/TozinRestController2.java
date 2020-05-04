@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -38,4 +41,11 @@ public class TozinRestController2 {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(tozinService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+    @Loggable
+    @GetMapping(value = {"/targets"})
+    public ResponseEntity<List<Map>> targets() {
+        return new ResponseEntity<>(tozinService.getTargets(), HttpStatus.OK);
+    }
+
 }

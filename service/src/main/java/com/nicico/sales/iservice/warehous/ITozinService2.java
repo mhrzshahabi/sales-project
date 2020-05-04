@@ -7,6 +7,7 @@ import com.nicico.sales.model.entities.warehouse.Tozin2;
 import com.nicico.sales.model.entities.warehouse.TozinId;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ITozinService2 {
 
@@ -23,4 +24,6 @@ public interface ITozinService2 {
     TotalResponse<Tozin2> search(NICICOCriteria request);
 
     SearchDTO.SearchRs<Tozin2> search(SearchDTO.SearchRq request);
+
+    List<Map> getTargets();
 }
