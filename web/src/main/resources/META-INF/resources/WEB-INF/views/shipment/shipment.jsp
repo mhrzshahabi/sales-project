@@ -569,6 +569,58 @@
                 }]
 
             },
+             {
+                name: "blDate", colSpan: 4,
+                title: "<spring:message code='shipment.blDate'/>",
+                defaultValue: "<%=dateUtil.todayDate()%>",
+                type: 'date',
+                format: 'DD-MM-YYYY',
+                required: true,
+                width: "100%",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },{
+                name: "portByLoadingId",
+                title: "<spring:message code='shipment.loading'/>",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_LoadingPort,
+                displayField: "port",
+                valueField: "id",
+                width: "100%",
+                align: "center", colSpan: 4,
+                startRow: true,
+                required: true
+            }
+            ,
+            {
+                name: "portByDischargeId",
+                title: "<spring:message code='shipment.discharge'/>",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_LoadingPort,
+                displayField: "port",
+                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4,
+                required: true
+            },{
+                name: "consignee", colSpan: 4,
+                title: "<spring:message code='shipment.consignee'/>",
+                type: 'text',
+                required: true,
+                width: "100%", startRow: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
+             {
+                align: "center",
+                layoutAlign: "center",
+                type: "Header",
+                defaultValue: "<spring:message code='shipment.SW.Details'/>"
+            },
             {
                 name: "swb",
                 colSpan: 4,
@@ -582,38 +634,17 @@
                             form.getItem("swBlDate").show();
                             form.getItem("switchPortId").show();
                             form.getItem("switchBl").show();
+                            form.getItem("swBlDate").show();
                             break;
                         case "No":
                             form.getItem("swBlDate").hide();
                             form.getItem("switchPortId").hide();
                             form.getItem("switchBl").hide();
+                            form.getItem("swBlDate").hide();
                             break;
                     }
                 }
-            },
-            {name: "swBlDate", hidden: true},
-
-
-            {
-                name: "switchBl",
-                title: "<spring:message code='shipment.switchBl'/>",
-                type: 'text',
-                startRow: true , width: "100%" , colSpan: 4
-
-            },
-            {
-                name: "portByLoadingId",
-                title: "<spring:message code='shipment.loading'/>",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_LoadingPort,
-                displayField: "port",
-                valueField: "id",
-                width: "100%",
-                align: "center", colSpan: 4,
-                startRow: true,
-                required: true
-            },
-            {
+            },{
                 name: "switchPortId",
                 title: "<spring:message code='port.switchPort'/>",
                 editorType: "SelectItem",
@@ -623,25 +654,11 @@
                 startRow: true ,colSpan: 4,
             },
             {
-                name: "portByDischargeId",
-                title: "<spring:message code='shipment.discharge'/>",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_LoadingPort,
-                displayField: "port",
-                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4,
-                required: true
-            },
-            {
-                name: "consignee", colSpan: 4,
-                title: "<spring:message code='shipment.consignee'/>",
+                name: "switchBl",
+                title: "<spring:message code='shipment.switchBl'/>",
                 type: 'text',
-                required: true,
-                width: "100%", startRow: true,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                startRow: true , width: "100%" , colSpan: 4
+
             },
             {
                 name: "swBlDate",
@@ -656,23 +673,7 @@
                     type:"required",
                     validateOnChange: true
                 }]
-            },
-                {
-                name: "blDate", colSpan: 4,
-                title: "<spring:message code='shipment.blDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: 'date',
-                format: 'DD-MM-YYYY',
-                required: true,
-                width: "100%",
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
-            },
-
-
+            }
         ]
     });
     var RestDataSource_Contact_optionCriteria__SHIPMENT = {
