@@ -62,6 +62,21 @@
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
+    var RestDataSource_VesselInShipment = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "name", title: "<spring:message code='vessel.name'/>"},
+                {name: "type", title: "<spring:message code='vessel.type'/>"},
+                {name: "imo", title: "<spring:message code='vessel.imo'/>"},
+                {name: "yearOfBuild", title: "<spring:message code='vessel.year.of.build'/>"},
+                {name: "length", title: "<spring:message code='vessel.length'/>"},
+                {name: "beam", title: "<spring:message code='vessel.beam'/>"}
+            ],
+
+        fetchDataURL: "${contextPath}/api/vessel/spec-list"
+    });
+
     var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
         fields:
             [
@@ -307,7 +322,7 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        titleWidth: "105",
+        titleWidth: "100",
         numCols: 4,
         fields: [
             {name: "id", hidden: true,},
@@ -450,54 +465,63 @@
                 width: "100%",
                 colSpan: 4,
                 showHover: true,
-                hint: "<spring:message code='shipment.bookingMol.hint'/>",
-                showHintInField: true,
-
             },
-
             {
-                hint: "<spring:message code='shipment.bookingCat.hint'/>",
-                showHintInField: true,
                 name: "noContainer",
                 colSpan: 4,
                 title: "<spring:message code='shipment.noContainer'/>",
                 type: 'integer',
                 width: "100%",
                 keyPressFilter: "[0-9.]",
+                required: true,
                 validators: [{
                     type: "isInteger",
                     validateOnExit: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
-                }]
+                    },
+                    {
+                    type:"required",
+                    validateOnChange: true
+                    }],
+                defaultValue: 0
             },
             {
-                hint: "<spring:message code='shipment.bookingCat.hint'/>",
-                showHintInField: true,
-                name: "noBundle", colSpan: 4,
+                name: "noBundle",
+                colSpan: 4,
                 title: "<spring:message code='shipment.noBundle'/>",
                 type: 'integer',
-                required: false,
                 width: "100%",
+                required: true,
                 validators: [{
                     type: "isInteger",
                     validateOnExit: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
-                }]
+                    },
+                    {
+                    type:"required",
+                    validateOnChange: true
+                    }],
+                defaultValue: 0
             },
             {
                 name: "noPalete", colSpan: 4,
                 title: "<spring:message code='shipment.noPalette'/>",
                 type: 'integer',
-                required: false,
                 width: "100%",
+                required: true,
                 validators: [{
                     type: "isInteger",
                     validateOnExit: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
-                }]
+                    },
+                    {
+                    type:"required",
+                    validateOnChange: true
+                    }],
+                defaultValue: 0
             },
             {
                 name: "noBarrel", colSpan: 4,
@@ -531,7 +555,7 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        titleWidth: "125",
+        titleWidth: "130",
         numCols: 4,
         fields: [
             {name: "id", hidden: true,},
@@ -569,6 +593,58 @@
                 }]
 
             },
+             {
+                name: "blDate", colSpan: 4,
+                title: "<spring:message code='shipment.blDate'/>",
+                defaultValue: "<%=dateUtil.todayDate()%>",
+                type: 'date',
+                format: 'DD-MM-YYYY',
+                required: true,
+                width: "100%",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },{
+                name: "portByLoadingId",
+                title: "<spring:message code='shipment.loading'/>",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_LoadingPort,
+                displayField: "port",
+                valueField: "id",
+                width: "100%",
+                align: "center", colSpan: 4,
+                startRow: true,
+                required: true
+            }
+            ,
+            {
+                name: "portByDischargeId",
+                title: "<spring:message code='shipment.discharge'/>",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_LoadingPort,
+                displayField: "port",
+                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4,
+                required: true
+            },{
+                name: "consignee", colSpan: 4,
+                title: "<spring:message code='shipment.consignee'/>",
+                type: 'text',
+                required: true,
+                width: "100%", startRow: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
+             {
+                align: "center",
+                layoutAlign: "center",
+                type: "Header",
+                defaultValue: "<spring:message code='shipment.SW.Details'/>"
+            },
             {
                 name: "swb",
                 colSpan: 4,
@@ -582,38 +658,17 @@
                             form.getItem("swBlDate").show();
                             form.getItem("switchPortId").show();
                             form.getItem("switchBl").show();
+                            form.getItem("swBlDate").show();
                             break;
                         case "No":
                             form.getItem("swBlDate").hide();
                             form.getItem("switchPortId").hide();
                             form.getItem("switchBl").hide();
+                            form.getItem("swBlDate").hide();
                             break;
                     }
                 }
-            },
-            {name: "swBlDate", hidden: true},
-
-
-            {
-                name: "switchBl",
-                title: "<spring:message code='shipment.switchBl'/>",
-                type: 'text',
-                startRow: true , width: "100%" , colSpan: 4
-
-            },
-            {
-                name: "portByLoadingId",
-                title: "<spring:message code='shipment.loading'/>",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_LoadingPort,
-                displayField: "port",
-                valueField: "id",
-                width: "100%",
-                align: "center", colSpan: 4,
-                startRow: true,
-                required: true
-            },
-            {
+            },{
                 name: "switchPortId",
                 title: "<spring:message code='port.switchPort'/>",
                 editorType: "SelectItem",
@@ -623,25 +678,11 @@
                 startRow: true ,colSpan: 4,
             },
             {
-                name: "portByDischargeId",
-                title: "<spring:message code='shipment.discharge'/>",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_LoadingPort,
-                displayField: "port",
-                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4,
-                required: true
-            },
-            {
-                name: "consignee", colSpan: 4,
-                title: "<spring:message code='shipment.consignee'/>",
+                name: "switchBl",
+                title: "<spring:message code='shipment.switchBl'/>",
                 type: 'text',
-                required: true,
-                width: "100%", startRow: true,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                startRow: true , width: "100%" , colSpan: 4
+
             },
             {
                 name: "swBlDate",
@@ -656,23 +697,7 @@
                     type:"required",
                     validateOnChange: true
                 }]
-            },
-                {
-                name: "blDate", colSpan: 4,
-                title: "<spring:message code='shipment.blDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: 'date',
-                format: 'DD-MM-YYYY',
-                required: true,
-                width: "100%",
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
-            },
-
-
+            }
         ]
     });
     var RestDataSource_Contact_optionCriteria__SHIPMENT = {
@@ -718,16 +743,33 @@
                     validateOnChange: true
                 }]
             },
-
-
             {
-                required: true,
                 name: "vesselName", colSpan: 4,
                 title: "<spring:message code='shipment.vesselName'/>",
+                required: true,
+                editorType: "SelectItem",
                 type: 'text',
-                width: 400
+                width: 400,
+                displayField: "name",
+                pickListWidth: 400,
+                pickListHeight: "500",
+                optionDataSource: RestDataSource_VesselInShipment,
+                pickListProperties: {
+                    showFilterEditor: true
+                },
+                pickListFields: [
+                    {
+                        name: "name",
+                    },
+                    {
+                        name: "type",
+                    }],
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
             },
-
             {type: "Header", defaultValue: dash},
             {
                 name: "freight", colSpan: 1,
@@ -1330,7 +1372,10 @@
                 type: 'text',
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.material.unit.nameEN
+                }
             },
             {
                 name: "amount",
@@ -1391,14 +1436,14 @@
                 required: true,
                 width: "10%",
                 showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.portByLoading.port
+                },
                 validators: [
                 {
                     type:"required",
                     validateOnChange: true
                 }],
-                sortNormalizer: function (recordObject) {
-                    return recordObject.portByLoading.port
-                }
             },
             {
                 name: "portByDischarge.port",
@@ -1407,6 +1452,9 @@
                 required: true,
                 width: "10%",
                 showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.portByDischarge.port
+                },
                 validators: [
                 {
                     type:"required",
@@ -1497,14 +1545,14 @@
                 required: true,
                 width: "10%",
                 showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.switchPort.port
+                },
                 validators: [
                 {
                     type:"required",
                     validateOnChange: true
                 }],
-                sortNormalizer: function (recordObject) {
-                    return recordObject.switchPort.port
-                }
             },
             {
                 name: "status",

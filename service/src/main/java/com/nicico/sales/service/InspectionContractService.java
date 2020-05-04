@@ -119,7 +119,7 @@ public class InspectionContractService implements IInspectionContractService {
     public String ves(Long id) {
         InspectionContract ic = inspectionContractDAO.findById(id).orElseThrow(() -> new RuntimeException("********Inspection not found********"));
         Shipment sh = shipmentDAO.findById(ic.getShipmentId()).orElseThrow(() -> new RuntimeException("*********Shipment not found*********"));
-        String ves = sh.getVesselName();
+        String ves = sh.getVessel().getName();
         return ves;
     }
 

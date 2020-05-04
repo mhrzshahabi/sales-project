@@ -338,15 +338,15 @@
                     record.codeKala == 114 || record.codeKala == 129 || record.codeKala == 86 ||
                     record.codeKala == 90 || record.codeKala == 95) {
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseCadForm");
-                    Window_Bijack.show();
+                    Window_BijackOnWayProduct.show();
                 }
                 if (record.codeKala == 97 || record.codeKala == 100) {
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseMoForm");
-                    Window_Bijack.show();
+                    Window_BijackOnWayProduct.show();
                 }
                 if (record.codeKala == 8) {
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
-                    Window_Bijack.show();
+                    Window_BijackOnWayProduct.show();
                 }
             }
         }]
@@ -360,7 +360,7 @@
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
 
-    var Window_Bijack = isc.Window.create({
+    var Window_BijackOnWayProduct = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
         width: 830,
         height: 830,

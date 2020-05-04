@@ -50,7 +50,7 @@ public class InvoiceSalesService implements IInvoiceSalesService {
 //    @PreAuthorize("hasAuthority('C_INVOICE_SALES')")
     public InvoiceSalesDTO.Info create(InvoiceSalesDTO.Create request) {
         final InvoiceSales invoiceSales = modelMapper.map(request, InvoiceSales.class);
-        InvoiceSales last = invoiceSalesDAO.findBySerialOrderByCreatedDate(invoiceSales.getSerial());
+        InvoiceSales last = invoiceSalesDAO.findBySerialOrderByCreatedDateDesc(invoiceSales.getSerial()).get(0);
         if (last == null)
             invoiceSales.setInvoiceNo("0");
         else

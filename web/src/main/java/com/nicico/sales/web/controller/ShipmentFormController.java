@@ -117,11 +117,8 @@ public class ShipmentFormController {
                 String[] loa = shipment.getPortByLoading().getPort().split(",");
                 replacePOI(doc, "loa", loa[0]);
 
-                PortDTO.Info port = shipment.getPortByDischarge();
-                replacePOI(doc, "port", " به مقصد " + port.getPort());
-
-
-                replacePOI(doc, "comp", " به مقصد بندر " + port.getPort() + " در کشور " + port.getCountry().getNameFa());
+                replacePOI(doc, "disPort",  shipment.getPortByDischarge().getPort());
+                replacePOI(doc, "disCountry", shipment.getPortByDischarge().getCountry().getNameFa());
                 replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()));
                 replacePOI(doc, "dateday", dateday);
 
@@ -186,18 +183,14 @@ public class ShipmentFormController {
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
+                replacePOI(doc, "buyer", shipment.getContact().getNameFA());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
                 replacePOI(doc, "company", shipment.getContact().getNameFA());
+                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
+                replacePOI(doc, "disPort", shipment.getPortByDischarge().getPort());
 
-
-                String port = shipment.getPortByDischarge().getPort();
-                String country = shipment.getPortByDischarge().getCountry().getNameFa();
-                replacePOI(doc, "port", " به مقصد " + port);
-
-                replacePOI(doc, "comp", " به مقصد بندر " + port + "در کشور " + country);
-
-                replacePOI(doc, "dateday", dateday);
+                replacePOI(doc, "date", dateday);
                 List<String> inspector = shipmentService.inspector();
                 for (int i = 0; i < inspector.size(); i++) {
 

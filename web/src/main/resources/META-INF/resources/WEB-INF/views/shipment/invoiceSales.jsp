@@ -492,6 +492,7 @@
                     title: "<spring:message code='invoiceSales.invoiceDate'/>",
                     ID: "invoiceDateId",
                     type: 'text',
+                    required: true ,
                     icons: [{
                         src: "pieces/pcal.png",
                         click: function () {
@@ -507,6 +508,7 @@
                     optionDataSource: RestDataSource_accDepartment,
                     displayField: "departmentName",
                     valueField: "departmentName",
+                    required: true ,
                     pickListProperties: {
                         showFilterEditor: true
                     },
@@ -528,6 +530,7 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
+                    required: true ,
                     pickListProperties: {
                         showFilterEditor: true
                     },
@@ -566,6 +569,7 @@
                     optionDataSource: RestDataSource_salesType,
                     displayField: "salesType",
                     valueField: "salesType",
+                    required: true ,
                     pickListFields: [
                     {
                         name: "id",
@@ -580,6 +584,7 @@
                 {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
+                    required: true ,
                     valueMap:
                         {
                             "ندارد" : "ندارد",
@@ -595,6 +600,7 @@
                     displayField: "paymentType",
                     valueField: "paymentType",
                     colSpan: 4,
+                    required: true  ,
                     pickListProperties: {
                         showFilterEditor: true
                     },
@@ -630,6 +636,7 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
+                    required: true ,
                     autoFetchData: false,
                     pickListProperties: {
                         showFilterEditor: true
@@ -680,12 +687,14 @@
                 {
                     name: "issueId",
                     title: "<spring:message code='invoiceSales.issueId'/>",
+                    required: true ,
                 },
                 {
                     name: "issueDate",
                     title: "<spring:message code='invoiceSales.issueDate'/>",
                     ID: "issueDateId",
                     type: 'text',
+                    required: true ,
                     icons: [{
                         src: "pieces/pcal.png",
                         click: function () {
@@ -913,6 +922,7 @@
     var ListGrid_invoiceSales = isc.ListGrid.create(
         {
             showFilterEditor: true,
+            canAutoFitFields: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_invoiceSales,
@@ -1617,6 +1627,7 @@
     var ListGrid_InvoiceSalesItem = isc.ListGrid.create(
         {
             showFilterEditor: true,
+            canAutoFitFields: true,
             width: "100%",
             styleName: "listgrid-child",
             height: 180,
