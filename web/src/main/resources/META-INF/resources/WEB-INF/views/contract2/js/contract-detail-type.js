@@ -108,8 +108,6 @@ contractDetailTypeTab.dynamicForm.templateFields.content = {
     width: "50%",
     name: "content",
     required: true,
-    editorType: "RichTextItem",
-    editorProperties: {height: 200},
     title: "<spring:message code='global.content'/>"
 };
 contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId = {
@@ -198,7 +196,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
         contractDetailTypeTab.dynamicForm.paramFields.unitId,
     ]),
     canEdit: true,
-    editEvent: "click",
+    editEvent: "doubleClick",
     autoSaveEdits: false,
     canRemoveRecords: true,
     virtualScrolling: false,
@@ -219,24 +217,24 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                     contractDetailTypeTab.listGrid.param.startEditingNew();
                 }
             }),
-            isc.ToolStripButton.create({
-
-                icon: "pieces/16/icon_edit.png",
-                title: "<spring:message code='global.edit'/>",
-                click: function () {
-
-                    let record = contractDetailTypeTab.listGrid.param.getSelectedRecord();
-                    if (record == null || record.id == null)
-                        contractDetailTypeTab.dialog.notSelected();
-                    else if (record.editable === false)
-                        contractDetailTypeTab.dialog.notEditable();
-                    else {
-
-                        let recordIndex = contractDetailTypeTab.listGrid.param.data.indexOf(record);
-                        contractDetailTypeTab.listGrid.param.startEditing(recordIndex);
-                    }
-                }
-            })
+            // isc.ToolStripButton.create({
+            //
+            //     icon: "pieces/16/icon_edit.png",
+            //     title: "<spring:message code='global.edit'/>",
+            //     click: function () {
+            //
+            //         let record = contractDetailTypeTab.listGrid.param.getSelectedRecord();
+            //         if (record == null)
+            //             contractDetailTypeTab.dialog.notSelected();
+            //         else if (record.editable === false)
+            //             contractDetailTypeTab.dialog.notEditable();
+            //         else {
+            //
+            //             let recordIndex = contractDetailTypeTab.listGrid.param.data.indexOf(record);
+            //             contractDetailTypeTab.listGrid.param.startEditing(recordIndex);
+            //         }
+            //     }
+            // })
         ]
     })]
 });
@@ -261,7 +259,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
         contractDetailTypeTab.dynamicForm.templateFields.content
     ]),
     canEdit: true,
-    editEvent: "none",
+    editEvent: "doubleClick",
     autoSaveEdits: false,
     canRemoveRecords: true,
     virtualScrolling: false,
@@ -283,73 +281,55 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                     contractDetailTypeTab.listGrid.template.startEditingNew();
                 }
             }),
-            isc.ToolStripButton.create({
-
-                icon: "pieces/16/icon_edit.png",
-                title: "<spring:message code='global.edit'/>",
-                click: function () {
-
-                    let record = contractDetailTypeTab.listGrid.template.getSelectedRecord();
-                    if (record == null || record.id == null)
-                        contractDetailTypeTab.dialog.notSelected();
-                    else if (record.editable === false)
-                        contractDetailTypeTab.dialog.notEditable();
-                    else {
-
-                        let recordIndex = contractDetailTypeTab.listGrid.template.data.indexOf(record);
-                        contractDetailTypeTab.listGrid.template.startEditing(recordIndex);
-                    }
-                }
-            })
+            // isc.ToolStripButton.create({
+            //
+            //     icon: "pieces/16/icon_edit.png",
+            //     title: "<spring:message code='global.edit'/>",
+            //     click: function () {
+            //
+            //         let record = contractDetailTypeTab.listGrid.template.getSelectedRecord();
+            //         if (record == null)
+            //             contractDetailTypeTab.dialog.notSelected();
+            //         else if (record.editable === false)
+            //             contractDetailTypeTab.dialog.notEditable();
+            //         else {
+            //
+            //             let recordIndex = contractDetailTypeTab.listGrid.template.data.indexOf(record);
+            //             contractDetailTypeTab.listGrid.template.startEditing(recordIndex);
+            //         }
+            //     }
+            // })
         ]
     })],
-    getEditorProperties: function (editField) {
+    getDefaultHTMLValue: function (params) {
 
-        return {
-            editorProperties: {
-                height: 200,
-                width: "100%",
-                height: 200,
-                autoDraw:false,
-                overflow:"hidden",
-                canDragResize:true,
-                required: true,
-                selectOnClick: true,
-                name: "content",
-                editorType: "RichTextItem"
-            },
-            controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls", "listControls", "tableControls"],
+        console.log(params)
+    },
+    getEditorProperties: function (editField, editedRecord, rowNum) {
+
+        let item = {
+            height: 300,
+            width: '100%',
+            required: true,
+            editorType: "RichTextItem",
             keyPress: function () {
 
-                console.log('key', isc.EventHandler.getKey());
-                if (isc.EventHandler.ctrlKeyDown() && isc.EventHandler.getKey() === "enter") {
-                    this.rowEditorExit();
+                if (isc.EventHandler.getKey().toLowerCase() === "enter" && !isc.EventHandler.shiftKeyDown()) {
+
+                    contractDetailTypeTab.listGrid.template.endEditing();
                     return false;
                 }
-                return true
+                return true;
             }
-            // changed: function (form, item, value) {
-            //
-            //     if (value == null) {
-            //         value = 0;
-            //         item.grid.setEditValue(item.grid.getEditRow(), item.grid.getFieldNum("DDT_DEBIT"), value);
-            //     }
-            //     if (value == 0) {
-            //         item.grid.setEditValue(item.grid.getEditRow(), item.grid.getFieldNum("DDT_CREDIT"), tmpVal);
-            //         item.grid.setEditValue(item.grid.getEditRow(), item.grid.getFieldNum("DDT_DEBIT"), value);
-            //     } else {
-            //         item.grid.setEditValue(item.grid.getEditRow(), item.grid.getFieldNum("DDT_DEBIT"), value);
-            //         item.grid.setEditValue(item.grid.getEditRow(), item.grid.getFieldNum("DDT_CREDIT"), '0');
-            //         tmpVal = value;
-            //     }
-            // },
-            // formatEditorValue(value, record, form, item) {
-            //     if (value == null)
-            //         value = 0;
-            //     // return NumberUtil.format(parseFloat(value),",0");
-            //     return value;
-            // },
         };
+
+        let data = [...contractDetailTypeTab.listGrid.param.getData()];
+        let allEditRows = contractDetailTypeTab.listGrid.param.getAllEditRows();
+        for (let i = 0; i < allEditRows.length; i++)
+            data.push({...contractDetailTypeTab.listGrid.param.getEditedRecord(allEditRows[i])});
+        item.defaultValue = this.getDefaultHTMLValue(data);
+
+        return item;
     }
 });
 contractDetailTypeTab.hLayout.extra = isc.HLayout.create({
@@ -443,7 +423,7 @@ contractDetailTypeTab.window.detailType = isc.Window.nicico.getDefault(null, isc
         contractDetailTypeTab.hLayout.extra,
         contractDetailTypeTab.hLayout.saveOrExitHlayout
     ]
-}), "70%");
+}), "85%");
 
 //*************************************************** Functions ********************************************************
 
