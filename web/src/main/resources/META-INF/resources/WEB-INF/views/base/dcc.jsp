@@ -299,21 +299,17 @@
                 request.setRequestHeader("Authorization", "Bearer " + "<%= (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN) %>");
                 request.setRequestHeader("contentType", "application/json; charset=utf-8");
                 request.send(formData);
-                request.timeout = 1000;
-                request.ontimeout = function () {
-                    isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
-                }
                 request.onreadystatechange = function () {
                     if (request.readyState == XMLHttpRequest.DONE) {
-                        if (request.status == 500)
+                        if (request.status == 0)
+                            isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
+                        else if (request.status == 500)
                             isc.warn("<spring:message code='dcc.upload.error.message'/>");
-                        if (request.status == 200 || request.status == 201) {
+                        else if (request.status == 200 || request.status == 201) {
                             isc.say("<spring:message code='dcc.upload.success.message'/>");
                             ListGrid_Dcc_refresh();
                             dccCreateWindow.close();
                         }
-                        else if (request.responseText != "" && JSON.parse(request.responseText).exceptionClass.includes("MaxUploadSizeExceededException"))
-                            isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
                     }
                 }
             }
