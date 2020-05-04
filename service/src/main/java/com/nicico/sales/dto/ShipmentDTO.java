@@ -67,9 +67,9 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentInfo")
     public static class Info extends ShipmentDTO {
+        private VesselDTO vessel;
         private ContactDTO.ContactInfoTuple contactByAgent;
         private ContactDTO.ContactInfoTuple contact; // Add By Jalal Buyer
-
         private ContactDTO.ContactInfoTuple container;
         private PortDTO.PortInfoTuple portByLoading;
         private PortDTO.Info portByDischarge;

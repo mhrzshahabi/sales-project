@@ -29,10 +29,10 @@ public class Vessel extends BaseEntity {
     private String type;
 
     @Column(name = "IMO")
-    private Long imo;
+    private String imo;
 
     @Column(name = "YEAR_OF_BUILd")
-    private Long yearOfBuild;
+    private String yearOfBuild;
 
     @Column(name = "LENGTH")
     private Double length;
