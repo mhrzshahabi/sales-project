@@ -627,7 +627,7 @@
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
                         ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
-                        Window_Bijack.close();
+                        Window_BijackOnWayProduct.close();
                     } else
                         isc.say(RpcResponse_o.data);
                 }
@@ -672,7 +672,7 @@
                         icon: "pieces/16/icon_delete.png",
                         orientation: "vertical",
                         click: function () {
-                            Window_Bijack.close();
+                            Window_BijackOnWayProduct.close();
                         }
                     })
                 ]
