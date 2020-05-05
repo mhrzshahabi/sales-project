@@ -634,6 +634,7 @@
     var DynamicForm_Cost = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
+        dataSource: RestDataSource_Cost,
         titleWidth: "120",
         margin: 10,
         numCols: 6,
@@ -1340,19 +1341,19 @@
                     align: "center",
                     showHover: true
                 },
-                {
-                    name: "sourceGold",
-                    title: "<spring:message code='cost.sourceGold'/>",
-                    type: 'text',
-                    required: true,
-                    width: "10%",
-                    align: "center",
-                    showHover: true,
-                    validators: [{
-                        type:"required",
-                        validateOnChange: true
-                    }]
-                },
+                <%--{--%>
+                    <%--name: "sourceGold",--%>
+                    <%--title: "<spring:message code='cost.sourceGold'/>",--%>
+                    <%--type: 'text',--%>
+                    <%--required: true,--%>
+                    <%--width: "10%",--%>
+                    <%--align: "center",--%>
+                    <%--showHover: true,--%>
+                    <%--validators: [{--%>
+                        <%--type:"required",--%>
+                        <%--validateOnChange: true--%>
+                    <%--}]--%>
+                <%--},--%>
                 {
                     name: "editIcon",
                     width: 40,

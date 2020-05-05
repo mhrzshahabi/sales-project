@@ -19,7 +19,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TermDTO {
 
-    private String title;
+    private String code;
+    private String titleFa;
+    private String titleEn;
     private String description;
 
     @Getter

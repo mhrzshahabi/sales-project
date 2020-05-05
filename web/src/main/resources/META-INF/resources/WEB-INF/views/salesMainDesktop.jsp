@@ -81,7 +81,7 @@
 
     const BaseFormItems = {
 
-        concat: function(fields, setBaseItemsHidden = true) {
+        concat: function (fields, setBaseItemsHidden = true) {
 
             let items = [];
             if (fields.constructor !== Array)
@@ -105,6 +105,7 @@
             isBaseItem: true,
             hidden: true,
             primaryKey: true,
+            canEdit: false,
             name: "id",
             type: "number",
             width: 75,
@@ -112,6 +113,7 @@
         }, {
             isBaseItem: true,
             hidden: true,
+            canEdit: false,
             name: "version",
             type: "number",
             width: 70,
@@ -119,6 +121,7 @@
         }, {
             isBaseItem: true,
             hidden: true,
+            canEdit: false,
             name: "editable",
             type: "boolean",
             width: 60,
@@ -126,6 +129,7 @@
         }, {
             isBaseItem: true,
             width: 100,
+            canEdit: false,
             name: "estatus",
             type: "number",
             hidden: true,
@@ -768,15 +772,6 @@
                     title: "<spring:message code='entity.contract-detail-type'/>",
                     click: function () {
                         createTab("<spring:message code='entity.contract-detail-type'/>", "<spring:url value="/contract-detail-type/show-form" />")
-                    }
-                },
-                </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_CONTRACT_DETAIL_TYPE_PARAM')">
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='entity.contract-detail-type-param'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.contract-detail-type-param'/>", "<spring:url value="/contract-detail-type-param/show-form" />")
                     }
                 },
                 </sec:authorize>

@@ -25,7 +25,7 @@ namespace nicico {
             // @ts-ignore
             creator.dynamicForm.main.hide();
             // @ts-ignore
-            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields);
+            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
             // @ts-ignore
             creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
             // <c:if test = "${u_entity}">

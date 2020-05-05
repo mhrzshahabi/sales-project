@@ -437,12 +437,7 @@
         }, {
             name: "bijackNo",
             title: "<spring:message code='warehouseCad.bijackNo'/>",
-            type: 'text',
-            required: true,
-            validators: [{
-                type:"required",
-                validateOnChange: true
-            }]
+            type: 'staticText',
         }, {
             name: "materialItemId",
             title: "<spring:message code='contractItem.material'/>",
@@ -473,7 +468,7 @@
                 defaultValue: "<spring:message code='warehouseCad.addBijackPlanIdExact'/>"
             },{
             name: "destinationTozinPlantStaticId",
-            disabled: false,
+            disabled: true,
             colSpan: 3,
             titleColSpan: 1,
             showHover: true,
@@ -495,7 +490,7 @@
                 defaultValue: "<spring:message code='warehouseCad.addBijackPlanId'/>"
             },{
             name: "destinationTozinPlantId",
-            required: true,
+            disabled: true,
             validators: [{
                 type:"required",
                 validateOnChange: true
