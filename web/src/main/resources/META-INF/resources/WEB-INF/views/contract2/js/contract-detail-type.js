@@ -242,12 +242,23 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 width: "100%",
                 height: 24,
                 align: 'left',
+                border: 0,
                 members: [
                     isc.ToolStripButton.create({
 
                         icon: "pieces/16/icon_add.png",
-                        title: "<spring:message code='global.save'/>",
+                        title: "<spring:message code='global.form.save'/>",
                         click: function () {
+
+                            if (!contractDetailTypeTab.listGrid.param.validateAllData()) {
+
+                                contractDetailTypeTab.dialog.say(
+                                    "<spring:message code='contract-detail-type.window.validation.param'/>",
+                                    "<spring:message code='global.error'/>");
+
+                                return;
+                            }
+
                             contractDetailTypeTab.listGrid.param.saveAllEdits();
                         }
                     })]
@@ -334,12 +345,23 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                 width: "100%",
                 height: 24,
                 align: 'left',
+                border: 0,
                 members: [
                     isc.ToolStripButton.create({
 
                         icon: "pieces/16/icon_add.png",
-                        title: "<spring:message code='global.save'/>",
+                        title: "<spring:message code='global.form.save'/>",
                         click: function () {
+
+                            if (!contractDetailTypeTab.listGrid.template.validateAllData()) {
+
+                                contractDetailTypeTab.dialog.say(
+                                    "<spring:message code='contract-detail-type.window.validation.template'/>",
+                                    "<spring:message code='global.error'/>");
+
+                                return;
+                            }
+
                             contractDetailTypeTab.listGrid.template.saveAllEdits();
                         }
                     })]
