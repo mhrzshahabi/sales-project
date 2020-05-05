@@ -95,6 +95,11 @@ contractDetailTypeTab.dynamicForm.paramFields.unitId = {
     title: "<spring:message code='global.unit'/>",
     optionDataSource: contractDetailTypeTab.restDataSource.unit
 };
+contractDetailTypeTab.dynamicForm.paramFields.defaultValue = {
+    width: "50%",
+    name: "defaultValue",
+    title: "<spring:message code='global.default-value'/>"
+};
 contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId = {
     width: "50%",
     hidden: true,
@@ -176,14 +181,11 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
 
     width: "100%",
     height: "100%",
-    // initialCriteria: {},
     sortField: 0,
     dataPageSize: 50,
     fetchDelay: 1000,
     autoFetchData: true,
     showRowNumbers: true,
-    showFilterEditor: true,
-    filterOnKeypress: false,
     canAutoFitFields: false,
     allowAdvancedCriteria: true,
     alternateRecordStyles: true,
@@ -216,22 +218,76 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 click: function () {
                     contractDetailTypeTab.listGrid.param.startEditingNew();
                 }
+            }),
+            isc.ToolStripButton.create({
+
+                icon: "pieces/16/icon_add.png",
+                title: "<spring:message code='contract-detail-type.window.param-value.add'/>",
+                click: function () {
+
+                    contractDetailTypeTab.listGrid.param.saveAllEdits();
+                    let record = contractDetailTypeTab.listGrid.param.getSelectedRecord();
+                    if (record == null)
+                        contractDetailTypeTab.dialog.notSelected();
+                    else if (record.editable === false)
+                        contractDetailTypeTab.dialog.notEditable();
+                    else {
+
+
+                    }
+                }
+            }),
+            isc.ToolStrip.create({
+
+                width: "100%",
+                height: 24,
+                align: 'left',
+                members: [
+                    isc.ToolStripButton.create({
+
+                        icon: "pieces/16/icon_add.png",
+                        title: "<spring:message code='global.save'/>",
+                        click: function () {
+                            contractDetailTypeTab.listGrid.param.saveAllEdits();
+                        }
+                    })]
             })
         ]
-    })]
+    })],
+    getEditorProperties: function (editField, editedRecord, rowNum) {
+
+        return {
+
+            // height: 300,
+            // width: '100%',
+            // required: true,
+            // editorType: "RichTextItem",
+            // defaultValue: this.getDefaultHTMLValue(contractDetailTypeTab.listGrid.param.getAllData()),
+            // keyPress: function () {
+            //
+            //     if (isc.EventHandler.getKey().toLowerCase() === "enter" && !isc.EventHandler.shiftKeyDown()) {
+            //
+            //         contractDetailTypeTab.listGrid.template.endEditing();
+            //         return false;
+            //     }
+            //
+            //     if (this.getValue().replaceAll('<br>', '').replaceAll(' ', '').length === 0)
+            //         this.setValue('');
+            //
+            //     return true;
+            // }
+        };
+    }
 });
 contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
 
     width: "100%",
     height: "100%",
-    // initialCriteria: {},
     sortField: 0,
     dataPageSize: 50,
     fetchDelay: 1000,
     autoFetchData: true,
     showRowNumbers: true,
-    showFilterEditor: true,
-    filterOnKeypress: false,
     canAutoFitFields: false,
     allowAdvancedCriteria: true,
     alternateRecordStyles: true,
@@ -254,13 +310,13 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
         width: "100%",
         height: 24,
         members: [
-
             isc.ToolStripButton.create({
 
                 icon: "pieces/16/icon_add.png",
                 title: "<spring:message code='global.add'/>",
                 click: function () {
 
+                    contractDetailTypeTab.listGrid.param.saveAllEdits();
                     if (!contractDetailTypeTab.listGrid.param.validateAllData()) {
 
                         contractDetailTypeTab.dialog.say(
@@ -272,6 +328,21 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
 
                     contractDetailTypeTab.listGrid.template.startEditingNew();
                 }
+            }),
+            isc.ToolStrip.create({
+
+                width: "100%",
+                height: 24,
+                align: 'left',
+                members: [
+                    isc.ToolStripButton.create({
+
+                        icon: "pieces/16/icon_add.png",
+                        title: "<spring:message code='global.save'/>",
+                        click: function () {
+                            contractDetailTypeTab.listGrid.template.saveAllEdits();
+                        }
+                    })]
             })
         ]
     })],
