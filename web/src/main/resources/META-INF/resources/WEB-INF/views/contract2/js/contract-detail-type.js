@@ -309,8 +309,17 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                         '<th style="border: 1px solid black;border-collapse: collapse;"></th>';
                 else if (j === 0)
                     result += '<td style="border: 1px solid black;border-collapse: collapse;">' + rows[i - 1].key + '</td>';
-                else
-                    result += '<td style="border: 1px solid black;border-collapse: collapse;"></td>';
+                else {
+
+                    result += '<td style="border: 1px solid black;border-collapse: collapse;">';
+                    result += '$';
+                    result += '[';
+                    result += rows[i - 1].key;
+                    result += ',';
+                    result += columns[j - 1].key;
+                    result += ']';
+                    result += '</td>';
+                }
             }
 
             result += '</tr>';
