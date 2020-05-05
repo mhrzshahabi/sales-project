@@ -10,7 +10,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
@@ -22,6 +21,7 @@ public class ContractDetailTypeDTO {
     private String code;
     private String titleFa;
     private String titleEn;
+    private String content;
 
     @Getter
     @Setter

@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum EStatus {
 
     Active(1),
-    DeActive(2);
+    DeActive(2),
+    NotPrintable(4);
 
     private final Integer id;
 }
