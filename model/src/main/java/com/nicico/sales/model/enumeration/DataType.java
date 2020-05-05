@@ -13,7 +13,8 @@ public enum DataType {
     Double(4),
     Integer(5),
     Long(6),
-    String(7);
+    String(7),
+    Column(8);
 
     private final Integer id;
 }

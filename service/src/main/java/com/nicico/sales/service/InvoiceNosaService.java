@@ -37,6 +37,8 @@ public class InvoiceNosaService implements IInvoiceNosaService {
         Map<String, String> uriVariables = new HashMap<>();
         if (criteria.getCriteria() != null) {
             queryCriteria = "operator=" + criteria.getOperator() + "&_constructor=AdvancedCriteria";
+            queryCriteria = queryCriteria + "&criteria={0}";
+            uriVariables.put("0", "{\"fieldName\":\"childrenDigitCount\",\"operator\":\"equals\",\"value\":\"0\",\"_constructor\":\"AdvancedCriteria\"}");
             Iterator criteriaIterator = ((LinkedList) criteria.getCriteria()).iterator();
             int key = 1;
             while (criteriaIterator.hasNext()) {
