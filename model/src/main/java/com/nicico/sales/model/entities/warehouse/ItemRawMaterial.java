@@ -24,7 +24,8 @@ public class ItemRawMaterial extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_itemRawMaterial2inventoryByInventoryId"))
+    @JoinColumn(name = "F_ITEM_ID", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "fk_itemRawMaterial2ItemByItemId"))
     private Item item;
 
     @NotNull

@@ -20,8 +20,8 @@ import java.util.List;
 public class Item extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_ITEM")
-    @SequenceGenerator(name = "SEQ_WARH_ITEM", sequenceName = "SEQ_WARH_ITEM", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_ITEM")
+//    @SequenceGenerator(name = "SEQ_WARH_ITEM", sequenceName = "SEQ_WARH_ITEM", allocationSize = 1)
     private Long id;
 
     @NotNull
@@ -49,4 +49,8 @@ public class Item extends BaseEntity {
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<ItemRawMaterial> itemRawMaterials;
+
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<ItemDetail> itemDetails;
+
 }

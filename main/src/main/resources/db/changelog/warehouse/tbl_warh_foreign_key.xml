@@ -130,10 +130,30 @@
                                  initiallyDeferred="false" referencedColumnNames="id"
                                  referencedTableName="TBL_WARH_WAREHOUSE" validate="true"/>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587979503463-250">
-        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_REMITTANCE"
-                                 constraintName="fk_remittance2itemByItemId" deferrable="false"
+    <!--    <changeSet author="saeb (generated)" id="1587979503463-250">-->
+    <!--        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_REMITTANCE"-->
+    <!--                                 constraintName="fk_remittance2itemByItemId" deferrable="false"-->
+    <!--                                 initiallyDeferred="false" referencedColumnNames="id"-->
+    <!--                                 referencedTableName="TBL_WARH_ITEM" validate="true"/>-->
+    <!--    </changeSet>-->
+    <changeSet author="saeb (generated)" id="1588585668985-275">
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_ITEM_DETAIL"
+                                 constraintName="fk_itemDetaill2ItemByItemId" deferrable="false"
                                  initiallyDeferred="false" referencedColumnNames="id"
                                  referencedTableName="TBL_WARH_ITEM" validate="true"/>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1588585668985-82">
+        <dropForeignKeyConstraint baseTableName="TBL_WARH_ITEM_RAW_MATERIAL"
+                                  constraintName="FK_ITEMRAWMATERIAL2INVENTORYBYINVENTORYID"/>
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_ITEM_RAW_MATERIAL"
+                                 constraintName="fk_itemRawMaterial2ItemByItemId" referencedColumnNames="id"
+                                 referencedTableName="TBL_WARH_ITEM"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1588657516454-273">
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_DETAIL_ID" baseTableName="TBL_WARH_REMITTANCE"
+                                 constraintName="fk_remittance2itemByItemDetailId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="TBL_WARH_ITEM_DETAIL" validate="true"/>
     </changeSet>
 </databaseChangeLog>

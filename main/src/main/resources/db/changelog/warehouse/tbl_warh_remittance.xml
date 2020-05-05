@@ -46,5 +46,14 @@
             </column>
         </createTable>
     </changeSet>
-
+    <changeSet author="saeb (generated)" id="1588657516454-288">
+        <dropColumn columnName="F_ITEM_ID" tableName="TBL_WARH_REMITTANCE"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1588657516454-272">
+        <addColumn tableName="TBL_WARH_REMITTANCE">
+            <column name="F_ITEM_DETAIL_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
