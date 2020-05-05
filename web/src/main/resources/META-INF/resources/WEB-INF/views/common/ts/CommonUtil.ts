@@ -100,20 +100,23 @@ namespace nicico {
             // @ts-ignore
             isc.RestDataSource.nicico = {};
             // @ts-ignore
-            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
+            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>, transformRequest: any = null): isc.RestDataSource {
 
                 let restDataSourceProperties: Partial<isc.RestDataSource> = {};
 
                 restDataSourceProperties.jsonPrefix = "";
                 restDataSourceProperties.jsonSuffix = "";
                 restDataSourceProperties.dataFormat = "json";
-                // @ts-ignore
-                restDataSourceProperties.transformRequest = function (dsRequest) {
-
+                if (transformRequest != null)
+                    restDataSourceProperties.transformRequest = transformRequest;
+                else
                     // @ts-ignore
-                    dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
-                    return this.Super("transformRequest", arguments);
-                };
+                    restDataSourceProperties.transformRequest = function (dsRequest) {
+
+                        // @ts-ignore
+                        dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
+                        return this.Super("transformRequest", arguments);
+                    };
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
             };
             // @ts-ignore

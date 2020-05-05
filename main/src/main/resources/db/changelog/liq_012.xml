@@ -160,5 +160,16 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1778899665544-034">
+        <dropColumn tableName="TBL_SHIPMENT" columnName="VESSEL_NAME"/>
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="VESSEL_ID" type="NUMBER(19, 0)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="VESSEL_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="Shipment2vessel" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_VESSEL" validate="true"/>
+        <modifyDataType columnName="IMO" newDataType="varchar2(255 CHAR)" tableName="TBL_VESSEL"/>
+        <modifyDataType columnName="YEAR_OF_BUILd" newDataType="varchar2(255 CHAR)" tableName="TBL_VESSEL"/>
+    </changeSet>
 
 </databaseChangeLog>

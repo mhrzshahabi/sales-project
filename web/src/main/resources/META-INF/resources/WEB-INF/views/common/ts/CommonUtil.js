@@ -61,17 +61,21 @@ var nicico;
             // @ts-ignore
             isc.RestDataSource.nicico = {};
             // @ts-ignore
-            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl, fields) {
+            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl, fields, transformRequest) {
+                if (transformRequest === void 0) { transformRequest = null; }
                 var restDataSourceProperties = {};
                 restDataSourceProperties.jsonPrefix = "";
                 restDataSourceProperties.jsonSuffix = "";
                 restDataSourceProperties.dataFormat = "json";
-                // @ts-ignore
-                restDataSourceProperties.transformRequest = function (dsRequest) {
+                if (transformRequest != null)
+                    restDataSourceProperties.transformRequest = transformRequest;
+                else
                     // @ts-ignore
-                    dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
-                    return this.Super("transformRequest", arguments);
-                };
+                    restDataSourceProperties.transformRequest = function (dsRequest) {
+                        // @ts-ignore
+                        dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
+                        return this.Super("transformRequest", arguments);
+                    };
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
             };
             // @ts-ignore
