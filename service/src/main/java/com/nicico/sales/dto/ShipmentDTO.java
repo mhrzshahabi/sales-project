@@ -48,7 +48,6 @@ public class ShipmentDTO {
     private String swBlDate;
     private String consignee;
     private Long contactByAgentId;
-    private String vesselName;
     private Double freight;
     private Double totalFreight;
     private String freightCurrency;
@@ -61,6 +60,7 @@ public class ShipmentDTO {
     private Double postFreight;
     private String postFreightCurrency;
     private String bookingCat;
+    private Long vesselId;
 
     @Getter
     @Setter

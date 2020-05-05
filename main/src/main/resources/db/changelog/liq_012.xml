@@ -172,4 +172,8 @@
         <modifyDataType columnName="YEAR_OF_BUILd" newDataType="varchar2(255 CHAR)" tableName="TBL_VESSEL"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1778899665544-035">
+        <modifyDataType columnName="SW_BL_DATE" newDataType="varchar2(100 CHAR)" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+
 </databaseChangeLog>
