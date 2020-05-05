@@ -12,6 +12,7 @@ spring:
     properties:
       hibernate:
         dialect: com.nicico.copper.common.hibernate.CustomOracleDialect
+        format_sql: true
         hbm2ddl:
           schema_filter_provider: com.nicico.copper.common.hibernate.CustomSchemaFilterProvider
     open-in-view: false
