@@ -11,6 +11,8 @@ import com.nicico.sales.repository.InvoiceSalesDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,10 @@ public class InvoiceSalesService implements IInvoiceSalesService {
 
     private final InvoiceSalesDAO invoiceSalesDAO;
     private final ModelMapper modelMapper;
+    private final OAuth2RestTemplate restTemplate;
+
+    @Value("${nicico.apps.accounting}")
+    private String accountingAppUrl;
 
     @Transactional(readOnly = true)
     @Override
@@ -50,7 +56,9 @@ public class InvoiceSalesService implements IInvoiceSalesService {
 //    @PreAuthorize("hasAuthority('C_INVOICE_SALES')")
     public InvoiceSalesDTO.Info create(InvoiceSalesDTO.Create request) {
         final InvoiceSales invoiceSales = modelMapper.map(request, InvoiceSales.class);
-        InvoiceSales last = invoiceSalesDAO.findBySerialOrderByCreatedDateDesc(invoiceSales.getSerial()).get(0);
+        InvoiceSales last = null;
+        if (invoiceSalesDAO.findBySerialOrderByCreatedDateDesc(invoiceSales.getSerial()).size() != 0)
+            last = invoiceSalesDAO.findBySerialOrderByCreatedDateDesc(invoiceSales.getSerial()).get(0);
         if (last == null)
             invoiceSales.setInvoiceNo("0");
         else

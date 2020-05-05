@@ -453,6 +453,18 @@
             ]
         });
 
+    var optionCriteria__Customer = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "code", operator: "iStartsWith", value: "0"}]
+    };
+
+    var optionCriteria__LetterCredit = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "code", operator: "iStartsWith", value: "107"}]
+    };
+
     var DynamicForm_invoiceSales = isc.DynamicForm.create(
         {
             width: 700,
@@ -528,6 +540,7 @@
                     title: "<spring:message code='invoiceSales.customerId'/>",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    optionCriteria: optionCriteria__Customer,
                     displayField: "code",
                     valueField: "id",
                     required: true ,
@@ -634,6 +647,7 @@
                     title: "<spring:message code='invoiceSales.lcNoId'/>",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
+                    optionCriteria: optionCriteria__LetterCredit,
                     displayField: "code",
                     valueField: "id",
                     required: true ,
