@@ -38,6 +38,11 @@ public class InvoiceSalesDTO {
     private String firstContractNo;
     private String secondContractNo;
     private String secondContractName;
+    private String address;
+    private String telephone;
+    private String econimicalNo;
+    private String nationalNo;
+    private String PostalCode;
 
     @Getter
     @Setter
