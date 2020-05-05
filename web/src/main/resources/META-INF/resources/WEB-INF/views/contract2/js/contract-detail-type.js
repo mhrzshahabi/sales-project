@@ -216,25 +216,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 click: function () {
                     contractDetailTypeTab.listGrid.param.startEditingNew();
                 }
-            }),
-            // isc.ToolStripButton.create({
-            //
-            //     icon: "pieces/16/icon_edit.png",
-            //     title: "<spring:message code='global.edit'/>",
-            //     click: function () {
-            //
-            //         let record = contractDetailTypeTab.listGrid.param.getSelectedRecord();
-            //         if (record == null)
-            //             contractDetailTypeTab.dialog.notSelected();
-            //         else if (record.editable === false)
-            //             contractDetailTypeTab.dialog.notEditable();
-            //         else {
-            //
-            //             let recordIndex = contractDetailTypeTab.listGrid.param.data.indexOf(record);
-            //             contractDetailTypeTab.listGrid.param.startEditing(recordIndex);
-            //         }
-            //     }
-            // })
+            })
         ]
     })]
 });
@@ -278,40 +260,74 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                 icon: "pieces/16/icon_add.png",
                 title: "<spring:message code='global.add'/>",
                 click: function () {
+
+                    if (!contractDetailTypeTab.listGrid.param.validateAllData()) {
+
+                        contractDetailTypeTab.dialog.say(
+                            "<spring:message code='contract-detail-type.window.validation.param'/>",
+                            "<spring:message code='global.error'/>");
+
+                        return;
+                    }
+
                     contractDetailTypeTab.listGrid.template.startEditingNew();
                 }
-            }),
-            // isc.ToolStripButton.create({
-            //
-            //     icon: "pieces/16/icon_edit.png",
-            //     title: "<spring:message code='global.edit'/>",
-            //     click: function () {
-            //
-            //         let record = contractDetailTypeTab.listGrid.template.getSelectedRecord();
-            //         if (record == null)
-            //             contractDetailTypeTab.dialog.notSelected();
-            //         else if (record.editable === false)
-            //             contractDetailTypeTab.dialog.notEditable();
-            //         else {
-            //
-            //             let recordIndex = contractDetailTypeTab.listGrid.template.data.indexOf(record);
-            //             contractDetailTypeTab.listGrid.template.startEditing(recordIndex);
-            //         }
-            //     }
-            // })
+            })
         ]
     })],
     getDefaultHTMLValue: function (params) {
 
-        console.log(params)
+        let result = '';
+        let rows = params.filter(q => q.type != 8);
+        let columns = params.filter(q => q.type == 8);
+        if (columns.length === 0) {
+
+            for (let i = 0; i < params.length; i++) {
+
+                if (params[i].key == null)
+                    continue;
+
+                result += '$';
+                result += '{';
+                result += params[i].key;
+                result += '}<br>';
+            }
+
+            return result;
+        }
+
+        result = '<table style="border: 1px solid black;border-collapse: collapse;">';
+        for (let i = 0; i <= rows.length; i++) {
+
+            result += '<tr>';
+
+            for (let j = 0; j <= columns.length; j++) {
+
+                if (i === 0)
+                    result += j > 0 ?
+                        '<th style="border: 1px solid black;border-collapse: collapse;">' + columns[j - 1].key + '</th>' :
+                        '<th style="border: 1px solid black;border-collapse: collapse;"></th>';
+                else if (j === 0)
+                    result += '<td style="border: 1px solid black;border-collapse: collapse;">' + rows[i - 1].key + '</td>';
+                else
+                    result += '<td style="border: 1px solid black;border-collapse: collapse;"></td>';
+            }
+
+            result += '</tr>';
+        }
+        result += '</table>';
+
+        return result;
     },
     getEditorProperties: function (editField, editedRecord, rowNum) {
 
-        let item = {
+        return {
+
             height: 300,
             width: '100%',
             required: true,
             editorType: "RichTextItem",
+            defaultValue: this.getDefaultHTMLValue(contractDetailTypeTab.listGrid.param.getAllData()),
             keyPress: function () {
 
                 if (isc.EventHandler.getKey().toLowerCase() === "enter" && !isc.EventHandler.shiftKeyDown()) {
@@ -319,17 +335,13 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                     contractDetailTypeTab.listGrid.template.endEditing();
                     return false;
                 }
+
+                if (this.getValue().replaceAll('<br>', '').replaceAll(' ', '').length === 0)
+                    this.setValue('');
+
                 return true;
             }
         };
-
-        let data = [...contractDetailTypeTab.listGrid.param.getData()];
-        let allEditRows = contractDetailTypeTab.listGrid.param.getAllEditRows();
-        for (let i = 0; i < allEditRows.length; i++)
-            data.push({...contractDetailTypeTab.listGrid.param.getEditedRecord(allEditRows[i])});
-        item.defaultValue = this.getDefaultHTMLValue(data);
-
-        return item;
     }
 });
 contractDetailTypeTab.hLayout.extra = isc.HLayout.create({
@@ -377,13 +389,25 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
             click: function () {
 
                 contractDetailTypeTab.dynamicForm.detailType.validate();
-                if (contractDetailTypeTab.dynamicForm.detailType.hasErrors())
+                if (contractDetailTypeTab.dynamicForm.detailType.hasErrors() ||
+                    !contractDetailTypeTab.listGrid.param.validateAllData() ||
+                    !contractDetailTypeTab.listGrid.template.validateAllData())
                     return;
-                var data = contractDetailTypeTab.dynamicForm.detailType.getValues();
 
                 contractDetailTypeTab.listGrid.param.saveAllEdits();
                 contractDetailTypeTab.listGrid.template.saveAllEdits();
 
+                var data = contractDetailTypeTab.dynamicForm.detailType.getValues();
+                let allParams = contractDetailTypeTab.listGrid.param.getAllData();
+                let allTemplates = contractDetailTypeTab.listGrid.template.getAllData();
+
+                for (let i = 0; i < allParams.length; i++)
+                    allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId] = data.id;
+                data.params = allParams;
+
+                for (let i = 0; i < allTemplates.length; i++)
+                    allParams[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId] = data.id;
+                data.templates = allTemplates;
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractDetailTypeTab.variable.url,
