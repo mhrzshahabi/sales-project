@@ -26,12 +26,7 @@ public interface WarehouseStockDAO extends JpaRepository<WarehouseStock, Long>, 
             "left join tbl_shipment ss on ss.contract_shipment_id=s.id " +
             "left join tbl_invoice i on i.shipment_id=ss.id and upper(i.invoice_type)='FINAL' " +
             "where s.amount is not null and s.plan like '%A%' and s.send_date>'2019' and s.send_date< ?1 and i.id is null " +
-            "and (ss.id is null or ss.id not in " +
-            "(select shipment_id from TBL_WAREHOUSE_ISSUE_CATHODE  " +
-            "UNION " +
-            "select shipment_id from TBL_WAREHOUSE_ISSUE_CONS " +
-            "UNION " +
-            "select shipment_id from TBL_WAREHOUSE_ISSUE_MO)) order by m.c_descl,s.send_date ", nativeQuery = true)
+            "order by m.c_descl,s.send_date ", nativeQuery = true)
     List<Object[]> warehouseStockCommitment(String tillDate);
 
     @Query(value = "select f8,f7,f6,f5,f4,f3,f2,f1,f0 from (  " +

@@ -928,32 +928,7 @@
                     click: function () {
                         createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
                     }
-                },
-
-
-                /*,
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
-                    click: function () {
-                        createTab("<spring:message code='Shipment.titleWarehouseIssueCathode'/>", "<spring:url value="/warehouseIssueCathode/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='Shipment.titleWarehouseIssueCons'/>",
-                    click: function () {
-                        createTab("<spring:message code='Shipment.titleWarehouseIssueCons'/>", "<spring:url value="/warehouseIssueCons/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
-                    click: function () {
-                        createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
-                    }
-                }*/
-
+                }
             ]
         })
     });

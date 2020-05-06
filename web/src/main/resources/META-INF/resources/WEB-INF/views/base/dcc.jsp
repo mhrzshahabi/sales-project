@@ -180,12 +180,6 @@
                             window.open("dcc/downloadFile?table=" + "invoice" + "&file=" + record.fileNewName);
                         else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_CAD")
                             window.open("dcc/downloadFile?table=" + "warehouse_cad" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_CATHODE")
-                            window.open("dcc/downloadFile?table=" + "warehouse_issue_cathode" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_CONS")
-                            window.open("dcc/downloadFile?table=" + "warehouse_issue_cons" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_MO")
-                            window.open("dcc/downloadFile?table=" + "warehouse_issue_mo" + "&file=" + record.fileNewName);
                     }
                 }
             ]
@@ -274,18 +268,6 @@
                 else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_CAD') {
                     folder = "warehouse_cad";
                     dccDynamicForm.setValue("folder", "warehouse_cad");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_ISSUE_CATHODE') {
-                    folder = "warehouse_issue_cathode";
-                    dccDynamicForm.setValue("folder", "warehouse_issue_cathode");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_ISSUE_CONS') {
-                    folder = "warehouse_issue_cons";
-                    dccDynamicForm.setValue("folder", "warehouse_issue_cons");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_ISSUE_MO') {
-                    folder = "warehouse_issue_mo";
-                    dccDynamicForm.setValue("folder", "warehouse_issue_mo");
                 }
 
                 var formData = new FormData();
