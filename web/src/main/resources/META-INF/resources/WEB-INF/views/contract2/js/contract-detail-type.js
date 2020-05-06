@@ -282,7 +282,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             width: "100%",
                             required: true,
                             name: "values",
-                            title: "<spring:message code='global.default-value'/>"
+                            title: "<spring:message code='contract-detail-type.form.valid-values'/>"
                         }, defaultValueEditorProperties)]);
                         let listGrid = isc.ListGrid.nicico.createListGrid({
                             width: "100%",
