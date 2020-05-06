@@ -79,5 +79,20 @@ public class InvoiceSales extends Auditable {
     @Column(name = "SECOND_CONTRACT_NAME")
     private String secondContractName;
 
+    @Column(name = "ADDRESS")
+    private String address;
+
+    @Column(name = "TELEPHONE")
+    private String telephone;
+
+    @Column(name = "ECONIMICAL_NO")
+    private String econimicalNo;
+
+    @Column(name = "NATIONAL_NO")
+    private String nationalNo;
+
+    @Column(name = "POSTAL_CODE")
+    private String PostalCode;
+
 
 }

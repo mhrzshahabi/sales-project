@@ -212,17 +212,9 @@
                 showHover: true
             },
             {
-                name: "vesselName",
-                title: "<spring:message code='shipment.vesselName'/>",
+                name: "vessel.name",
+                title: "<spring:message code='vessel.name'/>",
                 type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
@@ -744,16 +736,18 @@
                 }]
             },
             {
-                name: "vesselName", colSpan: 4,
-                title: "<spring:message code='shipment.vesselName'/>",
+                name: "vesselId",
+                colSpan: 4,
+                title: "<spring:message code='vessel.name'/>",
                 required: true,
                 editorType: "SelectItem",
-                type: 'text',
+                optionDataSource: RestDataSource_VesselInShipment,
+                type: 'long',
                 width: 400,
                 displayField: "name",
+                valueField: "id",
                 pickListWidth: 400,
                 pickListHeight: "500",
-                optionDataSource: RestDataSource_VesselInShipment,
                 pickListProperties: {
                     showFilterEditor: true
                 },
@@ -762,8 +756,7 @@
                         name: "name",
                     },
                     {
-                        name: "type",
-                    }],
+                        name: "type"}],
                 validators: [
                 {
                     type:"required",
@@ -971,7 +964,7 @@
             DynamicForm_Shipment.setValue("consignee", DynamicForm_Shipment1.getValue("consignee"));
             DynamicForm_Shipment.setValue("contactByAgentId", DynamicForm_Shipment2.getValue("contactByAgentId"));
             DynamicForm_Shipment.setValue("Header", DynamicForm_Shipment2.getValue("Header"));
-            DynamicForm_Shipment.setValue("vesselName", DynamicForm_Shipment2.getValue("vesselName"));
+            DynamicForm_Shipment.setValue("vesselId", DynamicForm_Shipment2.getValue("vesselId"));
             DynamicForm_Shipment.setValue("freight", DynamicForm_Shipment2.getValue("freight"));
             DynamicForm_Shipment.setValue("totalFreight", DynamicForm_Shipment2.getValue("totalFreight"));
             DynamicForm_Shipment.setValue("freightCurrency", DynamicForm_Shipment2.getValue("freightCurrency"));

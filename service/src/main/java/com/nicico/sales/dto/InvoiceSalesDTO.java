@@ -20,7 +20,6 @@ public class InvoiceSalesDTO {
     private Long id;
     private String serial;
     private String invoiceNo;
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String invoiceDate;
     private String district;
     private Long customerId;
@@ -38,6 +37,11 @@ public class InvoiceSalesDTO {
     private String firstContractNo;
     private String secondContractNo;
     private String secondContractName;
+    private String address;
+    private String telephone;
+    private String econimicalNo;
+    private String nationalNo;
+    private String PostalCode;
 
     @Getter
     @Setter
