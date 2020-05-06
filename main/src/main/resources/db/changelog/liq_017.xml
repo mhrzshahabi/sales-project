@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="programmer (generated)" id="9778899665544-006">
+        <renameColumn tableName="TBL_COST" oldColumnName="OTHER_COST" newColumnName="CERTIFICATE_ORIGIN_COST"  />
+        <renameColumn tableName="TBL_COST" oldColumnName="OTHER_COST_CUR" newColumnName="CERTIFICATE_ORIGIN_COST_CUR"  />
+        <addColumn tableName="TBL_COST">
+            <column name="SHIPPING_COSTS_BETWEEN_ASSEMBLIES" type="double precision"/>
+        </addColumn>
+        <addColumn tableName="TBL_COST">
+            <column name="SHIPPING_COSTS_BETWEEN_ASSEMBLIES_CUR" type="varchar2(20 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="programmer (generated)" id="9778899665544-007">
+        <addColumn tableName="TBL_COST">
+            <column name="SARCHESHMEH_LAB_COST_CUR" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

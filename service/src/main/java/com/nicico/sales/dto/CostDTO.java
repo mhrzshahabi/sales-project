@@ -24,12 +24,15 @@ public class CostDTO {
     private Long destinationInspectorId;
     private Double destinationInspectionCost;
     private String destinationInspectionCurrency;
-    private Double otherCost;
+    private Double certificateOriginCost;
     private Double beforePaid;
-    private String otherCostCurrency;
-    private Long sarcheshmehLabCost;
+    private String certificateOriginCostCurrency;
+    private Double sarcheshmehLabCost;
+    private String sarcheshmehLabCostCurrency;
     private Double umpireCost;
     private String umpireCostCurrency;
+    private Double shippingCostsBetweenAssemblies;
+    private String shippingCostsCurrencyBetweenAssemblies;
     private Double sourceGold;
     private Double sourceSilver;
     private Double sourceCopper;

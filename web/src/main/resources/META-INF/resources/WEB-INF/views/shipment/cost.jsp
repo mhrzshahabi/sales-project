@@ -408,9 +408,12 @@
                 {name: "destinationInspector.nameFA"},
                 {name: "destinationInspectionCost"},
                 {name: "destinationInspectionCurrency"},
-                {name: "otherCost"},
-                {name: "otherCostCurrency"},
+                {name: "certificateOriginCost"},
+                {name: "certificateOriginCostCurrency"},
+                {name: "shippingCostsBetweenAssemblies"},
+                {name: "shippingCostsCurrencyBetweenAssemblies"},
                 {name: "sarcheshmehLabCost"},
+                {name: "sarcheshmehLabCostCurrency"},
                 {name: "umpireCost"},
                 {name: "umpireCostCurrency"},
                 {name: "sourceGold"},
@@ -642,10 +645,10 @@
             [
                 {name: "id", hidden: true,},
                 {name: "shipmentId", hidden: true,},
-                /*         {
+                        {
                 type: "Header",
-                defaultValue: "بازرسی - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-                },*/
+                defaultValue: "--------------------------------------------------------------------------------------------------------------------------------- &#8595;  بازرسی  &#8595;  -------------------------------------------------------------------------------------------------------------------------------- "
+                },
                 {
                     name: "sourceInspectorId",
                     title: "<spring:message code='cost.sourceInspectorId'/>",
@@ -659,6 +662,7 @@
                     valueField: "id",
                     pickListWidth: "500",
                     pickListHeight: "500",
+                    startRow: false,
                     pickListProperties: {showFilterEditor: true},
                     pickListFields: [
                         {name: "nameFA", align: "center"},
@@ -669,6 +673,7 @@
                 {
                     name: "sourceInspectionCost",
                     title: "<spring:message		code='cost.sourceInspectionCost'/>",
+                    startRow: false,
                     type: 'float',
                     required: false,
                     width: "100%",
@@ -725,17 +730,29 @@
                     defaultValue: "USD", valueMap: dollar
                 },
                 {
+                type: "Header",
+                defaultValue: "--------------------------------------------------------------------------------------------------------------------------------- &#8595;  محتوی  &#8595;  --------------------------------------------------------------------------------------------------------------------------------"
+                },
+                {
                     name: "sarcheshmehLabCost",
                     title: "<spring:message		code='cost.sarcheshmehLabCost'/>",
-                    type: 'integer',
+                    type: 'float',
                     required: false,
                     width: "100%",
                     validators: [{
-                        type: "isInteger",
+                        type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
+                },
+                {
+                    name: "sarcheshmehLabCostCurrency",
+                    title: "<spring:message		code='cost.sarcheshmehLabCostCurrency'/>",
+                    type: 'text',
+                    width: "100%",
+                    defaultValue: "USD",
+                    valueMap: dollar
                 },
                 {
                     name: "umpireCost",
@@ -758,14 +775,11 @@
                     defaultValue: "USD",
                     valueMap: dollar
                 },
-                /*     {
-                type: "Header",
-                defaultValue: "محتوی - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-                },*/
                 {
                     name: "sourceCopper",
-                    title: "<spring:message		code='cost.sourceCopper'/>",
+                    title: "<spring:message code='cost.sourceCopper'/>",
                     type: 'float',
+                    showIf: "false",
                     required: false,
                     width: "100%",
                     validators: [{
@@ -816,7 +830,8 @@
                 },
                 {
                     name: "destinationCopper",
-                    title: "<spring:message		code='cost.destinationCopper'/>",
+                    title: "<spring:message code='cost.destinationCopper'/>",
+                    showIf: "false",
                     type: 'float',
                     required: false,
                     width: "100%",
@@ -916,13 +931,9 @@
                     width: "100%",
                     valueMap: {"A": "A", "B": "B", "C": "C"}
                 },
-                /*          {
-                type: "Header",
-                defaultValue: "سایر - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-                },*/
                 {
-                    name: "otherCost",
-                    title: "<spring:message code='cost.otherCost'/>",
+                    name: "certificateOriginCost",
+                    title: "<spring:message code='cost.certificateOriginCost'/>",
                     type: 'float',
                     required: false,
                     width: "100%",
@@ -934,7 +945,7 @@
                     }]
                 },
                 {
-                    name: "otherCostCurrency", title: "<spring:message		code='cost.otherCostCurrency'/>",
+                    name: "certificateOriginCostCurrency", title: "<spring:message code='cost.certificateOriginCostCurrency'/>",
                     type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
                 },
                 {
@@ -949,6 +960,23 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
+                },
+                {
+                    name: "shippingCostsBetweenAssemblies",
+                    title: "هزینه بین مجامع",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "shippingCostsCurrencyBetweenAssemblies", title: "ارز هزینه بین مجامع",
+                    type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
                 },
                 {
                     name: "postCost",
