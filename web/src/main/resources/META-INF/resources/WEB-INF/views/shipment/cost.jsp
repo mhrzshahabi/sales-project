@@ -474,8 +474,6 @@
             DynamicForm_Cost.setValue("sourceInspectorId", record.sourceInspectorId);
             DynamicForm_Cost.editRecord(record);
             if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Copper Concentrate') {
-                DynamicForm_Cost.getItem("sourceCopper").show();
-                DynamicForm_Cost.getItem("destinationCopper").show();
                 DynamicForm_Cost.getItem("sourceGold").show();
                 DynamicForm_Cost.getItem("destinationGold").show();
                 DynamicForm_Cost.getItem("sourceSilver").show();
@@ -483,8 +481,6 @@
                 DynamicForm_Cost.getItem("sourceMolybdenum").hide();
                 DynamicForm_Cost.getItem("destinationMolybdenum").hide();
             } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Molybdenum Oxide') {
-                DynamicForm_Cost.getItem("sourceCopper").hide();
-                DynamicForm_Cost.getItem("destinationCopper").hide();
                 DynamicForm_Cost.getItem("sourceGold").hide();
                 DynamicForm_Cost.getItem("destinationGold").hide();
                 DynamicForm_Cost.getItem("sourceSilver").hide();
@@ -492,8 +488,6 @@
                 DynamicForm_Cost.getItem("sourceMolybdenum").show();
                 DynamicForm_Cost.getItem("destinationMolybdenum").show();
             } else {
-                DynamicForm_Cost.getItem("sourceCopper").show();
-                DynamicForm_Cost.getItem("destinationCopper").show();
                 DynamicForm_Cost.getItem("sourceGold").hide();
                 DynamicForm_Cost.getItem("destinationGold").hide();
                 DynamicForm_Cost.getItem("sourceSilver").hide();
@@ -580,8 +574,6 @@
                         DynamicForm_Cost.clearValues();
                         DynamicForm_Cost.setValue("shipmentId", record.id);
                         if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Copper Concentrate') {
-                            DynamicForm_Cost.getItem("sourceCopper").show();
-                            DynamicForm_Cost.getItem("destinationCopper").show();
                             DynamicForm_Cost.getItem("sourceGold").show();
                             DynamicForm_Cost.getItem("destinationGold").show();
                             DynamicForm_Cost.getItem("sourceSilver").show();
@@ -589,8 +581,6 @@
                             DynamicForm_Cost.getItem("sourceMolybdenum").hide();
                             DynamicForm_Cost.getItem("destinationMolybdenum").hide();
                         } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Molybdenum Oxide') {
-                            DynamicForm_Cost.getItem("sourceCopper").hide();
-                            DynamicForm_Cost.getItem("destinationCopper").hide();
                             DynamicForm_Cost.getItem("sourceGold").hide();
                             DynamicForm_Cost.getItem("destinationGold").hide();
                             DynamicForm_Cost.getItem("sourceSilver").hide();
@@ -598,8 +588,6 @@
                             DynamicForm_Cost.getItem("sourceMolybdenum").show();
                             DynamicForm_Cost.getItem("destinationMolybdenum").show();
                         } else {
-                            DynamicForm_Cost.getItem("sourceCopper").show();
-                            DynamicForm_Cost.getItem("destinationCopper").show();
                             DynamicForm_Cost.getItem("sourceGold").hide();
                             DynamicForm_Cost.getItem("destinationGold").hide();
                             DynamicForm_Cost.getItem("sourceSilver").hide();
@@ -755,6 +743,19 @@
                     valueMap: dollar
                 },
                 {
+                    name: "inventortRentCost",
+                    title: "<spring:message		code='cost.inventortRentCost'/>",
+                    type: 'integer',
+                    required: false,
+                    width: "100%",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
                     name: "umpireCost",
                     title: "<spring:message code='cost.umpireCost'/>",
                     type: 'float',
@@ -774,20 +775,6 @@
                     width: "100%",
                     defaultValue: "USD",
                     valueMap: dollar
-                },
-                {
-                    name: "sourceCopper",
-                    title: "<spring:message code='cost.sourceCopper'/>",
-                    type: 'float',
-                    showIf: "false",
-                    required: false,
-                    width: "100%",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
                 },
                 {
                     name: "sourceGold",
@@ -818,20 +805,6 @@
                 {
                     name: "sourceMolybdenum",
                     title: "<spring:message		code='cost.sourceMolybdenum'/>",
-                    type: 'float',
-                    required: false,
-                    width: "100%",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-                {
-                    name: "destinationCopper",
-                    title: "<spring:message code='cost.destinationCopper'/>",
-                    showIf: "false",
                     type: 'float',
                     required: false,
                     width: "100%",
@@ -949,13 +922,43 @@
                     type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
                 },
                 {
-                    name: "inventortRentCost",
-                    title: "<spring:message		code='cost.inventortRentCost'/>",
+                    name: "disinfectionCost",
+                    title: "<spring:message		code='cost.disinfectionCost'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                 {
+                    name: "postCost",
+                    title: "<spring:message code='cost.postCost'/>",
                     type: 'integer',
                     required: false,
                     width: "100%",
                     validators: [{
                         type: "isInteger",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "postCostCurrency", title: "<spring:message code='cost.postCostCurrency'/>",
+                    type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
+                },
+                {
+                    name: "counterCost",
+                    title: "<spring:message code='cost.counterCost'/>",
+                    type: 'float',
+                    required: false,
+                    width: "100%",
+                    validators: [{
+                        type: "isFloat",
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
@@ -979,19 +982,6 @@
                     type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
                 },
                 {
-                    name: "postCost",
-                    title: "<spring:message code='cost.postCost'/>",
-                    type: 'integer',
-                    required: false,
-                    width: "100%",
-                    validators: [{
-                        type: "isInteger",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-                {
                     name: "thcCost",
                     title: "<spring:message code='cost.thcCost'/>",
                     type: 'float',
@@ -1002,23 +992,6 @@
                         validateOnExit: true,
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-                {
-                    name: "blFeeCost",
-                    title: "<spring:message code='cost.blFeeCost'/>",
-                    type: 'float',
-                    required: true,
-                    width: "100%",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnChange: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    },
-                    {
-                        type:"required",
-                        validateOnChange: true
                     }]
                 },
                 {
@@ -1039,6 +1012,23 @@
                     type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
                 },
                 {
+                    name: "blFeeCost",
+                    title: "<spring:message code='cost.blFeeCost'/>",
+                    type: 'float',
+                    required: true,
+                    width: "100%",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+                },
+                {
                     name: "contractorCost",
                     title: "<spring:message		code='cost.contractorCost'/>",
                     type: 'float',
@@ -1051,31 +1041,9 @@
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     }]
                 },
-                {
-                    name: "counterCost",
-                    title: "<spring:message code='cost.counterCost'/>",
-                    type: 'float',
-                    required: false,
-                    width: "100%",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-                {
-                    name: "disinfectionCost",
-                    title: "<spring:message		code='cost.disinfectionCost'/>",
-                    type: 'float',
-                    required: false,
-                    width: "100%",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
+                 {
+                    name: "contractorCostCurrency", title: "<spring:message code='cost.contractorCostCurrency'/>",
+                    type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
                 },
                 {
                     name: "portCost",
@@ -1122,8 +1090,6 @@
                 DynamicForm_Cost.clearValues();
                 DynamicForm_Cost.setValue("shipmentId", record.id);
                 if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Copper Concentrate') {
-                    DynamicForm_Cost.getItem("sourceCopper").show();
-                    DynamicForm_Cost.getItem("destinationCopper").show();
                     DynamicForm_Cost.getItem("sourceGold").show();
                     DynamicForm_Cost.getItem("destinationGold").show();
                     DynamicForm_Cost.getItem("sourceSilver").show();
@@ -1131,8 +1097,6 @@
                     DynamicForm_Cost.getItem("sourceMolybdenum").hide();
                     DynamicForm_Cost.getItem("destinationMolybdenum").hide();
                 } else if (ListGrid_Shipment_CostHeader.getSelectedRecord().material.descl == 'Molybdenum Oxide') {
-                    DynamicForm_Cost.getItem("sourceCopper").hide();
-                    DynamicForm_Cost.getItem("destinationCopper").hide();
                     DynamicForm_Cost.getItem("sourceGold").hide();
                     DynamicForm_Cost.getItem("destinationGold").hide();
                     DynamicForm_Cost.getItem("sourceSilver").hide();
@@ -1140,8 +1104,6 @@
                     DynamicForm_Cost.getItem("sourceMolybdenum").show();
                     DynamicForm_Cost.getItem("destinationMolybdenum").show();
                 } else {
-                    DynamicForm_Cost.getItem("sourceCopper").show();
-                    DynamicForm_Cost.getItem("destinationCopper").show();
                     DynamicForm_Cost.getItem("sourceGold").hide();
                     DynamicForm_Cost.getItem("destinationGold").hide();
                     DynamicForm_Cost.getItem("sourceSilver").hide();

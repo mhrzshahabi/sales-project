@@ -20,4 +20,21 @@
         </addColumn>
     </changeSet>
 
+
+    <changeSet author="programmer (generated)" id="9778899665544-008">
+        <addColumn tableName="TBL_COST">
+            <column name="CONTRACTOR_COST_CUR" type="varchar2(255 CHAR)"/>
+        </addColumn>
+        <addColumn tableName="TBL_COST">
+            <column name="POST_COST_CUR" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="programmer (generated)" id="9778899665544-009">
+        <modifyDataType
+                columnName="SARCHESHMEH_LAB_COST"
+                newDataType="FLOAT"
+                tableName="TBL_COST"/>
+    </changeSet>
+
 </databaseChangeLog>

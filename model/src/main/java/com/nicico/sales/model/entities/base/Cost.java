@@ -132,6 +132,9 @@ public class Cost extends Auditable {
     @Column(name = "POST_COST")
     private Long postCost;
 
+    @Column(name = "POST_COST_CUR")
+    private String postCostCurrency;
+
     @Column(name = "THC_COST")
     private Double thcCost;
 
@@ -146,6 +149,9 @@ public class Cost extends Auditable {
 
     @Column(name = "CONTRACTOR_COST")
     private Double contractorCost;
+
+    @Column(name = "CONTRACTOR_COST_CUR")
+    private String contractorCostCurrency;
 
     @Column(name = "COUNTER_COST")
     private Double counterCost;

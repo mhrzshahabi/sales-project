@@ -46,12 +46,14 @@ public class CostDTO {
     private String insuranceCostCurrency;
     private String insuranceClause;
     private Long inventortRentCost;
-    private Long postCost;
+    private Double postCost;
+    private String postCostCurrency;
     private Double thcCost;
     private Double blFeeCost;
     private Double demandCost;
     private String demandCurrency;
     private Double contractorCost;
+    private String contractorCostCurrency;
     private Double counterCost;
     private Double disinfectionCost;
     private Double portCost;
