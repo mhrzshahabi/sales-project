@@ -933,30 +933,6 @@
         })
     });
 
-    /*----------------------inspectionTab------------------------*/
-    <%--inspectionTab = isc.ToolStripMenuButton.create({--%>
-    <%--title: "&nbsp; <spring:message code='main.inspectionTab'/>",--%>
-    <%--menu: isc.Menu.create({--%>
-    <%--placement: "none",--%>
-    <%--data: [--%>
-    <%--{--%>
-    <%--title: "<spring:message code='inspectionMoistureResults.title'/>",--%>
-    <%--click: function () {--%>
-    <%--createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")--%>
-    <%--}--%>
-    <%--},--%>
-    <%--{isSeparator: true},--%>
-    <%--{--%>
-    <%--title: "<spring:message code='inspectionAssayResults.title'/>",--%>
-    <%--click: function () {--%>
-    <%--createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")--%>
-    <%--}--%>
-    <%--}--%>
-    <%--]--%>
-    <%--})--%>
-    <%--});--%>
-
-
     /*----------------------financialTab------------------------*/
     financialTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.financialTab'/>",
